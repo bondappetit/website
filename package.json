@@ -91,6 +91,7 @@
   },
   "devDependencies": {
     "@typechain/web3-v1": "^1.0.0",
+    "circular-dependency-plugin": "^5.2.0",
     "eslint-config-prettier": "^6.13.0",
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
