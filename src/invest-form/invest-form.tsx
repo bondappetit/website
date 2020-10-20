@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useFormik } from 'formik';
@@ -23,9 +23,18 @@ const InvestForm: React.FC<InvestFormProps> = () => {
 		onSubmit: () => {}
 	});
 
-	useEffect(() => {
-		setGet(Number(formik.values.invest) * Number(formik.values.asset));
+	const handleSetGet = useCallback(() => {
+		if (!common.constants.ASSETS[formik.values.asset]) return;
+
+		setGet(
+			Number(formik.values.invest) *
+				common.constants.ASSETS[formik.values.asset]
+		);
 	}, [formik.values.invest, formik.values.asset]);
+
+	useEffect(() => {
+		handleSetGet();
+	}, [handleSetGet]);
 
 	return (
 		<form className={classes.form} onSubmit={formik.handleSubmit}>
@@ -39,9 +48,9 @@ const InvestForm: React.FC<InvestFormProps> = () => {
 				onChange={formik.handleChange}
 				variant="outlined"
 			>
-				{common.constants.ASSETS.map((option) => (
-					<MenuItem key={option.label} value={option.value}>
-						{option.label}
+				{Object.keys(common.constants.ASSETS).map((asset) => (
+					<MenuItem key={asset} value={asset}>
+						{asset}
 					</MenuItem>
 				))}
 			</TextField>
