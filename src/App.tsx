@@ -1,11 +1,9 @@
 import React from 'react';
 
-function App() {
-	return (
-		<div className="App">
-			<header className="App-header">test</header>
-		</div>
-	);
-}
+import Router from './router';
+
+const App: React.FC = () => {
+	return <Router />;
+};
 
 export default App;
