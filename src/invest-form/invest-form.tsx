@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useFormik } from 'formik';
@@ -10,17 +10,22 @@ import useInvestFormStyles from './invest-form.styles';
 export type InvestFormProps = {};
 
 const InvestForm: React.FC<InvestFormProps> = () => {
+	const [get, setGet] = useState(0);
+
 	const classes = useInvestFormStyles();
 
 	const formik = useFormik({
 		initialValues: {
 			asset: '',
-			invest: '',
-			get: ''
+			invest: ''
 		},
 
 		onSubmit: () => {}
 	});
+
+	useEffect(() => {
+		setGet(Number(formik.values.invest) * Number(formik.values.asset));
+	}, [formik.values.invest, formik.values.asset]);
 
 	return (
 		<form className={classes.form} onSubmit={formik.handleSubmit}>
@@ -35,7 +40,7 @@ const InvestForm: React.FC<InvestFormProps> = () => {
 				variant="outlined"
 			>
 				{common.constants.ASSETS.map((option) => (
-					<MenuItem key={option.value} value={option.value}>
+					<MenuItem key={option.label} value={option.value}>
 						{option.label}
 					</MenuItem>
 				))}
@@ -54,7 +59,7 @@ const InvestForm: React.FC<InvestFormProps> = () => {
 				label="You get"
 				type="text"
 				className={classes.input}
-				value={formik.values.get}
+				value={get}
 				variant="outlined"
 				inputProps={{ readOnly: true }}
 			/>

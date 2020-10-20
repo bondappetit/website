@@ -1,18 +1,18 @@
 const ASSETS = [
 	{
-		value: 'ETC',
+		value: 30,
 		label: 'ETC'
 	},
 	{
-		value: 'BTC',
+		value: 7000,
 		label: 'BTC'
 	},
 	{
-		value: 'DAI',
+		value: 1,
 		label: 'DAI'
 	},
 	{
-		value: 'TUSD',
+		value: 1,
 		label: 'TUSD'
 	}
 ];
