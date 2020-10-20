@@ -13,7 +13,7 @@ import useLandingStyles from './landing.styles';
 
 export type LandingProps = {};
 
-const tiers = [
+const assets = [
 	{
 		title: 'ETC',
 		price: '30',
@@ -51,17 +51,17 @@ const Landing: React.FC<LandingProps> = () => {
 					spacing={5}
 					alignItems="flex-end"
 				>
-					{tiers.map((tier) => (
+					{assets.map((asset) => (
 						<Grid
 							item
-							key={tier.title}
+							key={asset.title}
 							xs={12}
-							sm={tier.title === 'Enterprise' ? 12 : 6}
+							sm={asset.title === 'Enterprise' ? 12 : 6}
 							md={3}
 						>
 							<Card>
 								<CardHeader
-									title={tier.title}
+									title={asset.title}
 									titleTypographyProps={{ align: 'center' }}
 									subheaderTypographyProps={{ align: 'center' }}
 									className={classes.cardHeader}
@@ -69,13 +69,13 @@ const Landing: React.FC<LandingProps> = () => {
 								<CardContent>
 									<div className={classes.cardPricing}>
 										<Typography component="h2" variant="h3" color="textPrimary">
-											${tier.price}
+											${asset.price}
 										</Typography>
 									</div>
 								</CardContent>
 								<CardActions>
 									<Button fullWidth color="primary" variant="outlined">
-										{tier.buttonText}
+										{asset.buttonText}
 									</Button>
 								</CardActions>
 							</Card>
