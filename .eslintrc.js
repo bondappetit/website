@@ -1,13 +1,13 @@
 module.exports = {
 	extends: [
 		'airbnb-typescript',
-    'airbnb/hooks',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:jest/recommended',
-    'prettier',
-    'prettier/react',
-    'prettier/@typescript-eslint',
-    'plugin:prettier/recommended'
+		'airbnb/hooks',
+		'plugin:@typescript-eslint/recommended',
+		'plugin:jest/recommended',
+		'prettier',
+		'prettier/react',
+		'prettier/@typescript-eslint',
+		'plugin:prettier/recommended'
 	],
 	plugins: ['react', '@typescript-eslint', 'prettier', 'react-hooks', 'jest'],
 	env: {
@@ -25,7 +25,8 @@ module.exports = {
 		},
 		ecmaVersion: 2020,
 		sourceType: 'module',
-		project: './tsconfig.json'
+		project: ['./tsconfig.json'],
+		createDefaultProgram: true
 	},
 	rules: {
 		'react/destructuring-assignment': 0,
@@ -51,6 +52,8 @@ module.exports = {
 			{ allow: ['warn', 'error'] }
 		],
 		'react/prop-types': 0,
-		'react/destructuring-assignment': 0
+		'react/destructuring-assignment': 0,
+		'import/prefer-default-export': 'off',
+		'consistent-return': 0
 	}
 };
