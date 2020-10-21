@@ -7,11 +7,15 @@ import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import BN from 'bn.js';
+import Dialog from '@material-ui/core/Dialog';
+import { useWeb3React } from '@web3-react/core';
+import Web3 from 'web3';
 
 import Layouts from 'src/layouts';
 import { useEagerConnect } from 'src/web3/hooks';
 import { TOKEN_ADDRESSES } from 'src/common';
-import { InvestForm } from './invest-form';
+import { WalletList } from 'src/wallets';
+import { InvestForm } from './common/invest-form';
 import { useLandingStyles } from './landing.styles';
 import { Token, useInvestmentContract } from './common';
 
@@ -19,6 +23,8 @@ export type LandingProps = {};
 
 export const Landing: React.FC<LandingProps> = () => {
 	const [tokens, setTokens] = useState<Token[]>([]);
+	const [open, setOpen] = React.useState(false);
+	const { account } = useWeb3React<Web3>();
 
 	const classes = useLandingStyles();
 
@@ -49,6 +55,12 @@ export const Landing: React.FC<LandingProps> = () => {
 	useEffect(() => {
 		handleLoadTokenPrices();
 	}, [handleLoadTokenPrices]);
+
+	useEffect(() => {
+		if (account) {
+			setOpen(false);
+		}
+	}, [account]);
 
 	return (
 		<Layouts.Main>
@@ -87,8 +99,15 @@ export const Landing: React.FC<LandingProps> = () => {
 						</Grid>
 					))}
 				</Grid>
-				<InvestForm tokens={tokens} />
+				<InvestForm tokens={tokens} onSubmit={() => setOpen(true)} />
 			</div>
+			<Dialog
+				onClose={() => setOpen(false)}
+				aria-labelledby="simple-dialog-title"
+				open={open}
+			>
+				<WalletList />
+			</Dialog>
 		</Layouts.Main>
 	);
 };

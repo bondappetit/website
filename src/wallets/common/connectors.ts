@@ -18,7 +18,7 @@ export const ledger = new LedgerConnector({
 });
 
 enum ConnectorNames {
-	Injected = 'Injected',
+	Injected = 'MetaMask',
 	Ledger = 'Ledger'
 }
 
