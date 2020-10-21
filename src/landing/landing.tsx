@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
@@ -6,38 +6,49 @@ import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import BN from 'bn.js';
 
 import Layouts from 'src/layouts';
-import InvestForm from 'src/invest-form';
-import useLandingStyles from './landing.styles';
+import { useEagerConnect } from 'src/web3/hooks';
+import { TOKEN_ADDRESSES } from 'src/common';
+import { InvestForm } from './invest-form';
+import { useLandingStyles } from './landing.styles';
+import { Token, useInvestmentContract } from './common';
 
 export type LandingProps = {};
 
-const assets = [
-	{
-		title: 'ETC',
-		price: '30',
-		buttonText: 'Get started'
-	},
-	{
-		title: 'BTC',
-		price: '7000',
-		buttonText: 'Get started'
-	},
-	{
-		title: 'DAI',
-		price: '1',
-		buttonText: 'Get started'
-	},
-	{
-		title: 'TUSD',
-		price: '1',
-		buttonText: 'Get started'
-	}
-];
+export const Landing: React.FC<LandingProps> = () => {
+	const [tokens, setTokens] = useState<Token[]>([]);
 
-const Landing: React.FC<LandingProps> = () => {
 	const classes = useLandingStyles();
+
+	useEagerConnect();
+
+	const investmentContract = useInvestmentContract();
+
+	const handleLoadTokenPrices = useCallback(async () => {
+		const tokensWithPrice = Object.entries(TOKEN_ADDRESSES).map(
+			async ([tokenName, tokenAddress]) => {
+				const tokenPrice = await investmentContract?.methods
+					.price(tokenAddress)
+					.call();
+
+				return {
+					tokenName,
+					tokenAddress,
+					tokenPrice: tokenPrice
+						? new BN(tokenPrice).div(new BN((10 ** 18).toString()))
+						: ''
+				};
+			}
+		);
+
+		setTokens(await Promise.all(tokensWithPrice));
+	}, [investmentContract]);
+
+	useEffect(() => {
+		handleLoadTokenPrices();
+	}, [handleLoadTokenPrices]);
 
 	return (
 		<Layouts.Main>
@@ -51,17 +62,11 @@ const Landing: React.FC<LandingProps> = () => {
 					spacing={5}
 					alignItems="flex-end"
 				>
-					{assets.map((asset) => (
-						<Grid
-							item
-							key={asset.title}
-							xs={12}
-							sm={asset.title === 'Enterprise' ? 12 : 6}
-							md={3}
-						>
+					{tokens.map((token) => (
+						<Grid item key={token.tokenName} xs={12} md={6}>
 							<Card>
 								<CardHeader
-									title={asset.title}
+									title={token.tokenName}
 									titleTypographyProps={{ align: 'center' }}
 									subheaderTypographyProps={{ align: 'center' }}
 									className={classes.cardHeader}
@@ -69,23 +74,21 @@ const Landing: React.FC<LandingProps> = () => {
 								<CardContent>
 									<div className={classes.cardPricing}>
 										<Typography component="h2" variant="h3" color="textPrimary">
-											${asset.price}
+											${token.tokenPrice.toString()}
 										</Typography>
 									</div>
 								</CardContent>
 								<CardActions>
 									<Button fullWidth color="primary" variant="outlined">
-										{asset.buttonText}
+										Get started
 									</Button>
 								</CardActions>
 							</Card>
 						</Grid>
 					))}
 				</Grid>
-				<InvestForm />
+				<InvestForm tokens={tokens} />
 			</div>
 		</Layouts.Main>
 	);
 };
-
-export default Landing;

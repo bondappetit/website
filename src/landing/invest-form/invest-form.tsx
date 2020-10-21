@@ -4,37 +4,39 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { useFormik } from 'formik';
 import Button from '@material-ui/core/Button';
 
-import common from './common';
-import useInvestFormStyles from './invest-form.styles';
+import { Token } from '../common';
+import { useInvestFormStyles } from './invest-form.styles';
 
-export type InvestFormProps = {};
+export type InvestFormProps = {
+	tokens: Token[];
+};
 
-const InvestForm: React.FC<InvestFormProps> = () => {
-	const [get, setGet] = useState(0);
+export const InvestForm: React.FC<InvestFormProps> = (props) => {
+	const [youGet, setYouGet] = useState(0);
 
 	const classes = useInvestFormStyles();
 
 	const formik = useFormik({
 		initialValues: {
-			asset: '',
+			asset: 0,
 			invest: ''
 		},
 
 		onSubmit: () => {}
 	});
 
-	const handleSetGet = useCallback(() => {
-		if (!common.constants.ASSETS[formik.values.asset]) return;
+	const handleSetYouGet = useCallback(() => {
+		if (!props.tokens[formik.values.asset]?.tokenPrice) return;
 
-		setGet(
+		setYouGet(
 			Number(formik.values.invest) *
-				common.constants.ASSETS[formik.values.asset]
+				Number(props.tokens[formik.values.asset].tokenPrice)
 		);
-	}, [formik.values.invest, formik.values.asset]);
+	}, [formik.values.invest, formik.values.asset, props.tokens]);
 
 	useEffect(() => {
-		handleSetGet();
-	}, [handleSetGet]);
+		handleSetYouGet();
+	}, [handleSetYouGet]);
 
 	return (
 		<form className={classes.form} onSubmit={formik.handleSubmit}>
@@ -48,9 +50,9 @@ const InvestForm: React.FC<InvestFormProps> = () => {
 				onChange={formik.handleChange}
 				variant="outlined"
 			>
-				{Object.keys(common.constants.ASSETS).map((asset) => (
-					<MenuItem key={asset} value={asset}>
-						{asset}
+				{props.tokens.map((token, index) => (
+					<MenuItem key={token.tokenName} value={index}>
+						{token.tokenName}
 					</MenuItem>
 				))}
 			</TextField>
@@ -64,11 +66,11 @@ const InvestForm: React.FC<InvestFormProps> = () => {
 				onChange={formik.handleChange}
 			/>
 			<TextField
-				id="get"
+				id="youGet"
 				label="You get"
 				type="text"
 				className={classes.input}
-				value={get}
+				value={youGet}
 				variant="outlined"
 				inputProps={{ readOnly: true }}
 			/>
@@ -78,5 +80,3 @@ const InvestForm: React.FC<InvestFormProps> = () => {
 		</form>
 	);
 };
-
-export default InvestForm;

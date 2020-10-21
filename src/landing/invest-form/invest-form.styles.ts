@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
 
-const useInvestFormStyles = makeStyles((theme) => ({
+export const useInvestFormStyles = makeStyles((theme) => ({
 	form: {
 		display: 'flex',
 		flexWrap: 'wrap',
@@ -13,5 +13,3 @@ const useInvestFormStyles = makeStyles((theme) => ({
 		marginBottom: theme.spacing(1)
 	}
 }));
-
-export default useInvestFormStyles;
