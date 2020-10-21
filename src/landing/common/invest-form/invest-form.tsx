@@ -3,16 +3,20 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 import { useFormik } from 'formik';
 import Button from '@material-ui/core/Button';
+import { useWeb3React } from '@web3-react/core';
+import Web3 from 'web3';
 
-import { Token } from '../common';
+import { Token } from '../landing.types';
 import { useInvestFormStyles } from './invest-form.styles';
 
 export type InvestFormProps = {
 	tokens: Token[];
+	onSubmit: () => void;
 };
 
 export const InvestForm: React.FC<InvestFormProps> = (props) => {
 	const [youGet, setYouGet] = useState(0);
+	const { account } = useWeb3React<Web3>();
 
 	const classes = useInvestFormStyles();
 
@@ -22,7 +26,9 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 			invest: ''
 		},
 
-		onSubmit: () => {}
+		onSubmit: () => {
+			if (!account) props.onSubmit();
+		}
 	});
 
 	const handleSetYouGet = useCallback(() => {
@@ -59,7 +65,7 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 			<TextField
 				id="invest"
 				label="Invest"
-				type="text"
+				type="number"
 				className={classes.input}
 				value={formik.values.invest}
 				variant="outlined"
@@ -74,8 +80,8 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 				variant="outlined"
 				inputProps={{ readOnly: true }}
 			/>
-			<Button variant="contained" color="primary">
-				Submit
+			<Button type="submit" variant="contained" color="primary">
+				{account ? 'Submit' : 'Connect wallet'}
 			</Button>
 		</form>
 	);
