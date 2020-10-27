@@ -1,11 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
 import BN from 'bignumber.js';
 import Dialog from '@material-ui/core/Dialog';
 import { useWeb3React } from '@web3-react/core';
@@ -93,11 +91,6 @@ export const Landing: React.FC = () => {
 										</Typography>
 									</div>
 								</CardContent>
-								<CardActions>
-									<Button fullWidth color="primary" variant="outlined">
-										Get started
-									</Button>
-								</CardActions>
 							</Card>
 						</Grid>
 					))}

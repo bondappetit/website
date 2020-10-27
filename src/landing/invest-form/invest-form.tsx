@@ -52,6 +52,40 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 			invest: ''
 		},
 
+		validate: async (formValues) => {
+			const error: Partial<InvestFormValues> = {};
+
+			const currentToken = props.tokens[Number(formValues.asset)];
+			const formInvest = new BN(formValues.invest)
+				.div(10 ** currentToken.decimals)
+				.toString();
+			const currentTokenContract = tokenContracts[currentToken.name];
+
+			if (!currentTokenContract || !props.account) return;
+
+			const balanceOfToken = await currentTokenContract.methods
+				.balanceOf(props.account)
+				.call();
+
+			if (
+				new BN(balanceOfToken)
+					.div(10 ** currentToken.decimals)
+					.isLessThan(formInvest)
+			) {
+				error.invest = 'there are not enough tokens on the balance';
+			}
+
+			if (!formValues.asset) {
+				error.asset = 'required';
+			}
+
+			if (!formValues.invest) {
+				error.invest = 'required';
+			}
+
+			return error;
+		},
+
 		onSubmit: async (formValues) => {
 			if (!props.account) {
 				props.onSubmit();
@@ -93,6 +127,16 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 						formInvest
 					);
 
+					const allowance = await currentTokenContract.methods
+						.allowance(props.account, investmentContract.options.address)
+						.call();
+
+					if (allowance !== '0') {
+						await currentTokenContract.methods
+							.approve(investmentContract.options.address, '0')
+							.send({ from: props.account, gas: 2000000 });
+					}
+
 					await approve.send({ from: props.account, gas: 2000000 });
 
 					const invest = investmentContract.methods.invest(
@@ -103,6 +147,9 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 					await invest.send({ from: props.account, gas: 2000000 });
 				}
 
+				enqueueSnackbar('The transaction was successful', {
+					variant: 'success'
+				});
 				formik.resetForm();
 				setYouGet(new BN(0));
 			} catch (error) {
@@ -137,6 +184,8 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 				label="Asset"
 				name="asset"
 				className={classes.input}
+				error={Boolean(formik.errors.asset)}
+				helperText={formik.errors.asset}
 				value={formik.values.asset}
 				onChange={formik.handleChange}
 				variant="outlined"
@@ -155,6 +204,8 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 				className={classes.input}
 				value={formik.values.invest}
 				variant="outlined"
+				error={Boolean(formik.errors.invest)}
+				helperText={formik.errors.invest}
 				onChange={formik.handleChange}
 				disabled={formik.isSubmitting}
 			/>
@@ -172,7 +223,7 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 				type="submit"
 				variant="contained"
 				color="primary"
-				disabled={formik.isSubmitting}
+				disabled={formik.isSubmitting || !formik.isValid || !formik.dirty}
 			>
 				{props.account ? 'Submit' : 'Connect wallet'}
 			</Button>
