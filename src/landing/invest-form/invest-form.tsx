@@ -56,9 +56,6 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 			const error: Partial<InvestFormValues> = {};
 
 			const currentToken = props.tokens[Number(formValues.asset)];
-			const formInvest = new BN(formValues.invest)
-				.div(10 ** currentToken.decimals)
-				.toString();
 			const currentTokenContract = tokenContracts[currentToken.name];
 
 			if (!currentTokenContract || !props.account) return;
@@ -69,8 +66,8 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 
 			if (
 				new BN(balanceOfToken)
-					.div(10 ** currentToken.decimals)
-					.isLessThan(formInvest)
+					.div(new BN(10).pow(currentToken.decimals))
+					.isLessThan(formValues.invest)
 			) {
 				error.invest = 'there are not enough tokens on the balance';
 			}
@@ -106,11 +103,11 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 				if (!bondBalance) return;
 
 				const formInvest = new BN(formValues.invest)
-					.multipliedBy(10 ** currentToken.decimals)
+					.multipliedBy(new BN(10).pow(currentToken.decimals))
 					.toString();
 
 				const bondBalanceNumber = new BN(bondBalance).div(
-					10 ** networks.development.assets.Bond.decimals
+					new BN(10).pow(networks.development.assets.Bond.decimals)
 				);
 
 				if (bondBalanceNumber.isLessThan(youGet)) return;
