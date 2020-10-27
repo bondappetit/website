@@ -1,7 +1,6 @@
-import BN from 'bn.js';
-
 export type Token = {
-	tokenName: string;
-	tokenAddress: string;
-	tokenPrice: string | BN;
+	name: string;
+	address: string;
+	price: string;
+	decimals: number;
 };

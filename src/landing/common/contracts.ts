@@ -1,20 +1,31 @@
-import { useMemo } from 'react';
-import Web3 from 'web3';
-import { useWeb3React } from '@web3-react/core';
+import IERC20 from '@artur-mamedbekov/networkds-test/networks/abi/IERC20.json';
+import { AbiItem } from 'web3-utils';
 
 import type { Investment } from 'src/generate/Investment';
-import { investmentAbi } from 'src/web3/abi/investmentAbi';
+import type { Ierc20 } from 'src/generate/IERC20';
+import { makeContract } from 'src/common';
 
-export const useInvestmentContract = (): Investment | null => {
-	const { library } = useWeb3React<Web3>();
+export const useInvestmentContract = makeContract<Investment>((network) => ({
+	abi: network.contracts.Investment.abi,
+	address: network.contracts.Investment.address
+}));
 
-	return useMemo(() => {
-		if (!library) return null;
+export const useUSDTContract = makeContract<Ierc20>((network) => ({
+	abi: IERC20.abi as AbiItem[],
+	address: network.assets.USDT.address
+}));
 
-		// TODO: move to config
-		return (new library.eth.Contract(
-			investmentAbi,
-			'0x9bb2Be2428FEFea73FEe0cB65424Efd5c4e9BC00'
-		) as unknown) as Investment;
-	}, [library]);
-};
+export const useDAIContract = makeContract<Ierc20>((network) => ({
+	abi: IERC20.abi as AbiItem[],
+	address: network.assets.DAI.address
+}));
+
+export const useUSDCContract = makeContract<Ierc20>((network) => ({
+	abi: IERC20.abi as AbiItem[],
+	address: network.assets.USDC.address
+}));
+
+export const useBondContract = makeContract<Ierc20>((network) => ({
+	abi: IERC20.abi as AbiItem[],
+	address: network.assets.Bond.address
+}));

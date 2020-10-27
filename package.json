@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@artur-mamedbekov/networkds-test": "^1.2.3",
     "@babel/core": "7.9.0",
     "@material-ui/core": "^4.11.0",
     "@svgr/webpack": "4.3.3",
@@ -25,6 +26,7 @@
     "babel-loader": "8.1.0",
     "babel-plugin-named-asset-import": "^0.3.6",
     "babel-preset-react-app": "^9.1.2",
+    "bignumber.js": "^9.0.1",
     "bn.js": "^5.1.3",
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
@@ -38,6 +40,7 @@
     "eslint-plugin-import": "2.20.1",
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react-hooks": "^1.6.1",
+    "eth-rpc-errors": "^3.0.0",
     "file-loader": "4.3.0",
     "formik": "^2.2.0",
     "fs-extra": "^8.1.0",
@@ -48,6 +51,7 @@
     "jest-resolve": "24.9.0",
     "jest-watch-typeahead": "0.4.2",
     "mini-css-extract-plugin": "0.9.0",
+    "notistack": "^1.0.1",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
     "postcss-flexbugs-fixes": "4.1.0",
@@ -72,6 +76,8 @@
     "url-loader": "2.3.0",
     "web3": "^1.3.0",
     "web3-core": "^1.3.0",
+    "web3-eth": "^1.3.0",
+    "web3-eth-contract": "^1.3.0",
     "web3-utils": "^1.3.0",
     "webpack": "4.42.0",
     "webpack-dev-server": "3.11.0",
@@ -82,7 +88,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "typechain": "typechain --target web3-v1 --outDir ./src/generate ./build/**/*.json"
+    "typechain": "typechain --target web3-v1 --outDir ./src/generate ./node_modules/@artur-mamedbekov/networkds-test/networks/abi/**/*.json"
   },
   "browserslist": {
     "production": [
