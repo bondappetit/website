@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import BN from 'bignumber.js';
 import { useSnackbar } from 'notistack';
 import networks from '@artur-mamedbekov/networkds-test';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import type { Ierc20 } from 'src/generate/IERC20';
 import { Token } from '../common/landing.types';
@@ -30,6 +31,8 @@ export type InvestFormProps = {
 };
 
 export const InvestForm: React.FC<InvestFormProps> = (props) => {
+	const [isLoading, setLoading] = useState(false);
+
 	const tokenContracts: Record<string, Ierc20 | null> = {
 		USDT: useUSDTContract(),
 		DAI: useDAIContract(),
@@ -136,6 +139,9 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 
 					await approve.send({ from: props.account, gas: 2000000 });
 
+					setLoading(true);
+					window.onbeforeunload = () => 'wait please transaction in progress';
+
 					const invest = investmentContract.methods.invest(
 						currentTokenContract.options.address,
 						formInvest
@@ -151,6 +157,9 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 				setYouGet(new BN(0));
 			} catch (error) {
 				enqueueSnackbar(error.message, { variant: 'error' });
+			} finally {
+				setLoading(false);
+				window.onbeforeunload = () => null;
 			}
 		}
 	});
@@ -216,14 +225,19 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 				inputProps={{ readOnly: true }}
 				disabled={formik.isSubmitting}
 			/>
-			<Button
-				type="submit"
-				variant="contained"
-				color="primary"
-				disabled={formik.isSubmitting || !formik.isValid || !formik.dirty}
-			>
-				{props.account ? 'Submit' : 'Connect wallet'}
-			</Button>
+			<div className={classes.buttonWrapper}>
+				<Button
+					type="submit"
+					variant="contained"
+					color="primary"
+					disabled={formik.isSubmitting || !formik.isValid || !formik.dirty}
+				>
+					{props.account ? 'Submit' : 'Connect wallet'}
+				</Button>
+				{isLoading && (
+					<CircularProgress size={24} className={classes.buttonProgress} />
+				)}
+			</div>
 		</form>
 	);
 };
