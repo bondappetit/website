@@ -7,6 +7,8 @@ import BN from 'bignumber.js';
 import { useSnackbar } from 'notistack';
 import networks from '@artur-mamedbekov/networkds-test';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
 
 import type { Ierc20 } from 'src/generate/IERC20';
 import { Token } from '../common/landing.types';
@@ -40,10 +42,9 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 	};
 
 	const bondContract = useBondContract();
-
 	const investmentContract = useInvestmentContract();
-
 	const [youGet, setYouGet] = useState<BN>(new BN(0));
+	const { library } = useWeb3React<Web3>();
 
 	const classes = useInvestFormStyles();
 
@@ -61,11 +62,21 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 			const currentToken = props.tokens[Number(formValues.asset)];
 			const currentTokenContract = tokenContracts[currentToken.name];
 
-			if (!currentTokenContract || !props.account) return;
+			if (
+				(!currentTokenContract && currentToken.name !== 'WETH') ||
+				!props.account
+			)
+				return;
 
-			const balanceOfToken = await currentTokenContract.methods
+			let balanceOfToken = await currentTokenContract?.methods
 				.balanceOf(props.account)
 				.call();
+
+			if (currentToken.name === 'WETH') {
+				balanceOfToken = await library?.eth.getBalance(props.account);
+			}
+
+			if (!balanceOfToken) return;
 
 			if (
 				new BN(balanceOfToken)
@@ -116,11 +127,20 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 				if (bondBalanceNumber.isLessThan(youGet)) return;
 
 				if (currentToken.name === 'WETH') {
-					await investmentContract.methods
-						.investETH()
-						.send({ from: props.account, value: formInvest, gas: 2000000 });
+					const investETH = investmentContract.methods.investETH();
+
+					await investETH.send({
+						from: props.account,
+						value: formInvest,
+						gas: 2000000
+					});
 				} else {
 					if (!currentTokenContract) return;
+
+					const invest = investmentContract.methods.invest(
+						currentTokenContract.options.address,
+						formInvest
+					);
 
 					const approve = currentTokenContract.methods.approve(
 						investmentContract.options.address,
@@ -134,20 +154,24 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 					if (allowance !== '0') {
 						await currentTokenContract.methods
 							.approve(investmentContract.options.address, '0')
-							.send({ from: props.account, gas: 2000000 });
+							.send({
+								from: props.account,
+								gas: await approve.estimateGas()
+							});
 					}
 
-					await approve.send({ from: props.account, gas: 2000000 });
+					await approve.send({
+						from: props.account,
+						gas: await approve.estimateGas()
+					});
 
 					setLoading(true);
 					window.onbeforeunload = () => 'wait please transaction in progress';
 
-					const invest = investmentContract.methods.invest(
-						currentTokenContract.options.address,
-						formInvest
-					);
-
-					await invest.send({ from: props.account, gas: 2000000 });
+					await invest.send({
+						from: props.account,
+						gas: 2000000
+					});
 				}
 
 				enqueueSnackbar('The transaction was successful', {
@@ -230,7 +254,11 @@ export const InvestForm: React.FC<InvestFormProps> = (props) => {
 					type="submit"
 					variant="contained"
 					color="primary"
-					disabled={formik.isSubmitting || !formik.isValid || !formik.dirty}
+					disabled={
+						(!!props.account && formik.isSubmitting) ||
+						(!!props.account && !formik.isValid) ||
+						(!!props.account && !formik.dirty)
+					}
 				>
 					{props.account ? 'Submit' : 'Connect wallet'}
 				</Button>
