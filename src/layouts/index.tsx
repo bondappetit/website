@@ -1,5 +1,1 @@
-import Main from './main-layout';
-
-export default {
-	Main
-};
+export * from './main-layout';

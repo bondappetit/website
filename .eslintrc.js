@@ -54,6 +54,8 @@ module.exports = {
 		'react/prop-types': 0,
 		'react/destructuring-assignment': 0,
 		'import/prefer-default-export': 'off',
-		'consistent-return': 0
+		'consistent-return': 0,
+		'react/button-has-type': 0,
+		'react/jsx-props-no-spreading': 0
 	}
 };

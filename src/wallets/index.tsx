@@ -1,1 +1,2 @@
-export * from './wallet-list';
+export * from './wallet-button';
+export * from './wallet-modal';

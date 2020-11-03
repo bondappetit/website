@@ -66,3 +66,20 @@ declare module '*.module.sass' {
 	const classes: { readonly [key: string]: string };
 	export default classes;
 }
+
+declare module 'react-jazzicon' {
+	import * as React from 'react';
+
+	type Props = {
+		diameter?: number;
+		paperStyles?: object;
+		seed?: number;
+		svgStyles?: object;
+	};
+
+	const Jazzicon: React.FunctionComponent<Props>;
+
+	export declare function jsNumberForAddress(address: string): number;
+
+	export default Jazzicon;
+}
