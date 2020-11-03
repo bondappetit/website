@@ -7,7 +7,7 @@ import { provider as Web3Provider } from 'web3-core';
 import { jss, JssProvider } from 'react-jss';
 import normalize from 'normalize-jss';
 import 'typeface-epilogue';
-import { SnackbarProvider } from 'notistack';
+import { ToastProvider } from 'react-toast-notifications';
 
 import { ThemeProvider, globalStyles } from './common';
 import { App } from './app';
@@ -27,9 +27,9 @@ ReactDOM.render(
 			<Web3ReactProvider getLibrary={getLibrary}>
 				<JssProvider jss={jss}>
 					<ThemeProvider>
-						<SnackbarProvider>
+						<ToastProvider>
 							<App />
-						</SnackbarProvider>
+						</ToastProvider>
 					</ThemeProvider>
 				</JssProvider>
 			</Web3ReactProvider>

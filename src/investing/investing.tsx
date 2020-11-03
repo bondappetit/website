@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import BN from 'bignumber.js';
 import clsx from 'clsx';
@@ -21,7 +21,6 @@ import {
 	InvestingFailure,
 	useInvestmentContract,
 	useBondContract,
-	Token,
 	useUSDTContract,
 	useDAIContract,
 	useUSDCContract
@@ -49,7 +48,6 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 	const [successOpen, setSuccessOpen] = useState(false);
 	const [failureOpen, setFailureOpen] = useState(false);
 	const [walletsOpen, setWalletsOpen] = useState(false);
-	const [currentToken, setCurrentToken] = useState<Token | null>(null);
 	const [userGet, setUserGet] = useState<BN>(new BN(0));
 	const classes = useInvestingStyles();
 	const network = useNetworkConfig();
@@ -76,17 +74,19 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 				return error;
 			}
 
+			const currentToken = tokens[formValues.currency];
+
 			if (!currentToken) return;
 
 			const currentContract = tokenContracts[currentToken.name];
 
 			if (!currentContract || !account || !library) return;
 
-			let balanceOfToken = await currentContract?.methods
+			let balanceOfToken = await currentContract.methods
 				.balanceOf(account)
 				.call();
 
-			if (currentToken?.name === 'WETH') {
+			if (currentToken.name === 'WETH') {
 				balanceOfToken = await library.eth.getBalance(account);
 			}
 
@@ -102,6 +102,8 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 		},
 
 		onSubmit: async (formValues, { resetForm }) => {
+			const currentToken = tokens[formValues.currency];
+
 			if (
 				!investmentContract?.options.address ||
 				!currentToken ||
@@ -200,10 +202,6 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 		[formik.values.userInvest, formik.values.currency, tokens]
 	);
 
-	useEffect(() => {
-		setCurrentToken(tokens[formik.values.currency]);
-	}, [formik.values.currency, tokens]);
-
 	const handleOpenWalletListModal = (
 		event: React.FormEvent<HTMLFormElement>
 	) => {
@@ -244,15 +242,19 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 					readOnly
 					className={classes.userGet}
 				/>
-				<Button className={classes.button} type="submit">
+				<Button
+					className={classes.button}
+					type="submit"
+					disabled={formik.isSubmitting || !formik.isValid || !formik.dirty}
+				>
 					Buy
 				</Button>
 			</form>
 			<Modal open={successOpen} onClose={() => setSuccessOpen(false)}>
-				<InvestingSuccess onClick={() => {}} />
+				<InvestingSuccess onClick={() => setSuccessOpen(false)} />
 			</Modal>
 			<Modal open={failureOpen} onClose={() => setFailureOpen(false)}>
-				<InvestingFailure onClick={() => {}} />
+				<InvestingFailure onClick={() => formik.submitForm()} />
 			</Modal>
 			<WalletModal open={walletsOpen} onClose={() => setWalletsOpen(false)} />
 		</>
