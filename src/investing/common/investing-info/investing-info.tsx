@@ -18,7 +18,13 @@ export const InvestingInfo: React.FC<InvestingInfoProps> = (props) => {
 		<div className={classes.wrap}>
 			<div className={classes.title}>
 				<Typography variant="h2" align="center" className={classes.typography}>
-					{props.title}
+					<Typography
+						variant="inherit"
+						component="span"
+						className={classes.decoratedText}
+					>
+						{props.title}
+					</Typography>
 				</Typography>
 				<Typography variant="h2" align="center" className={classes.typography}>
 					{props.subtitle}

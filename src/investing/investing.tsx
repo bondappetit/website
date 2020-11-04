@@ -238,7 +238,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 					type="text"
 					name="userGet"
 					label="You get"
-					value={userGet.isNaN() ? '' : userGet.toString()}
+					value={`${userGet.isNaN() ? '' : userGet.toString()} ART`}
 					readOnly
 					className={classes.userGet}
 				/>

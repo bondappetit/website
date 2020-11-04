@@ -1,6 +1,7 @@
 export type Colors = {
 	primary: string;
 	secondary: string;
+	tokenTitleLine: string;
 };
 
 export type ThemeModes = 'light' | 'dark';
@@ -8,12 +9,14 @@ export type ThemeModes = 'light' | 'dark';
 export const themeModes: Record<ThemeModes, Colors> = {
 	light: {
 		primary: '#000',
-		secondary: '#fff'
+		secondary: '#fff',
+		tokenTitleLine: '#ffdc24'
 	},
 
 	dark: {
 		primary: '#fff',
-		secondary: '#121314'
+		secondary: '#121314',
+		tokenTitleLine: '#243aff'
 	}
 };
 

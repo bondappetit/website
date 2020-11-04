@@ -2,6 +2,11 @@ import clsx from 'clsx';
 import React from 'react';
 
 import { Typography } from 'src/common';
+import { ReactComponent as TextRound } from 'src/assets/images/text-round.svg';
+import { ReactComponent as TextCurvedLine } from 'src/assets/images/text-curved-line.svg';
+import { ReactComponent as TextLine } from 'src/assets/images/text-line.svg';
+import { ReactComponent as TextDoubleLine } from 'src/assets/images/text-double-line.svg';
+import { ReactComponent as TokenTitleLine } from 'src/assets/images/token-title-line.svg';
 import { StatisticCard } from './common';
 import { useStatisticStyles } from './statistic.styles';
 
@@ -21,10 +26,44 @@ export const Statistic: React.FC<StatisticProps> = (props) => {
 				align="center"
 				className={classes.title}
 			>
-				Right now, BondAppétit is conducting the pre-sale round of <br />{' '}
-				Appetit Reward Token (ART) — the main tool for decision-making in <br />{' '}
-				BondAppétit protocol, as well as the main reward and incentive tool{' '}
-				<br /> for participants of the protocol and the community.
+				Right now, BondAppétit is conducting&nbsp;the&nbsp;
+				<Typography
+					variant="inherit"
+					component="span"
+					className={classes.decoratedText}
+				>
+					<TextRound className={classes.textRound} />
+					pre-sale
+				</Typography>
+				&nbsp;round of
+				<br />
+				<Typography
+					variant="inherit"
+					component="span"
+					className={classes.decoratedText}
+				>
+					<TokenTitleLine className={classes.tokenTitleLine} />
+					Appetit Reward Token (ART)
+				</Typography>{' '}
+				— the main tool for&nbsp;
+				<Typography
+					variant="inherit"
+					component="span"
+					className={classes.decoratedText}
+				>
+					<TextCurvedLine className={classes.textUnderline} />
+					decision-making
+				</Typography>
+				&nbsp; in <br /> BondAppétit protocol, as well as the main&nbsp;
+				<Typography
+					variant="inherit"
+					component="span"
+					className={classes.decoratedText}
+				>
+					<TextLine className={classes.textUnderline} />
+					reward and incentive
+				</Typography>
+				&nbsp; tool <br /> for participants of the protocol and the community.
 			</Typography>
 			<div className={classes.row}>
 				<StatisticCard>
@@ -47,9 +86,22 @@ export const Statistic: React.FC<StatisticProps> = (props) => {
 				</StatisticCard>
 				<StatisticCard>
 					<Typography variant="h4" align="center" className={classes.rightCard}>
-						The funds will be used to make first loans to borrowers who will
-						bring the first bonds in the form of collateral to the protocol,
-						giving an initial kick-off to the protocol’s economics.
+						<Typography
+							variant="inherit"
+							component="span"
+							className={classes.decoratedText}
+						>
+							<TextDoubleLine
+								className={clsx(
+									classes.textUnderline,
+									classes.textDoubleUnderline
+								)}
+							/>
+							The funds
+						</Typography>
+						&nbsp; will be used to make first loans to borrowers who will bring
+						the first bonds in the form of collateral to the protocol, giving an
+						initial kick-off to the protocol’s economics.
 					</Typography>
 				</StatisticCard>
 			</div>

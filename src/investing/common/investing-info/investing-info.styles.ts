@@ -41,5 +41,11 @@ export const useInvestingInfoStyles = createUseStyles<Theme>((theme) => ({
 			fontSize: 48,
 			lineHeight: '56px'
 		}
+	},
+
+	decoratedText: {
+		position: 'relative',
+		zIndex: 1,
+		whiteSpace: 'nowrap'
 	}
 }));
