@@ -15,21 +15,22 @@ type Callback = (
 	options?: ContractOptions;
 };
 
+const web3 = new Web3(Web3.givenProvider);
+
 export const createUseContract = <T>(cb: Callback) => () => {
 	const { library } = useWeb3React<Web3>();
 	const networkConfig = useNetworkConfig();
-	const web3 = library ?? new Web3(Web3.givenProvider);
+	const web3OrLib = library ?? web3;
 
 	return useMemo(() => {
-		if (!web3 || !networkConfig) return null;
+		if (!web3OrLib || !networkConfig) return null;
 
 		const contractParams = cb(networkConfig);
 
-		return (new web3.eth.Contract(
+		return (new web3OrLib.eth.Contract(
 			contractParams.abi,
 			contractParams.address,
 			contractParams.options
 		) as unknown) as T;
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [web3]);
+	}, [web3OrLib, networkConfig]);
 };
