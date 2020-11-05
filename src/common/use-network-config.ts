@@ -4,7 +4,6 @@ import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import { useToasts } from 'react-toast-notifications';
 import { useMount } from 'react-use';
-
 import { config } from 'src/config';
 
 export const useNetworkConfig = () => {

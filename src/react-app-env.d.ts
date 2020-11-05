@@ -79,7 +79,7 @@ declare module 'react-jazzicon' {
 
 	const Jazzicon: React.FunctionComponent<Props>;
 
-	export declare function jsNumberForAddress(address: string): number;
+	export function jsNumberForAddress(address: string): number;
 
 	export default Jazzicon;
 }

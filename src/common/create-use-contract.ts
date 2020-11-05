@@ -30,5 +30,6 @@ export const createUseContract = <T>(cb: Callback) => () => {
 			contractParams.address,
 			contractParams.options
 		) as unknown) as T;
-	}, [web3, networkConfig]);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [web3]);
 };
