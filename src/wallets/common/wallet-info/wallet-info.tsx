@@ -1,7 +1,7 @@
 import React from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
-import { ButtonBase, Typography, Plate, cutAccount } from 'src/common';
+import { ButtonBase, Typography, Plate, cutAccount, Link } from 'src/common';
 import { useWalletInfoStyles } from './wallet-info.styles';
 
 export type WalletInfoProps = {
@@ -48,7 +48,12 @@ export const WalletInfo: React.FC<WalletInfoProps> = (props) => {
 				align="center"
 				className={classes.link}
 			>
-				View on Etherscan ↗
+				<Link
+					target="_blank"
+					href={`https://etherscan.io/address/${props.account}`}
+				>
+					View on Etherscan ↗
+				</Link>
 			</Typography>
 		</Plate>
 	);

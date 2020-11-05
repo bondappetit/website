@@ -1,13 +1,34 @@
+import clsx from 'clsx';
 import React from 'react';
-import { Link as ReactRouterLink } from 'react-router-dom';
+
+import { useLinkStyles } from './link.styles';
 
 export type LinkProps = {
-	component?: ReactRouterLink | 'a';
+	component?: React.ElementType;
 	to?: string;
+	href?: string;
+	target?: string;
+	children?: React.ReactNode;
+	className?: string;
+	underline?: 'always' | 'hover' | 'none';
 };
 
-export const Link: React.FC<LinkProps> = (props) => {
-	const Component = props.component || ReactRouterLink;
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
+	(props, ref) => {
+		const classes = useLinkStyles();
 
-	return <Component to={props.to ?? ''}>{props.children}</Component>;
-};
+		const { component, underline = 'none', className, ...restOfProps } = props;
+
+		const Component = component ?? 'a';
+
+		const classNames = clsx(classes.link, className, classes[underline]);
+
+		return (
+			<Component ref={ref} className={classNames} {...restOfProps}>
+				{props.children}
+			</Component>
+		);
+	}
+);
+
+Link.displayName = 'Link';

@@ -17,8 +17,8 @@ export const WalletModal: React.FC<WalletModalProps> = (props) => {
 		account ? 1 : 0
 	);
 
-	const handleActivateWallet = async (connector: AbstractConnector) => {
-		await activate(connector);
+	const handleActivateWallet = async (wallet: AbstractConnector) => {
+		await activate(wallet);
 
 		if (account) {
 			setCurrentComponentIndex(1);
