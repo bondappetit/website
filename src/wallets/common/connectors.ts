@@ -1,20 +1,20 @@
 import type { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { LedgerConnector } from '@web3-react/ledger-connector';
+import React from 'react';
 
-// TODO: move to config
-const POLLING_INTERVAL = 12000;
-const RPC_URL = '127.0.0.1:8545';
-const CHAIN_ID = 1337;
+import { ReactComponent as MetaMaskIcon } from 'src/assets/icons/metamask.svg';
+import { ReactComponent as LedgerIcon } from 'src/assets/icons/ledger.svg';
+import { config } from 'src/config';
 
 export const injected = new InjectedConnector({
-	supportedChainIds: [CHAIN_ID]
+	supportedChainIds: config.CHAIN_IDS
 });
 
 export const ledger = new LedgerConnector({
-	chainId: CHAIN_ID,
-	url: RPC_URL,
-	pollingInterval: POLLING_INTERVAL
+	chainId: config.CHAIN_IDS[0],
+	url: config.RPC_URL,
+	pollingInterval: config.POLLING_INTERVAL
 });
 
 enum ConnectorNames {
@@ -22,7 +22,16 @@ enum ConnectorNames {
 	Ledger = 'Ledger'
 }
 
-export const connectorsByName: Record<ConnectorNames, AbstractConnector> = {
-	[ConnectorNames.Injected]: injected,
-	[ConnectorNames.Ledger]: ledger
+export const connectorsByName: Record<
+	ConnectorNames,
+	{ connector: AbstractConnector; logo: React.FC }
+> = {
+	[ConnectorNames.Injected]: {
+		connector: injected,
+		logo: MetaMaskIcon
+	},
+	[ConnectorNames.Ledger]: {
+		connector: ledger,
+		logo: LedgerIcon
+	}
 };

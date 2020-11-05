@@ -1,5 +1,3 @@
-const URLS = {
-	landing: '/'
+export const URLS = {
+	home: '/'
 } as const;
-
-export default URLS;

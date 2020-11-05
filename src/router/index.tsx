@@ -1,17 +1,17 @@
 import React, { Suspense, lazy } from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
-import URLS from './urls';
+import { URLS } from './urls';
 
-const Landing = lazy(() => import('src/landing'));
+const Home = lazy(() => import('src/home'));
 
 const Router: React.FC = () => {
 	return (
 		<BrowserRouter>
 			<Suspense fallback={<>loading...</>}>
 				<Switch>
-					<Route path={URLS.landing}>
-						<Landing />
+					<Route path={URLS.home}>
+						<Home />
 					</Route>
 					<Route>
 						<>not found</>
