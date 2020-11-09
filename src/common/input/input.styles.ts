@@ -84,5 +84,9 @@ export const useInputStyles = createUseStyles<Theme>((theme) => ({
 		[theme.breakpoints.md()]: {
 			transform: 'translateY(-17px) scale(0.35)'
 		}
+	},
+
+	error: {
+		color: theme.colors.error
 	}
 }));

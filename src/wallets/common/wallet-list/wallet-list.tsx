@@ -12,6 +12,10 @@ export type WalletListProps = {
 export const WalletList: React.FC<WalletListProps> = (props) => {
 	const classes = useWalletListStyles();
 
+	const hasNotMetamask = (name: string) => {
+		return !window.ethereum && name === 'MetaMask';
+	};
+
 	return (
 		<Plate className={classes.wrap}>
 			<Typography variant="h3" weight="bold" className={classes.title}>
@@ -25,9 +29,12 @@ export const WalletList: React.FC<WalletListProps> = (props) => {
 								key={name}
 								onClick={() => props.onClick(connector)}
 								className={classes.wallet}
+								component={hasNotMetamask(name) ? 'a' : undefined}
+								href={hasNotMetamask(name) ? 'https://metamask.io/' : undefined}
+								target={hasNotMetamask(name) ? '_blank' : undefined}
 							>
 								<Typography variant="h4" component="span">
-									{name}
+									{hasNotMetamask(name) ? 'Install Metamask' : name}
 								</Typography>
 								<Logo />
 							</ButtonBase>

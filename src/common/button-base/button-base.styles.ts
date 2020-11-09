@@ -16,6 +16,7 @@ export const useButtonBaseStyles = createUseStyles<Theme>((theme) => ({
 		outline: 0,
 		fontFamily: 'inherit',
 		color: 'currentColor',
+		textDecoration: 'none',
 		...transitions('opacity 0.3s ease'),
 
 		[theme.mixins.hover()]: {

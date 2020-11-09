@@ -14,6 +14,8 @@ export const useDocumentCardStyles = createUseStyles<Theme>((theme) => ({
 		justifyContent: 'center',
 		flexDirection: 'column',
 		backgroundColor: theme.colors.secondary,
+		color: 'inherit',
+		textDecoration: 'none',
 
 		[theme.breakpoints.md()]: {
 			border: `2px solid ${theme.colors.primary}`,
