@@ -16,24 +16,28 @@ jobs:
       - run: npm run typechain
       - run: npm run build
 #      - run: npm test
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-release
+          path: |
+            build
 
   publish:
     needs: test
     runs-on: self-hosted
 
     steps:
-      - uses: actions/checkout@v1
-      - uses: actions/setup-node@v1
+      - name: Download build-release
+        uses: actions/download-artifact@v2
         with:
-          node-version: 12
-          registry-url: https://registry.npmjs.org/
-      - run: npm run build
+          name: build-release
 
       - name: Publish beta
         if: github.event.prerelease == true
         run: |
-          mkdir ~/$GITHUB_REPOSITORY
-          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY
+          mkdir ~/$GITHUB_REPOSITORY-beta
+          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY-beta
 
       - name: Publish stable
         if: github.event.prerelease == false
