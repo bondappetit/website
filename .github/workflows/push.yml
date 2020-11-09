@@ -23,6 +23,6 @@ jobs:
         npm run typechain --if-present
         npm run build --if-present
     - name: Test build
-        run: npm run test --if-present
+      run: npm run test --if-present
     - name: 'Deploy'
-        run: ls -la > /tmp/test
+      run: ls -la > /tmp/test
