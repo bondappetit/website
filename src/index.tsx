@@ -16,24 +16,24 @@ jss.createStyleSheet(normalize).attach();
 jss.createStyleSheet(globalStyles).attach();
 
 const getLibrary = (provider: Web3Provider): Web3 => {
-  const library = new Web3(provider);
+	const library = new Web3(provider);
 
-  return library;
+	return library;
 };
 
 ReactDOM.render(
-  <React.StrictMode>
-    <HelmetProvider>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <JssProvider jss={jss}>
-          <ThemeProvider>
-            <ToastProvider>
-              <App />
-            </ToastProvider>
-          </ThemeProvider>
-        </JssProvider>
-      </Web3ReactProvider>
-    </HelmetProvider>
-  </React.StrictMode>,
-  document.getElementById('root')
+	<React.StrictMode>
+		<HelmetProvider>
+			<Web3ReactProvider getLibrary={getLibrary}>
+				<JssProvider jss={jss}>
+					<ThemeProvider>
+						<ToastProvider>
+							<App />
+						</ToastProvider>
+					</ThemeProvider>
+				</JssProvider>
+			</Web3ReactProvider>
+		</HelmetProvider>
+	</React.StrictMode>,
+	document.getElementById('root')
 );

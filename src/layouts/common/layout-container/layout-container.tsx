@@ -5,7 +5,7 @@ import { useLayoutContainerStyles } from './layout-container.styles';
 export type LayoutContainerProps = {};
 
 export const LayoutContainer: React.FC<LayoutContainerProps> = (props) => {
-  const classes = useLayoutContainerStyles();
+	const classes = useLayoutContainerStyles();
 
-  return <main className={classes.container}>{props.children}</main>;
+	return <main className={classes.container}>{props.children}</main>;
 };

@@ -7,11 +7,11 @@ import { ButtonBase } from '../button-base';
 export type ToggleThemeButtonProps = {};
 
 export const ToggleThemeButton: React.FC<ToggleThemeButtonProps> = () => {
-  const toggleTheme = useToggleTheme();
+	const toggleTheme = useToggleTheme();
 
-  return (
-    <ButtonBase onClick={toggleTheme}>
-      <SunIcon />
-    </ButtonBase>
-  );
+	return (
+		<ButtonBase onClick={toggleTheme}>
+			<SunIcon />
+		</ButtonBase>
+	);
 };

@@ -1,11 +1,11 @@
 export const globalStyles = {
-  '@global': {
-    '*,*:before,*:after': {
-      boxSizing: 'border-box'
-    },
-    body: {
-      fontFamily: "'Epilogue', sans-serif",
-      fontSize: '100%'
-    }
-  }
+	'@global': {
+		'*,*:before,*:after': {
+			boxSizing: 'border-box'
+		},
+		body: {
+			fontFamily: "'Epilogue', sans-serif",
+			fontSize: '100%'
+		}
+	}
 };
