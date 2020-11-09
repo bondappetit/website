@@ -1,4 +1,4 @@
-name: Website project release
+name: release
 
 on:
   release:
@@ -40,13 +40,13 @@ jobs:
           name: build-release
 
       - name: Publish beta
-        if: github.event.prerelease == true
+        if: github.event.release.prerelease == true
         run: |
           mkdir -p ~/$GITHUB_REPOSITORY-beta
           cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY-beta
 
       - name: Publish stable
-        if: github.event.prerelease == false
+        if: github.event.release.prerelease == false
         run: |
           mkdir -p ~/$GITHUB_REPOSITORY
           cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY
