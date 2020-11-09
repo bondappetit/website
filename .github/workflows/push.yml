@@ -24,3 +24,9 @@ jobs:
         npm run build --if-present
 #    - name: Test build
 #      run: npm run test --if-present
+    - name: Archive artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: |
+          build
