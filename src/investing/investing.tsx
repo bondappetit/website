@@ -5,6 +5,7 @@ import clsx from 'clsx';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
 import useDebounce from 'react-use/esm/useDebounce';
+import Tippy from '@tippyjs/react';
 
 import {
 	Input,
@@ -65,12 +66,12 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 			const error: Partial<InvestFormValues> = {};
 
 			if (!formValues.currency) {
-				error.currency = 'required';
+				error.currency = '';
 				return error;
 			}
 
 			if (!formValues.userInvest) {
-				error.userInvest = 'required';
+				error.userInvest = '';
 				return error;
 			}
 
@@ -80,9 +81,9 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 
 			const currentContract = tokenContracts[currentToken.name];
 
-			if (!currentContract || !account || !library) return;
+			if (!account || !library) return;
 
-			let balanceOfToken = await currentContract.methods
+			let balanceOfToken = await currentContract?.methods
 				.balanceOf(account)
 				.call();
 
@@ -91,11 +92,11 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 			}
 
 			if (
-				new BN(balanceOfToken)
+				new BN(balanceOfToken ?? '')
 					.div(new BN(10).pow(currentToken.decimals))
 					.isLessThan(formValues.userInvest)
 			) {
-				error.userInvest = 'there are not enough tokens on the balance';
+				error.userInvest = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
 			}
 
 			return error;
@@ -215,14 +216,23 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 				className={clsx(classes.investing, props.className)}
 				onSubmit={!account ? handleOpenWalletListModal : formik.handleSubmit}
 			>
-				<Input
-					type="number"
-					onChange={formik.handleChange}
-					name="userInvest"
-					label="You invest"
-					value={formik.values.userInvest}
-					className={classes.input}
-				/>
+				<Tippy
+					visible={Boolean(formik.errors.userInvest)}
+					content={formik.errors.userInvest}
+					className={classes.tooltip}
+					maxWidth={200}
+					offset={[0, 25]}
+				>
+					<Input
+						type="number"
+						onChange={formik.handleChange}
+						name="userInvest"
+						label="You invest"
+						error={Boolean(formik.errors.userInvest)}
+						value={formik.values.userInvest}
+						className={classes.input}
+					/>
+				</Tippy>
 				<Select
 					label="Currency"
 					value={formik.values.currency}

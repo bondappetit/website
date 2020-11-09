@@ -26,8 +26,8 @@ export const Documents: React.FC<DocumentsProps> = (props) => {
 				of BondAppétit:
 			</Typography>
 			<div className={classes.row}>
-				<DocumentCard>Whitepaper</DocumentCard>
-				<DocumentCard>Investment Deck</DocumentCard>
+				<DocumentCard link="#">Whitepaper</DocumentCard>
+				<DocumentCard link="#">Investment Deck</DocumentCard>
 			</div>
 		</div>
 	);

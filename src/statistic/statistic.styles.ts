@@ -66,6 +66,7 @@ export const useStatisticStyles = createUseStyles<Theme>((theme) => ({
 		right: -5,
 		bottom: 0,
 		zIndex: -1,
+		maxWidth: '112%',
 
 		[theme.breakpoints.md()]: {
 			top: -8,

@@ -31,7 +31,11 @@ export const useInvestingTokens = () => {
 				};
 			});
 
-		setTokens(await Promise.all(tokensWithPrice));
+		try {
+			setTokens(await Promise.all(tokensWithPrice));
+		} catch (e) {
+			console.error(e);
+		}
 	}, [network, investmentContract]);
 
 	useEffect(() => {

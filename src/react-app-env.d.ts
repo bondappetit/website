@@ -83,3 +83,11 @@ declare module 'react-jazzicon' {
 
 	export default Jazzicon;
 }
+
+interface Window {
+	ethereum?: {
+		isMetaMask?: true;
+		on?: (...args: any[]) => void;
+		removeListener?: (...args: any[]) => void;
+	};
+}

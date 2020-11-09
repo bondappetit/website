@@ -5,6 +5,7 @@ import { useInputStyles } from './input.styles';
 
 export type InputProps = React.HTMLProps<HTMLInputElement> & {
 	label?: string;
+	error?: boolean;
 	htmlFor?: string;
 };
 
@@ -27,7 +28,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 		});
 
 		const classNamesLabel = clsx(classes.label, {
-			[classes.focus]: focus || !!props.value
+			[classes.focus]: focus || !!props.value,
+			[classes.error]: props.error
 		});
 
 		const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {

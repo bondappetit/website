@@ -1,23 +1,20 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
+import Home from 'src/home';
 import { URLS } from './urls';
-
-const Home = lazy(() => import('src/home'));
 
 const Router: React.FC = () => {
 	return (
 		<BrowserRouter>
-			<Suspense fallback={<>loading...</>}>
-				<Switch>
-					<Route path={URLS.home}>
-						<Home />
-					</Route>
-					<Route>
-						<>not found</>
-					</Route>
-				</Switch>
-			</Suspense>
+			<Switch>
+				<Route path={URLS.home}>
+					<Home />
+				</Route>
+				<Route>
+					<>not found</>
+				</Route>
+			</Switch>
 		</BrowserRouter>
 	);
 };

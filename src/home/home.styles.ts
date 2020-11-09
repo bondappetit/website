@@ -32,6 +32,14 @@ export const useHomeStyles = createUseStyles<Theme>((theme) => ({
 		}
 	},
 
+	announcement: {
+		margin: '56px auto 0',
+
+		[theme.breakpoints.md()]: {
+			margin: '96px auto 122px'
+		}
+	},
+
 	button: {
 		display: 'none',
 		justifyContent: 'center',

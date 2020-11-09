@@ -45,5 +45,14 @@ export const useInvestingStyles = createUseStyles<Theme>((theme) => ({
 			width: 'auto',
 			marginTop: 0
 		}
+	},
+
+	tooltip: {
+		backgroundColor: theme.colors.error,
+		color: 'white',
+		borderRadius: 8,
+		padding: 8,
+		fontSize: 14,
+		lineHeight: '20px'
 	}
 }));
