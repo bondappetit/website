@@ -42,11 +42,15 @@ jobs:
       - name: Publish beta
         if: github.event.release.prerelease == true
         run: |
-          mkdir -p ~/$GITHUB_REPOSITORY-beta
-          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY-beta
+          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY-beta.new
+          mv ~/$GITHUB_REPOSITORY-beta ~/$GITHUB_REPOSITORY-beta.old
+          mv ~/$GITHUB_REPOSITORY-beta.new ~/$GITHUB_REPOSITORY-beta
+          rm -rf ~/$GITHUB_REPOSITORY-beta.old
 
       - name: Publish stable
         if: github.event.release.prerelease == false
         run: |
-          mkdir -p ~/$GITHUB_REPOSITORY
-          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY
+          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY.new
+          mv ~/$GITHUB_REPOSITORY ~/$GITHUB_REPOSITORY.old
+          mv ~/$GITHUB_REPOSITORY.new ~/$GITHUB_REPOSITORY
+          rm -rf ~/$GITHUB_REPOSITORY.old
