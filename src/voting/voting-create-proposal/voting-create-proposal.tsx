@@ -3,47 +3,37 @@ import React from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { Input, Button, useNetworkConfig } from 'src/common';
+import { Input, Button } from 'src/common';
 import { useGovernorContract } from '../common';
 import { useVotingCreateProposalStyles } from './voting-create-proposal.styles';
 
 export type VotingCreateProposalProps = {};
 
-// const proposeTx = await gov.methods
-//       .propose(
-//         [Investment.address],
-//         [0],
-//         ["changeBondPrice(uint256)"],
-//         [web3.eth.abi.encodeParameters(["uint256"], ["2000000"])],
-//         "update bond price for investors"
-//       )
-//       .send({from: acc, gas: 2000000});
-
 export const VotingCreateProposal: React.FC<VotingCreateProposalProps> = () => {
   const governorContract = useGovernorContract();
   const classes = useVotingCreateProposalStyles();
-  const { library } = useWeb3React<Web3>();
-  const networkConfig = useNetworkConfig();
+  const { library, account } = useWeb3React<Web3>();
 
   const formik = useFormik({
     initialValues: {
       address: '',
       action: '',
-      description: ''
+      description: '',
+      value: ''
     },
 
     onSubmit: async (formValues) => {
-      if (!library || !governorContract || !networkConfig) return;
+      if (!library || !governorContract || !account) return;
 
       await governorContract?.methods
         .propose(
           [formValues.address],
           [0],
           [formValues.action],
-          [library.eth.abi.encodeParameters(['uint256'], ['2000000'])],
+          [library.eth.abi.encodeParameters(['uint256'], [formValues.value])],
           formValues.description
         )
-        .send({ from: networkConfig.accounts.Governor.address, gas: 2000000 });
+        .send({ from: account, gas: 2000000 });
     }
   });
 
@@ -65,6 +55,13 @@ export const VotingCreateProposal: React.FC<VotingCreateProposalProps> = () => {
         name="action"
         label="Action"
         value={formik.values.action}
+        onChange={formik.handleChange}
+      />
+      <Input
+        name="value"
+        label="value"
+        type="number"
+        value={formik.values.value}
         onChange={formik.handleChange}
       />
       <Button type="submit">Propose</Button>

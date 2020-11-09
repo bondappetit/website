@@ -19,6 +19,17 @@ export const VotingList: React.FC<VotingListProps> = () => {
   const governorContract = useGovernorContract();
   const { account } = useWeb3React<Web3>();
 
+  useEffect(() => {
+    governorContract?.getPastEvents(
+      'ProposalCreated',
+      {
+        fromBlock: 0,
+        toBlock: 'latest'
+      },
+      console.log
+    );
+  }, [governorContract]);
+
   const handleToggleVotingChoose = () => setVotingChooseOpen(!votingChooseOpen);
   const handleToggleCreateProposal = () =>
     setCreateProposalOpen(!createProposalOpen);
