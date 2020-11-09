@@ -4,18 +4,18 @@ import { LayoutLogo } from '../layout-logo';
 import { useLayoutHeaderStyles } from './layout-header.styles';
 
 export type LayoutHeaderProps = {
-	leftButton?: React.ReactNode;
-	rightButton?: React.ReactNode;
+  leftButton?: React.ReactNode;
+  rightButton?: React.ReactNode;
 };
 
 export const LayoutHeader: React.FC<LayoutHeaderProps> = (props) => {
-	const classes = useLayoutHeaderStyles();
+  const classes = useLayoutHeaderStyles();
 
-	return (
-		<header className={classes.root}>
-			{props.leftButton}
-			<LayoutLogo />
-			{props.rightButton}
-		</header>
-	);
+  return (
+    <header className={classes.root}>
+      {props.leftButton}
+      <LayoutLogo />
+      {props.rightButton}
+    </header>
+  );
 };

@@ -20,54 +20,54 @@ export type VotingCreateProposalProps = {};
 //       .send({from: acc, gas: 2000000});
 
 export const VotingCreateProposal: React.FC<VotingCreateProposalProps> = () => {
-	const governorContract = useGovernorContract();
-	const classes = useVotingCreateProposalStyles();
-	const { library } = useWeb3React<Web3>();
-	const networkConfig = useNetworkConfig();
+  const governorContract = useGovernorContract();
+  const classes = useVotingCreateProposalStyles();
+  const { library } = useWeb3React<Web3>();
+  const networkConfig = useNetworkConfig();
 
-	const formik = useFormik({
-		initialValues: {
-			address: '',
-			action: '',
-			description: ''
-		},
+  const formik = useFormik({
+    initialValues: {
+      address: '',
+      action: '',
+      description: ''
+    },
 
-		onSubmit: async (formValues) => {
-			if (!library || !governorContract || !networkConfig) return;
+    onSubmit: async (formValues) => {
+      if (!library || !governorContract || !networkConfig) return;
 
-			await governorContract?.methods
-				.propose(
-					[formValues.address],
-					[0],
-					[formValues.action],
-					[library.eth.abi.encodeParameters(['uint256'], ['2000000'])],
-					formValues.description
-				)
-				.send({ from: networkConfig.accounts.Governor.address, gas: 2000000 });
-		}
-	});
+      await governorContract?.methods
+        .propose(
+          [formValues.address],
+          [0],
+          [formValues.action],
+          [library.eth.abi.encodeParameters(['uint256'], ['2000000'])],
+          formValues.description
+        )
+        .send({ from: networkConfig.accounts.Governor.address, gas: 2000000 });
+    }
+  });
 
-	return (
-		<form className={classes.form} onSubmit={formik.handleSubmit}>
-			<Input
-				name="description"
-				label="Description"
-				value={formik.values.description}
-				onChange={formik.handleChange}
-			/>
-			<Input
-				name="address"
-				label="Address"
-				value={formik.values.address}
-				onChange={formik.handleChange}
-			/>
-			<Input
-				name="action"
-				label="Action"
-				value={formik.values.action}
-				onChange={formik.handleChange}
-			/>
-			<Button type="submit">Propose</Button>
-		</form>
-	);
+  return (
+    <form className={classes.form} onSubmit={formik.handleSubmit}>
+      <Input
+        name="description"
+        label="Description"
+        value={formik.values.description}
+        onChange={formik.handleChange}
+      />
+      <Input
+        name="address"
+        label="Address"
+        value={formik.values.address}
+        onChange={formik.handleChange}
+      />
+      <Input
+        name="action"
+        label="Action"
+        value={formik.values.action}
+        onChange={formik.handleChange}
+      />
+      <Button type="submit">Propose</Button>
+    </form>
+  );
 };

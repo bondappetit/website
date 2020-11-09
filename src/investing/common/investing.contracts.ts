@@ -6,28 +6,28 @@ import type { Ierc20 } from 'src/generate/IERC20';
 import { createUseContract } from 'src/common';
 
 export const useInvestmentContract = createUseContract<Investment>(
-	(network) => ({
-		abi: network.contracts.Investment.abi,
-		address: network.contracts.Investment.address
-	})
+  (network) => ({
+    abi: network.contracts.Investment.abi,
+    address: network.contracts.Investment.address
+  })
 );
 
 export const useUSDTContract = createUseContract<Ierc20>((network) => ({
-	abi: IERC20.abi as AbiItem[],
-	address: network.assets.USDT.address
+  abi: IERC20.abi as AbiItem[],
+  address: network.assets.USDT.address
 }));
 
 export const useDAIContract = createUseContract<Ierc20>((network) => ({
-	abi: IERC20.abi as AbiItem[],
-	address: network.assets.DAI.address
+  abi: IERC20.abi as AbiItem[],
+  address: network.assets.DAI.address
 }));
 
 export const useUSDCContract = createUseContract<Ierc20>((network) => ({
-	abi: IERC20.abi as AbiItem[],
-	address: network.assets.USDC.address
+  abi: IERC20.abi as AbiItem[],
+  address: network.assets.USDC.address
 }));
 
 export const useBondContract = createUseContract<Ierc20>((network) => ({
-	abi: IERC20.abi as AbiItem[],
-	address: network.assets.Bond.address
+  abi: IERC20.abi as AbiItem[],
+  address: network.assets.Bond.address
 }));

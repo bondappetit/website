@@ -9,12 +9,12 @@ import { useLayoutLogoStyles } from './layout-logo.styles';
 export type LayoutLogoProps = {};
 
 export const LayoutLogo: React.FC<LayoutLogoProps> = () => {
-	const classes = useLayoutLogoStyles();
+  const classes = useLayoutLogoStyles();
 
-	return (
-		<Link to={URLS.home} className={classes.logo}>
-			<img src={BondHatIcon} alt="" />
-			<LogoIcon />
-		</Link>
-	);
+  return (
+    <Link to={URLS.home} className={classes.logo}>
+      <img src={BondHatIcon} alt="" />
+      <LogoIcon />
+    </Link>
+  );
 };
