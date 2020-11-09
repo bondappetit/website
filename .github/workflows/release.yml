@@ -15,7 +15,7 @@ jobs:
       - run: npm ci
       - run: npm run typechain
       - run: npm run build
-      - run: npm test
+#      - run: npm test
 
   publish:
     needs: test
