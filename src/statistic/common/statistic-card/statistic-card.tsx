@@ -5,15 +5,15 @@ import { Plate } from 'src/common';
 import { useStatisticCardStyles } from './statistic-card.styles';
 
 export type StatisticCardProps = {
-	className?: string;
+  className?: string;
 };
 
 export const StatisticCard: React.FC<StatisticCardProps> = (props) => {
-	const classes = useStatisticCardStyles();
+  const classes = useStatisticCardStyles();
 
-	return (
-		<Plate className={clsx(classes.card, props.className)}>
-			{props.children}
-		</Plate>
-	);
+  return (
+    <Plate className={clsx(classes.card, props.className)}>
+      {props.children}
+    </Plate>
+  );
 };

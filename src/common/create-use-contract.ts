@@ -8,29 +8,29 @@ import networks from '@artur-mamedbekov/networkds-test';
 import { useNetworkConfig } from './use-network-config';
 
 type Callback = (
-	network: typeof networks[keyof typeof networks]
+  network: typeof networks[keyof typeof networks]
 ) => {
-	abi: AbiItem[] | AbiItem;
-	address?: string;
-	options?: ContractOptions;
+  abi: AbiItem[] | AbiItem;
+  address?: string;
+  options?: ContractOptions;
 };
 
 const web3 = new Web3(Web3.givenProvider);
 
 export const createUseContract = <T>(cb: Callback) => () => {
-	const { library } = useWeb3React<Web3>();
-	const networkConfig = useNetworkConfig();
-	const web3OrLib = library ?? web3;
+  const { library } = useWeb3React<Web3>();
+  const networkConfig = useNetworkConfig();
+  const web3OrLib = library ?? web3;
 
-	return useMemo(() => {
-		if (!web3OrLib || !networkConfig) return null;
+  return useMemo(() => {
+    if (!web3OrLib || !networkConfig) return null;
 
-		const contractParams = cb(networkConfig);
+    const contractParams = cb(networkConfig);
 
-		return (new web3OrLib.eth.Contract(
-			contractParams.abi,
-			contractParams.address,
-			contractParams.options
-		) as unknown) as T;
-	}, [web3OrLib, networkConfig]);
+    return (new web3OrLib.eth.Contract(
+      contractParams.abi,
+      contractParams.address,
+      contractParams.options
+    ) as unknown) as T;
+  }, [web3OrLib, networkConfig]);
 };

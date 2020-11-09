@@ -8,30 +8,30 @@ import { ReactComponent as LedgerIcon } from 'src/assets/icons/ledger.svg';
 import { config } from 'src/config';
 
 export const injected = new InjectedConnector({
-	supportedChainIds: config.CHAIN_IDS
+  supportedChainIds: config.CHAIN_IDS
 });
 
 export const ledger = new LedgerConnector({
-	chainId: config.CHAIN_IDS[0],
-	url: config.RPC_URL,
-	pollingInterval: config.POLLING_INTERVAL
+  chainId: config.CHAIN_IDS[0],
+  url: config.RPC_URL,
+  pollingInterval: config.POLLING_INTERVAL
 });
 
 enum ConnectorNames {
-	Injected = 'MetaMask',
-	Ledger = 'Ledger'
+  Injected = 'MetaMask',
+  Ledger = 'Ledger'
 }
 
 export const connectorsByName: Record<
-	ConnectorNames,
-	{ connector: AbstractConnector; logo: React.FC }
+  ConnectorNames,
+  { connector: AbstractConnector; logo: React.FC }
 > = {
-	[ConnectorNames.Injected]: {
-		connector: injected,
-		logo: MetaMaskIcon
-	},
-	[ConnectorNames.Ledger]: {
-		connector: ledger,
-		logo: LedgerIcon
-	}
+  [ConnectorNames.Injected]: {
+    connector: injected,
+    logo: MetaMaskIcon
+  },
+  [ConnectorNames.Ledger]: {
+    connector: ledger,
+    logo: LedgerIcon
+  }
 };

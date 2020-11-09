@@ -5,32 +5,32 @@ import { useSelectContext } from './select.context';
 import { useSelectStyles } from './select.styles';
 
 export type SelectOptionProps = React.HTMLProps<HTMLOptionElement> & {
-	value?: string | number;
+  value?: string | number;
 };
 
 export const SelectOption: React.FC<SelectOptionProps> = (props) => {
-	const select = useSelectContext();
-	const classes = useSelectStyles();
+  const select = useSelectContext();
+  const classes = useSelectStyles();
 
-	const option = useMemo(
-		() => ({
-			label: props.label,
-			value: props.value
-		}),
-		[props.label, props.value]
-	);
+  const option = useMemo(
+    () => ({
+      label: props.label,
+      value: props.value
+    }),
+    [props.label, props.value]
+  );
 
-	useEffect(() => {
-		select?.handleAddOption(option);
-	}, [select, option]);
+  useEffect(() => {
+    select?.handleAddOption(option);
+  }, [select, option]);
 
-	return (
-		<ButtonBase
-			type="button"
-			onClick={() => select?.handleSetOption(option)}
-			className={classes.option}
-		>
-			{props.label}
-		</ButtonBase>
-	);
+  return (
+    <ButtonBase
+      type="button"
+      onClick={() => select?.handleSetOption(option)}
+      className={classes.option}
+    >
+      {props.label}
+    </ButtonBase>
+  );
 };

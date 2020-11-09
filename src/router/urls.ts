@@ -1,3 +1,4 @@
 export const URLS = {
-	home: '/'
+  home: '/',
+  voting: '/voting'
 } as const;

@@ -13,3 +13,4 @@ export * from './cut-account';
 export * from './select';
 export * from './global-styles';
 export * from './link';
+export * from './skeleton';

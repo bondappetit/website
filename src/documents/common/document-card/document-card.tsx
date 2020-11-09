@@ -5,18 +5,18 @@ import { ReactComponent as DownloadIcon } from 'src/assets/icons/download.svg';
 import { useDocumentCardStyles } from './document-card.styles';
 
 export type DocumentCardProps = {
-	className?: string;
+  className?: string;
 };
 
 export const DocumentCard: React.FC<DocumentCardProps> = (props) => {
-	const classes = useDocumentCardStyles();
+  const classes = useDocumentCardStyles();
 
-	return (
-		<div className={classes.card}>
-			<Typography variant="h3">{props.children}</Typography>
-			<ButtonBase className={classes.download}>
-				<DownloadIcon className={classes.downloadIcon} />
-			</ButtonBase>
-		</div>
-	);
+  return (
+    <div className={classes.card}>
+      <Typography variant="h3">{props.children}</Typography>
+      <ButtonBase className={classes.download}>
+        <DownloadIcon className={classes.downloadIcon} />
+      </ButtonBase>
+    </div>
+  );
 };
