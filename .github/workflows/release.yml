@@ -1,0 +1,42 @@
+name: Website project release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  test:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm run typechain
+      - run: npm run build
+      - run: npm test
+
+  publish:
+    needs: test
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+      - run: npm run build
+
+      - name: Publish beta
+        if: github.event.prerelease == true
+        run: |
+          mkdir ~/$GITHUB_REPOSITORY
+          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY
+
+      - name: Publish stable
+        if: github.event.prerelease == false
+        run: |
+          mkdir ~/$GITHUB_REPOSITORY
+          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY
