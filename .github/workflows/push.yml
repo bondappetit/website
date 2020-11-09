@@ -25,4 +25,4 @@ jobs:
     - name: Test build
         run: npm run test --if-present
     - name: 'Deploy'
-      run: ls -la > /tmp/test
+        run: ls -la > /tmp/test
