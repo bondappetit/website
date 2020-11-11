@@ -7,34 +7,34 @@ import { ReactComponent as AnnouncementTitleLine } from 'src/assets/images/annou
 import { useAnnouncementStyles } from './announcement.styles';
 
 export type AnnouncementProps = {
-	className?: string;
+  className?: string;
 };
 
 export const Announcement: React.FC<AnnouncementProps> = (props) => {
-	const classes = useAnnouncementStyles();
+  const classes = useAnnouncementStyles();
 
-	return (
-		<Plate className={clsx(classes.announcement, props.className)}>
-			<Typography variant="h2" align="center">
-				The{' '}
-				<Typography
-					variant="inherit"
-					component="span"
-					className={classes.decoratedText}
-				>
-					<TextRound className={classes.textRound} />
-					pre-sale
-				</Typography>{' '}
-				round of Appetit Reward Token (ART) starts{' '}
-				<Typography
-					variant="inherit"
-					component="span"
-					className={classes.decoratedText}
-				>
-					<AnnouncementTitleLine className={classes.tokenTitleLine} />
-					in 3 weeks
-				</Typography>
-			</Typography>
-		</Plate>
-	);
+  return (
+    <Plate className={clsx(classes.announcement, props.className)}>
+      <Typography variant="h2" align="center">
+        The{' '}
+        <Typography
+          variant="inherit"
+          component="span"
+          className={classes.decoratedText}
+        >
+          <TextRound className={classes.textRound} />
+          pre-sale
+        </Typography>{' '}
+        round of Appetit Reward Token (ART) starts{' '}
+        <Typography
+          variant="inherit"
+          component="span"
+          className={classes.decoratedText}
+        >
+          <AnnouncementTitleLine className={classes.tokenTitleLine} />
+          in 3 weeks
+        </Typography>
+      </Typography>
+    </Plate>
+  );
 };

@@ -12,45 +12,43 @@ import { useModalStyles } from './modal.styles';
 import { ButtonBase } from '../button-base';
 
 export type ModalProps = {
-	open: boolean;
-	onClose: () => void;
+  open: boolean;
+  onClose: () => void;
 };
 
 export const Modal: React.FC<ModalProps> = (props) => {
-	const classes = useModalStyles();
-	const [isPressed] = useKeyPress('Escape');
-	const { onClose, open } = props;
+  const classes = useModalStyles();
+  const [isPressed] = useKeyPress('Escape');
+  const { onClose, open } = props;
 
-	useLockBodyScroll(open);
+  useLockBodyScroll(open);
 
-	useEffect(() => {
-		if (isPressed) {
-			onClose();
-		}
-	}, [isPressed, onClose]);
+  useEffect(() => {
+    if (isPressed && open) {
+      onClose();
+    }
+  }, [isPressed, onClose, open]);
 
-	if (!open) return null;
+  if (!open) return null;
 
-	const handleStop = (event: React.MouseEvent) => event.stopPropagation();
-
-	return (
-		<Portal>
-			<div className={classes.overlay} onClick={onClose}>
-				<div className={classes.header}>
-					<div onClick={handleStop}>
-						<ToggleThemeButton />
-					</div>
-					<img src={BondHatIcon} alt="" />
-					<div onClick={handleStop}>
-						<ButtonBase onClick={onClose}>
-							<CloseIcon />
-						</ButtonBase>
-					</div>
-				</div>
-				<div className={classes.content}>
-					<div onClick={handleStop}>{props.children}</div>
-				</div>
-			</div>
-		</Portal>
-	);
+  return (
+    <Portal>
+      <div className={classes.overlay}>
+        <div className={classes.header}>
+          <div>
+            <ToggleThemeButton />
+          </div>
+          <img src={BondHatIcon} alt="" />
+          <div>
+            <ButtonBase onClick={onClose}>
+              <CloseIcon />
+            </ButtonBase>
+          </div>
+        </div>
+        <div className={classes.content}>
+          <div>{props.children}</div>
+        </div>
+      </div>
+    </Portal>
+  );
 };

@@ -1,3 +1,7 @@
 export const URLS = {
-	home: '/'
+  home: '/',
+  voting: {
+    list: '/voting',
+    detail: (proposalId = ':proposalId') => `/voting/${proposalId}`
+  }
 } as const;
