@@ -1,0 +1,60 @@
+name: release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  test:
+    runs-on: self-hosted
+    if: github.event.release.prerelease == true
+    env:
+      NODE_ENV: development
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: npm ci
+      - run: npm run typechain
+      - run: npm run build
+#      - run: npm test
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-release
+          path: |
+            build
+
+  publish:
+    needs: test
+    runs-on: self-hosted
+
+    steps:
+      - uses: actions/checkout@v1
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: https://registry.npmjs.org/
+
+      - name: Download build-release
+        uses: actions/download-artifact@v2
+        with:
+          name: build-release
+
+      - name: Publish beta
+        if: github.event.release.prerelease == true
+        run: |
+          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY-beta.new
+          mv ~/$GITHUB_REPOSITORY-beta ~/$GITHUB_REPOSITORY-beta.old
+          mv ~/$GITHUB_REPOSITORY-beta.new ~/$GITHUB_REPOSITORY-beta
+          rm -rf ~/$GITHUB_REPOSITORY-beta.old
+
+      - name: Publish stable
+        if: github.event.release.prerelease == false
+        run: |
+          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY.new
+          mv ~/$GITHUB_REPOSITORY ~/$GITHUB_REPOSITORY.old
+          mv ~/$GITHUB_REPOSITORY.new ~/$GITHUB_REPOSITORY
+          rm -rf ~/$GITHUB_REPOSITORY.old
