@@ -2,9 +2,8 @@ import { useCallback, useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { useNetworkConfig } from 'src/common';
+import { useNetworkConfig, useGovernorContract } from 'src/common';
 import { useVotingEvents } from './use-voting-events';
-import { useGovernorContract } from './voting.contracts';
 import { FormattedProposal } from './voting.types';
 import { getProposal } from './get-proposal';
 

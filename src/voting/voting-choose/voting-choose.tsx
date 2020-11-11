@@ -2,9 +2,9 @@ import React, { useCallback, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { Plate, ButtonBase } from 'src/common';
+import { Plate, ButtonBase, useBondContract } from 'src/common';
 import { useVotingChooseStyles } from './voting-choose.styles';
-import { VotingDelegate, VotingManual, useBondContract } from '../common';
+import { VotingDelegate, VotingManual } from '../common';
 
 enum VotingVariants {
   manual,

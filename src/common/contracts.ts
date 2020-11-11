@@ -1,9 +1,12 @@
 import IERC20 from '@artur-mamedbekov/networkds-test/networks/abi/IERC20.json';
+import { abi as BondAbi } from '@artur-mamedbekov/networkds-test/networks/abi/Bond.json';
 import { AbiItem } from 'web3-utils';
 
 import type { Investment } from 'src/generate/Investment';
 import type { Ierc20 } from 'src/generate/IERC20';
-import { createUseContract } from 'src/common';
+import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
+import type { Bond } from 'src/generate/Bond';
+import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
   (network) => ({
@@ -27,7 +30,19 @@ export const useUSDCContract = createUseContract<Ierc20>((network) => ({
   address: network.assets.USDC.address
 }));
 
-export const useBondContract = createUseContract<Ierc20>((network) => ({
+export const useBondTokenContract = createUseContract<Ierc20>((network) => ({
   abi: IERC20.abi as AbiItem[],
+  address: network.assets.Bond.address
+}));
+
+export const useGovernorContract = createUseContract<GovernorAlpha>(
+  (network) => ({
+    abi: network.contracts.GovernorAlpha.abi,
+    address: network.contracts.GovernorAlpha.address
+  })
+);
+
+export const useBondContract = createUseContract<Bond>((network) => ({
+  abi: BondAbi as AbiItem[],
   address: network.assets.Bond.address
 }));

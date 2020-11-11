@@ -1,8 +1,8 @@
 import { useEffect, useCallback, useState, useMemo } from 'react';
 import BN from 'bignumber.js';
 
-import { useNetworkConfig } from 'src/common';
-import { Token, useInvestmentContract } from './common';
+import { useNetworkConfig, useInvestmentContract } from 'src/common';
+import { Token } from './common';
 
 export const useInvestingTokens = () => {
   const [tokens, setTokens] = useState<Token[]>([]);

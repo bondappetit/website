@@ -24,31 +24,29 @@ export const Modal: React.FC<ModalProps> = (props) => {
   useLockBodyScroll(open);
 
   useEffect(() => {
-    if (isPressed) {
+    if (isPressed && open) {
       onClose();
     }
-  }, [isPressed, onClose]);
+  }, [isPressed, onClose, open]);
 
   if (!open) return null;
 
-  const handleStop = (event: React.MouseEvent) => event.stopPropagation();
-
   return (
     <Portal>
-      <div className={classes.overlay} onClick={onClose}>
+      <div className={classes.overlay}>
         <div className={classes.header}>
-          <div onClick={handleStop}>
+          <div>
             <ToggleThemeButton />
           </div>
           <img src={BondHatIcon} alt="" />
-          <div onClick={handleStop}>
+          <div>
             <ButtonBase onClick={onClose}>
               <CloseIcon />
             </ButtonBase>
           </div>
         </div>
         <div className={classes.content}>
-          <div onClick={handleStop}>{props.children}</div>
+          <div>{props.children}</div>
         </div>
       </div>
     </Portal>

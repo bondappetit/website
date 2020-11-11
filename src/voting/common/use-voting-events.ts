@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ethers, utils } from 'ethers';
 import { abi as GOV_ABI } from '@artur-mamedbekov/networkds-test/networks/abi/GovernorAlpha.json';
 
-import { useGovernorContract } from './voting.contracts';
+import { useGovernorContract } from 'src/common';
 import { FormattedEventData } from './voting.types';
 
 const eventParser = new ethers.utils.Interface(GOV_ABI);

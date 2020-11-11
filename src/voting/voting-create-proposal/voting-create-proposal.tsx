@@ -3,8 +3,7 @@ import React from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { Input, Button } from 'src/common';
-import { useGovernorContract } from '../common';
+import { Input, Button, useGovernorContract } from 'src/common';
 import { useVotingCreateProposalStyles } from './voting-create-proposal.styles';
 
 export const VotingCreateProposal: React.FC = () => {

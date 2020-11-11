@@ -13,19 +13,16 @@ import {
   Modal,
   Select,
   SelectOption,
-  useNetworkConfig
-} from 'src/common';
-import { WalletModal } from 'src/wallets';
-import type { Ierc20 } from 'src/generate/IERC20';
-import {
-  InvestingSuccess,
-  InvestingFailure,
+  useNetworkConfig,
   useInvestmentContract,
-  useBondContract,
+  useBondTokenContract,
   useUSDTContract,
   useDAIContract,
   useUSDCContract
-} from './common';
+} from 'src/common';
+import { WalletModal } from 'src/wallets';
+import type { Ierc20 } from 'src/generate/IERC20';
+import { InvestingSuccess, InvestingFailure } from './common';
 import { useInvestingStyles } from './investing.styles';
 import { useInvestingTokens } from './investing-tokens';
 
@@ -54,7 +51,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
   const network = useNetworkConfig();
   const investmentContract = useInvestmentContract();
   const tokens = useInvestingTokens();
-  const bondContract = useBondContract();
+  const bondContract = useBondTokenContract();
 
   const formik = useFormik<InvestFormValues>({
     initialValues: {

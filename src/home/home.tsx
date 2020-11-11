@@ -1,12 +1,13 @@
 import React from 'react';
-import OpenGraph from 'src/assets/images/ba-opengraph.jpg';
 
+import OpenGraph from 'src/assets/images/ba-opengraph.jpg';
 import { MainLayout } from 'src/layouts';
 import { ButtonBase, Typography } from 'src/common';
 import { Statistic } from 'src/statistic';
 import { Documents } from 'src/documents';
 import { Announcement } from 'src/announcement';
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icons/arrow-down.svg';
+import { config } from 'src/config';
 import { useHomeStyles } from './home.styles';
 import { ScrollIntoView } from './common';
 
@@ -40,7 +41,7 @@ export const Home: React.FC = () => {
           </ScrollIntoView>
         </div>
         <Statistic id="statistic" className={classes.statistic} />
-        <Documents className={classes.documents} />
+        {config.isDev && <Documents className={classes.documents} />}
       </div>
     </MainLayout>
   );

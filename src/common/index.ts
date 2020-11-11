@@ -14,3 +14,4 @@ export * from './select';
 export * from './global-styles';
 export * from './link';
 export * from './skeleton';
+export * from './contracts';
