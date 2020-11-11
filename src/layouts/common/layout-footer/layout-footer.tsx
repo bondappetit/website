@@ -3,9 +3,7 @@ import React from 'react';
 import { Typography } from 'src/common';
 import { useLayoutFooterStyles } from './layout-footer.styles';
 
-export type LayoutFooterProps = {};
-
-export const LayoutFooter: React.FC<LayoutFooterProps> = () => {
+export const LayoutFooter: React.FC = () => {
   const classes = useLayoutFooterStyles();
 
   return (

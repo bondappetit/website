@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useVotingListStyles = createUseStyles((theme: Theme) => ({
+export const useVotingProposalListStyles = createUseStyles((theme: Theme) => ({
   voting: {
     padding: '48px 16px 104px',
 

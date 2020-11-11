@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import Home from 'src/home';
-import VotingList from 'src/voting/voting-list';
+import { VotingProposalDetail, VotingProposalList } from 'src/voting';
 import { URLS } from './urls';
 
 const Router: React.FC = () => {
@@ -12,8 +12,11 @@ const Router: React.FC = () => {
         <Route exact path={URLS.home}>
           <Home />
         </Route>
-        <Route path={URLS.voting}>
-          <VotingList />
+        <Route path={URLS.voting.detail()}>
+          <VotingProposalDetail />
+        </Route>
+        <Route path={URLS.voting.list}>
+          <VotingProposalList />
         </Route>
         <Route>
           <>not found</>

@@ -4,9 +4,7 @@ import { ReactComponent as SunIcon } from 'src/assets/icons/sun.svg';
 import { useToggleTheme } from './theme-provider';
 import { ButtonBase } from '../button-base';
 
-export type ToggleThemeButtonProps = {};
-
-export const ToggleThemeButton: React.FC<ToggleThemeButtonProps> = () => {
+export const ToggleThemeButton: React.FC = () => {
   const toggleTheme = useToggleTheme();
 
   return (

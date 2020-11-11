@@ -8,9 +8,7 @@ import { ReactComponent as WalletIcon } from 'src/assets/icons/wallet.svg';
 import { useWalletButtonStyles } from './wallet-button.styles';
 import { WalletModal } from '../wallet-modal';
 
-export type WalletButtonProps = {};
-
-export const WalletButton: React.FC<WalletButtonProps> = () => {
+export const WalletButton: React.FC = () => {
   const classes = useWalletButtonStyles();
   const { account } = useWeb3React<Web3>();
   const [open, setOpen] = useState(false);

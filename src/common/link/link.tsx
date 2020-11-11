@@ -13,7 +13,7 @@ export type LinkProps = {
   underline?: 'always' | 'hover' | 'none';
 };
 
-export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
+export const Link = React.forwardRef<React.ElementType, LinkProps>(
   (props, ref) => {
     const classes = useLinkStyles();
 

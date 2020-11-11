@@ -6,9 +6,7 @@ import BondHatIcon from 'src/assets/images/bondappetit-hat.png';
 import { URLS } from 'src/router/urls';
 import { useLayoutLogoStyles } from './layout-logo.styles';
 
-export type LayoutLogoProps = {};
-
-export const LayoutLogo: React.FC<LayoutLogoProps> = () => {
+export const LayoutLogo: React.FC = () => {
   const classes = useLayoutLogoStyles();
 
   return (

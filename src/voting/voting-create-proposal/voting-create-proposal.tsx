@@ -7,9 +7,7 @@ import { Input, Button } from 'src/common';
 import { useGovernorContract } from '../common';
 import { useVotingCreateProposalStyles } from './voting-create-proposal.styles';
 
-export type VotingCreateProposalProps = {};
-
-export const VotingCreateProposal: React.FC<VotingCreateProposalProps> = () => {
+export const VotingCreateProposal: React.FC = () => {
   const governorContract = useGovernorContract();
   const classes = useVotingCreateProposalStyles();
   const { library, account } = useWeb3React<Web3>();

@@ -37,7 +37,7 @@ export type TypographyProps = {
   className?: string;
   weight?: 'bold' | 'normal' | 'light';
   align?: 'left' | 'center' | 'right';
-  component?: TagNames | 'span';
+  component?: TagNames | 'span' | 'div';
 };
 
 export const Typography: React.FC<TypographyProps> = (props) => {

@@ -10,6 +10,7 @@ export type SkeletonProps = {
   height?: number | string;
   width?: number | string;
   variant?: 'text' | 'rectangular' | 'circular';
+  // eslint-disable-next-line @typescript-eslint/ban-types
   style?: object;
   ref?:
     | ((instance: React.ElementType | null) => void)

@@ -6,14 +6,12 @@ import { Plate, ButtonBase } from 'src/common';
 import { useVotingChooseStyles } from './voting-choose.styles';
 import { VotingDelegate, VotingManual, useBondContract } from '../common';
 
-export type VotingChooseProps = {};
-
 enum VotingVariants {
   manual,
   delegate
 }
 
-export const VotingChoose: React.FC<VotingChooseProps> = () => {
+export const VotingChoose: React.FC = () => {
   const [
     currentVotingState,
     setCurrentVotingState

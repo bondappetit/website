@@ -8,7 +8,7 @@ import networks from '@artur-mamedbekov/networkds-test';
 import { useNetworkConfig } from './use-network-config';
 
 type Callback = (
-  network: typeof networks[keyof typeof networks]
+  network: Network
 ) => {
   abi: AbiItem[] | AbiItem;
   address?: string;
@@ -16,6 +16,8 @@ type Callback = (
 };
 
 const web3 = new Web3(Web3.givenProvider);
+
+export type Network = typeof networks[keyof typeof networks];
 
 export const createUseContract = <T>(cb: Callback) => () => {
   const { library } = useWeb3React<Web3>();
