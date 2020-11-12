@@ -6,3 +6,4 @@ export * from './constants';
 export * from './use-voting-proposal-list';
 export * from './use-voting-proposal-detail';
 export * from './voting-confirm';
+export * from './voting-add-action';

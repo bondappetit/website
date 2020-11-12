@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { createPortal } from 'react-dom';
+import { useMount, useUnmount } from 'react-use';
 
 export type PortalProps = {
   container?: Element;
@@ -11,25 +12,15 @@ export const Portal: React.FC<PortalProps> = (props) => {
     HTMLElement | Element | null
   >(null);
 
-  useEffect(() => {
+  useMount(() => {
     setMountNode(container || document.body);
-  }, [container]);
+  });
 
-  useEffect(() => {
-    if (mountNode) {
-      setMountNode(mountNode);
-
-      return () => {
-        setMountNode(null);
-      };
-    }
-
-    return undefined;
-  }, [setMountNode, mountNode]);
+  useUnmount(() => {
+    setMountNode(null);
+  });
 
   if (!mountNode) return mountNode;
 
   return createPortal(children, mountNode);
 };
-
-Portal.displayName = 'Portal';

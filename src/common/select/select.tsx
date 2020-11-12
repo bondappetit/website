@@ -58,7 +58,10 @@ export const Select: React.FC<SelectProps> = (props) => {
       <div className={clsx(classes.wrap, props.className)} ref={dropdownRef}>
         <span
           className={clsx(classes.label, {
-            [classes.focus]: focus || currentOption?.value
+            [classes.focus]:
+              focus ||
+              currentOption?.value ||
+              typeof currentOption?.value === 'number'
           })}
         >
           {props.label}

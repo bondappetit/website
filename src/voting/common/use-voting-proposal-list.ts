@@ -33,17 +33,17 @@ export const useVotingProposalList = () => {
   }, [setCountItems, governorContract]);
 
   const loadExistingProposals = useCallback(async () => {
-    if (account) {
-      setLoading(true);
-      const existingProposals = page.map((proposalId) => {
-        return getProposal(proposalId)(governorContract)(eventData)(
-          networkConfig
-        );
-      });
+    if (!account) return;
 
-      setProposals(await Promise.all(existingProposals));
-      setLoading(false);
-    }
+    setLoading(true);
+    const existingProposals = page.map((proposalId) => {
+      return getProposal(proposalId)(governorContract)(eventData)(
+        networkConfig
+      );
+    });
+
+    setProposals(await Promise.all(existingProposals));
+    setLoading(false);
   }, [governorContract, account, eventData, networkConfig, page]);
 
   useEffect(() => {

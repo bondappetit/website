@@ -75,14 +75,14 @@ export const VotingProposalList: React.FC = () => {
 
     const votes = await bondContract?.methods.getCurrentVotes(account).call();
 
-    if (!votes) return;
+    if (!votes || currentVotes) return;
 
     setCurrentVotes(
       new BN(votes).div(new BN(10).pow(networkConfig.assets.Bond.decimals))
     );
-  }, [account, bondContract, networkConfig]);
+  }, [account, bondContract, networkConfig, currentVotes]);
 
-  const handleTest = useCallback(async () => {
+  const handleCanCreateProposal = useCallback(async () => {
     if (!account || !networkConfig || !currentVotes) return;
 
     const propsalThreshold = await governorContract?.methods
@@ -101,8 +101,8 @@ export const VotingProposalList: React.FC = () => {
 
   useEffect(() => {
     handleGetVotes();
-    handleTest();
-  }, [handleGetVotes, handleTest]);
+    handleCanCreateProposal();
+  }, [handleCanCreateProposal, handleGetVotes, currentVotes]);
 
   return (
     <MainLayout>

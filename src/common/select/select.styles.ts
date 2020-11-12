@@ -8,7 +8,6 @@ export const useSelectStyles = createUseStyles((theme: Theme) => ({
     fontSize: 20,
     lineHeight: '24px',
     position: 'relative',
-    zIndex: 1,
     height: 24,
     textOverflow: 'ellipsis',
 
@@ -47,7 +46,10 @@ export const useSelectStyles = createUseStyles((theme: Theme) => ({
     background: theme.colors.secondary,
     width: '100%',
     left: 0,
-    top: '100%'
+    zIndex: 10,
+    top: '100%',
+    overflowY: 'scroll',
+    maxHeight: 300
   },
 
   label: {
