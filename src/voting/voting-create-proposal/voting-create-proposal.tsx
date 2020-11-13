@@ -36,9 +36,7 @@ export const VotingCreateProposal: React.FC = () => {
       if (!library || !governorContract || !account) return;
 
       const callDatas = formValues.actions.flatMap(({ input }) => {
-        const [paramTypes = [], paramValues = []] = input.reduce<
-          [string[], string[]]
-        >(
+        const [paramTypes, paramValues] = input.reduce<[string[], string[]]>(
           ([params, values], { paramType, value }) => {
             params.push(paramType);
             values.push(value);
@@ -53,9 +51,7 @@ export const VotingCreateProposal: React.FC = () => {
 
       const signatures = formValues.actions.map(
         ({ functionSig, input }) =>
-          `${functionSig}(${input
-            .map(({ paramType }) => paramType)
-            .join(', ')})`
+          `${functionSig}(${input.map(({ paramType }) => paramType).join()})`
       );
 
       const values = formValues.actions.map(({ payable = 0 }) => payable);

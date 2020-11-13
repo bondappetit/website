@@ -28,7 +28,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     });
 
     const classNamesLabel = clsx(classes.label, {
-      [classes.focus]: focus || !!props.value,
+      [classes.focus]:
+        focus || props?.value || typeof props?.value === 'number',
       [classes.error]: props.error
     });
 

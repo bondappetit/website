@@ -15,12 +15,12 @@ export const parseContractMethods = <T extends { abi: AbiItem[] }>(
   contract?: T
 ) => {
   return contract?.abi.reduce<Record<string, ContractMethod>>(
-    (acc, { name, type, stateMutability, inputs }) => {
+    (acc, { name = '', type, stateMutability, inputs }) => {
       const isFunction = type === 'function';
       const stateNotViewAndPure =
         stateMutability !== 'view' && stateMutability !== 'pure';
 
-      if (isFunction && stateNotViewAndPure && name) {
+      if (isFunction && stateNotViewAndPure) {
         acc[name] = {
           methodName: name,
           inputs:

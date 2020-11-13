@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useFormik } from 'formik';
+import { useUpdateEffect } from 'react-use';
 
 import {
   parseContractMethods,
@@ -38,6 +39,7 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
 
   const formik = useFormik<VotingAddActionFormValues>({
     initialValues: {
+      contract: undefined,
       functionSig: '',
       input: []
     },
@@ -60,6 +62,14 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
 
     return parseContractMethods(contracts?.[Number(formik.values.contract)]);
   }, [contracts, formik.values.contract]);
+
+  useUpdateEffect(() => {
+    formik.setFieldValue('functionSig', '');
+  }, [formik.values.contract]);
+
+  useUpdateEffect(() => {
+    formik.setFieldValue('input', []);
+  }, [formik.values.functionSig]);
 
   return (
     <form onSubmit={formik.handleSubmit} className={classes.form}>

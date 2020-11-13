@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React, { useRef, useState } from 'react';
-import useClickAway from 'react-use/esm/useClickAway';
+import { useClickAway, useUpdateEffect } from 'react-use';
 
 import { ReactComponent as SelectArrowIcon } from 'src/assets/icons/select-arrow.svg';
 import { Option, SelectContext } from './select.context';
@@ -52,6 +52,12 @@ export const Select: React.FC<SelectProps> = (props) => {
   const handleBlur = () => {
     setFocus(false);
   };
+
+  useUpdateEffect(() => {
+    if (!props.value && typeof props.value !== 'number') {
+      setCurrentOption({});
+    }
+  }, [props.value]);
 
   return (
     <SelectContext.Provider value={{ handleAddOption, handleSetOption }}>
