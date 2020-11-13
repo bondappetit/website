@@ -76,6 +76,7 @@ export const VotingCreateProposal: React.FC = () => {
         <Input
           name="description"
           label="Description"
+          disabled={formik.isSubmitting}
           value={formik.values.description}
           onChange={formik.handleChange}
         />
@@ -98,6 +99,7 @@ export const VotingCreateProposal: React.FC = () => {
                   <div>{method}</div>
                   <ButtonBase
                     type="button"
+                    disabled={formik.isSubmitting}
                     onClick={() =>
                       formik.setFieldValue(
                         'actions',
@@ -112,10 +114,16 @@ export const VotingCreateProposal: React.FC = () => {
             }
           )}
         </div>
-        <Button type="button" onClick={() => setAddVotingOpen(true)}>
+        <Button
+          type="button"
+          onClick={() => setAddVotingOpen(true)}
+          disabled={formik.isSubmitting}
+        >
           add action
         </Button>
-        <Button type="submit">Propose</Button>
+        <Button type="submit" disabled={formik.isSubmitting}>
+          Propose
+        </Button>
       </form>
       <Modal open={addVotingOpen} onClose={() => setAddVotingOpen(false)}>
         <VotingAddAction

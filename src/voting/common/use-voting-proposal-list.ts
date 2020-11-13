@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { useNetworkConfig, useGovernorContract } from 'src/common';
+import { useNetworkConfig, useGovernorContract, useUpdate } from 'src/common';
 import { useVotingEvents } from './use-voting-events';
 import { FormattedProposal } from './voting.types';
 import { usePagination } from './use-pagination';
@@ -24,6 +24,7 @@ export const useVotingProposalList = () => {
   const { account, chainId } = useWeb3React<Web3>();
   const eventData = useVotingEvents();
   const networkConfig = useNetworkConfig();
+  const [update, handleUpdateProposalList] = useUpdate();
 
   const loadCountProposals = useCallback(async () => {
     const proposalCount = await governorContract?.methods
@@ -48,16 +49,23 @@ export const useVotingProposalList = () => {
 
   useEffect(() => {
     loadCountProposals();
-  }, [chainId, loadCountProposals]);
+  }, [chainId, loadCountProposals, update]);
 
   useEffect(() => {
     loadExistingProposals();
-  }, [loadExistingProposals, loadCountProposals, countItems, currentPage]);
+  }, [
+    loadExistingProposals,
+    loadCountProposals,
+    countItems,
+    currentPage,
+    update
+  ]);
 
   return {
     loading,
     proposals,
     pages,
+    handleUpdateProposalList,
     nextPage,
     prevPage
   };
