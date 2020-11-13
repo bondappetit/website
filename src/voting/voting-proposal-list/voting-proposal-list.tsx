@@ -46,16 +46,19 @@ export const VotingProposalList: React.FC = () => {
   } = useVoteInfo();
 
   const handleToggleVotingChoose = () => {
+    if (votingChooseOpen) {
+      handleUpdateVoteInfo();
+    }
+
     setVotingChooseOpen(!votingChooseOpen);
-    handleUpdateVoteInfo();
   };
   const handleToggleCreateProposal = () => {
-    setCreateProposalOpen(!createProposalOpen);
-
-    if (!createProposalOpen) {
+    if (createProposalOpen) {
       handleUpdateProposalList();
       handleUpdateVoteInfo();
     }
+
+    setCreateProposalOpen(!createProposalOpen);
   };
   const handleToggleVoteConfirm = (proposal?: string, status?: number) => {
     setVoteConfirmOpen(!voteConfirmOpen);
@@ -182,7 +185,7 @@ export const VotingProposalList: React.FC = () => {
         <VotingChoose />
       </Modal>
       <Modal open={createProposalOpen} onClose={handleToggleCreateProposal}>
-        <VotingCreateProposal />
+        <VotingCreateProposal onSubmit={handleToggleCreateProposal} />
       </Modal>
       <Modal open={voteConfirmOpen} onClose={handleToggleVoteConfirm}>
         <VotingConfirm onVote={handleVote} />

@@ -9,11 +9,12 @@ import {
   useNetworkConfig,
   useUpdate
 } from 'src/common';
+import { ProposalState } from './constants';
 
 export const useVoteInfo = () => {
-  const governorContract = useGovernorContract();
   const [currentVotes, setCurrentVotes] = useState<string>('0');
   const [canCreateProposal, setCanCreateProposal] = useState(false);
+  const governorContract = useGovernorContract();
   const bondContract = useBondContract();
   const networkConfig = useNetworkConfig();
   const { account } = useWeb3React<Web3>();
@@ -39,7 +40,23 @@ export const useVoteInfo = () => {
     const propsalThreshold = await governorContract?.methods
       .proposalThreshold()
       .call();
-    if (!propsalThreshold) return;
+    const proposalId = await governorContract?.methods
+      .latestProposalIds(account)
+      .call();
+
+    if (proposalId && proposalId !== '0') {
+      const proposalState = await governorContract?.methods
+        .state(proposalId)
+        .call();
+      setCanCreateProposal(
+        ![ProposalState.Pending, ProposalState.Active].includes(
+          Number(proposalState)
+        )
+      );
+      return;
+    }
+
+    if (!propsalThreshold || !proposalId) return;
 
     setCanCreateProposal(
       new BN(currentVotes).isGreaterThanOrEqualTo(

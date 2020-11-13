@@ -19,7 +19,13 @@ type FormValues = {
   value: string;
 };
 
-export const VotingCreateProposal: React.FC = () => {
+export type VotingCreateProposalProps = {
+  onSubmit: () => void;
+};
+
+export const VotingCreateProposal: React.FC<VotingCreateProposalProps> = (
+  props
+) => {
   const governorContract = useGovernorContract();
   const classes = useVotingCreateProposalStyles();
   const { library, account } = useWeb3React<Web3>();
@@ -67,6 +73,8 @@ export const VotingCreateProposal: React.FC = () => {
           formValues.description
         )
         .send({ from: account, gas: 2000000 });
+
+      props.onSubmit();
     }
   });
 
