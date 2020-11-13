@@ -1,5 +1,5 @@
-import IERC20 from '@artur-mamedbekov/networkds-test/networks/abi/IERC20.json';
-import { abi as BondAbi } from '@artur-mamedbekov/networkds-test/networks/abi/Bond.json';
+import IERC20 from '@bondappetit/networks/abi/IERC20.json';
+import { abi as BondAbi } from '@bondappetit/networks/abi/Bond.json';
 import { AbiItem } from 'web3-utils';
 
 import type { Investment } from 'src/generate/Investment';

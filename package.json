@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@artur-mamedbekov/networkds-test": "^1.2.10",
+    "@bondappetit/networks": "^1.4.0",
     "@babel/core": "7.9.0",
     "@popperjs/core": "^2.5.4",
     "@svgr/webpack": "4.3.3",
@@ -108,7 +108,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js",
-    "typechain": "typechain --target web3-v1 --outDir ./src/generate ./node_modules/@artur-mamedbekov/networkds-test/networks/abi/**/*.json"
+    "typechain": "typechain --target web3-v1 --outDir ./src/generate ./node_modules/@bondappetit/networks/abi/**/*.json"
   },
   "browserslist": {
     "production": [
