@@ -6,6 +6,7 @@ import { ButtonBase, Typography } from 'src/common';
 import { Statistic } from 'src/statistic';
 import { Documents } from 'src/documents';
 import { Announcement } from 'src/announcement';
+import { Investing } from 'src/investing';
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icons/arrow-down.svg';
 import { config } from 'src/config';
 import { useHomeStyles } from './home.styles';
@@ -32,7 +33,8 @@ export const Home: React.FC = () => {
           instruments with the Ethereum <br />
           ecosystem.
         </Typography>
-        <Announcement className={classes.announcement} />
+        {config.isDev && <Investing className={classes.investing} />}
+        {!config.isDev && <Announcement className={classes.announcement} />}
         <div className={classes.button}>
           <ScrollIntoView target="#statistic">
             <ButtonBase>

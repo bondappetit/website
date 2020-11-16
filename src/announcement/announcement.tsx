@@ -1,9 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { Plate, Typography } from 'src/common';
+import { Plate, Typography, dateUtils } from 'src/common';
 import { ReactComponent as TextRound } from 'src/assets/images/text-round.svg';
 import { ReactComponent as AnnouncementTitleLine } from 'src/assets/images/announcement.svg';
+import { config } from 'src/config';
 import { useAnnouncementStyles } from './announcement.styles';
 
 export type AnnouncementProps = {
@@ -32,7 +33,7 @@ export const Announcement: React.FC<AnnouncementProps> = (props) => {
           className={classes.decoratedText}
         >
           <AnnouncementTitleLine className={classes.tokenTitleLine} />
-          in 3 weeks
+          {dateUtils.countdown(config.countdownDate)}
         </Typography>
       </Typography>
     </Plate>
