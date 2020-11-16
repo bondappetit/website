@@ -16,16 +16,13 @@ export const useVotingProposalDetail = (proposalId: number) => {
   const networkConfig = useNetworkConfig();
 
   const loadExistingProposal = useCallback(async () => {
-    if (account) {
-      setLoading(true);
+    if (!account) return;
+    setLoading(true);
 
-      setProposal(
-        await getProposal(proposalId)(governorContract)(eventData)(
-          networkConfig
-        )
-      );
-      setLoading(false);
-    }
+    setProposal(
+      await getProposal(proposalId)(governorContract)(eventData)(networkConfig)
+    );
+    setLoading(false);
   }, [governorContract, account, eventData, networkConfig, proposalId]);
 
   useEffect(() => {

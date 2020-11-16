@@ -15,3 +15,5 @@ export * from './global-styles';
 export * from './link';
 export * from './skeleton';
 export * from './contracts';
+export * from './parse-contract-methods';
+export * from './use-update';

@@ -9,7 +9,7 @@ export const useVotingCreateProposalStyles = createUseStyles(
       flexDirection: 'column',
 
       [theme.breakpoints.md()]: {
-        maxWidth: 400
+        maxWidth: 600
       }
     }
   })

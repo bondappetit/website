@@ -1,8 +1,7 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
-import BN from 'bignumber.js';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -10,13 +9,16 @@ import {
   Button,
   Modal,
   Link,
-  useGovernorContract,
-  useBondContract,
-  useNetworkConfig
+  useGovernorContract
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useVotingProposalListStyles } from './voting-proposal-list.styles';
-import { ProposalState, useVotingProposalList, VotingConfirm } from '../common';
+import {
+  ProposalState,
+  useVotingProposalList,
+  VotingConfirm,
+  useVoteInfo
+} from '../common';
 import { VotingChoose } from '../voting-choose';
 import { VotingCreateProposal } from '../voting-create-proposal';
 
@@ -33,17 +35,31 @@ export const VotingProposalList: React.FC = () => {
     loading,
     pages: proposalPages,
     nextPage,
-    prevPage
+    prevPage,
+    handleUpdateProposalList
   } = useVotingProposalList();
   const governorContract = useGovernorContract();
-  const bondContract = useBondContract();
-  const [currentVotes, setCurrentVotes] = useState<BN | null>(null);
-  const [canCreateProposal, setCanCreateProposal] = useState(false);
-  const networkConfig = useNetworkConfig();
+  const {
+    currentVotes,
+    canCreateProposal,
+    handleUpdateVoteInfo
+  } = useVoteInfo();
 
-  const handleToggleVotingChoose = () => setVotingChooseOpen(!votingChooseOpen);
-  const handleToggleCreateProposal = () =>
+  const handleToggleVotingChoose = () => {
+    if (votingChooseOpen) {
+      handleUpdateVoteInfo();
+    }
+
+    setVotingChooseOpen(!votingChooseOpen);
+  };
+  const handleToggleCreateProposal = () => {
+    if (createProposalOpen) {
+      handleUpdateProposalList();
+      handleUpdateVoteInfo();
+    }
+
     setCreateProposalOpen(!createProposalOpen);
+  };
   const handleToggleVoteConfirm = (proposal?: string, status?: number) => {
     setVoteConfirmOpen(!voteConfirmOpen);
 
@@ -68,41 +84,9 @@ export const VotingProposalList: React.FC = () => {
         .execute(proposalId)
         .send({ from: account });
     }
+
+    handleUpdateProposalList();
   };
-
-  const handleGetVotes = useCallback(async () => {
-    if (!account || !networkConfig) return;
-
-    const votes = await bondContract?.methods.getCurrentVotes(account).call();
-
-    if (!votes) return;
-
-    setCurrentVotes(
-      new BN(votes).div(new BN(10).pow(networkConfig.assets.Bond.decimals))
-    );
-  }, [account, bondContract, networkConfig]);
-
-  const handleTest = useCallback(async () => {
-    if (!account || !networkConfig || !currentVotes) return;
-
-    const propsalThreshold = await governorContract?.methods
-      .proposalThreshold()
-      .call();
-    if (!propsalThreshold) return;
-
-    setCanCreateProposal(
-      currentVotes.isGreaterThanOrEqualTo(
-        new BN(propsalThreshold).div(
-          new BN(10).pow(networkConfig.assets.Bond.decimals)
-        )
-      )
-    );
-  }, [governorContract, account, currentVotes, networkConfig]);
-
-  useEffect(() => {
-    handleGetVotes();
-    handleTest();
-  }, [handleGetVotes, handleTest]);
 
   return (
     <MainLayout>
@@ -112,7 +96,7 @@ export const VotingProposalList: React.FC = () => {
             Votes
           </Typography>
           <Typography variant="h3" align="center">
-            {currentVotes?.toFixed(2)}
+            {currentVotes}
           </Typography>
           {canCreateProposal && (
             <Button onClick={handleToggleCreateProposal}>
@@ -201,7 +185,7 @@ export const VotingProposalList: React.FC = () => {
         <VotingChoose />
       </Modal>
       <Modal open={createProposalOpen} onClose={handleToggleCreateProposal}>
-        <VotingCreateProposal />
+        <VotingCreateProposal onSubmit={handleToggleCreateProposal} />
       </Modal>
       <Modal open={voteConfirmOpen} onClose={handleToggleVoteConfirm}>
         <VotingConfirm onVote={handleVote} />

@@ -3,7 +3,7 @@ import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import type { AbiItem } from 'web3-utils';
 import type { ContractOptions } from 'web3-eth-contract';
-import networks from '@artur-mamedbekov/networkds-test';
+import networks from '@bondappetit/networks';
 
 import { useNetworkConfig } from './use-network-config';
 

@@ -1,8 +1,6 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useEffect } from 'react';
+import React from 'react';
 import useKeyPress from 'react-use/esm/useKeyPress';
-import useLockBodyScroll from 'react-use/esm/useLockBodyScroll';
+import { useLockBodyScroll, useUpdateEffect } from 'react-use';
 
 import BondHatIcon from 'src/assets/images/bondappetit-hat.png';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close.svg';
@@ -16,39 +14,42 @@ export type ModalProps = {
   onClose: () => void;
 };
 
-export const Modal: React.FC<ModalProps> = (props) => {
-  const classes = useModalStyles();
-  const [isPressed] = useKeyPress('Escape');
-  const { onClose, open } = props;
+export const Modal: React.FC<ModalProps> = React.memo(
+  (props) => {
+    const classes = useModalStyles();
+    const [isPressed] = useKeyPress('Escape');
+    const { onClose, open } = props;
 
-  useLockBodyScroll(open);
+    useLockBodyScroll(open);
 
-  useEffect(() => {
-    if (isPressed && open) {
-      onClose();
-    }
-  }, [isPressed, onClose, open]);
+    useUpdateEffect(() => {
+      if (isPressed && open) {
+        onClose();
+      }
+    }, [isPressed, onClose, open]);
 
-  if (!open) return null;
+    if (!open) return null;
 
-  return (
-    <Portal>
-      <div className={classes.overlay}>
-        <div className={classes.header}>
-          <div>
-            <ToggleThemeButton />
+    return (
+      <Portal>
+        <div className={classes.overlay}>
+          <div className={classes.header}>
+            <div>
+              <ToggleThemeButton />
+            </div>
+            <img src={BondHatIcon} alt="" />
+            <div>
+              <ButtonBase onClick={onClose}>
+                <CloseIcon />
+              </ButtonBase>
+            </div>
           </div>
-          <img src={BondHatIcon} alt="" />
-          <div>
-            <ButtonBase onClick={onClose}>
-              <CloseIcon />
-            </ButtonBase>
+          <div className={classes.content}>
+            <div>{props.children}</div>
           </div>
         </div>
-        <div className={classes.content}>
-          <div>{props.children}</div>
-        </div>
-      </div>
-    </Portal>
-  );
-};
+      </Portal>
+    );
+  },
+  (prevProps, nextProps) => prevProps.open === nextProps.open
+);
