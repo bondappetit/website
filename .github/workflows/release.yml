@@ -17,8 +17,8 @@ jobs:
       - run: npm run typechain
       - run: npm run build
         if: github.event.release.prerelease == true
-          env:
-            NODE_ENV: development
+        env:
+          NODE_ENV: development
 #      - run: npm test
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
