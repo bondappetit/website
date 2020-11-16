@@ -19,8 +19,11 @@ jobs:
         run: npm run build-dev
         env:
           NODE_ENV: development
+          INFURA_API_KEY: ${{secrets.REACT_APP_INFURA_API_KEY}}
       - if: github.event.release.prerelease == false
         run: npm run build
+        env:
+          INFURA_API_KEY: ${{secrets.REACT_APP_INFURA_API_KEY}}
 #      - run: npm test
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
