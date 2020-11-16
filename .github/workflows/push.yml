@@ -30,8 +30,10 @@ jobs:
       run: |
         npm run typechain --if-present
         npm run build --if-present
-#    - name: Test build
-#      run: npm run test --if-present
+      env:
+        INFURA_API_KEY: ${{secrets.REACT_APP_INFURA_API_KEY}}
+      #    - name: Test build
+      #      run: npm run test --if-present
     - name: Archive artifacts
       uses: actions/upload-artifact@v2
       with:

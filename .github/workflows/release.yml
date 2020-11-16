@@ -5,7 +5,7 @@ on:
     types: [created]
 
 jobs:
-  test:
+  build-and-test:
     runs-on: self-hosted
 
     steps:
@@ -16,11 +16,14 @@ jobs:
       - run: npm ci
       - run: npm run typechain
       - if: github.event.release.prerelease == true
-        run: npm run build
+        run: npm run build-dev
         env:
           NODE_ENV: development
+          INFURA_API_KEY: ${{secrets.REACT_APP_INFURA_API_KEY}}
       - if: github.event.release.prerelease == false
         run: npm run build
+        env:
+          INFURA_API_KEY: ${{secrets.REACT_APP_INFURA_API_KEY}}
 #      - run: npm test
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
@@ -30,7 +33,7 @@ jobs:
             build
 
   publish:
-    needs: test
+    needs: build-and-test
     runs-on: self-hosted
 
     steps:

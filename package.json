@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@bondappetit/networks": "^1.4.0",
     "@babel/core": "7.9.0",
+    "@bondappetit/networks": "^1.4.0",
     "@popperjs/core": "^2.5.4",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",
@@ -39,6 +39,7 @@
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "clsx": "^1.1.1",
     "css-loader": "3.4.2",
+    "dayjs": "^1.9.6",
     "dotenv": "8.2.0",
     "dotenv-expand": "5.1.0",
     "eslint": "^6.6.0",
@@ -107,6 +108,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "build-dev": "node scripts/build.js",
     "test": "node scripts/test.js",
     "typechain": "typechain --target web3-v1 --outDir ./src/generate ./node_modules/@bondappetit/networks/abi/**/*.json"
   },
