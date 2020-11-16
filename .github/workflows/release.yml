@@ -15,10 +15,12 @@ jobs:
           node-version: 12
       - run: npm ci
       - run: npm run typechain
-      - run: npm run build
-        if: github.event.release.prerelease == true
+      - if: github.event.release.prerelease == true
+        run: npm run build
         env:
           NODE_ENV: development
+      - if: github.event.release.prerelease == false
+        run: npm run build
 #      - run: npm test
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
