@@ -11,12 +11,15 @@ import { ToastProvider } from 'react-toast-notifications';
 
 import { ThemeProvider, globalStyles } from './common';
 import { App } from './app';
+import { config } from './config';
 
 jss.createStyleSheet(normalize).attach();
 jss.createStyleSheet(globalStyles).attach();
 
 const getLibrary = (provider: Web3Provider): Web3 => {
-  const library = new Web3(provider);
+  const library = new Web3(
+    config.isDev ? provider : new Web3.providers.HttpProvider(config.mainnetURL)
+  );
 
   return library;
 };

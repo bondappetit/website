@@ -5,6 +5,7 @@ import type { AbiItem } from 'web3-utils';
 import type { ContractOptions } from 'web3-eth-contract';
 import networks from '@bondappetit/networks';
 
+import { config } from 'src/config';
 import { useNetworkConfig } from './use-network-config';
 
 type Callback = (
@@ -15,7 +16,11 @@ type Callback = (
   options?: ContractOptions;
 };
 
-const web3 = new Web3(Web3.givenProvider);
+const web3 = new Web3(
+  config.isDev
+    ? Web3.givenProvider
+    : new Web3.providers.HttpProvider(config.mainnetURL)
+);
 
 export type Network = typeof networks[keyof typeof networks];
 
