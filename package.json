@@ -107,6 +107,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
+    "build-dev": "node scripts/build.js",
     "test": "node scripts/test.js",
     "typechain": "typechain --target web3-v1 --outDir ./src/generate ./node_modules/@bondappetit/networks/abi/**/*.json"
   },
