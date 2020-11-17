@@ -53,6 +53,7 @@ export const useInvestingStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 8,
     padding: 8,
     fontSize: 14,
-    lineHeight: '20px'
+    lineHeight: '20px',
+    transition: 'none'
   }
 }));

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import { useInputStyles } from './input.styles';
@@ -11,11 +11,9 @@ export type InputProps = React.HTMLProps<HTMLInputElement> & {
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (props, ref) => {
-    const [focus, setFocus] = useState(false);
-
     const classes = useInputStyles();
 
-    const { className, onFocus, onBlur, ...restOfProps } = props;
+    const { className, onFocus, onBlur, error, ...restOfProps } = props;
 
     const classNamesWrapper = clsx(classes.root, className, {
       [classes.readOnly]: props.readOnly,
@@ -28,19 +26,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     });
 
     const classNamesLabel = clsx(classes.label, {
-      [classes.focus]:
-        focus || props?.value || typeof props?.value === 'number',
-      [classes.error]: props.error
+      [classes.error]: error
     });
 
     const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
       onFocus?.(event);
-      setFocus(true);
     };
 
     const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
       onBlur?.(event);
-      setFocus(false);
     };
 
     return (

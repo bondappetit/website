@@ -13,7 +13,12 @@ export const DocumentCard: React.FC<DocumentCardProps> = (props) => {
   const classes = useDocumentCardStyles();
 
   return (
-    <a href={props.link} className={classes.card}>
+    <a
+      href={props.link}
+      target="_blank"
+      rel="noreferrer"
+      className={classes.card}
+    >
       <Typography variant="h3">{props.children}</Typography>
       <ButtonBase className={classes.download}>
         <DownloadIcon className={classes.downloadIcon} />

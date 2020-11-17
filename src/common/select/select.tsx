@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { useClickAway, useUpdateEffect } from 'react-use';
 
 import { ReactComponent as SelectArrowIcon } from 'src/assets/icons/select-arrow.svg';
@@ -18,8 +18,9 @@ export const Select: React.FC<SelectProps> = (props) => {
   const classes = useSelectStyles();
   const dropdownRef = useRef(null);
   const [open, setOpen] = useState(false);
-  const [focus, setFocus] = useState(false);
-  const options = useRef<Record<string, Option>>({});
+  const [options, setOptions] = useState<
+    Record<string | number | symbol, Option>
+  >({});
   const [currentOption, setCurrentOption] = useState<Option>({
     label: '',
     value: ''
@@ -30,27 +31,31 @@ export const Select: React.FC<SelectProps> = (props) => {
 
   useClickAway(dropdownRef, handleClose);
 
-  const handleAddOption = (option: Option) => {
-    if (!option.value) return;
+  const handleAddOption = useCallback((option: Option) => {
+    setOptions((prevOptions) => {
+      if (!option.value) return prevOptions;
 
-    options.current[option.value] = option;
-  };
+      return {
+        ...prevOptions,
+        [option.value]: option
+      };
+    });
+  }, []);
+  const { onChange } = props;
 
-  const handleSetOption = (option: Option) => {
-    setCurrentOption(option);
+  const handleSetOption = useCallback(
+    (option: Option) => {
+      setCurrentOption(option);
 
-    handleClose();
+      handleClose();
 
-    props.onChange?.(option.value);
-  };
+      onChange?.(option.value);
+    },
+    [onChange]
+  );
 
   const handleClick = () => {
     handleOpen();
-    setFocus(true);
-  };
-
-  const handleBlur = () => {
-    setFocus(false);
   };
 
   useUpdateEffect(() => {
@@ -59,33 +64,37 @@ export const Select: React.FC<SelectProps> = (props) => {
     }
   }, [props.value]);
 
+  useUpdateEffect(() => {
+    if (props?.value && options[props.value]) {
+      setCurrentOption(options[props.value]);
+    }
+  }, [props.value, options]);
+
   return (
     <SelectContext.Provider value={{ handleAddOption, handleSetOption }}>
       <div className={clsx(classes.wrap, props.className)} ref={dropdownRef}>
-        <span
-          className={clsx(classes.label, {
-            [classes.focus]:
-              focus ||
-              currentOption?.value ||
-              typeof currentOption?.value === 'number'
-          })}
-        >
-          {props.label}
-        </span>
+        <span className={classes.label}>{props.label}</span>
         <div
           className={classes.select}
           tabIndex={0}
           onClick={handleClick}
           onKeyPress={handleClick}
-          onBlur={handleBlur}
           role="button"
         >
           {currentOption?.label}
           <SelectArrowIcon
-            className={clsx(classes.icon, { [classes.open]: open })}
+            className={clsx(classes.icon, {
+              [classes.open]: open
+            })}
           />
         </div>
-        {open && <div className={classes.dropdown}>{props.children}</div>}
+        <div
+          className={clsx(classes.dropdown, {
+            [classes.dropdownOpen]: open
+          })}
+        >
+          {props.children}
+        </div>
       </div>
     </SelectContext.Provider>
   );

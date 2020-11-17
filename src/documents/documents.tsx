@@ -1,6 +1,8 @@
 import clsx from 'clsx';
 import React from 'react';
 
+import InvestmentDeckPdf from 'src/assets/pdf/investment-deck.pdf';
+import WhitepaperPdf from 'src/assets/pdf/whitepaper.pdf';
 import { Typography } from 'src/common';
 import { DocumentCard } from './common';
 import { useDocumentsStyles } from './documents.styles';
@@ -26,8 +28,8 @@ export const Documents: React.FC<DocumentsProps> = (props) => {
         of BondAppétit:
       </Typography>
       <div className={classes.row}>
-        <DocumentCard link="#">Whitepaper</DocumentCard>
-        <DocumentCard link="#">Investment Deck</DocumentCard>
+        <DocumentCard link={WhitepaperPdf}>Whitepaper</DocumentCard>
+        <DocumentCard link={InvestmentDeckPdf}>Investment Deck</DocumentCard>
       </div>
     </div>
   );

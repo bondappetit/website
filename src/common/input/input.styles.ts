@@ -59,29 +59,18 @@ export const useInputStyles = createUseStyles((theme: Theme) => ({
   label: {
     position: 'absolute',
     letterSpacing: '-0.02em',
-    textOverflow: 'inherit',
-    overflow: 'hidden',
     width: '100%',
     pointerEvents: 'none',
     height: 'inherit',
     transition: 'transform 300ms ease',
-    transform: 'translateY(0) scale(1)',
+    transform: 'translateY(-17px) scale(0.55)',
     transformOrigin: 'top left',
     fontSize: 20,
     lineHeight: '24px',
 
     [theme.breakpoints.md()]: {
       fontSize: 40,
-      lineHeight: '48px'
-    }
-  },
-
-  focus: {
-    textOverflow: 'initial',
-    overflow: 'visible',
-    transform: 'translateY(-17px) scale(0.55)',
-
-    [theme.breakpoints.md()]: {
+      lineHeight: '48px',
       transform: 'translateY(-17px) scale(0.35)'
     }
   },

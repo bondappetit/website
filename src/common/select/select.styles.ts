@@ -49,19 +49,22 @@ export const useSelectStyles = createUseStyles((theme: Theme) => ({
     zIndex: 10,
     top: '100%',
     overflowY: 'scroll',
-    maxHeight: 300
+    maxHeight: 300,
+    display: 'none'
+  },
+
+  dropdownOpen: {
+    display: 'block'
   },
 
   label: {
     position: 'absolute',
     letterSpacing: '-0.02em',
-    textOverflow: 'inherit',
-    overflow: 'hidden',
     width: '100%',
     pointerEvents: 'none',
     height: 'inherit',
     transition: 'transform 300ms ease',
-    transform: 'translateY(0) scale(1)',
+    transform: 'translateY(-17px) scale(0.55)',
     transformOrigin: 'top left',
     fontSize: 20,
     lineHeight: '24px',
@@ -71,16 +74,7 @@ export const useSelectStyles = createUseStyles((theme: Theme) => ({
     [theme.breakpoints.md()]: {
       fontSize: 40,
       lineHeight: '48px',
-      paddingRight: 16
-    }
-  },
-
-  focus: {
-    textOverflow: 'initial',
-    overflow: 'visible',
-    transform: 'translateY(-17px) scale(0.55)',
-
-    [theme.breakpoints.md()]: {
+      paddingRight: 16,
       transform: 'translateY(-17px) scale(0.35)'
     }
   },
