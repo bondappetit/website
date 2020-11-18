@@ -33,7 +33,7 @@ export const Announcement: React.FC<AnnouncementProps> = (props) => {
           className={classes.decoratedText}
         >
           <AnnouncementTitleLine className={classes.tokenTitleLine} />
-          {dateUtils.countdown(config.countdownDate)}
+          {dateUtils.countdown(config.COUNTDOWN_DATE)}
         </Typography>
       </Typography>
     </Plate>

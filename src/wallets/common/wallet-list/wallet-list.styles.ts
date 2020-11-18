@@ -46,5 +46,17 @@ export const useWalletListStyles = createUseStyles((theme: Theme) => ({
       margin: '0 64px',
       width: 400
     }
+  },
+
+  walletLogo: {
+    '& svg': {
+      width: 32,
+      height: 32,
+
+      [theme.breakpoints.md()]: {
+        width: 40,
+        height: 40
+      }
+    }
   }
 }));
