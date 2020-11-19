@@ -262,7 +262,10 @@ export const Investing: React.FC<InvestingProps> = (props) => {
         </Button>
       </form>
       <Modal open={successOpen} onClose={() => setSuccessOpen(false)}>
-        <InvestingSuccess onClick={() => setSuccessOpen(false)} />
+        <InvestingSuccess
+          onClick={() => setSuccessOpen(false)}
+          purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
+        />
       </Modal>
       <Modal open={failureOpen} onClose={() => setFailureOpen(false)}>
         <InvestingFailure onClick={() => formik.submitForm()} />
