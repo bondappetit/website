@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
 import { AbstractConnector } from '@web3-react/abstract-connector';
+import { useUpdateEffect } from 'react-use';
 
 import { Modal } from 'src/common';
 import { WalletInfo, WalletList } from '../common';
@@ -17,30 +18,39 @@ export const WalletModal: React.FC<WalletModalProps> = (props) => {
     account ? 1 : 0
   );
 
-  const handleActivateWallet = async (wallet: AbstractConnector) => {
-    await activate(wallet);
+  const { onClose, open } = props;
 
-    if (account) {
-      setCurrentComponentIndex(1);
-    }
-  };
+  const handleActivateWallet = useCallback(
+    async (wallet: AbstractConnector) => {
+      await activate(wallet);
 
-  useEffect(() => {
+      if (account) {
+        onClose();
+        setCurrentComponentIndex(1);
+      }
+    },
+    [onClose, account, activate]
+  );
+
+  const handleChangeWallet = useCallback(() => {
+    setCurrentComponentIndex(0);
+  }, []);
+
+  useUpdateEffect(() => {
     if (account) {
+      onClose();
+
       setCurrentComponentIndex(1);
     }
   }, [account]);
 
   const components = [
     <WalletList onClick={handleActivateWallet} />,
-    <WalletInfo
-      account={account}
-      onChange={() => setCurrentComponentIndex(0)}
-    />
+    <WalletInfo account={account} onChange={handleChangeWallet} />
   ];
 
   return (
-    <Modal open={props.open} onClose={props.onClose}>
+    <Modal open={open} onClose={onClose}>
       {components[currentComponentIndex]}
     </Modal>
   );

@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useFormik } from 'formik';
 import BN from 'bignumber.js';
 import clsx from 'clsx';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
-import useDebounce from 'react-use/esm/useDebounce';
+import { useDebounce } from 'react-use';
 import Tippy from '@tippyjs/react';
 
 import {
@@ -55,9 +55,11 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 
   const formik = useFormik<InvestFormValues>({
     initialValues: {
-      currency: '',
-      userInvest: ''
+      currency: 'USDC',
+      userInvest: '10000'
     },
+    validateOnBlur: false,
+    validateOnChange: false,
 
     validate: async (formValues) => {
       const error: Partial<InvestFormValues> = {};
@@ -200,12 +202,17 @@ export const Investing: React.FC<InvestingProps> = (props) => {
     [formik.values.userInvest, formik.values.currency, tokens]
   );
 
-  const handleOpenWalletListModal = (
-    event: React.FormEvent<HTMLFormElement>
-  ) => {
-    event.preventDefault();
-    setWalletsOpen(true);
-  };
+  const handleOpenWalletListModal = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setWalletsOpen(true);
+    },
+    []
+  );
+
+  const handleCloseTooltip = useCallback(() => {
+    formik.setFieldError('userInvest', '');
+  }, [formik]);
 
   return (
     <>
@@ -219,6 +226,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
           className={classes.tooltip}
           maxWidth={200}
           offset={[0, 25]}
+          onClickOutside={handleCloseTooltip}
         >
           <Input
             type="number"
@@ -244,21 +252,20 @@ export const Investing: React.FC<InvestingProps> = (props) => {
         <Input
           type="text"
           name="userGet"
-          label="You get"
-          value={`${userGet.isNaN() ? '' : userGet.toString()} Bond`}
+          label="You get(Bond)"
+          value={`${userGet.isNaN() ? '0' : userGet.toFixed(2)}`}
           readOnly
           className={classes.userGet}
         />
-        <Button
-          className={classes.button}
-          type="submit"
-          disabled={formik.isSubmitting || !formik.isValid || !formik.dirty}
-        >
+        <Button className={classes.button} type="submit">
           Buy
         </Button>
       </form>
       <Modal open={successOpen} onClose={() => setSuccessOpen(false)}>
-        <InvestingSuccess onClick={() => setSuccessOpen(false)} />
+        <InvestingSuccess
+          onClick={() => setSuccessOpen(false)}
+          purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
+        />
       </Modal>
       <Modal open={failureOpen} onClose={() => setFailureOpen(false)}>
         <InvestingFailure onClick={() => formik.submitForm()} />

@@ -22,7 +22,7 @@ export const useInvestingStyles = createUseStyles((theme: Theme) => ({
     },
 
     [theme.breakpoints.md()]: {
-      width: 115
+      width: 135
     }
   },
 
@@ -32,7 +32,7 @@ export const useInvestingStyles = createUseStyles((theme: Theme) => ({
     marginRight: 23,
 
     [theme.breakpoints.md()]: {
-      width: 193,
+      width: 210,
       marginRight: 0
     }
   },
@@ -53,6 +53,7 @@ export const useInvestingStyles = createUseStyles((theme: Theme) => ({
     borderRadius: 8,
     padding: 8,
     fontSize: 14,
-    lineHeight: '20px'
+    lineHeight: '20px',
+    transition: 'none'
   }
 }));

@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo } from 'react';
-import { ButtonBase } from '../button-base';
+import React, { useMemo } from 'react';
+import { useMount } from 'react-use';
 
+import { ButtonBase } from '../button-base';
 import { useSelectContext } from './select.context';
 import { useSelectStyles } from './select.styles';
 
@@ -20,9 +21,9 @@ export const SelectOption: React.FC<SelectOptionProps> = (props) => {
     [props.label, props.value]
   );
 
-  useEffect(() => {
+  useMount(() => {
     select?.handleAddOption(option);
-  }, [select, option]);
+  });
 
   return (
     <ButtonBase

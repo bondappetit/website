@@ -18,7 +18,9 @@ jss.createStyleSheet(globalStyles).attach();
 
 const getLibrary = (provider: Web3Provider): Web3 => {
   const library = new Web3(
-    config.isDev ? provider : new Web3.providers.HttpProvider(config.mainnetURL)
+    config.IS_DEV
+      ? provider
+      : new Web3.providers.HttpProvider(config.MAINNET_URL)
   );
 
   return library;

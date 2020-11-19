@@ -6,8 +6,11 @@ export const useWalletButtonStyles = createUseStyles((theme: Theme) => ({
   wrap: {
     display: 'flex',
     alignItems: 'center',
-    position: 'relative',
-    width: 40,
+    position: 'relative'
+  },
+
+  button: {
+    marginLeft: 10,
 
     [theme.breakpoints.md()]: {
       '&:hover $label': {
@@ -16,11 +19,19 @@ export const useWalletButtonStyles = createUseStyles((theme: Theme) => ({
     }
   },
 
+  chip: {
+    display: 'none',
+    textTransform: 'capitalize',
+
+    [theme.breakpoints.md()]: {
+      display: 'block'
+    }
+  },
+
   label: {
     opacity: 0,
-    right: 'calc(100% + 10px)',
+    marginRight: 10,
     transition: 'opacity .3s ease',
-    position: 'absolute',
     display: 'none',
     whiteSpace: 'nowrap',
 
@@ -30,8 +41,7 @@ export const useWalletButtonStyles = createUseStyles((theme: Theme) => ({
   },
 
   account: {
-    right: 'calc(100% + 10px)',
-    position: 'absolute',
+    marginRight: 10,
     display: 'none',
 
     [theme.breakpoints.md()]: {

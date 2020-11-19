@@ -7,13 +7,12 @@ import { useInvestingSuccessStyles } from './investing-success.styles';
 
 export type InvestingSuccessProps = {
   onClick: () => void;
+  purchased?: string;
 };
 
 export const InvestingSuccess: React.FC<InvestingSuccessProps> = (props) => {
   const isBiggerThanMediumDesktop = useMedia('(min-width: 960px)');
   const classes = useInvestingSuccessStyles();
-
-  const purchased = 2476;
 
   return (
     <InvestingInfo
@@ -27,7 +26,7 @@ export const InvestingSuccess: React.FC<InvestingSuccessProps> = (props) => {
         <>
           You have successfully purchased
           {!isBiggerThanMediumDesktop ? <>&nbsp;</> : ' '}
-          {purchased}&nbsp;ART
+          {props.purchased}&nbsp;Bond
         </>
       }
       onClick={props.onClick}
