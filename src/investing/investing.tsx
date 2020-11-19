@@ -252,8 +252,8 @@ export const Investing: React.FC<InvestingProps> = (props) => {
         <Input
           type="text"
           name="userGet"
-          label="You get"
-          value={`${userGet.isNaN() ? '0' : userGet.toFixed(2)} Bond`}
+          label="You get(Bond)"
+          value={`${userGet.isNaN() ? '0' : userGet.toFixed(2)}`}
           readOnly
           className={classes.userGet}
         />
