@@ -6,7 +6,7 @@ import type { ContractOptions } from 'web3-eth-contract';
 import networks from '@bondappetit/networks';
 
 import { config } from 'src/config';
-import { useNetworkConfig } from './use-network-config';
+import { useNetworkConfig } from '../use-network-config';
 
 type Callback = (
   network: Network
