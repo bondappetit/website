@@ -33,8 +33,8 @@ export const Home: React.FC = () => {
           instruments with the Ethereum <br />
           ecosystem.
         </Typography>
-        {config.isDev && <Investing className={classes.investing} />}
-        {!config.isDev && <Announcement className={classes.announcement} />}
+        {config.IS_DEV && <Investing className={classes.investing} />}
+        {!config.IS_DEV && <Announcement className={classes.announcement} />}
         <div className={classes.button}>
           <ScrollIntoView target="#statistic">
             <ButtonBase>
@@ -43,7 +43,7 @@ export const Home: React.FC = () => {
           </ScrollIntoView>
         </div>
         <Statistic id="statistic" className={classes.statistic} />
-        {config.isDev && <Documents className={classes.documents} />}
+        {config.IS_DEV && <Documents className={classes.documents} />}
       </div>
     </MainLayout>
   );

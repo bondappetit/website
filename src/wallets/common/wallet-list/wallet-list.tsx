@@ -36,7 +36,9 @@ export const WalletList: React.FC<WalletListProps> = (props) => {
                 <Typography variant="h4" component="span">
                   {hasNotMetamask(name) ? 'Install Metamask' : name}
                 </Typography>
-                <Logo />
+                <div className={classes.walletLogo}>
+                  <Logo />
+                </div>
               </ButtonBase>
             );
           }

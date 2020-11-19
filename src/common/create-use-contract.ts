@@ -17,9 +17,9 @@ type Callback = (
 };
 
 const web3 = new Web3(
-  config.isDev
+  config.IS_DEV
     ? Web3.givenProvider
-    : new Web3.providers.HttpProvider(config.mainnetURL)
+    : new Web3.providers.HttpProvider(config.MAINNET_URL)
 );
 
 export type Network = typeof networks[keyof typeof networks];

@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
+import { useWeb3React } from '@web3-react/core';
+import Web3 from 'web3';
 
 import {
   ButtonBase,
@@ -9,6 +11,7 @@ import {
   Link,
   useNetworkConfig
 } from 'src/common';
+import { connectorsByName } from '../connectors';
 import { useWalletInfoStyles } from './wallet-info.styles';
 
 export type WalletInfoProps = {
@@ -16,11 +19,18 @@ export type WalletInfoProps = {
   onChange: () => void;
 };
 
-const WALLET = 'MetaMask';
-
 export const WalletInfo: React.FC<WalletInfoProps> = (props) => {
   const classes = useWalletInfoStyles();
   const networkConfig = useNetworkConfig();
+  const { connector } = useWeb3React<Web3>();
+
+  const [currentWallet] = useMemo(() => {
+    if (!connector) return [];
+
+    return Object.entries(connectorsByName).find(
+      ([, connectorByName]) => connectorByName.connector === connector
+    );
+  }, [connector]);
 
   return (
     <Plate className={classes.wrap}>
@@ -42,7 +52,7 @@ export const WalletInfo: React.FC<WalletInfoProps> = (props) => {
           align="center"
           className={classes.subtitle}
         >
-          Conected with {WALLET}
+          Conected with {currentWallet}
         </Typography>
       </div>
       <Typography
