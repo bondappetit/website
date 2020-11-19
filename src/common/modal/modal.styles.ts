@@ -11,7 +11,7 @@ export const useModalStyles = createUseStyles((theme: Theme) => ({
     bottom: 0,
     backgroundColor: theme.colors.secondary,
     color: theme.colors.primary,
-    zIndex: 999,
+    zIndex: 999999,
     overflow: 'hidden'
   },
 

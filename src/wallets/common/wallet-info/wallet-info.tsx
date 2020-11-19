@@ -1,7 +1,14 @@
 import React from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 
-import { ButtonBase, Typography, Plate, cutAccount, Link } from 'src/common';
+import {
+  ButtonBase,
+  Typography,
+  Plate,
+  cutAccount,
+  Link,
+  useNetworkConfig
+} from 'src/common';
 import { useWalletInfoStyles } from './wallet-info.styles';
 
 export type WalletInfoProps = {
@@ -13,6 +20,7 @@ const WALLET = 'MetaMask';
 
 export const WalletInfo: React.FC<WalletInfoProps> = (props) => {
   const classes = useWalletInfoStyles();
+  const networkConfig = useNetworkConfig();
 
   return (
     <Plate className={classes.wrap}>
@@ -45,7 +53,7 @@ export const WalletInfo: React.FC<WalletInfoProps> = (props) => {
       >
         <Link
           target="_blank"
-          href={`https://etherscan.io/address/${props.account}`}
+          href={`${networkConfig?.networkEtherscan}/address/${props.account}`}
         >
           View on Etherscan ↗
         </Link>
