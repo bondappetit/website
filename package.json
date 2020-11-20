@@ -7,9 +7,6 @@
     "@bondappetit/networks": "^1.4.6",
     "@popperjs/core": "^2.5.4",
     "@svgr/webpack": "4.3.3",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
     "@tippyjs/react": "^4.2.0",
     "@types/bn.js": "^4.11.6",
     "@types/jest": "^24.9.1",
@@ -129,6 +126,10 @@
     ]
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/react-hooks": "^3.4.2",
+    "@testing-library/user-event": "^7.2.1",
     "@typechain/web3-v1": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
@@ -141,6 +142,7 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
     "prettier": "^2.1.2",
+    "react-test-renderer": "^17.0.1",
     "typechain": "^3.0.0"
   },
   "lint-staged": {
@@ -186,7 +188,8 @@
     "modulePaths": [],
     "moduleNameMapper": {
       "^react-native$": "react-native-web",
-      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy"
+      "^.+\\.module\\.(css|sass|scss)$": "identity-obj-proxy",
+      "^src/(.*)": "<rootDir>/src/$1"
     },
     "moduleFileExtensions": [
       "web.js",

@@ -1,6 +1,5 @@
 import React from 'react';
-import useKeyPress from 'react-use/esm/useKeyPress';
-import { useLockBodyScroll, useUpdateEffect } from 'react-use';
+import { useLockBodyScroll, useUpdateEffect, useKeyPress } from 'react-use';
 
 import BondHatIcon from 'src/assets/images/bondappetit-hat.png';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close.svg';

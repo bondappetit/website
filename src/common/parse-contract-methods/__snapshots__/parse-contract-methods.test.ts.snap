@@ -1,0 +1,173 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseContractMethods should return parsed methods of contract 1`] = `
+Object {
+  "allowTransferLock": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "account",
+        "paramType": "address",
+      },
+    ],
+    "methodName": "allowTransferLock",
+    "payable": false,
+  },
+  "approve": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "spender",
+        "paramType": "address",
+      },
+      Object {
+        "paramName": "rawAmount",
+        "paramType": "uint256",
+      },
+    ],
+    "methodName": "approve",
+    "payable": false,
+  },
+  "burn": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "account",
+        "paramType": "address",
+      },
+      Object {
+        "paramName": "amount",
+        "paramType": "uint256",
+      },
+    ],
+    "methodName": "burn",
+    "payable": false,
+  },
+  "delegate": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "delegatee",
+        "paramType": "address",
+      },
+    ],
+    "methodName": "delegate",
+    "payable": false,
+  },
+  "delegateBySig": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "delegatee",
+        "paramType": "address",
+      },
+      Object {
+        "paramName": "nonce",
+        "paramType": "uint256",
+      },
+      Object {
+        "paramName": "expiry",
+        "paramType": "uint256",
+      },
+      Object {
+        "paramName": "v",
+        "paramType": "uint8",
+      },
+      Object {
+        "paramName": "r",
+        "paramType": "bytes32",
+      },
+      Object {
+        "paramName": "s",
+        "paramType": "bytes32",
+      },
+    ],
+    "methodName": "delegateBySig",
+    "payable": false,
+  },
+  "denyTransferLock": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "account",
+        "paramType": "address",
+      },
+    ],
+    "methodName": "denyTransferLock",
+    "payable": false,
+  },
+  "mint": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "account",
+        "paramType": "address",
+      },
+      Object {
+        "paramName": "amount",
+        "paramType": "uint256",
+      },
+    ],
+    "methodName": "mint",
+    "payable": false,
+  },
+  "renounceOwnership": Object {
+    "inputs": Array [],
+    "methodName": "renounceOwnership",
+    "payable": false,
+  },
+  "transfer": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "dst",
+        "paramType": "address",
+      },
+      Object {
+        "paramName": "rawAmount",
+        "paramType": "uint256",
+      },
+    ],
+    "methodName": "transfer",
+    "payable": false,
+  },
+  "transferFrom": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "src",
+        "paramType": "address",
+      },
+      Object {
+        "paramName": "dst",
+        "paramType": "address",
+      },
+      Object {
+        "paramName": "rawAmount",
+        "paramType": "uint256",
+      },
+    ],
+    "methodName": "transferFrom",
+    "payable": false,
+  },
+  "transferLock": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "dst",
+        "paramType": "address",
+      },
+      Object {
+        "paramName": "rawAmount",
+        "paramType": "uint256",
+      },
+      Object {
+        "paramName": "date",
+        "paramType": "uint256",
+      },
+    ],
+    "methodName": "transferLock",
+    "payable": false,
+  },
+  "transferOwnership": Object {
+    "inputs": Array [
+      Object {
+        "paramName": "newOwner",
+        "paramType": "address",
+      },
+    ],
+    "methodName": "transferOwnership",
+    "payable": false,
+  },
+}
+`;

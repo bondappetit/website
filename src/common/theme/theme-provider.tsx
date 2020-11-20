@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { ThemeProvider as JssThemeProvider } from 'react-jss';
-import useLocalStorage from 'react-use/esm/useLocalStorage';
+import { useLocalStorage } from 'react-use';
 
 import { theme, themeModes, ThemeModes } from './theme';
 
