@@ -3,6 +3,7 @@ import { abi as BondAbi } from '@bondappetit/networks/abi/Bond.json';
 import { AbiItem } from 'web3-utils';
 
 import type { Investment } from 'src/generate/Investment';
+import type { Market } from 'src/generate/Market';
 import type { Ierc20 } from 'src/generate/IERC20';
 import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
 import type { Bond } from 'src/generate/Bond';
@@ -14,6 +15,11 @@ export const useInvestmentContract = createUseContract<Investment>(
     address: network.contracts.Investment.address
   })
 );
+
+export const useMarketContract = createUseContract<Market>((network) => ({
+  abi: network.contracts.Market.abi,
+  address: network.contracts.Market.address
+}));
 
 export const useUSDTContract = createUseContract<Ierc20>((network) => ({
   abi: IERC20.abi as AbiItem[],

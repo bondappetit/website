@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-export const useInvestingSuccessStyles = createUseStyles({
+export const useInfoCardSuccessStyles = createUseStyles({
   greenLine: {
     position: 'absolute',
     width: '100%',

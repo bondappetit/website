@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useInvestingInfoStyles = createUseStyles((theme: Theme) => ({
+export const useInfoCardWrapperStyles = createUseStyles((theme: Theme) => ({
   wrap: {
     maxWidth: 756,
     display: 'flex',

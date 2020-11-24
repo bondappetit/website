@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useInvestingStyles = createUseStyles((theme: Theme) => ({
+export const useBuyTokenFormStyles = createUseStyles((theme: Theme) => ({
   investing: {
     display: 'flex',
     justifyContent: 'space-between',

@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-export const useInvestingFailureStyles = createUseStyles({
+export const useInfoCardFailureStyles = createUseStyles({
   redLine: {
     position: 'absolute',
     width: '100%',
