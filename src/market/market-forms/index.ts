@@ -1,1 +1,1 @@
-export { Market as default } from './market';
+export { MarketForms as default } from './market-forms';

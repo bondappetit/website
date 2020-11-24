@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useMarketStyles = createUseStyles((theme: Theme) => ({
+export const useMarketFormsStyles = createUseStyles((theme: Theme) => ({
   market: {
     padding: '48px 16px 104px',
 

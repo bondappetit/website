@@ -3,10 +3,10 @@ import React from 'react';
 import { MainLayout } from 'src/layouts';
 import { MarketBuyBond } from 'src/market/market-buy-bond';
 import { MarketBuyAbt } from 'src/market/market-buy-abt';
-import { useMarketStyles } from './market.styles';
+import { useMarketFormsStyles } from './market-forms.styles';
 
-export const Market: React.FC = () => {
-  const classes = useMarketStyles();
+export const MarketForms: React.FC = () => {
+  const classes = useMarketFormsStyles();
 
   return (
     <MainLayout>
