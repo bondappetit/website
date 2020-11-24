@@ -6,28 +6,29 @@ import Web3 from 'web3';
 import { useToggle } from 'react-use';
 
 import {
-  Modal,
   useNetworkConfig,
-  useInvestmentContract,
-  useBondTokenContract,
+  useMarketContract,
+  useABTTokenContract,
   useUSDTContract,
   useDAIContract,
   useUSDCContract,
   useBalance,
   BuyTokenForm,
-  BuyTokenFormValues,
+  Modal,
   InfoCardFailure,
-  InfoCardSuccess
+  InfoCardSuccess,
+  BuyTokenFormValues
 } from 'src/common';
 import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';
-import { useInvestingTokens } from './common';
+import { useMarketTokens, StableCoin } from 'src/market/common';
 
-export type InvestingProps = {
+export type MarketBuyAbtProps = {
   className?: string;
 };
 
-export const Investing: React.FC<InvestingProps> = (props) => {
+export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
+  const [userGet, setUserGet] = useState<BN>(new BN(0));
   const tokenContracts: Record<string, Ierc20 | null> = {
     USDT: useUSDTContract(),
     DAI: useDAIContract(),
@@ -39,11 +40,10 @@ export const Investing: React.FC<InvestingProps> = (props) => {
   const [successOpen, successToggle] = useToggle(false);
   const [failureOpen, failureToggle] = useToggle(false);
   const [walletsOpen, walletsToggle] = useToggle(false);
-  const [userGet, setUserGet] = useState<BN>(new BN(0));
   const network = useNetworkConfig();
-  const investmentContract = useInvestmentContract();
-  const tokens = useInvestingTokens();
-  const bondContract = useBondTokenContract();
+  const marketContract = useMarketContract();
+  const tokens = useMarketTokens(StableCoin.ABT);
+  const abtContract = useABTTokenContract();
 
   const formik = useFormik<BuyTokenFormValues>({
     initialValues: {
@@ -90,7 +90,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
       const currentToken = tokens[formValues.currency];
 
       if (
-        !investmentContract?.options.address ||
+        !marketContract?.options.address ||
         !currentToken ||
         !network ||
         !account
@@ -100,26 +100,26 @@ export const Investing: React.FC<InvestingProps> = (props) => {
       const currentContract = tokenContracts[currentToken.name];
 
       try {
-        const bondBalance = await bondContract?.methods
-          .balanceOf(investmentContract.options.address)
+        const abtBalance = await abtContract?.methods
+          .balanceOf(marketContract.options.address)
           .call();
 
-        if (!bondBalance) return;
+        if (!abtBalance) return;
 
         const formInvest = new BN(formValues.userInvest)
           .multipliedBy(new BN(10).pow(currentToken.decimals))
           .toString();
 
-        const bondBalanceNumber = new BN(bondBalance).div(
-          new BN(10).pow(network.assets.Bond.decimals)
+        const abtBalanceNumber = new BN(abtBalance).div(
+          new BN(10).pow(network.assets.ABT.decimals)
         );
 
-        if (bondBalanceNumber.isLessThan(userGet)) return;
+        if (abtBalanceNumber.isLessThan(userGet)) return;
 
         if (currentToken.name === 'WETH') {
-          const investETH = investmentContract.methods.investETH();
+          const buyABTFromETH = marketContract.methods.buyABTFromETH();
 
-          await investETH.send({
+          await buyABTFromETH.send({
             from: account,
             value: formInvest,
             gas: 2000000
@@ -127,23 +127,23 @@ export const Investing: React.FC<InvestingProps> = (props) => {
         } else {
           if (!currentContract) return;
 
-          const invest = investmentContract.methods.invest(
+          const buyAbt = marketContract.methods.buyABT(
             currentContract.options.address,
             formInvest
           );
 
           const approve = currentContract.methods.approve(
-            investmentContract.options.address,
+            marketContract.options.address,
             formInvest
           );
 
           const allowance = await currentContract.methods
-            .allowance(account, investmentContract.options.address)
+            .allowance(account, marketContract.options.address)
             .call();
 
           if (allowance !== '0') {
             await currentContract.methods
-              .approve(investmentContract.options.address, '0')
+              .approve(marketContract.options.address, '0')
               .send({
                 from: account,
                 gas: await approve.estimateGas()
@@ -156,7 +156,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
           });
           window.onbeforeunload = () => 'wait please transaction in progress';
 
-          await invest.send({
+          await buyAbt.send({
             from: account,
             gas: 2000000
           });
@@ -190,14 +190,15 @@ export const Investing: React.FC<InvestingProps> = (props) => {
     <>
       <FormikProvider value={formik}>
         <BuyTokenForm
-          setUserGet={setUserGet}
           handleCloseTooltip={handleCloseTooltip}
           handleOpenWalletListModal={handleOpenWalletListModal}
           className={props.className}
           account={account}
           tokens={tokens}
-          userGet={userGet}
           network={network}
+          userGet={userGet}
+          setUserGet={setUserGet}
+          tokenName="ABT"
         />
       </FormikProvider>
       <Modal open={successOpen} onClose={successToggle}>

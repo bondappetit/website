@@ -2,20 +2,20 @@ import React from 'react';
 import useMedia from 'react-use/esm/useMedia';
 
 import { ReactComponent as GreenLine } from 'src/assets/images/green-line.svg';
-import { InvestingInfo } from '../investing-info';
-import { useInvestingSuccessStyles } from './investing-success.styles';
+import { InfoCardWrapper } from '../info-card-wrapper';
+import { useInfoCardSuccessStyles } from './info-card-success.styles';
 
-export type InvestingSuccessProps = {
+export type InfoCardSuccessProps = {
   onClick: () => void;
   purchased?: string;
 };
 
-export const InvestingSuccess: React.FC<InvestingSuccessProps> = (props) => {
+export const InfoCardSuccess: React.FC<InfoCardSuccessProps> = (props) => {
   const isBiggerThanMediumDesktop = useMedia('(min-width: 960px)');
-  const classes = useInvestingSuccessStyles();
+  const classes = useInfoCardSuccessStyles();
 
   return (
-    <InvestingInfo
+    <InfoCardWrapper
       title={
         <>
           <GreenLine className={classes.greenLine} />
