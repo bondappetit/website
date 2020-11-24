@@ -8,7 +8,7 @@ import { useToggle } from 'react-use';
 import {
   useNetworkConfig,
   useMarketContract,
-  useBondTokenContract,
+  useABTTokenContract,
   useUSDTContract,
   useDAIContract,
   useUSDCContract,
@@ -23,11 +23,11 @@ import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';
 import { useMarketTokens, StableCoin } from 'src/market/common';
 
-export type MarketBuyArtProps = {
+export type MarketBuyAbtProps = {
   className?: string;
 };
 
-export const MarketBuyArt: React.FC<MarketBuyArtProps> = (props) => {
+export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
   const [userGet, setUserGet] = useState<BN>(new BN(0));
   const tokenContracts: Record<string, Ierc20 | null> = {
     USDT: useUSDTContract(),
@@ -43,7 +43,7 @@ export const MarketBuyArt: React.FC<MarketBuyArtProps> = (props) => {
   const network = useNetworkConfig();
   const marketContract = useMarketContract();
   const tokens = useMarketTokens(StableCoin.ABT);
-  const bondContract = useBondTokenContract();
+  const abtContract = useABTTokenContract();
 
   const formik = useFormik<BuyTokenFormValues>({
     initialValues: {
@@ -100,26 +100,26 @@ export const MarketBuyArt: React.FC<MarketBuyArtProps> = (props) => {
       const currentContract = tokenContracts[currentToken.name];
 
       try {
-        const bondBalance = await bondContract?.methods
+        const abtBalance = await abtContract?.methods
           .balanceOf(marketContract.options.address)
           .call();
 
-        if (!bondBalance) return;
+        if (!abtBalance) return;
 
         const formInvest = new BN(formValues.userInvest)
           .multipliedBy(new BN(10).pow(currentToken.decimals))
           .toString();
 
-        const bondBalanceNumber = new BN(bondBalance).div(
-          new BN(10).pow(network.assets.Bond.decimals)
+        const abtBalanceNumber = new BN(abtBalance).div(
+          new BN(10).pow(network.assets.ABT.decimals)
         );
 
-        if (bondBalanceNumber.isLessThan(userGet)) return;
+        if (abtBalanceNumber.isLessThan(userGet)) return;
 
         if (currentToken.name === 'WETH') {
-          const investETH = marketContract.methods.buyABTFromETH();
+          const buyABTFromETH = marketContract.methods.buyABTFromETH();
 
-          await investETH.send({
+          await buyABTFromETH.send({
             from: account,
             value: formInvest,
             gas: 2000000
@@ -163,6 +163,7 @@ export const MarketBuyArt: React.FC<MarketBuyArtProps> = (props) => {
         }
 
         resetForm();
+        failureToggle(false);
         successToggle(true);
         setUserGet(new BN(0));
       } catch {
@@ -197,7 +198,7 @@ export const MarketBuyArt: React.FC<MarketBuyArtProps> = (props) => {
           network={network}
           userGet={userGet}
           setUserGet={setUserGet}
-          tokenName="ART"
+          tokenName="ABT"
         />
       </FormikProvider>
       <Modal open={successOpen} onClose={successToggle}>

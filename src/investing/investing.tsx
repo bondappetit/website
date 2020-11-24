@@ -163,6 +163,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
         }
 
         resetForm();
+        failureToggle(false);
         successToggle(true);
         setUserGet(new BN(0));
       } catch {

@@ -55,5 +55,10 @@ export const useBuyTokenFormStyles = createUseStyles((theme: Theme) => ({
     fontSize: 14,
     lineHeight: '20px',
     transition: 'none'
+  },
+
+  disabled: {
+    opacity: 0.8,
+    pointerEvents: 'none'
   }
 }));

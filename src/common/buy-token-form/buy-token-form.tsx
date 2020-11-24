@@ -22,6 +22,7 @@ export type BuyTokenFormProps = {
   tokenName?: string;
   setUserGet: React.Dispatch<React.SetStateAction<BN>>;
   userGet: BN;
+  disabled?: boolean;
 };
 
 export type BuyTokenFormValues = {
@@ -58,9 +59,13 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
     [formik.values.userInvest, formik.values.currency, tokens]
   );
 
+  const classNames = clsx(classes.investing, props.className, {
+    [classes.disabled]: props.disabled
+  });
+
   return (
     <form
-      className={clsx(classes.investing, props.className)}
+      className={classNames}
       onSubmit={
         !props.account ? handleOpenWalletListModal : formik.handleSubmit
       }

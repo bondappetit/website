@@ -41,6 +41,11 @@ export const useBondTokenContract = createUseContract<Ierc20>((network) => ({
   address: network.assets.Bond.address
 }));
 
+export const useABTTokenContract = createUseContract<Ierc20>((network) => ({
+  abi: IERC20.abi as AbiItem[],
+  address: network.assets.ABT.address
+}));
+
 export const useGovernorContract = createUseContract<GovernorAlpha>(
   (network) => ({
     abi: network.contracts.GovernorAlpha.abi,

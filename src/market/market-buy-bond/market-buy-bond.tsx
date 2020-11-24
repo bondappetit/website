@@ -118,9 +118,9 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         if (bondBalanceNumber.isLessThan(userGet)) return;
 
         if (currentToken.name === 'WETH') {
-          const investETH = marketContract.methods.buyBondFromETH();
+          const buyBondFromETH = marketContract.methods.buyBondFromETH();
 
-          await investETH.send({
+          await buyBondFromETH.send({
             from: account,
             value: formInvest,
             gas: 2000000
@@ -164,6 +164,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         }
 
         resetForm();
+        failureToggle(false);
         successToggle(true);
         setUserGet(new BN(0));
       } catch {
@@ -208,6 +209,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
             </Typography>
           )}
           <BuyTokenForm
+            disabled={!canBuy}
             handleCloseTooltip={handleCloseTooltip}
             handleOpenWalletListModal={handleOpenWalletListModal}
             account={account}
