@@ -13,6 +13,7 @@ const WETH = 'WETH';
 type GetBalanceOptions = {
   tokenName?: string;
   tokenAddress?: string;
+  accountAddress?: string | null;
 };
 
 export const useBalance = () => {
@@ -22,19 +23,22 @@ export const useBalance = () => {
     abi: IERC20.abi as AbiItem[]
   });
 
-  const handleGetWETHBalance = useCallback(() => {
-    if (!account || !library) return '';
+  const handleGetWETHBalance = useCallback(
+    (accountAddress = account) => {
+      if (!accountAddress || !library) return '';
 
-    return library.eth.getBalance(account);
-  }, [library, account]);
+      return library.eth.getBalance(accountAddress);
+    },
+    [library, account]
+  );
 
   const handleGetIERC20Balance = useCallback(
-    (address?: string) => {
-      if (!account) return '';
+    (address?: string, accountAddress = account) => {
+      if (!accountAddress) return '';
 
       const contract = getIERC20Contract(address);
 
-      return contract.methods.balanceOf(account).call();
+      return contract.methods.balanceOf(accountAddress).call();
     },
     [getIERC20Contract, account]
   );
@@ -42,11 +46,14 @@ export const useBalance = () => {
   const getBalance = useCallback(
     async (options: GetBalanceOptions) => {
       if (options.tokenName === WETH) {
-        balanceRef.current = await handleGetWETHBalance();
+        balanceRef.current = await handleGetWETHBalance(options.accountAddress);
       }
 
       if (options.tokenName !== WETH) {
-        balanceRef.current = await handleGetIERC20Balance(options.tokenAddress);
+        balanceRef.current = await handleGetIERC20Balance(
+          options.tokenAddress,
+          options.accountAddress
+        );
       }
 
       return new BN(balanceRef.current);
