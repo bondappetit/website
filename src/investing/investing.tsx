@@ -48,7 +48,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
   const formik = useFormik<BuyTokenFormValues>({
     initialValues: {
       currency: 'USDC',
-      userInvest: '10000'
+      amount: '10000'
     },
     validateOnBlur: false,
     validateOnChange: false,
@@ -61,8 +61,8 @@ export const Investing: React.FC<InvestingProps> = (props) => {
         return error;
       }
 
-      if (!formValues.userInvest) {
-        error.userInvest = '';
+      if (!formValues.amount) {
+        error.amount = '';
         return error;
       }
 
@@ -78,44 +78,41 @@ export const Investing: React.FC<InvestingProps> = (props) => {
       if (
         balanceOfToken
           .div(new BN(10).pow(currentToken.decimals))
-          .isLessThan(formValues.userInvest)
+          .isLessThan(formValues.amount)
       ) {
-        error.userInvest = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
+        error.amount = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
+      }
+
+      if (!investmentContract || !network || !bondContract) return;
+
+      const bondBalance = await bondContract.methods
+        .balanceOf(investmentContract.options.address)
+        .call();
+
+      const bondBalanceNumber = new BN(bondBalance).div(
+        new BN(10).pow(network.assets.Bond.decimals)
+      );
+
+      if (bondBalanceNumber.isLessThan(userGet)) {
+        error.amountOfToken = `Looks like we don't have enough Bond`;
       }
 
       return error;
     },
 
-    onSubmit: async (formValues, { resetForm }) => {
+    onSubmit: async (formValues) => {
       const currentToken = tokens[formValues.currency];
 
-      if (
-        !investmentContract?.options.address ||
-        !currentToken ||
-        !network ||
-        !account
-      )
+      if (!investmentContract?.options.address || !currentToken || !account)
         return;
+
+      const formInvest = new BN(formValues.amount)
+        .multipliedBy(new BN(10).pow(currentToken.decimals))
+        .toString();
 
       const currentContract = tokenContracts[currentToken.name];
 
       try {
-        const bondBalance = await bondContract?.methods
-          .balanceOf(investmentContract.options.address)
-          .call();
-
-        if (!bondBalance) return;
-
-        const formInvest = new BN(formValues.userInvest)
-          .multipliedBy(new BN(10).pow(currentToken.decimals))
-          .toString();
-
-        const bondBalanceNumber = new BN(bondBalance).div(
-          new BN(10).pow(network.assets.Bond.decimals)
-        );
-
-        if (bondBalanceNumber.isLessThan(userGet)) return;
-
         if (currentToken.name === 'WETH') {
           const investETH = investmentContract.methods.investETH();
 
@@ -162,10 +159,8 @@ export const Investing: React.FC<InvestingProps> = (props) => {
           });
         }
 
-        resetForm();
         failureToggle(false);
         successToggle(true);
-        setUserGet(new BN(0));
       } catch {
         failureToggle(true);
       } finally {
@@ -182,16 +177,17 @@ export const Investing: React.FC<InvestingProps> = (props) => {
     [walletsToggle]
   );
 
-  const handleCloseTooltip = useCallback(() => {
-    formik.setFieldError('userInvest', '');
-  }, [formik]);
+  const handleSuccessClose = useCallback(() => {
+    successToggle(false);
+    formik.resetForm();
+    setUserGet(new BN(0));
+  }, [successToggle, formik]);
 
   return (
     <>
       <FormikProvider value={formik}>
         <BuyTokenForm
           setUserGet={setUserGet}
-          handleCloseTooltip={handleCloseTooltip}
           handleOpenWalletListModal={handleOpenWalletListModal}
           className={props.className}
           account={account}
@@ -200,9 +196,10 @@ export const Investing: React.FC<InvestingProps> = (props) => {
           network={network}
         />
       </FormikProvider>
-      <Modal open={successOpen} onClose={successToggle}>
+      <Modal open={successOpen} onClose={handleSuccessClose}>
         <InfoCardSuccess
-          onClick={successToggle}
+          tokenName="Bond"
+          onClick={handleSuccessClose}
           purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
         />
       </Modal>

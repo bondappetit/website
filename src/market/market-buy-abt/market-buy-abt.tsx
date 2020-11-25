@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useFormik, FormikProvider } from 'formik';
 import BN from 'bignumber.js';
 import { useWeb3React } from '@web3-react/core';
@@ -17,7 +17,8 @@ import {
   Modal,
   InfoCardFailure,
   InfoCardSuccess,
-  BuyTokenFormValues
+  BuyTokenFormValues,
+  Typography
 } from 'src/common';
 import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';
@@ -40,6 +41,7 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
   const [successOpen, successToggle] = useToggle(false);
   const [failureOpen, failureToggle] = useToggle(false);
   const [walletsOpen, walletsToggle] = useToggle(false);
+  const [availableTokens, setAvailableTokens] = useState('');
   const network = useNetworkConfig();
   const marketContract = useMarketContract();
   const tokens = useMarketTokens(StableCoin.ABT);
@@ -48,7 +50,7 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
   const formik = useFormik<BuyTokenFormValues>({
     initialValues: {
       currency: 'USDC',
-      userInvest: '10000'
+      amount: '10000'
     },
     validateOnBlur: false,
     validateOnChange: false,
@@ -61,8 +63,8 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
         return error;
       }
 
-      if (!formValues.userInvest) {
-        error.userInvest = '';
+      if (!formValues.amount) {
+        error.amount = '';
         return error;
       }
 
@@ -78,44 +80,40 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
       if (
         balanceOfToken
           .div(new BN(10).pow(currentToken.decimals))
-          .isLessThan(formValues.userInvest)
+          .isLessThan(formValues.amount)
       ) {
-        error.userInvest = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
+        error.amount = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
+      }
+
+      if (!marketContract || !network || !abtContract) return;
+
+      const abtBalance = await abtContract.methods
+        .balanceOf(marketContract.options.address)
+        .call();
+
+      const abtBalanceNumber = new BN(abtBalance).div(
+        new BN(10).pow(network.assets.ABT.decimals)
+      );
+
+      if (abtBalanceNumber.isLessThan(userGet)) {
+        error.amountOfToken = `Looks like we don't have enough ABT`;
       }
 
       return error;
     },
 
-    onSubmit: async (formValues, { resetForm }) => {
+    onSubmit: async (formValues) => {
       const currentToken = tokens[formValues.currency];
 
-      if (
-        !marketContract?.options.address ||
-        !currentToken ||
-        !network ||
-        !account
-      )
-        return;
+      if (!marketContract?.options.address || !currentToken || !account) return;
 
       const currentContract = tokenContracts[currentToken.name];
 
+      const formInvest = new BN(formValues.amount)
+        .multipliedBy(new BN(10).pow(currentToken.decimals))
+        .toString();
+
       try {
-        const abtBalance = await abtContract?.methods
-          .balanceOf(marketContract.options.address)
-          .call();
-
-        if (!abtBalance) return;
-
-        const formInvest = new BN(formValues.userInvest)
-          .multipliedBy(new BN(10).pow(currentToken.decimals))
-          .toString();
-
-        const abtBalanceNumber = new BN(abtBalance).div(
-          new BN(10).pow(network.assets.ABT.decimals)
-        );
-
-        if (abtBalanceNumber.isLessThan(userGet)) return;
-
         if (currentToken.name === 'WETH') {
           const buyABTFromETH = marketContract.methods.buyABTFromETH();
 
@@ -162,10 +160,8 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
           });
         }
 
-        resetForm();
         failureToggle(false);
         successToggle(true);
-        setUserGet(new BN(0));
       } catch {
         failureToggle(true);
       } finally {
@@ -182,28 +178,54 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
     [walletsToggle]
   );
 
-  const handleCloseTooltip = useCallback(() => {
-    formik.setFieldError('userInvest', '');
-  }, [formik]);
+  const handleSuccessClose = useCallback(() => {
+    successToggle(false);
+    formik.resetForm();
+    setUserGet(new BN(0));
+  }, [successToggle, formik]);
+
+  const handleGetAvailableTokens = useCallback(async () => {
+    if (!network) return;
+
+    const balanceOfBonds = await getBalance({
+      tokenAddress: abtContract?.options.address,
+      accountAddress: marketContract?.options.address
+    });
+
+    setAvailableTokens(
+      balanceOfBonds
+        .div(new BN(10).pow(network.assets.Bond.decimals))
+        .toString()
+    );
+  }, [abtContract, getBalance, marketContract, network]);
+
+  useEffect(() => {
+    handleGetAvailableTokens();
+  }, [handleGetAvailableTokens]);
 
   return (
     <>
       <FormikProvider value={formik}>
-        <BuyTokenForm
-          handleCloseTooltip={handleCloseTooltip}
-          handleOpenWalletListModal={handleOpenWalletListModal}
-          className={props.className}
-          account={account}
-          tokens={tokens}
-          network={network}
-          userGet={userGet}
-          setUserGet={setUserGet}
-          tokenName="ABT"
-        />
+        <div className={props.className}>
+          <Typography variant="body1">
+            available tokens on market {availableTokens}
+          </Typography>
+          <BuyTokenForm
+            handleOpenWalletListModal={handleOpenWalletListModal}
+            account={account}
+            tokens={tokens}
+            network={network}
+            userGet={userGet}
+            amountLabel="Amount"
+            setUserGet={setUserGet}
+            tokenName="ABT"
+          />
+        </div>
       </FormikProvider>
-      <Modal open={successOpen} onClose={successToggle}>
+      <Modal open={successOpen} onClose={handleSuccessClose}>
         <InfoCardSuccess
-          onClick={successToggle}
+          tokenName="ABT"
+          onClick={handleSuccessClose}
           purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
         />
       </Modal>
