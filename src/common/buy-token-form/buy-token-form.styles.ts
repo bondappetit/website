@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useInvestingStyles = createUseStyles((theme: Theme) => ({
+export const useBuyTokenFormStyles = createUseStyles((theme: Theme) => ({
   investing: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -22,7 +22,7 @@ export const useInvestingStyles = createUseStyles((theme: Theme) => ({
     },
 
     [theme.breakpoints.md()]: {
-      width: 115
+      width: 135
     }
   },
 
@@ -32,7 +32,7 @@ export const useInvestingStyles = createUseStyles((theme: Theme) => ({
     marginRight: 23,
 
     [theme.breakpoints.md()]: {
-      width: 193,
+      width: 210,
       marginRight: 0
     }
   },
@@ -55,5 +55,10 @@ export const useInvestingStyles = createUseStyles((theme: Theme) => ({
     fontSize: 14,
     lineHeight: '20px',
     transition: 'none'
+  },
+
+  disabled: {
+    opacity: 0.8,
+    pointerEvents: 'none'
   }
 }));

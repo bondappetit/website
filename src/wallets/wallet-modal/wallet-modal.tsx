@@ -38,9 +38,13 @@ export const WalletModal: React.FC<WalletModalProps> = (props) => {
 
   useUpdateEffect(() => {
     if (account) {
-      onClose();
-
       setCurrentComponentIndex(1);
+    }
+  }, [account]);
+
+  useUpdateEffect(() => {
+    if (account && open) {
+      onClose();
     }
   }, [account]);
 

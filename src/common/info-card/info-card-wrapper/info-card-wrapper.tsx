@@ -1,9 +1,10 @@
 import React from 'react';
 
-import { Button, Typography } from 'src/common';
-import { useInvestingInfoStyles } from './investing-info.styles';
+import { Button } from 'src/common/button';
+import { Typography } from 'src/common/typography';
+import { useInfoCardWrapperStyles } from './info-card-wrapper.styles';
 
-export type InvestingInfoProps = {
+export type InfoCardWrapperProps = {
   title?: React.ReactNode;
   subtitle?: React.ReactNode;
   button?: React.ReactNode;
@@ -11,8 +12,8 @@ export type InvestingInfoProps = {
   success?: boolean;
 };
 
-export const InvestingInfo: React.FC<InvestingInfoProps> = (props) => {
-  const classes = useInvestingInfoStyles();
+export const InfoCardWrapper: React.FC<InfoCardWrapperProps> = (props) => {
+  const classes = useInfoCardWrapperStyles();
 
   return (
     <div className={classes.wrap}>
