@@ -4,7 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
-    "@bondappetit/networks": "^1.4.6",
+    "@bondappetit/networks": "^1.4.8-ropsten-voting-test",
     "@popperjs/core": "^2.5.4",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "^4.2.4",

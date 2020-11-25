@@ -14,7 +14,7 @@ export type ModalProps = {
   onClose: () => void;
 };
 
-export const Modal: React.FC<ModalProps> = React.memo((props) => {
+export const Modal: React.FC<ModalProps> = (props) => {
   const classes = useModalStyles();
   const [isPressed] = useKeyPress('Escape');
   const { onClose, open } = props;
@@ -49,4 +49,4 @@ export const Modal: React.FC<ModalProps> = React.memo((props) => {
       </div>
     </Portal>
   );
-});
+};

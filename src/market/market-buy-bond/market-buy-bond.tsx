@@ -35,6 +35,8 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
     USDC: useUSDCContract()
   };
   const [canBuy, setCanBuy] = useState(false);
+  const [availableTokens, setAvailableTokens] = useState('');
+  const [bondPriceOnMarket, setBondPriceOnMarket] = useState('');
   const getBalance = useBalance();
   const { account } = useWeb3React<Web3>();
   const [successOpen, successToggle] = useToggle(false);
@@ -49,7 +51,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
   const formik = useFormik<BuyTokenFormValues>({
     initialValues: {
       currency: 'USDC',
-      userInvest: '10000'
+      amount: '10000'
     },
     validateOnBlur: false,
     validateOnChange: false,
@@ -62,8 +64,8 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         return error;
       }
 
-      if (!formValues.userInvest) {
-        error.userInvest = '';
+      if (!formValues.amount) {
+        error.amount = '';
         return error;
       }
 
@@ -79,44 +81,40 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
       if (
         balanceOfToken
           .div(new BN(10).pow(currentToken.decimals))
-          .isLessThan(formValues.userInvest)
+          .isLessThan(formValues.amount)
       ) {
-        error.userInvest = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
+        error.amount = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
+      }
+
+      if (!marketContract || !network || !bondContract) return;
+
+      const bondBalance = await bondContract.methods
+        .balanceOf(marketContract.options.address)
+        .call();
+
+      const bondBalanceNumber = new BN(bondBalance).div(
+        new BN(10).pow(network.assets.Bond.decimals)
+      );
+
+      if (bondBalanceNumber.isLessThan(userGet)) {
+        error.amountOfToken = `Looks like we don't have enough Bond`;
       }
 
       return error;
     },
 
-    onSubmit: async (formValues, { resetForm }) => {
+    onSubmit: async (formValues) => {
       const currentToken = tokens[formValues.currency];
 
-      if (
-        !marketContract?.options.address ||
-        !currentToken ||
-        !network ||
-        !account
-      )
-        return;
+      if (!marketContract?.options.address || !currentToken || !account) return;
 
       const currentContract = tokenContracts[currentToken.name];
 
+      const formInvest = new BN(formValues.amount)
+        .multipliedBy(new BN(10).pow(currentToken.decimals))
+        .toString();
+
       try {
-        const bondBalance = await bondContract?.methods
-          .balanceOf(marketContract.options.address)
-          .call();
-
-        if (!bondBalance) return;
-
-        const formInvest = new BN(formValues.userInvest)
-          .multipliedBy(new BN(10).pow(currentToken.decimals))
-          .toString();
-
-        const bondBalanceNumber = new BN(bondBalance).div(
-          new BN(10).pow(network.assets.Bond.decimals)
-        );
-
-        if (bondBalanceNumber.isLessThan(userGet)) return;
-
         if (currentToken.name === 'WETH') {
           const buyBondFromETH = marketContract.methods.buyBondFromETH();
 
@@ -163,10 +161,8 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
           });
         }
 
-        resetForm();
         failureToggle(false);
         successToggle(true);
-        setUserGet(new BN(0));
       } catch {
         failureToggle(true);
       } finally {
@@ -183,10 +179,6 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
     [walletsToggle]
   );
 
-  const handleCloseTooltip = useCallback(() => {
-    formik.setFieldError('userInvest', '');
-  }, [formik]);
-
   const handleGetBondBalance = useCallback(async () => {
     const balanceOfBonds = await getBalance({
       tokenAddress: bondContract?.options.address
@@ -195,9 +187,40 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
     setCanBuy(balanceOfBonds.toNumber() > 0);
   }, [bondContract, getBalance]);
 
+  const handleGetAvailableTokens = useCallback(async () => {
+    if (!network) return;
+
+    const balanceOfBonds = await getBalance({
+      tokenAddress: bondContract?.options.address,
+      accountAddress: marketContract?.options.address
+    });
+
+    setAvailableTokens(
+      balanceOfBonds
+        .div(new BN(10).pow(network.assets.Bond.decimals))
+        .toString()
+    );
+  }, [bondContract, getBalance, marketContract, network]);
+
+  const handleGetBondPrice = useCallback(async () => {
+    const bondPrice = await marketContract?.methods.bondPrice().call();
+
+    if (!bondPrice) return;
+
+    setBondPriceOnMarket(new BN(bondPrice).div(new BN(10).pow(6)).toString());
+  }, [marketContract]);
+
+  const handleSuccessClose = useCallback(() => {
+    successToggle(false);
+    formik.resetForm();
+    setUserGet(new BN(0));
+  }, [successToggle, formik]);
+
   useEffect(() => {
     handleGetBondBalance();
-  }, [handleGetBondBalance]);
+    handleGetAvailableTokens();
+    handleGetBondPrice();
+  }, [handleGetBondBalance, handleGetAvailableTokens, handleGetBondPrice]);
 
   return (
     <>
@@ -205,24 +228,31 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         <div className={props.className}>
           {!canBuy && (
             <Typography variant="body1">
-              sorry but you can&apos;t buy token
+              sorry, only token holder can buy bond token at market
             </Typography>
           )}
+          <Typography variant="body1">
+            available tokens on market {availableTokens}
+          </Typography>
+          <Typography variant="body1">
+            token price ${bondPriceOnMarket}
+          </Typography>
           <BuyTokenForm
             disabled={!canBuy}
-            handleCloseTooltip={handleCloseTooltip}
             handleOpenWalletListModal={handleOpenWalletListModal}
             account={account}
             tokens={tokens}
+            amountLabel="Amount"
             network={network}
             userGet={userGet}
             setUserGet={setUserGet}
           />
         </div>
       </FormikProvider>
-      <Modal open={successOpen} onClose={successToggle}>
+      <Modal open={successOpen} onClose={handleSuccessClose}>
         <InfoCardSuccess
-          onClick={successToggle}
+          tokenName="Bond"
+          onClick={handleSuccessClose}
           purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
         />
       </Modal>

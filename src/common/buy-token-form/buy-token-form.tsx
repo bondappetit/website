@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
 import { useFormikContext } from 'formik';
@@ -18,16 +18,17 @@ export type BuyTokenFormProps = {
   tokens: Record<string, Token>;
   network?: Network;
   handleOpenWalletListModal: (event: React.FormEvent<HTMLFormElement>) => void;
-  handleCloseTooltip: () => void;
   tokenName?: string;
   setUserGet: React.Dispatch<React.SetStateAction<BN>>;
   userGet: BN;
   disabled?: boolean;
+  amountLabel?: string;
 };
 
 export type BuyTokenFormValues = {
   currency: string;
-  userInvest: string;
+  amount: string;
+  amountOfToken?: string;
 };
 
 export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
@@ -39,10 +40,10 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
     tokens,
     network,
     handleOpenWalletListModal,
-    handleCloseTooltip,
     tokenName = 'Bond',
     setUserGet,
-    userGet
+    userGet,
+    amountLabel = 'You invest'
   } = props;
 
   useDebounce(
@@ -50,18 +51,23 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
       if (!tokens[formik.values.currency]?.price) return;
 
       setUserGet(
-        new BN(formik.values.userInvest).multipliedBy(
+        new BN(formik.values.amount).multipliedBy(
           tokens[formik.values.currency].price
         )
       );
     },
     100,
-    [formik.values.userInvest, formik.values.currency, tokens]
+    [formik.values.amount, formik.values.currency, tokens]
   );
 
   const classNames = clsx(classes.investing, props.className, {
     [classes.disabled]: props.disabled
   });
+
+  const handleCloseTooltip = useCallback(() => {
+    formik.setFieldError('amount', '');
+    formik.setFieldError('amountOfToken', '');
+  }, [formik]);
 
   return (
     <form
@@ -71,8 +77,8 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
       }
     >
       <Tippy
-        visible={Boolean(formik.errors.userInvest)}
-        content={formik.errors.userInvest}
+        visible={Boolean(formik.errors.amount)}
+        content={formik.errors.amount}
         className={classes.tooltip}
         maxWidth={200}
         offset={[0, 25]}
@@ -81,10 +87,10 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
         <Input
           type="number"
           onChange={formik.handleChange}
-          name="userInvest"
-          label="You invest"
-          error={Boolean(formik.errors.userInvest)}
-          value={formik.values.userInvest}
+          name="amount"
+          label={amountLabel}
+          error={Boolean(formik.errors.amount)}
+          value={formik.values.amount}
           className={classes.input}
         />
       </Tippy>
@@ -99,14 +105,23 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
             <SelectOption key={name} value={name} label={name} />
           ))}
       </Select>
-      <Input
-        type="text"
-        name="userGet"
-        label={`You get(${tokenName})`}
-        value={`${userGet.isNaN() ? '0' : userGet.toFixed(2)}`}
-        readOnly
-        className={classes.userGet}
-      />
+      <Tippy
+        visible={Boolean(formik.errors.amountOfToken)}
+        content={formik.errors.amountOfToken}
+        className={classes.tooltip}
+        maxWidth={200}
+        offset={[0, 25]}
+        onClickOutside={handleCloseTooltip}
+      >
+        <Input
+          type="text"
+          name="userGet"
+          label={`You get(${tokenName})`}
+          value={`${userGet.isNaN() ? '0' : userGet.toFixed(2)}`}
+          readOnly
+          className={classes.userGet}
+        />
+      </Tippy>
       <Button className={classes.button} type="submit">
         Buy
       </Button>

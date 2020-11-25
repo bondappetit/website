@@ -1,5 +1,5 @@
 import React from 'react';
-import useMedia from 'react-use/esm/useMedia';
+import { useMedia } from 'react-use';
 
 import { ReactComponent as GreenLine } from 'src/assets/images/green-line.svg';
 import { InfoCardWrapper } from '../info-card-wrapper';
@@ -7,7 +7,8 @@ import { useInfoCardSuccessStyles } from './info-card-success.styles';
 
 export type InfoCardSuccessProps = {
   onClick: () => void;
-  purchased?: string;
+  purchased: string;
+  tokenName: string;
 };
 
 export const InfoCardSuccess: React.FC<InfoCardSuccessProps> = (props) => {
@@ -26,7 +27,7 @@ export const InfoCardSuccess: React.FC<InfoCardSuccessProps> = (props) => {
         <>
           You have successfully purchased
           {!isBiggerThanMediumDesktop ? <>&nbsp;</> : ' '}
-          {props.purchased}&nbsp;Bond
+          {props.purchased}&nbsp;{props.tokenName}
         </>
       }
       onClick={props.onClick}
