@@ -1,5 +1,5 @@
 import { useWeb3React } from '@web3-react/core';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Web3 from 'web3';
 import BN from 'bignumber.js';
 
@@ -13,6 +13,7 @@ export type StackingToken = {
 };
 
 export const useStackingBalances = (availableTokens: string[]) => {
+  const tokens = useRef(availableTokens);
   const [stackingBalances, setStackingBalances] = useState<StackingToken[]>([]);
   const stackingContract = useStackingContract();
   const { account } = useWeb3React<Web3>();
@@ -21,7 +22,7 @@ export const useStackingBalances = (availableTokens: string[]) => {
   const handleGetBalances = useCallback(async () => {
     if (!account || !networkConfig) return;
 
-    const balances = availableTokens.reduce<Promise<StackingToken[]>>(
+    const balances = tokens.current.reduce<Promise<StackingToken[]>>(
       async (previusPromise, token) => {
         const acc = await previusPromise;
 
@@ -50,7 +51,7 @@ export const useStackingBalances = (availableTokens: string[]) => {
           name: token,
           reward: rewardBN
             ?.div(new BN(10).pow(tokenConfig.decimals))
-            .toString(),
+            .toString(10),
           delta: delta?.div(new BN(10).pow(tokenConfig.decimals)).toString(10)
         };
 
@@ -62,7 +63,7 @@ export const useStackingBalances = (availableTokens: string[]) => {
     );
 
     setStackingBalances(await balances);
-  }, [stackingContract, account, networkConfig, availableTokens]);
+  }, [stackingContract, account, networkConfig]);
 
   useEffect(() => {
     handleGetBalances();

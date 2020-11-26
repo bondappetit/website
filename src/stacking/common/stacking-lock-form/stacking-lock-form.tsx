@@ -10,7 +10,8 @@ import {
   Button,
   useStackingContract,
   useNetworkConfig,
-  useDynamicContract
+  useDynamicContract,
+  Typography
 } from 'src/common';
 
 export type StackingLockFormProps = {
@@ -30,6 +31,18 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
   const formik = useFormik({
     initialValues: {
       amount: ''
+    },
+    validateOnBlur: false,
+    validateOnChange: false,
+
+    validate: (formValues) => {
+      const errors: Partial<typeof formValues> = {};
+
+      if (!formValues.amount) {
+        errors.amount = 'required';
+      }
+
+      return errors;
     },
 
     onSubmit: async (formValues, { resetForm }) => {
@@ -83,8 +96,12 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
           value={formik.values.amount}
           name="amount"
           onChange={formik.handleChange}
+          error={Boolean(formik.errors.amount)}
           label="Amount"
         />
+        {Boolean(formik.errors.amount) && (
+          <Typography variant="body1">{formik.errors.amount}</Typography>
+        )}
       </div>
       <Button>Lock</Button>
     </form>
