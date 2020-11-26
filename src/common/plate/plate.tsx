@@ -3,21 +3,25 @@ import React from 'react';
 
 import { usePlateStyles } from './plate.styles';
 
-export type PlateProps = React.HTMLProps<HTMLDivElement>;
+export type PlateProps = React.HTMLProps<HTMLDivElement> & {
+  component?: React.ElementType;
+};
 
 export const Plate = React.forwardRef<HTMLDivElement, PlateProps>(
   (props, ref) => {
     const classes = usePlateStyles();
-    const { children, className, ...restOfProps } = props;
+    const { children, className, component = 'div', ...restOfProps } = props;
+
+    const Component = component;
 
     return (
-      <div
+      <Component
         {...restOfProps}
         className={clsx(classes.plate, className)}
         ref={ref}
       >
         {children}
-      </div>
+      </Component>
     );
   }
 );

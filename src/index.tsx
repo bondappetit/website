@@ -12,6 +12,7 @@ import { ToastProvider } from 'react-toast-notifications';
 import { ThemeProvider, globalStyles } from './common';
 import { App } from './app';
 import { config } from './config';
+import { ErrorBoundary } from './error-boundary/error-boundary';
 
 jss.createStyleSheet(normalize).attach();
 jss.createStyleSheet(globalStyles).attach();
@@ -32,9 +33,11 @@ ReactDOM.render(
       <Web3ReactProvider getLibrary={getLibrary}>
         <JssProvider jss={jss}>
           <ThemeProvider>
-            <ToastProvider>
-              <App />
-            </ToastProvider>
+            <ErrorBoundary>
+              <ToastProvider>
+                <App />
+              </ToastProvider>
+            </ErrorBoundary>
           </ThemeProvider>
         </JssProvider>
       </Web3ReactProvider>

@@ -5,8 +5,8 @@ export const URLS = {
     detail: (proposalId = ':proposalId') => `/voting/${proposalId}`
   },
   market: '/market',
-  staking: {
-    list: '/staking',
-    detail: (tokenId = ':tokenId') => `/staking/${tokenId}`
+  stacking: {
+    list: '/stacking',
+    detail: (tokenId = ':tokenId') => `/stacking/${tokenId}`
   }
 } as const;

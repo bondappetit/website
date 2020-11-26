@@ -7,6 +7,7 @@ import type { Market } from 'src/generate/Market';
 import type { Ierc20 } from 'src/generate/IERC20';
 import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
 import type { Bond } from 'src/generate/Bond';
+import type { Stacking } from 'src/generate/Stacking';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -56,4 +57,9 @@ export const useGovernorContract = createUseContract<GovernorAlpha>(
 export const useBondContract = createUseContract<Bond>((network) => ({
   abi: BondAbi as AbiItem[],
   address: network.assets.Bond.address
+}));
+
+export const useStackingContract = createUseContract<Stacking>((network) => ({
+  abi: network.contracts.Stacking.abi,
+  address: network.contracts.Stacking.address
 }));

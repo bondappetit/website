@@ -58,6 +58,7 @@ module.exports = {
     'consistent-return': 0,
     'react/button-has-type': 0,
     'react/jsx-props-no-spreading': 0,
-    '@typescript-eslint/explicit-module-boundary-types': 0
+    '@typescript-eslint/explicit-module-boundary-types': 0,
+    'react/state-in-constructor': ['error', 'never']
   }
 };

@@ -15,9 +15,9 @@ export const ButtonBase = React.forwardRef<HTMLButtonElement, ButtonBaseProps>(
   (props, ref) => {
     const classes = useButtonBaseStyles();
 
-    const { component, className, children, ...restOfProps } = props;
+    const { component = 'button', className, children, ...restOfProps } = props;
 
-    const Component: React.ElementType = component ?? 'button';
+    const Component: React.ElementType = component;
 
     const classNames = clsx(classes.baseButton, className, {
       [classes.disabled]: props.disabled
