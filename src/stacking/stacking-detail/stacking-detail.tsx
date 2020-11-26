@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
@@ -16,7 +16,7 @@ export const StackingDetail: React.FC = () => {
   const classes = useStackingDetailStyles();
   const params = useParams<{ tokenId: string }>();
   const { account } = useWeb3React<Web3>();
-  const [balance] = useStackingBalances([params.tokenId]);
+  const [[balance], update] = useStackingBalances([params.tokenId]);
 
   const unlock = useStackingUnlock(params.tokenId);
 
@@ -24,21 +24,39 @@ export const StackingDetail: React.FC = () => {
     balance
   ]);
 
+  const handleUnlock = useCallback(() => {
+    unlock().then(update);
+  }, [unlock, update]);
+
   return (
     <MainLayout>
       <div className={classes.staking}>
         <Typography variant="h3">{params.tokenId}</Typography>
         <div className={classes.row}>
           <Plate className={classes.card}>
-            <StackingLockForm account={account} tokenId={params.tokenId} />
+            <StackingLockForm
+              account={account}
+              tokenId={params.tokenId}
+              onSubmit={update}
+            />
           </Plate>
           <Plate className={classes.card}>
+            {!stackingBalanceIsEmpty && (
+              <>
+                <Typography variant="body1">
+                  your stacking balance {balance.amount}
+                </Typography>
+                <Typography variant="body1">
+                  your reward {balance.reward}
+                </Typography>
+              </>
+            )}
             {stackingBalanceIsEmpty && (
               <Typography variant="body1">
                 your stacking balance is empty
               </Typography>
             )}
-            <Button onClick={unlock} disabled={stackingBalanceIsEmpty}>
+            <Button onClick={handleUnlock} disabled={stackingBalanceIsEmpty}>
               Unlock
             </Button>
           </Plate>

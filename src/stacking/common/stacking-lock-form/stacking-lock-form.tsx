@@ -17,6 +17,7 @@ import {
 export type StackingLockFormProps = {
   account?: string | null;
   tokenId: string;
+  onSubmit?: () => void;
 };
 
 export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
@@ -85,6 +86,7 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
           gas: 2000000
         });
       resetForm();
+      props.onSubmit?.();
     }
   });
 

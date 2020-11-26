@@ -8,7 +8,7 @@ const AVAILABLE_TOKENS = ['ABT', 'Bond'];
 
 export const StackingList: React.FC = () => {
   const classes = useStackingListStyles();
-  const stackingBalances = useStackingBalances(AVAILABLE_TOKENS);
+  const [stackingBalances] = useStackingBalances(AVAILABLE_TOKENS);
 
   return (
     <MainLayout>

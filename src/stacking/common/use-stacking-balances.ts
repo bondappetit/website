@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Web3 from 'web3';
 import BN from 'bignumber.js';
 
-import { useNetworkConfig, useStackingContract } from 'src/common';
+import { useNetworkConfig, useStackingContract, useUpdate } from 'src/common';
 
 export type StackingToken = {
   amount?: string;
@@ -18,6 +18,7 @@ export const useStackingBalances = (availableTokens: string[]) => {
   const stackingContract = useStackingContract();
   const { account } = useWeb3React<Web3>();
   const networkConfig = useNetworkConfig();
+  const [update, handleUpdate] = useUpdate();
 
   const handleGetBalances = useCallback(async () => {
     if (!account || !networkConfig) return;
@@ -67,7 +68,10 @@ export const useStackingBalances = (availableTokens: string[]) => {
 
   useEffect(() => {
     handleGetBalances();
-  }, [handleGetBalances]);
+  }, [handleGetBalances, update]);
 
-  return useMemo(() => stackingBalances, [stackingBalances]);
+  return useMemo(
+    (): [StackingToken[], () => void] => [stackingBalances, handleUpdate],
+    [stackingBalances, handleUpdate]
+  );
 };
