@@ -1,10 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link as ReactRouterLink } from 'react-router-dom';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
 
 import { MainLayout } from 'src/layouts';
-import { Button, Plate, Typography } from 'src/common';
+import { Button, Plate, Typography, Link } from 'src/common';
+import { URLS } from 'src/router/urls';
 import {
   StackingLockForm,
   useStackingBalances,
@@ -31,6 +32,9 @@ export const StackingDetail: React.FC = () => {
   return (
     <MainLayout>
       <div className={classes.staking}>
+        <Link component={ReactRouterLink} to={URLS.stacking.list}>
+          back
+        </Link>
         <Typography variant="h3">{params.tokenId}</Typography>
         <div className={classes.row}>
           <Plate className={classes.card}>

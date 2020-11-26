@@ -11,7 +11,8 @@ import {
   useStackingContract,
   useNetworkConfig,
   useDynamicContract,
-  Typography
+  Typography,
+  useBalance
 } from 'src/common';
 
 export type StackingLockFormProps = {
@@ -26,6 +27,7 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
   });
+  const getBalance = useBalance();
 
   const { account, tokenId } = props;
 
@@ -36,14 +38,30 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
     validateOnBlur: false,
     validateOnChange: false,
 
-    validate: (formValues) => {
-      const errors: Partial<typeof formValues> = {};
+    validate: async (formValues) => {
+      const error: Partial<typeof formValues> = {};
 
       if (!formValues.amount) {
-        errors.amount = 'required';
+        error.amount = 'required';
       }
 
-      return errors;
+      if (!networkConfig) return;
+
+      const currentAsset = networkConfig.assets[tokenId];
+
+      const balanceOfToken = await getBalance({
+        tokenAddress: currentAsset.address
+      });
+
+      if (
+        balanceOfToken
+          .div(new BN(10).pow(currentAsset.decimals))
+          .isLessThan(formValues.amount)
+      ) {
+        error.amount = `Looks like you don't have enough ${currentAsset.symbol}, please check your wallet`;
+      }
+
+      return error;
     },
 
     onSubmit: async (formValues, { resetForm }) => {
@@ -94,7 +112,7 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
     <form onSubmit={formik.handleSubmit}>
       <div>
         <Input
-          type="text"
+          type="number"
           value={formik.values.amount}
           name="amount"
           onChange={formik.handleChange}
