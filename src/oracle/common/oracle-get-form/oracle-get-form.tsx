@@ -6,18 +6,20 @@ import { Button, Input, Typography, Select, SelectOption } from 'src/common';
 export type OracleGetFormValues = {
   isin: string;
   paramType: string;
+  property: string;
 };
 
 export type OracleGetFormProps = {
   onSubmit: (formValues: OracleGetFormValues) => Promise<void>;
-  withType?: boolean;
+  withSelect?: boolean;
 };
 
 export const OracleGetForm: React.FC<OracleGetFormProps> = (props) => {
   const formik = useFormik<OracleGetFormValues>({
     initialValues: {
       isin: '',
-      paramType: ''
+      paramType: '',
+      property: ''
     },
 
     validateOnBlur: false,
@@ -30,8 +32,12 @@ export const OracleGetForm: React.FC<OracleGetFormProps> = (props) => {
         error.isin = 'required';
       }
 
-      if (!formValues.paramType && props.withType) {
+      if (!formValues.paramType && props.withSelect) {
         error.paramType = 'required';
+      }
+
+      if (!formValues.property && props.withSelect) {
+        error.property = 'required';
       }
 
       return error;
@@ -59,7 +65,22 @@ export const OracleGetForm: React.FC<OracleGetFormProps> = (props) => {
           <Typography variant="body2">{formik.errors.isin}</Typography>
         )}
       </div>
-      {props.withType && (
+      {props.withSelect && (
+        <div>
+          <Input
+            type="text"
+            onChange={formik.handleChange}
+            name="property"
+            label="Property"
+            error={Boolean(formik.errors.property)}
+            value={formik.values.property}
+          />
+          {formik.errors.property && (
+            <Typography variant="body2">{formik.errors.property}</Typography>
+          )}
+        </div>
+      )}
+      {props.withSelect && (
         <div>
           <Select
             label="Type of parameter"

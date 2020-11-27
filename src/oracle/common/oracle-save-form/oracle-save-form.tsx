@@ -1,22 +1,27 @@
 import React from 'react';
 import { useFormik } from 'formik';
 
-import { Button, Input, Typography } from 'src/common';
+import { Button, Input, Typography, Select, SelectOption } from 'src/common';
 
 export type OracleSaveFormValues = {
   isin: string;
   value: string;
+  property: string;
+  paramType: string;
 };
 
 export type OracleSaveFormProps = {
   onSubmit: (formValues: OracleSaveFormValues) => Promise<void>;
+  withSelect?: boolean;
 };
 
 export const OracleSaveForm: React.FC<OracleSaveFormProps> = (props) => {
   const formik = useFormik<OracleSaveFormValues>({
     initialValues: {
       isin: '',
-      value: ''
+      value: '',
+      property: '',
+      paramType: ''
     },
 
     validateOnBlur: false,
@@ -31,6 +36,14 @@ export const OracleSaveForm: React.FC<OracleSaveFormProps> = (props) => {
 
       if (!formValues.value) {
         error.value = 'required';
+      }
+
+      if (!formValues.paramType && props.withSelect) {
+        error.paramType = 'required';
+      }
+
+      if (!formValues.property && props.withSelect) {
+        error.property = 'required';
       }
 
       return error;
@@ -58,6 +71,35 @@ export const OracleSaveForm: React.FC<OracleSaveFormProps> = (props) => {
           <Typography variant="body2">{formik.errors.isin}</Typography>
         )}
       </div>
+      {props.withSelect && (
+        <div>
+          <Input
+            type="text"
+            onChange={formik.handleChange}
+            name="property"
+            label="Property"
+            error={Boolean(formik.errors.property)}
+            value={formik.values.property}
+          />
+          {formik.errors.property && (
+            <Typography variant="body2">{formik.errors.property}</Typography>
+          )}
+        </div>
+      )}
+      {props.withSelect && (
+        <div>
+          <Select
+            label="Type of parameter"
+            value={formik.values.paramType}
+            onChange={(value) => formik.setFieldValue('paramType', value)}
+          >
+            <SelectOption value="uint256" label="uint256" />
+          </Select>
+          {formik.errors.paramType && (
+            <Typography variant="body2">{formik.errors.paramType}</Typography>
+          )}
+        </div>
+      )}
       <div>
         <Input
           type="number"

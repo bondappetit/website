@@ -66,8 +66,11 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
       await securityOracleContract?.methods
         .put(
           formValues.isin,
-          'nominalValue',
-          library.eth.abi.encodeParameters(['uint256'], [securityValue])
+          formValues.property,
+          library.eth.abi.encodeParameters(
+            [formValues.paramType],
+            [securityValue]
+          )
         )
         .send({
           from: account,
@@ -135,7 +138,7 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
         </div>
         <div>
           <Typography variant="h3">Security save</Typography>
-          <OracleSaveForm onSubmit={handleSaveSecurity} />
+          <OracleSaveForm onSubmit={handleSaveSecurity} withSelect />
         </div>
         <div>
           <Typography variant="h3">Depositary get</Typography>
@@ -151,7 +154,7 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
         </div>
         <div>
           <Typography variant="h3">Security get</Typography>
-          <OracleGetForm onSubmit={handleGetSecurity} withType />
+          <OracleGetForm onSubmit={handleGetSecurity} withSelect />
           {savedToken?.tokenType === TokenTypes.security && (
             <>
               <Typography variant="body1">Key: {savedToken.isin}</Typography>
