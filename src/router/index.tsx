@@ -6,6 +6,7 @@ import { VotingProposalDetail, VotingProposalList } from 'src/voting';
 import Market from 'src/market/market-forms';
 import StakingDetail from 'src/stacking/stacking-detail';
 import StakingList from 'src/stacking/stacking-list';
+import OracleManage from 'src/oracle/oracle-manage';
 import { URLS } from './urls';
 
 const Router: React.FC = () => {
@@ -32,6 +33,9 @@ const Router: React.FC = () => {
         </Route>
         <Route path={URLS.stacking.list}>
           <StakingList />
+        </Route>
+        <Route path={URLS.oracle}>
+          <OracleManage />
         </Route>
         <Route>
           <>not found</>

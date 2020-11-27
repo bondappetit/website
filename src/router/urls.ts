@@ -8,5 +8,6 @@ export const URLS = {
   stacking: {
     list: '/stacking',
     detail: (tokenId = ':tokenId') => `/stacking/${tokenId}`
-  }
+  },
+  oracle: '/oracle'
 } as const;
