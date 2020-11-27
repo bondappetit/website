@@ -2,6 +2,7 @@ import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
+import BN from 'bignumber.js';
 
 import {
   Input,
@@ -18,6 +19,8 @@ type FormValues = {
   description: string;
   value: string;
 };
+
+const UINT_256 = 'uint256';
 
 export type VotingCreateProposalProps = {
   onSubmit: () => void;
@@ -45,7 +48,12 @@ export const VotingCreateProposal: React.FC<VotingCreateProposalProps> = (
         const [paramTypes, paramValues] = input.reduce<[string[], string[]]>(
           ([params, values], { paramType, value }) => {
             params.push(paramType);
-            values.push(value);
+            const newValue =
+              paramType === UINT_256
+                ? new BN(value).multipliedBy(new BN(10).pow(6)).toString(10)
+                : value;
+
+            values.push(newValue);
 
             return [params, values];
           },
