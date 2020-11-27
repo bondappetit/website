@@ -10,16 +10,22 @@ export type LinkProps = {
   target?: string;
   children?: React.ReactNode;
   className?: string;
+  rel?: string;
   underline?: 'always' | 'hover' | 'none';
 };
 
-export const Link = React.forwardRef<React.ElementType, LinkProps>(
+export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   (props, ref) => {
     const classes = useLinkStyles();
 
-    const { component, underline = 'none', className, ...restOfProps } = props;
+    const {
+      component = 'a',
+      underline = 'none',
+      className,
+      ...restOfProps
+    } = props;
 
-    const Component = component ?? 'a';
+    const Component = component;
 
     const classNames = clsx(classes.link, className, classes[underline]);
 

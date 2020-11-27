@@ -7,6 +7,9 @@ import type { Market } from 'src/generate/Market';
 import type { Ierc20 } from 'src/generate/IERC20';
 import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
 import type { Bond } from 'src/generate/Bond';
+import type { Stacking } from 'src/generate/Stacking';
+import type { IUniswapV2Router02 } from 'src/generate/IUniswapV2Router02';
+import type { UniswapAnchoredView } from 'src/generate/UniswapAnchoredView';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -57,3 +60,22 @@ export const useBondContract = createUseContract<Bond>((network) => ({
   abi: BondAbi as AbiItem[],
   address: network.assets.Bond.address
 }));
+
+export const useStackingContract = createUseContract<Stacking>((network) => ({
+  abi: network.contracts.Stacking.abi,
+  address: network.contracts.Stacking.address
+}));
+
+export const useUniswapRouter = createUseContract<IUniswapV2Router02>(
+  (network) => ({
+    abi: network.contracts.UniswapV2Router02.abi,
+    address: network.contracts.UniswapV2Router02.address
+  })
+);
+
+export const useUniswapAnchoredView = createUseContract<UniswapAnchoredView>(
+  (network) => ({
+    abi: network.contracts.UniswapAnchoredView.abi,
+    address: network.contracts.UniswapAnchoredView.address
+  })
+);
