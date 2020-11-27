@@ -10,6 +10,9 @@ import type { Bond } from 'src/generate/Bond';
 import type { Stacking } from 'src/generate/Stacking';
 import type { IUniswapV2Router02 } from 'src/generate/IUniswapV2Router02';
 import type { UniswapAnchoredView } from 'src/generate/UniswapAnchoredView';
+import type { Issuer } from 'src/generate/Issuer';
+import type { SecurityOracle } from 'src/generate/SecurityOracle';
+import type { DepositaryOracle } from 'src/generate/DepositaryOracle';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -77,5 +80,24 @@ export const useUniswapAnchoredView = createUseContract<UniswapAnchoredView>(
   (network) => ({
     abi: network.contracts.UniswapAnchoredView.abi,
     address: network.contracts.UniswapAnchoredView.address
+  })
+);
+
+export const useIssuerContract = createUseContract<Issuer>((network) => ({
+  abi: network.contracts.Issuer.abi,
+  address: network.contracts.Issuer.address
+}));
+
+export const useSecurityOracleContract = createUseContract<SecurityOracle>(
+  (network) => ({
+    abi: network.contracts.SecurityOracle.abi,
+    address: network.contracts.SecurityOracle.address
+  })
+);
+
+export const useDepositaryOracleContract = createUseContract<DepositaryOracle>(
+  (network) => ({
+    abi: network.contracts.DepositaryOracle.abi,
+    address: network.contracts.DepositaryOracle.address
   })
 );
