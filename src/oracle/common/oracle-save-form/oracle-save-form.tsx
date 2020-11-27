@@ -3,17 +3,17 @@ import { useFormik } from 'formik';
 
 import { Button, Input, Typography } from 'src/common';
 
-export type OracleFormValues = {
+export type OracleSaveFormValues = {
   isin: string;
   value: string;
 };
 
-export type OracleFormProps = {
-  onSubmit: (formValues: OracleFormValues) => Promise<void>;
+export type OracleSaveFormProps = {
+  onSubmit: (formValues: OracleSaveFormValues) => Promise<void>;
 };
 
-export const OracleForm: React.FC<OracleFormProps> = (props) => {
-  const formik = useFormik<OracleFormValues>({
+export const OracleSaveForm: React.FC<OracleSaveFormProps> = (props) => {
+  const formik = useFormik<OracleSaveFormValues>({
     initialValues: {
       isin: '',
       value: ''
@@ -23,7 +23,7 @@ export const OracleForm: React.FC<OracleFormProps> = (props) => {
     validateOnChange: false,
 
     validate: (formValues) => {
-      const error: Partial<OracleFormValues> = {};
+      const error: Partial<OracleSaveFormValues> = {};
 
       if (!formValues.isin) {
         error.isin = 'required';
@@ -47,7 +47,7 @@ export const OracleForm: React.FC<OracleFormProps> = (props) => {
     <form onSubmit={formik.handleSubmit}>
       <div>
         <Input
-          type="number"
+          type="text"
           onChange={formik.handleChange}
           name="isin"
           label="ISIN"
