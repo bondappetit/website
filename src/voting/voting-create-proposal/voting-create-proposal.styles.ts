@@ -12,5 +12,8 @@ export const useVotingCreateProposalStyles = createUseStyles(
         maxWidth: 600
       }
     }
-  })
+  }),
+  {
+    name: 'VotingCreateProposal'
+  }
 );

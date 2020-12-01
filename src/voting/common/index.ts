@@ -8,3 +8,7 @@ export * from './use-voting-proposal-detail';
 export * from './voting-confirm';
 export * from './voting-add-action';
 export * from './use-vote-info';
+export * from './voting-details-block';
+export * from './voting-proposal-description';
+export * from './vote-button';
+export * from './voting-info';

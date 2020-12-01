@@ -20,8 +20,6 @@ type FormValues = {
   value: string;
 };
 
-const UINT_256 = 'uint256';
-
 export type VotingCreateProposalProps = {
   onSubmit: () => void;
 };
@@ -49,7 +47,7 @@ export const VotingCreateProposal: React.FC<VotingCreateProposalProps> = (
           ([params, values], { paramType, value }) => {
             params.push(paramType);
             const newValue =
-              paramType === UINT_256
+              paramType === 'uint256'
                 ? new BN(value).multipliedBy(new BN(10).pow(6)).toString(10)
                 : value;
 
@@ -101,8 +99,7 @@ export const VotingCreateProposal: React.FC<VotingCreateProposalProps> = (
             ({ functionSig, input, contract }, index) => {
               const inputArgs = input
                 .map(
-                  (test) =>
-                    `${test.paramName}:${test.paramType} = ${test.value}`
+                  (arg) => `${arg.paramName}:${arg.paramType} = ${arg.value}`
                 )
                 .join(', ');
 

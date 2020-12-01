@@ -35,6 +35,7 @@ export const Home: React.FC = () => {
         </Typography>
         {config.IS_DEV && <Investing className={classes.investing} />}
         {!config.IS_DEV && <Announcement className={classes.announcement} />}
+        <Announcement className={classes.announcement} />
         <div className={classes.button}>
           <ScrollIntoView target="#statistic">
             <ButtonBase>
