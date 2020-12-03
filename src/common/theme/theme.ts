@@ -11,6 +11,7 @@ export type Colors = {
   pink: string;
   darkGrey: string;
   darkBlue: string;
+  lightGrey: string;
 };
 
 export type ThemeModes = 'light' | 'dark';
@@ -23,7 +24,8 @@ const mainColors = {
   green: '#09DE78',
   pink: '#FF35EB',
   darkGrey: '#EBEEEF',
-  darkBlue: '#3280BB'
+  darkBlue: '#3280BB',
+  lightGrey: '#EEEEEE'
 };
 
 export const themeModes: Record<ThemeModes, Colors> = {

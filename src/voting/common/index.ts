@@ -12,3 +12,7 @@ export * from './voting-details-block';
 export * from './voting-proposal-description';
 export * from './vote-button';
 export * from './voting-info';
+export * from './voting-choose-buttons';
+export * from './voting-input';
+export * from './voting-medium-editor';
+export * from './voting-action-list';

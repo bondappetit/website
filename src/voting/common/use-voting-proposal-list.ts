@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
@@ -9,7 +9,7 @@ import { usePagination } from './use-pagination';
 import { getProposal } from './get-proposal';
 
 export const useVotingProposalList = () => {
-  const [loading, setLoading] = useState(false);
+  const loading = useRef(false);
   const {
     page,
     setCountItems,
@@ -36,7 +36,8 @@ export const useVotingProposalList = () => {
   const loadExistingProposals = useCallback(async () => {
     if (!account) return;
 
-    setLoading(true);
+    loading.current = true;
+
     const existingProposals = page.map((proposalId) => {
       return getProposal(proposalId)(governorContract)(eventData)(
         networkConfig
@@ -44,7 +45,8 @@ export const useVotingProposalList = () => {
     });
 
     setProposals(await Promise.all(existingProposals));
-    setLoading(false);
+
+    loading.current = false;
   }, [governorContract, account, eventData, networkConfig, page]);
 
   useEffect(() => {
@@ -53,16 +55,10 @@ export const useVotingProposalList = () => {
 
   useEffect(() => {
     loadExistingProposals();
-  }, [
-    loadExistingProposals,
-    loadCountProposals,
-    countItems,
-    currentPage,
-    update
-  ]);
+  }, [loadExistingProposals, countItems, currentPage, update]);
 
   return {
-    loading,
+    loading: loading.current,
     proposals,
     pages,
     handleUpdateProposalList,

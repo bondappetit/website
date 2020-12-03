@@ -19,7 +19,11 @@ export const useButtonStyles = createUseStyles(
     primary: {
       backgroundColor: theme.colors.primary,
       border: `1px solid ${theme.colors.primary}`,
-      color: theme.colors.secondary
+      color: theme.colors.secondary,
+
+      '&$outlined': {
+        color: theme.colors.primary
+      }
     },
 
     secondary: {},

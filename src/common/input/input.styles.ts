@@ -9,12 +9,7 @@ export const useInputStyles = createUseStyles(
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       display: 'inline-flex',
-      height: 24,
-      marginTop: 17,
-
-      [theme.breakpoints.md()]: {
-        height: 48
-      }
+      marginTop: 17
     },
 
     input: {
@@ -27,10 +22,10 @@ export const useInputStyles = createUseStyles(
       padding: 0,
       letterSpacing: '-0.02em',
       width: '100%',
-      height: 'inherit',
       textOverflow: 'inherit',
       fontSize: 20,
       lineHeight: '24px',
+      height: 24,
 
       '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
         '-webkit-appearance': 'none',
@@ -39,8 +34,17 @@ export const useInputStyles = createUseStyles(
 
       [theme.breakpoints.md()]: {
         fontSize: 40,
-        lineHeight: '48px'
+        lineHeight: '48px',
+        height: 48
       }
+    },
+
+    normal: {},
+
+    small: {
+      height: 24,
+      fontSize: 16,
+      lineHeight: '24px'
     },
 
     disabled: {
@@ -53,6 +57,7 @@ export const useInputStyles = createUseStyles(
     },
 
     labelWrap: {
+      width: '100%',
       display: 'inherit',
       textOverflow: 'inherit'
     },

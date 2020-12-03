@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
@@ -8,7 +8,8 @@ import { FormattedProposal } from './voting.types';
 import { getProposal } from './get-proposal';
 
 export const useVotingProposalDetail = (proposalId: number) => {
-  const [loading, setLoading] = useState(false);
+  const proposalIdRef = useRef(proposalId);
+  const loading = useRef(false);
   const [proposal, setProposal] = useState<FormattedProposal | null>(null);
   const governorContract = useGovernorContract();
   const { account } = useWeb3React<Web3>();
@@ -18,20 +19,22 @@ export const useVotingProposalDetail = (proposalId: number) => {
 
   const loadExistingProposal = useCallback(async () => {
     if (!account) return;
-    setLoading(true);
+    loading.current = true;
 
     setProposal(
-      await getProposal(proposalId)(governorContract)(eventData)(networkConfig)
+      await getProposal(proposalIdRef.current)(governorContract)(eventData)(
+        networkConfig
+      )
     );
-    setLoading(false);
-  }, [governorContract, account, eventData, networkConfig, proposalId]);
+    loading.current = false;
+  }, [governorContract, account, eventData, networkConfig]);
 
   useEffect(() => {
     loadExistingProposal();
   }, [loadExistingProposal, update]);
 
   return {
-    loading,
+    loading: loading.current,
     proposal,
     handleUpdateProposalDetail
   };

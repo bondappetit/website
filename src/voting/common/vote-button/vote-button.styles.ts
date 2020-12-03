@@ -12,11 +12,25 @@ export const useVoteButtonStyles = createUseStyles(
     },
 
     voteFor: {
-      borderColor: theme.colors.green
+      borderColor: theme.colors.green,
+
+      [theme.mixins.hover()]: {
+        '&:hover': {
+          opacity: 1,
+          background: theme.colors.green
+        }
+      }
     },
 
     voteAgainst: {
-      borderColor: theme.colors.red
+      borderColor: theme.colors.red,
+
+      [theme.mixins.hover()]: {
+        '&:hover': {
+          opacity: 1,
+          background: theme.colors.red
+        }
+      }
     }
   }),
   {

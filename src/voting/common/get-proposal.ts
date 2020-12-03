@@ -15,7 +15,7 @@ export const getProposal = (proposalId: number) => (
   return {
     id: proposal?.id,
     eta: proposal?.eta,
-    title: formattedEvent?.description?.split(' ')[0] ?? 'Untitled',
+    title: formattedEvent?.description?.split(/# |\n/g)[0] ?? 'Untitled',
     description: formattedEvent?.description ?? 'No description.',
     proposer: proposal?.proposer,
     status: await governorContract?.methods.state(proposalId).call(),

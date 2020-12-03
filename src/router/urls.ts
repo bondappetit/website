@@ -2,7 +2,8 @@ export const URLS = {
   home: '/',
   voting: {
     list: '/voting',
-    detail: (proposalId = ':proposalId') => `/voting/${proposalId}`
+    detail: (proposalId = ':proposalId') => `/voting/${proposalId}`,
+    create: '/voting/create'
   },
   market: '/market',
   stacking: {

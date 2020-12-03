@@ -25,3 +25,5 @@ export * from './buy-token-form';
 export * from './info-card';
 export * from './status';
 export * from './is-eth-address';
+export * from './fullpage-modal';
+export * from './small-modal';
