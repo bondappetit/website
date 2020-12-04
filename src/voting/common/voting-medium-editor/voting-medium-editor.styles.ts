@@ -20,6 +20,10 @@ export const useVotingMediumEditorStyles = createUseStyles(
         margin: 0
       },
 
+      '& * a': {
+        color: theme.colors.darkBlue
+      },
+
       [theme.mixins.hover()]: {
         '&:hover': {
           borderColor: theme.colors.primary,

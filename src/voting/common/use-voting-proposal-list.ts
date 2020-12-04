@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
@@ -9,15 +9,14 @@ import { usePagination } from './use-pagination';
 import { getProposal } from './get-proposal';
 
 export const useVotingProposalList = () => {
-  const loading = useRef(false);
+  const [loading, setLoading] = useState(false);
   const {
     page,
     setCountItems,
     nextPage,
-    prevPage,
-    pages,
     countItems,
-    currentPage
+    currentPage,
+    pages
   } = usePagination();
   const [proposals, setProposals] = useState<FormattedProposal[]>([]);
   const governorContract = useGovernorContract();
@@ -27,16 +26,16 @@ export const useVotingProposalList = () => {
   const [update, handleUpdateProposalList] = useUpdate();
 
   const loadCountProposals = useCallback(async () => {
-    const proposalCount = await governorContract?.methods
-      .proposalCount()
-      .call();
+    if (!governorContract) return;
+
+    const proposalCount = await governorContract.methods.proposalCount().call();
     setCountItems(Number(proposalCount));
   }, [setCountItems, governorContract]);
 
   const loadExistingProposals = useCallback(async () => {
-    if (!account) return;
+    if (!account || !governorContract || !networkConfig || !page.length) return;
 
-    loading.current = true;
+    setLoading(true);
 
     const existingProposals = page.map((proposalId) => {
       return getProposal(proposalId)(governorContract)(eventData)(
@@ -46,7 +45,7 @@ export const useVotingProposalList = () => {
 
     setProposals(await Promise.all(existingProposals));
 
-    loading.current = false;
+    setLoading(false);
   }, [governorContract, account, eventData, networkConfig, page]);
 
   useEffect(() => {
@@ -58,11 +57,10 @@ export const useVotingProposalList = () => {
   }, [loadExistingProposals, countItems, currentPage, update]);
 
   return {
-    loading: loading.current,
+    loading,
     proposals,
     pages,
     handleUpdateProposalList,
-    nextPage,
-    prevPage
+    nextPage
   };
 };

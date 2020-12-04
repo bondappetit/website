@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import BN from 'bignumber.js';
 import { useToggle } from 'react-use';
 
-import { Button, useGovernorContract, ButtonBase } from 'src/common';
+import { Button, useGovernorContract, ButtonBase, Modal } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
   VotingAddAction,
@@ -41,7 +41,7 @@ export const VotingCreateProposal: React.FC = () => {
       value: ''
     },
 
-    onSubmit: async (formValues) => {
+    onSubmit: async (formValues, { resetForm }) => {
       if (!library || !governorContract || !account) return;
 
       const callDatas = formValues.actions.flatMap(({ input }) => {
@@ -78,6 +78,8 @@ export const VotingCreateProposal: React.FC = () => {
       await governorContract?.methods
         .propose(addresses, values, signatures, callDatas, description)
         .send({ from: account, gas: 2000000 });
+
+      resetForm();
     }
   });
 
@@ -95,6 +97,27 @@ export const VotingCreateProposal: React.FC = () => {
       toggleAddAction(true);
     },
     [toggleAddAction]
+  );
+
+  const handleSubmitAction = useCallback(
+    (formValues: VotingAddActionFormValues) => {
+      const actions = formik.values.actions.map((action) => {
+        if (action.address === formValues.address) {
+          return formValues;
+        }
+
+        return action;
+      });
+
+      if (!editAction) {
+        actions.push(formValues);
+      }
+
+      setFieldValue('actions', actions);
+
+      setEditAction(null);
+    },
+    [setFieldValue, formik.values.actions, editAction]
   );
 
   return (
@@ -138,30 +161,13 @@ export const VotingCreateProposal: React.FC = () => {
           Submit proposal
         </Button>
       </form>
-      {addActionOpen && (
+      <Modal onClose={toggleAddAction} open={addActionOpen}>
         <VotingAddAction
-          open={addActionOpen}
           onClose={toggleAddAction}
           editAction={editAction}
-          onSubmit={(formValues) => {
-            const actions = formik.values.actions.map((action) => {
-              if (action.address === formValues.address) {
-                return formValues;
-              }
-
-              return action;
-            });
-
-            if (!editAction) {
-              actions.push(formValues);
-            }
-
-            formik.setFieldValue('actions', actions);
-
-            setEditAction(null);
-          }}
+          onSubmit={handleSubmitAction}
         />
-      )}
+      </Modal>
     </MainLayout>
   );
 };

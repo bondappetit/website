@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
+import { useToggle } from 'react-use';
 
 import { MainLayout } from 'src/layouts';
-import { Typography, Button, Link } from 'src/common';
+import {
+  Typography,
+  Button,
+  Link,
+  Status,
+  ButtonBase,
+  Skeleton,
+  cutAccount,
+  useNetworkConfig,
+  Modal,
+  SmallModal
+} from 'src/common';
 import { URLS } from 'src/router/urls';
+import { MarketBuyBond } from 'src/market/market-buy-bond';
 import { useVotingProposalListStyles } from './voting-proposal-list.styles';
-import { ProposalState, useVotingProposalList, useVoteInfo } from '../common';
+import {
+  ProposalState,
+  useVotingProposalList,
+  ProposalStateColors,
+  useVoteInfo
+} from '../common';
 import { VotingChoose } from '../voting-choose';
 
 export const VotingProposalList: React.FC = () => {
@@ -13,16 +31,19 @@ export const VotingProposalList: React.FC = () => {
   const {
     proposals = [],
     loading,
-    pages: proposalPages,
     nextPage,
-    prevPage
+    pages: proposalPages
   } = useVotingProposalList();
   const {
     currentVotes,
     canCreateProposal,
-    handleUpdateVoteInfo
+    canDelegate,
+    handleUpdateVoteInfo,
+    delegateTo
   } = useVoteInfo();
   const [votingChooseOpen, setVotingChooseOpen] = useState(false);
+  const [buyBondOpen, toggleBuyBond] = useToggle(false);
+  const networkConfig = useNetworkConfig();
 
   const handleToggleVotingChoose = () => {
     if (votingChooseOpen) {
@@ -34,62 +55,95 @@ export const VotingProposalList: React.FC = () => {
 
   return (
     <MainLayout>
-      <div className={classes.voting}>
-        <div>
-          <Typography variant="h2" align="center">
-            Votes
-          </Typography>
+      <div className={classes.root}>
+        <div className={classes.header}>
           <Typography variant="h3" align="center">
-            {currentVotes}
+            {loading && <Skeleton className={classes.votesSkeleton} />}
+            {!loading && Number(currentVotes) > 0 && <>{currentVotes} Votes</>}
+            {!loading && Number(currentVotes) === 0 && <>No Votes</>}
           </Typography>
-          {canCreateProposal && (
-            <Button component={ReactRouterLink} to={URLS.voting.create}>
-              Create proposal
-            </Button>
+          {loading && <Skeleton className={classes.delegatesSkeleton} />}
+          {!loading && (
+            <>
+              <Typography variant="h2" align="center">
+                {Number(currentVotes) > 0 && (
+                  <>
+                    deligated to{' '}
+                    <Link
+                      target="_blank"
+                      className={classes.delegateTo}
+                      href={`${networkConfig?.networkEtherscan}/address/${delegateTo}`}
+                    >
+                      {cutAccount(delegateTo)}
+                    </Link>
+                  </>
+                )}
+                {Number(currentVotes) === 0 && (
+                  <>Buy ART token so you can vote</>
+                )}
+                {Number(currentVotes) > 0 && !delegateTo && (
+                  <>Unlock it so you can vote</>
+                )}
+              </Typography>
+              {!canDelegate && <Button onClick={toggleBuyBond}>Buy ART</Button>}
+              {canDelegate && !delegateTo && (
+                <Button onClick={handleToggleVotingChoose}>Unlock votes</Button>
+              )}
+            </>
           )}
         </div>
-        <div className={classes.row}>
-          <div>
-            <Typography variant="h3">Voting Wallet</Typography>
-            <Button onClick={handleToggleVotingChoose}>Get Started</Button>
-          </div>
-          <div>
-            <Typography variant="h3">Governance Proposals</Typography>
-            {loading && 'loading...'}
-            {!loading &&
-              proposals.map((proposal) => (
-                <Typography key={proposal.id} variant="inherit" component="div">
-                  <Link
-                    component={ReactRouterLink}
-                    to={URLS.voting.detail(proposal.id)}
+        <div className={classes.list}>
+          {canCreateProposal && (
+            <Button
+              component={ReactRouterLink}
+              variant="outlined"
+              to={URLS.voting.create}
+              className={classes.createProposal}
+            >
+              + Create new proposal
+            </Button>
+          )}
+          {loading &&
+            Array.from(Array(5), (_, index) => index).map((item) => (
+              <Skeleton key={item} className={classes.proposalSkeleton} />
+            ))}
+          {!loading &&
+            proposals.map((proposal) => (
+              <Typography key={proposal.id} variant="h4" component="div">
+                <Link
+                  component={ReactRouterLink}
+                  to={URLS.voting.detail(proposal.id)}
+                  className={classes.proposal}
+                >
+                  <Typography
+                    variant="inherit"
+                    className={classes.proposalTitle}
                   >
-                    {proposal.id}
-                    <Typography variant="body1">{proposal.title}</Typography>
-                    {proposal.status && (
-                      <Typography variant="body1">
-                        {ProposalState[Number(proposal.status)]}
-                      </Typography>
-                    )}
-                  </Link>
-                </Typography>
-              ))}
-            {proposalPages.length > 1 && (
-              <>
-                <Button onClick={prevPage}>prev</Button>
-                {proposalPages.map((page) => (
-                  <div key={page}>{page}</div>
-                ))}
-                <Button onClick={nextPage}>next</Button>
-              </>
-            )}
-          </div>
+                    {proposal.title}
+                  </Typography>
+                  {proposal.status && (
+                    <Status color={ProposalStateColors[proposal.status]}>
+                      {ProposalState[Number(proposal.status)]}
+                    </Status>
+                  )}
+                </Link>
+              </Typography>
+            ))}
         </div>
+        {proposalPages.length > 1 && (
+          <ButtonBase onClick={nextPage}>show more</ButtonBase>
+        )}
       </div>
       <VotingChoose
         votes={currentVotes}
         open={votingChooseOpen}
         onClose={handleToggleVotingChoose}
       />
+      <Modal open={buyBondOpen} onClose={toggleBuyBond}>
+        <SmallModal>
+          <MarketBuyBond />
+        </SmallModal>
+      </Modal>
     </MainLayout>
   );
 };

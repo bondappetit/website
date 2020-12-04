@@ -14,9 +14,9 @@ export const useVotingEvents = () => {
   const governorContract = useGovernorContract();
 
   const loadEvents = useCallback(async () => {
-    const proposal = await governorContract?.methods.proposals('1').call();
+    if (!governorContract) return;
 
-    if (!proposal || proposal.id === '0') return;
+    const proposal = await governorContract.methods.proposals('1').call();
 
     const pastEvents = await governorContract?.getPastEvents(
       'ProposalCreated',

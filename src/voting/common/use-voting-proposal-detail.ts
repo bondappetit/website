@@ -9,7 +9,7 @@ import { getProposal } from './get-proposal';
 
 export const useVotingProposalDetail = (proposalId: number) => {
   const proposalIdRef = useRef(proposalId);
-  const loading = useRef(false);
+  const [loading, setLoading] = useState(false);
   const [proposal, setProposal] = useState<FormattedProposal | null>(null);
   const governorContract = useGovernorContract();
   const { account } = useWeb3React<Web3>();
@@ -18,15 +18,22 @@ export const useVotingProposalDetail = (proposalId: number) => {
   const [update, handleUpdateProposalDetail] = useUpdate();
 
   const loadExistingProposal = useCallback(async () => {
-    if (!account) return;
-    loading.current = true;
+    if (
+      !account ||
+      !governorContract ||
+      !networkConfig ||
+      !proposalIdRef.current
+    )
+      return;
+
+    setLoading(true);
 
     setProposal(
       await getProposal(proposalIdRef.current)(governorContract)(eventData)(
         networkConfig
       )
     );
-    loading.current = false;
+    setLoading(false);
   }, [governorContract, account, eventData, networkConfig]);
 
   useEffect(() => {
@@ -34,7 +41,7 @@ export const useVotingProposalDetail = (proposalId: number) => {
   }, [loadExistingProposal, update]);
 
   return {
-    loading: loading.current,
+    loading,
     proposal,
     handleUpdateProposalDetail
   };

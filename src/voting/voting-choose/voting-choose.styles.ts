@@ -4,7 +4,8 @@ export const useVotingChooseStyles = createUseStyles(
   {
     root: {
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      height: '100%'
     }
   },
   {

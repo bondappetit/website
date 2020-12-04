@@ -18,6 +18,19 @@ const defaultOptions = {
   placeholder: {
     text: 'Proposal description...',
     hideOnClick: false
+  },
+
+  toolbar: {
+    buttons: [
+      'bold',
+      'italic',
+      'anchor',
+      'h2',
+      'h3',
+      'quote',
+      'orderedlist',
+      'unorderedlist'
+    ]
   }
 };
 

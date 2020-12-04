@@ -2,35 +2,18 @@ import React from 'react';
 import { useParams, Link as ReactRouterLink } from 'react-router-dom';
 
 import { MainLayout } from 'src/layouts';
-import {
-  Typography,
-  Link,
-  Skeleton,
-  Status,
-  StatusProps,
-  dateUtils
-} from 'src/common';
+import { Typography, Link, Skeleton, Status, dateUtils } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { ReactComponent as ArrowLeft } from 'src/assets/icons/arrow-left.svg';
 import {
   useVotingProposalDetail,
   ProposalState,
   VotingDetailsBlock,
-  VotingProposalDescription
+  VotingProposalDescription,
+  ProposalStateColors
 } from '../common';
 import { VotingDetailsAction } from '../voting-details-action';
 import { useVotingProposalDetailStyles } from './voting-proposal-detail.styles';
-
-const colors: Record<string, StatusProps['color']> = {
-  [ProposalState.Pending]: 'grey',
-  [ProposalState.Active]: 'blue',
-  [ProposalState.Defeated]: 'red',
-  [ProposalState.Canceled]: 'yellow',
-  [ProposalState.Succeeded]: 'green',
-  [ProposalState.Queued]: 'pink',
-  [ProposalState.Executed]: 'green',
-  [ProposalState.Expired]: 'green'
-};
 
 export const VotingProposalDetail: React.FC = () => {
   const { proposalId } = useParams<{ proposalId: string }>();
@@ -98,7 +81,7 @@ export const VotingProposalDetail: React.FC = () => {
           ) : (
             <>
               {proposal?.status && (
-                <Status color={colors[proposal.status]}>
+                <Status color={ProposalStateColors[proposal.status]}>
                   {ProposalState[Number(proposal.status)]}
                 </Status>
               )}

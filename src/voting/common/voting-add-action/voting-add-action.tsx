@@ -7,8 +7,7 @@ import {
   useNetworkConfig,
   Network,
   ContractMethodInput,
-  SmallModal,
-  Modal
+  SmallModal
 } from 'src/common';
 import { VotingActionSelect } from '../voting-action-select';
 import { useVotingAddActionStyles } from './voting-add-action.styles';
@@ -25,7 +24,6 @@ export type VotingAddActionFormValues = {
 
 export type VotingAddActionProps = {
   onSubmit: (formValues: VotingAddActionFormValues) => void;
-  open: boolean;
   onClose: () => void;
   editAction: VotingAddActionFormValues | null;
 };
@@ -149,12 +147,6 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
     [setFieldValue, handleOnNext]
   );
 
-  const handleClose = () => {
-    props.onClose();
-    setStep(0);
-    formik.resetForm();
-  };
-
   const steps = [
     <VotingChooseButtons
       title="Add action"
@@ -202,16 +194,13 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
   }, [formik.values.functionSig]);
 
   return (
-    <Modal
+    <SmallModal
+      onClose={props.onClose}
       onBack={step > 0 ? handleOnBack : undefined}
-      open={props.open}
-      onClose={handleClose}
     >
-      <SmallModal>
-        <form onSubmit={formik.handleSubmit} className={classes.form}>
-          <FormikProvider value={formik}>{steps[step]}</FormikProvider>
-        </form>
-      </SmallModal>
-    </Modal>
+      <form onSubmit={formik.handleSubmit} className={classes.form}>
+        <FormikProvider value={formik}>{steps[step]}</FormikProvider>
+      </form>
+    </SmallModal>
   );
 };

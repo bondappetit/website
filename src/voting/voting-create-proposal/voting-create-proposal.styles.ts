@@ -7,14 +7,14 @@ export const useVotingCreateProposalStyles = createUseStyles(
   (theme: Theme) => ({
     form: {
       margin: '0 auto',
-      padding: '64px 0',
-      maxWidth: 800,
+      padding: '64px 16px',
       width: '100%',
       display: 'flex',
       flexDirection: 'column',
 
       [theme.breakpoints.md()]: {
-        maxWidth: 800
+        maxWidth: 800,
+        padding: '64px 0'
       }
     },
 

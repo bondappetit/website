@@ -229,14 +229,14 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         <div className={props.className}>
           {!canBuy && (
             <Typography variant="body1">
-              sorry, only token holder can buy bond token at market
+              Sorry, only token holder can buy bond token at market
             </Typography>
           )}
           <Typography variant="body1">
-            available tokens on market {availableTokens}
+            Available tokens on market {availableTokens}
           </Typography>
           <Typography variant="body1">
-            token price ${bondPriceOnMarket}
+            Token price ${bondPriceOnMarket}
           </Typography>
           <BuyTokenForm
             disabled={!canBuy}

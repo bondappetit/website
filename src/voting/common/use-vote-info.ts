@@ -7,77 +7,112 @@ import {
   useGovernorContract,
   useBondContract,
   useNetworkConfig,
-  useUpdate
+  useUpdate,
+  useBalance
 } from 'src/common';
 import { ProposalState } from './constants';
 
 export const useVoteInfo = () => {
-  const [currentVotes, setCurrentVotes] = useState<string>('0');
+  const [currentVotes, setCurrentVotes] = useState('0');
+  const [canDelegate, setCanDelegate] = useState(false);
   const [canCreateProposal, setCanCreateProposal] = useState(false);
+  const [delegateTo, setDelegateTo] = useState<string | undefined>();
   const governorContract = useGovernorContract();
   const bondContract = useBondContract();
   const networkConfig = useNetworkConfig();
   const { account } = useWeb3React<Web3>();
+  const getBalance = useBalance();
   const [update, handleUpdateVoteInfo] = useUpdate();
 
   const handleGetVotes = useCallback(async () => {
-    if (!account || !networkConfig) return;
+    if (!account || !networkConfig || !bondContract) return;
 
-    const votes = await bondContract?.methods.getCurrentVotes(account).call();
+    const votes = await bondContract.methods.getCurrentVotes(account).call();
+    const abtBalance = await getBalance({
+      tokenAddress: bondContract.options.address
+    });
 
-    if (!votes) return;
+    setCanDelegate(abtBalance.isGreaterThan(0));
 
     setCurrentVotes(
       new BN(votes)
         .div(new BN(10).pow(networkConfig.assets.Bond.decimals))
         .toString()
     );
-  }, [account, bondContract, networkConfig]);
+  }, [account, bondContract, networkConfig, getBalance]);
 
   const handleCanCreateProposal = useCallback(async () => {
-    if (!account || !networkConfig || !currentVotes) return;
+    if (!account || !networkConfig || !currentVotes || !governorContract)
+      return;
 
-    const propsalThreshold = await governorContract?.methods
+    const propsalThreshold = await governorContract.methods
       .proposalThreshold()
       .call();
-    const proposalId = await governorContract?.methods
+    const proposalId = await governorContract.methods
       .latestProposalIds(account)
       .call();
 
     if (proposalId && proposalId !== '0') {
-      const proposalState = await governorContract?.methods
+      const proposalState = await governorContract.methods
         .state(proposalId)
         .call();
+
       setCanCreateProposal(
         ![ProposalState.Pending, ProposalState.Active].includes(
           Number(proposalState)
         )
       );
+
       return;
     }
 
     if (!propsalThreshold || !proposalId) return;
 
-    setCanCreateProposal(
-      new BN(currentVotes).isGreaterThanOrEqualTo(
-        new BN(propsalThreshold).div(
-          new BN(10).pow(networkConfig.assets.Bond.decimals)
-        )
-      )
+    const proposalThresholdBN = new BN(propsalThreshold).div(
+      new BN(10).pow(networkConfig.assets.Bond.decimals)
     );
+
+    const currentVotesIsGreaterThanProposalThreshold = new BN(
+      currentVotes
+    ).isGreaterThanOrEqualTo(proposalThresholdBN);
+
+    setCanCreateProposal(currentVotesIsGreaterThanProposalThreshold);
   }, [governorContract, account, currentVotes, networkConfig]);
+
+  const handleGetDelegates = useCallback(async () => {
+    if (!account || !bondContract) return;
+
+    const delegates = await bondContract.methods.delegates(account).call();
+
+    setDelegateTo(delegates);
+  }, [account, bondContract]);
 
   useEffect(() => {
     handleGetVotes();
+  }, [handleGetVotes, update, account]);
+
+  useEffect(() => {
     handleCanCreateProposal();
-  }, [handleCanCreateProposal, handleGetVotes, currentVotes, update]);
+  }, [handleCanCreateProposal, currentVotes, update, account]);
+
+  useEffect(() => {
+    handleGetDelegates();
+  }, [handleGetDelegates, update, account]);
 
   return useMemo(
     () => ({
+      canDelegate,
       canCreateProposal,
+      delegateTo,
       currentVotes: new BN(currentVotes).toFixed(2),
       handleUpdateVoteInfo
     }),
-    [canCreateProposal, currentVotes, handleUpdateVoteInfo]
+    [
+      canCreateProposal,
+      currentVotes,
+      handleUpdateVoteInfo,
+      delegateTo,
+      canDelegate
+    ]
   );
 };
