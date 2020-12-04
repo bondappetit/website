@@ -26,13 +26,14 @@ export type FormattedProposal = {
   proposer: string | undefined;
   status: string | undefined;
   forCount: number;
+  eta?: string;
   againstCount: number;
   startBlock: number;
   endBlock: number;
   details: EventDetail[];
 };
 
-type EventDetail = {
+export type EventDetail = {
   callData: string;
   functionSig: string;
   target: string;

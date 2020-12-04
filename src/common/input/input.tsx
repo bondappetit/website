@@ -7,20 +7,28 @@ export type InputProps = React.HTMLProps<HTMLInputElement> & {
   label?: string;
   error?: boolean;
   htmlFor?: string;
+  variant?: 'small' | 'normal';
 };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   (props, ref) => {
     const classes = useInputStyles();
 
-    const { className, onFocus, onBlur, error, ...restOfProps } = props;
+    const {
+      className,
+      onFocus,
+      onBlur,
+      error,
+      variant = 'normal',
+      ...restOfProps
+    } = props;
 
     const classNamesWrapper = clsx(classes.root, className, {
       [classes.readOnly]: props.readOnly,
       [classes.disabled]: props.disabled
     });
 
-    const classNamesInput = clsx(classes.input, {
+    const classNamesInput = clsx(classes.input, classes[variant], {
       [classes.readOnly]: props.readOnly,
       [classes.disabled]: props.disabled
     });

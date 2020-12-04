@@ -2,7 +2,11 @@ import React from 'react';
 import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import Home from 'src/home';
-import { VotingProposalDetail, VotingProposalList } from 'src/voting';
+import {
+  VotingProposalDetail,
+  VotingProposalList,
+  VotingCreateProposal
+} from 'src/voting';
 import Market from 'src/market/market-forms';
 import StakingDetail from 'src/stacking/stacking-detail';
 import StakingList from 'src/stacking/stacking-list';
@@ -16,6 +20,9 @@ const Router: React.FC = () => {
       <Switch>
         <Route exact path={URLS.home}>
           <Home />
+        </Route>
+        <Route path={URLS.voting.create}>
+          <VotingCreateProposal />
         </Route>
         <Route path={URLS.voting.detail()}>
           <VotingProposalDetail />

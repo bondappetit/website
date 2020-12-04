@@ -1,49 +1,49 @@
 import React, { useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import Web3 from 'web3';
-import { useWeb3React } from '@web3-react/core';
+import { useToggle } from 'react-use';
 
 import { MainLayout } from 'src/layouts';
 import {
   Typography,
   Button,
-  Modal,
   Link,
-  useGovernorContract
+  Status,
+  ButtonBase,
+  Skeleton,
+  cutAccount,
+  useNetworkConfig,
+  Modal,
+  SmallModal
 } from 'src/common';
 import { URLS } from 'src/router/urls';
+import { MarketBuyBond } from 'src/market/market-buy-bond';
 import { useVotingProposalListStyles } from './voting-proposal-list.styles';
 import {
   ProposalState,
   useVotingProposalList,
-  VotingConfirm,
+  ProposalStateColors,
   useVoteInfo
 } from '../common';
 import { VotingChoose } from '../voting-choose';
-import { VotingCreateProposal } from '../voting-create-proposal';
 
 export const VotingProposalList: React.FC = () => {
-  const [proposalId, setProposalId] = useState<string | null>(null);
-  const [votingStatus, setVotingStatus] = useState<number | null>(null);
-  const [votingChooseOpen, setVotingChooseOpen] = useState(false);
-  const [createProposalOpen, setCreateProposalOpen] = useState(false);
-  const [voteConfirmOpen, setVoteConfirmOpen] = useState(false);
   const classes = useVotingProposalListStyles();
-  const { account } = useWeb3React<Web3>();
   const {
     proposals = [],
     loading,
-    pages: proposalPages,
     nextPage,
-    prevPage,
-    handleUpdateProposalList
+    pages: proposalPages
   } = useVotingProposalList();
-  const governorContract = useGovernorContract();
   const {
     currentVotes,
     canCreateProposal,
-    handleUpdateVoteInfo
+    canDelegate,
+    handleUpdateVoteInfo,
+    delegateTo
   } = useVoteInfo();
+  const [votingChooseOpen, setVotingChooseOpen] = useState(false);
+  const [buyBondOpen, toggleBuyBond] = useToggle(false);
+  const networkConfig = useNetworkConfig();
 
   const handleToggleVotingChoose = () => {
     if (votingChooseOpen) {
@@ -52,143 +52,97 @@ export const VotingProposalList: React.FC = () => {
 
     setVotingChooseOpen(!votingChooseOpen);
   };
-  const handleToggleCreateProposal = () => {
-    if (createProposalOpen) {
-      handleUpdateProposalList();
-      handleUpdateVoteInfo();
-    }
-
-    setCreateProposalOpen(!createProposalOpen);
-  };
-  const handleToggleVoteConfirm = (proposal?: string, status?: number) => {
-    setVoteConfirmOpen(!voteConfirmOpen);
-
-    if (status) setVotingStatus(status);
-    if (proposal) setProposalId(proposal);
-  };
-
-  const handleVote = async (value: boolean) => {
-    if (!proposalId || !account) return;
-
-    if (votingStatus === ProposalState.Active) {
-      await governorContract?.methods
-        .castVote(proposalId, value)
-        .send({ from: account });
-    }
-    if (votingStatus === ProposalState.Queued && value) {
-      await governorContract?.methods.queue(proposalId).send({ from: account });
-    }
-
-    if (votingStatus === ProposalState.Executed && value) {
-      await governorContract?.methods
-        .execute(proposalId)
-        .send({ from: account });
-    }
-
-    handleUpdateProposalList();
-  };
 
   return (
     <MainLayout>
-      <div className={classes.voting}>
-        <div>
-          <Typography variant="h2" align="center">
-            Votes
-          </Typography>
+      <div className={classes.root}>
+        <div className={classes.header}>
           <Typography variant="h3" align="center">
-            {currentVotes}
+            {loading && <Skeleton className={classes.votesSkeleton} />}
+            {!loading && Number(currentVotes) > 0 && <>{currentVotes} Votes</>}
+            {!loading && Number(currentVotes) === 0 && <>No Votes</>}
           </Typography>
-          {canCreateProposal && (
-            <Button onClick={handleToggleCreateProposal}>
-              Create proposal
-            </Button>
+          {loading && <Skeleton className={classes.delegatesSkeleton} />}
+          {!loading && (
+            <>
+              <Typography variant="h2" align="center">
+                {Number(currentVotes) > 0 && (
+                  <>
+                    deligated to{' '}
+                    <Link
+                      target="_blank"
+                      className={classes.delegateTo}
+                      href={`${networkConfig?.networkEtherscan}/address/${delegateTo}`}
+                    >
+                      {cutAccount(delegateTo)}
+                    </Link>
+                  </>
+                )}
+                {Number(currentVotes) === 0 && (
+                  <>Buy ART token so you can vote</>
+                )}
+                {Number(currentVotes) > 0 && !delegateTo && (
+                  <>Unlock it so you can vote</>
+                )}
+              </Typography>
+              {!canDelegate && <Button onClick={toggleBuyBond}>Buy ART</Button>}
+              {canDelegate && !delegateTo && (
+                <Button onClick={handleToggleVotingChoose}>Unlock votes</Button>
+              )}
+            </>
           )}
         </div>
-        <div className={classes.row}>
-          <div>
-            <Typography variant="h3">Voting Wallet</Typography>
-            <Button onClick={handleToggleVotingChoose}>Get Started</Button>
-          </div>
-          <div>
-            <Typography variant="h3">Governance Proposals</Typography>
-            {loading && 'loading...'}
-            {!loading &&
-              proposals.map((proposal) => (
-                <Typography key={proposal.id} variant="inherit" component="div">
-                  <Link
-                    component={ReactRouterLink}
-                    to={URLS.voting.detail(proposal.id)}
+        <div className={classes.list}>
+          {canCreateProposal && (
+            <Button
+              component={ReactRouterLink}
+              variant="outlined"
+              to={URLS.voting.create}
+              className={classes.createProposal}
+            >
+              + Create new proposal
+            </Button>
+          )}
+          {loading &&
+            Array.from(Array(5), (_, index) => index).map((item) => (
+              <Skeleton key={item} className={classes.proposalSkeleton} />
+            ))}
+          {!loading &&
+            proposals.map((proposal) => (
+              <Typography key={proposal.id} variant="h4" component="div">
+                <Link
+                  component={ReactRouterLink}
+                  to={URLS.voting.detail(proposal.id)}
+                  className={classes.proposal}
+                >
+                  <Typography
+                    variant="inherit"
+                    className={classes.proposalTitle}
                   >
-                    {proposal.id}
-                    <Typography variant="body1">{proposal.title}</Typography>
-                    {proposal.status && (
-                      <Typography variant="body1">
-                        {ProposalState[Number(proposal.status)]}
-                      </Typography>
-                    )}
-                  </Link>
+                    {proposal.title}
+                  </Typography>
                   {proposal.status && (
-                    <>
-                      {Number(proposal.status) === ProposalState.Succeeded && (
-                        <Button
-                          onClick={() =>
-                            handleToggleVoteConfirm(
-                              proposal.id,
-                              ProposalState.Queued
-                            )
-                          }
-                        >
-                          Queue
-                        </Button>
-                      )}
-                      {Number(proposal.status) === ProposalState.Queued && (
-                        <Button
-                          onClick={() =>
-                            handleToggleVoteConfirm(
-                              proposal.id,
-                              ProposalState.Executed
-                            )
-                          }
-                        >
-                          Execute
-                        </Button>
-                      )}
-                      {Number(proposal.status) === ProposalState.Active && (
-                        <Button
-                          onClick={() =>
-                            handleToggleVoteConfirm(
-                              proposal.id,
-                              ProposalState.Active
-                            )
-                          }
-                        >
-                          Vote
-                        </Button>
-                      )}
-                    </>
+                    <Status color={ProposalStateColors[proposal.status]}>
+                      {ProposalState[Number(proposal.status)]}
+                    </Status>
                   )}
-                </Typography>
-              ))}
-            {proposalPages.length > 1 && (
-              <>
-                <Button onClick={prevPage}>prev</Button>
-                {proposalPages.map((page) => (
-                  <div key={page}>{page}</div>
-                ))}
-                <Button onClick={nextPage}>next</Button>
-              </>
-            )}
-          </div>
+                </Link>
+              </Typography>
+            ))}
         </div>
+        {proposalPages.length > 1 && (
+          <ButtonBase onClick={nextPage}>show more</ButtonBase>
+        )}
       </div>
-      <Modal open={votingChooseOpen} onClose={handleToggleVotingChoose}>
-        <VotingChoose />
-      </Modal>
-      <Modal open={createProposalOpen} onClose={handleToggleCreateProposal}>
-        <VotingCreateProposal onSubmit={handleToggleCreateProposal} />
-      </Modal>
-      <Modal open={voteConfirmOpen} onClose={handleToggleVoteConfirm}>
-        <VotingConfirm onVote={handleVote} />
+      <VotingChoose
+        votes={currentVotes}
+        open={votingChooseOpen}
+        onClose={handleToggleVotingChoose}
+      />
+      <Modal open={buyBondOpen} onClose={toggleBuyBond}>
+        <SmallModal>
+          <MarketBuyBond />
+        </SmallModal>
       </Modal>
     </MainLayout>
   );

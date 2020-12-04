@@ -1,14 +1,14 @@
 import { createUseStyles } from 'react-jss';
 
-import { Theme } from 'src/common';
-
-export const useVotingAddActionStyles = createUseStyles((theme: Theme) => ({
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-
-    [theme.breakpoints.md()]: {
-      width: 600
+export const useVotingAddActionStyles = createUseStyles(
+  {
+    form: {
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%'
     }
+  },
+  {
+    name: 'VotingAddAction'
   }
-}));
+);

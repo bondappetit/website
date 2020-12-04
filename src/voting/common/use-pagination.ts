@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import chunk from 'lodash.chunk';
 import range from 'lodash.range';
 
@@ -8,12 +8,12 @@ export const usePagination = (limit = LIMIT) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [countItems, setCountItems] = useState(0);
 
+  const [page, setPage] = useState<number[]>([]);
+
   const pages = useMemo(() => chunk(range(countItems, 0), limit), [
     countItems,
     limit
   ]);
-  const page = useMemo(() => pages[currentPage] ?? [], [currentPage, pages]);
-  const pagesIds = useMemo(() => pages.map((_, index) => index), [pages]);
 
   const nextPage = useCallback(() => {
     if (pages.length - 1 <= currentPage) return;
@@ -21,20 +21,17 @@ export const usePagination = (limit = LIMIT) => {
     setCurrentPage(currentPage + 1);
   }, [currentPage, pages.length]);
 
-  const prevPage = useCallback(() => {
-    if (currentPage === 0) return;
-
-    setCurrentPage(currentPage - 1);
-  }, [currentPage]);
+  useEffect(() => {
+    setPage((previousPage) => [...previousPage, ...(pages[currentPage] ?? [])]);
+  }, [countItems, currentPage, pages]);
 
   return {
-    pages: pagesIds,
     page,
+    pages,
     countItems,
     currentPage,
     setCurrentPage,
     setCountItems,
-    nextPage,
-    prevPage
+    nextPage
   };
 };

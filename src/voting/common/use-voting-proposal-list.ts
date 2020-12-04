@@ -14,10 +14,9 @@ export const useVotingProposalList = () => {
     page,
     setCountItems,
     nextPage,
-    prevPage,
-    pages,
     countItems,
-    currentPage
+    currentPage,
+    pages
   } = usePagination();
   const [proposals, setProposals] = useState<FormattedProposal[]>([]);
   const governorContract = useGovernorContract();
@@ -27,16 +26,17 @@ export const useVotingProposalList = () => {
   const [update, handleUpdateProposalList] = useUpdate();
 
   const loadCountProposals = useCallback(async () => {
-    const proposalCount = await governorContract?.methods
-      .proposalCount()
-      .call();
+    if (!governorContract) return;
+
+    const proposalCount = await governorContract.methods.proposalCount().call();
     setCountItems(Number(proposalCount));
   }, [setCountItems, governorContract]);
 
   const loadExistingProposals = useCallback(async () => {
-    if (!account) return;
+    if (!account || !governorContract || !networkConfig || !page.length) return;
 
     setLoading(true);
+
     const existingProposals = page.map((proposalId) => {
       return getProposal(proposalId)(governorContract)(eventData)(
         networkConfig
@@ -44,6 +44,7 @@ export const useVotingProposalList = () => {
     });
 
     setProposals(await Promise.all(existingProposals));
+
     setLoading(false);
   }, [governorContract, account, eventData, networkConfig, page]);
 
@@ -53,20 +54,13 @@ export const useVotingProposalList = () => {
 
   useEffect(() => {
     loadExistingProposals();
-  }, [
-    loadExistingProposals,
-    loadCountProposals,
-    countItems,
-    currentPage,
-    update
-  ]);
+  }, [loadExistingProposals, countItems, currentPage, update]);
 
   return {
     loading,
     proposals,
     pages,
     handleUpdateProposalList,
-    nextPage,
-    prevPage
+    nextPage
   };
 };
