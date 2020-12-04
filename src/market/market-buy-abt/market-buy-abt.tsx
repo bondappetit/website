@@ -18,7 +18,8 @@ import {
   InfoCardFailure,
   InfoCardSuccess,
   BuyTokenFormValues,
-  Typography
+  Typography,
+  FullpageModal
 } from 'src/common';
 import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';
@@ -223,14 +224,18 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
         </div>
       </FormikProvider>
       <Modal open={successOpen} onClose={handleSuccessClose}>
-        <InfoCardSuccess
-          tokenName="ABT"
-          onClick={handleSuccessClose}
-          purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
-        />
+        <FullpageModal>
+          <InfoCardSuccess
+            tokenName="ABT"
+            onClick={handleSuccessClose}
+            purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
+          />
+        </FullpageModal>
       </Modal>
       <Modal open={failureOpen} onClose={failureToggle}>
-        <InfoCardFailure onClick={formik.submitForm} />
+        <FullpageModal>
+          <InfoCardFailure onClick={formik.submitForm} />
+        </FullpageModal>
       </Modal>
       <WalletModal open={walletsOpen} onClose={walletsToggle} />
     </>

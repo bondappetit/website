@@ -2,20 +2,26 @@ import React, { useCallback, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { Plate, ButtonBase, useBondContract } from 'src/common';
+import { useBondContract, Modal, SmallModal } from 'src/common';
 import { useVotingChooseStyles } from './voting-choose.styles';
-import { VotingDelegate, VotingManual } from '../common';
+import { VotingDelegate, VotingManual, VotingChooseButtons } from '../common';
 
 enum VotingVariants {
+  choose,
   manual,
   delegate
 }
 
-export const VotingChoose: React.FC = () => {
-  const [
-    currentVotingState,
-    setCurrentVotingState
-  ] = useState<VotingVariants | null>(null);
+export type VotingChooseProps = {
+  open: boolean;
+  onClose: () => void;
+  votes: string;
+};
+
+export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
+  const [currentVotingState, setCurrentVotingState] = useState<VotingVariants>(
+    VotingVariants.choose
+  );
   const classes = useVotingChooseStyles();
   const bondContract = useBondContract();
   const { account } = useWeb3React<Web3>();
@@ -33,34 +39,47 @@ export const VotingChoose: React.FC = () => {
   );
 
   const components = [
+    <VotingChooseButtons
+      title={`Unlock ${props.votes} votes`}
+      subtitle="ART tokens represent voting shares in BondAppetit governance."
+      buttons={[
+        {
+          title: 'Self Delegate',
+          subtitle: `Deligate votes to your wallet so you can
+            vote on each proposal and create new ones by yourself.`,
+          onClick: () => setCurrentVotingState(VotingVariants.manual)
+        },
+        {
+          title: 'Add Delegant',
+          subtitle: `Deligate your votes to a third party to setup a delegant which will
+            can vote on proposals and create ones for you.`,
+          onClick: () => setCurrentVotingState(VotingVariants.delegate)
+        }
+      ]}
+    />,
     <VotingManual onManual={() => handleVote(account)} />,
     <VotingDelegate onDelegate={(address) => handleVote(address)} />
   ];
 
+  const handleClose = useCallback(() => {
+    props.onClose();
+
+    setCurrentVotingState(VotingVariants.choose);
+  }, [props]);
+
   return (
-    <Plate className={classes.votingChoose}>
-      {currentVotingState === null && (
-        <>
-          <ButtonBase
-            onClick={() => setCurrentVotingState(VotingVariants.manual)}
-          >
-            Manual
-          </ButtonBase>
-          <ButtonBase
-            onClick={() => setCurrentVotingState(VotingVariants.delegate)}
-          >
-            Delegate
-          </ButtonBase>
-        </>
-      )}
-      {currentVotingState !== null && (
-        <>
-          <ButtonBase onClick={() => setCurrentVotingState(null)}>
-            back
-          </ButtonBase>
-          {components[currentVotingState]}
-        </>
-      )}
-    </Plate>
+    <Modal
+      open={props.open}
+      onClose={handleClose}
+      onBack={
+        currentVotingState !== VotingVariants.choose
+          ? () => setCurrentVotingState(VotingVariants.choose)
+          : undefined
+      }
+    >
+      <SmallModal>
+        <div className={classes.root}>{components[currentVotingState]}</div>
+      </SmallModal>
+    </Modal>
   );
 };

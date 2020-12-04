@@ -5,6 +5,7 @@ import { useButtonBaseStyles } from './button-base.styles';
 
 export type ButtonBaseProps = React.HTMLProps<HTMLButtonElement> & {
   component?: React.ElementType;
+  to?: string;
   ref?:
     | ((instance: HTMLButtonElement | null) => void)
     | React.MutableRefObject<HTMLButtonElement | null>

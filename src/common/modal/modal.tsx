@@ -1,23 +1,22 @@
-import React from 'react';
+import React, { Children } from 'react';
 import useKeyPress from 'react-use/esm/useKeyPress';
 import { useLockBodyScroll, useUpdateEffect } from 'react-use';
 
-import BondHatIcon from 'src/assets/images/bondappetit-hat.png';
-import { ReactComponent as CloseIcon } from 'src/assets/icons/close.svg';
 import { Portal } from '../portal';
-import { ToggleThemeButton } from '../theme';
 import { useModalStyles } from './modal.styles';
-import { ButtonBase } from '../button-base';
 
 export type ModalProps = {
   open: boolean;
+  onBack?: () => void;
   onClose: () => void;
+  children: React.ReactElement;
 };
 
 export const Modal: React.FC<ModalProps> = (props) => {
   const classes = useModalStyles();
   const [isPressed] = useKeyPress('Escape');
-  const { onClose, open } = props;
+  const { onClose, open, children, onBack } = props;
+  const child = Children.only(children);
 
   useLockBodyScroll(open);
 
@@ -32,20 +31,10 @@ export const Modal: React.FC<ModalProps> = (props) => {
   return (
     <Portal>
       <div className={classes.overlay}>
-        <div className={classes.header}>
-          <div>
-            <ToggleThemeButton />
-          </div>
-          <img src={BondHatIcon} alt="" />
-          <div>
-            <ButtonBase onClick={onClose}>
-              <CloseIcon />
-            </ButtonBase>
-          </div>
-        </div>
-        <div className={classes.content}>
-          <div>{props.children}</div>
-        </div>
+        {React.cloneElement(child, {
+          onClose,
+          onBack
+        })}
       </div>
     </Portal>
   );
