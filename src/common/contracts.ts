@@ -13,6 +13,7 @@ import type { UniswapAnchoredView } from 'src/generate/UniswapAnchoredView';
 import type { Issuer } from 'src/generate/Issuer';
 import type { SecurityOracle } from 'src/generate/SecurityOracle';
 import type { DepositaryOracle } from 'src/generate/DepositaryOracle';
+import type { Vesting } from 'src/generate/Vesting';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -101,3 +102,8 @@ export const useDepositaryOracleContract = createUseContract<DepositaryOracle>(
     address: network.contracts.DepositaryOracle.address
   })
 );
+
+export const useVestingContract = createUseContract<Vesting>((network) => ({
+  abi: network.contracts.Vesting.abi,
+  address: network.contracts.Vesting.address
+}));

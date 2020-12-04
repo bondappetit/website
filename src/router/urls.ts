@@ -9,5 +9,6 @@ export const URLS = {
     list: '/stacking',
     detail: (tokenId = ':tokenId') => `/stacking/${tokenId}`
   },
-  oracle: '/oracle'
+  oracle: '/oracle',
+  vesting: '/vesting'
 } as const;
