@@ -18,6 +18,8 @@ export const useVotingEvents = () => {
 
     const proposal = await governorContract.methods.proposals('1').call();
 
+    if (proposal.id === '0') return;
+
     const pastEvents = await governorContract?.getPastEvents(
       'ProposalCreated',
       {
