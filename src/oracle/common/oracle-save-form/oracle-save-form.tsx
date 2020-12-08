@@ -7,7 +7,7 @@ export type OracleSaveFormValues = {
   isin: string;
   value: string;
   property: string;
-  paramType: string;
+  type: string;
 };
 
 export type OracleSaveFormProps = {
@@ -21,7 +21,7 @@ export const OracleSaveForm: React.FC<OracleSaveFormProps> = (props) => {
       isin: '',
       value: '',
       property: '',
-      paramType: ''
+      type: ''
     },
 
     validateOnBlur: false,
@@ -38,8 +38,8 @@ export const OracleSaveForm: React.FC<OracleSaveFormProps> = (props) => {
         error.value = 'required';
       }
 
-      if (!formValues.paramType && props.withSelect) {
-        error.paramType = 'required';
+      if (!formValues.type && props.withSelect) {
+        error.type = 'required';
       }
 
       if (!formValues.property && props.withSelect) {
@@ -90,13 +90,13 @@ export const OracleSaveForm: React.FC<OracleSaveFormProps> = (props) => {
         <div>
           <Select
             label="Type of parameter"
-            value={formik.values.paramType}
-            onChange={(value) => formik.setFieldValue('paramType', value)}
+            value={formik.values.type}
+            onChange={(value) => formik.setFieldValue('type', value)}
           >
             <SelectOption value="uint256" label="uint256" />
           </Select>
-          {formik.errors.paramType && (
-            <Typography variant="body2">{formik.errors.paramType}</Typography>
+          {formik.errors.type && (
+            <Typography variant="body2">{formik.errors.type}</Typography>
           )}
         </div>
       )}

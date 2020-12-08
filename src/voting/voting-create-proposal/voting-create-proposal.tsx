@@ -7,13 +7,11 @@ import { useToggle } from 'react-use';
 
 import { Button, useGovernorContract, ButtonBase, Modal } from 'src/common';
 import { MainLayout } from 'src/layouts';
+import { VotingInput, VotingMediumEditor, VotingActionList } from '../common';
 import {
   VotingAddAction,
-  VotingAddActionFormValues,
-  VotingInput,
-  VotingMediumEditor,
-  VotingActionList
-} from '../common';
+  VotingAddActionFormValues
+} from '../voting-add-action';
 import { useVotingCreateProposalStyles } from './voting-create-proposal.styles';
 
 type FormValues = {
@@ -45,12 +43,12 @@ export const VotingCreateProposal: React.FC = () => {
       if (!library || !governorContract || !account) return;
 
       const callDatas = formValues.actions.flatMap(({ input }) => {
-        const [paramTypes, paramValues] = input.reduce<[string[], string[]]>(
-          ([params, values], { paramType, value }) => {
-            params.push(paramType);
+        const [types, paramValues] = input.reduce<[string[], string[]]>(
+          ([params, values], { type, value }) => {
+            params.push(type);
 
             const newValue =
-              paramType === 'uint256'
+              type === 'uint256'
                 ? new BN(value).multipliedBy(new BN(10).pow(6)).toString(10)
                 : value;
 
@@ -61,12 +59,12 @@ export const VotingCreateProposal: React.FC = () => {
           [[], []]
         );
 
-        return library.eth.abi.encodeParameters(paramTypes, paramValues);
+        return library.eth.abi.encodeParameters(types, paramValues);
       });
 
       const signatures = formValues.actions.map(
         ({ functionSig, input }) =>
-          `${functionSig}(${input.map(({ paramType }) => paramType).join()})`
+          `${functionSig}(${input.map(({ type }) => type).join()})`
       );
 
       const values = formValues.actions.map(({ payable = 0 }) => payable);
@@ -120,6 +118,19 @@ export const VotingCreateProposal: React.FC = () => {
     [setFieldValue, formik.values.actions, editAction]
   );
 
+  const handleSubmitActions = useCallback(
+    (actions: VotingAddActionFormValues[]) => {
+      setFieldValue('actions', [...formik.values.actions, ...actions]);
+    },
+    [setFieldValue, formik.values.actions]
+  );
+
+  const handleCloseAddAction = useCallback(() => {
+    toggleAddAction(false);
+
+    setEditAction(null);
+  }, [toggleAddAction]);
+
   return (
     <MainLayout>
       <form className={classes.form} onSubmit={formik.handleSubmit}>
@@ -161,11 +172,12 @@ export const VotingCreateProposal: React.FC = () => {
           Submit proposal
         </Button>
       </form>
-      <Modal onClose={toggleAddAction} open={addActionOpen}>
+      <Modal onClose={handleCloseAddAction} open={addActionOpen}>
         <VotingAddAction
-          onClose={toggleAddAction}
+          onClose={handleCloseAddAction}
           editAction={editAction}
           onSubmit={handleSubmitAction}
+          onSubmitActions={handleSubmitActions}
         />
       </Modal>
     </MainLayout>

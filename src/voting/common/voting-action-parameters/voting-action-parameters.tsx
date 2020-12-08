@@ -38,27 +38,23 @@ export const VotingActionParameters: React.FC<VotingActionParametersProps> = (
         {!!props.contractMethod?.inputs.length && (
           <>
             {props.contractMethod.inputs.map((input, index) => {
-              const paramType = input.paramType.length
-                ? `(${input.paramType})`
-                : '';
+              const type = input.type.length ? `(${input.type})` : '';
 
-              const label = [input.paramName, paramType]
-                .filter(Boolean)
-                .join('');
+              const label = [input.name, type].filter(Boolean).join('');
 
               return (
                 <Input
-                  key={input.paramName}
+                  key={input.name}
                   name={`input.${index}`}
                   variant="small"
                   value={formik.values.input[index]?.value ?? ''}
-                  placeholder={`Enter ${input.paramName}...`}
+                  placeholder={`Enter ${input.name}...`}
                   className={classes.input}
                   onChange={({ currentTarget }) =>
                     formik.setFieldValue(currentTarget.name, {
                       value: currentTarget.value,
-                      paramName: input.paramName,
-                      paramType: input.paramType
+                      name: input.name,
+                      type: input.type
                     })
                   }
                   label={label}
