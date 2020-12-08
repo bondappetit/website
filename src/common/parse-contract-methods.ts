@@ -1,8 +1,8 @@
 import type { AbiItem } from 'web3-utils';
 
 export type ContractMethodInput = {
-  paramType: string;
-  paramName: string;
+  type: string;
+  name: string;
 };
 
 export type ContractMethod = {
@@ -25,8 +25,8 @@ export const parseContractMethods = <T extends { abi: AbiItem[] }>(
           methodName: name,
           inputs:
             inputs?.map((input) => ({
-              paramType: input.type,
-              paramName: input.name
+              type: input.type,
+              name: input.name
             })) ?? [],
           payable: stateMutability === 'payable'
         };

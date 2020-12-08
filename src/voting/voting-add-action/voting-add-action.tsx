@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useReducer, useState } from 'react';
 import { FormikProvider, useFormik } from 'formik';
 import { useUpdateEffect } from 'react-use';
 
@@ -9,10 +9,26 @@ import {
   ContractMethodInput,
   SmallModal
 } from 'src/common';
-import { VotingActionSelect } from '../voting-action-select';
+import {
+  VOTING_PRESETS,
+  VotingPreset as VotingPresetItem
+} from 'src/voting-presets';
+import {
+  VotingActionSelect,
+  VotingChooseButtons,
+  VotingActionParameters,
+  VotingPreset
+} from '../common';
 import { useVotingAddActionStyles } from './voting-add-action.styles';
-import { VotingActionParameters } from '../voting-action-parameters';
-import { VotingChooseButtons } from '../voting-choose-buttons';
+import {
+  votingAddActionReducer,
+  initialState,
+  nextStep,
+  setVariant,
+  prevStep,
+  AddActionVariants,
+  editInitialState
+} from './voting-add-action.reducer';
 
 export type VotingAddActionFormValues = {
   contract?: number | string;
@@ -24,14 +40,28 @@ export type VotingAddActionFormValues = {
 
 export type VotingAddActionProps = {
   onSubmit: (formValues: VotingAddActionFormValues) => void;
+  onSubmitActions: (formValues: VotingAddActionFormValues[]) => void;
   onClose: () => void;
   editAction: VotingAddActionFormValues | null;
 };
 
+const votingPresets = VOTING_PRESETS.reduce<Record<string, VotingPresetItem>>(
+  (acc, preset) => {
+    acc[preset.title] = preset;
+
+    return acc;
+  },
+  {}
+);
+
 export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
   const networkConfig = useNetworkConfig();
   const classes = useVotingAddActionStyles();
-  const [step, setStep] = useState(props.editAction ? 3 : 0);
+  const [state, dispatch] = useReducer(
+    votingAddActionReducer,
+    props.editAction ? editInitialState : initialState
+  );
+  const [currentPreset, setPreset] = useState<VotingPresetItem | null>(null);
 
   const contracts = useMemo(() => {
     if (!networkConfig?.contracts) return;
@@ -101,7 +131,6 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
         address: contract?.address
       });
 
-      setStep(0);
       resetForm();
       props.onClose();
     }
@@ -127,43 +156,32 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
       : [];
   }, [methods]);
 
-  const handleOnBack = useCallback(
-    () => setStep((previousStep) => previousStep - 1),
-    []
-  );
-  const handleOnNext = useCallback(
-    () => setStep((previousStep) => previousStep + 1),
-    []
-  );
+  const handleOnBack = useCallback(() => {
+    if (state.step === 0) {
+      dispatch(setVariant(null));
+    } else {
+      dispatch(prevStep());
+    }
+  }, [state.step]);
+
+  const handleOnNext = useCallback(() => dispatch(nextStep()), []);
 
   const { setFieldValue } = formik;
 
   const handleChange = useCallback(
     (field: string) => (value: string) => {
-      setFieldValue(field, value);
+      if (!votingPresets[value]) {
+        setFieldValue(field, value);
+      } else {
+        setPreset(votingPresets[value]);
+      }
 
       handleOnNext();
     },
     [setFieldValue, handleOnNext]
   );
 
-  const steps = [
-    <VotingChooseButtons
-      title="Add action"
-      subtitle="Actions will be automaticaly executed in case of succesfull voting."
-      buttons={[
-        {
-          title: 'Setup manualy',
-          subtitle: `Choose target and set functions to it.`,
-          onClick: handleOnNext
-        },
-        {
-          title: 'Use template',
-          subtitle: `Choose one of several presets and fill in your data to setup complete event`,
-          onClick: () => {}
-        }
-      ]}
-    />,
+  const manualSteps = [
     <VotingActionSelect
       title="Select target"
       options={contractNames}
@@ -177,11 +195,25 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
     <VotingActionParameters
       title={
         <>
-          {formik.values.contract}
-          <br /> {formik.values.functionSig}
+          {formik.values.contract} <br />
+          {formik.values.functionSig}
         </>
       }
       contractMethod={methods?.[formik.values.functionSig]}
+    />
+  ];
+
+  const templateSteps = [
+    <VotingActionSelect
+      title="Choose template"
+      options={Object.keys(votingPresets)}
+      onChange={handleChange('contract')}
+    />,
+    <VotingPreset
+      preset={currentPreset}
+      contracts={contracts}
+      onClose={props.onClose}
+      onSubmitActions={props.onSubmitActions}
     />
   ];
 
@@ -196,11 +228,37 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
   return (
     <SmallModal
       onClose={props.onClose}
-      onBack={step > 0 ? handleOnBack : undefined}
+      onBack={state.currentVariant ? handleOnBack : undefined}
     >
-      <form onSubmit={formik.handleSubmit} className={classes.form}>
-        <FormikProvider value={formik}>{steps[step]}</FormikProvider>
-      </form>
+      <div className={classes.form}>
+        {!state.currentVariant && (
+          <VotingChooseButtons
+            title="Add action"
+            subtitle="Actions will be automaticaly executed in case of succesfull voting."
+            buttons={[
+              {
+                title: 'Setup manually',
+                subtitle: `Choose target and set functions to it.`,
+                onClick: () => dispatch(setVariant(AddActionVariants.manually))
+              },
+              {
+                title: 'Use template',
+                subtitle: `Choose one of several presets and fill in your data to setup complete event`,
+                onClick: () => dispatch(setVariant(AddActionVariants.template))
+              }
+            ]}
+          />
+        )}
+        <FormikProvider value={formik}>
+          {state.currentVariant === AddActionVariants.manually && (
+            <form onSubmit={formik.handleSubmit} className={classes.form}>
+              {manualSteps[state.step]}
+            </form>
+          )}
+        </FormikProvider>
+        {state.currentVariant === AddActionVariants.template &&
+          templateSteps[state.step]}
+      </div>
     </SmallModal>
   );
 };

@@ -67,10 +67,7 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
         .put(
           formValues.isin,
           formValues.property,
-          library.eth.abi.encodeParameters(
-            [formValues.paramType],
-            [securityValue]
-          )
+          library.eth.abi.encodeParameters([formValues.type], [securityValue])
         )
         .send({
           from: account,
@@ -111,7 +108,7 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
       if (!result) return;
 
       const decodedAmount = library.eth.abi.decodeParameters(
-        [formValues.paramType],
+        [formValues.type],
         result
       );
 
