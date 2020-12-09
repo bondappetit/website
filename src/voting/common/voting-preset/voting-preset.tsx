@@ -73,7 +73,7 @@ export const VotingPreset: React.FC<VotingPresetProps> = (props) => {
             </Typography>
             {action.input.map((input, inputIndex) => {
               const id = `${input.type}${actionIndex}${inputIndex}`;
-              const formikAction = formik.values.actions[actionIndex] ?? {};
+              const currentAction = formik.values.actions[actionIndex] ?? {};
 
               return (
                 <Input
@@ -82,23 +82,23 @@ export const VotingPreset: React.FC<VotingPresetProps> = (props) => {
                   className={classes.input}
                   readOnly={!input.variable}
                   name={`actions.${actionIndex}.input.${inputIndex}.value`}
-                  value={formikAction.input?.[inputIndex]?.value}
+                  value={currentAction.input?.[inputIndex]?.value}
                   onChange={(event) => {
-                    if (input.variable) {
-                      formik.values.actions.forEach((_, key) => {
-                        action.input.forEach((formikInput, i) => {
-                          if (
-                            formikInput.variable &&
-                            formikInput.name === input.name
-                          ) {
-                            formik.setFieldValue(
-                              `actions.${key}.input.${i}.value`,
-                              event.currentTarget.value
-                            );
-                          }
-                        });
+                    if (!input.variable) return;
+
+                    actions.forEach((formikAction, key) => {
+                      formikAction.input.forEach((formikInput, i) => {
+                        if (
+                          formikInput.variable &&
+                          formikInput.name === input.name
+                        ) {
+                          formik.setFieldValue(
+                            `actions.${key}.input.${i}.value`,
+                            event.currentTarget.value
+                          );
+                        }
                       });
-                    }
+                    });
                   }}
                   placeholder={`Enter ${input.type}...`}
                 />
