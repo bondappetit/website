@@ -38,7 +38,7 @@ export const useStackingBalances = (availableTokens: string[]) => {
         const amount = balance ? new BN(balance.amount) : null;
         const reward = await stackingContract?.methods
           .reward(tokenConfig.address)
-          .call();
+          .call({ from: account });
         const rewards = await stackingContract?.methods
           .rewards(tokenConfig.address)
           .call();
