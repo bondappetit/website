@@ -36,7 +36,8 @@ export const VotingPreset: React.FC<VotingPresetProps> = (props) => {
         return {
           ...input,
           type: input.type,
-          value: input.value,
+          value: props.preset?.variables[input.value]?.default ?? input.value,
+          presetVariable: input.value,
           name: parsedInput?.name ?? ''
         };
       })
@@ -90,7 +91,7 @@ export const VotingPreset: React.FC<VotingPresetProps> = (props) => {
                       formikAction.input.forEach((formikInput, i) => {
                         if (
                           formikInput.variable &&
-                          formikInput.name === input.name
+                          formikInput.presetVariable === input.presetVariable
                         ) {
                           formik.setFieldValue(
                             `actions.${key}.input.${i}.value`,
