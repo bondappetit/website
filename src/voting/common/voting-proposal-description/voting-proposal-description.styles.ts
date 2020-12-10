@@ -23,8 +23,12 @@ export const useVotingProposalDescriptionStyles = createUseStyles(
         margin: '0 0 16px',
         fontFamily: 'inherit',
         color: 'currentColor',
-        letterSpacing: '-0.02em',
-        fontWeight: 'normal'
+        letterSpacing: '-0.02em'
+      },
+
+      '& a': {
+        color: theme.colors.darkBlue,
+        textDecoration: 'none'
       },
 
       '& h1': {

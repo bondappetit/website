@@ -6,7 +6,16 @@ import {
   DropResult
 } from 'react-beautiful-dnd';
 
-import { Plate, ButtonBase, Button, Typography } from 'src/common';
+import {
+  Plate,
+  ButtonBase,
+  Button,
+  Typography,
+  isEthAddress,
+  Link,
+  cutAccount,
+  useNetworkConfig
+} from 'src/common';
 import { VotingAddActionFormValues } from '../voting-action-parameters';
 import { useVotingActionListStyles } from './voting-action-list.styles';
 
@@ -31,6 +40,7 @@ export type VotingActionListProps = {
 
 export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
   const classes = useVotingActionListStyles();
+  const networkConfig = useNetworkConfig();
 
   const handleDragEnd = useCallback(
     (result: DropResult) => {
@@ -71,14 +81,39 @@ export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
               {props.actions.map((action, index) => {
                 const { functionSig, input, contract } = action;
 
-                const inputArgs = input.map((arg) => arg.value).join(', ');
+                const inputArgs = input.map((arg, key) => {
+                  const link = (
+                    <Link
+                      target="_blank"
+                      className={classes.link}
+                      href={`${networkConfig?.networkEtherscan}/address/${arg.value}`}
+                    >
+                      {cutAccount(arg.value)}
+                    </Link>
+                  );
 
-                const method = `${contract}.${functionSig}(${inputArgs})`;
+                  const id = [arg, key].join(',');
 
-                const key = `${method}-${index}`;
+                  return (
+                    <React.Fragment key={id}>
+                      {isEthAddress(arg.value) ? link : arg.value}
+                      {input.length - 1 === key ? '' : ', '}
+                    </React.Fragment>
+                  );
+                });
+
+                const method = (
+                  <>
+                    {contract}.{functionSig}({inputArgs})
+                  </>
+                );
+
+                const inputStr = input.map(({ value }) => value).join(',');
+
+                const key = `${contract}${functionSig}${inputStr}-${index}`;
 
                 return (
-                  <Draggable key={key} draggableId={method} index={index}>
+                  <Draggable key={key} draggableId={key} index={index}>
                     {(draggableProvided) => (
                       <div
                         className={classes.action}

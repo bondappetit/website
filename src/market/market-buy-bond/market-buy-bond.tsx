@@ -19,7 +19,8 @@ import {
   Modal,
   InfoCardFailure,
   InfoCardSuccess,
-  FullpageModal
+  FullpageModal,
+  InfoCardLoader
 } from 'src/common';
 import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';
@@ -43,6 +44,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
   const [successOpen, successToggle] = useToggle(false);
   const [failureOpen, failureToggle] = useToggle(false);
   const [walletsOpen, walletsToggle] = useToggle(false);
+  const [transactionOpen, transactionToggle] = useToggle(false);
   const network = useNetworkConfig();
   const [userGet, setUserGet] = useState<BN>(new BN(0));
   const marketContract = useMarketContract();
@@ -105,6 +107,8 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
     },
 
     onSubmit: async (formValues) => {
+      transactionToggle(true);
+
       const currentToken = tokens[formValues.currency];
 
       if (!marketContract?.options.address || !currentToken || !account) return;
@@ -168,6 +172,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         failureToggle(true);
       } finally {
         window.onbeforeunload = () => null;
+        transactionToggle(false);
       }
     }
   });
@@ -262,6 +267,11 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
       <Modal open={failureOpen} onClose={failureToggle}>
         <FullpageModal>
           <InfoCardFailure onClick={formik.submitForm} />
+        </FullpageModal>
+      </Modal>
+      <Modal open={transactionOpen}>
+        <FullpageModal>
+          <InfoCardLoader isAnimating={transactionOpen} />
         </FullpageModal>
       </Modal>
       <WalletModal open={walletsOpen} onClose={walletsToggle} />

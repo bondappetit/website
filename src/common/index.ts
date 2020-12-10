@@ -27,3 +27,4 @@ export * from './status';
 export * from './is-eth-address';
 export * from './fullpage-modal';
 export * from './small-modal';
+export * from './loader';

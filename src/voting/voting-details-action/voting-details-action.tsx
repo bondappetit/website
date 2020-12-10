@@ -92,19 +92,23 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
       <div className={classes.root}>
         {!props.loading && (
           <div className={classes.row}>
-            {!receipt?.hasVoted && (
-              <>
-                <VoteButton onClick={() => handleVote(true)} variant="voteFor">
-                  Vote for
-                </VoteButton>
-                <VoteButton
-                  onClick={() => handleVote(false)}
-                  variant="voteAgainst"
-                >
-                  Vote against
-                </VoteButton>
-              </>
-            )}
+            {!receipt?.hasVoted &&
+              Number(props.status) === ProposalState.Active && (
+                <>
+                  <VoteButton
+                    onClick={() => handleVote(true)}
+                    variant="voteFor"
+                  >
+                    Vote for
+                  </VoteButton>
+                  <VoteButton
+                    onClick={() => handleVote(false)}
+                    variant="voteAgainst"
+                  >
+                    Vote against
+                  </VoteButton>
+                </>
+              )}
             {receipt?.hasVoted && (
               <>
                 <VotingInfo

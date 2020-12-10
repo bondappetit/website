@@ -37,7 +37,7 @@ export const useVoteInfo = () => {
 
     const abtBalanceNormalized = abtBalance
       .div(new BN(10).pow(networkConfig.assets.Bond.decimals))
-      .toString();
+      .toFixed(2);
 
     const votesNormalized = new BN(votes)
       .div(new BN(10).pow(networkConfig.assets.Bond.decimals))
@@ -58,7 +58,7 @@ export const useVoteInfo = () => {
       .latestProposalIds(account)
       .call();
 
-    if (proposalId && proposalId !== '0') {
+    if (proposalId !== '0') {
       const proposalState = await governorContract.methods
         .state(proposalId)
         .call();

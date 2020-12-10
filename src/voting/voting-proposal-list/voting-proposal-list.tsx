@@ -14,13 +14,9 @@ import {
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useVotingProposalListStyles } from './voting-proposal-list.styles';
-import {
-  ProposalState,
-  useVotingProposalList,
-  ProposalStateColors,
-  useVoteInfo
-} from '../common';
+import { ProposalState, ProposalStateColors, useVoteInfo } from '../common';
 import { VotingChoose } from '../voting-choose';
+import { useVotingProposalList } from './use-voting-proposal-list';
 
 const DELEGATE_TO_DEFAULT = '0x0000000000000000000000000000000000000000';
 
@@ -57,12 +53,12 @@ export const VotingProposalList: React.FC = () => {
         <div className={classes.header}>
           <Typography variant="h3" align="center">
             {loading && <Skeleton className={classes.votesSkeleton} />}
-            {!loading &&
-              (Number(currentVotes) > 0 || Number(currentABT) > 0) && (
-                <>
-                  {Number(currentVotes) === 0 ? currentABT : currentVotes} Votes
-                </>
-              )}
+            {!loading && (Number(currentVotes) > 0 || Number(currentABT) > 0) && (
+              <>
+                {Number(currentVotes) === 0 ? currentABT : currentVotes}{' '}
+                {Number(currentVotes) === 0 ? 'Bond' : 'Votes'}
+              </>
+            )}
             {!loading &&
               Number(currentVotes) === 0 &&
               Number(currentABT) === 0 && <>No Votes</>}
@@ -89,8 +85,12 @@ export const VotingProposalList: React.FC = () => {
                     <>Unlock it so you can vote</>
                   )}
               </Typography>
-              {canDelegate && delegateTo === DELEGATE_TO_DEFAULT && (
-                <Button onClick={handleToggleVotingChoose}>Unlock votes</Button>
+              {canDelegate && (
+                <Button onClick={handleToggleVotingChoose}>
+                  {delegateTo === DELEGATE_TO_DEFAULT
+                    ? 'Unlock votes'
+                    : 'Undelegate'}
+                </Button>
               )}
             </>
           )}
@@ -138,7 +138,7 @@ export const VotingProposalList: React.FC = () => {
         )}
       </div>
       <VotingChoose
-        votes={currentVotes}
+        votes={Number(currentVotes) > 0 ? currentVotes : currentABT}
         open={votingChooseOpen}
         onClose={handleToggleVotingChoose}
       />

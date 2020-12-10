@@ -57,7 +57,10 @@ export const useVotingInputStyles = createUseStyles(
       }
     },
 
-    disabled: {},
+    disabled: {
+      pointerEvents: 'none',
+      opacity: 0.7
+    },
 
     readOnly: {},
 

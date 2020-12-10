@@ -3,10 +3,12 @@ import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
 import { useNetworkConfig, useGovernorContract, useUpdate } from 'src/common';
-import { useVotingEvents } from './use-voting-events';
-import { FormattedProposal } from './voting.types';
-import { usePagination } from './use-pagination';
-import { getProposal } from './get-proposal';
+import {
+  useVotingEvents,
+  FormattedProposal,
+  usePagination,
+  getProposal
+} from '../common';
 
 export const useVotingProposalList = () => {
   const [loading, setLoading] = useState(false);

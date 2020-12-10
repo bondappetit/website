@@ -12,6 +12,7 @@ import StakingDetail from 'src/stacking/stacking-detail';
 import StakingList from 'src/stacking/stacking-list';
 import OracleManage from 'src/oracle/oracle-manage';
 import VestingList from 'src/vesting/vesting-list';
+import { NotFound } from 'src/not-found';
 import { URLS } from './urls';
 
 const Router: React.FC = () => {
@@ -49,7 +50,7 @@ const Router: React.FC = () => {
           <VestingList />
         </Route>
         <Route>
-          <>not found</>
+          <NotFound />
         </Route>
       </Switch>
     </BrowserRouter>

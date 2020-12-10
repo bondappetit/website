@@ -51,12 +51,12 @@ export const VOTING_PRESETS: VotingPreset[] = [
           {
             variable: false,
             type: 'address',
-            value: 'Bond.address'
+            value: '0x40276A78FfE77102757762108e8810eF333200fb'
           },
           {
             variable: false,
             type: 'address',
-            value: 'Timelock.address'
+            value: '0x016a1eDDB690C207fc47A8e800d1bD399BFaB417'
           },
           {
             variable: true,
@@ -72,7 +72,7 @@ export const VOTING_PRESETS: VotingPreset[] = [
           {
             variable: false,
             type: 'address',
-            value: 'Vesting.address'
+            value: '0x1809734e462d626379f2A3E85c92A51b4Ed581d7'
           },
           {
             variable: true,

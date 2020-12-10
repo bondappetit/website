@@ -76,12 +76,13 @@ export const VotingPreset: React.FC<VotingPresetProps> = (props) => {
               const id = `${input.type}${actionIndex}${inputIndex}`;
               const currentAction = formik.values.actions[actionIndex] ?? {};
 
+              if (!input.variable) return;
+
               return (
                 <Input
                   key={id}
                   variant="small"
                   className={classes.input}
-                  readOnly={!input.variable}
                   name={`actions.${actionIndex}.input.${inputIndex}.value`}
                   value={currentAction.input?.[inputIndex]?.value}
                   onChange={(event) => {

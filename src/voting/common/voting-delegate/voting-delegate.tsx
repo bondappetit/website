@@ -29,8 +29,14 @@ export const VotingDelegate: React.FC<VotingDelegateProps> = (props) => {
         placeholder="Enter address..."
         onChange={formik.handleChange}
         className={classes.input}
+        disabled={formik.isSubmitting}
       />
-      <Button className={classes.button} type="submit">
+      <Button
+        className={classes.button}
+        type="submit"
+        disabled={formik.isSubmitting}
+        loading={formik.isSubmitting}
+      >
         Delegate
       </Button>
     </form>

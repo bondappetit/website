@@ -7,6 +7,7 @@
     "@bondappetit/networks": "^1.5.1-budget",
     "@popperjs/core": "^2.5.4",
     "@svgr/webpack": "4.3.3",
+    "@tanem/react-nprogress": "^3.0.51",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
