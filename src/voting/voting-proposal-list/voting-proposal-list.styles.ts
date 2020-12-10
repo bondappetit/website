@@ -31,7 +31,7 @@ export const useVotingProposalListStyles = createUseStyles(
     proposal: {
       padding: 32,
       width: '100%',
-      backgroundColor: theme.colors.darkGrey,
+      backgroundColor: theme.colors.proposalPlate,
       borderRadius: 24,
       flexWrap: 'wrap',
       justifyContent: 'space-between'

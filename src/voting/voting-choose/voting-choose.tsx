@@ -26,16 +26,30 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
   const bondContract = useBondContract();
   const { account } = useWeb3React<Web3>();
 
+  const { onClose } = props;
+
+  const handleClose = useCallback(() => {
+    onClose();
+
+    setCurrentVotingState(VotingVariants.choose);
+  }, [onClose]);
+
   const handleVote = useCallback(
     async (address?: string | null) => {
       if (!address || !account) return;
 
+      const estimategas = await bondContract?.methods
+        .delegate(address)
+        .estimateGas();
+
       await bondContract?.methods.delegate(address).send({
         from: account,
-        gas: 2000000
+        gas: estimategas
       });
+
+      handleClose();
     },
-    [bondContract, account]
+    [bondContract, account, handleClose]
   );
 
   const components = [
@@ -60,12 +74,6 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
     <VotingManual onManual={() => handleVote(account)} />,
     <VotingDelegate onDelegate={(address) => handleVote(address)} />
   ];
-
-  const handleClose = useCallback(() => {
-    props.onClose();
-
-    setCurrentVotingState(VotingVariants.choose);
-  }, [props]);
 
   return (
     <Modal

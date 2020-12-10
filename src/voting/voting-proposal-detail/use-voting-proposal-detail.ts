@@ -1,16 +1,22 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useReducer } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
 import { useNetworkConfig, useGovernorContract, useUpdate } from 'src/common';
-import { useVotingEvents } from './use-voting-events';
-import { FormattedProposal } from './voting.types';
-import { getProposal } from './get-proposal';
+import { useVotingEvents, getProposal } from '../common';
+import {
+  votingProposalDetailReducer,
+  initialState,
+  setLoading,
+  setProposal
+} from './voting-proposal-detail.reducer';
 
 export const useVotingProposalDetail = (proposalId: number) => {
   const proposalIdRef = useRef(proposalId);
-  const [loading, setLoading] = useState(false);
-  const [proposal, setProposal] = useState<FormattedProposal | null>(null);
+  const [state, dispatch] = useReducer(
+    votingProposalDetailReducer,
+    initialState
+  );
   const governorContract = useGovernorContract();
   const { account } = useWeb3React<Web3>();
   const eventData = useVotingEvents();
@@ -26,14 +32,17 @@ export const useVotingProposalDetail = (proposalId: number) => {
     )
       return;
 
-    setLoading(true);
+    dispatch(setLoading(true));
 
-    setProposal(
-      await getProposal(proposalIdRef.current)(governorContract)(eventData)(
-        networkConfig
+    dispatch(
+      setProposal(
+        await getProposal(proposalIdRef.current)(governorContract)(eventData)(
+          networkConfig
+        )
       )
     );
-    setLoading(false);
+
+    dispatch(setLoading(false));
   }, [governorContract, account, eventData, networkConfig]);
 
   useEffect(() => {
@@ -41,8 +50,7 @@ export const useVotingProposalDetail = (proposalId: number) => {
   }, [loadExistingProposal, update]);
 
   return {
-    loading,
-    proposal,
+    ...state,
     handleUpdateProposalDetail
   };
 };

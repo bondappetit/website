@@ -36,7 +36,8 @@ export const VotingPreset: React.FC<VotingPresetProps> = (props) => {
         return {
           ...input,
           type: input.type,
-          value: input.value,
+          value: props.preset?.variables[input.value]?.default ?? input.value,
+          presetVariable: input.value,
           name: parsedInput?.name ?? ''
         };
       })
@@ -73,32 +74,33 @@ export const VotingPreset: React.FC<VotingPresetProps> = (props) => {
             </Typography>
             {action.input.map((input, inputIndex) => {
               const id = `${input.type}${actionIndex}${inputIndex}`;
-              const formikAction = formik.values.actions[actionIndex] ?? {};
+              const currentAction = formik.values.actions[actionIndex] ?? {};
+
+              if (!input.variable) return;
 
               return (
                 <Input
                   key={id}
                   variant="small"
                   className={classes.input}
-                  readOnly={!input.variable}
                   name={`actions.${actionIndex}.input.${inputIndex}.value`}
-                  value={formikAction.input?.[inputIndex]?.value}
+                  value={currentAction.input?.[inputIndex]?.value}
                   onChange={(event) => {
-                    if (input.variable) {
-                      formik.values.actions.forEach((_, key) => {
-                        action.input.forEach((formikInput, i) => {
-                          if (
-                            formikInput.variable &&
-                            formikInput.name === input.name
-                          ) {
-                            formik.setFieldValue(
-                              `actions.${key}.input.${i}.value`,
-                              event.currentTarget.value
-                            );
-                          }
-                        });
+                    if (!input.variable) return;
+
+                    actions.forEach((formikAction, key) => {
+                      formikAction.input.forEach((formikInput, i) => {
+                        if (
+                          formikInput.variable &&
+                          formikInput.presetVariable === input.presetVariable
+                        ) {
+                          formik.setFieldValue(
+                            `actions.${key}.input.${i}.value`,
+                            event.currentTarget.value
+                          );
+                        }
                       });
-                    }
+                    });
                   }}
                   placeholder={`Enter ${input.type}...`}
                 />

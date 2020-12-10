@@ -65,6 +65,11 @@ export const useVotingMediumEditorStyles = createUseStyles(
       }
     },
 
+    disabled: {
+      pointerEvents: 'none',
+      opacity: 0.7
+    },
+
     label: {
       position: 'absolute',
       pointerEvents: 'none',

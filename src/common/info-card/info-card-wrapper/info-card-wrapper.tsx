@@ -27,13 +27,21 @@ export const InfoCardWrapper: React.FC<InfoCardWrapperProps> = (props) => {
             {props.title}
           </Typography>
         </Typography>
-        <Typography variant="h2" align="center" className={classes.typography}>
-          {props.subtitle}
-        </Typography>
+        {props.subtitle && (
+          <Typography
+            variant="h2"
+            align="center"
+            className={classes.typography}
+          >
+            {props.subtitle}
+          </Typography>
+        )}
       </div>
-      <Button color="primary" onClick={props.onClick}>
-        {props.button}
-      </Button>
+      {props.button && (
+        <Button color="primary" onClick={props.onClick}>
+          {props.button}
+        </Button>
+      )}
     </div>
   );
 };

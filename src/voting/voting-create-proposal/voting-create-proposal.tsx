@@ -2,11 +2,12 @@ import { useFormik } from 'formik';
 import React, { useCallback, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
-import BN from 'bignumber.js';
 import { useToggle } from 'react-use';
+import { useHistory } from 'react-router-dom';
 
 import { Button, useGovernorContract, ButtonBase, Modal } from 'src/common';
 import { MainLayout } from 'src/layouts';
+import { URLS } from 'src/router/urls';
 import { VotingInput, VotingMediumEditor, VotingActionList } from '../common';
 import {
   VotingAddAction,
@@ -30,6 +31,7 @@ export const VotingCreateProposal: React.FC = () => {
     editAction,
     setEditAction
   ] = useState<VotingAddActionFormValues | null>(null);
+  const history = useHistory();
 
   const formik = useFormik<FormValues>({
     initialValues: {
@@ -46,13 +48,7 @@ export const VotingCreateProposal: React.FC = () => {
         const [types, paramValues] = input.reduce<[string[], string[]]>(
           ([params, values], { type, value }) => {
             params.push(type);
-
-            const newValue =
-              type === 'uint256'
-                ? new BN(value).multipliedBy(new BN(10).pow(6)).toString(10)
-                : value;
-
-            values.push(newValue);
+            values.push(value);
 
             return [params, values];
           },
@@ -78,6 +74,7 @@ export const VotingCreateProposal: React.FC = () => {
         .send({ from: account, gas: 2000000 });
 
       resetForm();
+      history.push(URLS.voting.list);
     }
   });
 
@@ -139,6 +136,7 @@ export const VotingCreateProposal: React.FC = () => {
             name="title"
             label="Enter the name of proposal"
             value={formik.values.title}
+            disabled={formik.isSubmitting}
             onChange={formik.handleChange}
           />
           {!!formik.values.actions.length && (
@@ -160,6 +158,7 @@ export const VotingCreateProposal: React.FC = () => {
           )}
           <VotingMediumEditor
             value={formik.values.description}
+            disabled={formik.isSubmitting}
             label="Write a description"
             onChange={(value) => formik.setFieldValue('description', value)}
           />
@@ -168,6 +167,7 @@ export const VotingCreateProposal: React.FC = () => {
           type="submit"
           className={classes.submit}
           disabled={formik.isSubmitting}
+          loading={formik.isSubmitting}
         >
           Submit proposal
         </Button>

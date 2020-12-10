@@ -5,11 +5,11 @@ import { Theme } from 'src/common';
 export const useVotingInfoStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
-      border: `2px solid ${theme.colors.darkGrey}`,
+      border: `2px solid ${theme.colors.proposalPlate}`,
       borderRadius: 16,
       width: '100%',
       padding: '16px 21px',
-      backgroundColor: theme.colors.darkGrey,
+      backgroundColor: theme.colors.proposalPlate,
       position: 'relative'
     },
 

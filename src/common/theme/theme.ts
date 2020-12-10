@@ -3,13 +3,13 @@ export type Colors = {
   secondary: string;
   error: string;
   tokenTitleLine: string;
+  proposalPlate: string;
   grey: string;
   blue: string;
   red: string;
   yellow: string;
   green: string;
   pink: string;
-  darkGrey: string;
   darkBlue: string;
   lightGrey: string;
 };
@@ -23,7 +23,6 @@ const mainColors = {
   yellow: '#DEBC09',
   green: '#09DE78',
   pink: '#FF35EB',
-  darkGrey: '#EBEEEF',
   darkBlue: '#3280BB',
   lightGrey: '#EEEEEE'
 };
@@ -34,6 +33,7 @@ export const themeModes: Record<ThemeModes, Colors> = {
     secondary: '#fff',
     tokenTitleLine: '#ffdc24',
     error: '#eb5757',
+    proposalPlate: '#EBEEEF',
     ...mainColors
   },
 
@@ -42,6 +42,7 @@ export const themeModes: Record<ThemeModes, Colors> = {
     secondary: '#121314',
     tokenTitleLine: '#243aff',
     error: '#eb5757',
+    proposalPlate: '#222324',
     ...mainColors
   }
 };

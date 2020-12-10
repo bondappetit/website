@@ -14,6 +14,7 @@ import { ProposalState } from './constants';
 
 export const useVoteInfo = () => {
   const [currentVotes, setCurrentVotes] = useState('0');
+  const [currentABT, setCurrentABT] = useState('0');
   const [canDelegate, setCanDelegate] = useState(false);
   const [canCreateProposal, setCanCreateProposal] = useState(false);
   const [delegateTo, setDelegateTo] = useState<string | undefined>();
@@ -34,11 +35,16 @@ export const useVoteInfo = () => {
 
     setCanDelegate(abtBalance.isGreaterThan(0));
 
-    setCurrentVotes(
-      new BN(votes)
-        .div(new BN(10).pow(networkConfig.assets.Bond.decimals))
-        .toString()
-    );
+    const abtBalanceNormalized = abtBalance
+      .div(new BN(10).pow(networkConfig.assets.Bond.decimals))
+      .toFixed(2);
+
+    const votesNormalized = new BN(votes)
+      .div(new BN(10).pow(networkConfig.assets.Bond.decimals))
+      .toString();
+
+    setCurrentABT(abtBalanceNormalized);
+    setCurrentVotes(votesNormalized);
   }, [account, bondContract, networkConfig, getBalance]);
 
   const handleCanCreateProposal = useCallback(async () => {
@@ -52,7 +58,7 @@ export const useVoteInfo = () => {
       .latestProposalIds(account)
       .call();
 
-    if (proposalId && proposalId !== '0') {
+    if (proposalId !== '0') {
       const proposalState = await governorContract.methods
         .state(proposalId)
         .call();
@@ -101,6 +107,7 @@ export const useVoteInfo = () => {
 
   return useMemo(
     () => ({
+      currentABT,
       canDelegate,
       canCreateProposal,
       delegateTo,
@@ -108,6 +115,7 @@ export const useVoteInfo = () => {
       handleUpdateVoteInfo
     }),
     [
+      currentABT,
       canCreateProposal,
       currentVotes,
       handleUpdateVoteInfo,

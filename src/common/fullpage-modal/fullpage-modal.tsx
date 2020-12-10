@@ -21,9 +21,11 @@ export const FullpageModal: React.FC<FullpageModalProps> = (props) => {
         </div>
         <img src={BondHatIcon} alt="" />
         <div>
-          <ButtonBase onClick={props.onClose}>
-            <CloseIcon />
-          </ButtonBase>
+          {props.onClose && (
+            <ButtonBase onClick={props.onClose}>
+              <CloseIcon />
+            </ButtonBase>
+          )}
         </div>
       </div>
       <div className={classes.content}>

@@ -8,7 +8,7 @@ import { useModalStyles } from './modal.styles';
 export type ModalProps = {
   open: boolean;
   onBack?: () => void;
-  onClose: () => void;
+  onClose?: () => void;
   children: React.ReactElement;
 };
 
@@ -22,7 +22,7 @@ export const Modal: React.FC<ModalProps> = (props) => {
 
   useUpdateEffect(() => {
     if (isPressed && open) {
-      onClose();
+      onClose?.();
     }
   }, [isPressed, onClose, open]);
 

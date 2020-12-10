@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import { useToggle } from 'react-use';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -11,20 +10,15 @@ import {
   ButtonBase,
   Skeleton,
   cutAccount,
-  useNetworkConfig,
-  Modal,
-  SmallModal
+  useNetworkConfig
 } from 'src/common';
 import { URLS } from 'src/router/urls';
-import { MarketBuyBond } from 'src/market/market-buy-bond';
 import { useVotingProposalListStyles } from './voting-proposal-list.styles';
-import {
-  ProposalState,
-  useVotingProposalList,
-  ProposalStateColors,
-  useVoteInfo
-} from '../common';
+import { ProposalState, ProposalStateColors, useVoteInfo } from '../common';
 import { VotingChoose } from '../voting-choose';
+import { useVotingProposalList } from './use-voting-proposal-list';
+
+const DELEGATE_TO_DEFAULT = '0x0000000000000000000000000000000000000000';
 
 export const VotingProposalList: React.FC = () => {
   const classes = useVotingProposalListStyles();
@@ -39,10 +33,10 @@ export const VotingProposalList: React.FC = () => {
     canCreateProposal,
     canDelegate,
     handleUpdateVoteInfo,
-    delegateTo
+    delegateTo,
+    currentABT
   } = useVoteInfo();
   const [votingChooseOpen, setVotingChooseOpen] = useState(false);
-  const [buyBondOpen, toggleBuyBond] = useToggle(false);
   const networkConfig = useNetworkConfig();
 
   const handleToggleVotingChoose = () => {
@@ -59,35 +53,44 @@ export const VotingProposalList: React.FC = () => {
         <div className={classes.header}>
           <Typography variant="h3" align="center">
             {loading && <Skeleton className={classes.votesSkeleton} />}
-            {!loading && Number(currentVotes) > 0 && <>{currentVotes} Votes</>}
-            {!loading && Number(currentVotes) === 0 && <>No Votes</>}
+            {!loading && (Number(currentVotes) > 0 || Number(currentABT) > 0) && (
+              <>
+                {Number(currentVotes) === 0 ? currentABT : currentVotes}{' '}
+                {Number(currentVotes) === 0 ? 'Bond' : 'Votes'}
+              </>
+            )}
+            {!loading &&
+              Number(currentVotes) === 0 &&
+              Number(currentABT) === 0 && <>No Votes</>}
           </Typography>
           {loading && <Skeleton className={classes.delegatesSkeleton} />}
           {!loading && (
             <>
               <Typography variant="h2" align="center">
-                {Number(currentVotes) > 0 && (
-                  <>
-                    deligated to{' '}
-                    <Link
-                      target="_blank"
-                      className={classes.delegateTo}
-                      href={`${networkConfig?.networkEtherscan}/address/${delegateTo}`}
-                    >
-                      {cutAccount(delegateTo)}
-                    </Link>
-                  </>
-                )}
-                {Number(currentVotes) === 0 && (
-                  <>Buy ART token so you can vote</>
-                )}
-                {Number(currentVotes) > 0 && !delegateTo && (
-                  <>Unlock it so you can vote</>
-                )}
+                {Number(currentVotes) > 0 &&
+                  delegateTo !== DELEGATE_TO_DEFAULT && (
+                    <>
+                      deligated to{' '}
+                      <Link
+                        target="_blank"
+                        className={classes.delegateTo}
+                        href={`${networkConfig?.networkEtherscan}/address/${delegateTo}`}
+                      >
+                        {cutAccount(delegateTo)}
+                      </Link>
+                    </>
+                  )}
+                {(Number(currentVotes) > 0 || Number(currentABT) > 0) &&
+                  delegateTo === DELEGATE_TO_DEFAULT && (
+                    <>Unlock it so you can vote</>
+                  )}
               </Typography>
-              {!canDelegate && <Button onClick={toggleBuyBond}>Buy ART</Button>}
-              {canDelegate && !delegateTo && (
-                <Button onClick={handleToggleVotingChoose}>Unlock votes</Button>
+              {canDelegate && (
+                <Button onClick={handleToggleVotingChoose}>
+                  {delegateTo === DELEGATE_TO_DEFAULT
+                    ? 'Unlock votes'
+                    : 'Undelegate'}
+                </Button>
               )}
             </>
           )}
@@ -135,15 +138,10 @@ export const VotingProposalList: React.FC = () => {
         )}
       </div>
       <VotingChoose
-        votes={currentVotes}
+        votes={Number(currentVotes) > 0 ? currentVotes : currentABT}
         open={votingChooseOpen}
         onClose={handleToggleVotingChoose}
       />
-      <Modal open={buyBondOpen} onClose={toggleBuyBond}>
-        <SmallModal>
-          <MarketBuyBond />
-        </SmallModal>
-      </Modal>
     </MainLayout>
   );
 };

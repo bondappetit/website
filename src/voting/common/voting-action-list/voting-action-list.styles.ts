@@ -1,7 +1,8 @@
 import { createUseStyles } from 'react-jss';
+import { Theme } from 'src/common';
 
 export const useVotingActionListStyles = createUseStyles(
-  {
+  (theme: Theme) => ({
     root: {
       padding: 32
     },
@@ -23,6 +24,10 @@ export const useVotingActionListStyles = createUseStyles(
       marginBottom: 4
     },
 
+    link: {
+      color: theme.colors.darkBlue
+    },
+
     editAction: {
       opacity: 0.64,
       marginRight: 8
@@ -38,7 +43,7 @@ export const useVotingActionListStyles = createUseStyles(
       borderRadius: 8,
       padding: '4px 12px'
     }
-  },
+  }),
   {
     name: 'VotingActionList'
   }

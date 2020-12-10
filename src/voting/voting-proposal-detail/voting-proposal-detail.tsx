@@ -6,7 +6,6 @@ import { Typography, Link, Skeleton, Status, dateUtils } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { ReactComponent as ArrowLeft } from 'src/assets/icons/arrow-left.svg';
 import {
-  useVotingProposalDetail,
   ProposalState,
   VotingDetailsBlock,
   VotingProposalDescription,
@@ -14,6 +13,7 @@ import {
 } from '../common';
 import { VotingDetailsAction } from '../voting-details-action';
 import { useVotingProposalDetailStyles } from './voting-proposal-detail.styles';
+import { useVotingProposalDetail } from './use-voting-proposal-detail';
 
 export const VotingProposalDetail: React.FC = () => {
   const { proposalId } = useParams<{ proposalId: string }>();

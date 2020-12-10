@@ -18,7 +18,8 @@ import {
   BuyTokenFormValues,
   InfoCardFailure,
   InfoCardSuccess,
-  FullpageModal
+  FullpageModal,
+  InfoCardLoader
 } from 'src/common';
 import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';
@@ -39,6 +40,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
   const { account } = useWeb3React<Web3>();
   const [successOpen, successToggle] = useToggle(false);
   const [failureOpen, failureToggle] = useToggle(false);
+  const [transactionOpen, transactionToggle] = useToggle(false);
   const [walletsOpen, walletsToggle] = useToggle(false);
   const [userGet, setUserGet] = useState<BN>(new BN(0));
   const network = useNetworkConfig();
@@ -102,6 +104,8 @@ export const Investing: React.FC<InvestingProps> = (props) => {
     },
 
     onSubmit: async (formValues) => {
+      transactionToggle(true);
+
       const currentToken = tokens[formValues.currency];
 
       if (!investmentContract?.options.address || !currentToken || !account)
@@ -166,6 +170,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
         failureToggle(true);
       } finally {
         window.onbeforeunload = () => null;
+        transactionToggle(false);
       }
     }
   });
@@ -209,6 +214,11 @@ export const Investing: React.FC<InvestingProps> = (props) => {
       <Modal open={failureOpen} onClose={failureToggle}>
         <FullpageModal>
           <InfoCardFailure onClick={formik.submitForm} />
+        </FullpageModal>
+      </Modal>
+      <Modal open={transactionOpen}>
+        <FullpageModal>
+          <InfoCardLoader isAnimating={transactionOpen} />
         </FullpageModal>
       </Modal>
       <WalletModal open={walletsOpen} onClose={walletsToggle} />

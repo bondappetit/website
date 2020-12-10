@@ -12,6 +12,7 @@ export type VotingMediumEditorProps = {
   onChange?: (value: string) => void;
   options?: MediumEditor.CoreOptions;
   label?: string;
+  disabled?: boolean;
 };
 
 const defaultOptions = {
@@ -43,23 +44,24 @@ export const VotingMediumEditor: React.FC<VotingMediumEditorProps> = ({
   const [focus, setFocus] = useState(false);
   const turndownService = useRef(new TurndownService());
   const editor = useRef<HTMLDivElement | null>(null);
+  const mediumInstance = useRef<MediumEditor.MediumEditor | null>(null);
   const onChangeRef = useRef(onChange);
   const options = useRef({ ...defaultOptions, ...props.options });
 
   useEffect(() => {
-    const medium = new MediumEditor(
+    mediumInstance.current = new MediumEditor(
       `.${editor.current?.className}`,
       options.current
     );
 
-    medium.subscribe('editableInput', (_, editable) => {
+    mediumInstance.current.subscribe('editableInput', (_, editable) => {
       if (!onChangeRef.current) return;
 
       onChangeRef.current(turndownService.current.turndown(editable.innerHTML));
     });
 
     return () => {
-      medium.destroy();
+      mediumInstance.current?.destroy();
     };
   }, []);
 
@@ -71,10 +73,16 @@ export const VotingMediumEditor: React.FC<VotingMediumEditorProps> = ({
     setFocus(false);
   };
 
+  useEffect(() => {
+    if (!editor.current) return;
+    if (!props.value) mediumInstance.current?.resetContent(editor.current);
+  }, [props.value]);
+
   return (
     <div
       className={clsx(classes.root, {
-        [classes.focus]: focus || props.value
+        [classes.focus]: focus || props.value,
+        [classes.disabled]: props.disabled
       })}
       onBlur={handleBlur}
       onFocus={handleFocus}

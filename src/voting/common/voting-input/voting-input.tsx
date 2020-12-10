@@ -13,6 +13,7 @@ export type VotingInputProps = {
   onBlur?: () => void;
   value?: string;
   name?: string;
+  disabled?: boolean;
   onChange?: (
     event: React.FormEvent<HTMLTextAreaElement | HTMLInputElement>
   ) => void;
@@ -31,7 +32,9 @@ export const VotingInput: React.FC<VotingInputProps> = (props) => {
     ...restOfProps
   } = props;
 
-  const classNamesWrapper = clsx(classes.root, className);
+  const classNamesWrapper = clsx(classes.root, className, {
+    [classes.disabled]: props.disabled
+  });
 
   const classNamesVotingInput = clsx(classes.input, {
     [classes.focus]: restOfProps.value || focus
