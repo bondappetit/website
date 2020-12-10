@@ -11,5 +11,6 @@ export const URLS = {
     detail: (tokenId = ':tokenId') => `/stacking/${tokenId}`
   },
   oracle: '/oracle',
-  vesting: '/vesting'
+  vesting: '/vesting',
+  monitor: '/monitor'
 } as const;
