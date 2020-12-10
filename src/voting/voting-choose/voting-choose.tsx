@@ -54,8 +54,8 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
 
   const components = [
     <VotingChooseButtons
-      title={`Unlock ${props.votes} votes`}
-      subtitle="ART tokens represent voting shares in BondAppetit governance."
+      title={`Redelegate ${props.votes} votes`}
+      subtitle="Bond tokens represent voting shares in BondAppetit governance."
       buttons={[
         {
           title: 'Self Delegate',

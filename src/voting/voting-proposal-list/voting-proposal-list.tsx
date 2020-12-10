@@ -89,7 +89,7 @@ export const VotingProposalList: React.FC = () => {
                 <Button onClick={handleToggleVotingChoose}>
                   {delegateTo === DELEGATE_TO_DEFAULT
                     ? 'Unlock votes'
-                    : 'Undelegate'}
+                    : 'Redelegate'}
                 </Button>
               )}
             </>

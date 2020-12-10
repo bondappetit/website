@@ -14,6 +14,7 @@ import type { Issuer } from 'src/generate/Issuer';
 import type { SecurityOracle } from 'src/generate/SecurityOracle';
 import type { DepositaryOracle } from 'src/generate/DepositaryOracle';
 import type { Vesting } from 'src/generate/Vesting';
+import type { Treasury } from 'src/generate/Treasury';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -106,4 +107,9 @@ export const useDepositaryOracleContract = createUseContract<DepositaryOracle>(
 export const useVestingContract = createUseContract<Vesting>((network) => ({
   abi: network.contracts.Vesting.abi,
   address: network.contracts.Vesting.address
+}));
+
+export const useTreasuryContract = createUseContract<Treasury>((network) => ({
+  abi: network.contracts.Treasury.abi,
+  address: network.contracts.Treasury.address
 }));
