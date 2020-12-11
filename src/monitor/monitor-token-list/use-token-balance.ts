@@ -27,7 +27,7 @@ export const useTokensBalance = (address?: string) => {
 
       return {
         symbol: asset.symbol,
-        balance: balance.div(new BN(10).pow(asset.decimals)).toString()
+        balance: balance.div(new BN(10).pow(asset.decimals)).toString(10)
       };
     });
 
