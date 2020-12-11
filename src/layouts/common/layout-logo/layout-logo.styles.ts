@@ -6,13 +6,11 @@ import { Theme } from 'src/common';
 export const useLayoutLogoStyles = createUseStyles(
   (theme: Theme) => ({
     logo: {
-      height: 81,
-      width: 125,
       color: theme.colors.primary,
       textDecoration: 'none',
       display: 'inline-flex',
-      flexDirection: 'column',
-      alignItems: 'center',
+      height: 48,
+      width: 48,
       ...transitions('opacity 0.3s ease'),
 
       [theme.mixins.hover()]: {
@@ -20,6 +18,10 @@ export const useLayoutLogoStyles = createUseStyles(
           opacity: 0.7
         }
       }
+    },
+
+    img: {
+      maxWidth: '100%'
     }
   }),
   {

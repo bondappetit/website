@@ -20,6 +20,12 @@ export const useWalletButtonStyles = createUseStyles(
       }
     },
 
+    connected: {
+      border: `1px solid ${theme.colors.primary}`,
+      borderRadius: 16,
+      padding: 2
+    },
+
     chip: {
       display: 'none',
       textTransform: 'capitalize',
@@ -42,7 +48,7 @@ export const useWalletButtonStyles = createUseStyles(
     },
 
     account: {
-      marginRight: 10,
+      padding: '2px 8px 2px 16px',
       display: 'none',
 
       [theme.breakpoints.md()]: {

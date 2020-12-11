@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
+import clsx from 'clsx';
 
 import {
   ButtonBase,
@@ -29,7 +30,12 @@ export const WalletButton: React.FC = () => {
         networkConfig?.networkName !== 'mainnet' && (
           <Chip className={classes.chip}>{networkConfig.networkName}</Chip>
         )}
-      <ButtonBase onClick={() => setOpen(true)} className={classes.button}>
+      <ButtonBase
+        onClick={() => setOpen(true)}
+        className={clsx(classes.button, {
+          [classes.connected]: account
+        })}
+      >
         {!account && (
           <>
             <Typography variant="body2" className={classes.label}>
