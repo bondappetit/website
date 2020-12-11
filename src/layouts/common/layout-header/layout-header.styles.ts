@@ -7,7 +7,6 @@ export const useLayoutHeaderStyles = createUseStyles(
     root: {
       display: 'flex',
       flexWrap: 'wrap',
-      justifyContent: 'space-between',
       alignItems: 'center',
       padding: '0 16px',
 
@@ -17,20 +16,27 @@ export const useLayoutHeaderStyles = createUseStyles(
     },
 
     col: {
+      display: 'flex'
+    },
+
+    logo: {
+      justifyContent: 'center',
       display: 'flex',
       width: '33.33%'
     },
 
-    logo: {
-      justifyContent: 'center'
+    leftButton: {
+      justifyContent: 'flex-start',
+      flexBasis: '5%'
     },
 
-    leftButton: {
-      justifyContent: 'flex-start'
+    menu: {
+      flex: 1
     },
 
     rightButton: {
-      justifyContent: 'flex-end'
+      justifyContent: 'flex-end',
+      flexBasis: '15%'
     }
   }),
   {

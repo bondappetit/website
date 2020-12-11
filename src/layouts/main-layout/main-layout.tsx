@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { WalletButton } from 'src/wallets';
-import { ToggleThemeButton } from 'src/common';
 import {
   LayoutHeader,
   LayoutContainer,
@@ -14,12 +13,9 @@ export type MainLayoutProps = {
   description?: string;
   ogImage?: string;
   ogUrl?: string;
-  leftButton?: JSX.Element;
 };
 
 export const MainLayout: React.FC<MainLayoutProps> = (props) => {
-  const leftButton = props.leftButton ?? <ToggleThemeButton />;
-
   return (
     <LayoutWrapper
       title={props.title}
@@ -27,7 +23,7 @@ export const MainLayout: React.FC<MainLayoutProps> = (props) => {
       ogUrl={props.ogUrl}
       description={props.description}
     >
-      <LayoutHeader leftButton={leftButton} rightButton={<WalletButton />} />
+      <LayoutHeader rightButton={<WalletButton />} />
       <LayoutContainer>{props.children}</LayoutContainer>
       <LayoutFooter />
     </LayoutWrapper>

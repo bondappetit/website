@@ -1,10 +1,8 @@
 import React from 'react';
-import { useParams, Link as ReactRouterLink } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
 import { MainLayout } from 'src/layouts';
-import { Typography, Link, Skeleton, Status, dateUtils } from 'src/common';
-import { URLS } from 'src/router/urls';
-import { ReactComponent as ArrowLeft } from 'src/assets/icons/arrow-left.svg';
+import { Typography, Skeleton, Status, dateUtils } from 'src/common';
 import {
   ProposalState,
   VotingDetailsBlock,
@@ -25,24 +23,7 @@ export const VotingProposalDetail: React.FC = () => {
   const classes = useVotingProposalDetailStyles();
 
   return (
-    <MainLayout
-      leftButton={
-        <Link
-          className={classes.backLink}
-          component={ReactRouterLink}
-          to={URLS.voting.list}
-        >
-          <ArrowLeft className={classes.backLinkIcon} />{' '}
-          <Typography
-            component="span"
-            variant="body1"
-            className={classes.backLinkText}
-          >
-            Proposals
-          </Typography>
-        </Link>
-      }
-    >
+    <MainLayout>
       <div className={classes.voting}>
         <Typography
           variant="h2"
