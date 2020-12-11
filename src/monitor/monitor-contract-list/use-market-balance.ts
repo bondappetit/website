@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import BN from 'bignumber.js';
+import { useInterval } from 'react-use';
 
 import {
   useNetworkConfig,
@@ -9,7 +10,7 @@ import {
 } from 'src/common';
 import { Balance } from './monitor-contract-list.types';
 
-export const useMarketBalance = (): [Balance[] | null, () => void] => {
+export const useMarketBalance = (): Balance[] | null => {
   const [marketBalances, setMarketBalances] = useState<Balance[] | null>(null);
 
   const networkConfig = useNetworkConfig();
@@ -24,10 +25,12 @@ export const useMarketBalance = (): [Balance[] | null, () => void] => {
     const balanceConfig = [
       {
         name: 'Market abt balance',
+        decimals: networkConfig.assets.ABT.decimals,
         balanceOf: abtContract.methods.balanceOf(marketContract.options.address)
       },
       {
         name: 'Market bond balance',
+        decimals: networkConfig.assets.Bond.decimals,
         balanceOf: bondContract.methods.balanceOf(
           marketContract.options.address
         )
@@ -39,9 +42,7 @@ export const useMarketBalance = (): [Balance[] | null, () => void] => {
 
       return {
         name: config.name,
-        balance: new BN(balance).div(
-          new BN(10).pow(networkConfig.assets.Bond.decimals)
-        )
+        balance: new BN(balance).div(new BN(10).pow(config.decimals))
       };
     });
 
@@ -52,5 +53,9 @@ export const useMarketBalance = (): [Balance[] | null, () => void] => {
     handleLoadMarketBalances();
   }, [handleLoadMarketBalances]);
 
-  return [marketBalances, handleLoadMarketBalances];
+  useInterval(() => {
+    handleLoadMarketBalances();
+  }, 15000);
+
+  return marketBalances;
 };

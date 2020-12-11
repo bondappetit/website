@@ -1,15 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
 import BN from 'bignumber.js';
+import { useInterval } from 'react-use';
 
 import {
   useNetworkConfig,
   useStackingContract,
   useBondContract,
-  useInvestmentContract
+  useInvestmentContract,
+  useABTTokenContract
 } from 'src/common';
 import { Balance } from './monitor-contract-list.types';
 
-export const useInvestStackingBalance = (): [Balance[] | null, () => void] => {
+export const useInvestStackingBalance = (): Balance[] | null => {
   const [investStackingBalance, setInvestStackingBalance] = useState<
     Balance[] | null
   >(null);
@@ -17,6 +19,7 @@ export const useInvestStackingBalance = (): [Balance[] | null, () => void] => {
 
   const stackingContract = useStackingContract();
   const bondContract = useBondContract();
+  const abtContract = useABTTokenContract();
   const investmentContract = useInvestmentContract();
 
   const handleLoadInvestStackingBalance = useCallback(async () => {
@@ -24,40 +27,60 @@ export const useInvestStackingBalance = (): [Balance[] | null, () => void] => {
       !bondContract ||
       !stackingContract ||
       !investmentContract ||
-      !networkConfig
+      !networkConfig ||
+      !abtContract
     )
       return;
 
     const balanceConfig = [
       {
-        name: 'Investment',
-        address: investmentContract.options.address
+        name: 'Investment Bond',
+        decimals: networkConfig.assets.Bond.decimals,
+        balanceOf: bondContract.methods.balanceOf(
+          investmentContract.options.address
+        )
       },
       {
-        name: 'Stacking',
-        address: stackingContract.options.address
+        name: 'Stacking Bond',
+        decimals: networkConfig.assets.Bond.decimals,
+        balanceOf: bondContract.methods.balanceOf(
+          stackingContract.options.address
+        )
+      },
+      {
+        name: 'Stacking ABT',
+        decimals: networkConfig.assets.ABT.decimals,
+        balanceOf: abtContract.methods.balanceOf(
+          stackingContract.options.address
+        )
       }
     ];
 
     const balances = balanceConfig.map(async (config) => {
-      const balance = await bondContract.methods
-        .balanceOf(config.address)
-        .call();
+      const balance = await config.balanceOf.call();
 
       return {
         name: config.name,
-        balance: new BN(balance).div(
-          new BN(10).pow(networkConfig.assets.Bond.decimals)
-        )
+        balance: new BN(balance).div(new BN(10).pow(config.decimals))
       };
     });
 
     setInvestStackingBalance(await Promise.all(balances));
-  }, [stackingContract, bondContract, investmentContract, networkConfig]);
+  }, [
+    stackingContract,
+    bondContract,
+    investmentContract,
+    networkConfig,
+    abtContract
+  ]);
 
   useEffect(() => {
     handleLoadInvestStackingBalance();
   }, [handleLoadInvestStackingBalance]);
 
-  return [investStackingBalance, handleLoadInvestStackingBalance];
+  useInterval(() => {
+    handleLoadInvestStackingBalance();
+  }, 15000);
+
+  return investStackingBalance;
 };
