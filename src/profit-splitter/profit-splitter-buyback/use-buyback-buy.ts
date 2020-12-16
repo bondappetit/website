@@ -14,7 +14,10 @@ export const useBuybackBuy = (balance: string) => {
 
     if (!buy || !account || Number(balance) <= 0) return;
 
-    await buy.send({ from: account, gas: await buy.estimateGas() });
+    await buy.send({
+      from: account,
+      gas: await buy.estimateGas({ from: account })
+    });
   }, [buybackContract, balance, account]);
 
   return handleBuy;

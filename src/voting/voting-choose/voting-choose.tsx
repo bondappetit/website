@@ -40,7 +40,7 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
 
       const estimategas = await bondContract?.methods
         .delegate(address)
-        .estimateGas();
+        .estimateGas({ from: account });
 
       await bondContract?.methods.delegate(address).send({
         from: account,

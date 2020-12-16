@@ -38,7 +38,7 @@ export const useSplitterBalance = (
   const getContract = useDynamicContract<Ierc20>();
 
   const handleGetBalance = useCallback(async () => {
-    if (!callback || !networkConfig) return;
+    if (!callback || !networkConfig || !accountAddress) return;
 
     const tokenAddress = await callback().call();
     const asset = Object.values(networkConfig.assets).find(

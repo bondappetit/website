@@ -20,7 +20,7 @@ export const useBuyLiquidity = (balance?: string) => {
 
     await buyLiquidity.send({
       from: account,
-      gas: await buyLiquidity.estimateGas()
+      gas: await buyLiquidity.estimateGas({ from: account })
     });
   }, [marketMakerContract, balance, account]);
 

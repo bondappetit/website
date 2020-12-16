@@ -30,7 +30,8 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
   const profitSplitterContract = useProfitSplitterContract();
 
   const { tokenBalance, tokenContract, asset } = useSplitterBalance(
-    profitSplitterContract?.methods.incoming
+    profitSplitterContract?.methods.incoming,
+    profitSplitterContract?.options.address
   );
 
   const formik = useFormik({
@@ -64,7 +65,7 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
 
       await transfer.send({
         from: account,
-        gas: await transfer.estimateGas()
+        gas: await transfer.estimateGas({ from: account })
       });
     }
   });
