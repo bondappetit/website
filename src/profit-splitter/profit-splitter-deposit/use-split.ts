@@ -4,7 +4,7 @@ import Web3 from 'web3';
 
 import { useProfitSplitterContract } from 'src/common';
 
-export const useSplit = (balance?: string) => {
+export const useSplit = (balance?: string, updateBalances?: () => void) => {
   const { account } = useWeb3React<Web3>();
 
   const profitSplitterContract = useProfitSplitterContract();
@@ -14,7 +14,9 @@ export const useSplit = (balance?: string) => {
       return;
 
     await profitSplitterContract.methods.split(0).send({ from: account });
-  }, [profitSplitterContract, account, balance]);
+
+    updateBalances?.();
+  }, [profitSplitterContract, account, balance, updateBalances]);
 
   return handleSplit;
 };

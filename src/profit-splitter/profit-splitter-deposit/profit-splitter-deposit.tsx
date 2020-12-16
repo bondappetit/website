@@ -90,7 +90,7 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
     }
   });
 
-  const handleSplit = useSplit(tokenBalance?.toString(10));
+  const handleSplit = useSplit(tokenBalance?.toString(10), props.handleUpdate);
 
   return (
     <Plate className={clsx(props.className)}>
