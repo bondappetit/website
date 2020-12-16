@@ -13,7 +13,7 @@ export const useSplit = (balance?: string) => {
     if (!profitSplitterContract || !account || !balance || Number(balance) <= 0)
       return;
 
-    await profitSplitterContract.methods.split(balance).send({ from: account });
+    await profitSplitterContract.methods.split(0).send({ from: account });
   }, [profitSplitterContract, account, balance]);
 
   return handleSplit;
