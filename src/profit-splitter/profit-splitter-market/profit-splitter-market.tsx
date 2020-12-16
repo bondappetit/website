@@ -38,6 +38,7 @@ export const ProfitSplitterMarket: React.FC<ProfitSplitterMarketProps> = (
 
   return (
     <Plate className={clsx(props.className)}>
+      <Typography variant="h3">Market</Typography>
       <div>
         <Typography variant="body1">
           Incoming balance: {incomig.tokenBalance?.toString(10)}{' '}

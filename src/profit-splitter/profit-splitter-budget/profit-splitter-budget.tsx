@@ -1,7 +1,13 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { Button, Typography, Plate, LinkIfAccount } from 'src/common';
+import {
+  Button,
+  Typography,
+  Plate,
+  LinkIfAccount,
+  useBudgetContract
+} from 'src/common';
 import { useETHBalance } from './use-eth-balance';
 import { usePay } from './use-pay';
 import { useRecipients } from './use-recipients';
@@ -13,7 +19,9 @@ export type ProfitSplitterBudgetProps = {
 export const ProfitSplitterBudget: React.FC<ProfitSplitterBudgetProps> = (
   props
 ) => {
-  const ethBalance = useETHBalance();
+  const budgetContract = useBudgetContract();
+
+  const ethBalance = useETHBalance(budgetContract?.options.address);
 
   const handlePay = usePay(ethBalance);
 
@@ -21,6 +29,7 @@ export const ProfitSplitterBudget: React.FC<ProfitSplitterBudgetProps> = (
 
   return (
     <Plate className={clsx(props.className)}>
+      <Typography variant="h3">Budget</Typography>
       <Typography variant="body1">Balance: {ethBalance} ETH</Typography>
       <Button onClick={handlePay}>Pay</Button>
       {!!recipients.length && (

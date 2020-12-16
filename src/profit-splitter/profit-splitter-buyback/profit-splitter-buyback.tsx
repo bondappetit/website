@@ -34,6 +34,7 @@ export const ProfitSplitterBuyback: React.FC<ProfitSplitterBuybackProps> = (
 
   return (
     <Plate className={clsx(props.className)}>
+      <Typography variant="h3">Buyback</Typography>
       <Typography variant="h5">
         Incoming balance: {balance} {asset?.symbol}
       </Typography>

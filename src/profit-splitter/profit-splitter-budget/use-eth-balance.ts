@@ -3,7 +3,7 @@ import BN from 'bignumber.js';
 
 import { useBalance, useNetworkConfig } from 'src/common';
 
-export const useETHBalance = () => {
+export const useETHBalance = (accountAddress?: string) => {
   const [ethBalance, setEthBalance] = useState('');
 
   const networkConfig = useNetworkConfig();
@@ -11,10 +11,11 @@ export const useETHBalance = () => {
   const getBalance = useBalance();
 
   const handleGetETHBalance = useCallback(async () => {
-    if (!networkConfig) return;
+    if (!networkConfig || !accountAddress) return;
 
     const balance = await getBalance({
-      tokenName: networkConfig.assets.WETH.symbol
+      tokenName: networkConfig.assets.WETH.symbol,
+      accountAddress
     });
 
     setEthBalance(
@@ -22,7 +23,7 @@ export const useETHBalance = () => {
         .div(new BN(10).pow(networkConfig.assets.WETH.decimals))
         .toString(10)
     );
-  }, [networkConfig, getBalance]);
+  }, [networkConfig, getBalance, accountAddress]);
 
   useEffect(() => {
     handleGetETHBalance();

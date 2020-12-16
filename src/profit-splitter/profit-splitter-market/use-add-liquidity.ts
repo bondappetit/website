@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import { useUniswapMarketMakerContract } from 'src/common';
 
 export const useAddLiquidity = (
-  incominAmount?: string,
+  incomingAmount?: string,
   supportAmount?: string
 ) => {
   const { account } = useWeb3React<Web3>();
@@ -13,10 +13,12 @@ export const useAddLiquidity = (
   const marketMakerContract = useUniswapMarketMakerContract();
 
   const handleAddLiquidity = useCallback(async () => {
-    if (!supportAmount || !incominAmount || !account) return;
+    if (!supportAmount || !incomingAmount || !account) return;
+
+    if (Number(incomingAmount) <= 0 || Number(supportAmount) <= 0) return;
 
     const addLiquidity = marketMakerContract?.methods.addLiquidity(
-      incominAmount,
+      incomingAmount,
       supportAmount
     );
 
@@ -26,7 +28,7 @@ export const useAddLiquidity = (
       from: account,
       gas: await addLiquidity.estimateGas()
     });
-  }, [marketMakerContract, incominAmount, supportAmount, account]);
+  }, [marketMakerContract, incomingAmount, supportAmount, account]);
 
   return handleAddLiquidity;
 };

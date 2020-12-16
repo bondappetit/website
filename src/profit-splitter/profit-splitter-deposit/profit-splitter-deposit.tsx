@@ -73,6 +73,7 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
 
   return (
     <Plate className={clsx(props.className)}>
+      <Typography variant="h3">Deposit</Typography>
       <form onSubmit={formik.handleSubmit}>
         <Tippy
           visible={Boolean(formik.errors.amount)}
