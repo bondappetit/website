@@ -14,6 +14,8 @@ import { useBuybackRecipient } from './use-buyback-recipient';
 
 export type ProfitSplitterBuybackProps = {
   className?: string;
+  updateCount: number;
+  handleUpdate: () => void;
 };
 
 export const ProfitSplitterBuyback: React.FC<ProfitSplitterBuybackProps> = (
@@ -25,12 +27,13 @@ export const ProfitSplitterBuyback: React.FC<ProfitSplitterBuybackProps> = (
 
   const { asset, tokenBalance } = useSplitterBalance(
     buybackContract?.methods.incoming,
-    buybackContract?.options.address
+    buybackContract?.options.address,
+    props.updateCount
   );
 
   const balance = tokenBalance?.toString(10) ?? '';
 
-  const handleBuy = useBuybackBuy(balance);
+  const handleBuy = useBuybackBuy(balance, props.handleUpdate);
 
   return (
     <Plate className={clsx(props.className)}>

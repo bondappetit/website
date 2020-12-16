@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { PageWrapper } from 'src/common';
+import { PageWrapper, useUpdate } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { ProfitSplitterDeposit } from '../profit-splitter-deposit';
 import { ProfitSplitterBudget } from '../profit-splitter-budget';
@@ -11,13 +11,31 @@ import { useProfitSplitterStyles } from './profit-splitter-forms.styles';
 export const ProfitSplitterForms: React.FC = () => {
   const classes = useProfitSplitterStyles();
 
+  const [updateCount, handleUpdate] = useUpdate();
+
   return (
     <MainLayout>
       <PageWrapper>
-        <ProfitSplitterDeposit className={classes.form} />
-        <ProfitSplitterBudget className={classes.form} />
-        <ProfitSplitterBuyback className={classes.form} />
-        <ProfitSplitterMarket className={classes.form} />
+        <ProfitSplitterDeposit
+          updateCount={updateCount}
+          handleUpdate={handleUpdate}
+          className={classes.form}
+        />
+        <ProfitSplitterBudget
+          updateCount={updateCount}
+          handleUpdate={handleUpdate}
+          className={classes.form}
+        />
+        <ProfitSplitterBuyback
+          updateCount={updateCount}
+          handleUpdate={handleUpdate}
+          className={classes.form}
+        />
+        <ProfitSplitterMarket
+          updateCount={updateCount}
+          handleUpdate={handleUpdate}
+          className={classes.form}
+        />
       </PageWrapper>
     </MainLayout>
   );

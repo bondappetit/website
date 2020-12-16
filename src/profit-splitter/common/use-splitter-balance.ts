@@ -3,7 +3,6 @@ import { AbiItem } from 'web3-utils';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import { Ierc20 } from 'src/generate/IERC20';
 import BN from 'bignumber.js';
-import { useInterval } from 'react-use';
 
 import {
   useNetworkConfig,
@@ -29,7 +28,8 @@ const reducer = (_: InitialState, nextValue: InitialState) => nextValue;
 
 export const useSplitterBalance = (
   callback?: () => NonPayableTransactionObject<string>,
-  accountAddress?: string
+  accountAddress?: string,
+  updateCount?: number
 ) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -63,9 +63,7 @@ export const useSplitterBalance = (
 
   useEffect(() => {
     handleGetBalance();
-  }, [handleGetBalance, networkConfig]);
-
-  useInterval(handleGetBalance, 1000);
+  }, [handleGetBalance, networkConfig, updateCount]);
 
   return state;
 };

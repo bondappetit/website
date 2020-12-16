@@ -20,6 +20,8 @@ import { useSplit } from './use-split';
 
 export type ProfitSplitterDepositProps = {
   className?: string;
+  updateCount: number;
+  handleUpdate: () => void;
 };
 
 export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
@@ -35,7 +37,8 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
 
   const { tokenBalance, tokenContract, asset } = useSplitterBalance(
     profitSplitterContract?.methods.incoming,
-    profitSplitterContract?.options.address
+    profitSplitterContract?.options.address,
+    props.updateCount
   );
 
   const formik = useFormik({
@@ -82,6 +85,8 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
         from: account,
         gas: await transfer.estimateGas({ from: account })
       });
+
+      props.handleUpdate();
     }
   });
 

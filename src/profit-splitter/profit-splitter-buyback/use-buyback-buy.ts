@@ -4,13 +4,13 @@ import Web3 from 'web3';
 
 import { useBuybackContract } from 'src/common';
 
-export const useBuybackBuy = (balance: string) => {
+export const useBuybackBuy = (balance: string, updateBalances?: () => void) => {
   const buybackContract = useBuybackContract();
 
   const { account } = useWeb3React<Web3>();
 
   const handleBuy = useCallback(async () => {
-    const buy = buybackContract?.methods.buy(balance);
+    const buy = buybackContract?.methods.buy(0);
 
     if (!buy || !account || Number(balance) <= 0) return;
 
@@ -18,7 +18,9 @@ export const useBuybackBuy = (balance: string) => {
       from: account,
       gas: await buy.estimateGas({ from: account })
     });
-  }, [buybackContract, balance, account]);
+
+    updateBalances?.();
+  }, [buybackContract, balance, account, updateBalances]);
 
   return handleBuy;
 };

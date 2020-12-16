@@ -4,7 +4,10 @@ import { useWeb3React } from '@web3-react/core';
 
 import { useUniswapMarketMakerContract } from 'src/common';
 
-export const useBuyLiquidity = (balance?: string) => {
+export const useBuyLiquidity = (
+  balance?: string,
+  updateBalances?: () => void
+) => {
   const { account } = useWeb3React<Web3>();
 
   const marketMakerContract = useUniswapMarketMakerContract();
@@ -14,7 +17,7 @@ export const useBuyLiquidity = (balance?: string) => {
 
     if (Number(balance) <= 0) return;
 
-    const buyLiquidity = marketMakerContract?.methods.buyLiquidity(balance);
+    const buyLiquidity = marketMakerContract?.methods.buyLiquidity(0);
 
     if (!buyLiquidity) return;
 
@@ -22,7 +25,9 @@ export const useBuyLiquidity = (balance?: string) => {
       from: account,
       gas: await buyLiquidity.estimateGas({ from: account })
     });
-  }, [marketMakerContract, balance, account]);
+
+    updateBalances?.();
+  }, [marketMakerContract, balance, account, updateBalances]);
 
   return handleBuyLiquidity;
 };

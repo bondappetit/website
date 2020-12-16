@@ -13,6 +13,8 @@ import { useBuyLiquidity } from './use-buy-liquidity';
 
 export type ProfitSplitterMarketProps = {
   className?: string;
+  updateCount: number;
+  handleUpdate: () => void;
 };
 
 export const ProfitSplitterMarket: React.FC<ProfitSplitterMarketProps> = (
@@ -22,19 +24,25 @@ export const ProfitSplitterMarket: React.FC<ProfitSplitterMarketProps> = (
 
   const incomig = useSplitterBalance(
     marketMakerContract?.methods.incoming,
-    marketMakerContract?.options.address
+    marketMakerContract?.options.address,
+    props.updateCount
   );
   const support = useSplitterBalance(
     marketMakerContract?.methods.support,
-    marketMakerContract?.options.address
+    marketMakerContract?.options.address,
+    props.updateCount
   );
 
   const handleAddLuqidity = useAddLiquidity(
     incomig.tokenBalance?.toString(),
-    support.tokenBalance?.toString()
+    support.tokenBalance?.toString(),
+    props.handleUpdate
   );
 
-  const handleBuyLuqidity = useBuyLiquidity(incomig.tokenBalance?.toString());
+  const handleBuyLuqidity = useBuyLiquidity(
+    incomig.tokenBalance?.toString(),
+    props.handleUpdate
+  );
 
   return (
     <Plate className={clsx(props.className)}>

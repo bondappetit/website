@@ -4,7 +4,7 @@ import { useWeb3React } from '@web3-react/core';
 
 import { useBudgetContract } from 'src/common';
 
-export const usePay = (ethBalance?: string) => {
+export const usePay = (ethBalance?: string, updateBalances?: () => void) => {
   const { account } = useWeb3React<Web3>();
 
   const budgetContract = useBudgetContract();
@@ -17,7 +17,9 @@ export const usePay = (ethBalance?: string) => {
     await budgetContract.methods.pay().send({
       from: account
     });
-  }, [account, budgetContract, ethBalance]);
+
+    updateBalances?.();
+  }, [account, budgetContract, ethBalance, updateBalances]);
 
   return handlePay;
 };

@@ -3,7 +3,10 @@ import BN from 'bignumber.js';
 
 import { useBalance, useNetworkConfig } from 'src/common';
 
-export const useETHBalance = (accountAddress?: string) => {
+export const useETHBalance = (
+  accountAddress?: string,
+  updateCount?: number
+) => {
   const [ethBalance, setEthBalance] = useState('');
 
   const networkConfig = useNetworkConfig();
@@ -27,7 +30,7 @@ export const useETHBalance = (accountAddress?: string) => {
 
   useEffect(() => {
     handleGetETHBalance();
-  }, [handleGetETHBalance]);
+  }, [handleGetETHBalance, updateCount]);
 
   return ethBalance;
 };

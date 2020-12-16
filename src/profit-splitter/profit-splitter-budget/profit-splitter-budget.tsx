@@ -14,6 +14,8 @@ import { useRecipients } from './use-recipients';
 
 export type ProfitSplitterBudgetProps = {
   className?: string;
+  updateCount: number;
+  handleUpdate: () => void;
 };
 
 export const ProfitSplitterBudget: React.FC<ProfitSplitterBudgetProps> = (
@@ -21,9 +23,12 @@ export const ProfitSplitterBudget: React.FC<ProfitSplitterBudgetProps> = (
 ) => {
   const budgetContract = useBudgetContract();
 
-  const ethBalance = useETHBalance(budgetContract?.options.address);
+  const ethBalance = useETHBalance(
+    budgetContract?.options.address,
+    props.updateCount
+  );
 
-  const handlePay = usePay(ethBalance);
+  const handlePay = usePay(ethBalance, props.handleUpdate);
 
   const recipients = useRecipients();
 
