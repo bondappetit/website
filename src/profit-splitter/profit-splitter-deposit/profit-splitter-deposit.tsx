@@ -10,7 +10,8 @@ import {
   Input,
   Typography,
   Plate,
-  useProfitSplitterContract
+  useProfitSplitterContract,
+  useBalance
 } from 'src/common';
 import { useSplitterBalance } from '../common';
 import { useProfitSplitterDepositStyles } from './profit-splitter-deposit.styles';
@@ -24,6 +25,8 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
   props
 ) => {
   const classes = useProfitSplitterDepositStyles();
+
+  const getBalance = useBalance();
 
   const { account } = useWeb3React<Web3>();
 
@@ -39,16 +42,20 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
       amount: ''
     },
 
-    validate: (formValues) => {
+    validate: async (formValues) => {
       const errors: { amount?: string } = {};
 
       if (!formValues.amount) {
         errors.amount = 'Required';
       }
 
-      if (!asset || !tokenBalance) return;
+      if (!asset) return;
 
-      if (tokenBalance.isLessThan(formValues.amount)) {
+      const balance = await getBalance({
+        tokenAddress: asset.address
+      });
+
+      if (balance.isLessThan(formValues.amount)) {
         errors.amount = `Looks like you don't have enough ${asset.symbol}, please check your wallet`;
       }
 
