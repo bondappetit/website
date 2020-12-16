@@ -11,10 +11,7 @@ import {
   ButtonBase,
   Button,
   Typography,
-  isEthAddress,
-  Link,
-  cutAccount,
-  useNetworkConfig
+  LinkIfAccount
 } from 'src/common';
 import { VotingAddActionFormValues } from '../voting-action-parameters';
 import { useVotingActionListStyles } from './voting-action-list.styles';
@@ -40,7 +37,6 @@ export type VotingActionListProps = {
 
 export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
   const classes = useVotingActionListStyles();
-  const networkConfig = useNetworkConfig();
 
   const handleDragEnd = useCallback(
     (result: DropResult) => {
@@ -82,21 +78,11 @@ export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
                 const { functionSig, input, contract } = action;
 
                 const inputArgs = input.map((arg, key) => {
-                  const link = (
-                    <Link
-                      target="_blank"
-                      className={classes.link}
-                      href={`${networkConfig?.networkEtherscan}/address/${arg.value}`}
-                    >
-                      {cutAccount(arg.value)}
-                    </Link>
-                  );
-
                   const id = [arg, key].join(',');
 
                   return (
                     <React.Fragment key={id}>
-                      {isEthAddress(arg.value) ? link : arg.value}
+                      <LinkIfAccount>{arg.value}</LinkIfAccount>
                       {input.length - 1 === key ? '' : ', '}
                     </React.Fragment>
                   );

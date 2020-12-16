@@ -11,7 +11,8 @@ import {
   Typography,
   Link,
   useUniswapRouter,
-  useNetworkConfig
+  useNetworkConfig,
+  PageWrapper
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import {
@@ -94,7 +95,7 @@ export const StackingDetail: React.FC = () => {
 
   return (
     <MainLayout>
-      <div className={classes.staking}>
+      <PageWrapper className={classes.staking}>
         <Link component={ReactRouterLink} to={URLS.stacking.list}>
           back
         </Link>
@@ -129,7 +130,7 @@ export const StackingDetail: React.FC = () => {
             </Button>
           </Plate>
         </div>
-      </div>
+      </PageWrapper>
     </MainLayout>
   );
 };

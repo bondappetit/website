@@ -64,6 +64,11 @@ const MENU_ITEMS: MenuItem[] = [
       },
 
       {
+        title: 'Profit splitter',
+        link: URLS.profitSplitter
+      },
+
+      {
         title: 'Github',
         link: 'https://github.com'
       },

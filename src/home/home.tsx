@@ -2,7 +2,7 @@ import React from 'react';
 
 import OpenGraph from 'src/assets/images/ba-opengraph.jpg';
 import { MainLayout } from 'src/layouts';
-import { ButtonBase, Typography } from 'src/common';
+import { ButtonBase, Typography, PageWrapper } from 'src/common';
 import { Statistic } from 'src/statistic';
 import { Documents } from 'src/documents';
 import { Announcement } from 'src/announcement';
@@ -21,7 +21,7 @@ export const Home: React.FC = () => {
       ogImage={`https://bondappetit.io${OpenGraph}`}
       ogUrl="https://bondappetit.io"
     >
-      <div className={classes.home}>
+      <PageWrapper>
         <Typography
           variant="h1"
           weight="light"
@@ -44,7 +44,7 @@ export const Home: React.FC = () => {
         </div>
         <Statistic id="statistic" className={classes.statistic} />
         {config.IS_DEV && <Documents className={classes.documents} />}
-      </div>
+      </PageWrapper>
     </MainLayout>
   );
 };

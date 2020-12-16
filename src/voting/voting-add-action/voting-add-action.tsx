@@ -67,7 +67,7 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
     if (!networkConfig?.contracts) return;
 
     return Object.values(networkConfig?.contracts).reduce<
-      Record<string, Network['contracts']['0']>
+      Record<string, Network['contracts'][number]>
     >((acc, contract) => {
       if (contract.voting) {
         acc[contract.name] = contract;

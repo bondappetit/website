@@ -14,7 +14,7 @@ import { useVotingPresetStyles } from './voting-preset.styles';
 
 export type VotingPresetProps = {
   preset: VotingPresetItem | null;
-  contracts: Record<string, Network['contracts']['0']> | undefined;
+  contracts: Record<string, Network['contracts'][number]> | undefined;
   onSubmitActions: (formValues: VotingAddActionFormValues[]) => void;
   onClose: () => void;
 };

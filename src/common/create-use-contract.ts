@@ -43,16 +43,22 @@ export const createUseContract = <T>(cb: Callback) => () => {
 };
 
 export const useDynamicContract = <T>(
-  contractParameters: ContractParameters
+  contractParameters?: ContractParameters
 ) => {
   const { library } = useWeb3React<Web3>();
   const web3OrLib = library ?? web3;
   const contract = useRef<T | null>(null);
 
   const handleGetContract = useCallback(
-    (address?: string) => {
+    (address?: string, abi?: AbiItem[] | AbiItem) => {
+      const currentAbi = contractParameters?.abi ?? abi;
+
+      if (!currentAbi) {
+        throw new Error('Abi is required');
+      }
+
       contract.current = (new web3OrLib.eth.Contract(
-        contractParameters.abi,
+        currentAbi,
         address
       ) as unknown) as T;
 

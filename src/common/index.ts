@@ -28,3 +28,5 @@ export * from './is-eth-address';
 export * from './fullpage-modal';
 export * from './small-modal';
 export * from './loader';
+export * from './page-wrapper';
+export * from './link-if-account';
