@@ -8,9 +8,7 @@ import { ProfitSplitterBuyback } from '../profit-splitter-buyback';
 import { ProfitSplitterMarket } from '../profit-splitter-market';
 import { useProfitSplitterStyles } from './profit-splitter-forms.styles';
 
-export type ProfitSplitterFormsProps = unknown;
-
-export const ProfitSplitterForms: React.FC<ProfitSplitterFormsProps> = () => {
+export const ProfitSplitterForms: React.FC = () => {
   const classes = useProfitSplitterStyles();
 
   return (

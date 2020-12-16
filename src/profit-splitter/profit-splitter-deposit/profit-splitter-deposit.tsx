@@ -3,6 +3,7 @@ import React from 'react';
 import clsx from 'clsx';
 import Web3 from 'web3';
 import Tippy from '@tippyjs/react';
+import BN from 'bignumber.js';
 import { useWeb3React } from '@web3-react/core';
 
 import {
@@ -55,7 +56,11 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
         tokenAddress: asset.address
       });
 
-      if (balance.isLessThan(formValues.amount)) {
+      if (
+        balance
+          .div(new BN(10).pow(asset.decimals))
+          .isLessThan(formValues.amount)
+      ) {
         errors.amount = `Looks like you don't have enough ${asset.symbol}, please check your wallet`;
       }
 
@@ -63,11 +68,14 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
     },
 
     onSubmit: async (formValues) => {
-      if (!tokenContract || !profitSplitterContract || !account) return;
+      if (!tokenContract || !profitSplitterContract || !account || !asset)
+        return;
 
       const transfer = tokenContract.methods.transfer(
         profitSplitterContract.options.address,
-        formValues.amount
+        new BN(formValues.amount)
+          .multipliedBy(new BN(10).pow(asset.decimals))
+          .toString()
       );
 
       await transfer.send({

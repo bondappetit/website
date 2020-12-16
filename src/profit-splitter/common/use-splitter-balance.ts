@@ -3,6 +3,7 @@ import { AbiItem } from 'web3-utils';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import { Ierc20 } from 'src/generate/IERC20';
 import BN from 'bignumber.js';
+import { useInterval } from 'react-use';
 
 import {
   useNetworkConfig,
@@ -63,6 +64,8 @@ export const useSplitterBalance = (
   useEffect(() => {
     handleGetBalance();
   }, [handleGetBalance, networkConfig]);
+
+  useInterval(handleGetBalance, 1000);
 
   return state;
 };
