@@ -15,6 +15,10 @@ import type { SecurityOracle } from 'src/generate/SecurityOracle';
 import type { DepositaryOracle } from 'src/generate/DepositaryOracle';
 import type { Vesting } from 'src/generate/Vesting';
 import type { Treasury } from 'src/generate/Treasury';
+import type { ProfitSplitter } from 'src/generate/ProfitSplitter';
+import type { Budget } from 'src/generate/Budget';
+import type { Buyback } from 'src/generate/Buyback';
+import type { UniswapMarketMaker } from 'src/generate/UniswapMarketMaker';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -112,4 +116,28 @@ export const useVestingContract = createUseContract<Vesting>((network) => ({
 export const useTreasuryContract = createUseContract<Treasury>((network) => ({
   abi: network.contracts.Treasury.abi,
   address: network.contracts.Treasury.address
+}));
+
+export const useProfitSplitterContract = createUseContract<ProfitSplitter>(
+  (network) => ({
+    abi: network.contracts.ProfitSplitter.abi,
+    address: network.contracts.ProfitSplitter.address
+  })
+);
+
+export const useBuybackContract = createUseContract<Buyback>((network) => ({
+  abi: network.contracts.Buyback.abi,
+  address: network.contracts.Buyback.address
+}));
+
+export const useBudgetContract = createUseContract<Budget>((network) => ({
+  abi: network.contracts.Budget.abi,
+  address: network.contracts.Budget.address
+}));
+
+export const useUniswapMarketMakerContract = createUseContract<
+  UniswapMarketMaker
+>((network) => ({
+  abi: network.contracts.UniswapMarketMaker.abi,
+  address: network.contracts.UniswapMarketMaker.address
 }));

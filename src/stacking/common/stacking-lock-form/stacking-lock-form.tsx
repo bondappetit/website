@@ -88,13 +88,13 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
           .approve(stackingContract.options.address, '0')
           .send({
             from: account,
-            gas: await approve.estimateGas()
+            gas: await approve.estimateGas({ from: account })
           });
       }
 
       await approve.send({
         from: account,
-        gas: await approve.estimateGas()
+        gas: await approve.estimateGas({ from: account })
       });
 
       await stackingContract?.methods

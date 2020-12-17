@@ -26,7 +26,7 @@ export const PeriodDetail = ({
     const withdrawMethod = vestingContract.methods.withdraw(periodId);
     await withdrawMethod.send({
       from: account,
-      gas: await withdrawMethod.estimateGas()
+      gas: await withdrawMethod.estimateGas({ from: account })
     });
     onWithdraw(periodId);
   };

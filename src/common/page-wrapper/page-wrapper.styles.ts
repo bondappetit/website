@@ -2,9 +2,9 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useOracleManageStyles = createUseStyles(
+export const usePageWrapperStyles = createUseStyles(
   (theme: Theme) => ({
-    oracle: {
+    root: {
       padding: '48px 16px 104px',
 
       [theme.breakpoints.md()]: {
@@ -13,6 +13,6 @@ export const useOracleManageStyles = createUseStyles(
     }
   }),
   {
-    name: 'OracleManage'
+    name: 'PageWrapper'
   }
 );

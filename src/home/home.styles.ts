@@ -4,14 +4,6 @@ import { Theme } from 'src/common';
 
 export const useHomeStyles = createUseStyles(
   (theme: Theme) => ({
-    home: {
-      padding: '48px 16px 104px',
-
-      [theme.breakpoints.md()]: {
-        padding: '82px 64px 160px'
-      }
-    },
-
     title: {
       '& br': {
         display: 'none'

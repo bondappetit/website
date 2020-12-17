@@ -150,13 +150,13 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
               .approve(marketContract.options.address, '0')
               .send({
                 from: account,
-                gas: await approve.estimateGas()
+                gas: await approve.estimateGas({ from: account })
               });
           }
 
           await approve.send({
             from: account,
-            gas: await approve.estimateGas()
+            gas: await approve.estimateGas({ from: account })
           });
           window.onbeforeunload = () => 'wait please transaction in progress';
 

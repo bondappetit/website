@@ -8,7 +8,7 @@ import BN from 'bignumber.js';
 
 import { useDynamicContract } from './create-use-contract';
 
-const WETH = 'WETH';
+const WETH = 'ETH';
 
 type GetBalanceOptions = {
   tokenName?: string;

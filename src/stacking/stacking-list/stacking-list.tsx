@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { MainLayout } from 'src/layouts';
+import { PageWrapper } from 'src/common';
 import { StackingCard, useStackingBalances } from 'src/stacking/common';
 import { useStackingListStyles } from './stacking-list.styles';
 
@@ -12,7 +13,7 @@ export const StackingList: React.FC = () => {
 
   return (
     <MainLayout>
-      <div className={classes.staking}>
+      <PageWrapper className={classes.staking}>
         {stackingBalances.map((stackingBalance) => (
           <StackingCard
             key={stackingBalance.name}
@@ -21,7 +22,7 @@ export const StackingList: React.FC = () => {
             delta={stackingBalance.delta}
           />
         ))}
-      </div>
+      </PageWrapper>
     </MainLayout>
   );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { MainLayout } from 'src/layouts';
+import { PageWrapper } from 'src/common';
 import { MarketBuyBond } from 'src/market/market-buy-bond';
 import { MarketBuyAbt } from 'src/market/market-buy-abt';
 import { useMarketFormsStyles } from './market-forms.styles';
@@ -10,10 +11,10 @@ export const MarketForms: React.FC = () => {
 
   return (
     <MainLayout>
-      <div className={classes.market}>
+      <PageWrapper>
         <MarketBuyBond className={classes.form} />
         <MarketBuyAbt className={classes.form} />
-      </div>
+      </PageWrapper>
     </MainLayout>
   );
 };

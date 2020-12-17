@@ -7,7 +7,8 @@ import {
   Button,
   useSecurityOracleContract,
   useDepositaryOracleContract,
-  Typography
+  Typography,
+  PageWrapper
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
@@ -17,7 +18,6 @@ import {
   OracleGetForm,
   OracleGetFormValues
 } from '../common';
-import { useOracleManageStyles } from './oracle-manage.styles';
 
 export type OracleManageProps = unknown;
 
@@ -33,7 +33,6 @@ type SavedToken = {
 };
 
 export const OracleManage: React.FC<OracleManageProps> = () => {
-  const classes = useOracleManageStyles();
   const depositaryOracleContract = useDepositaryOracleContract();
   const securityOracleContract = useSecurityOracleContract();
   const { account, library } = useWeb3React<Web3>();
@@ -127,7 +126,7 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
 
   return (
     <MainLayout>
-      <div className={classes.oracle}>
+      <PageWrapper>
         <Button onClick={handleRebalance}>Rebalance</Button>
         <div>
           <Typography variant="h3">Depositary save</Typography>
@@ -161,7 +160,7 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
             </>
           )}
         </div>
-      </div>
+      </PageWrapper>
     </MainLayout>
   );
 };
