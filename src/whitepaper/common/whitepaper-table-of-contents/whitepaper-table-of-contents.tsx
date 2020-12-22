@@ -27,7 +27,7 @@ export const WhitepaperTableOfContents: React.FC<WhitepaperTableOfContentsProps>
         return sublist.id === props.activeElement;
       }
 
-      return sublist.some((sub) => sublistHasActiveId(sub));
+      return sublist.some(sublistHasActiveId);
     },
     [props.activeElement]
   );
