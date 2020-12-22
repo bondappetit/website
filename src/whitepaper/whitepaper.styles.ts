@@ -34,7 +34,33 @@ export const useWhitepaperStyles = createUseStyles(
       }
     },
 
-    markdown: {
+    header: {
+      marginBottom: 52,
+
+      [theme.breakpoints.lg()]: {
+        marginBottom: 104
+      }
+    },
+
+    title: {
+      marginBottom: 24,
+
+      [theme.breakpoints.lg()]: {
+        fontSize: 64,
+        lineHeight: '72px'
+      }
+    },
+
+    link: {
+      fontSize: 24,
+      lineHeight: '32px',
+
+      '&:not(:last-child)': {
+        marginRight: 40
+      }
+    },
+
+    body: {
       margin: 'auto',
       maxWidth: 800,
 

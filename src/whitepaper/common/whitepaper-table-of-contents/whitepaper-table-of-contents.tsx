@@ -27,9 +27,7 @@ export const WhitepaperTableOfContents: React.FC<WhitepaperTableOfContentsProps>
         return sublist.id === props.activeElement;
       }
 
-      return sublist.some((sub) => {
-        return sublistHasActiveId(sub);
-      });
+      return sublist.some((sub) => sublistHasActiveId(sub));
     },
     [props.activeElement]
   );
@@ -55,12 +53,11 @@ export const WhitepaperTableOfContents: React.FC<WhitepaperTableOfContentsProps>
               <WhitepaperTableOfContents
                 activeElement={props.activeElement}
                 tableOfContent={list.children}
-                className={
-                  list.id === props.activeElement ||
-                  sublistHasActiveId(list.children)
-                    ? undefined
-                    : classes.subMenuInactive
-                }
+                className={clsx(classes.subList, {
+                  [classes.subListActive]:
+                    list.id === props.activeElement ||
+                    sublistHasActiveId(list.children)
+                })}
               />
             )}
           </li>

@@ -1,1 +1,1 @@
-export * from './markdown-paragraph';
+export * from './markdown-heading';

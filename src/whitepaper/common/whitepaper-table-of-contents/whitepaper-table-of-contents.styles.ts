@@ -11,8 +11,12 @@ export const useWhitepaperTableOfContentsStyles = createUseStyles(
       maxHeight: '100vh'
     },
 
-    subMenuInactive: {
+    subList: {
       display: 'none'
+    },
+
+    subListActive: {
+      display: 'block'
     },
 
     item: {
@@ -25,7 +29,7 @@ export const useWhitepaperTableOfContentsStyles = createUseStyles(
       },
 
       '& ul': {
-        marginTop: 16,
+        paddingTop: 16,
         paddingLeft: 16
       }
     },

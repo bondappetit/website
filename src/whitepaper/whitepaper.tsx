@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
 
-import docs from 'src/assets/docx/BondAppétit Whitepaper.md';
+import WhitepaperMd from 'src/assets/md/BondAppétit Whitepaper.md';
+import WhitepaperPdf from 'src/assets/pdf/whitepaper.pdf';
+import OnepagerPdf from 'src/assets/pdf/onepager.pdf';
 import {
   MarkdownHeading,
   MarkdownLink,
   MarkdownImage,
-  useScrollSpy
+  useScrollSpy,
+  Typography,
+  Link
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
@@ -17,9 +21,7 @@ import {
 } from './common';
 import { useWhitepaperStyles } from './whitepaper.styles';
 
-export type WhitepaperProps = unknown;
-
-const HEADINGS = 'h1, h2, h3, h4, h5, h6';
+const HEADINGS = 'h2, h3, h4, h5, h6';
 
 const renderers = {
   paragraph: WhitepaperParagraph,
@@ -28,7 +30,7 @@ const renderers = {
   image: MarkdownImage
 };
 
-export const Whitepaper: React.FC<WhitepaperProps> = () => {
+export const Whitepaper: React.FC = () => {
   const [list, setList] = useState<
     WhitepaperTableOfContentsProps['tableOfContent']
   >([]);
@@ -45,7 +47,7 @@ export const Whitepaper: React.FC<WhitepaperProps> = () => {
       WhitepaperTableOfContentsProps['tableOfContent'][number]
     > = {};
 
-    docs.match(/#+/g)?.forEach((char, index) => {
+    WhitepaperMd.match(/#+/g)?.forEach((char, index) => {
       const headingElement = headingElements[index];
       if (!headingElement?.textContent) return;
 
@@ -88,13 +90,32 @@ export const Whitepaper: React.FC<WhitepaperProps> = () => {
           tableOfContent={list}
           activeElement={activeElement}
         />
-        <ReactMarkdown
-          plugins={[gfm]}
-          className={classes.markdown}
-          renderers={renderers}
-        >
-          {docs}
-        </ReactMarkdown>
+        <div className={classes.body}>
+          <div className={classes.header}>
+            <Typography className={classes.title} variant="h1">
+              BondAppétit Protocol
+            </Typography>
+            <Link
+              href={WhitepaperPdf}
+              className={classes.link}
+              target="_blank"
+              color="blue"
+            >
+              ↓ whitepaper.pdf
+            </Link>
+            <Link
+              href={OnepagerPdf}
+              className={classes.link}
+              target="_blank"
+              color="blue"
+            >
+              ↓ onepager.pdf
+            </Link>
+          </div>
+          <ReactMarkdown plugins={[gfm]} renderers={renderers}>
+            {WhitepaperMd}
+          </ReactMarkdown>
+        </div>
       </div>
     </MainLayout>
   );

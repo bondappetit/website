@@ -16,7 +16,6 @@ export const useLinkStyles = createUseStyles(
       backgroundColor: 'transparent',
       outline: 0,
       fontFamily: 'inherit',
-      color: 'currentColor',
       letterSpacing: '-0.02em',
       fontWeight: 'normal',
       ...transitions('opacity 0.3s ease'),
@@ -44,6 +43,14 @@ export const useLinkStyles = createUseStyles(
           textDecoration: 'underline'
         }
       }
+    },
+
+    primary: {
+      color: 'currentColor'
+    },
+
+    blue: {
+      color: theme.colors.darkBlue
     }
   }),
   {
