@@ -1,1 +1,1 @@
-export * from './profit-splitter-forms';
+export { ProfitSplitterForms as default } from './profit-splitter-forms';

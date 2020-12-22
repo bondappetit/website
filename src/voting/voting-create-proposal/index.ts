@@ -1,1 +1,1 @@
-export * from './voting-create-proposal';
+export { VotingCreateProposal as default } from './voting-create-proposal';

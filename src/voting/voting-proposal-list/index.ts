@@ -1,1 +1,1 @@
-export * from './voting-proposal-list';
+export { VotingProposalList as default } from './voting-proposal-list';

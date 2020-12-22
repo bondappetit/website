@@ -1,1 +1,1 @@
-export * from './whitepaper';
+export { Whitepaper as default } from './whitepaper';
