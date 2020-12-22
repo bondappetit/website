@@ -14,6 +14,7 @@ import OracleManage from 'src/oracle/oracle-manage';
 import VestingList from 'src/vesting/vesting-list';
 import { NotFound } from 'src/not-found';
 import { ProfitSplitterForms } from 'src/profit-splitter';
+import { Whitepaper } from 'src/whitepaper';
 import MonitorContractList from 'src/monitor/monitor-contract-list';
 import { URLS } from './urls';
 
@@ -56,6 +57,9 @@ const Router: React.FC = () => {
         </Route>
         <Route path={URLS.profitSplitter}>
           <ProfitSplitterForms />
+        </Route>
+        <Route path={URLS.whitepaper}>
+          <Whitepaper />
         </Route>
         <Route>
           <NotFound />

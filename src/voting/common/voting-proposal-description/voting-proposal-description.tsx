@@ -1,12 +1,23 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
-import { Skeleton } from 'src/common';
+import {
+  Skeleton,
+  MarkdownParagraph,
+  MarkdownLink,
+  MarkdownHeading
+} from 'src/common';
 import { useVotingProposalDescriptionStyles } from './voting-proposal-description.styles';
 
 export type VotingProposalDescriptionProps = {
   loading: boolean;
   description?: string;
+};
+
+const renderers = {
+  paragraph: MarkdownParagraph,
+  link: MarkdownLink,
+  heading: MarkdownHeading
 };
 
 export const VotingProposalDescription: React.FC<VotingProposalDescriptionProps> = (
@@ -32,10 +43,7 @@ export const VotingProposalDescription: React.FC<VotingProposalDescriptionProps>
         </>
       )}
       {!props.loading && props?.description && (
-        <ReactMarkdown
-          className={classes.markdown}
-          source={props.description}
-        />
+        <ReactMarkdown renderers={renderers}>{props.description}</ReactMarkdown>
       )}
     </div>
   );

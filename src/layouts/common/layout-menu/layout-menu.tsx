@@ -36,7 +36,7 @@ const MENU_ITEMS: MenuItem[] = [
 
   {
     title: 'Whitepaper',
-    link: '/whitepaper'
+    link: URLS.whitepaper
   },
 
   {

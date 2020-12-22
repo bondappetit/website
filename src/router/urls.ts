@@ -13,5 +13,6 @@ export const URLS = {
   oracle: '/oracle',
   vesting: '/vesting',
   monitor: '/monitor',
-  profitSplitter: '/profit-splitter'
+  profitSplitter: '/profit-splitter',
+  whitepaper: '/whitepaper'
 } as const;

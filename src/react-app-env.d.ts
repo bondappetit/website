@@ -45,6 +45,11 @@ declare module '*.pdf' {
   export default src;
 }
 
+declare module '*.md' {
+  const src: string;
+  export default src;
+}
+
 declare module '*.svg' {
   import * as React from 'react';
 

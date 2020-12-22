@@ -8,8 +8,6 @@ import BN from 'bignumber.js';
 
 import { useDynamicContract } from './create-use-contract';
 
-const WETH = 'ETH';
-
 type GetBalanceOptions = {
   tokenName?: string;
   tokenAddress?: string;
@@ -45,11 +43,11 @@ export const useBalance = () => {
 
   const getBalance = useCallback(
     async (options: GetBalanceOptions) => {
-      if (options.tokenName === WETH) {
+      if (options.tokenName === 'ETH') {
         balanceRef.current = await handleGetWETHBalance(options.accountAddress);
       }
 
-      if (options.tokenName !== WETH) {
+      if (options.tokenName !== 'ETH') {
         balanceRef.current = await handleGetIERC20Balance(
           options.tokenAddress,
           options.accountAddress

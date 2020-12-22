@@ -30,3 +30,8 @@ export * from './small-modal';
 export * from './loader';
 export * from './page-wrapper';
 export * from './link-if-account';
+export * from './markdown-paragraph';
+export * from './markdown-link';
+export * from './markdown-heading';
+export * from './markdown-image';
+export * from './use-scroll-spy';
