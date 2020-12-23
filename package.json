@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
+    "@bondappetit/docs": "^1.6.2-hardhat",
     "@bondappetit/networks": "^1.5.1-budget",
     "@popperjs/core": "^2.5.4",
     "@svgr/webpack": "4.3.3",
@@ -97,6 +98,7 @@
     "react-router-dom": "^5.2.0",
     "react-toast-notifications": "^2.4.0",
     "react-use": "^15.3.4",
+    "remark-gfm": "^1.0.0",
     "resolve": "1.15.0",
     "resolve-url-loader": "3.1.1",
     "sass-loader": "8.0.2",
@@ -150,6 +152,7 @@
     "husky": "^4.3.0",
     "lint-staged": "^10.4.2",
     "prettier": "^2.1.2",
+    "raw-loader": "^4.0.2",
     "typechain": "^3.0.0"
   },
   "lint-staged": {

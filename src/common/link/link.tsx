@@ -12,6 +12,7 @@ export type LinkProps = {
   className?: string;
   rel?: string;
   underline?: 'always' | 'hover' | 'none';
+  color?: 'blue' | 'primary';
 };
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
@@ -22,12 +23,18 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       component = 'a',
       underline = 'none',
       className,
+      color = 'primary',
       ...restOfProps
     } = props;
 
     const Component = component;
 
-    const classNames = clsx(classes.link, className, classes[underline]);
+    const classNames = clsx(
+      classes.link,
+      className,
+      classes[underline],
+      classes[color]
+    );
 
     return (
       <Component ref={ref} className={classNames} {...restOfProps}>
