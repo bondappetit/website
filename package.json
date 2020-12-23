@@ -5,7 +5,7 @@
   "dependencies": {
     "@babel/core": "7.9.0",
     "@bondappetit/docs": "^1.6.2-hardhat",
-    "@bondappetit/networks": "^1.5.1-budget",
+    "@bondappetit/networks": "^1.6.2-hardhat",
     "@popperjs/core": "^2.5.4",
     "@svgr/webpack": "4.3.3",
     "@tanem/react-nprogress": "^3.0.51",
