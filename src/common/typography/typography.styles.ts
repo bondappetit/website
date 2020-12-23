@@ -4,7 +4,7 @@ import { Theme } from '../theme';
 
 export const useTypographyStyles = createUseStyles(
   (theme: Theme) => ({
-    typography: {
+    root: {
       margin: 0,
       fontFamily: 'inherit',
       color: 'currentColor',

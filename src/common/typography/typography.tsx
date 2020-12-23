@@ -43,7 +43,7 @@ export type TypographyProps = {
 export const Typography: React.FC<TypographyProps> = (props) => {
   const classes = useTypographyStyles();
   const classNames = clsx(
-    classes.typography,
+    classes.root,
     props.className,
     classes[props.variant],
     classes[props.weight ?? 'normal'],

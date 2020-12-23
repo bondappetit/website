@@ -25,6 +25,7 @@ const VotingProposalList = React.lazy(
 const VotingCreateProposal = React.lazy(
   () => import('src/voting/voting-create-proposal')
 );
+const Docs = React.lazy(() => import('src/docs'));
 
 const Router: React.FC = () => {
   return (
@@ -69,6 +70,9 @@ const Router: React.FC = () => {
           </Route>
           <Route path={URLS.whitepaper}>
             <Whitepaper />
+          </Route>
+          <Route path={URLS.docs}>
+            <Docs />
           </Route>
           <Route>
             <NotFound />

@@ -36,3 +36,4 @@ export * from './markdown-heading';
 export * from './markdown-image';
 export * from './use-scroll-spy';
 export * from './suspense-fallback';
+export * from './markdown-code';

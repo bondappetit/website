@@ -64,6 +64,11 @@ const MENU_ITEMS: MenuItem[] = [
       },
 
       {
+        title: 'Docs',
+        link: URLS.docs
+      },
+
+      {
         title: 'Profit splitter',
         link: URLS.profitSplitter
       },

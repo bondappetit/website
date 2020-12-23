@@ -14,5 +14,6 @@ export const URLS = {
   vesting: '/vesting',
   monitor: '/monitor',
   profitSplitter: '/profit-splitter',
-  whitepaper: '/whitepaper'
+  whitepaper: '/whitepaper',
+  docs: '/docs'
 } as const;
