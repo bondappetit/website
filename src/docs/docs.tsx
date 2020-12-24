@@ -16,20 +16,20 @@ import TimelockInterfaceMd from '@bondappetit/docs/api/TimelockInterface.md';
 import TreasuryMd from '@bondappetit/docs/api/Treasury.md';
 import VestingMd from '@bondappetit/docs/api/Vesting.md';
 import OwnablePausableMd from '@bondappetit/docs/api/utils/OwnablePausable.md';
-import AgregateDepositaryBalanceViewMd from '@bondappetit/docs/docs/api/oracle/AgregateDepositaryBalanceView.md';
-import BondDepositaryBalanceViewMd from '@bondappetit/docs/docs/api/oracle/BondDepositaryBalanceView.md';
-import DepositaryOracleMd from '@bondappetit/docs/docs/api/oracle/DepositaryOracle.md';
-import HighAlertOracleMd from '@bondappetit/docs/docs/api/oracle/HighAlertOracle.md';
-import IDepositaryBalanceViewMd from '@bondappetit/docs/docs/api/oracle/IDepositaryBalanceView.md';
-import IDepositaryOracleMd from '@bondappetit/docs/docs/api/oracle/IDepositaryOracle.md';
-import ISecurityOracleMd from '@bondappetit/docs/docs/api/oracle/ISecurityOracle.md';
-import SecurityOracleMd from '@bondappetit/docs/docs/api/oracle/SecurityOracle.md';
-import BuybackMd from '@bondappetit/docs/docs/api/profit/Buyback.md';
-import ProfitSplitterMd from '@bondappetit/docs/docs/api/profit/ProfitSplitter.md';
-import UniswapMarketMakerMd from '@bondappetit/docs/docs/api/profit/UniswapMarketMaker.md';
-import IUniswapAnchoredViewMd from '@bondappetit/docs/docs/api/uniswap/IUniswapAnchoredView.md';
-import IUniswapV2FactoryMd from '@bondappetit/docs/docs/api/uniswap/IUniswapV2Factory.md';
-import IUniswapV2Router02Md from '@bondappetit/docs/docs/api/uniswap/IUniswapV2Router02.md';
+import AgregateDepositaryBalanceViewMd from '@bondappetit/docs/api/oracle/AgregateDepositaryBalanceView.md';
+import BondDepositaryBalanceViewMd from '@bondappetit/docs/api/oracle/BondDepositaryBalanceView.md';
+import DepositaryOracleMd from '@bondappetit/docs/api/oracle/DepositaryOracle.md';
+import HighAlertOracleMd from '@bondappetit/docs/api/oracle/HighAlertOracle.md';
+import IDepositaryBalanceViewMd from '@bondappetit/docs/api/oracle/IDepositaryBalanceView.md';
+import IDepositaryOracleMd from '@bondappetit/docs/api/oracle/IDepositaryOracle.md';
+import ISecurityOracleMd from '@bondappetit/docs/api/oracle/ISecurityOracle.md';
+import SecurityOracleMd from '@bondappetit/docs/api/oracle/SecurityOracle.md';
+import BuybackMd from '@bondappetit/docs/api/profit/Buyback.md';
+import ProfitSplitterMd from '@bondappetit/docs/api/profit/ProfitSplitter.md';
+import UniswapMarketMakerMd from '@bondappetit/docs/api/profit/UniswapMarketMaker.md';
+import IUniswapAnchoredViewMd from '@bondappetit/docs/api/uniswap/IUniswapAnchoredView.md';
+import IUniswapV2FactoryMd from '@bondappetit/docs/api/uniswap/IUniswapV2Factory.md';
+import IUniswapV2Router02Md from '@bondappetit/docs/api/uniswap/IUniswapV2Router02.md';
 
 export const Docs: React.FC = () => {
   const docs = [
