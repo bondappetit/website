@@ -10,7 +10,7 @@ export const useInfoCardLoaderStyles = createUseStyles(
       bottom: 0,
       left: 0,
       zIndex: -1,
-      backgroundColor: theme.colors.yellow,
+      backgroundColor: theme.colors.orange,
       opacity: (props: { isFinished: boolean }) => (props.isFinished ? 0 : 1),
       transition: `opacity 300ms linear`
     }

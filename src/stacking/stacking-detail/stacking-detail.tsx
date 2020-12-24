@@ -1,37 +1,26 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useParams, Link as ReactRouterLink } from 'react-router-dom';
+import React, { useCallback, useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
-import BN from 'bignumber.js';
+import clsx from 'clsx';
 
 import { MainLayout } from 'src/layouts';
+import { Button, Plate, Typography, PageWrapper } from 'src/common';
 import {
-  Button,
-  Plate,
-  Typography,
-  Link,
-  useUniswapRouter,
-  useNetworkConfig,
-  PageWrapper
-} from 'src/common';
-import { URLS } from 'src/router/urls';
-import {
+  StackingHeader,
   StackingLockForm,
+  useStackingApy,
   useStackingBalances,
   useStackingUnlock
 } from 'src/stacking/common';
 import { useStackingDetailStyles } from './stacking-detail.styles';
 
-const BLOCK_PER_YEAR = '2102400';
-
 export const StackingDetail: React.FC = () => {
   const classes = useStackingDetailStyles();
   const params = useParams<{ tokenId: string }>();
   const { account } = useWeb3React<Web3>();
-  const [[balance], update] = useStackingBalances([params.tokenId]);
-  const uniswapRouter = useUniswapRouter();
-  const networkConfig = useNetworkConfig();
-  const [APY, setAPY] = useState('');
+  const [{ stackingBalances }, update] = useStackingBalances([params.tokenId]);
+  const [balance] = useStackingApy(stackingBalances);
 
   const unlock = useStackingUnlock(params.tokenId);
 
@@ -40,93 +29,65 @@ export const StackingDetail: React.FC = () => {
   ]);
 
   const handleUnlock = useCallback(() => {
+    if (stackingBalanceIsEmpty) return;
+
     unlock().then(update);
-  }, [unlock, update]);
-
-  const handleGetTokenPrice = useCallback(async () => {
-    if (!networkConfig || !uniswapRouter) return;
-    // TODO: rewrite for real tokens
-    // const currentToken = networkConfig.assets[params.tokenId];
-
-    const amountInUSDT = new BN(10)
-      .pow(networkConfig.assets.USDT.decimals)
-      .toString(10);
-    const amountInDAI = new BN(10)
-      .pow(networkConfig.assets.DAI.decimals)
-      .toString(10);
-
-    const [
-      ,
-      ,
-      usdtInUSD
-    ] = await uniswapRouter.methods
-      .getAmountsOut(amountInUSDT, [
-        networkConfig.assets.USDT.address,
-        networkConfig.assets.WETH.address,
-        networkConfig.assets.USDC.address
-      ])
-      .call();
-
-    const [
-      ,
-      ,
-      daiInUSD
-    ] = await uniswapRouter.methods
-      .getAmountsOut(amountInDAI, [
-        networkConfig.assets.DAI.address,
-        networkConfig.assets.WETH.address,
-        networkConfig.assets.USDC.address
-      ])
-      .call();
-
-    if (!balance || !balance?.delta) return;
-
-    const result = new BN(balance.delta)
-      .multipliedBy(daiInUSD)
-      .multipliedBy(BLOCK_PER_YEAR)
-      .div(usdtInUSD);
-
-    setAPY(result.multipliedBy(100).integerValue().toString());
-  }, [networkConfig, uniswapRouter, balance]);
-
-  useEffect(() => {
-    handleGetTokenPrice();
-  }, [handleGetTokenPrice]);
+  }, [unlock, update, stackingBalanceIsEmpty]);
 
   return (
     <MainLayout>
-      <PageWrapper className={classes.staking}>
-        <Link component={ReactRouterLink} to={URLS.stacking.list}>
-          back
-        </Link>
-        <Typography variant="h3">{params.tokenId}</Typography>
+      <PageWrapper className={classes.stacking}>
+        <StackingHeader
+          tokenName={params.tokenId}
+          APY={balance?.APY}
+          className={classes.header}
+        />
         <div className={classes.row}>
-          <Plate className={classes.card}>
+          <Plate variant="dotted" className={classes.card}>
             <StackingLockForm
               account={account}
-              tokenId={params.tokenId}
+              tokenName={params.tokenId}
               onSubmit={update}
             />
           </Plate>
-          <Plate className={classes.card}>
-            {!stackingBalanceIsEmpty && (
-              <>
-                <Typography variant="body1">
-                  your stacking balance {balance.amount}
+          <Plate
+            variant="dotted"
+            className={clsx(classes.card, classes.cardFlex)}
+          >
+            <div className={classes.stackingBalance}>
+              <div>
+                <Typography variant="body1" align="center">
+                  You stacked {params.tokenId}
                 </Typography>
-                <Typography variant="body1">
-                  your reward {balance.reward}
+                <Typography variant="h2" align="center">
+                  {balance?.amount}
                 </Typography>
-              </>
-            )}
-            <Typography variant="body1">APY {APY} %</Typography>
-            {stackingBalanceIsEmpty && (
-              <Typography variant="body1">
-                your stacking balance is empty
-              </Typography>
-            )}
-            <Button onClick={handleUnlock} disabled={stackingBalanceIsEmpty}>
-              Unlock
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.usd}
+                >
+                  {balance?.amount} USD
+                </Typography>
+              </div>
+              <div>
+                <Typography variant="body1" align="center">
+                  You earned {params.tokenId}
+                </Typography>
+                <Typography variant="h2" align="center">
+                  {balance?.reward}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.usd}
+                >
+                  {balance?.reward} USD
+                </Typography>
+              </div>
+            </div>
+            <Button onClick={handleUnlock} className={classes.unlock}>
+              Unstake and claim
             </Button>
           </Plate>
         </div>

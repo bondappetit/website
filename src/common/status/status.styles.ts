@@ -27,7 +27,7 @@ export const useStatusStyles = createUseStyles(
     },
 
     yellow: {
-      color: theme.colors.yellow
+      color: theme.colors.orange
     },
 
     green: {

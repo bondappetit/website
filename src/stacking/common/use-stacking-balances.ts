@@ -2,7 +2,7 @@ import { useWeb3React } from '@web3-react/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Web3 from 'web3';
 import BN from 'bignumber.js';
-import { useInterval } from 'react-use';
+import { useInterval, useToggle } from 'react-use';
 
 import { useNetworkConfig, useStackingContract, useUpdate } from 'src/common';
 
@@ -14,6 +14,8 @@ export type StackingToken = {
 };
 
 export const useStackingBalances = (availableTokens: string[]) => {
+  const [loading, toggleLoading] = useToggle(false);
+
   const tokens = useRef(availableTokens);
   const [stackingBalances, setStackingBalances] = useState<StackingToken[]>([]);
   const stackingContract = useStackingContract();
@@ -68,15 +70,26 @@ export const useStackingBalances = (availableTokens: string[]) => {
   }, [stackingContract, account, networkConfig]);
 
   useEffect(() => {
-    handleGetBalances();
-  }, [handleGetBalances, update]);
+    toggleLoading();
+
+    handleGetBalances().then(toggleLoading);
+  }, [handleGetBalances, update, toggleLoading]);
 
   useInterval(() => {
     handleGetBalances();
   }, 2000);
 
   return useMemo(
-    (): [StackingToken[], () => void] => [stackingBalances, handleUpdate],
-    [stackingBalances, handleUpdate]
+    (): [
+      { stackingBalances: StackingToken[]; loading: boolean },
+      () => void
+    ] => [
+      {
+        stackingBalances,
+        loading
+      },
+      handleUpdate
+    ],
+    [stackingBalances, handleUpdate, loading]
   );
 };

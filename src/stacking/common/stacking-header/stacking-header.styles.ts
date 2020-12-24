@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useStackingCardStyles = createUseStyles(
+export const useStackingHeaderStyles = createUseStyles(
   (theme: Theme) => {
     const bgColors: Record<string, string> = {
       Bond: theme.colors.beige,
@@ -12,38 +12,42 @@ export const useStackingCardStyles = createUseStyles(
     };
 
     return {
-      stakingCard: {
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexDirection: 'column',
+      root: {
         backgroundImage: (props: { img: string }) => `url(${props.img})`,
         backgroundColor: (props: { tokenName: string }) =>
           bgColors[props.tokenName],
         backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundSize: '884px',
+        backgroundPosition: 'center 40%',
+        minHeight: 240,
         borderRadius: 24,
-        minHeight: 360,
+        padding: 20
+      },
 
-        [theme.mixins.hover()]: {
-          '&:hover': {
-            opacity: 1
-          }
+      link: {
+        fontSize: 40,
+        lineHeight: '48px'
+      },
+
+      linkIcon: {
+        width: 24,
+        height: 17
+      },
+
+      title: {
+        marginBottom: 24
+      },
+
+      info: {
+        textAlign: 'center',
+
+        '& > *:not(:last-child)': {
+          marginRight: 32
         }
-      },
-
-      apy: {
-        marginBottom: 16
-      },
-
-      deposit: {
-        marginBottom: 4
       }
     };
   },
   {
-    name: 'StackingCard'
+    name: 'StackingHeader'
   }
 );

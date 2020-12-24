@@ -18,7 +18,7 @@ export const useInputStyles = createUseStyles(
       border: 0,
       outline: 0,
       fontFamily: 'inherit',
-      color: theme.colors.primary,
+      color: 'inherit',
       padding: 0,
       letterSpacing: '-0.02em',
       width: '100%',
@@ -26,6 +26,7 @@ export const useInputStyles = createUseStyles(
       fontSize: 20,
       lineHeight: '24px',
       height: 24,
+      textAlign: 'inherit',
 
       '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
         '-webkit-appearance': 'none',
