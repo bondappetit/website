@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useFormik } from 'formik';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import { AbiItem } from 'web3-utils';
 import BN from 'bignumber.js';
+import { useMount } from 'react-use';
 
 import type { Ierc20 } from 'src/generate/IERC20';
 import {
@@ -12,16 +13,22 @@ import {
   useNetworkConfig,
   useDynamicContract,
   Typography,
-  useBalance
+  useBalance,
+  Link,
+  ButtonBase
 } from 'src/common';
+import { useStackingLockFormStyles } from './stacking-lock-form.styles';
 
 export type StackingLockFormProps = {
   account?: string | null;
-  tokenId: string;
+  tokenName: string;
   onSubmit?: () => void;
 };
 
 export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
+  const classes = useStackingLockFormStyles();
+
+  const [balanceOfToken, setbalanceOfToken] = useState('');
   const networkConfig = useNetworkConfig();
   const stackingContract = useStackingContract();
   const getIERC20Contract = useDynamicContract<Ierc20>({
@@ -29,7 +36,22 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
   });
   const getBalance = useBalance();
 
-  const { account, tokenId } = props;
+  const { account, tokenName } = props;
+
+  const handleGetBalanceOfToken = useCallback(async () => {
+    if (!networkConfig) return;
+    const currentAsset = networkConfig.assets[tokenName];
+
+    const balanceOfTokenResult = await getBalance({
+      tokenAddress: currentAsset.address
+    });
+
+    setbalanceOfToken(
+      balanceOfTokenResult
+        .div(new BN(10).pow(currentAsset.decimals))
+        .toString(10)
+    );
+  }, [networkConfig, getBalance, tokenName]);
 
   const formik = useFormik({
     initialValues: {
@@ -47,17 +69,9 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
 
       if (!networkConfig) return;
 
-      const currentAsset = networkConfig.assets[tokenId];
+      const currentAsset = networkConfig.assets[tokenName];
 
-      const balanceOfToken = await getBalance({
-        tokenAddress: currentAsset.address
-      });
-
-      if (
-        balanceOfToken
-          .div(new BN(10).pow(currentAsset.decimals))
-          .isLessThan(formValues.amount)
-      ) {
+      if (new BN(balanceOfToken).isLessThan(formValues.amount)) {
         error.amount = `Looks like you don't have enough ${currentAsset.symbol}, please check your wallet`;
       }
 
@@ -67,7 +81,7 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
     onSubmit: async (formValues, { resetForm }) => {
       if (!networkConfig || !account || !stackingContract) return;
 
-      const currentAsset = networkConfig.assets[tokenId];
+      const currentAsset = networkConfig.assets[tokenName];
 
       const currentContract = getIERC20Contract(currentAsset.address);
       const formAmount = new BN(formValues.amount)
@@ -108,22 +122,44 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
     }
   });
 
+  useMount(() => {
+    handleGetBalanceOfToken();
+  });
+
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} className={classes.root}>
       <div>
+        <Typography variant="body1" align="center">
+          Stake your {props.tokenName}
+        </Typography>
         <Input
           type="number"
-          value={formik.values.amount}
+          value={formik.values.amount || 0}
           name="amount"
           onChange={formik.handleChange}
           error={Boolean(formik.errors.amount)}
-          label="Amount"
+          className={classes.input}
         />
-        {Boolean(formik.errors.amount) && (
-          <Typography variant="body1">{formik.errors.amount}</Typography>
-        )}
+        <Typography variant="body1" align="center" className={classes.max}>
+          <ButtonBase
+            className={classes.maxButton}
+            onClick={() => formik.setFieldValue('amount', balanceOfToken || 0)}
+          >
+            {balanceOfToken || 0} max
+          </ButtonBase>
+        </Typography>
+        <Typography
+          variant="body1"
+          align="center"
+          className={classes.uniswapLink}
+        >
+          acquire more{' '}
+          <Link href="#here" color="blue">
+            here
+          </Link>
+        </Typography>
       </div>
-      <Button>Lock</Button>
+      <Button>Stake</Button>
     </form>
   );
 };

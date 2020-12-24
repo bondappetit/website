@@ -7,6 +7,9 @@ export type Colors = {
   grey: string;
   blue: string;
   red: string;
+  orange: string;
+  beige: string;
+  darkGreen: string;
   yellow: string;
   green: string;
   pink: string;
@@ -17,11 +20,14 @@ export type Colors = {
 export type ThemeModes = 'light' | 'dark';
 
 const mainColors = {
-  grey: '#A9A9A',
+  grey: '#A9A9A9',
   blue: '#326BFF',
   red: '#DE4909',
-  yellow: '#DEBC09',
+  orange: '#DEBC09',
+  yellow: '#FBFF43',
+  beige: '#E7D7BE',
   green: '#09DE78',
+  darkGreen: '4D7C6E',
   pink: '#FF35EB',
   darkBlue: '#3280BB',
   lightGrey: '#EEEEEE'
