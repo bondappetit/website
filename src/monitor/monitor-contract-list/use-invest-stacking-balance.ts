@@ -23,32 +23,23 @@ export const useInvestStackingBalance = (): Balance[] | null => {
   const investmentContract = useInvestmentContract();
 
   const handleLoadInvestStackingBalance = useCallback(async () => {
-    if (
-      !bondContract ||
-      !stackingContract ||
-      !investmentContract ||
-      !networkConfig ||
-      !abtContract
-    )
-      return;
-
     const balanceConfig = [
       {
-        name: 'Investment Bond',
+        name: 'Investment BAG',
         decimals: networkConfig.assets.Bond.decimals,
         balanceOf: bondContract.methods.balanceOf(
           investmentContract.options.address
         )
       },
       {
-        name: 'Stacking Bond',
+        name: 'Stacking BAG',
         decimals: networkConfig.assets.Bond.decimals,
         balanceOf: bondContract.methods.balanceOf(
           stackingContract.options.address
         )
       },
       {
-        name: 'Stacking ABT',
+        name: 'Stacking USDp',
         decimals: networkConfig.assets.ABT.decimals,
         balanceOf: abtContract.methods.balanceOf(
           stackingContract.options.address

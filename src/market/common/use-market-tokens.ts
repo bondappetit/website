@@ -10,19 +10,17 @@ export const useMarketTokens = (type: StableCoin) => {
   const marketContract = useMarketContract();
 
   const handleLoadTokenPrices = useCallback(async () => {
-    if (!network) return;
-
     const priceMethod =
       type === StableCoin.ABT
-        ? marketContract?.methods.priceABT
-        : marketContract?.methods.priceBond;
+        ? marketContract.methods.priceABT
+        : marketContract.methods.priceBond;
 
     const tokensWithPrice = Object.values(network.assets).reduce<
       Promise<Token[]>
     >(async (previusPromise, asset) => {
       const acc = await previusPromise;
 
-      const isAllowedToken = await marketContract?.methods
+      const isAllowedToken = await marketContract.methods
         .isAllowedToken(asset.address)
         .call();
 

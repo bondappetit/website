@@ -23,7 +23,7 @@ export const getProposal = (proposalId: number) => (
     description:
       formattedEvent?.description?.replace(title, '') ?? 'No description.',
     proposer: proposal?.proposer,
-    status: await governorContract?.methods.state(proposalId).call(),
+    status: await governorContract.methods.state(proposalId).call(),
     forCount: Number(
       ethers.utils.formatUnits(
         String(proposal?.forVotes),

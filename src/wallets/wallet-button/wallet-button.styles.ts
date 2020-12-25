@@ -11,13 +11,7 @@ export const useWalletButtonStyles = createUseStyles(
     },
 
     button: {
-      marginLeft: 10,
-
-      [theme.breakpoints.md()]: {
-        '&:hover $label': {
-          opacity: 0.4
-        }
-      }
+      marginLeft: 19
     },
 
     connected: {
@@ -35,25 +29,19 @@ export const useWalletButtonStyles = createUseStyles(
       }
     },
 
-    label: {
-      opacity: 0,
-      marginRight: 10,
-      transition: 'opacity .3s ease',
+    account: {
+      padding: '2px 8px 2px 16px',
       display: 'none',
       whiteSpace: 'nowrap',
 
       [theme.breakpoints.md()]: {
-        display: 'block'
+        display: 'flex',
+        alignItems: 'center'
       }
     },
 
-    account: {
-      padding: '2px 8px 2px 16px',
-      display: 'none',
-
-      [theme.breakpoints.md()]: {
-        display: 'block'
-      }
+    walletIcon: {
+      marginRight: 12
     }
   }),
   {

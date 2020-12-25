@@ -24,13 +24,7 @@ export const useVotingProposalDetail = (proposalId: number) => {
   const [update, handleUpdateProposalDetail] = useUpdate();
 
   const loadExistingProposal = useCallback(async () => {
-    if (
-      !account ||
-      !governorContract ||
-      !networkConfig ||
-      !proposalIdRef.current
-    )
-      return;
+    if (!account || !proposalIdRef.current) return;
 
     dispatch(setLoading(true));
 

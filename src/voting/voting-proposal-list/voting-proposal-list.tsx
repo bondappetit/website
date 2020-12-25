@@ -56,7 +56,7 @@ export const VotingProposalList: React.FC = () => {
             {!loading && (Number(currentVotes) > 0 || Number(currentABT) > 0) && (
               <>
                 {Number(currentVotes) === 0 ? currentABT : currentVotes}{' '}
-                {Number(currentVotes) === 0 ? 'Bond' : 'Votes'}
+                {Number(currentVotes) === 0 ? 'BAG' : 'Votes'}
               </>
             )}
             {!loading &&
@@ -74,7 +74,7 @@ export const VotingProposalList: React.FC = () => {
                       <Link
                         target="_blank"
                         className={classes.delegateTo}
-                        href={`${networkConfig?.networkEtherscan}/address/${delegateTo}`}
+                        href={`${networkConfig.networkEtherscan}/address/${delegateTo}`}
                       >
                         {cutAccount(delegateTo)}
                       </Link>

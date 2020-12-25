@@ -36,8 +36,8 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
   const profitSplitterContract = useProfitSplitterContract();
 
   const { tokenBalance, tokenContract, asset } = useSplitterBalance(
-    profitSplitterContract?.methods.incoming,
-    profitSplitterContract?.options.address,
+    profitSplitterContract.methods.incoming,
+    profitSplitterContract.options.address,
     props.updateCount
   );
 
@@ -49,7 +49,7 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
     validate: async (formValues) => {
       const errors: { amount?: string } = {};
 
-      if (!formValues.amount || Number(formValues.amount) <= 0) {
+      if (Number(formValues.amount) <= 0) {
         errors.amount = 'Required';
       }
 

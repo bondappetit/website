@@ -10,9 +10,9 @@ export const useBuybackBuy = (balance: string, updateBalances?: () => void) => {
   const { account } = useWeb3React<Web3>();
 
   const handleBuy = useCallback(async () => {
-    const buy = buybackContract?.methods.buy(0);
+    const buy = buybackContract.methods.buy(0);
 
-    if (!buy || !account || Number(balance) <= 0) return;
+    if (!account || Number(balance) <= 0) return;
 
     await buy.send({
       from: account,

@@ -35,7 +35,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
     async (value: boolean) => {
       if (!account) return;
 
-      await governorContract?.methods
+      await governorContract.methods
         .castVote(props.proposalId, value)
         .send({ from: account });
 
@@ -47,7 +47,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   const handleExecuteProposal = useCallback(async () => {
     if (!account) return;
 
-    await governorContract?.methods
+    await governorContract.methods
       .execute(props.proposalId)
       .send({ from: account });
 
@@ -57,7 +57,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   const handleQueueProposal = useCallback(async () => {
     if (!account) return;
 
-    await governorContract?.methods
+    await governorContract.methods
       .queue(props.proposalId)
       .send({ from: account });
 
@@ -67,7 +67,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   const handleGetVotedStatus = useCallback(async () => {
     if (!account) return;
 
-    const result = await governorContract?.methods
+    const result = await governorContract.methods
       .getReceipt(props.proposalId, account)
       .call();
 

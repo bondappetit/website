@@ -1,11 +1,10 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import type { AbiItem } from 'web3-utils';
 import type { ContractOptions } from 'web3-eth-contract';
 import networks from '@bondappetit/networks';
 
-import { config } from 'src/config';
 import { useNetworkConfig } from './use-network-config';
 
 type ContractParameters = {
@@ -16,37 +15,39 @@ type ContractParameters = {
 
 type Callback = (network: Network) => ContractParameters;
 
-const web3 = new Web3(
-  config.IS_DEV
-    ? Web3.givenProvider
-    : new Web3.providers.HttpProvider(config.MAINNET_URL)
-);
-
 export type Network = typeof networks[keyof typeof networks];
 
-export const createUseContract = <T>(cb: Callback) => () => {
+const useLibrary = () => {
   const { library } = useWeb3React<Web3>();
   const networkConfig = useNetworkConfig();
-  const web3OrLib = library ?? web3;
+  const providerRef = useRef(new Web3(networkConfig.networkUrl));
+
+  useEffect(() => {
+    providerRef.current = new Web3(networkConfig.networkUrl);
+  }, [networkConfig.networkUrl]);
+
+  return useMemo(() => library ?? providerRef.current, [library]);
+};
+
+export const createUseContract = <T>(cb: Callback) => () => {
+  const library = useLibrary();
+  const networkConfig = useNetworkConfig();
 
   return useMemo(() => {
-    if (!web3OrLib || !networkConfig) return null;
-
     const contractParams = cb(networkConfig);
 
-    return (new web3OrLib.eth.Contract(
+    return (new library.eth.Contract(
       contractParams.abi,
       contractParams.address,
       contractParams.options
     ) as unknown) as T;
-  }, [web3OrLib, networkConfig]);
+  }, [library, networkConfig]);
 };
 
 export const useDynamicContract = <T>(
   contractParameters?: ContractParameters
 ) => {
-  const { library } = useWeb3React<Web3>();
-  const web3OrLib = library ?? web3;
+  const library = useLibrary();
   const contract = useRef<T | null>(null);
 
   const handleGetContract = useCallback(
@@ -57,7 +58,7 @@ export const useDynamicContract = <T>(
         throw new Error('Abi is required');
       }
 
-      contract.current = (new web3OrLib.eth.Contract(
+      contract.current = (new library.eth.Contract(
         currentAbi,
         address
       ) as unknown) as T;
@@ -65,7 +66,7 @@ export const useDynamicContract = <T>(
       return contract.current;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [web3OrLib]
+    [library]
   );
 
   return handleGetContract;

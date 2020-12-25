@@ -44,7 +44,7 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
     async (formValues: OracleSaveFormValues) => {
       if (!account) return;
 
-      await depositaryOracleContract?.methods
+      await depositaryOracleContract.methods
         .put(formValues.isin, formValues.value)
         .send({
           from: account,
@@ -62,7 +62,7 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
         .multipliedBy(new BN(10).pow(6))
         .toString(10);
 
-      await securityOracleContract?.methods
+      await securityOracleContract.methods
         .put(
           formValues.isin,
           formValues.property,

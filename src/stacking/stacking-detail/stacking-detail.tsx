@@ -5,7 +5,13 @@ import Web3 from 'web3';
 import clsx from 'clsx';
 
 import { MainLayout } from 'src/layouts';
-import { Button, Plate, Typography, PageWrapper } from 'src/common';
+import {
+  Button,
+  Plate,
+  Typography,
+  PageWrapper,
+  useQueryParams
+} from 'src/common';
 import {
   StackingHeader,
   StackingLockForm,
@@ -19,8 +25,9 @@ export const StackingDetail: React.FC = () => {
   const classes = useStackingDetailStyles();
   const params = useParams<{ tokenId: string }>();
   const { account } = useWeb3React<Web3>();
-  const [{ stackingBalances }, update] = useStackingBalances([params.tokenId]);
+  const [stackingBalances, update] = useStackingBalances([params.tokenId]);
   const [balance] = useStackingApy(stackingBalances);
+  const queryParams = useQueryParams();
 
   const unlock = useStackingUnlock(params.tokenId);
 
@@ -38,7 +45,8 @@ export const StackingDetail: React.FC = () => {
     <MainLayout>
       <PageWrapper className={classes.stacking}>
         <StackingHeader
-          tokenName={params.tokenId}
+          tokenKey={params.tokenId}
+          tokenName={queryParams.get('tokenName')}
           APY={balance?.APY}
           className={classes.header}
         />
@@ -46,7 +54,8 @@ export const StackingDetail: React.FC = () => {
           <Plate variant="dotted" className={classes.card}>
             <StackingLockForm
               account={account}
-              tokenName={params.tokenId}
+              tokenKey={params.tokenId}
+              tokenName={queryParams.get('tokenName')}
               onSubmit={update}
             />
           </Plate>

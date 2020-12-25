@@ -15,7 +15,7 @@ type MenuItem = {
 
 const MENU_ITEMS: MenuItem[] = [
   {
-    title: 'ABT',
+    title: 'USDp',
     link: URLS.home
   },
 
@@ -65,7 +65,7 @@ const MENU_ITEMS: MenuItem[] = [
 
       {
         title: 'Docs',
-        link: URLS.docs
+        link: URLS.docs.list
       },
 
       {

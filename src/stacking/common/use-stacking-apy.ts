@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import BN from 'bignumber.js';
+import { useWeb3React } from '@web3-react/core';
+import Web3 from 'web3';
 
 import { useNetworkConfig, useUniswapRouter } from 'src/common';
 import { StackingToken } from './use-stacking-balances';
@@ -14,58 +16,41 @@ export const useStackingApy = (balances: StackingToken[]) => {
   const uniswapRouter = useUniswapRouter();
   const networkConfig = useNetworkConfig();
   const [APY, setAPY] = useState<APYWithTokenName[]>([]);
+  const { account } = useWeb3React<Web3>();
 
   const handleGetTokenPrice = useCallback(async () => {
-    if (!networkConfig || !uniswapRouter) return;
-    // TODO: rewrite for real tokens
-    // const currentToken = networkConfig.assets[params.tokenId];
+    const amountInBond = new BN(10)
+      .pow(networkConfig.assets.Bond.decimals)
+      .toString(10);
 
-    const amountInUSDT = new BN(10)
-      .pow(networkConfig.assets.USDT.decimals)
-      .toString(10);
-    const amountInDAI = new BN(10)
-      .pow(networkConfig.assets.DAI.decimals)
-      .toString(10);
+    if (!account) return;
 
     const [
       ,
-      ,
-      usdtInUSD
+      bondInUSDC
     ] = await uniswapRouter.methods
-      .getAmountsOut(amountInUSDT, [
-        networkConfig.assets.USDT.address,
-        networkConfig.assets.WETH.address,
-        networkConfig.assets.USDC.address
-      ])
-      .call();
-
-    const [
-      ,
-      ,
-      daiInUSD
-    ] = await uniswapRouter.methods
-      .getAmountsOut(amountInDAI, [
-        networkConfig.assets.DAI.address,
-        networkConfig.assets.WETH.address,
+      .getAmountsOut(amountInBond, [
+        networkConfig.assets.Bond.address,
         networkConfig.assets.USDC.address
       ])
       .call();
 
     const result = balances.map((balance) => ({
       ...balance,
-      APY: balance.delta
-        ? new BN(balance.delta)
-            .multipliedBy(daiInUSD)
-            .multipliedBy(BLOCK_PER_YEAR)
-            .div(usdtInUSD)
-            .multipliedBy(100)
-            .integerValue()
-            .toString()
-        : ''
+      APY: new BN(balance.delta)
+        .multipliedBy(BLOCK_PER_YEAR)
+        .multipliedBy(bondInUSDC)
+        .div(
+          new BN(10)
+            .pow(networkConfig.assets.Bond.decimals)
+            .multipliedBy(bondInUSDC)
+        )
+        .integerValue()
+        .toString(10)
     }));
 
-    setAPY(result);
-  }, [networkConfig, uniswapRouter, balances]);
+    if (result.length) setAPY(result);
+  }, [networkConfig, uniswapRouter, balances, account]);
 
   useEffect(() => {
     handleGetTokenPrice();

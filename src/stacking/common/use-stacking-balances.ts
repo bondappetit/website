@@ -2,20 +2,19 @@ import { useWeb3React } from '@web3-react/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Web3 from 'web3';
 import BN from 'bignumber.js';
-import { useInterval, useToggle } from 'react-use';
+import { useInterval } from 'react-use';
 
 import { useNetworkConfig, useStackingContract, useUpdate } from 'src/common';
 
 export type StackingToken = {
-  amount?: string;
+  amount: string;
   name: string;
-  reward?: string;
-  delta?: string;
+  reward: string;
+  delta: string;
+  key: string;
 };
 
 export const useStackingBalances = (availableTokens: string[]) => {
-  const [loading, toggleLoading] = useToggle(false);
-
   const tokens = useRef(availableTokens);
   const [stackingBalances, setStackingBalances] = useState<StackingToken[]>([]);
   const stackingContract = useStackingContract();
@@ -24,39 +23,40 @@ export const useStackingBalances = (availableTokens: string[]) => {
   const [update, handleUpdate] = useUpdate();
 
   const handleGetBalances = useCallback(async () => {
-    if (!account || !networkConfig) return;
-
     const balances = tokens.current.reduce<Promise<StackingToken[]>>(
-      async (previusPromise, token) => {
+      async (previusPromise, key) => {
         const acc = await previusPromise;
 
-        const tokenConfig = networkConfig?.assets[token];
+        const tokenConfig = networkConfig.assets[key];
 
         if (!tokenConfig) return acc;
 
-        const balance = await stackingContract?.methods
-          .balances(account, tokenConfig.address)
-          .call();
+        const balance = account
+          ? await stackingContract.methods
+              .balances(account, tokenConfig.address)
+              .call()
+          : { amount: '1' };
 
-        const amount = balance ? new BN(balance.amount) : null;
-        const reward = await stackingContract?.methods
+        const amount = new BN(balance.amount);
+        const reward = await stackingContract.methods
           .reward(tokenConfig.address)
-          .call({ from: account });
-        const rewards = await stackingContract?.methods
+          .call(account ? { from: account } : undefined);
+        const rewards = await stackingContract.methods
           .rewards(tokenConfig.address)
           .call();
 
-        const rewardBN = reward ? new BN(reward) : null;
+        const rewardBN = new BN(reward);
 
-        const delta = rewards ? new BN(rewards.delta) : null;
+        const delta = new BN(rewards.delta);
 
         const stackingToken = {
-          amount: amount?.div(new BN(10).pow(tokenConfig.decimals)).toString(),
-          name: token,
+          amount: amount.div(new BN(10).pow(tokenConfig.decimals)).toString(10),
+          name: tokenConfig.symbol,
+          key,
           reward: rewardBN
-            ?.div(new BN(10).pow(tokenConfig.decimals))
+            .div(new BN(10).pow(tokenConfig.decimals))
             .toString(10),
-          delta: delta?.div(new BN(10).pow(tokenConfig.decimals)).toString(10)
+          delta: delta.div(new BN(10).pow(tokenConfig.decimals)).toString(10)
         };
 
         acc.push(stackingToken);
@@ -66,30 +66,21 @@ export const useStackingBalances = (availableTokens: string[]) => {
       Promise.resolve([])
     );
 
-    setStackingBalances(await balances);
+    const tokenBalances = await balances;
+
+    if (tokenBalances.length) setStackingBalances(tokenBalances);
   }, [stackingContract, account, networkConfig]);
 
   useEffect(() => {
-    toggleLoading();
-
-    handleGetBalances().then(toggleLoading);
-  }, [handleGetBalances, update, toggleLoading]);
+    handleGetBalances();
+  }, [handleGetBalances, update]);
 
   useInterval(() => {
     handleGetBalances();
-  }, 2000);
+  }, 15000);
 
   return useMemo(
-    (): [
-      { stackingBalances: StackingToken[]; loading: boolean },
-      () => void
-    ] => [
-      {
-        stackingBalances,
-        loading
-      },
-      handleUpdate
-    ],
-    [stackingBalances, handleUpdate, loading]
+    (): [StackingToken[], () => void] => [stackingBalances, handleUpdate],
+    [stackingBalances, handleUpdate]
   );
 };

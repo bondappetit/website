@@ -12,7 +12,7 @@ export const LinkIfAccount: React.FC<{ children: string }> = (props) => {
     <Link
       target="_blank"
       color="blue"
-      href={`${networkConfig?.networkEtherscan}/address/${props.children}`}
+      href={`${networkConfig.networkEtherscan}/address/${props.children}`}
     >
       {cutAccount(props.children)}
     </Link>

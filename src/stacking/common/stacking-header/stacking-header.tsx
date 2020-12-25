@@ -9,7 +9,8 @@ import HatOutline from 'src/assets/images/hat-outline.svg';
 import { useStackingHeaderStyles } from './stacking-header.styles';
 
 export type StackingHeaderProps = {
-  tokenName: string;
+  tokenName: string | null;
+  tokenKey: string;
   APY?: string;
   className?: string;
 };
@@ -17,7 +18,7 @@ export type StackingHeaderProps = {
 export const StackingHeader: React.FC<StackingHeaderProps> = (props) => {
   const classes = useStackingHeaderStyles({
     img: HatOutline,
-    tokenName: props.tokenName
+    tokenName: props.tokenKey
   });
 
   return (

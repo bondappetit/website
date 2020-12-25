@@ -11,7 +11,7 @@ export const useRebalance = () => {
   const handleRebalance = useCallback(() => {
     if (!account) return;
 
-    return issuerContract?.methods.rebalance().send({
+    return issuerContract.methods.rebalance().send({
       from: account,
       gas: 2000000
     });

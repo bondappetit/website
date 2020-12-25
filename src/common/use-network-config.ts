@@ -7,8 +7,11 @@ export const useNetworkConfig = () => {
   const { chainId } = useWeb3React<Web3>();
 
   return useMemo(() => {
-    return Object.values(networks).find(
+    const networkConfig = Object.values(networks).find(
       (network) => network.networkId === chainId
     );
+
+    // TODO: rewrite default network config for prod
+    return networkConfig ?? networks.ropsten;
   }, [chainId]);
 };
