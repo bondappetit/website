@@ -66,8 +66,8 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
         return error;
       }
 
-      if (!formValues.amount) {
-        error.amount = '';
+      if (Number(formValues.amount) <= 0) {
+        error.amount = 'Required';
         return error;
       }
 
@@ -88,8 +88,6 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
         error.amount = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
       }
 
-      if (!marketContract || !network || !abtContract) return;
-
       const abtBalance = await abtContract.methods
         .balanceOf(marketContract.options.address)
         .call();
@@ -99,7 +97,7 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
       );
 
       if (abtBalanceNumber.isLessThan(userGet)) {
-        error.amountOfToken = `Looks like we don't have enough ABT`;
+        error.amountOfToken = `Looks like we don't have enough USDp`;
       }
 
       return error;
@@ -110,7 +108,7 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
 
       const currentToken = tokens[formValues.currency];
 
-      if (!marketContract?.options.address || !currentToken || !account) return;
+      if (!currentToken || !account) return;
 
       const currentContract = tokenContracts[currentToken.name];
 
@@ -191,11 +189,9 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
   }, [successToggle, formik]);
 
   const handleGetAvailableTokens = useCallback(async () => {
-    if (!network) return;
-
     const balanceOfBonds = await getBalance({
-      tokenAddress: abtContract?.options.address,
-      accountAddress: marketContract?.options.address
+      tokenAddress: abtContract.options.address,
+      accountAddress: marketContract.options.address
     });
 
     setAvailableTokens(
@@ -224,14 +220,14 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
             userGet={userGet}
             amountLabel="Amount"
             setUserGet={setUserGet}
-            tokenName="ABT"
+            tokenName="USDp"
           />
         </div>
       </FormikProvider>
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <FullpageModal>
           <InfoCardSuccess
-            tokenName="ABT"
+            tokenName="USDp"
             onClick={handleSuccessClose}
             purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
           />

@@ -19,12 +19,9 @@ export const useMarketBalance = (): Balance[] | null => {
   const marketContract = useMarketContract();
 
   const handleLoadMarketBalances = useCallback(async () => {
-    if (!marketContract || !abtContract || !bondContract || !networkConfig)
-      return;
-
     const balanceConfig = [
       {
-        name: 'Market abt balance',
+        name: 'Market USDp balance',
         decimals: networkConfig.assets.ABT.decimals,
         balanceOf: abtContract.methods.balanceOf(marketContract.options.address)
       },

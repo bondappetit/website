@@ -36,6 +36,7 @@ export const useAnnouncementStyles = createUseStyles((theme: Theme) => ({
     position: 'absolute',
     width: '100%',
     top: 0,
+    margin: 'auto',
     bottom: 0,
     left: 0,
     zIndex: -1

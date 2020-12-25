@@ -14,7 +14,7 @@ export const useETHBalance = (
   const getBalance = useBalance();
 
   const handleGetETHBalance = useCallback(async () => {
-    if (!networkConfig || !accountAddress) return;
+    if (!accountAddress) return;
 
     const balance = await getBalance({
       tokenName: networkConfig.assets.WETH.symbol,

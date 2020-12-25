@@ -19,11 +19,11 @@ export const MonitorContractList: React.FC = () => {
         <h2>Contracts list</h2>
         <div>
           <ul className={classes.list}>
-            {Object.values(networkConfig?.contracts ?? {}).map(
+            {Object.values(networkConfig.contracts ?? {}).map(
               ({ name, address }) => (
                 <li key={address}>
                   <Link
-                    href={`${networkConfig?.networkEtherscan}/address/${address}`}
+                    href={`${networkConfig.networkEtherscan}/address/${address}`}
                     target="__blank"
                   >
                     {name}
@@ -49,13 +49,13 @@ export const MonitorContractList: React.FC = () => {
           <div>
             <Typography variant="h3">Treasury</Typography>
             <MonitorTokenList
-              contractAddress={networkConfig?.contracts.Treasury.address}
+              contractAddress={networkConfig.contracts.Treasury.address}
             />
           </div>
           <div>
             <Typography variant="h3">Timelock</Typography>
             <MonitorTokenList
-              contractAddress={networkConfig?.contracts.Timelock.address}
+              contractAddress={networkConfig.contracts.Timelock.address}
             />
           </div>
         </div>

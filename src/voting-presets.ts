@@ -66,7 +66,7 @@ export const VOTING_PRESETS: VotingPreset[] = [
         ]
       },
       {
-        contract: 'Bond',
+        contract: 'BAG',
         method: 'approve',
         input: [
           {

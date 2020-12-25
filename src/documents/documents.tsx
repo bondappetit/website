@@ -23,7 +23,7 @@ export const Documents: React.FC<DocumentsProps> = (props) => {
         className={classes.title}
       >
         Find out more about BondAppétit protocol, our unique stablecoin
-        <br /> backed by real-world debt instruments (ABT), and other components
+        <br /> backed by real-world debt instruments (BAG), and other components
         <br />
         of BondAppétit:
       </Typography>

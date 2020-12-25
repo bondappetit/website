@@ -35,7 +35,7 @@ export const useVotingProposalList = () => {
   }, [setCountItems, governorContract]);
 
   const loadExistingProposals = useCallback(async () => {
-    if (!account || !governorContract || !networkConfig || !page.length) return;
+    if (!account || !page.length) return;
 
     setLoading(true);
 

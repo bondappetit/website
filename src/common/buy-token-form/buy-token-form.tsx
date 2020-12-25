@@ -38,9 +38,8 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
 
   const {
     tokens,
-    network,
     handleOpenWalletListModal,
-    tokenName = 'Bond',
+    tokenName = 'BAG',
     setUserGet,
     userGet,
     amountLabel = 'You invest'
@@ -89,6 +88,7 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
           onChange={formik.handleChange}
           name="amount"
           label={amountLabel}
+          min="0"
           error={Boolean(formik.errors.amount)}
           value={formik.values.amount}
           className={classes.input}
@@ -100,10 +100,9 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
         className={classes.input}
         onChange={(value) => formik.setFieldValue('currency', value)}
       >
-        {network &&
-          Object.values(tokens).map(({ name }) => (
-            <SelectOption key={name} value={name} label={name} />
-          ))}
+        {Object.values(tokens).map(({ name }) => (
+          <SelectOption key={name} value={name} label={name} />
+        ))}
       </Select>
       <Tippy
         visible={Boolean(formik.errors.amountOfToken)}

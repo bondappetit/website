@@ -26,32 +26,21 @@ export const WalletButton: React.FC = () => {
   return (
     <div className={classes.wrap}>
       {account &&
-        networkConfig?.networkName &&
-        networkConfig?.networkName !== 'mainnet' && (
+        networkConfig.networkName &&
+        networkConfig.networkName !== 'mainnet' && (
           <Chip className={classes.chip}>{networkConfig.networkName}</Chip>
         )}
       <ButtonBase
         onClick={() => setOpen(true)}
-        className={clsx(classes.button, {
-          [classes.connected]: account
-        })}
+        className={clsx(classes.button, classes.connected)}
       >
-        {!account && (
-          <>
-            <Typography variant="body2" className={classes.label}>
-              Connect your wallet
-            </Typography>
-            <WalletIcon />
-          </>
-        )}
-
-        {account && (
-          <>
-            <Typography variant="body2" className={classes.account}>
-              {cutAccount(account)}
-            </Typography>
-            <Jazzicon diameter={28} seed={jsNumberForAddress(account)} />
-          </>
+        <Typography variant="body2" className={classes.account}>
+          {account ? cutAccount(account) : <>Connect your wallet</>}
+        </Typography>
+        {account ? (
+          <Jazzicon diameter={28} seed={jsNumberForAddress(account)} />
+        ) : (
+          <WalletIcon className={classes.walletIcon} />
         )}
       </ButtonBase>
       <WalletModal open={open} onClose={handleClose} />

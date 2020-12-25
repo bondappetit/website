@@ -20,13 +20,10 @@ export const useVotingEvents = () => {
 
     if (proposal.id === '0') return;
 
-    const pastEvents = await governorContract?.getPastEvents(
-      'ProposalCreated',
-      {
-        fromBlock: parseInt(proposal.startBlock, 10) - 1,
-        toBlock: 'latest'
-      }
-    );
+    const pastEvents = await governorContract.getPastEvents('ProposalCreated', {
+      fromBlock: parseInt(proposal.startBlock, 10) - 1,
+      toBlock: 'latest'
+    });
 
     const formattedEventData = pastEvents?.map(({ raw, returnValues }) => {
       const eventParsed = eventParser.parseLog(raw).args;

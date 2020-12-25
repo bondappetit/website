@@ -15,5 +15,8 @@ export const URLS = {
   monitor: '/monitor',
   profitSplitter: '/profit-splitter',
   whitepaper: '/whitepaper',
-  docs: '/docs'
+  docs: {
+    list: '/docs',
+    detail: (contractName = ':contractName') => `/docs/${contractName}`
+  }
 } as const;

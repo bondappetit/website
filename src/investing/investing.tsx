@@ -64,8 +64,8 @@ export const Investing: React.FC<InvestingProps> = (props) => {
         return error;
       }
 
-      if (!formValues.amount) {
-        error.amount = '';
+      if (Number(formValues.amount) <= 0) {
+        error.amount = 'Required';
         return error;
       }
 
@@ -85,8 +85,6 @@ export const Investing: React.FC<InvestingProps> = (props) => {
       ) {
         error.amount = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
       }
-
-      if (!investmentContract || !network || !bondContract) return;
 
       const bondBalance = await bondContract.methods
         .balanceOf(investmentContract.options.address)
@@ -108,8 +106,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
 
       const currentToken = tokens[formValues.currency];
 
-      if (!investmentContract?.options.address || !currentToken || !account)
-        return;
+      if (!currentToken || !account) return;
 
       const formInvest = new BN(formValues.amount)
         .multipliedBy(new BN(10).pow(currentToken.decimals))
@@ -205,7 +202,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <FullpageModal>
           <InfoCardSuccess
-            tokenName="Bond"
+            tokenName="BAG"
             onClick={handleSuccessClose}
             purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
           />

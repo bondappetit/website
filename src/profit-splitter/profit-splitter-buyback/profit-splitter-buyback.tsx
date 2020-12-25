@@ -26,8 +26,8 @@ export const ProfitSplitterBuyback: React.FC<ProfitSplitterBuybackProps> = (
   const buybackContract = useBuybackContract();
 
   const { asset, tokenBalance } = useSplitterBalance(
-    buybackContract?.methods.incoming,
-    buybackContract?.options.address,
+    buybackContract.methods.incoming,
+    buybackContract.options.address,
     props.updateCount
   );
 

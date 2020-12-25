@@ -43,7 +43,7 @@ export const Statistic: React.FC<StatisticProps> = (props) => {
           className={classes.decoratedText}
         >
           <TokenTitleLine className={classes.tokenTitleLine} />
-          Appetit Reward Token (ART)
+          Appetite USD (USDp)
         </Typography>{' '}
         — the main tool for&nbsp;
         <Typography

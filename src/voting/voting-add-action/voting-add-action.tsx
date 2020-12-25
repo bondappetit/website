@@ -64,9 +64,7 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
   const [currentPreset, setPreset] = useState<VotingPresetItem | null>(null);
 
   const contracts = useMemo(() => {
-    if (!networkConfig?.contracts) return;
-
-    return Object.values(networkConfig?.contracts).reduce<
+    return Object.values(networkConfig.contracts).reduce<
       Record<string, Network['contracts'][number]>
     >((acc, contract) => {
       if (contract.voting) {

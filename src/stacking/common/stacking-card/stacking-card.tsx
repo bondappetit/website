@@ -7,6 +7,7 @@ import HatOutline from 'src/assets/images/hat-outline.svg';
 import { useStackingCardStyles } from './stacking-card.styles';
 
 export type StackingCardProps = {
+  tokenKey: string;
   tokenName: string;
   reward?: string;
   delta?: string;
@@ -16,13 +17,15 @@ export type StackingCardProps = {
 export const StackingCard: React.FC<StackingCardProps> = (props) => {
   const classes = useStackingCardStyles({
     img: HatOutline,
-    tokenName: props.tokenName
+    tokenName: props.tokenKey
   });
 
   return (
     <Link
       component={ReactRouterLink}
-      to={URLS.stacking.detail(props.tokenName)}
+      to={`${URLS.stacking.detail(props.tokenKey)}?tokenName=${
+        props.tokenName
+      }`}
       className={classes.stakingCard}
     >
       <Typography variant="h2" weight="bold" align="center">

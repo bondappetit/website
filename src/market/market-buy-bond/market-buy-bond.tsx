@@ -67,8 +67,8 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         return error;
       }
 
-      if (!formValues.amount) {
-        error.amount = '';
+      if (Number(formValues.amount) <= 0) {
+        error.amount = 'Required';
         return error;
       }
 
@@ -88,8 +88,6 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
       ) {
         error.amount = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
       }
-
-      if (!marketContract || !network || !bondContract) return;
 
       const bondBalance = await bondContract.methods
         .balanceOf(marketContract.options.address)
@@ -111,7 +109,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
 
       const currentToken = tokens[formValues.currency];
 
-      if (!marketContract?.options.address || !currentToken || !account) return;
+      if (!currentToken || !account) return;
 
       const currentContract = tokenContracts[currentToken.name];
 
@@ -187,18 +185,16 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
 
   const handleGetBondBalance = useCallback(async () => {
     const balanceOfBonds = await getBalance({
-      tokenAddress: bondContract?.options.address
+      tokenAddress: bondContract.options.address
     });
 
     setCanBuy(balanceOfBonds.toNumber() > 0);
   }, [bondContract, getBalance]);
 
   const handleGetAvailableTokens = useCallback(async () => {
-    if (!network) return;
-
     const balanceOfBonds = await getBalance({
-      tokenAddress: bondContract?.options.address,
-      accountAddress: marketContract?.options.address
+      tokenAddress: bondContract.options.address,
+      accountAddress: marketContract.options.address
     });
 
     setAvailableTokens(
@@ -209,7 +205,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
   }, [bondContract, getBalance, marketContract, network]);
 
   const handleGetBondPrice = useCallback(async () => {
-    const bondPrice = await marketContract?.methods.bondPrice().call();
+    const bondPrice = await marketContract.methods.bondPrice().call();
 
     if (!bondPrice) return;
 
@@ -258,7 +254,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <FullpageModal>
           <InfoCardSuccess
-            tokenName="Bond"
+            tokenName="BAG"
             onClick={handleSuccessClose}
             purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
           />

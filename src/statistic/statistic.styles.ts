@@ -100,6 +100,7 @@ export const useStatisticStyles = createUseStyles(
       width: '100%',
       top: 0,
       bottom: 0,
+      margin: 'auto',
       left: 0,
       zIndex: -1
     }

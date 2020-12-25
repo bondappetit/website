@@ -18,7 +18,7 @@ export const useAddLiquidity = (
 
     if (Number(incomingAmount) <= 0 || Number(supportAmount) <= 0) return;
 
-    const addLiquidity = marketMakerContract?.methods.addLiquidity(0, 0);
+    const addLiquidity = marketMakerContract.methods.addLiquidity(0, 0);
 
     if (!addLiquidity) return;
 

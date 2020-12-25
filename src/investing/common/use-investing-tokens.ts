@@ -9,12 +9,10 @@ export const useInvestingTokens = () => {
   const investmentContract = useInvestmentContract();
 
   const handleLoadTokenPrices = useCallback(async () => {
-    if (!network) return;
-
     const tokensWithPrice = Object.values(network.assets)
       .filter(({ investing }) => investing)
       .map(async (asset) => {
-        const price = await investmentContract?.methods
+        const price = await investmentContract.methods
           .price(asset.address, new BN(10).pow(asset.decimals).toString())
           .call();
 

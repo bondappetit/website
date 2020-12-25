@@ -16,55 +16,35 @@ export const useStackingApy = (balances: StackingToken[]) => {
   const [APY, setAPY] = useState<APYWithTokenName[]>([]);
 
   const handleGetTokenPrice = useCallback(async () => {
-    if (!networkConfig || !uniswapRouter) return;
-    // TODO: rewrite for real tokens
-    // const currentToken = networkConfig.assets[params.tokenId];
-
-    const amountInUSDT = new BN(10)
-      .pow(networkConfig.assets.USDT.decimals)
-      .toString(10);
-    const amountInDAI = new BN(10)
-      .pow(networkConfig.assets.DAI.decimals)
+    const amountInBond = new BN(10)
+      .pow(networkConfig.assets.Bond.decimals)
       .toString(10);
 
     const [
       ,
-      ,
-      usdtInUSD
+      bondInUSDC
     ] = await uniswapRouter.methods
-      .getAmountsOut(amountInUSDT, [
-        networkConfig.assets.USDT.address,
-        networkConfig.assets.WETH.address,
-        networkConfig.assets.USDC.address
-      ])
-      .call();
-
-    const [
-      ,
-      ,
-      daiInUSD
-    ] = await uniswapRouter.methods
-      .getAmountsOut(amountInDAI, [
-        networkConfig.assets.DAI.address,
-        networkConfig.assets.WETH.address,
+      .getAmountsOut(amountInBond, [
+        networkConfig.assets.Bond.address,
         networkConfig.assets.USDC.address
       ])
       .call();
 
     const result = balances.map((balance) => ({
       ...balance,
-      APY: balance.delta
-        ? new BN(balance.delta)
-            .multipliedBy(daiInUSD)
-            .multipliedBy(BLOCK_PER_YEAR)
-            .div(usdtInUSD)
-            .multipliedBy(100)
-            .integerValue()
-            .toString()
-        : ''
+      APY: new BN(balance.delta)
+        .multipliedBy(bondInUSDC)
+        .multipliedBy(BLOCK_PER_YEAR)
+        .div(
+          new BN(10)
+            .pow(networkConfig.assets.Bond.decimals)
+            .multipliedBy(bondInUSDC)
+        )
+        .integerValue()
+        .toString(10)
     }));
 
-    setAPY(result);
+    if (result.length) setAPY(result);
   }, [networkConfig, uniswapRouter, balances]);
 
   useEffect(() => {

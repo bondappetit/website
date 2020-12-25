@@ -10,7 +10,7 @@ export const useBuybackRecipient = () => {
   const buybackContract = useBuybackContract();
 
   const handleGetRecipient = useCallback(async () => {
-    const recipient = await buybackContract?.methods.recipient().call();
+    const recipient = await buybackContract.methods.recipient().call();
 
     setCurrentRecipient(recipient);
   }, [buybackContract]);

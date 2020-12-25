@@ -16,8 +16,6 @@ export const useTokensBalance = (address?: string) => {
   const getBalance = useBalance();
 
   const handleLoadTokensBalance = useCallback(async () => {
-    if (!networkConfig) return;
-
     const balances = Object.values(networkConfig.assets).map(async (asset) => {
       const balance = await getBalance({
         tokenName: asset.symbol,

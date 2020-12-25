@@ -69,7 +69,7 @@ export const VotingCreateProposal: React.FC = () => {
 
       const description = `#${formValues.title}\n${formValues.description}`;
 
-      await governorContract?.methods
+      await governorContract.methods
         .propose(addresses, values, signatures, callDatas, description)
         .send({ from: account, gas: 2000000 });
 

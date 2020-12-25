@@ -10,11 +10,11 @@ export const useStackingUnlock = (tokenId: string) => {
   const networkConfig = useNetworkConfig();
 
   const handleUnlock = useCallback(async () => {
-    const currentToken = networkConfig?.assets[tokenId];
+    const currentToken = networkConfig.assets[tokenId];
 
     if (!currentToken || !account) return;
 
-    const unlock = stackingContract?.methods.unlock(currentToken.address);
+    const unlock = stackingContract.methods.unlock(currentToken.address);
 
     if (!unlock) return;
 

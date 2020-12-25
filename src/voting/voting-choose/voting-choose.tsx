@@ -38,11 +38,11 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
     async (address?: string | null) => {
       if (!address || !account) return;
 
-      const estimategas = await bondContract?.methods
+      const estimategas = await bondContract.methods
         .delegate(address)
         .estimateGas({ from: account });
 
-      await bondContract?.methods.delegate(address).send({
+      await bondContract.methods.delegate(address).send({
         from: account,
         gas: estimategas
       });

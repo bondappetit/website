@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import { useFormik } from 'formik';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import { AbiItem } from 'web3-utils';
 import BN from 'bignumber.js';
-import { useMount } from 'react-use';
+import Tippy from '@tippyjs/react';
 
 import type { Ierc20 } from 'src/generate/IERC20';
 import {
@@ -21,7 +21,8 @@ import { useStackingLockFormStyles } from './stacking-lock-form.styles';
 
 export type StackingLockFormProps = {
   account?: string | null;
-  tokenName: string;
+  tokenName: string | null;
+  tokenKey: string;
   onSubmit?: () => void;
 };
 
@@ -36,26 +37,25 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
   });
   const getBalance = useBalance();
 
-  const { account, tokenName } = props;
+  const { account, tokenKey } = props;
 
   const handleGetBalanceOfToken = useCallback(async () => {
-    if (!networkConfig) return;
-    const currentAsset = networkConfig.assets[tokenName];
+    const currentAsset = networkConfig.assets[tokenKey];
 
     const balanceOfTokenResult = await getBalance({
       tokenAddress: currentAsset.address
     });
 
-    setbalanceOfToken(
-      balanceOfTokenResult
-        .div(new BN(10).pow(currentAsset.decimals))
-        .toString(10)
+    const balance = balanceOfTokenResult.div(
+      new BN(10).pow(currentAsset.decimals)
     );
-  }, [networkConfig, getBalance, tokenName]);
+
+    setbalanceOfToken(balance.isNaN() ? '0' : balance.toString(10));
+  }, [networkConfig, getBalance, tokenKey]);
 
   const formik = useFormik({
     initialValues: {
-      amount: ''
+      amount: '0'
     },
     validateOnBlur: false,
     validateOnChange: false,
@@ -63,13 +63,11 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
 
-      if (!formValues.amount) {
-        error.amount = 'required';
+      if (Number(formValues.amount) <= 0) {
+        error.amount = 'Required';
       }
 
-      if (!networkConfig) return;
-
-      const currentAsset = networkConfig.assets[tokenName];
+      const currentAsset = networkConfig.assets[tokenKey];
 
       if (new BN(balanceOfToken).isLessThan(formValues.amount)) {
         error.amount = `Looks like you don't have enough ${currentAsset.symbol}, please check your wallet`;
@@ -79,9 +77,9 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
     },
 
     onSubmit: async (formValues, { resetForm }) => {
-      if (!networkConfig || !account || !stackingContract) return;
+      if (!account) return;
 
-      const currentAsset = networkConfig.assets[tokenName];
+      const currentAsset = networkConfig.assets[tokenKey];
 
       const currentContract = getIERC20Contract(currentAsset.address);
       const formAmount = new BN(formValues.amount)
@@ -111,7 +109,7 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
         gas: await approve.estimateGas({ from: account })
       });
 
-      await stackingContract?.methods
+      await stackingContract.methods
         .lock(currentAsset.address, formAmount)
         .send({
           from: account,
@@ -122,9 +120,13 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
     }
   });
 
-  useMount(() => {
+  useEffect(() => {
     handleGetBalanceOfToken();
-  });
+  }, [handleGetBalanceOfToken]);
+
+  const handleCloseTooltip = useCallback(() => {
+    formik.setFieldError('amount', '');
+  }, [formik]);
 
   return (
     <form onSubmit={formik.handleSubmit} className={classes.root}>
@@ -132,17 +134,29 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
         <Typography variant="body1" align="center">
           Stake your {props.tokenName}
         </Typography>
-        <Input
-          type="number"
-          value={formik.values.amount || 0}
-          name="amount"
-          onChange={formik.handleChange}
-          error={Boolean(formik.errors.amount)}
-          className={classes.input}
-        />
+        <Tippy
+          visible={Boolean(formik.errors.amount)}
+          content={formik.errors.amount}
+          className={classes.tooltip}
+          maxWidth={200}
+          offset={[0, 25]}
+          onClickOutside={handleCloseTooltip}
+        >
+          <Input
+            type="number"
+            value={formik.values.amount}
+            name="amount"
+            disabled={formik.isSubmitting}
+            onChange={formik.handleChange}
+            error={Boolean(formik.errors.amount)}
+            className={classes.input}
+          />
+        </Tippy>
         <Typography variant="body1" align="center" className={classes.max}>
           <ButtonBase
             className={classes.maxButton}
+            type="button"
+            disabled={formik.isSubmitting}
             onClick={() => formik.setFieldValue('amount', balanceOfToken || 0)}
           >
             {balanceOfToken || 0} max
@@ -159,7 +173,13 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
           </Link>
         </Typography>
       </div>
-      <Button>Stake</Button>
+      <Button
+        type="submit"
+        disabled={formik.isSubmitting}
+        loading={formik.isSubmitting}
+      >
+        Stake
+      </Button>
     </form>
   );
 };

@@ -63,7 +63,7 @@ export const WalletInfo: React.FC<WalletInfoProps> = (props) => {
       >
         <Link
           target="_blank"
-          href={`${networkConfig?.networkEtherscan}/address/${props.account}`}
+          href={`${networkConfig.networkEtherscan}/address/${props.account}`}
         >
           View on Etherscan ↗
         </Link>

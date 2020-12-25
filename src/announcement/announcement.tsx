@@ -26,7 +26,7 @@ export const Announcement: React.FC<AnnouncementProps> = (props) => {
           <TextRound className={classes.textRound} />
           pre-sale
         </Typography>{' '}
-        round of Appetit Reward Token (ART) starts{' '}
+        round of Appetite USD (USDp) starts{' '}
         <Typography
           variant="inherit"
           component="span"

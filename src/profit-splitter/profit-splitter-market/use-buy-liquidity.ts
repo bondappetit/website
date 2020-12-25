@@ -17,7 +17,7 @@ export const useBuyLiquidity = (
 
     if (Number(balance) <= 0) return;
 
-    const buyLiquidity = marketMakerContract?.methods.buyLiquidity(0);
+    const buyLiquidity = marketMakerContract.methods.buyLiquidity(0);
 
     if (!buyLiquidity) return;
 
