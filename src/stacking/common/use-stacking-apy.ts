@@ -30,19 +30,34 @@ export const useStackingApy = (balances: StackingToken[]) => {
       ])
       .call();
 
-    const result = balances.map((balance) => ({
-      ...balance,
-      APY: new BN(balance.delta)
-        .multipliedBy(bondInUSDC)
-        .multipliedBy(BLOCK_PER_YEAR)
-        .div(
-          new BN(10)
-            .pow(networkConfig.assets.Bond.decimals)
+    const result = await Promise.all(
+      balances.map(async (balance) => {
+        const config = networkConfig.assets[balance.key];
+        if (config === undefined) {
+          throw new Error(`Config for token ${balance.key} not found`);
+        }
+        const [
+          ,
+          tokenInUSDC
+        ] = await uniswapRouter.methods
+          .getAmountsOut(amountInBond, [
+            config.address,
+            networkConfig.assets.USDC.address
+          ])
+          .call();
+
+        return {
+          ...balance,
+          APY: new BN(balance.delta)
+            .multipliedBy(new BN(10).pow(config.decimals))
             .multipliedBy(bondInUSDC)
-        )
-        .integerValue()
-        .toString(10)
-    }));
+            .multipliedBy(BLOCK_PER_YEAR)
+            .div(new BN(10).pow(config.decimals).multipliedBy(tokenInUSDC))
+            .multipliedBy(100)
+            .toFixed(2)
+        };
+      })
+    );
 
     if (result.length) setAPY(result);
   }, [networkConfig, uniswapRouter, balances]);
