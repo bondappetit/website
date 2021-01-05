@@ -7,13 +7,17 @@ import {
   MarkdownLink,
   MarkdownImage,
   useScrollSpy,
-  MarkdownCode
+  MarkdownCode,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
   buildTableOfContents,
   DocsRendererParagraph,
-  DocsRendererTable,
   DocsRendererTableOfContents,
   DocsRendererTableOfContentsProps
 } from './common';
@@ -26,7 +30,11 @@ const renderers = {
   link: MarkdownLink,
   heading: MarkdownHeading,
   image: MarkdownImage,
-  table: DocsRendererTable,
+  table: Table,
+  tableHead: TableHead,
+  tableBody: TableBody,
+  tableRow: TableRow,
+  tableCell: TableCell,
   code: MarkdownCode
 };
 

@@ -9,7 +9,7 @@ import {
 } from 'src/stacking/common';
 import { useStackingListStyles } from './stacking-list.styles';
 
-const AVAILABLE_TOKENS = ['ABT', 'Bond'];
+const AVAILABLE_TOKENS = ['USDp', 'BAG'];
 
 export const StackingList: React.FC = () => {
   const classes = useStackingListStyles();

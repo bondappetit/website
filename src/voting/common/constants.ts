@@ -15,9 +15,9 @@ export const ProposalStateColors: Record<string, StatusProps['color']> = {
   [ProposalState.Pending]: 'grey',
   [ProposalState.Active]: 'blue',
   [ProposalState.Defeated]: 'red',
-  [ProposalState.Canceled]: 'yellow',
+  [ProposalState.Canceled]: 'orange',
   [ProposalState.Succeeded]: 'green',
-  [ProposalState.Queued]: 'pink',
+  [ProposalState.Queued]: 'purple',
   [ProposalState.Executed]: 'green',
   [ProposalState.Expired]: 'green'
 };

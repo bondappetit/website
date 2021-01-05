@@ -18,5 +18,12 @@ export const URLS = {
   docs: {
     list: '/docs',
     detail: (contractName = ':contractName') => `/docs/${contractName}`
+  },
+  collateral: {
+    list: '/collaterals',
+    issuer: (companyName = ':companyName') =>
+      `/collaterals/issuers/${companyName}`,
+    detail: (companyName = ':companyName') =>
+      `/collaterals/borrowers/${companyName}`
   }
 } as const;

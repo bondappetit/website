@@ -27,13 +27,13 @@ export const getProposal = (proposalId: number) => (
     forCount: Number(
       ethers.utils.formatUnits(
         String(proposal?.forVotes),
-        networkConfig.assets.Bond.decimals
+        networkConfig.assets.Governance.decimals
       )
     ),
     againstCount: Number(
       ethers.utils.formatUnits(
         String(proposal?.againstVotes),
-        networkConfig.assets.Bond.decimals
+        networkConfig.assets.Governance.decimals
       )
     ),
     startBlock: parseInt(proposal?.startBlock?.toString() ?? '', 10),

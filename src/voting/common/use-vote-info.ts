@@ -5,7 +5,7 @@ import BN from 'bignumber.js';
 
 import {
   useGovernorContract,
-  useBondContract,
+  useGovernanceContract,
   useNetworkConfig,
   useUpdate,
   useBalance
@@ -14,12 +14,12 @@ import { ProposalState } from './constants';
 
 export const useVoteInfo = () => {
   const [currentVotes, setCurrentVotes] = useState('0');
-  const [currentABT, setCurrentABT] = useState('0');
+  const [currentStableCoin, setCurrentStableCoin] = useState('0');
   const [canDelegate, setCanDelegate] = useState(false);
   const [canCreateProposal, setCanCreateProposal] = useState(false);
   const [delegateTo, setDelegateTo] = useState<string | undefined>();
   const governorContract = useGovernorContract();
-  const bondContract = useBondContract();
+  const governanceContract = useGovernanceContract();
   const networkConfig = useNetworkConfig();
   const { account } = useWeb3React<Web3>();
   const getBalance = useBalance();
@@ -28,24 +28,26 @@ export const useVoteInfo = () => {
   const handleGetVotes = useCallback(async () => {
     if (!account) return;
 
-    const votes = await bondContract.methods.getCurrentVotes(account).call();
-    const abtBalance = await getBalance({
-      tokenAddress: bondContract.options.address
+    const votes = await governanceContract.methods
+      .getCurrentVotes(account)
+      .call();
+    const stableCoinBalance = await getBalance({
+      tokenAddress: governanceContract.options.address
     });
 
-    setCanDelegate(abtBalance.isGreaterThan(0));
+    setCanDelegate(stableCoinBalance.isGreaterThan(0));
 
-    const abtBalanceNormalized = abtBalance
-      .div(new BN(10).pow(networkConfig.assets.Bond.decimals))
+    const stableCoinBalanceNormalized = stableCoinBalance
+      .div(new BN(10).pow(networkConfig.assets.Governance.decimals))
       .toFixed(2);
 
     const votesNormalized = new BN(votes)
-      .div(new BN(10).pow(networkConfig.assets.Bond.decimals))
+      .div(new BN(10).pow(networkConfig.assets.Governance.decimals))
       .toString();
 
-    setCurrentABT(abtBalanceNormalized);
+    setCurrentStableCoin(stableCoinBalanceNormalized);
     setCurrentVotes(votesNormalized);
-  }, [account, bondContract, networkConfig, getBalance]);
+  }, [account, governanceContract, networkConfig, getBalance]);
 
   const handleCanCreateProposal = useCallback(async () => {
     if (!account || !currentVotes) return;
@@ -74,7 +76,7 @@ export const useVoteInfo = () => {
     if (!propsalThreshold || !proposalId) return;
 
     const proposalThresholdBN = new BN(propsalThreshold).div(
-      new BN(10).pow(networkConfig.assets.Bond.decimals)
+      new BN(10).pow(networkConfig.assets.Governance.decimals)
     );
 
     const currentVotesIsGreaterThanProposalThreshold = new BN(
@@ -85,12 +87,14 @@ export const useVoteInfo = () => {
   }, [governorContract, account, currentVotes, networkConfig]);
 
   const handleGetDelegates = useCallback(async () => {
-    if (!account || !bondContract) return;
+    if (!account || !governanceContract) return;
 
-    const delegates = await bondContract.methods.delegates(account).call();
+    const delegates = await governanceContract.methods
+      .delegates(account)
+      .call();
 
     setDelegateTo(delegates);
-  }, [account, bondContract]);
+  }, [account, governanceContract]);
 
   useEffect(() => {
     handleGetVotes();
@@ -106,7 +110,7 @@ export const useVoteInfo = () => {
 
   return useMemo(
     () => ({
-      currentABT,
+      currentStableCoin,
       canDelegate,
       canCreateProposal,
       delegateTo,
@@ -114,7 +118,7 @@ export const useVoteInfo = () => {
       handleUpdateVoteInfo
     }),
     [
-      currentABT,
+      currentStableCoin,
       canCreateProposal,
       currentVotes,
       handleUpdateVoteInfo,

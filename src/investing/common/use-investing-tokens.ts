@@ -22,7 +22,7 @@ export const useInvestingTokens = () => {
           decimals: asset.decimals,
           price: price
             ? new BN(price)
-                .div(new BN(10).pow(network.assets.Bond.decimals))
+                .div(new BN(10).pow(network.assets.Governance.decimals))
                 .toString()
             : ''
         };

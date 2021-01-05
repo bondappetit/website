@@ -13,6 +13,7 @@ export type Colors = {
   yellow: string;
   green: string;
   pink: string;
+  purple: string;
   darkBlue: string;
   lightGrey: string;
 };
@@ -28,7 +29,8 @@ const mainColors = {
   beige: '#E7D7BE',
   green: '#09DE78',
   darkGreen: '4D7C6E',
-  pink: '#FF35EB',
+  pink: '#E9D6EA',
+  purple: '#FF35EB',
   darkBlue: '#3280BB',
   lightGrey: '#EEEEEE'
 };

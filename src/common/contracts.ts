@@ -48,14 +48,16 @@ export const useUSDCContract = createUseContract<Ierc20>((network) => ({
   address: network.assets.USDC.address
 }));
 
-export const useBondTokenContract = createUseContract<Ierc20>((network) => ({
-  abi: IERC20.abi as AbiItem[],
-  address: network.assets.Bond.address
-}));
+export const useGovernanceTokenContract = createUseContract<Ierc20>(
+  (network) => ({
+    abi: IERC20.abi as AbiItem[],
+    address: network.assets.Governance.address
+  })
+);
 
-export const useABTTokenContract = createUseContract<Ierc20>((network) => ({
+export const useStableCoinContract = createUseContract<Ierc20>((network) => ({
   abi: IERC20.abi as AbiItem[],
-  address: network.assets.ABT.address
+  address: network.assets.Stable.address
 }));
 
 export const useGovernorContract = createUseContract<GovernorAlpha>(
@@ -65,9 +67,9 @@ export const useGovernorContract = createUseContract<GovernorAlpha>(
   })
 );
 
-export const useBondContract = createUseContract<Bond>((network) => ({
+export const useGovernanceContract = createUseContract<Bond>((network) => ({
   abi: BondAbi as AbiItem[],
-  address: network.assets.Bond.address
+  address: network.assets.Governance.address
 }));
 
 export const useStackingContract = createUseContract<Stacking>((network) => ({

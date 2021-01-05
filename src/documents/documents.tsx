@@ -9,6 +9,7 @@ import { useDocumentsStyles } from './documents.styles';
 
 export type DocumentsProps = {
   className?: string;
+  title: React.ReactNode;
 };
 
 export const Documents: React.FC<DocumentsProps> = (props) => {
@@ -22,10 +23,7 @@ export const Documents: React.FC<DocumentsProps> = (props) => {
         align="center"
         className={classes.title}
       >
-        Find out more about BondAppétit protocol, our unique stablecoin
-        <br /> backed by real-world debt instruments (BAG), and other components
-        <br />
-        of BondAppétit:
+        {props.title}
       </Typography>
       <div className={classes.row}>
         <DocumentCard link={WhitepaperPdf}>Whitepaper</DocumentCard>

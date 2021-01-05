@@ -5,9 +5,9 @@ import { useInterval } from 'react-use';
 import {
   useNetworkConfig,
   useStackingContract,
-  useBondContract,
+  useGovernanceContract,
   useInvestmentContract,
-  useABTTokenContract
+  useStableCoinContract
 } from 'src/common';
 import { Balance } from './monitor-contract-list.types';
 
@@ -18,30 +18,30 @@ export const useInvestStackingBalance = (): Balance[] | null => {
   const networkConfig = useNetworkConfig();
 
   const stackingContract = useStackingContract();
-  const bondContract = useBondContract();
-  const abtContract = useABTTokenContract();
+  const governanceContract = useGovernanceContract();
+  const stableCoinContract = useStableCoinContract();
   const investmentContract = useInvestmentContract();
 
   const handleLoadInvestStackingBalance = useCallback(async () => {
     const balanceConfig = [
       {
         name: 'Investment BAG',
-        decimals: networkConfig.assets.Bond.decimals,
-        balanceOf: bondContract.methods.balanceOf(
+        decimals: networkConfig.assets.Governance.decimals,
+        balanceOf: governanceContract.methods.balanceOf(
           investmentContract.options.address
         )
       },
       {
         name: 'Stacking BAG',
-        decimals: networkConfig.assets.Bond.decimals,
-        balanceOf: bondContract.methods.balanceOf(
+        decimals: networkConfig.assets.Governance.decimals,
+        balanceOf: governanceContract.methods.balanceOf(
           stackingContract.options.address
         )
       },
       {
         name: 'Stacking USDp',
-        decimals: networkConfig.assets.ABT.decimals,
-        balanceOf: abtContract.methods.balanceOf(
+        decimals: networkConfig.assets.Stable.decimals,
+        balanceOf: stableCoinContract.methods.balanceOf(
           stackingContract.options.address
         )
       }
@@ -59,10 +59,10 @@ export const useInvestStackingBalance = (): Balance[] | null => {
     setInvestStackingBalance(await Promise.all(balances));
   }, [
     stackingContract,
-    bondContract,
+    governanceContract,
     investmentContract,
     networkConfig,
-    abtContract
+    stableCoinContract
   ]);
 
   useEffect(() => {

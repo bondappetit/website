@@ -34,7 +34,7 @@ export const VotingProposalList: React.FC = () => {
     canDelegate,
     handleUpdateVoteInfo,
     delegateTo,
-    currentABT
+    currentStableCoin
   } = useVoteInfo();
   const [votingChooseOpen, setVotingChooseOpen] = useState(false);
   const networkConfig = useNetworkConfig();
@@ -53,15 +53,18 @@ export const VotingProposalList: React.FC = () => {
         <div className={classes.header}>
           <Typography variant="h3" align="center">
             {loading && <Skeleton className={classes.votesSkeleton} />}
-            {!loading && (Number(currentVotes) > 0 || Number(currentABT) > 0) && (
-              <>
-                {Number(currentVotes) === 0 ? currentABT : currentVotes}{' '}
-                {Number(currentVotes) === 0 ? 'BAG' : 'Votes'}
-              </>
-            )}
+            {!loading &&
+              (Number(currentVotes) > 0 || Number(currentStableCoin) > 0) && (
+                <>
+                  {Number(currentVotes) === 0
+                    ? currentStableCoin
+                    : currentVotes}{' '}
+                  {Number(currentVotes) === 0 ? 'BAG' : 'Votes'}
+                </>
+              )}
             {!loading &&
               Number(currentVotes) === 0 &&
-              Number(currentABT) === 0 && <>No Votes</>}
+              Number(currentStableCoin) === 0 && <>No Votes</>}
           </Typography>
           {loading && <Skeleton className={classes.delegatesSkeleton} />}
           {!loading && (
@@ -80,7 +83,7 @@ export const VotingProposalList: React.FC = () => {
                       </Link>
                     </>
                   )}
-                {(Number(currentVotes) > 0 || Number(currentABT) > 0) &&
+                {(Number(currentVotes) > 0 || Number(currentStableCoin) > 0) &&
                   delegateTo === DELEGATE_TO_DEFAULT && (
                     <>Unlock it so you can vote</>
                   )}
@@ -138,7 +141,7 @@ export const VotingProposalList: React.FC = () => {
         )}
       </div>
       <VotingChoose
-        votes={Number(currentVotes) > 0 ? currentVotes : currentABT}
+        votes={Number(currentVotes) > 0 ? currentVotes : currentStableCoin}
         open={votingChooseOpen}
         onClose={handleToggleVotingChoose}
       />

@@ -27,7 +27,8 @@ export const useLayoutMenuStyles = createUseStyles(
       padding: 16,
       borderRadius: 16,
       top: '125%',
-      width: '100%'
+      width: '100%',
+      zIndex: 100
     },
 
     dropdownItem: {
