@@ -8,7 +8,7 @@ import { useToggle } from 'react-use';
 import {
   useNetworkConfig,
   useMarketContract,
-  useABTTokenContract,
+  useStableCoinContract,
   useUSDTContract,
   useDAIContract,
   useUSDCContract,
@@ -47,8 +47,8 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
   const [availableTokens, setAvailableTokens] = useState('');
   const network = useNetworkConfig();
   const marketContract = useMarketContract();
-  const tokens = useMarketTokens(StableCoin.ABT);
-  const abtContract = useABTTokenContract();
+  const tokens = useMarketTokens(StableCoin.Stable);
+  const stableCoinContract = useStableCoinContract();
 
   const formik = useFormik<BuyTokenFormValues>({
     initialValues: {
@@ -88,12 +88,12 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
         error.amount = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
       }
 
-      const abtBalance = await abtContract.methods
+      const abtBalance = await stableCoinContract.methods
         .balanceOf(marketContract.options.address)
         .call();
 
       const abtBalanceNumber = new BN(abtBalance).div(
-        new BN(10).pow(network.assets.ABT.decimals)
+        new BN(10).pow(network.assets.Stable.decimals)
       );
 
       if (abtBalanceNumber.isLessThan(userGet)) {
@@ -189,17 +189,17 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
   }, [successToggle, formik]);
 
   const handleGetAvailableTokens = useCallback(async () => {
-    const balanceOfBonds = await getBalance({
-      tokenAddress: abtContract.options.address,
+    const balanceOfGovernance = await getBalance({
+      tokenAddress: stableCoinContract.options.address,
       accountAddress: marketContract.options.address
     });
 
     setAvailableTokens(
-      balanceOfBonds
-        .div(new BN(10).pow(network.assets.Bond.decimals))
+      balanceOfGovernance
+        .div(new BN(10).pow(network.assets.Governance.decimals))
         .toString()
     );
-  }, [abtContract, getBalance, marketContract, network]);
+  }, [stableCoinContract, getBalance, marketContract, network]);
 
   useEffect(() => {
     handleGetAvailableTokens();

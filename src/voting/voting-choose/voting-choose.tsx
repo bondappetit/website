@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { useBondContract, Modal, SmallModal } from 'src/common';
+import { useGovernanceContract, Modal, SmallModal } from 'src/common';
 import { useVotingChooseStyles } from './voting-choose.styles';
 import { VotingDelegate, VotingManual, VotingChooseButtons } from '../common';
 
@@ -23,7 +23,7 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
     VotingVariants.choose
   );
   const classes = useVotingChooseStyles();
-  const bondContract = useBondContract();
+  const governanceContract = useGovernanceContract();
   const { account } = useWeb3React<Web3>();
 
   const { onClose } = props;
@@ -38,24 +38,24 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
     async (address?: string | null) => {
       if (!address || !account) return;
 
-      const estimategas = await bondContract.methods
+      const estimategas = await governanceContract.methods
         .delegate(address)
         .estimateGas({ from: account });
 
-      await bondContract.methods.delegate(address).send({
+      await governanceContract.methods.delegate(address).send({
         from: account,
         gas: estimategas
       });
 
       handleClose();
     },
-    [bondContract, account, handleClose]
+    [governanceContract, account, handleClose]
   );
 
   const components = [
     <VotingChooseButtons
       title={`Redelegate ${props.votes} votes`}
-      subtitle="Bond tokens represent voting shares in BondAppetit governance."
+      subtitle="BAG tokens represent voting shares in BondAppetit governance."
       buttons={[
         {
           title: 'Self Delegate',

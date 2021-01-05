@@ -27,6 +27,15 @@ const VotingCreateProposal = React.lazy(
 );
 const DocsList = React.lazy(() => import('src/docs/docs-list'));
 const DocsDetail = React.lazy(() => import('src/docs/docs-detail'));
+const CollateralList = React.lazy(
+  () => import('src/collateral/collateral-list')
+);
+const CollateralDetail = React.lazy(
+  () => import('src/collateral/collateral-detail')
+);
+const CollateralIssuer = React.lazy(
+  () => import('src/collateral/collateral-issuer')
+);
 
 const Router: React.FC = () => {
   return (
@@ -77,6 +86,15 @@ const Router: React.FC = () => {
           </Route>
           <Route path={URLS.docs.list}>
             <DocsList />
+          </Route>
+          <Route path={URLS.collateral.detail()}>
+            <CollateralDetail />
+          </Route>
+          <Route path={URLS.collateral.issuer()}>
+            <CollateralIssuer />
+          </Route>
+          <Route path={URLS.collateral.list}>
+            <CollateralList />
           </Route>
           <Route>
             <NotFound />

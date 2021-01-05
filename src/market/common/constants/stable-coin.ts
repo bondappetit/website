@@ -1,4 +1,4 @@
 export enum StableCoin {
-  ABT = 'USDp',
-  Bond = 'BAG'
+  Stable = 'USDp',
+  Governance = 'BAG'
 }

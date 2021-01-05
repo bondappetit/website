@@ -11,7 +11,7 @@ export const useMarketTokens = (type: StableCoin) => {
 
   const handleLoadTokenPrices = useCallback(async () => {
     const priceMethod =
-      type === StableCoin.ABT
+      type === StableCoin.Stable
         ? marketContract.methods.priceABT
         : marketContract.methods.priceBond;
 
@@ -36,7 +36,7 @@ export const useMarketTokens = (type: StableCoin) => {
           decimals: asset.decimals,
           price: price
             ? new BN(price)
-                .div(new BN(10).pow(network.assets.Bond.decimals))
+                .div(new BN(10).pow(network.assets.Governance.decimals))
                 .toString()
             : ''
         };

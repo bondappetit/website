@@ -4,8 +4,8 @@ import { useInterval } from 'react-use';
 
 import {
   useNetworkConfig,
-  useBondContract,
-  useABTTokenContract,
+  useGovernanceContract,
+  useStableCoinContract,
   useMarketContract
 } from 'src/common';
 import { Balance } from './monitor-contract-list.types';
@@ -14,21 +14,23 @@ export const useMarketBalance = (): Balance[] | null => {
   const [marketBalances, setMarketBalances] = useState<Balance[] | null>(null);
 
   const networkConfig = useNetworkConfig();
-  const bondContract = useBondContract();
-  const abtContract = useABTTokenContract();
+  const governanceContract = useGovernanceContract();
+  const stableCoinContract = useStableCoinContract();
   const marketContract = useMarketContract();
 
   const handleLoadMarketBalances = useCallback(async () => {
     const balanceConfig = [
       {
         name: 'Market USDp balance',
-        decimals: networkConfig.assets.ABT.decimals,
-        balanceOf: abtContract.methods.balanceOf(marketContract.options.address)
+        decimals: networkConfig.assets.Stable.decimals,
+        balanceOf: stableCoinContract.methods.balanceOf(
+          marketContract.options.address
+        )
       },
       {
-        name: 'Market bond balance',
-        decimals: networkConfig.assets.Bond.decimals,
-        balanceOf: bondContract.methods.balanceOf(
+        name: 'Market BAG balance',
+        decimals: networkConfig.assets.Governance.decimals,
+        balanceOf: governanceContract.methods.balanceOf(
           marketContract.options.address
         )
       }
@@ -44,7 +46,7 @@ export const useMarketBalance = (): Balance[] | null => {
     });
 
     setMarketBalances(await Promise.all(balances));
-  }, [networkConfig, abtContract, bondContract, marketContract]);
+  }, [networkConfig, stableCoinContract, governanceContract, marketContract]);
 
   useEffect(() => {
     handleLoadMarketBalances();

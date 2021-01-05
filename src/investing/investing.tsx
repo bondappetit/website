@@ -9,7 +9,7 @@ import {
   Modal,
   useNetworkConfig,
   useInvestmentContract,
-  useBondTokenContract,
+  useGovernanceTokenContract,
   useUSDTContract,
   useDAIContract,
   useUSDCContract,
@@ -46,7 +46,7 @@ export const Investing: React.FC<InvestingProps> = (props) => {
   const network = useNetworkConfig();
   const investmentContract = useInvestmentContract();
   const tokens = useInvestingTokens();
-  const bondContract = useBondTokenContract();
+  const governanceContract = useGovernanceTokenContract();
 
   const formik = useFormik<BuyTokenFormValues>({
     initialValues: {
@@ -86,15 +86,15 @@ export const Investing: React.FC<InvestingProps> = (props) => {
         error.amount = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
       }
 
-      const bondBalance = await bondContract.methods
+      const bondBalance = await governanceContract.methods
         .balanceOf(investmentContract.options.address)
         .call();
 
-      const bondBalanceNumber = new BN(bondBalance).div(
-        new BN(10).pow(network.assets.Bond.decimals)
+      const governanceBalanceNumber = new BN(bondBalance).div(
+        new BN(10).pow(network.assets.Governance.decimals)
       );
 
-      if (bondBalanceNumber.isLessThan(userGet)) {
+      if (governanceBalanceNumber.isLessThan(userGet)) {
         error.amountOfToken = `Looks like we don't have enough Bond`;
       }
 

@@ -26,7 +26,7 @@ const MENU_ITEMS: MenuItem[] = [
 
   {
     title: 'Collateral',
-    link: '/collateral'
+    link: URLS.collateral.list
   },
 
   {

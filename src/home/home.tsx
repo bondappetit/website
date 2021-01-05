@@ -43,7 +43,20 @@ export const Home: React.FC = () => {
           </ScrollIntoView>
         </div>
         <Statistic id="statistic" className={classes.statistic} />
-        {config.IS_DEV && <Documents className={classes.documents} />}
+        {config.IS_DEV && (
+          <Documents
+            className={classes.documents}
+            title={
+              <>
+                Find out more about BondAppétit protocol, our unique stablecoin
+                <br /> backed by real-world debt instruments (BAG), and other
+                components
+                <br />
+                of BondAppétit:
+              </>
+            }
+          />
+        )}
       </PageWrapper>
     </MainLayout>
   );

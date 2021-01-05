@@ -8,7 +8,7 @@ import { useToggle } from 'react-use';
 import {
   useNetworkConfig,
   useMarketContract,
-  useBondTokenContract,
+  useGovernanceTokenContract,
   useUSDTContract,
   useDAIContract,
   useUSDCContract,
@@ -38,7 +38,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
   };
   const [canBuy, setCanBuy] = useState(false);
   const [availableTokens, setAvailableTokens] = useState('');
-  const [bondPriceOnMarket, setBondPriceOnMarket] = useState('');
+  const [governancePriceOnMarket, setBondPriceOnMarket] = useState('');
   const getBalance = useBalance();
   const { account } = useWeb3React<Web3>();
   const [successOpen, successToggle] = useToggle(false);
@@ -48,8 +48,8 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
   const network = useNetworkConfig();
   const [userGet, setUserGet] = useState<BN>(new BN(0));
   const marketContract = useMarketContract();
-  const tokens = useMarketTokens(StableCoin.Bond);
-  const bondContract = useBondTokenContract();
+  const tokens = useMarketTokens(StableCoin.Governance);
+  const governanceContract = useGovernanceTokenContract();
 
   const formik = useFormik<BuyTokenFormValues>({
     initialValues: {
@@ -89,15 +89,15 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         error.amount = `Looks like you don't have enough ${formValues.currency}, please check your wallet`;
       }
 
-      const bondBalance = await bondContract.methods
+      const governanceBalance = await governanceContract.methods
         .balanceOf(marketContract.options.address)
         .call();
 
-      const bondBalanceNumber = new BN(bondBalance).div(
-        new BN(10).pow(network.assets.Bond.decimals)
+      const governanceBalanceNumber = new BN(governanceBalance).div(
+        new BN(10).pow(network.assets.Governance.decimals)
       );
 
-      if (bondBalanceNumber.isLessThan(userGet)) {
+      if (governanceBalanceNumber.isLessThan(userGet)) {
         error.amountOfToken = `Looks like we don't have enough Bond`;
       }
 
@@ -183,28 +183,28 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
     [walletsToggle]
   );
 
-  const handleGetBondBalance = useCallback(async () => {
-    const balanceOfBonds = await getBalance({
-      tokenAddress: bondContract.options.address
+  const handleGetGovernanceBalance = useCallback(async () => {
+    const balanceOfGovernance = await getBalance({
+      tokenAddress: governanceContract.options.address
     });
 
-    setCanBuy(balanceOfBonds.toNumber() > 0);
-  }, [bondContract, getBalance]);
+    setCanBuy(balanceOfGovernance.toNumber() > 0);
+  }, [governanceContract, getBalance]);
 
   const handleGetAvailableTokens = useCallback(async () => {
-    const balanceOfBonds = await getBalance({
-      tokenAddress: bondContract.options.address,
+    const balanceOfGovernance = await getBalance({
+      tokenAddress: governanceContract.options.address,
       accountAddress: marketContract.options.address
     });
 
     setAvailableTokens(
-      balanceOfBonds
-        .div(new BN(10).pow(network.assets.Bond.decimals))
+      balanceOfGovernance
+        .div(new BN(10).pow(network.assets.Governance.decimals))
         .toString()
     );
-  }, [bondContract, getBalance, marketContract, network]);
+  }, [governanceContract, getBalance, marketContract, network]);
 
-  const handleGetBondPrice = useCallback(async () => {
+  const handleGetGovernancePrice = useCallback(async () => {
     const bondPrice = await marketContract.methods.bondPrice().call();
 
     if (!bondPrice) return;
@@ -219,10 +219,14 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
   }, [successToggle, formik]);
 
   useEffect(() => {
-    handleGetBondBalance();
+    handleGetGovernanceBalance();
     handleGetAvailableTokens();
-    handleGetBondPrice();
-  }, [handleGetBondBalance, handleGetAvailableTokens, handleGetBondPrice]);
+    handleGetGovernancePrice();
+  }, [
+    handleGetGovernanceBalance,
+    handleGetAvailableTokens,
+    handleGetGovernancePrice
+  ]);
 
   return (
     <>
@@ -230,14 +234,14 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         <div className={props.className}>
           {!canBuy && (
             <Typography variant="body1">
-              Sorry, only token holder can buy bond token at market
+              Sorry, only token holder can buy BAG token at market
             </Typography>
           )}
           <Typography variant="body1">
             Available tokens on market {availableTokens}
           </Typography>
           <Typography variant="body1">
-            Token price ${bondPriceOnMarket}
+            Token price ${governancePriceOnMarket}
           </Typography>
           <BuyTokenForm
             disabled={!canBuy}

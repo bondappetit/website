@@ -16,16 +16,16 @@ export const useStackingApy = (balances: StackingToken[]) => {
   const [APY, setAPY] = useState<APYWithTokenName[]>([]);
 
   const handleGetTokenPrice = useCallback(async () => {
-    const amountInBond = new BN(10)
-      .pow(networkConfig.assets.Bond.decimals)
+    const amountInGovernance = new BN(10)
+      .pow(networkConfig.assets.Governance.decimals)
       .toString(10);
 
     const [
       ,
-      bondInUSDC
+      governanceInUSDC
     ] = await uniswapRouter.methods
-      .getAmountsOut(amountInBond, [
-        networkConfig.assets.Bond.address,
+      .getAmountsOut(amountInGovernance, [
+        networkConfig.assets.Governance.address,
         networkConfig.assets.USDC.address
       ])
       .call();
@@ -41,7 +41,7 @@ export const useStackingApy = (balances: StackingToken[]) => {
             ,
             tokenInUSDC
           ] = await uniswapRouter.methods
-            .getAmountsOut(amountInBond, [
+            .getAmountsOut(amountInGovernance, [
               config.address,
               networkConfig.assets.USDC.address
             ])
@@ -51,7 +51,7 @@ export const useStackingApy = (balances: StackingToken[]) => {
             ...balance,
             APY: new BN(balance.delta)
               .multipliedBy(new BN(10).pow(config.decimals))
-              .multipliedBy(bondInUSDC)
+              .multipliedBy(governanceInUSDC)
               .multipliedBy(BLOCK_PER_YEAR)
               .div(new BN(10).pow(config.decimals).multipliedBy(tokenInUSDC))
               .multipliedBy(100)

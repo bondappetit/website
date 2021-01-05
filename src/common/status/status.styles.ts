@@ -26,8 +26,12 @@ export const useStatusStyles = createUseStyles(
       color: theme.colors.red
     },
 
-    yellow: {
+    orange: {
       color: theme.colors.orange
+    },
+
+    beige: {
+      color: theme.colors.beige
     },
 
     green: {
@@ -36,7 +40,57 @@ export const useStatusStyles = createUseStyles(
 
     pink: {
       color: theme.colors.pink
-    }
+    },
+
+    purple: {
+      color: theme.colors.purple
+    },
+
+    contained: {
+      '&$grey': {
+        backgroundColor: theme.colors.grey,
+        color: theme.colors.primary,
+        borderColor: theme.colors.grey
+      },
+
+      '&$blue': {
+        backgroundColor: theme.colors.blue,
+        color: theme.colors.primary,
+        borderColor: theme.colors.blue
+      },
+
+      '&$red': {
+        backgroundColor: theme.colors.red,
+        color: theme.colors.primary,
+        borderColor: theme.colors.red
+      },
+
+      '&$orange': {
+        backgroundColor: theme.colors.orange,
+        color: theme.colors.primary,
+        borderColor: theme.colors.orange
+      },
+
+      '&$beige': {
+        backgroundColor: theme.colors.beige,
+        color: theme.colors.primary,
+        borderColor: theme.colors.beige
+      },
+
+      '&$green': {
+        backgroundColor: theme.colors.green,
+        color: theme.colors.primary,
+        borderColor: theme.colors.green
+      },
+
+      '&$pink': {
+        backgroundColor: theme.colors.pink,
+        color: theme.colors.primary,
+        borderColor: theme.colors.pink
+      }
+    },
+
+    outlined: {}
   }),
   {
     name: 'Status'
