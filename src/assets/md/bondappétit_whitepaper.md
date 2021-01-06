@@ -49,9 +49,6 @@ The most recent change in this regard came with the emergence of Decentralized F
 
 But even with the current flaws, stablecoins have proven to be the backbone of the crypto market ensuring safekeeping of funds during periods of high volatility. Decentralized Finance has provided a wide range of ways to benefit from crypto for investors, we've seen an emergence of new exciting assets and projects.
 
-  
-
-  
 
 At the same time, DeFi has a gigantic potential to start a revolution in the business loan market. On the other side of the table, there are borrowers that are willing to take the best of DeFi infrastructure and benefit from a loan at terms that no traditional venue can offer. These same borrowers can also provide a missing piece in the DeFi infrastructure — a wide range of low-volatility assets can be provided as collateral.
 
@@ -203,10 +200,8 @@ To ensure transparency, the protocol updates the price of real world-assets hour
 
 The protocol constantly monitors the overall value of the collateral and issues new ABT right after collateralization of new assets, based on the following formula:
 
-— the amount of stablecoins that the protocol can issue additionally if the value of collateral provided by borrowers is sufficient
-
-— an infinite number of assets in the basket
-
+— the amount of stablecoins that the protocol can issue additionally if the value of collateral provided by borrowers is sufficient;\
+— an infinite number of assets in the basket;\
 — the market value of the collateral
 
   
@@ -237,27 +232,23 @@ As a result, the protocol will issue: $95 + $105 = 200 ABT
 
 As soon as the participation of the protocol's community in liquidity pools will be sufficient, the protocol will reduce its participation in liquidity pools. In order to stimulate participation in liquidity pools, the protocol provides the reward in governance tokens — Appetit Reward Token (ART) (the list of liquidity pools is determined by the community of the protocol).
 
-  
 
 **Additional Capitalization** — The protocol might require additional liquid assets in order to ensure future development and operations. For these cases, the protocol has the scenario of selling governance tokens from the protocol's reserves. In this scenario, ART will be sold following the procedure below:
 
-  
-  
-  
 
 1. Private offering of ART below the market price to current ART holders. Funds will be locked until the end of the additional capitalization round. This scenario will allow current users to increase their share in the project, additionally providing the funds needed for the protocol. At the same time, users won't be able to purchase a higher amount of ART than they already own.
 
+
 The formula for determining the available amount of ART for current tokenholders: 
 
-— Amount of funds required by the protocol;
-— Amount of governance tokens in tokenholder's wallet;
+— Amount of funds required by the protocol;\
+— Amount of governance tokens in tokenholder's wallet;\
 — Overall amount of governance tokens on the market.
 
-  
 
 The formula for determining the price of governance tokens for current tokenholders:
 
-— Market price for governance tokens on the Uniswap exchange
+— Market price for governance tokens on the Uniswap exchange\
 — Discount percentage that is determined by the community of the protocol.
 
   
@@ -266,7 +257,7 @@ Since current tokenholders acquire governance tokens at the discounted price, th
 
   
 
-2. A public offering of ART at the market price through public exchanges. In this case, governance tokens are sold through an intermediary at the market price without any quantitative restrictions.
+1. A public offering of ART at the market price through public exchanges. In this case, governance tokens are sold through an intermediary at the market price without any quantitative restrictions.
 
   
 
@@ -326,9 +317,9 @@ Liquidity pool technical tokens (LPT) — an ERC-20 technical liquidity pool tok
 
 **The price of a technical token is calculated using the formula below:**
 
-— Last price of the technical token prior to the last reward payout;
-— Current block;
-— The number of block of the last change in the reward rate;
+— Last price of the technical token prior to the last reward payout;\
+— Current block;\
+— The number of block of the last change in the reward rate;\
 — Current reward rate.
 
   
@@ -386,8 +377,8 @@ LPTPrice = 1,00000234 + (11060888 - 11060688) * 0,00000050 = 1,00010234
   
 
 The reward for all methods is calculated using the formula below:
-— Profit in Governance Tokens;
-— The amount of ABT or ART tokens locked (locked amount is saved in smart contract);
+— Profit in Governance Tokens;\
+— The amount of ABT or ART tokens locked (locked amount is saved in smart contract);\
 — Current price of liquidity pool technical tokens.
 
   
@@ -473,9 +464,6 @@ Intermediaries must satisfy the following basic requirements in order to be able
   
 
 1. Holding of 1%[^8] of the total amount of issued Governance tokens and locking this amount in protocol's smart contract;
-
-  
-  
 
 2. Approval by majority voting of Governance token holders and whitelisting by the protocol.
 
