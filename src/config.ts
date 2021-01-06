@@ -7,5 +7,6 @@ export const config = {
   MAINNET_URL: process.env.REACT_APP_INFURA_API_KEY ?? '',
   COUNTDOWN_DATE: '2020-12-9',
   PORTIS_ID: process.env.REACT_APP_PORTIS_ID,
-  FORTMATIC_KEY: process.env.REACT_APP_FORTMATIC_KEY
+  FORTMATIC_KEY: process.env.REACT_APP_FORTMATIC_KEY,
+  IS_INVEST: process.env.REACT_APP_IS_INVEST
 };

@@ -4,6 +4,11 @@ import { Theme } from 'src/common';
 
 export const useDocumentCardStyles = createUseStyles(
   (theme: Theme) => ({
+    root: {
+      position: 'relative',
+      zIndex: 1
+    },
+
     card: {
       border: `1px solid ${theme.colors.primary}`,
       borderRadius: 16,

@@ -2,13 +2,8 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useDocumentsStyles = createUseStyles(
+export const useDocumentListStyles = createUseStyles(
   (theme: Theme) => ({
-    documents: {
-      position: 'relative',
-      zIndex: 1
-    },
-
     title: {
       marginBottom: 40,
 
@@ -29,14 +24,14 @@ export const useDocumentsStyles = createUseStyles(
       marginTop: 64,
       display: 'grid',
       gridGap: 44,
+      gridTemplateColumns: 'repeat( auto-fit, minmax(250px, 1fr) )',
 
       [theme.breakpoints.md()]: {
-        gridGap: 48,
-        gridTemplateColumns: '1fr 1fr'
+        gridGap: 48
       }
     }
   }),
   {
-    name: 'Documents'
+    name: 'DocumentList'
   }
 );

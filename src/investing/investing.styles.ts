@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useHomeStyles = createUseStyles(
+export const useInvestingStyles = createUseStyles(
   (theme: Theme) => ({
     title: {
       '& br': {
@@ -16,7 +16,7 @@ export const useHomeStyles = createUseStyles(
       }
     },
 
-    investing: {
+    investingForm: {
       margin: '56px auto 0',
 
       [theme.breakpoints.md()]: {
@@ -60,6 +60,6 @@ export const useHomeStyles = createUseStyles(
     }
   }),
   {
-    name: 'Home'
+    name: 'Investing'
   }
 );
