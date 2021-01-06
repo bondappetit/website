@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useStatisticStyles = createUseStyles(
+export const useInvestingStatisticStyles = createUseStyles(
   (theme: Theme) => ({
     row: {
       marginTop: 64,
@@ -103,9 +103,23 @@ export const useStatisticStyles = createUseStyles(
       margin: 'auto',
       left: 0,
       zIndex: -1
+    },
+
+    card: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column',
+      height: 320,
+      padding: 16,
+
+      [theme.breakpoints.md()]: {
+        padding: 48,
+        height: 560
+      }
     }
   }),
   {
-    name: 'Statistic'
+    name: 'InvestingStatistic'
   }
 );

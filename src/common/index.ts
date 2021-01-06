@@ -39,3 +39,5 @@ export * from './markdown-code';
 export * from './use-query-params';
 export * from './table';
 export * from './pie-icon';
+export * from './scroll-into-view';
+export * from './document-list';

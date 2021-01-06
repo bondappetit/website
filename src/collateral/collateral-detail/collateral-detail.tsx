@@ -1,8 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { PageWrapper, Typography, Skeleton } from 'src/common';
-import { Documents } from 'src/documents';
+import { PageWrapper, Typography, Skeleton, DocumentList } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { URLS } from 'src/router/urls';
 import {
@@ -14,6 +13,17 @@ import {
   useIssuerBalance
 } from '../common';
 import { useCollateralDetailStyles } from './collateral-detail.styles';
+
+const DOCUMENTS = [
+  {
+    url: '',
+    title: 'Document'
+  },
+  {
+    url: '',
+    title: 'Document'
+  }
+];
 
 export const CollateralDetail: React.FC = () => {
   const classes = useCollateralDetailStyles();
@@ -90,7 +100,11 @@ export const CollateralDetail: React.FC = () => {
           </Typography>
           <CollateralTable data={BORROWERS} />
         </div>
-        <Documents title={<>Documents</>} className={classes.section} />
+        <DocumentList
+          documents={DOCUMENTS}
+          title={<>Documents</>}
+          className={classes.section}
+        />
         <div className={classes.section}>
           <Typography
             variant="h2"

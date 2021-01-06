@@ -5,14 +5,16 @@ import { Plate, Typography, dateUtils } from 'src/common';
 import { ReactComponent as TextRound } from 'src/assets/images/text-round.svg';
 import { ReactComponent as AnnouncementTitleLine } from 'src/assets/images/announcement.svg';
 import { config } from 'src/config';
-import { useAnnouncementStyles } from './announcement.styles';
+import { useInvestingAnnouncementStyles } from './investing-announcement.styles';
 
-export type AnnouncementProps = {
+export type InvestingAnnouncementProps = {
   className?: string;
 };
 
-export const Announcement: React.FC<AnnouncementProps> = (props) => {
-  const classes = useAnnouncementStyles();
+export const InvestingAnnouncement: React.FC<InvestingAnnouncementProps> = (
+  props
+) => {
+  const classes = useInvestingAnnouncementStyles();
 
   return (
     <Plate className={clsx(classes.announcement, props.className)}>

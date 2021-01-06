@@ -7,16 +7,18 @@ import { ReactComponent as TextCurvedLine } from 'src/assets/images/text-curved-
 import { ReactComponent as TextLine } from 'src/assets/images/text-line.svg';
 import { ReactComponent as TextDoubleLine } from 'src/assets/images/text-double-line.svg';
 import { ReactComponent as TokenTitleLine } from 'src/assets/images/token-title-line.svg';
-import { StatisticCard } from './common';
-import { useStatisticStyles } from './statistic.styles';
+import { StatisticCard } from './statistic-card';
+import { useInvestingStatisticStyles } from './statistic.styles';
 
-export type StatisticProps = {
+export type InvestingStatisticProps = {
   className?: string;
   id?: string;
 };
 
-export const Statistic: React.FC<StatisticProps> = (props) => {
-  const classes = useStatisticStyles();
+export const InvestingStatistic: React.FC<InvestingStatisticProps> = (
+  props
+) => {
+  const classes = useInvestingStatisticStyles();
 
   return (
     <div className={clsx(props.className)} id={props.id}>
