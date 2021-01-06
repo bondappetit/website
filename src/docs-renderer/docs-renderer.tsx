@@ -8,18 +8,20 @@ import {
   MarkdownImage,
   useScrollSpy,
   MarkdownCode,
-  Table,
   TableHead,
   TableBody,
   TableRow,
-  TableCell
+  TableCell,
+  MarkdownList,
+  MarkdownListItem
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
   buildTableOfContents,
   DocsRendererParagraph,
   DocsRendererTableOfContents,
-  DocsRendererTableOfContentsProps
+  DocsRendererTableOfContentsProps,
+  DocsRendererTable
 } from './common';
 import { useDocsRendererStyles } from './docs-renderer.styles';
 
@@ -30,12 +32,14 @@ const renderers = {
   link: MarkdownLink,
   heading: MarkdownHeading,
   image: MarkdownImage,
-  table: Table,
+  table: DocsRendererTable,
   tableHead: TableHead,
   tableBody: TableBody,
   tableRow: TableRow,
   tableCell: TableCell,
-  code: MarkdownCode
+  code: MarkdownCode,
+  list: MarkdownList,
+  listItem: MarkdownListItem
 };
 
 export type DocsRendererProps = {
