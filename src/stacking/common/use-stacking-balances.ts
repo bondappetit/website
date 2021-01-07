@@ -35,20 +35,16 @@ export const useStackingBalances = (availableTokens: string[]) => {
 
         if (!tokenConfig || !stackingContract) return acc;
 
-        const balance = account
-          ? await stackingContract.methods.balanceOf(account).call()
-          : '1';
+        const [balance, earned, totalSupply, rewardRate] = await Promise.all([
+          account ? stackingContract.methods.balanceOf(account).call() : '1',
+          account
+            ? stackingContract.methods.earned(account).call({ from: account })
+            : '0',
+          stackingContract.methods.totalSupply().call(),
+          stackingContract.methods.rewardRate().call()
+        ]);
 
         const amount = new BN(balance);
-        const earned = account
-          ? await stackingContract.methods
-              .earned(account)
-              .call({ from: account })
-          : '0';
-
-        const totalSupply = await stackingContract.methods.totalSupply().call();
-
-        const rewardRate = await stackingContract.methods.rewardRate().call();
 
         const reward = new BN(earned)
           .div(new BN(10).pow(tokenConfig.decimals))
