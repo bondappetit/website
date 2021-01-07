@@ -9,7 +9,7 @@ import {
 } from 'src/stacking/common';
 import { useStackingListStyles } from './stacking-list.styles';
 
-const AVAILABLE_TOKENS = ['USDp', 'BAG'];
+const AVAILABLE_TOKENS = ['Governance', 'Stable'];
 
 export const StackingList: React.FC = () => {
   const classes = useStackingListStyles();
@@ -48,7 +48,6 @@ export const StackingList: React.FC = () => {
                   tokenKey={stackingBalance.key}
                   tokenName={stackingBalance.name}
                   reward={stackingBalance.reward}
-                  delta={stackingBalance.delta}
                   APY={stackingBalance.APY}
                 />
               ))}
