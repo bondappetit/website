@@ -10,7 +10,6 @@ export type StackingCardProps = {
   tokenKey: string;
   tokenName: string;
   reward?: string;
-  delta?: string;
   APY?: string;
 };
 

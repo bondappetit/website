@@ -5,8 +5,8 @@ import { Theme } from 'src/common';
 export const useStackingCardStyles = createUseStyles(
   (theme: Theme) => {
     const bgColors: Record<string, string> = {
-      BAG: theme.colors.beige,
-      USDp: theme.colors.yellow,
+      Governance: theme.colors.beige,
+      Stable: theme.colors.yellow,
       ART_USDC_LP: theme.colors.darkBlue,
       Bond_USDC_LP: theme.colors.darkGreen
     };

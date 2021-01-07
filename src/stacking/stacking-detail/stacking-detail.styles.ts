@@ -60,6 +60,12 @@ export const useStackingDetailStyles = createUseStyles(
         gridGap: 0,
         gridTemplateColumns: '1fr 1fr'
       }
+    },
+
+    unstackeAndClaim: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      marginTop: 'auto'
     }
   }),
   {

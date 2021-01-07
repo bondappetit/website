@@ -1,8 +1,9 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
 import clsx from 'clsx';
+import BN from 'bignumber.js';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -10,15 +11,17 @@ import {
   Plate,
   Typography,
   PageWrapper,
-  useQueryParams
+  useQueryParams,
+  useBalance,
+  useNetworkConfig
 } from 'src/common';
 import {
   StackingHeader,
-  StackingLockForm,
   useStackingApy,
   useStackingBalances,
   useStackingUnlock
 } from 'src/stacking/common';
+import { StackingLockForm } from '../stacking-lock-form';
 import { useStackingDetailStyles } from './stacking-detail.styles';
 
 export const StackingDetail: React.FC = () => {
@@ -26,20 +29,50 @@ export const StackingDetail: React.FC = () => {
   const params = useParams<{ tokenId: string }>();
   const { account } = useWeb3React<Web3>();
   const [stackingBalances, update] = useStackingBalances([params.tokenId]);
-  const [balance] = useStackingApy(stackingBalances);
+  const [stackingBalancesWithApy] = useStackingApy(stackingBalances);
   const queryParams = useQueryParams();
+  const [balanceOfToken, setbalanceOfToken] = useState('');
+
+  const networkConfig = useNetworkConfig();
+
+  const getBalance = useBalance();
 
   const unlock = useStackingUnlock(params.tokenId);
 
-  const stackingBalanceIsEmpty = useMemo(() => !Number(balance?.amount), [
-    balance
-  ]);
+  const stackingBalanceIsEmpty = useMemo(
+    () => !Number(stackingBalancesWithApy?.amount),
+    [stackingBalancesWithApy]
+  );
 
-  const handleUnlock = useCallback(() => {
+  const handleUnstake = useCallback(() => {
     if (stackingBalanceIsEmpty) return;
 
     unlock().then(update);
   }, [unlock, update, stackingBalanceIsEmpty]);
+
+  const handleClaim = useCallback(() => {
+    if (stackingBalanceIsEmpty) return;
+
+    unlock(false).then(update);
+  }, [unlock, update, stackingBalanceIsEmpty]);
+
+  const handleGetBalanceOfToken = useCallback(async () => {
+    const currentAsset = networkConfig.assets[params.tokenId];
+
+    const balanceOfTokenResult = await getBalance({
+      tokenAddress: currentAsset.address
+    });
+
+    const balance = balanceOfTokenResult.div(
+      new BN(10).pow(currentAsset.decimals)
+    );
+
+    setbalanceOfToken(balance.isNaN() ? '0' : balance.toString(10));
+  }, [networkConfig, getBalance, params.tokenId]);
+
+  useEffect(() => {
+    handleGetBalanceOfToken();
+  }, [handleGetBalanceOfToken, stackingBalances]);
 
   return (
     <MainLayout>
@@ -47,7 +80,7 @@ export const StackingDetail: React.FC = () => {
         <StackingHeader
           tokenKey={params.tokenId}
           tokenName={queryParams.get('tokenName')}
-          APY={balance?.APY}
+          APY={stackingBalancesWithApy?.APY}
           className={classes.header}
         />
         <div className={classes.row}>
@@ -57,6 +90,7 @@ export const StackingDetail: React.FC = () => {
               tokenKey={params.tokenId}
               tokenName={queryParams.get('tokenName')}
               onSubmit={update}
+              balanceOfToken={balanceOfToken}
             />
           </Plate>
           <Plate
@@ -66,38 +100,43 @@ export const StackingDetail: React.FC = () => {
             <div className={classes.stackingBalance}>
               <div>
                 <Typography variant="body1" align="center">
-                  You stacked {params.tokenId}
+                  You stacked {queryParams.get('tokenName')}
                 </Typography>
                 <Typography variant="h2" align="center">
-                  {balance?.amount}
+                  {stackingBalancesWithApy?.amount}
                 </Typography>
                 <Typography
                   variant="body1"
                   align="center"
                   className={classes.usd}
                 >
-                  {balance?.amount} USD
+                  {stackingBalancesWithApy?.amount} USD
                 </Typography>
               </div>
               <div>
                 <Typography variant="body1" align="center">
-                  You earned {params.tokenId}
+                  You earned {queryParams.get('tokenName')}
                 </Typography>
                 <Typography variant="h2" align="center">
-                  {balance?.reward}
+                  {stackingBalancesWithApy?.reward}
                 </Typography>
                 <Typography
                   variant="body1"
                   align="center"
                   className={classes.usd}
                 >
-                  {balance?.reward} USD
+                  {stackingBalancesWithApy?.reward} USD
                 </Typography>
               </div>
             </div>
-            <Button onClick={handleUnlock} className={classes.unlock}>
-              Unstake and claim
-            </Button>
+            <div className={classes.unstackeAndClaim}>
+              <Button onClick={handleUnstake} className={classes.unlock}>
+                Unstake
+              </Button>
+              <Button onClick={handleClaim} className={classes.unlock}>
+                Claim
+              </Button>
+            </div>
           </Plate>
         </div>
       </PageWrapper>

@@ -4,7 +4,8 @@ import { useInterval } from 'react-use';
 
 import {
   useNetworkConfig,
-  useStackingContract,
+  useGovStackingContract,
+  useStableStackingContract,
   useGovernanceContract,
   useInvestmentContract,
   useStableCoinContract
@@ -17,7 +18,8 @@ export const useInvestStackingBalance = (): Balance[] | null => {
   >(null);
   const networkConfig = useNetworkConfig();
 
-  const stackingContract = useStackingContract();
+  const stackingGovContract = useGovStackingContract();
+  const stackingStableContract = useStableStackingContract();
   const governanceContract = useGovernanceContract();
   const stableCoinContract = useStableCoinContract();
   const investmentContract = useInvestmentContract();
@@ -35,14 +37,14 @@ export const useInvestStackingBalance = (): Balance[] | null => {
         name: 'Stacking BAG',
         decimals: networkConfig.assets.Governance.decimals,
         balanceOf: governanceContract.methods.balanceOf(
-          stackingContract.options.address
+          stackingGovContract.options.address
         )
       },
       {
         name: 'Stacking USDp',
         decimals: networkConfig.assets.Stable.decimals,
         balanceOf: stableCoinContract.methods.balanceOf(
-          stackingContract.options.address
+          stackingStableContract.options.address
         )
       }
     ];
@@ -58,7 +60,8 @@ export const useInvestStackingBalance = (): Balance[] | null => {
 
     setInvestStackingBalance(await Promise.all(balances));
   }, [
-    stackingContract,
+    stackingGovContract,
+    stackingStableContract,
     governanceContract,
     investmentContract,
     networkConfig,

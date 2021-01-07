@@ -33,9 +33,11 @@ export const useStackingApy = (balances: StackingToken[]) => {
     const result = await Promise.all(
       balances.map(async (balance) => {
         const config = networkConfig.assets[balance.key];
+
         if (config === undefined) {
           throw new Error(`Config for token ${balance.key} not found`);
         }
+
         try {
           const [
             ,
@@ -49,7 +51,7 @@ export const useStackingApy = (balances: StackingToken[]) => {
 
           return {
             ...balance,
-            APY: new BN(balance.delta)
+            APY: new BN(0)
               .multipliedBy(new BN(10).pow(config.decimals))
               .multipliedBy(governanceInUSDC)
               .multipliedBy(BLOCK_PER_YEAR)
@@ -57,7 +59,7 @@ export const useStackingApy = (balances: StackingToken[]) => {
               .multipliedBy(100)
               .toFixed(2)
           };
-        } catch (e) {
+        } catch {
           return {
             ...balance,
             APY: '0'

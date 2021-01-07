@@ -2,29 +2,34 @@ import { useWeb3React } from '@web3-react/core';
 import { useCallback } from 'react';
 import Web3 from 'web3';
 
-import { useNetworkConfig, useStackingContract } from 'src/common';
+import { useNetworkConfig } from 'src/common';
+import { useStackingContracts } from './use-stacking-contracts';
 
 export const useStackingUnlock = (tokenId: string) => {
-  const stackingContract = useStackingContract();
+  const getStackingContract = useStackingContracts();
   const { account } = useWeb3React<Web3>();
   const networkConfig = useNetworkConfig();
 
-  const handleUnlock = useCallback(async () => {
-    const currentToken = networkConfig.assets[tokenId];
+  const handleUnstakeOrClaim = useCallback(
+    async (unstake = true) => {
+      const currentToken = networkConfig.assets[tokenId];
+      const stackingContract = getStackingContract(tokenId);
 
-    if (!currentToken || !account) return;
+      if (!currentToken || !account || !stackingContract) return;
 
-    const unlock = stackingContract.methods.unlock(currentToken.address);
+      const exit = unstake
+        ? stackingContract.methods.exit()
+        : stackingContract.methods.getReward();
 
-    if (!unlock) return;
+      const gas = 2000000;
 
-    const gas = 2000000;
+      await exit.send({
+        from: account,
+        gas
+      });
+    },
+    [networkConfig, tokenId, account, getStackingContract]
+  );
 
-    await unlock.send({
-      from: account,
-      gas
-    });
-  }, [stackingContract, networkConfig, tokenId, account]);
-
-  return handleUnlock;
+  return handleUnstakeOrClaim;
 };

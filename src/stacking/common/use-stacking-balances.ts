@@ -4,20 +4,20 @@ import Web3 from 'web3';
 import BN from 'bignumber.js';
 import { useInterval } from 'react-use';
 
-import { useNetworkConfig, useStackingContract, useUpdate } from 'src/common';
+import { useNetworkConfig, useUpdate } from 'src/common';
+import { useStackingContracts } from './use-stacking-contracts';
 
 export type StackingToken = {
   amount: string;
   name: string;
   reward: string;
-  delta: string;
   key: string;
 };
 
 export const useStackingBalances = (availableTokens: string[]) => {
   const tokens = useRef(availableTokens);
   const [stackingBalances, setStackingBalances] = useState<StackingToken[]>([]);
-  const stackingContract = useStackingContract();
+  const getContract = useStackingContracts();
   const { account } = useWeb3React<Web3>();
   const networkConfig = useNetworkConfig();
   const [update, handleUpdate] = useUpdate();
@@ -29,25 +29,22 @@ export const useStackingBalances = (availableTokens: string[]) => {
 
         const tokenConfig = networkConfig.assets[key];
 
-        if (!tokenConfig) return acc;
+        const stackingContract = getContract(key);
+
+        if (!tokenConfig || !stackingContract) return acc;
 
         const balance = account
-          ? await stackingContract.methods
-              .balances(account, tokenConfig.address)
-              .call()
-          : { amount: '1' };
+          ? await stackingContract.methods.balanceOf(account).call()
+          : '1';
 
-        const amount = new BN(balance.amount);
-        const reward = await stackingContract.methods
-          .reward(tokenConfig.address)
-          .call(account ? { from: account } : undefined);
-        const rewards = await stackingContract.methods
-          .rewards(tokenConfig.address)
-          .call();
+        const amount = new BN(balance);
+        const reward = account
+          ? await stackingContract.methods
+              .earned(account)
+              .call({ from: account })
+          : '0';
 
         const rewardBN = new BN(reward);
-
-        const delta = new BN(rewards.delta);
 
         const stackingToken = {
           amount: amount.div(new BN(10).pow(tokenConfig.decimals)).toString(10),
@@ -55,8 +52,7 @@ export const useStackingBalances = (availableTokens: string[]) => {
           key,
           reward: rewardBN
             .div(new BN(10).pow(tokenConfig.decimals))
-            .toString(10),
-          delta: delta.div(new BN(10).pow(tokenConfig.decimals)).toString(10)
+            .toString(10)
         };
 
         acc.push(stackingToken);
@@ -69,7 +65,7 @@ export const useStackingBalances = (availableTokens: string[]) => {
     const tokenBalances = await balances;
 
     if (tokenBalances.length) setStackingBalances(tokenBalances);
-  }, [stackingContract, account, networkConfig]);
+  }, [account, networkConfig, getContract]);
 
   useEffect(() => {
     handleGetBalances();

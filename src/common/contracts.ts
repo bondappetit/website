@@ -7,7 +7,7 @@ import type { Market } from 'src/generate/Market';
 import type { Ierc20 } from 'src/generate/IERC20';
 import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
 import type { Bond } from 'src/generate/Bond';
-import type { Stacking } from 'src/generate/Stacking';
+import type { Staking } from 'src/generate/Staking';
 import type { IUniswapV2Router02 } from 'src/generate/IUniswapV2Router02';
 import type { UniswapAnchoredView } from 'src/generate/UniswapAnchoredView';
 import type { Issuer } from 'src/generate/Issuer';
@@ -72,10 +72,17 @@ export const useGovernanceContract = createUseContract<Bond>((network) => ({
   address: network.assets.Governance.address
 }));
 
-export const useStackingContract = createUseContract<Stacking>((network) => ({
-  abi: network.contracts.Stacking.abi,
-  address: network.contracts.Stacking.address
+export const useGovStackingContract = createUseContract<Staking>((network) => ({
+  abi: network.contracts.GovStaking.abi,
+  address: network.contracts.GovStaking.address
 }));
+
+export const useStableStackingContract = createUseContract<Staking>(
+  (network) => ({
+    abi: network.contracts.StableStaking.abi,
+    address: network.contracts.StableStaking.address
+  })
+);
 
 export const useUniswapRouter = createUseContract<IUniswapV2Router02>(
   (network) => ({
