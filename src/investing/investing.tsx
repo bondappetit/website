@@ -12,14 +12,14 @@ import {
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icons/arrow-down.svg';
 import { config } from 'src/config';
 import InvestmentDeckPdf from 'src/assets/pdf/investment-deck.pdf';
-import WhitepaperPdf from 'src/assets/pdf/whitepaper.pdf';
+import { URLS } from 'src/router/urls';
 import { InvestingForm } from './investing-form';
 import { useInvestingStyles } from './investing.styles';
 import { InvestingAnnouncement, InvestingStatistic } from './common';
 
 const DOCUMENTS = [
   {
-    url: WhitepaperPdf,
+    url: URLS.whitepaper,
     title: 'Whitepaper'
   },
   {
@@ -61,21 +61,19 @@ export const Investing: React.FC = () => {
           </ScrollIntoView>
         </div>
         <InvestingStatistic id="statistic" className={classes.statistic} />
-        {config.IS_DEV && (
-          <DocumentList
-            documents={DOCUMENTS}
-            className={classes.documents}
-            title={
-              <>
-                Find out more about BondAppétit protocol, our unique stablecoin
-                <br /> backed by real-world debt instruments (BAG), and other
-                components
-                <br />
-                of BondAppétit:
-              </>
-            }
-          />
-        )}
+        <DocumentList
+          documents={DOCUMENTS}
+          className={classes.documents}
+          title={
+            <>
+              Find out more about BondAppétit protocol, our unique stablecoin
+              <br /> backed by real-world debt instruments (BAG), and other
+              components
+              <br />
+              of BondAppétit:
+            </>
+          }
+        />
       </PageWrapper>
     </MainLayout>
   );

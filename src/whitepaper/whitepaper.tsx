@@ -2,7 +2,7 @@ import React from 'react';
 
 import WhitepaperMd from 'src/assets/md/bondappétit_whitepaper.md';
 import WhitepaperPdf from 'src/assets/pdf/whitepaper.pdf';
-import OnepagerPdf from 'src/assets/pdf/onepager.pdf';
+import OnepagerPdf from 'src/assets/pdf/BA-concept.pdf';
 import { Typography, Link } from 'src/common';
 import { DocsRenderer } from '../docs-renderer';
 import { useWhitepaperStyles } from './whitepaper.styles';

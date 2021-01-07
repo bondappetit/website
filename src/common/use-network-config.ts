@@ -17,7 +17,9 @@ export const useNetworkConfig = () => {
     );
 
     if (!defaultNetworkConfig) {
-      throw new Error('process.env.DEFAULT_CHAIN_ID is not specified');
+      throw new Error(
+        'process.env.REACT_APP_DEFAULT_CHAIN_ID is not specified'
+      );
     }
 
     return networkConfig ?? defaultNetworkConfig;

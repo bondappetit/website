@@ -122,7 +122,7 @@ Together with mentioned features, BondAppétit utilizes the best elements of on-
   
   
 
-The main asset inside the protocol's ecosystem is the stablecoin — Appetit Balanced Token (ABT). The price of ABT equals $1 at all times, while the token is issued only if the protocol has sufficient collateral. Information regarding the collateral can be checked through blockchain at all times. The ABT price is balanced automatically based on a basket of real-world debt obligations that form part of the protocol's assets.
+The main asset inside the protocol's ecosystem is the stablecoin — Appetite USD (USDp). The price of USDp equals $1 at all times, while the token is issued only if the protocol has sufficient collateral. Information regarding the collateral can be checked through blockchain at all times. The USDp price is balanced automatically based on a basket of real-world debt obligations that form part of the protocol's assets.
 
   
 
@@ -131,19 +131,19 @@ The process of borrowing is built in the most convenient way for a borrower in o
   
   
 
-## **3. Appetit Balanced Token (ABT)**
+## **3. Appetite USD (USDp)**
 
   
 
-As mentioned in the overview of the protocol, the main asset inside the protocol's ecosystem is the Real World Asset-Backed Stablecoin — ABT.
+As mentioned in the overview of the protocol, the main asset inside the protocol's ecosystem is the Real World Asset-Backed Stablecoin — USDp.
 
   
 
-The price of ABT equals $1 at all times and is balanced automatically based on a basket of real-world debt obligations that form part of the protocol's assets. Information about the protocol's assets is provided by oracles connected to custody accounts where the collateral is held. Issuance of the stablecoin is technically impossible without sufficient collateral, the price of which is tied to USD.
+The price of USDp equals $1 at all times and is balanced automatically based on a basket of real-world debt obligations that form part of the protocol's assets. Information about the protocol's assets is provided by oracles connected to custody accounts where the collateral is held. Issuance of the stablecoin is technically impossible without sufficient collateral, the price of which is tied to USD.
 
   
 
-Outside of providing a whole new product for DeFi and traditional markets, we aim to make ABT one of the most popular stablecoins on the market.
+Outside of providing a whole new product for DeFi and traditional markets, we aim to make USDp one of the most popular stablecoins on the market.
 
 
 ![](https://i.imgur.com/7w9fhOG.png)
@@ -156,7 +156,7 @@ The use of real-world debt obligations allows the protocol to earn fixed periodi
 
 
 
-In order to ensure the stability of the protocol, the price of ABT is based on a basket of several debt obligations with different terms, interest rates, and redemption dates.
+In order to ensure the stability of the protocol, the price of USDp is based on a basket of several debt obligations with different terms, interest rates, and redemption dates.
 
   
   
@@ -198,7 +198,7 @@ To ensure transparency, the protocol updates the price of real world-assets hour
 
   
 
-The protocol constantly monitors the overall value of the collateral and issues new ABT right after collateralization of new assets, based on the following formula:
+The protocol constantly monitors the overall value of the collateral and issues new USDp right after collateralization of new assets, based on the following formula:
 
 — the amount of stablecoins that the protocol can issue additionally if the value of collateral provided by borrowers is sufficient;\
 — an infinite number of assets in the basket;\
@@ -218,28 +218,28 @@ The protocol constantly monitors the overall value of the collateral and issues 
 
   
 
-The protocol requests the asset price from the price oracle and then issues the amount of ABT that equals the overall value of the collateral.
+The protocol requests the asset price from the price oracle and then issues the amount of USDp that equals the overall value of the collateral.
 
   
 
-As a result, the protocol will issue: $95 + $105 = 200 ABT
+As a result, the protocol will issue: $95 + $105 = 200 USDp
 
 ### **3.3 Liquidity Pools and Additional Capitalization of the Protocol**
 
-**Liquidity Provision** — Sufficient liquidity and the ability to exchange ABT for another liquid asset are vital for the correct operation of the protocol. Initially, the protocol will provide its own liquidity pool on the Uniswap exchange. The protocol has chosen Uniswap in order to provide an opportunity to exchange ABT for any other asset to all participants of the protocol (including automatic protocols).
+**Liquidity Provision** — Sufficient liquidity and the ability to exchange USDp for another liquid asset are vital for the correct operation of the protocol. Initially, the protocol will provide its own liquidity pool on the Uniswap exchange. The protocol has chosen Uniswap in order to provide an opportunity to exchange USDp for any other asset to all participants of the protocol (including automatic protocols).
 
   
 
-As soon as the participation of the protocol's community in liquidity pools will be sufficient, the protocol will reduce its participation in liquidity pools. In order to stimulate participation in liquidity pools, the protocol provides the reward in governance tokens — Appetit Reward Token (ART) (the list of liquidity pools is determined by the community of the protocol).
+As soon as the participation of the protocol's community in liquidity pools will be sufficient, the protocol will reduce its participation in liquidity pools. In order to stimulate participation in liquidity pools, the protocol provides the reward in governance tokens — BondAppetit Governance (BAG) (the list of liquidity pools is determined by the community of the protocol).
 
 
-**Additional Capitalization** — The protocol might require additional liquid assets in order to ensure future development and operations. For these cases, the protocol has the scenario of selling governance tokens from the protocol's reserves. In this scenario, ART will be sold following the procedure below:
+**Additional Capitalization** — The protocol might require additional liquid assets in order to ensure future development and operations. For these cases, the protocol has the scenario of selling governance tokens from the protocol's reserves. In this scenario, BAG will be sold following the procedure below:
 
 
-1. Private offering of ART below the market price to current ART holders. Funds will be locked until the end of the additional capitalization round. This scenario will allow current users to increase their share in the project, additionally providing the funds needed for the protocol. At the same time, users won't be able to purchase a higher amount of ART than they already own.
+1. Private offering of BAG below the market price to current BAG holders. Funds will be locked until the end of the additional capitalization round. This scenario will allow current users to increase their share in the project, additionally providing the funds needed for the protocol. At the same time, users won't be able to purchase a higher amount of BAG than they already own.
 
 
-The formula for determining the available amount of ART for current tokenholders: 
+The formula for determining the available amount of BAG for current tokenholders: 
 
 — Amount of funds required by the protocol;\
 — Amount of governance tokens in tokenholder's wallet;\
@@ -257,7 +257,7 @@ Since current tokenholders acquire governance tokens at the discounted price, th
 
   
 
-1. A public offering of ART at the market price through public exchanges. In this case, governance tokens are sold through an intermediary at the market price without any quantitative restrictions.
+1. A public offering of BAG at the market price through public exchanges. In this case, governance tokens are sold through an intermediary at the market price without any quantitative restrictions.
 
   
 
@@ -271,7 +271,7 @@ These fees originate due to the fact of transferring loan amounts from the fiat 
 
   
 
-In order to compensate for these, the protocol creates a special pool called Treasury. The pool is formed through the offering of ART and by the allocation of the protocol's profits (decided by the community of the protocol). Prior to forming a pool, the protocol indicates the target amount and expiration date.
+In order to compensate for these, the protocol creates a special pool called Treasury. The pool is formed through the offering of BAG and by the allocation of the protocol's profits (decided by the community of the protocol). Prior to forming a pool, the protocol indicates the target amount and expiration date.
 
   
 
@@ -296,16 +296,16 @@ If conditions are met, the community of the protocol votes on the withdrawal of 
 
   
 
-The protocol provides reward mechanisms for participants in the form of ART. At the moment we have cooked 2 delicious Reward Mechanisms for our communauté gourmande:
+The protocol provides reward mechanisms for participants in the form of BAG. At the moment we have cooked 2 delicious Reward Mechanisms for our communauté gourmande:
 
   
 
-**Locking ABT or ART in the protocol.**
-Using this method, the community of the protocol will receive reward per block in ART on account of continuous increase in price of special technical tokens.
+**Locking USDp or BAG in the protocol.**
+Using this method, the community of the protocol will receive reward per block in BAG on account of continuous increase in price of special technical tokens.
 
   
 
-**Participate in a liquidity pool that includes ABT/ART on Automated Market Maker-based (AMM) decentralized exchanges and centralized exchanges.**
+**Participate in a liquidity pool that includes USDp/BAG on Automated Market Maker-based (AMM) decentralized exchanges and centralized exchanges.**
 
   
 
@@ -378,7 +378,7 @@ LPTPrice = 1,00000234 + (11060888 - 11060688) * 0,00000050 = 1,00010234
 
 The reward for all methods is calculated using the formula below:
 — Profit in Governance Tokens;\
-— The amount of ABT or ART tokens locked (locked amount is saved in smart contract);\
+— The amount of USDp or BAG tokens locked (locked amount is saved in smart contract);\
 — Current price of liquidity pool technical tokens.
 
   
@@ -389,7 +389,7 @@ The reward for all methods is calculated using the formula below:
 
 User locks 100 Stablecoins on the block 11060688 and receives 100 / 1,00000234 = 99,999766001 LPT. 
 On the block 11060888 User decides to withdraw funds and receives 
-0,009999977 = (99,999766001 * 1,00010234) - 100 in ART.
+0,009999977 = (99,999766001 * 1,00010234) - 100 in BAG.
 
   
   
@@ -398,7 +398,7 @@ On the block 11060888 User decides to withdraw funds and receives
 
   
 
-The target audience of the ABT includes four types of investors: retail crypto investors, sophisticated crypto investors, institutional investors, and cryptocurrency exchanges.
+The target audience of the USDp includes four types of investors: retail crypto investors, sophisticated crypto investors, institutional investors, and cryptocurrency exchanges.
 
 | Retail crypto investors |
 |-------------------------|
@@ -700,17 +700,17 @@ In addition to the risks indicated above, the following non-payment risks can be
   
   
 
-## **5. Appetit Reward Token (ART)**
+## **5. BondAppetit Governance (BAG)**
 
   
 
 Governance is one of the most important foundational things for each DeFi protocol. From day one, BondAppétit aims to reach a fully decentralized governance structure using the best practices that have already proved efficient in other protocols. In order to achieve this, BondAppétit will be working to build a strong community that will become a driving force of the protocol for years to come.
 
-The main tool for decision-making in the protocol is the Appetit Reward Token (ART), as well as the main reward and incentive tool for participants of the protocol and the community.
+The main tool for decision-making in the protocol is the BondAppetit Governance (BAG), as well as the main reward and incentive tool for participants of the protocol and the community.
 
   
 
-**Acquisition of ART:**
+**Acquisition of BAG:**
 
   
   
@@ -718,19 +718,19 @@ The main tool for decision-making in the protocol is the Appetit Reward Token (A
 
 1. Can be acquired on the market (Uniswap or other exchanges) at market price;
 
-2. Distributed by the protocol to those users who decide to lock their ABT/ART in the protocol's smart contract (similar to DAI saving rate);
+2. Distributed by the protocol to those users who decide to lock their USDp/BAG in the protocol's smart contract (similar to DAI saving rate);
 
-3. Distributed to those users who decided to lock their ABT/ART into liquidity pools and provide the protocol with liquidity pool tokens (similar to SushiSwap)
+3. Distributed to those users who decided to lock their USDp/BAG into liquidity pools and provide the protocol with liquidity pool tokens (similar to SushiSwap)
 
-4. Purchase at a special price in case of additional capitalization of the protocol for current ART tokenholders (detailed explanation is available in section 3.3);
-
-  
-
-To ensure the inexhaustibly of ART — the protocol contains the ability to issue new tokens each block. The decision regarding the new issuance is taken is by voting of tokenholders.
+4. Purchase at a special price in case of additional capitalization of the protocol for current BAG tokenholders (detailed explanation is available in section 3.3);
 
   
 
-**Initial Offering and Distribution of ART:**
+To ensure the inexhaustibly of BAG — the protocol contains the ability to issue new tokens each block. The decision regarding the new issuance is taken is by voting of tokenholders.
+
+  
+
+**Initial Offering and Distribution of BAG:**
 
   
   
@@ -754,15 +754,15 @@ After issuance, tokens are distributed to investors' wallets. In order to ensure
 
 
 
-1) The minimum balance of ART tokens on the wallet (is equal to the initial investment amount);
+1) The minimum balance of BAG tokens on the wallet (is equal to the initial investment amount);
 
   
 
-2) Intransferability of ART tokens from investors' wallets.
+2) Intransferability of BAG tokens from investors' wallets.
 
   
 
-Such a mechanism allows investors to participate in staking and voting, receive rewards in ART, while ensuring the fulfillment of moratorium on sale.
+Such a mechanism allows investors to participate in staking and voting, receive rewards in BAG, while ensuring the fulfillment of moratorium on sale.
 
   
 
@@ -782,34 +782,30 @@ We understand that the availability of a higher number of governance tokens on t
   
   
 
-### **5.1 Decision-Making Mechanisms Using ART**
+### **5.1 Decision-Making Mechanisms Using BAG**
 
   
 
-ART holders are entitled to influence the future and features of BondAppétite. In order to enforce certain actions, a simple majority of tokenholders must vote for a certain proposal.
+BAG holders are entitled to influence the future and features of BondAppétite. In order to enforce certain actions, a simple majority of tokenholders must vote for a certain proposal.
 
   
 
 All features of the protocol divide into 3 categories:
 
+
+
+
+
   
   
 
-| Protocol's Management                                                                                                                                                                                                                                | Liquidity                                                                                                                                                                               | Development of the protocol                                                                                                                                                                                                                |
-| ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| *   Add a new asset type (collateral) to the basket;
-*   Add a new asset type to the Price Oracle;
-*   Whitelist a new Depository smart contract;
-*   Start the emergency shutdown procedure;
-*   Add new markets for the automatic exchange of ABT. | *   Change in the reward rates for participation in liquidity pools;
-*   Choose the profit distribution of the protocol;
-*   Changing the list of assets available in exchange for ABT. | *   Proposal and voting on new features of the protocol;
-*   Change the rate of technical costs for the maintenance of the protocol;
-*   Initiate additional capitalization of the protocol;
-*   Apply changes to current smart contracts. |
+|  Protocol’s Management                                                                                                                                                                                                            | Liquidity                                                                                                                                                                     |  Development of the protocol                                                                                                                                                                                                 |
+|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Add a new asset type (collateral) to the basket;Add a new asset type to the Price Oracle; Whitelist a new Depository smart contract; Start the emergency shutdown procedure; Add new markets for the automatic exchange of ABT. | Change in the reward rates for participation in liquidity pools; Choose the profit distribution of the protocol;  Changing the list of assets available in exchange for ABT.  |  Proposal and voting on new features of the protocol;  Change the rate of technical costs for the maintenance of the protocol; Initiate additional capitalization of the protocol; Apply changes to current smart contracts. |
+
   
   
-  
+
 
 ## **6. Technology**
 
@@ -827,7 +823,7 @@ The main disadvantage, of course, is the unpredictability of the protocol's fees
 
   
 
-Outside of using home-baked solutions only, we've also tried to utilize existing solutions to the maximum. ART token is based on the [Compound Governance](https://github.com/compound-developers/compound-governance-examples) system as it allows ensuring transparent and secure management of the protocol by the community. Additionally, Compound Governance adds new features, for example, it allows to delegate a vote to another participant.
+Outside of using home-baked solutions only, we've also tried to utilize existing solutions to the maximum. BAG token is based on the [Compound Governance](https://github.com/compound-developers/compound-governance-examples) system as it allows ensuring transparent and secure management of the protocol by the community. Additionally, Compound Governance adds new features, for example, it allows to delegate a vote to another participant.
 
 For price updates, the protocol utilizes [Compound Open Price Feed](https://github.com/compound-finance/open-oracle) — an oracle that allows Reporters to sign price data using a known public key, which can submit on-chain. The protocol codebase is hosted on GitHub and maintained by the community.
 
@@ -851,7 +847,7 @@ Price oracle is a tool for supplying data on the current price of the collateral
 
   
 
-Emergency oracle is a tool responsible for security of the protocol. Emergency oracles monitor the current value of the collateral, as well as market prices of ABT and ART. If the price of the collateral is insufficient to guarantee the stability of ABT, the protocol will initiate additional capitalization or emergency shutdown.
+Emergency oracle is a tool responsible for security of the protocol. Emergency oracles monitor the current value of the collateral, as well as market prices of USDp and BAG. If the price of the collateral is insufficient to guarantee the stability of USDp, the protocol will initiate additional capitalization or emergency shutdown.
 
   
   
@@ -873,7 +869,7 @@ A fee for each transaction executed in the protocol will be automatically replen
 
   
 
-One of the key processes in the lifecycle of the protocol is the exchange of ABT for a liquid asset that will be later exchanged for fiat money through a public exchange. Thus, any exchange or protocol with sufficient liquidity can be used for exchange operations.
+One of the key processes in the lifecycle of the protocol is the exchange of USDp for a liquid asset that will be later exchanged for fiat money through a public exchange. Thus, any exchange or protocol with sufficient liquidity can be used for exchange operations.
 
   
   
@@ -895,7 +891,7 @@ The protocol provides a separate smart contract for each custodian and each depo
 
   
 
-To ensure the liquidity of the ABT, the protocol utilizes liquidity pools on AMM-based decentralized exchanges and centralized exchanges. The reward in ART is allocated for maintaining the liquidity level in pairs associated with the protocol's stablecoin. (For more details please refer to section 3.4).
+To ensure the liquidity of the USDp, the protocol utilizes liquidity pools on AMM-based decentralized exchanges and centralized exchanges. The reward in BAG is allocated for maintaining the liquidity level in pairs associated with the protocol's stablecoin. (For more details please refer to section 3.4).
 
   
   
@@ -912,9 +908,9 @@ To ensure the liquidity of the ABT, the protocol utilizes liquidity pools on AMM
 
 * The process of assessing the liquidity of the current basket used as collateral;
 
-* Additional issuance of ABT;
+* Additional issuance of USDp;
 
-* Issuance of ART on the market.
+* Issuance of BAG on the market.
 
   
 
@@ -926,7 +922,7 @@ To ensure the liquidity of the ABT, the protocol utilizes liquidity pools on AMM
 
   
 
-**claimGToken()** — claim remaining ART allocated as a payout to a user
+**claimGToken()** — claim remaining BAG allocated as a payout to a user
 
   
 
@@ -958,31 +954,31 @@ Tokens issued by BondAppétit have the following classification for legal purpos
   
   
 
-### **Appetit Balanced Token (ABT)**
+### **Appetite USD (USDp)**
 
   
 
-Appetit Balanced Token does not have a legal issuer (as it is created by the protocol itself). The token represents the mean of transferring value, and it is defined as such exclusively by market participants. The token itself does not imply any obligations of the protocol or any of its participants.
+Appetite USD does not have a legal issuer (as it is created by the protocol itself). The token represents the mean of transferring value, and it is defined as such exclusively by market participants. The token itself does not imply any obligations of the protocol or any of its participants.
 
   
 
-Price stability is connected to the protocol's assets, the price of which should always be close to the value of the ABT in circulation.
+Price stability is connected to the protocol's assets, the price of which should always be close to the value of the USDp in circulation.
 
   
 
-ABT owners do not possess any rights to assets of the protocol. Neither they have any legal mechanisms or rights to oblige the protocol or its participants to buy-back or redeem ABT or receive any other payments or assets from the protocol. The value or liquidity of ABT is not guaranteed, meaning that no individual or legal entity guarantees the acceptance of the token as payment for goods or services, its price, or the ability to exchange it for any other asset.
+USDp owners do not possess any rights to assets of the protocol. Neither they have any legal mechanisms or rights to oblige the protocol or its participants to buy-back or redeem USDp or receive any other payments or assets from the protocol. The value or liquidity of USDp is not guaranteed, meaning that no individual or legal entity guarantees the acceptance of the token as payment for goods or services, its price, or the ability to exchange it for any other asset.
 
   
 
-**Appetit Reward Token (ART)**
+**BondAppetit Governance (BAG)**
 
   
 
-Appetit Reward Token does not have a legal issuer (as it is created by the protocol itself). The token represents the mean of transferring value, and it is defined as such exclusively by market participants. The token itself does not imply any obligations of the protocol or any of its participants.
+BondAppetit Governance does not have a legal issuer (as it is created by the protocol itself). The token represents the mean of transferring value, and it is defined as such exclusively by market participants. The token itself does not imply any obligations of the protocol or any of its participants.
 
   
 
-The asset price is not stable and depends on two factors: the profitability of the protocol and expectation of the protocol's growth. ART can be allocated by the protocol to ABT/ART owners, and can also be purchased on the market. The value or liquidity of the ART is not guaranteed, meaning that no individual or legal entity guarantees the acceptance of the token as payment for goods or services, its price, or the ability to exchange it for any other asset.
+The asset price is not stable and depends on two factors: the profitability of the protocol and expectation of the protocol's growth. BAG can be allocated by the protocol to USDp/BAG owners, and can also be purchased on the market. The value or liquidity of the BAG is not guaranteed, meaning that no individual or legal entity guarantees the acceptance of the token as payment for goods or services, its price, or the ability to exchange it for any other asset.
 
   
   

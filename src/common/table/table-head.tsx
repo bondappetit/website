@@ -2,19 +2,20 @@ import clsx from 'clsx';
 import React from 'react';
 
 import { useTableStyles } from './table.styles';
-import { TableHeadContext } from './table-context';
+import { TableSecondLevelContext } from './table-context';
+import { MarkdownTable } from './table-types';
 
-export type TableHeadProps = React.HTMLProps<HTMLTableSectionElement>;
+export type TableHeadProps = React.HTMLProps<HTMLTableSectionElement> &
+  MarkdownTable;
 
-export const TableHead: React.FC<TableHeadProps> = ({
-  className,
-  children
-}) => {
+export const TableHead: React.FC<TableHeadProps> = (props) => {
   const classes = useTableStyles();
 
   return (
-    <TableHeadContext.Provider value="head">
-      <thead className={clsx(classes.tableHead, className)}>{children}</thead>
-    </TableHeadContext.Provider>
+    <TableSecondLevelContext.Provider value={{ parent: 'head' }}>
+      <thead className={clsx(classes.tableHead, props.className)}>
+        {props.children}
+      </thead>
+    </TableSecondLevelContext.Provider>
   );
 };
