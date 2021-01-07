@@ -46,13 +46,9 @@ export const useStackingBalances = (availableTokens: string[]) => {
               .call({ from: account })
           : '0';
 
-        const totalSupply = account
-          ? await stackingContract.methods.totalSupply().call({ from: account })
-          : '0';
+        const totalSupply = await stackingContract.methods.totalSupply().call();
 
-        const rewardRate = account
-          ? await stackingContract.methods.rewardRate().call({ from: account })
-          : '0';
+        const rewardRate = await stackingContract.methods.rewardRate().call();
 
         const rewardBN = new BN(reward);
 
