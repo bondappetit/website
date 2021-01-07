@@ -10,6 +10,8 @@ import { useStackingContracts } from './use-stacking-contracts';
 export type StackingToken = {
   amount: string;
   name: string;
+  totalSupply: string;
+  rewardRate: string;
   reward: string;
   key: string;
 };
@@ -44,12 +46,22 @@ export const useStackingBalances = (availableTokens: string[]) => {
               .call({ from: account })
           : '0';
 
+        const totalSupply = account
+          ? await stackingContract.methods.totalSupply().call({ from: account })
+          : '0';
+
+        const rewardRate = account
+          ? await stackingContract.methods.rewardRate().call({ from: account })
+          : '0';
+
         const rewardBN = new BN(reward);
 
         const stackingToken = {
           amount: amount.div(new BN(10).pow(tokenConfig.decimals)).toString(10),
           name: tokenConfig.symbol,
           key,
+          totalSupply,
+          rewardRate,
           reward: rewardBN
             .div(new BN(10).pow(tokenConfig.decimals))
             .toString(10)
