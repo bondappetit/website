@@ -36,7 +36,7 @@ export const StackingDetail: React.FC = () => {
   const amountInUSDC = new BN(stackingBalancesWithApy?.amount)
     .multipliedBy(stackingBalancesWithApy?.stakingPriceUSDC)
     .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
-    .toString();
+    .toString(10);
   const rewardInUSDC = new BN(stackingBalancesWithApy?.reward)
     .multipliedBy(stackingBalancesWithApy?.rewardPriceUSDC)
     .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
