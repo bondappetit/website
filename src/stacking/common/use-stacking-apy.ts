@@ -7,6 +7,8 @@ import { StackingToken } from './use-stacking-balances';
 const BLOCK_PER_YEAR = '2102400';
 
 type APYWithTokenName = {
+  rewardPriceUSDC: string;
+  stakingPriceUSDC: string;
   APY: string;
 } & StackingToken;
 
@@ -51,6 +53,8 @@ export const useStackingApy = (balances: StackingToken[]) => {
 
           return {
             ...balance,
+            rewardPriceUSDC: governanceInUSDC,
+            stakingPriceUSDC: tokenInUSDC,
             APY: new BN(0)
               .multipliedBy(new BN(10).pow(config.decimals))
               .multipliedBy(governanceInUSDC)
@@ -62,6 +66,8 @@ export const useStackingApy = (balances: StackingToken[]) => {
         } catch {
           return {
             ...balance,
+            rewardPriceUSDC: '0',
+            stakingPriceUSDC: '0',
             APY: '0'
           };
         }

@@ -27,13 +27,20 @@ import { useStackingDetailStyles } from './stacking-detail.styles';
 export const StackingDetail: React.FC = () => {
   const classes = useStackingDetailStyles();
   const params = useParams<{ tokenId: string }>();
+  const networkConfig = useNetworkConfig();
   const { account } = useWeb3React<Web3>();
   const [stackingBalances, update] = useStackingBalances([params.tokenId]);
   const [stackingBalancesWithApy] = useStackingApy(stackingBalances);
   const queryParams = useQueryParams();
   const [balanceOfToken, setbalanceOfToken] = useState('');
-
-  const networkConfig = useNetworkConfig();
+  const amountInUSDC = new BN(stackingBalancesWithApy?.amount)
+    .multipliedBy(stackingBalancesWithApy?.stakingPriceUSDC)
+    .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
+    .toString();
+  const rewardInUSDC = new BN(stackingBalancesWithApy?.reward)
+    .multipliedBy(stackingBalancesWithApy?.rewardPriceUSDC)
+    .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
+    .toString();
 
   const getBalance = useBalance();
 
@@ -110,7 +117,7 @@ export const StackingDetail: React.FC = () => {
                   align="center"
                   className={classes.usd}
                 >
-                  {stackingBalancesWithApy?.amount} USD
+                  {amountInUSDC} USD
                 </Typography>
               </div>
               <div>
@@ -125,7 +132,7 @@ export const StackingDetail: React.FC = () => {
                   align="center"
                   className={classes.usd}
                 >
-                  {stackingBalancesWithApy?.reward} USD
+                  {rewardInUSDC} USD
                 </Typography>
               </div>
             </div>
