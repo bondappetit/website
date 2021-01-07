@@ -55,11 +55,15 @@ export const useStackingApy = (balances: StackingToken[]) => {
             ...balance,
             rewardPriceUSDC: governanceInUSDC,
             stakingPriceUSDC: tokenInUSDC,
-            APY: new BN(0)
-              .multipliedBy(new BN(10).pow(config.decimals))
+            APY: new BN(balance.rewardRate)
+              .div(
+                new BN(balance.totalSupply).gt(0)
+                  ? balance.totalSupply
+                  : new BN(10).pow(config.decimals)
+              )
               .multipliedBy(governanceInUSDC)
               .multipliedBy(BLOCK_PER_YEAR)
-              .div(new BN(10).pow(config.decimals).multipliedBy(tokenInUSDC))
+              .div(tokenInUSDC)
               .multipliedBy(100)
               .toFixed(2)
           };
