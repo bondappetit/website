@@ -65,6 +65,7 @@ export const DocsRenderer: React.FC<DocsRendererProps> = (props) => {
   }, [props.children]);
 
   const activeElement = useScrollSpy({
+    activeSectionDefault: '0',
     sectionElements: HEADINGS,
     offsetPx: 10
   });
