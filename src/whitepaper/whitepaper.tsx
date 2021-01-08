@@ -31,7 +31,7 @@ export const WhitePaper: React.FC = () => {
             target="_blank"
             color="blue"
           >
-            ↓ onepager.pdf
+            ↓ investment-deck.pdf
           </Link>
         </div>
       }
