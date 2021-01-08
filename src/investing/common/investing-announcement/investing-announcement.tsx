@@ -28,7 +28,7 @@ export const InvestingAnnouncement: React.FC<InvestingAnnouncementProps> = (
           <TextRound className={classes.textRound} />
           pre-sale
         </Typography>{' '}
-        round of Appetite USD (USDp) starts{' '}
+        round of BondAppetit Governance (BAG) starts{' '}
         <Typography
           variant="inherit"
           component="span"
