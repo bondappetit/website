@@ -41,6 +41,10 @@ export const routes = [
     url: URLS.home,
     component: Investing
   },
+  {
+    url: URLS.whitepaper,
+    component: Whitepaper
+  },
   ...(!config.IS_INVEST
     ? [
         {
@@ -82,10 +86,6 @@ export const routes = [
         {
           url: URLS.profitSplitter,
           component: ProfitSplitterForms
-        },
-        {
-          url: URLS.whitepaper,
-          component: Whitepaper
         },
         {
           url: URLS.docs.detail(),
