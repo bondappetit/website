@@ -3,7 +3,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { Typography, Link } from 'src/common';
 import { URLS } from 'src/router/urls';
-import HatOutline from 'src/assets/images/hat-outline.svg';
+import { ICONS } from '../constants';
 import { useStackingCardStyles } from './stacking-card.styles';
 
 export type StackingCardProps = {
@@ -15,9 +15,10 @@ export type StackingCardProps = {
 
 export const StackingCard: React.FC<StackingCardProps> = (props) => {
   const classes = useStackingCardStyles({
-    img: HatOutline,
     tokenName: props.tokenKey
   });
+
+  const Icon = ICONS[props.tokenKey];
 
   return (
     <Link
@@ -28,7 +29,7 @@ export const StackingCard: React.FC<StackingCardProps> = (props) => {
       className={classes.stakingCard}
     >
       <Typography variant="h2" weight="bold" align="center">
-        {props.tokenName}
+        <Icon /> {props.tokenName}
       </Typography>
       <Typography variant="h2" align="center" className={classes.apy}>
         APY {props.APY} %
@@ -42,7 +43,7 @@ export const StackingCard: React.FC<StackingCardProps> = (props) => {
       <Typography variant="body1" align="center">
         Earn:{' '}
         <Typography variant="inherit" component="span" weight="bold">
-          {props.tokenName}
+          BAG
         </Typography>
       </Typography>
     </Link>

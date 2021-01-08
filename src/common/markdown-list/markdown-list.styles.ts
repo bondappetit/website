@@ -10,13 +10,8 @@ export const useMarkdownListStyles = createUseStyles(
     },
 
     listItem: {
-      fontSize: 14,
+      fontSize: 16,
       lineHeight: '20px',
-
-      [theme.breakpoints.md()]: {
-        fontSize: 16,
-        lineHeight: '20px'
-      },
 
       [theme.breakpoints.lg()]: {
         fontSize: 20,

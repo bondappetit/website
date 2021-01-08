@@ -1,13 +1,14 @@
 import { createUseStyles } from 'react-jss';
+import { transitions } from 'polished';
 
 import { Theme } from 'src/common';
 
 export const useStackingCardStyles = createUseStyles(
   (theme: Theme) => {
     const bgColors: Record<string, string> = {
-      Governance: theme.colors.beige,
-      Stable: theme.colors.yellow,
-      ART_USDC_LP: theme.colors.darkBlue,
+      Governance: theme.colors.yellow,
+      Stable: theme.colors.pink,
+      ART_USDC_LP: theme.colors.chetwodeBlue,
       Bond_USDC_LP: theme.colors.darkGreen
     };
 
@@ -18,18 +19,19 @@ export const useStackingCardStyles = createUseStyles(
         alignItems: 'center',
         justifyContent: 'center',
         flexDirection: 'column',
-        backgroundImage: (props: { img: string }) => `url(${props.img})`,
-        backgroundColor: (props: { tokenName: string }) =>
-          bgColors[props.tokenName],
         backgroundRepeat: 'no-repeat',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         borderRadius: 24,
         minHeight: 360,
+        border: `1px solid ${theme.colors.primary}`,
+        ...transitions('background-color .3s ease-in-out'),
 
         [theme.mixins.hover()]: {
           '&:hover': {
-            opacity: 1
+            opacity: 1,
+            backgroundColor: (props: { tokenName: string }) =>
+              bgColors[props.tokenName]
           }
         }
       },

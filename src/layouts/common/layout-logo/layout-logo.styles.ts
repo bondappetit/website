@@ -9,14 +9,19 @@ export const useLayoutLogoStyles = createUseStyles(
       color: theme.colors.primary,
       textDecoration: 'none',
       display: 'inline-flex',
-      height: 48,
-      width: 48,
+      height: 36,
+      width: 36,
       ...transitions('opacity 0.3s ease'),
 
       [theme.mixins.hover()]: {
         '&:hover': {
           opacity: 0.7
         }
+      },
+
+      [theme.breakpoints.lg()]: {
+        height: 48,
+        width: 48
       }
     },
 

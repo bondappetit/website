@@ -73,13 +73,8 @@ export const useTypographyStyles = createUseStyles(
     },
 
     h5: {
-      fontSize: 14,
+      fontSize: 16,
       lineHeight: '20px',
-
-      [theme.breakpoints.md()]: {
-        fontSize: 16,
-        lineHeight: '20px'
-      },
 
       [theme.breakpoints.lg()]: {
         fontSize: 20,

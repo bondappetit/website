@@ -8,10 +8,12 @@ export const useLayoutHeaderStyles = createUseStyles(
       display: 'flex',
       flexWrap: 'wrap',
       alignItems: 'center',
-      padding: '0 16px',
+      padding: '10px 16px',
+      justifyContent: 'space-between',
 
-      [theme.breakpoints.md()]: {
-        padding: '12px 32px'
+      [theme.breakpoints.lg()]: {
+        padding: '12px 32px',
+        justifyContent: 'flex-start'
       }
     },
 
@@ -27,16 +29,51 @@ export const useLayoutHeaderStyles = createUseStyles(
 
     leftButton: {
       justifyContent: 'flex-start',
-      flexBasis: '5%'
+      flexBasis: '5%',
+      order: -1
+    },
+
+    center: {
+      order: 2,
+
+      [theme.breakpoints.lg()]: {
+        flex: 1,
+        order: 'unset'
+      }
     },
 
     menu: {
-      flex: 1
+      display: 'none',
+
+      [theme.breakpoints.lg()]: {
+        display: 'flex'
+      }
+    },
+
+    menuButton: {
+      display: 'block',
+
+      [theme.breakpoints.lg()]: {
+        display: 'none'
+      }
     },
 
     rightButton: {
       justifyContent: 'flex-end',
-      flexBasis: '15%'
+      flexBasis: '15%',
+      order: 1,
+
+      [theme.breakpoints.lg()]: {
+        order: 'unset'
+      }
+    },
+
+    isInvest: {
+      order: 2,
+
+      [theme.breakpoints.lg()]: {
+        order: 'unset'
+      }
     }
   }),
   {

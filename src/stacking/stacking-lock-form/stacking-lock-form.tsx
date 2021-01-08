@@ -4,6 +4,7 @@ import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import { AbiItem } from 'web3-utils';
 import BN from 'bignumber.js';
 import Tippy from '@tippyjs/react';
+import { useToggle } from 'react-use';
 
 import type { Ierc20 } from 'src/generate/IERC20';
 import {
@@ -12,10 +13,9 @@ import {
   useNetworkConfig,
   useDynamicContract,
   Typography,
-  Link,
   ButtonBase
 } from 'src/common';
-import { useStackingContracts } from '../common';
+import { StackingAcquireModal, useStackingContracts } from '../common';
 import { useStackingLockFormStyles } from './stacking-lock-form.styles';
 
 export type StackingLockFormProps = {
@@ -28,6 +28,8 @@ export type StackingLockFormProps = {
 
 export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
   const classes = useStackingLockFormStyles();
+
+  const [aquireOpen, aquireToggle] = useToggle(false);
 
   const networkConfig = useNetworkConfig();
   const getStackingContract = useStackingContracts();
@@ -112,59 +114,71 @@ export const StackingLockForm: React.FC<StackingLockFormProps> = (props) => {
   }, [formik]);
 
   return (
-    <form onSubmit={formik.handleSubmit} className={classes.root}>
-      <div>
-        <Typography variant="body1" align="center">
-          Stake your {props.tokenName}
-        </Typography>
-        <Tippy
-          visible={Boolean(formik.errors.amount)}
-          content={formik.errors.amount}
-          className={classes.tooltip}
-          maxWidth={200}
-          offset={[0, 25]}
-          onClickOutside={handleCloseTooltip}
-        >
-          <Input
-            type="number"
-            value={formik.values.amount}
-            name="amount"
-            disabled={formik.isSubmitting}
-            onChange={formik.handleChange}
-            error={Boolean(formik.errors.amount)}
-            className={classes.input}
-          />
-        </Tippy>
-        <Typography variant="body1" align="center" className={classes.max}>
-          <ButtonBase
-            className={classes.maxButton}
-            type="button"
-            disabled={formik.isSubmitting}
-            onClick={() =>
-              formik.setFieldValue('amount', props.balanceOfToken || 0)
-            }
+    <>
+      <form onSubmit={formik.handleSubmit} className={classes.root}>
+        <div>
+          <Typography variant="body1" align="center">
+            Stake your {props.tokenName}
+          </Typography>
+          <Tippy
+            visible={Boolean(formik.errors.amount)}
+            content={formik.errors.amount}
+            className={classes.tooltip}
+            maxWidth={200}
+            offset={[0, 25]}
+            onClickOutside={handleCloseTooltip}
           >
-            {props.balanceOfToken || 0} max
-          </ButtonBase>
-        </Typography>
-        <Typography
-          variant="body1"
-          align="center"
-          className={classes.uniswapLink}
+            <Input
+              type="number"
+              value={formik.values.amount}
+              name="amount"
+              disabled={formik.isSubmitting}
+              onChange={formik.handleChange}
+              error={Boolean(formik.errors.amount)}
+              className={classes.input}
+            />
+          </Tippy>
+          <Typography variant="body1" align="center" className={classes.max}>
+            <ButtonBase
+              className={classes.link}
+              type="button"
+              disabled={formik.isSubmitting}
+              onClick={() =>
+                formik.setFieldValue('amount', props.balanceOfToken || 0)
+              }
+            >
+              {props.balanceOfToken || 0} max
+            </ButtonBase>
+          </Typography>
+          <Typography
+            variant="body1"
+            align="center"
+            className={classes.uniswapLink}
+          >
+            How to{' '}
+            <ButtonBase
+              type="button"
+              color="blue"
+              onClick={aquireToggle}
+              className={classes.link}
+            >
+              acquire
+            </ButtonBase>
+          </Typography>
+        </div>
+        <Button
+          type="submit"
+          disabled={formik.isSubmitting}
+          loading={formik.isSubmitting}
         >
-          acquire more{' '}
-          <Link href="#here" color="blue">
-            here
-          </Link>
-        </Typography>
-      </div>
-      <Button
-        type="submit"
-        disabled={formik.isSubmitting}
-        loading={formik.isSubmitting}
-      >
-        Stake
-      </Button>
-    </form>
+          Stake
+        </Button>
+      </form>
+      <StackingAcquireModal
+        open={aquireOpen}
+        onClose={aquireToggle}
+        tokenName={props.tokenName}
+      />
+    </>
   );
 };
