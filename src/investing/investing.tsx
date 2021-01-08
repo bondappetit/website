@@ -11,7 +11,7 @@ import {
 } from 'src/common';
 import { ReactComponent as ArrowDownIcon } from 'src/assets/icons/arrow-down.svg';
 import { config } from 'src/config';
-import InvestmentDeckPdf from 'src/assets/pdf/investment-deck.pdf';
+import InvestmentDeckPdf from 'src/assets/pdf/BA-concept.pdf';
 import { URLS } from 'src/router/urls';
 import { InvestingForm } from './investing-form';
 import { useInvestingStyles } from './investing.styles';
@@ -67,7 +67,7 @@ export const Investing: React.FC = () => {
           title={
             <>
               Find out more about BondAppétit protocol, our unique stablecoin
-              <br /> backed by real-world debt instruments (BAG), and other
+              <br /> backed by real-world debt instruments (USDp), and other
               components
               <br />
               of BondAppétit:

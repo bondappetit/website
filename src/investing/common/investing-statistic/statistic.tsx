@@ -45,7 +45,7 @@ export const InvestingStatistic: React.FC<InvestingStatisticProps> = (
           className={classes.decoratedText}
         >
           <TokenTitleLine className={classes.tokenTitleLine} />
-          Appetite USD (USDp)
+          BondAppetit Governance (BAG)
         </Typography>{' '}
         — the main tool for&nbsp;
         <Typography
