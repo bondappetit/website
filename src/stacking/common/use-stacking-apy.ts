@@ -22,15 +22,22 @@ export const useStackingApy = (balances: StackingToken[]) => {
       .pow(networkConfig.assets.Governance.decimals)
       .toString(10);
 
-    const [
-      ,
-      governanceInUSDC
-    ] = await uniswapRouter.methods
-      .getAmountsOut(amountInGovernance, [
-        networkConfig.assets.Governance.address,
-        networkConfig.assets.USDC.address
-      ])
-      .call();
+    let governanceInUSDC = '1';
+    try {
+      [
+        ,
+        governanceInUSDC
+      ] = await uniswapRouter.methods
+        .getAmountsOut(amountInGovernance, [
+          networkConfig.assets.Governance.address,
+          networkConfig.assets.USDC.address
+        ])
+        .call();
+    } catch (e) {
+      console.warn(
+        `${networkConfig.assets.Governance.symbol}-USDC liquidity pool is empty`
+      );
+    }
 
     const result = await Promise.all(
       balances.map(async (balance) => {
@@ -41,15 +48,20 @@ export const useStackingApy = (balances: StackingToken[]) => {
         }
 
         try {
-          const [
-            ,
-            tokenInUSDC
-          ] = await uniswapRouter.methods
-            .getAmountsOut(amountInGovernance, [
-              config.address,
-              networkConfig.assets.USDC.address
-            ])
-            .call();
+          let tokenInUSDC = '1';
+          try {
+            [
+              ,
+              tokenInUSDC
+            ] = await uniswapRouter.methods
+              .getAmountsOut(amountInGovernance, [
+                config.address,
+                networkConfig.assets.USDC.address
+              ])
+              .call();
+          } catch (e) {
+            console.warn(`${config.symbol}-USDC liquidity pool is empty`);
+          }
 
           return {
             ...balance,
