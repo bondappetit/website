@@ -13,24 +13,19 @@ export const useStackingListStyles = createUseStyles(
       margin: '0 auto 40px'
     },
 
-    links: {
-      margin: 'auto',
-      width: 300,
-
-      '& > *:first-child': {
-        marginRight: 64
-      },
-
-      [theme.breakpoints.sm()]: {
-        width: 467
-      },
+    info: {
+      justifyContent: 'center',
+      display: 'flex',
+      flexDirection: 'column',
 
       [theme.breakpoints.md()]: {
-        width: 520
-      },
+        flexDirection: 'row'
+      }
+    },
 
-      [theme.breakpoints.lg()]: {
-        width: 754
+    bag: {
+      [theme.breakpoints.md()]: {
+        marginRight: 32
       }
     },
 

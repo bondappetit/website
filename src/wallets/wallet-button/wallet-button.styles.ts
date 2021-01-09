@@ -11,7 +11,9 @@ export const useWalletButtonStyles = createUseStyles(
     },
 
     button: {
-      marginLeft: 19
+      [theme.breakpoints.lg()]: {
+        marginLeft: 19
+      }
     },
 
     connected: {
@@ -24,20 +26,16 @@ export const useWalletButtonStyles = createUseStyles(
       display: 'none',
       textTransform: 'capitalize',
 
-      [theme.breakpoints.md()]: {
+      [theme.breakpoints.lg()]: {
         display: 'block'
       }
     },
 
     account: {
       padding: '2px 8px 2px 16px',
-      display: 'none',
+      display: 'flex',
       whiteSpace: 'nowrap',
-
-      [theme.breakpoints.md()]: {
-        display: 'flex',
-        alignItems: 'center'
-      }
+      alignItems: 'center'
     },
 
     walletIcon: {

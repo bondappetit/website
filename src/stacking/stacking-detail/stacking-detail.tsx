@@ -105,7 +105,7 @@ export const StackingDetail: React.FC = () => {
             className={clsx(classes.card, classes.cardFlex)}
           >
             <div className={classes.stackingBalance}>
-              <div>
+              <div className={classes.unstackeAndClaim}>
                 <Typography variant="body1" align="center">
                   You stacked {queryParams.get('tokenName')}
                 </Typography>
@@ -119,8 +119,11 @@ export const StackingDetail: React.FC = () => {
                 >
                   {amountInUSDC} USD
                 </Typography>
+                <Button onClick={handleUnstake} className={classes.unlock}>
+                  Unstake
+                </Button>
               </div>
-              <div>
+              <div className={classes.unstackeAndClaim}>
                 <Typography variant="body1" align="center">
                   You earned {queryParams.get('tokenName')}
                 </Typography>
@@ -134,15 +137,10 @@ export const StackingDetail: React.FC = () => {
                 >
                   {rewardInUSDC} USD
                 </Typography>
+                <Button onClick={handleClaim} className={classes.unlock}>
+                  Claim
+                </Button>
               </div>
-            </div>
-            <div className={classes.unstackeAndClaim}>
-              <Button onClick={handleUnstake} className={classes.unlock}>
-                Unstake
-              </Button>
-              <Button onClick={handleClaim} className={classes.unlock}>
-                Claim
-              </Button>
             </div>
           </Plate>
         </div>

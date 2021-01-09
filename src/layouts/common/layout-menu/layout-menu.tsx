@@ -118,15 +118,17 @@ const LinkIfExternal: React.FC<MenuItem> = (props) => {
 
 export type LayoutMenuProps = {
   menuItems?: MenuItem[];
+  className?: string;
 };
 
 export const LayoutMenu: React.FC<LayoutMenuProps> = ({
-  menuItems = MENU_ITEMS
+  menuItems = MENU_ITEMS,
+  className
 }) => {
   const classes = useLayoutMenuStyles();
 
   return (
-    <ul className={clsx(classes.root, classes.menu)}>
+    <ul className={clsx(classes.root, classes.menu, className)}>
       {menuItems.map((menuItem) => {
         return (
           <li className={classes.menuItem} key={menuItem.title}>

@@ -11,7 +11,7 @@ export const useStackingLockFormStyles = createUseStyles(
       marginBottom: 68
     },
 
-    maxButton: {
+    link: {
       color: theme.colors.darkBlue
     },
 

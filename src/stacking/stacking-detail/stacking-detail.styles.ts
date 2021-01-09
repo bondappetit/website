@@ -11,16 +11,21 @@ export const useStackingDetailStyles = createUseStyles(
     },
 
     header: {
-      marginBottom: 48
+      marginBottom: 16,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 48
+      }
     },
 
     row: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      gridGap: 48,
+      gridGap: 16,
       textAlign: 'center',
 
       [theme.breakpoints.md()]: {
+        gridGap: 48,
         gridTemplateColumns: '424px 1fr'
       }
     },
@@ -36,7 +41,12 @@ export const useStackingDetailStyles = createUseStyles(
     cardFlex: {
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      order: -1,
+
+      [theme.breakpoints.lg()]: {
+        order: 'unset'
+      }
     },
 
     usd: {
@@ -55,6 +65,7 @@ export const useStackingDetailStyles = createUseStyles(
     stackingBalance: {
       display: 'grid',
       gridGap: 40,
+      height: '100%',
 
       [theme.breakpoints.sm()]: {
         gridGap: 0,
@@ -64,8 +75,8 @@ export const useStackingDetailStyles = createUseStyles(
 
     unstackeAndClaim: {
       display: 'flex',
-      flexWrap: 'wrap',
-      marginTop: 'auto'
+      flexDirection: 'column',
+      height: '100%'
     }
   }),
   {
