@@ -9,8 +9,7 @@ export const useLayoutLogoStyles = createUseStyles(
       color: theme.colors.primary,
       textDecoration: 'none',
       display: 'inline-flex',
-      height: 36,
-      width: 36,
+      width: 40,
       ...transitions('opacity 0.3s ease'),
 
       [theme.mixins.hover()]: {
