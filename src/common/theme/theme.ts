@@ -69,7 +69,11 @@ export const theme = {
     sm: () => '@media (min-width: 600px)' as const,
     md: () => '@media (min-width: 960px)' as const,
     lg: () => '@media (min-width: 1280px)' as const,
-    xl: () => '@media (min-width: 1920px)' as const
+    xl: () => '@media (min-width: 1920px)' as const,
+    up: (width: number) =>
+      `@media (min-width: ${width}px)` as '@media (min-width: {width}px)',
+    down: (width: number) =>
+      `@media (max-width: ${width}px)` as '@media (max-width: {width}px)'
   }
 } as const;
 

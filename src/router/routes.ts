@@ -4,6 +4,7 @@ import { config } from 'src/config';
 import { URLS } from './urls';
 
 const Investing = React.lazy(() => import('src/investing'));
+const Stablecoin = React.lazy(() => import('src/stablecoin'));
 const Market = React.lazy(() => import('src/market/market-forms'));
 const StakingDetail = React.lazy(() => import('src/stacking/stacking-detail'));
 const StakingList = React.lazy(() => import('src/stacking/stacking-list'));
@@ -39,7 +40,7 @@ const CollateralIssuer = React.lazy(
 export const routes = [
   {
     url: URLS.home,
-    component: Investing
+    component: !config.IS_INVEST ? Stablecoin : Investing
   },
   {
     url: URLS.whitepaper,
