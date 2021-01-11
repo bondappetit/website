@@ -1,3 +1,5 @@
+import { useNetworkConfig } from './common/use-network-config';
+
 export type VotingPresetVariables = {
   [key: string]: {
     type: string;
@@ -24,23 +26,20 @@ export type VotingPreset = {
   actions: VotingPresetAction[];
 };
 
-export const VOTING_PRESETS: VotingPreset[] = [
+export const getVotingPresets = (
+  networkConfig: ReturnType<typeof useNetworkConfig>
+): VotingPreset[] => [
   {
-    title: 'Template name',
-    description: `Riffle dace southern smelt herring smelt sand tilefish, "barreleye South American Lungfish."
-    Yellowbelly tail catfish sharksucker, searobin galjoen fish loach goby, char.`,
+    title: 'Treasury: transfer BAG',
+    description: 'Transfer BAG token from Treasury contract',
     variables: {
-      amount: {
-        type: 'uint256',
-        default: '100'
-      },
-      account: {
+      recipient: {
         type: 'address',
         default: ''
       },
-      date: {
-        type: 'date',
-        default: ''
+      amount: {
+        type: 'uint256',
+        default: '1000000000000000000'
       }
     },
     actions: [
@@ -51,12 +50,83 @@ export const VOTING_PRESETS: VotingPreset[] = [
           {
             variable: false,
             type: 'address',
-            value: '0x40276A78FfE77102757762108e8810eF333200fb'
+            value: networkConfig.assets.Governance.address
           },
+          {
+            variable: true,
+            type: 'address',
+            value: 'recipient'
+          },
+          {
+            variable: true,
+            type: 'uint256',
+            value: 'amount'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Treasury: transfer USDp',
+    description: 'Transfer USDp token from Treasury contract',
+    variables: {
+      recipient: {
+        type: 'address',
+        default: ''
+      },
+      amount: {
+        type: 'uint256',
+        default: '1000000000000000000'
+      }
+    },
+    actions: [
+      {
+        contract: 'Treasury',
+        method: 'transfer',
+        input: [
           {
             variable: false,
             type: 'address',
-            value: '0x016a1eDDB690C207fc47A8e800d1bD399BFaB417'
+            value: networkConfig.assets.Stable.address
+          },
+          {
+            variable: true,
+            type: 'address',
+            value: 'recipient'
+          },
+          {
+            variable: true,
+            type: 'uint256',
+            value: 'amount'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Issuer: burn USDp',
+    description:
+      'Transfer USDp token from Treasury to Issuer contract and call rebalance',
+    variables: {
+      amount: {
+        type: 'uint256',
+        default: '1000000000000000000'
+      }
+    },
+    actions: [
+      {
+        contract: 'Treasury',
+        method: 'transfer',
+        input: [
+          {
+            variable: false,
+            type: 'address',
+            value: networkConfig.assets.Stable.address
+          },
+          {
+            variable: true,
+            type: 'address',
+            value: networkConfig.contracts.Issuer.address
           },
           {
             variable: true,
@@ -66,13 +136,101 @@ export const VOTING_PRESETS: VotingPreset[] = [
         ]
       },
       {
-        contract: 'BAG',
-        method: 'approve',
+        contract: 'Issuer',
+        method: 'rebalance',
+        input: []
+      }
+    ]
+  },
+  {
+    title: 'Market: transfer USDp from Treasury',
+    description: 'Transfer USDp token from Treasury to Market contract',
+    variables: {
+      amount: {
+        type: 'uint256',
+        default: '1000000000000000000'
+      }
+    },
+    actions: [
+      {
+        contract: 'Treasury',
+        method: 'transfer',
         input: [
           {
             variable: false,
             type: 'address',
-            value: '0x1809734e462d626379f2A3E85c92A51b4Ed581d7'
+            value: networkConfig.assets.Stable.address
+          },
+          {
+            variable: true,
+            type: 'address',
+            value: networkConfig.contracts.Market.address
+          },
+          {
+            variable: true,
+            type: 'uint256',
+            value: 'amount'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Market: transfer USDC to Treasury',
+    description: 'Transfer USDC token from Market contract to Treasury',
+    variables: {
+      amount: {
+        type: 'uint256',
+        default: '1000000000000000000'
+      }
+    },
+    actions: [
+      {
+        contract: 'Market',
+        method: 'transfer',
+        input: [
+          {
+            variable: false,
+            type: 'address',
+            value: networkConfig.assets.USDC.address
+          },
+          {
+            variable: true,
+            type: 'address',
+            value: networkConfig.contracts.Treasury.address
+          },
+          {
+            variable: true,
+            type: 'uint256',
+            value: 'amount'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Staking: transfer reward to GovStaking',
+    description: 'Transfer rewards token to Governance Staking contract',
+    variables: {
+      amount: {
+        type: 'uint256',
+        default: '1000000000000000000'
+      }
+    },
+    actions: [
+      {
+        contract: 'Treasury',
+        method: 'transfer',
+        input: [
+          {
+            variable: false,
+            type: 'address',
+            value: networkConfig.assets.Governance.address
+          },
+          {
+            variable: false,
+            type: 'address',
+            value: networkConfig.contracts.GovStaking.address
           },
           {
             variable: true,
@@ -82,23 +240,57 @@ export const VOTING_PRESETS: VotingPreset[] = [
         ]
       },
       {
-        contract: 'Vesting',
-        method: 'lock',
+        contract: 'GovStaking',
+        method: 'notifyRewardAmount',
         input: [
           {
             variable: true,
+            type: 'uint256',
+            value: 'amount'
+          }
+        ]
+      }
+    ]
+  },
+  {
+    title: 'Staking: transfer reward to StableStaking',
+    description: 'Transfer rewards token to Stable Staking contract',
+    variables: {
+      amount: {
+        type: 'uint256',
+        default: '1000000000000000000'
+      }
+    },
+    actions: [
+      {
+        contract: 'Treasury',
+        method: 'transfer',
+        input: [
+          {
+            variable: false,
             type: 'address',
-            value: 'account'
+            value: networkConfig.assets.Governance.address
+          },
+          {
+            variable: false,
+            type: 'address',
+            value: networkConfig.contracts.StableStaking.address
           },
           {
             variable: true,
             type: 'uint256',
             value: 'amount'
-          },
+          }
+        ]
+      },
+      {
+        contract: 'StableStaking',
+        method: 'notifyRewardAmount',
+        input: [
           {
             variable: true,
             type: 'uint256',
-            value: 'date'
+            value: 'amount'
           }
         ]
       }

@@ -10,7 +10,7 @@ import {
   SmallModal
 } from 'src/common';
 import {
-  VOTING_PRESETS,
+  getVotingPresets,
   VotingPreset as VotingPresetItem
 } from 'src/voting-presets';
 import {
@@ -45,17 +45,16 @@ export type VotingAddActionProps = {
   editAction: VotingAddActionFormValues | null;
 };
 
-const votingPresets = VOTING_PRESETS.reduce<Record<string, VotingPresetItem>>(
-  (acc, preset) => {
+export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
+  const networkConfig = useNetworkConfig();
+  const votingPresets = getVotingPresets(networkConfig).reduce<
+    Record<string, VotingPresetItem>
+  >((acc, preset) => {
     acc[preset.title] = preset;
 
     return acc;
-  },
-  {}
-);
+  }, {});
 
-export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
-  const networkConfig = useNetworkConfig();
   const classes = useVotingAddActionStyles();
   const [state, dispatch] = useReducer(
     votingAddActionReducer,
@@ -176,7 +175,7 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
 
       handleOnNext();
     },
-    [setFieldValue, handleOnNext]
+    [setFieldValue, votingPresets, handleOnNext]
   );
 
   const manualSteps = [
