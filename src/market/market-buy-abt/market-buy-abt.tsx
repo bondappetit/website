@@ -114,7 +114,7 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
 
       const formInvest = new BN(formValues.amount)
         .multipliedBy(new BN(10).pow(currentToken.decimals))
-        .toString();
+        .toString(10);
 
       try {
         if (currentToken.name === 'WETH') {
@@ -197,7 +197,7 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
     setAvailableTokens(
       balanceOfGovernance
         .div(new BN(10).pow(network.assets.Governance.decimals))
-        .toString()
+        .toString(10)
     );
   }, [stableCoinContract, getBalance, marketContract, network]);
 

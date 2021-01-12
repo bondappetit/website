@@ -27,7 +27,7 @@ export const useMarketTokens = (type: StableCoin) => {
       if (isAllowedToken) {
         const price = await priceMethod?.(
           asset.address,
-          new BN(10).pow(asset.decimals).toString()
+          new BN(10).pow(asset.decimals).toString(10)
         ).call();
 
         const token = {
@@ -37,7 +37,7 @@ export const useMarketTokens = (type: StableCoin) => {
           price: price
             ? new BN(price)
                 .div(new BN(10).pow(network.assets.Governance.decimals))
-                .toString()
+                .toString(10)
             : ''
         };
 

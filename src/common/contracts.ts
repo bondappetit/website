@@ -72,12 +72,12 @@ export const useGovernanceContract = createUseContract<Bond>((network) => ({
   address: network.assets.Governance.address
 }));
 
-export const useGovStackingContract = createUseContract<Staking>((network) => ({
+export const useGovStakingContract = createUseContract<Staking>((network) => ({
   abi: network.contracts.GovStaking.abi,
   address: network.contracts.GovStaking.address
 }));
 
-export const useStableStackingContract = createUseContract<Staking>(
+export const useStableStakingContract = createUseContract<Staking>(
   (network) => ({
     abi: network.contracts.StableStaking.abi,
     address: network.contracts.StableStaking.address

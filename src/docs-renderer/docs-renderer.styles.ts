@@ -20,6 +20,8 @@ export const useDocsRendererStyles = createUseStyles(
     list: {
       width: 216,
       marginRight: 30,
+      paddingLeft: 30,
+      marginLeft: -30,
       position: 'sticky',
       top: 64,
       display: 'none',

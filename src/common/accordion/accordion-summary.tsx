@@ -10,6 +10,7 @@ import { useMount, useUnmount } from 'react-use';
 
 import { useAccordionStyles } from './accordion.styles';
 import { AccordionContext } from './accordion-context';
+import { throttle } from '../throttle';
 
 export type AccordionSummaryProps = {
   className?: string;
@@ -23,12 +24,15 @@ export const AccordionSummary: React.FC<AccordionSummaryProps> = (props) => {
 
   const accordionContext = useContext(AccordionContext);
 
-  const handleSetSummaryHeight = useCallback(() => {
-    if (ref.current?.clientHeight) {
-      accordionContext?.handleSummaryHeight(ref.current.clientHeight);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleSetSummaryHeight = useCallback(
+    throttle(() => {
+      if (ref.current?.clientHeight) {
+        accordionContext?.handleSummaryHeight(ref.current.clientHeight);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, 300),
+    []
+  );
 
   useMount(() => {
     handleSetSummaryHeight();

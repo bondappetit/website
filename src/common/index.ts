@@ -43,3 +43,4 @@ export * from './scroll-into-view';
 export * from './document-list';
 export * from './markdown-list';
 export * from './accordion';
+export * from './throttle';

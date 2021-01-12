@@ -78,7 +78,7 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
         profitSplitterContract.options.address,
         new BN(formValues.amount)
           .multipliedBy(new BN(10).pow(asset.decimals))
-          .toString()
+          .toString(10)
       );
 
       await transfer.send({

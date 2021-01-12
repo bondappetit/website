@@ -115,7 +115,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
 
       const formInvest = new BN(formValues.amount)
         .multipliedBy(new BN(10).pow(currentToken.decimals))
-        .toString();
+        .toString(10);
 
       try {
         if (currentToken.name === 'WETH') {
@@ -200,7 +200,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
     setAvailableTokens(
       balanceOfGovernance
         .div(new BN(10).pow(network.assets.Governance.decimals))
-        .toString()
+        .toString(10)
     );
   }, [governanceContract, getBalance, marketContract, network]);
 
@@ -209,7 +209,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
 
     if (!bondPrice) return;
 
-    setBondPriceOnMarket(new BN(bondPrice).div(new BN(10).pow(6)).toString());
+    setBondPriceOnMarket(new BN(bondPrice).div(new BN(10).pow(6)).toString(10));
   }, [marketContract]);
 
   const handleSuccessClose = useCallback(() => {

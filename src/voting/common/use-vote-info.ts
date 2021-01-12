@@ -14,7 +14,7 @@ import { ProposalState } from './constants';
 
 export const useVoteInfo = () => {
   const [currentVotes, setCurrentVotes] = useState('0');
-  const [currentStableCoin, setCurrentStableCoin] = useState('0');
+  const [currentGovCoin, setCurrentGovCoin] = useState('0');
   const [canDelegate, setCanDelegate] = useState(false);
   const [canCreateProposal, setCanCreateProposal] = useState(false);
   const [delegateTo, setDelegateTo] = useState<string | undefined>();
@@ -31,26 +31,27 @@ export const useVoteInfo = () => {
     const votes = await governanceContract.methods
       .getCurrentVotes(account)
       .call();
-    const stableCoinBalance = await getBalance({
+
+    const govCoinBalance = await getBalance({
       tokenAddress: governanceContract.options.address
     });
 
-    setCanDelegate(stableCoinBalance.isGreaterThan(0));
+    setCanDelegate(govCoinBalance.isGreaterThan(0));
 
-    const stableCoinBalanceNormalized = stableCoinBalance
+    const govCoinBalanceNormalized = govCoinBalance
       .div(new BN(10).pow(networkConfig.assets.Governance.decimals))
       .toFixed(2);
 
     const votesNormalized = new BN(votes)
       .div(new BN(10).pow(networkConfig.assets.Governance.decimals))
-      .toString();
+      .toString(10);
 
-    setCurrentStableCoin(stableCoinBalanceNormalized);
+    setCurrentGovCoin(govCoinBalanceNormalized);
     setCurrentVotes(votesNormalized);
   }, [account, governanceContract, networkConfig, getBalance]);
 
   const handleCanCreateProposal = useCallback(async () => {
-    if (!account || !currentVotes) return;
+    if (!account) return;
 
     const propsalThreshold = await governorContract.methods
       .proposalThreshold()
@@ -59,21 +60,18 @@ export const useVoteInfo = () => {
       .latestProposalIds(account)
       .call();
 
+    let latestProposalNotIncludePendingOrActive = true;
+
     if (proposalId !== '0') {
       const proposalState = await governorContract.methods
         .state(proposalId)
         .call();
 
-      setCanCreateProposal(
-        ![ProposalState.Pending, ProposalState.Active].includes(
-          Number(proposalState)
-        )
-      );
-
-      return;
+      latestProposalNotIncludePendingOrActive = ![
+        ProposalState.Pending,
+        ProposalState.Active
+      ].includes(Number(proposalState));
     }
-
-    if (!propsalThreshold || !proposalId) return;
 
     const proposalThresholdBN = new BN(propsalThreshold).div(
       new BN(10).pow(networkConfig.assets.Governance.decimals)
@@ -81,13 +79,16 @@ export const useVoteInfo = () => {
 
     const currentVotesIsGreaterThanProposalThreshold = new BN(
       currentVotes
-    ).isGreaterThanOrEqualTo(proposalThresholdBN);
+    ).isGreaterThan(proposalThresholdBN);
 
-    setCanCreateProposal(currentVotesIsGreaterThanProposalThreshold);
+    setCanCreateProposal(
+      currentVotesIsGreaterThanProposalThreshold &&
+        latestProposalNotIncludePendingOrActive
+    );
   }, [governorContract, account, currentVotes, networkConfig]);
 
   const handleGetDelegates = useCallback(async () => {
-    if (!account || !governanceContract) return;
+    if (!account) return;
 
     const delegates = await governanceContract.methods
       .delegates(account)
@@ -98,19 +99,19 @@ export const useVoteInfo = () => {
 
   useEffect(() => {
     handleGetVotes();
-  }, [handleGetVotes, update, account]);
+  }, [handleGetVotes, update]);
 
   useEffect(() => {
     handleCanCreateProposal();
-  }, [handleCanCreateProposal, currentVotes, update, account]);
+  }, [handleCanCreateProposal, update]);
 
   useEffect(() => {
     handleGetDelegates();
-  }, [handleGetDelegates, update, account]);
+  }, [handleGetDelegates]);
 
   return useMemo(
     () => ({
-      currentStableCoin,
+      currentGovCoin,
       canDelegate,
       canCreateProposal,
       delegateTo,
@@ -118,7 +119,7 @@ export const useVoteInfo = () => {
       handleUpdateVoteInfo
     }),
     [
-      currentStableCoin,
+      currentGovCoin,
       canCreateProposal,
       currentVotes,
       handleUpdateVoteInfo,

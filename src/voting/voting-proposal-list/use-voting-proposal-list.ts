@@ -22,20 +22,19 @@ export const useVotingProposalList = () => {
   } = usePagination();
   const [proposals, setProposals] = useState<FormattedProposal[]>([]);
   const governorContract = useGovernorContract();
-  const { account, chainId } = useWeb3React<Web3>();
+  const { chainId } = useWeb3React<Web3>();
   const eventData = useVotingEvents();
   const networkConfig = useNetworkConfig();
   const [update, handleUpdateProposalList] = useUpdate();
 
   const loadCountProposals = useCallback(async () => {
-    if (!governorContract) return;
-
     const proposalCount = await governorContract.methods.proposalCount().call();
+
     setCountItems(Number(proposalCount));
   }, [setCountItems, governorContract]);
 
   const loadExistingProposals = useCallback(async () => {
-    if (!account || !page.length) return;
+    if (!page.length) return;
 
     setLoading(true);
 
@@ -48,7 +47,7 @@ export const useVotingProposalList = () => {
     setProposals(await Promise.all(existingProposals));
 
     setLoading(false);
-  }, [governorContract, account, eventData, networkConfig, page]);
+  }, [governorContract, eventData, networkConfig, page]);
 
   useEffect(() => {
     loadCountProposals();

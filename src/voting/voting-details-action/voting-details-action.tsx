@@ -1,6 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
 import React, { useCallback, useEffect, useState } from 'react';
 import Web3 from 'web3';
+import { useToggle } from 'react-use';
 
 import { Skeleton, useGovernorContract, Button } from 'src/common';
 import { ProposalState, VoteButton, VotingInfo } from '../common';
@@ -28,6 +29,8 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   const governorContract = useGovernorContract();
   const { account } = useWeb3React<Web3>();
   const [receipt, setReceipt] = useState<Receipt | null>(null);
+  const [queued, toggleQueue] = useToggle(false);
+  const [executed, toggleExecute] = useToggle(false);
 
   const { onUpdate } = props;
 
@@ -35,11 +38,13 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
     async (value: boolean) => {
       if (!account) return;
 
-      await governorContract.methods
-        .castVote(props.proposalId, value)
-        .send({ from: account });
-
-      onUpdate?.();
+      try {
+        await governorContract.methods
+          .castVote(props.proposalId, value)
+          .send({ from: account });
+      } finally {
+        onUpdate?.();
+      }
     },
     [governorContract, props.proposalId, account, onUpdate]
   );
@@ -47,22 +52,33 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   const handleExecuteProposal = useCallback(async () => {
     if (!account) return;
 
-    await governorContract.methods
-      .execute(props.proposalId)
-      .send({ from: account });
+    toggleExecute();
 
-    onUpdate?.();
-  }, [governorContract, props.proposalId, account, onUpdate]);
+    try {
+      await governorContract.methods
+        .execute(props.proposalId)
+        .send({ from: account });
+    } finally {
+      onUpdate?.();
+
+      toggleExecute();
+    }
+  }, [governorContract, props.proposalId, account, onUpdate, toggleExecute]);
 
   const handleQueueProposal = useCallback(async () => {
     if (!account) return;
+    toggleQueue();
 
-    await governorContract.methods
-      .queue(props.proposalId)
-      .send({ from: account });
+    try {
+      await governorContract.methods
+        .queue(props.proposalId)
+        .send({ from: account });
+    } finally {
+      onUpdate?.();
 
-    onUpdate?.();
-  }, [governorContract, props.proposalId, account, onUpdate]);
+      toggleQueue();
+    }
+  }, [governorContract, props.proposalId, account, onUpdate, toggleQueue]);
 
   const handleGetVotedStatus = useCallback(async () => {
     if (!account) return;
@@ -132,10 +148,22 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
           </div>
         )}
         {ProposalState.Succeeded === Number(props.status) && (
-          <Button onClick={handleQueueProposal}>Queue</Button>
+          <Button
+            onClick={handleQueueProposal}
+            loading={queued}
+            disabled={queued}
+          >
+            Queue
+          </Button>
         )}
         {ProposalState.Queued === Number(props.status) && (
-          <Button onClick={handleExecuteProposal}>Execute</Button>
+          <Button
+            onClick={handleExecuteProposal}
+            loading={executed}
+            disabled={executed}
+          >
+            Execute
+          </Button>
         )}
       </div>
     </>

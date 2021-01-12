@@ -14,7 +14,7 @@ export const useMonitorContractListStyles = createUseStyles(
       listStyleType: 'none'
     },
 
-    investStacking: {
+    investStaking: {
       margin: '20px 0'
     }
   },
