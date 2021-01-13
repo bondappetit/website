@@ -13,7 +13,7 @@ export const useInvestingTokens = () => {
       .filter(({ investing }) => investing)
       .map(async (asset) => {
         const price = await investmentContract.methods
-          .price(asset.address, new BN(10).pow(asset.decimals).toString())
+          .price(asset.address, new BN(10).pow(asset.decimals).toString(10))
           .call();
 
         return {
@@ -23,7 +23,7 @@ export const useInvestingTokens = () => {
           price: price
             ? new BN(price)
                 .div(new BN(10).pow(network.assets.Governance.decimals))
-                .toString()
+                .toString(10)
             : ''
         };
       });

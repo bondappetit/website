@@ -1,10 +1,11 @@
 export type TableOfContent = {
   id: string;
   text: string | null;
-  childNodes: TableOfContent[];
-  element: Element;
-  index: number;
-  rootId: string;
+  external?: boolean;
+  childNodes?: TableOfContent[];
+  element?: Element;
+  index?: number;
+  rootId?: string;
   parentMap?: string[] | undefined;
 };
 

@@ -34,13 +34,13 @@ export const ProfitSplitterMarket: React.FC<ProfitSplitterMarketProps> = (
   );
 
   const handleAddLuqidity = useAddLiquidity(
-    incomig.tokenBalance?.toString(),
-    support.tokenBalance?.toString(),
+    incomig.tokenBalance?.toString(10),
+    support.tokenBalance?.toString(10),
     props.handleUpdate
   );
 
   const handleBuyLuqidity = useBuyLiquidity(
-    incomig.tokenBalance?.toString(),
+    incomig.tokenBalance?.toString(10),
     props.handleUpdate
   );
 

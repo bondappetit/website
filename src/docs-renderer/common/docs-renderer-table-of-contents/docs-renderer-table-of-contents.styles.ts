@@ -53,7 +53,7 @@ export const useDocsRendererTableOfContentsStyles = createUseStyles(
 
     arrow: {
       position: 'absolute',
-      left: -28
+      left: 0
     }
   }),
   {

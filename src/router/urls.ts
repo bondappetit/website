@@ -5,10 +5,11 @@ export const URLS = {
     detail: (proposalId = ':proposalId') => `/voting/${proposalId}`,
     create: '/voting/create'
   },
+  notfound: '/404',
   market: '/market',
-  stacking: {
-    list: '/stacking',
-    detail: (tokenId = ':tokenId') => `/stacking/${tokenId}`
+  staking: {
+    list: '/staking',
+    detail: (tokenId = ':tokenId') => `/staking/${tokenId}`
   },
   oracle: '/oracle',
   vesting: '/vesting',

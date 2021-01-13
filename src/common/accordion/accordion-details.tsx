@@ -4,6 +4,7 @@ import { useMount, useUnmount } from 'react-use';
 
 import { useAccordionStyles } from './accordion.styles';
 import { AccordionContext } from './accordion-context';
+import { throttle } from '../throttle';
 
 export type AccordionDetailsProps = {
   className?: string;
@@ -15,12 +16,15 @@ export const AccordionDetails: React.FC<AccordionDetailsProps> = (props) => {
   const ref = useRef<HTMLDivElement>(null);
   const accordionContext = useContext(AccordionContext);
 
-  const handleSetDetailHeight = useCallback(() => {
-    if (ref.current?.clientHeight) {
-      accordionContext?.handleDetailHeight(ref.current.clientHeight);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const handleSetDetailHeight = useCallback(
+    throttle(() => {
+      if (ref.current?.clientHeight) {
+        accordionContext?.handleDetailHeight(ref.current.clientHeight);
+      }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, 300),
+    []
+  );
 
   useMount(() => {
     handleSetDetailHeight();

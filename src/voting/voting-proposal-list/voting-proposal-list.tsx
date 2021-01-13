@@ -34,7 +34,7 @@ export const VotingProposalList: React.FC = () => {
     canDelegate,
     handleUpdateVoteInfo,
     delegateTo,
-    currentStableCoin
+    currentGovCoin
   } = useVoteInfo();
   const [votingChooseOpen, setVotingChooseOpen] = useState(false);
   const networkConfig = useNetworkConfig();
@@ -54,17 +54,15 @@ export const VotingProposalList: React.FC = () => {
           <Typography variant="h3" align="center">
             {loading && <Skeleton className={classes.votesSkeleton} />}
             {!loading &&
-              (Number(currentVotes) > 0 || Number(currentStableCoin) > 0) && (
+              (Number(currentVotes) > 0 || Number(currentGovCoin) > 0) && (
                 <>
-                  {Number(currentVotes) === 0
-                    ? currentStableCoin
-                    : currentVotes}{' '}
+                  {Number(currentVotes) === 0 ? currentGovCoin : currentVotes}{' '}
                   {Number(currentVotes) === 0 ? 'BAG' : 'Votes'}
                 </>
               )}
             {!loading &&
               Number(currentVotes) === 0 &&
-              Number(currentStableCoin) === 0 && <>No Votes</>}
+              Number(currentGovCoin) === 0 && <>No Votes</>}
           </Typography>
           {loading && <Skeleton className={classes.delegatesSkeleton} />}
           {!loading && (
@@ -83,7 +81,7 @@ export const VotingProposalList: React.FC = () => {
                       </Link>
                     </>
                   )}
-                {(Number(currentVotes) > 0 || Number(currentStableCoin) > 0) &&
+                {(Number(currentVotes) > 0 || Number(currentGovCoin) > 0) &&
                   delegateTo === DELEGATE_TO_DEFAULT && (
                     <>Unlock it so you can vote</>
                   )}
@@ -141,7 +139,7 @@ export const VotingProposalList: React.FC = () => {
         )}
       </div>
       <VotingChoose
-        votes={Number(currentVotes) > 0 ? currentVotes : currentStableCoin}
+        votes={Number(currentVotes) > 0 ? currentVotes : currentGovCoin}
         open={votingChooseOpen}
         onClose={handleToggleVotingChoose}
       />

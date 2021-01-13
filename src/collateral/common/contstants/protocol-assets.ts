@@ -49,7 +49,7 @@ export const PROTOCOL_ASSETS: TableData = {
     ],
     [
       {
-        title: '32'
+        title: '10'
       },
       {
         title: 'Rusal',
@@ -103,10 +103,37 @@ export const PROTOCOL_ASSETS: TableData = {
     ],
     [
       {
-        title: '32'
+        title: '15'
       },
       {
-        title: 'Rusal',
+        title: 'Gazprom',
+        cellType: TableCellTypes.issuer
+      },
+      {
+        title: '$ 1,480,720'
+      },
+      {
+        title: '20,500'
+      },
+      {
+        title: '5.15%'
+      },
+      {
+        title: '02.02.2022'
+      },
+      {
+        title: 'XS1533921299'
+      },
+      {
+        title: '27 Dec 2020'
+      }
+    ],
+    [
+      {
+        title: '20'
+      },
+      {
+        title: 'Gazprom',
         cellType: TableCellTypes.issuer
       },
       {
@@ -133,34 +160,7 @@ export const PROTOCOL_ASSETS: TableData = {
         title: '32'
       },
       {
-        title: 'Rusal',
-        cellType: TableCellTypes.issuer
-      },
-      {
-        title: '$ 1,480,720'
-      },
-      {
-        title: '20,500'
-      },
-      {
-        title: '5.15%'
-      },
-      {
-        title: '02.02.2022'
-      },
-      {
-        title: 'XS1533921299'
-      },
-      {
-        title: '27 Dec 2020'
-      }
-    ],
-    [
-      {
-        title: '32'
-      },
-      {
-        title: 'Rusal',
+        title: 'Gazprom',
         cellType: TableCellTypes.issuer
       },
       {

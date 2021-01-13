@@ -22,20 +22,22 @@ export const VotingDetailsBlock: React.FC<VotingDetailsBlockProps> = (
           <>
             {props.details?.map((detail, index) => {
               const callData = detail.callData.split(',').map((data, id) => ({
-                id,
-                data: <LinkIfAccount>{data}</LinkIfAccount>
+                id: `${id}-${index}`,
+                data: <LinkIfAccount>{data.trim()}</LinkIfAccount>
               }));
+
+              const key = `${detail.target}-${index}`;
 
               return (
                 <Typography
-                  key={detail.target}
+                  key={key}
                   variant="h5"
                   component="p"
                   className={classes.line}
                 >
                   <span className={classes.lineId}>{index + 1}</span>
                   <span>
-                    <LinkIfAccount>{detail.target}</LinkIfAccount>.
+                    <LinkIfAccount>{detail.target.trim()}</LinkIfAccount>.
                     {detail.functionSig}(
                     {callData.map(({ data, id }, i) => (
                       <React.Fragment key={id}>

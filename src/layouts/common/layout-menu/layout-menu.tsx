@@ -21,7 +21,7 @@ const MENU_ITEMS: MenuItem[] = [
 
   {
     title: 'Staking',
-    link: URLS.stacking.list
+    link: URLS.staking.list
   },
 
   {
@@ -75,7 +75,7 @@ const MENU_ITEMS: MenuItem[] = [
 
       {
         title: 'Github',
-        link: 'https://github.com'
+        link: 'https://github.com/bondappetit/bondappetit-protocol'
       },
 
       {

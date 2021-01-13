@@ -3,12 +3,12 @@ import React from 'react';
 import { MainLayout } from 'src/layouts';
 import { useNetworkConfig, Link, Typography } from 'src/common';
 import { useMonitorContractListStyles } from './monitor-contract-list.styles';
-import { useInvestStackingBalance } from './use-invest-stacking-balance';
+import { useInvestStakingBalance } from './use-invest-staking-balance';
 import { useMarketBalance } from './use-market-balance';
 import { MonitorTokenList } from '../monitor-token-list';
 
 export const MonitorContractList: React.FC = () => {
-  const investStackingBalance = useInvestStackingBalance();
+  const investStakingBalance = useInvestStakingBalance();
   const marketBalances = useMarketBalance();
   const classes = useMonitorContractListStyles();
   const networkConfig = useNetworkConfig();
@@ -32,14 +32,14 @@ export const MonitorContractList: React.FC = () => {
               )
             )}
           </ul>
-          <div className={classes.investStacking}>
-            {investStackingBalance?.map(({ balance, name }) => (
+          <div className={classes.investStaking}>
+            {investStakingBalance?.map(({ balance, name }) => (
               <div key={name}>
                 {name}: {balance.toFixed(2)}
               </div>
             ))}
           </div>
-          <div className={classes.investStacking}>
+          <div className={classes.investStaking}>
             {marketBalances?.map(({ balance, name }) => (
               <div key={name}>
                 {name}: {balance.toFixed(2)}

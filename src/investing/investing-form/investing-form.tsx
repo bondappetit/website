@@ -110,7 +110,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
 
       const formInvest = new BN(formValues.amount)
         .multipliedBy(new BN(10).pow(currentToken.decimals))
-        .toString();
+        .toString(10);
 
       const currentContract = tokenContracts[currentToken.name];
 

@@ -1,23 +1,23 @@
-import React from 'react';
-import { useParams, Link as ReactRouterLink } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { nanoid } from 'nanoid';
+import { useParams } from 'react-router-dom';
 
-import { Link } from 'src/common';
 import { DocsRenderer } from 'src/docs-renderer';
-import { URLS } from 'src/router/urls';
-import { ReactComponent as ArrowLeftIcon } from 'src/assets/icons/arrow-left.svg';
 import { DOCS } from '../common';
 
 export const DocsDetail: React.FC = () => {
+  const tableOfContents = useMemo(() => {
+    return Object.keys(DOCS).map((text) => ({
+      text,
+      id: nanoid(),
+      external: true
+    }));
+  }, []);
+
   const params = useParams<{ contractName: string }>();
 
   return (
-    <DocsRenderer
-      header={
-        <Link component={ReactRouterLink} to={URLS.docs.list}>
-          <ArrowLeftIcon width="40" height="40" />
-        </Link>
-      }
-    >
+    <DocsRenderer tableOfContents={tableOfContents}>
       {DOCS[params.contractName]}
     </DocsRenderer>
   );
