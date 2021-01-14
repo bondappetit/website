@@ -24,6 +24,7 @@ export const useStakingCardStyles = createUseStyles(
         backgroundPosition: 'center',
         borderRadius: 24,
         minHeight: 360,
+        position: 'relative',
         border: `1px solid ${theme.colors.primary}`,
         ...transitions('background-color .3s ease-in-out'),
 
@@ -42,6 +43,12 @@ export const useStakingCardStyles = createUseStyles(
 
       deposit: {
         marginBottom: 4
+      },
+
+      stacked: {
+        position: 'absolute',
+        top: 16,
+        left: 16
       }
     };
   },

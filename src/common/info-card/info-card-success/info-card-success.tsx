@@ -1,7 +1,6 @@
 import React from 'react';
 import { useMedia } from 'react-use';
 
-import { ReactComponent as GreenLine } from 'src/assets/images/green-line.svg';
 import { InfoCardWrapper } from '../info-card-wrapper';
 import { useInfoCardSuccessStyles } from './info-card-success.styles';
 
@@ -17,15 +16,12 @@ export const InfoCardSuccess: React.FC<InfoCardSuccessProps> = (props) => {
 
   return (
     <InfoCardWrapper
-      title={
-        <>
-          <GreenLine className={classes.greenLine} />
-          Congratulations!
-        </>
-      }
+      title={<span className={classes.heading}>Congratulations!</span>}
       subtitle={
         <>
-          You have successfully purchased
+          You have successfully
+          <br />
+          purchased
           {!isBiggerThanMediumDesktop ? <>&nbsp;</> : ' '}
           {props.purchased}&nbsp;{props.tokenName}
         </>

@@ -24,7 +24,7 @@ export const useDocumentListStyles = createUseStyles(
       marginTop: 64,
       display: 'grid',
       gridGap: 44,
-      gridTemplateColumns: 'repeat( auto-fit, minmax(250px, 1fr) )',
+      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
 
       [theme.breakpoints.md()]: {
         gridGap: 48

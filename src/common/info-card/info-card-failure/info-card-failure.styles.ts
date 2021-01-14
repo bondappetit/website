@@ -1,16 +1,13 @@
 import { createUseStyles } from 'react-jss';
 
+import { Theme } from 'src/common/theme';
+
 export const useInfoCardFailureStyles = createUseStyles(
-  {
-    redLine: {
-      position: 'absolute',
-      width: '100%',
-      top: 4,
-      bottom: 0,
-      left: 0,
-      zIndex: -1
+  (theme: Theme) => ({
+    heading: {
+      color: theme.colors.red
     }
-  },
+  }),
   {
     name: 'InfoCardFailure'
   }

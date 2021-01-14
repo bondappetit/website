@@ -54,57 +54,6 @@ export const useInvestingStatisticStyles = createUseStyles(
       }
     },
 
-    decoratedText: {
-      position: 'relative',
-      zIndex: 1,
-      whiteSpace: 'nowrap'
-    },
-
-    textRound: {
-      position: 'absolute',
-      top: -5,
-      left: -5,
-      right: -5,
-      bottom: 0,
-      zIndex: -1,
-      maxWidth: '112%',
-
-      [theme.breakpoints.md()]: {
-        top: -8,
-        left: -8,
-        right: -8
-      }
-    },
-
-    textUnderline: {
-      position: 'absolute',
-      left: 0,
-      bottom: -3,
-      right: 0,
-      zIndex: -1,
-      width: '100%',
-      height: 3,
-
-      [theme.breakpoints.md()]: {
-        bottom: -5
-      }
-    },
-
-    textDoubleUnderline: {
-      height: 'auto'
-    },
-
-    tokenTitleLine: {
-      stroke: theme.colors.tokenTitleLine,
-      position: 'absolute',
-      width: '100%',
-      top: 0,
-      bottom: 0,
-      margin: 'auto',
-      left: 0,
-      zIndex: -1
-    },
-
     card: {
       display: 'flex',
       alignItems: 'center',

@@ -10,12 +10,15 @@ export const usePay = (ethBalance?: string, updateBalances?: () => void) => {
   const budgetContract = useBudgetContract();
 
   const handlePay = useCallback(async () => {
-    if (!budgetContract || !account) return;
+    if (!account) return;
 
     if (Number(ethBalance) <= 0) return;
 
-    await budgetContract.methods.pay().send({
-      from: account
+    const pay = budgetContract.methods.pay();
+
+    await pay.send({
+      from: account,
+      gas: await pay.estimateGas({ from: account })
     });
 
     updateBalances?.();

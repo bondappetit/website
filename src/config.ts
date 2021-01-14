@@ -9,5 +9,6 @@ export const config = {
   COUNTDOWN_DATE: '2021-02-1',
   PORTIS_ID: process.env.REACT_APP_PORTIS_ID,
   FORTMATIC_KEY: process.env.REACT_APP_FORTMATIC_KEY,
-  IS_INVEST: process.env.REACT_APP_IS_INVEST === 'true'
+  IS_INVEST: process.env.REACT_APP_IS_INVEST === 'true',
+  UNISENDER_API: `https://api.unisender.com/ru/api/subscribe?format=json&api_key=${process.env.REACT_APP_UNISENDER_API}`
 };

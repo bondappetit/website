@@ -86,19 +86,8 @@ export const useSelectStyles = createUseStyles(
       justifyContent: 'flex-start'
     },
 
-    icon: {
-      width: 8,
-      height: 8,
-      marginLeft: 'auto',
-
-      [theme.breakpoints.md()]: {
-        width: 16,
-        height: 16
-      }
-    },
-
     open: {
-      transform: 'rotate(180deg)'
+      transform: 'rotate(180deg) translateY(5px)'
     }
   }),
   {

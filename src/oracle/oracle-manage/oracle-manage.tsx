@@ -44,12 +44,15 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
     async (formValues: OracleSaveFormValues) => {
       if (!account) return;
 
-      await depositaryOracleContract.methods
-        .put(formValues.isin, formValues.value)
-        .send({
-          from: account,
-          gas: 2000000
-        });
+      const put = depositaryOracleContract.methods.put(
+        formValues.isin,
+        formValues.value
+      );
+
+      await put.send({
+        from: account,
+        gas: await put.estimateGas({ from: account })
+      });
     },
     [depositaryOracleContract, account]
   );
@@ -61,17 +64,16 @@ export const OracleManage: React.FC<OracleManageProps> = () => {
       const securityValue = new BN(formValues.value)
         .multipliedBy(new BN(10).pow(6))
         .toString(10);
+      const put = securityOracleContract.methods.put(
+        formValues.isin,
+        formValues.property,
+        library.eth.abi.encodeParameters([formValues.type], [securityValue])
+      );
 
-      await securityOracleContract.methods
-        .put(
-          formValues.isin,
-          formValues.property,
-          library.eth.abi.encodeParameters([formValues.type], [securityValue])
-        )
-        .send({
-          from: account,
-          gas: 2000000
-        });
+      await put.send({
+        from: account,
+        gas: await put.estimateGas({ from: account })
+      });
     },
     [securityOracleContract, library, account]
   );

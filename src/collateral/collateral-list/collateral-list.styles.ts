@@ -6,18 +6,26 @@ export const useCollateralListStyles = createUseStyles(
     root: {},
 
     title: {
-      marginBottom: 64
+      marginBottom: 64,
+
+      [theme.breakpoints.md()]: {
+        fontSize: 64,
+        lineHeight: '72px'
+      }
     },
 
     list: {
       display: 'grid',
-      gridGap: 48,
 
       [theme.breakpoints.md()]: {
-        gridTemplateColumns: '1fr 48px 1fr',
+        gridTemplateColumns: '1fr 104px 1fr',
         alignItems: 'center',
         gridGap: 0
       }
+    },
+
+    card: {
+      border: 'none'
     },
 
     section: {
@@ -32,18 +40,14 @@ export const useCollateralListStyles = createUseStyles(
       }
     },
 
-    separator: {
-      display: 'none',
-
-      [theme.breakpoints.md()]: {
-        display: 'block'
-      }
-    },
-
     assets: {},
 
     assetsTitle: {
-      marginBottom: 48
+      marginBottom: 104,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 128
+      }
     },
 
     borrowText: {

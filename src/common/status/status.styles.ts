@@ -46,6 +46,10 @@ export const useStatusStyles = createUseStyles(
       color: theme.colors.purple
     },
 
+    black: {
+      color: theme.colors.primary
+    },
+
     contained: {
       '&$grey': {
         backgroundColor: theme.colors.grey,
@@ -87,6 +91,12 @@ export const useStatusStyles = createUseStyles(
         backgroundColor: theme.colors.pink,
         color: theme.colors.primary,
         borderColor: theme.colors.pink
+      },
+
+      '&$black': {
+        backgroundColor: theme.colors.primary,
+        color: theme.colors.secondary,
+        borderColor: theme.colors.primary
       }
     },
 

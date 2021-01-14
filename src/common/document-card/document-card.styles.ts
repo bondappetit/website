@@ -64,27 +64,6 @@ export const useDocumentCardStyles = createUseStyles(
           top: -12
         }
       }
-    },
-
-    download: {
-      position: 'absolute',
-      right: 16,
-      bottom: 16,
-
-      [theme.breakpoints.md()]: {
-        right: 48,
-        bottom: 48
-      }
-    },
-
-    downloadIcon: {
-      width: 32,
-      height: 32,
-
-      [theme.breakpoints.md()]: {
-        width: 40,
-        height: 40
-      }
     }
   }),
   {

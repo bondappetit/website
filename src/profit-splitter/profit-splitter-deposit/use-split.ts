@@ -10,10 +10,14 @@ export const useSplit = (balance?: string, updateBalances?: () => void) => {
   const profitSplitterContract = useProfitSplitterContract();
 
   const handleSplit = useCallback(async () => {
-    if (!profitSplitterContract || !account || !balance || Number(balance) <= 0)
-      return;
+    if (!account || !balance || Number(balance) <= 0) return;
 
-    await profitSplitterContract.methods.split(0).send({ from: account });
+    const split = profitSplitterContract.methods.split(0);
+
+    await split.send({
+      from: account,
+      gas: await split.estimateGas({ from: account })
+    });
 
     updateBalances?.();
   }, [profitSplitterContract, account, balance, updateBalances]);

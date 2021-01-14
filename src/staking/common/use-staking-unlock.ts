@@ -21,11 +21,9 @@ export const useStakingUnlock = (tokenId: string) => {
         ? stakingContract.methods.exit()
         : stakingContract.methods.getReward();
 
-      const gas = 2000000;
-
       await exit.send({
         from: account,
-        gas
+        gas: await exit.estimateGas({ from: account })
       });
     },
     [networkConfig, tokenId, account, getStakingContract]

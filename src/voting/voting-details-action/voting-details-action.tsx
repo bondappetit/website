@@ -39,9 +39,15 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
       if (!account) return;
 
       try {
-        await governorContract.methods
-          .castVote(props.proposalId, value)
-          .send({ from: account });
+        const castVote = governorContract.methods.castVote(
+          props.proposalId,
+          value
+        );
+
+        await castVote.send({
+          from: account,
+          gas: await castVote.estimateGas({ from: account })
+        });
       } finally {
         onUpdate?.();
       }
@@ -55,9 +61,12 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
     toggleExecute();
 
     try {
-      await governorContract.methods
-        .execute(props.proposalId)
-        .send({ from: account });
+      const execute = governorContract.methods.execute(props.proposalId);
+
+      await execute.send({
+        from: account,
+        gas: await execute.estimateGas({ from: account })
+      });
     } finally {
       onUpdate?.();
 
@@ -70,9 +79,12 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
     toggleQueue();
 
     try {
-      await governorContract.methods
-        .queue(props.proposalId)
-        .send({ from: account });
+      const queue = governorContract.methods.queue(props.proposalId);
+
+      await queue.send({
+        from: account,
+        gas: await queue.estimateGas({ from: account })
+      });
     } finally {
       onUpdate?.();
 

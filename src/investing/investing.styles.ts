@@ -21,7 +21,7 @@ export const useInvestingStyles = createUseStyles(
 
       [theme.breakpoints.md()]: {
         maxWidth: 756,
-        margin: '96px auto 122px'
+        margin: '96px auto 200px'
       }
     },
 
@@ -29,7 +29,7 @@ export const useInvestingStyles = createUseStyles(
       margin: '56px auto 0',
 
       [theme.breakpoints.md()]: {
-        margin: '96px auto 122px'
+        margin: '96px auto 200px'
       }
     },
 
@@ -44,7 +44,7 @@ export const useInvestingStyles = createUseStyles(
     },
 
     statistic: {
-      marginTop: 160,
+      marginTop: 120,
 
       [theme.breakpoints.md()]: {
         marginTop: 0
