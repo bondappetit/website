@@ -21,12 +21,14 @@ jobs:
           REACT_APP_IS_INVEST: false
           NODE_ENV: development
           REACT_APP_DEFAULT_CHAIN_ID: 3
+          REACT_APP_UNISENDER_API: ${{secrets.REACT_APP_UNISENDER_API}}
           INFURA_API_KEY: ${{secrets.REACT_APP_INFURA_API_KEY}}
       - if: github.event.release.prerelease == false
         run: npm run build
         env:
           REACT_APP_IS_INVEST: true
           REACT_APP_DEFAULT_CHAIN_ID: 1
+          REACT_APP_UNISENDER_API: ${{secrets.REACT_APP_UNISENDER_API}}
           INFURA_API_KEY: ${{secrets.REACT_APP_INFURA_API_KEY}}
       - name: Archive artifacts
         uses: actions/upload-artifact@v2

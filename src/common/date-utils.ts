@@ -4,7 +4,18 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 dayjs.extend(relativeTime);
 
 export const dateUtils = {
-  countdown: (date: string) => dayjs().to(dayjs(date)),
+  countdown: (date: string) => {
+    const difference = dayjs(date).diff(dayjs());
+
+    const days = Math.floor(difference / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
+    const minutes = Math.floor((difference / 1000 / 60) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
+
+    if (difference > 0) {
+      return `${days}:${hours}:${minutes}:${seconds}`;
+    }
+  },
 
   format: (date: string, format = 'YYYY-MM-DD') => dayjs(date).format(format),
 

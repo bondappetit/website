@@ -8,12 +8,14 @@ export const useRebalance = () => {
   const issuerContract = useIssuerContract();
   const { account } = useWeb3React<Web3>();
 
-  const handleRebalance = useCallback(() => {
+  const handleRebalance = useCallback(async () => {
     if (!account) return;
 
-    return issuerContract.methods.rebalance().send({
+    const rebalance = issuerContract.methods.rebalance();
+
+    return rebalance.send({
       from: account,
-      gas: 2000000
+      gas: await rebalance.estimateGas({ from: account })
     });
   }, [issuerContract, account]);
 

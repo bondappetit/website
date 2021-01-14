@@ -11,7 +11,8 @@ export const useCollateralTableStyles = createUseStyles(
     },
 
     tableCellContent: {
-      lineHeight: '15px'
+      lineHeight: '15px',
+      whiteSpace: 'nowrap'
     },
 
     pieIcon: {

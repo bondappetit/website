@@ -6,22 +6,14 @@ import { Theme } from 'src/common';
 export const useWalletInfoStyles = createUseStyles(
   (theme: Theme) => ({
     wrap: {
-      padding: 16,
       display: 'flex',
       flexDirection: 'column',
       justifyContent: 'space-between',
-      width: 343,
-      height: 408,
-
-      [theme.breakpoints.md()]: {
-        padding: 24,
-        width: 632,
-        height: 560
-      }
+      alignItems: 'center',
+      height: '100%'
     },
 
     button: {
-      marginLeft: 'auto',
       boxShadow: `0px 0px 0px 1px ${rgba(theme.colors.primary, 0.24)}`,
       borderRadius: 8,
       padding: '4px 23px',
@@ -39,8 +31,21 @@ export const useWalletInfoStyles = createUseStyles(
       opacity: 0.4
     },
 
-    header: {
-      display: 'flex'
+    accountLogo: {
+      position: 'absolute',
+      top: 16,
+      left: 16
+    },
+
+    account: {
+      [theme.breakpoints.md()]: {
+        fontSize: 64,
+        lineHeight: '72px'
+      }
+    },
+
+    content: {
+      margin: 'auto'
     },
 
     link: {

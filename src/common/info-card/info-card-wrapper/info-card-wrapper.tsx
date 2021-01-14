@@ -18,7 +18,7 @@ export const InfoCardWrapper: React.FC<InfoCardWrapperProps> = (props) => {
   return (
     <div className={classes.wrap}>
       <div className={classes.title}>
-        <Typography variant="h2" align="center" className={classes.typography}>
+        <Typography variant="h4" align="center">
           <Typography
             variant="inherit"
             component="span"
@@ -28,11 +28,7 @@ export const InfoCardWrapper: React.FC<InfoCardWrapperProps> = (props) => {
           </Typography>
         </Typography>
         {props.subtitle && (
-          <Typography
-            variant="h2"
-            align="center"
-            className={classes.typography}
-          >
+          <Typography variant="h4" align="center">
             {props.subtitle}
           </Typography>
         )}

@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useRef, useReducer } from 'react';
-import Web3 from 'web3';
-import { useWeb3React } from '@web3-react/core';
 
 import { useNetworkConfig, useGovernorContract, useUpdate } from 'src/common';
 import { useVotingEvents, getProposal } from '../common';
@@ -18,13 +16,12 @@ export const useVotingProposalDetail = (proposalId: number) => {
     initialState
   );
   const governorContract = useGovernorContract();
-  const { account } = useWeb3React<Web3>();
   const eventData = useVotingEvents();
   const networkConfig = useNetworkConfig();
   const [update, handleUpdateProposalDetail] = useUpdate();
 
   const loadExistingProposal = useCallback(async () => {
-    if (!account || !proposalIdRef.current) return;
+    if (!proposalIdRef.current) return;
 
     dispatch(setLoading(true));
 
@@ -37,7 +34,7 @@ export const useVotingProposalDetail = (proposalId: number) => {
     );
 
     dispatch(setLoading(false));
-  }, [governorContract, account, eventData, networkConfig]);
+  }, [governorContract, eventData, networkConfig]);
 
   useEffect(() => {
     loadExistingProposal();

@@ -33,13 +33,6 @@ export const StakingDetail: React.FC = () => {
   const [stakingBalancesWithApy] = useStakingApy(stakingBalances);
   const queryParams = useQueryParams();
   const [balanceOfToken, setbalanceOfToken] = useState('');
-  const amountInUSDC = new BN(stakingBalancesWithApy?.amount)
-    .multipliedBy(stakingBalancesWithApy?.stakingPriceUSDC)
-    .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
-    .integerValue(2);
-  const rewardInUSDC = new BN(stakingBalancesWithApy?.reward)
-    .multipliedBy(stakingBalancesWithApy?.rewardPriceUSDC)
-    .div(new BN(10).pow(networkConfig.assets.USDC.decimals));
 
   const getBalance = useBalance();
 
@@ -116,7 +109,7 @@ export const StakingDetail: React.FC = () => {
                   align="center"
                   className={classes.usd}
                 >
-                  {amountInUSDC.isNaN() ? '0' : amountInUSDC.toString(10)} USD
+                  {stakingBalancesWithApy?.amountInUSDC ?? '0'} USD
                 </Typography>
                 <Button onClick={handleUnstake} className={classes.unlock}>
                   Unstake
@@ -134,7 +127,7 @@ export const StakingDetail: React.FC = () => {
                   align="center"
                   className={classes.usd}
                 >
-                  {rewardInUSDC.isNaN() ? '0' : rewardInUSDC.toString(10)} USD
+                  {stakingBalancesWithApy?.rewardInUSDC ?? '0'} USD
                 </Typography>
                 <Button onClick={handleClaim} className={classes.unlock}>
                   Claim

@@ -3,7 +3,7 @@ import { useFormik, FormikProvider } from 'formik';
 import BN from 'bignumber.js';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
-import { useToggle } from 'react-use';
+import { useMedia, useToggle } from 'react-use';
 
 import {
   Modal,
@@ -18,18 +18,25 @@ import {
   BuyTokenFormValues,
   InfoCardFailure,
   InfoCardSuccess,
-  FullpageModal,
-  InfoCardLoader
+  SmallModal,
+  InfoCardLoader,
+  Button,
+  Typography
 } from 'src/common';
 import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';
 import { useInvestingTokens } from './use-investing-tokens';
+import { useInvestingFormStyles } from './investing-form.styles';
 
 export type InvestingFormProps = {
   className?: string;
 };
 
+const DEFAULT_GAS = 2000000;
+
 export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
+  const classes = useInvestingFormStyles();
+
   const tokenContracts: Record<string, Ierc20 | null> = {
     USDT: useUSDTContract(),
     DAI: useDAIContract(),
@@ -42,6 +49,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
   const [failureOpen, failureToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
   const [walletsOpen, walletsToggle] = useToggle(false);
+  const [investOpen, investToggle] = useToggle(false);
   const [userGet, setUserGet] = useState<BN>(new BN(0));
   const network = useNetworkConfig();
   const investmentContract = useInvestmentContract();
@@ -115,13 +123,13 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
       const currentContract = tokenContracts[currentToken.name];
 
       try {
-        if (currentToken.name === 'WETH') {
+        if (currentToken.name === 'ETH') {
           const investETH = investmentContract.methods.investETH();
 
           await investETH.send({
             from: account,
             value: formInvest,
-            gas: 2000000
+            gas: DEFAULT_GAS
           });
         } else {
           if (!currentContract) return;
@@ -157,7 +165,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
 
           await invest.send({
             from: account,
-            gas: 2000000
+            gas: await invest.estimateGas({ from: account })
           });
         }
 
@@ -186,37 +194,70 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
     setUserGet(new BN(0));
   }, [successToggle, formik]);
 
+  const isMobile = useMedia('(max-width: 959px)');
+
   return (
     <>
-      <FormikProvider value={formik}>
-        <BuyTokenForm
-          setUserGet={setUserGet}
-          handleOpenWalletListModal={handleOpenWalletListModal}
-          className={props.className}
-          account={account}
-          tokens={tokens}
-          userGet={userGet}
-          network={network}
-        />
-      </FormikProvider>
+      {isMobile && (
+        <>
+          <Modal open={investOpen} onClose={investToggle}>
+            <SmallModal mobile>
+              <FormikProvider value={formik}>
+                <BuyTokenForm
+                  setUserGet={setUserGet}
+                  handleOpenWalletListModal={handleOpenWalletListModal}
+                  className={props.className}
+                  account={account}
+                  tokens={tokens}
+                  userGet={userGet}
+                  network={network}
+                />
+              </FormikProvider>
+            </SmallModal>
+          </Modal>
+          <div className={classes.presale}>
+            <Typography
+              variant="body2"
+              align="center"
+              className={classes.title}
+            >
+              Pre-sale round price: 1 BAG = 1 USD
+            </Typography>
+            <Button onClick={investToggle}>Buy BAG</Button>
+          </div>
+        </>
+      )}
+      {!isMobile && (
+        <FormikProvider value={formik}>
+          <BuyTokenForm
+            setUserGet={setUserGet}
+            handleOpenWalletListModal={handleOpenWalletListModal}
+            className={props.className}
+            account={account}
+            tokens={tokens}
+            userGet={userGet}
+            network={network}
+          />
+        </FormikProvider>
+      )}
       <Modal open={successOpen} onClose={handleSuccessClose}>
-        <FullpageModal>
+        <SmallModal>
           <InfoCardSuccess
             tokenName="BAG"
             onClick={handleSuccessClose}
             purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
           />
-        </FullpageModal>
+        </SmallModal>
       </Modal>
       <Modal open={failureOpen} onClose={failureToggle}>
-        <FullpageModal>
+        <SmallModal>
           <InfoCardFailure onClick={formik.submitForm} />
-        </FullpageModal>
+        </SmallModal>
       </Modal>
       <Modal open={transactionOpen}>
-        <FullpageModal>
+        <SmallModal>
           <InfoCardLoader isAnimating={transactionOpen} />
-        </FullpageModal>
+        </SmallModal>
       </Modal>
       <WalletModal open={walletsOpen} onClose={walletsToggle} />
     </>

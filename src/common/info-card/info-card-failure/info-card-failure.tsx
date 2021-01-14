@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { ReactComponent as RedLine } from 'src/assets/images/red-line.svg';
 import { InfoCardWrapper } from '../info-card-wrapper';
 import { useInfoCardFailureStyles } from './info-card-failure.styles';
 
@@ -20,12 +19,7 @@ export const InfoCardFailure: React.FC<InfoCardFailureProps> = (props) => {
 
   return (
     <InfoCardWrapper
-      title={
-        <>
-          <RedLine className={classes.redLine} />
-          Failed :(
-        </>
-      }
+      title={<span className={classes.heading}>Failed :(</span>}
       subtitle={title}
       onClick={props.onClick}
       button={buttonTitle}

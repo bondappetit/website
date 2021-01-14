@@ -53,9 +53,10 @@ export const CollateralDetail: React.FC = () => {
           </CollateralDescription>
           <div className={clsx(classes.list)}>
             <CollateralCard
+              className={classes.card}
               head={
                 <Typography variant="h5" align="center">
-                  Vale of issued stable coin
+                  Value of issued stable coin
                 </Typography>
               }
               body={
@@ -71,6 +72,7 @@ export const CollateralDetail: React.FC = () => {
               }
             />
             <CollateralCard
+              className={classes.card}
               head={
                 <Typography variant="h5" align="center">
                   Value of Protocol&apos;s assets

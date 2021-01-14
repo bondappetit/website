@@ -1,14 +1,15 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { PageWrapper, Typography, Link, Skeleton } from 'src/common';
+import { PageWrapper, Typography, Link, Skeleton, Plate } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useCollateralListStyles } from './collateral-list.styles';
 import {
   CollateralTable,
   PROTOCOL_ASSETS,
   CollateralCard,
-  useIssuerBalance
+  useIssuerBalance,
+  CollateralProtocolState
 } from '../common';
 import { useStableCoinBalance } from './use-stable-coin-balance';
 
@@ -22,19 +23,16 @@ export const CollateralList: React.FC = () => {
     <MainLayout>
       <PageWrapper>
         <Typography variant="h2" align="center" className={classes.title}>
-          TableCelle assets of TableCelle protocol are formed by outstanding
-          debt of
+          The assets secured by real world
           <br />
-          TableCelle borrowers, which in turn is secured by real world
-          collateral
-          <br />
-          in form of bonds kept on special security accounts.{' '}
+          collateral in form of bonds
         </Typography>
-        <div className={clsx(classes.list, classes.section)}>
+        <Plate variant="dotted" className={clsx(classes.list, classes.section)}>
           <CollateralCard
+            className={classes.card}
             head={
               <Typography variant="h5" align="center">
-                Vale of issued stable coin
+                Value of issued stable coin
               </Typography>
             }
             body={
@@ -55,15 +53,9 @@ export const CollateralList: React.FC = () => {
               </>
             }
           />
-          <Typography
-            variant="h2"
-            align="center"
-            component="span"
-            className={classes.separator}
-          >
-            =
-          </Typography>
+          <CollateralProtocolState />
           <CollateralCard
+            className={classes.card}
             head={
               <Typography variant="h5" align="center">
                 Value of Protocol&apos;s assets
@@ -83,14 +75,19 @@ export const CollateralList: React.FC = () => {
               </>
             }
           />
-        </div>
+        </Plate>
         <div className={classes.section}>
           <Typography
-            variant="h2"
+            variant="h4"
             align="center"
             className={classes.assetsTitle}
           >
-            Protocol&apos;s assets
+            The assets of the protocol are formed by outstanding debt of the
+            <br />
+            borrowers, which in turn is secured by real world collateral in form
+            of
+            <br />
+            bonds kept on special security accounts.
           </Typography>
           <CollateralTable data={PROTOCOL_ASSETS} emptyFirstCol />
         </div>

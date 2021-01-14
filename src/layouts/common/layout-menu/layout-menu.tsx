@@ -104,7 +104,7 @@ const LinkIfExternal: React.FC<MenuItem> = (props) => {
     <ReactRouterNavLink
       className={clsx(classes.navLink)}
       activeClassName={classes.activeNavLink}
-      exact
+      exact={props.link === URLS.home}
       to={props.link}
     >
       {props.title}

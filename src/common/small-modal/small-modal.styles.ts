@@ -18,8 +18,12 @@ export const useSmallModalStyles = createUseStyles(
         0px 5.06402px 12.062px ${rgba(theme.colors.primary, 0.0381501)},
         0px 2.72989px 6.27332px ${rgba(theme.colors.primary, 0.0300574)},
         0px 1.14455px 2.50314px ${rgba(theme.colors.primary, 0.0205126)}`,
-      borderRadius: 24,
-      position: 'relative'
+      borderRadius: '24px 24px 0 0',
+      position: 'relative',
+
+      [theme.breakpoints.md()]: {
+        borderRadius: 24
+      }
     },
 
     header: {
@@ -46,8 +50,20 @@ export const useSmallModalStyles = createUseStyles(
     },
 
     content: {
-      padding: `8px 40px 40px`,
-      height: 'calc(100% - 48px)'
+      height: 'calc(100% - 48px)',
+      padding: `8px 24px 32px`,
+
+      [theme.breakpoints.md()]: {
+        padding: `8px 40px 40px`
+      }
+    },
+
+    mobile: {
+      [theme.breakpoints.down(959)]: {
+        height: 'auto',
+        marginTop: 'auto',
+        marginBottom: 0
+      }
     }
   }),
   {

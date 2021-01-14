@@ -3,7 +3,7 @@ import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
 import { useFormikContext } from 'formik';
 import BN from 'bignumber.js';
-import { useDebounce } from 'react-use';
+import { useDebounce, useMedia } from 'react-use';
 
 import { useBuyTokenFormStyles } from './buy-token-form.styles';
 import { Network } from '../create-use-contract';
@@ -11,6 +11,7 @@ import { Token } from '../types';
 import { Input } from '../input';
 import { Button } from '../button';
 import { Select, SelectOption } from '../select';
+import { Typography } from '../typography';
 
 export type BuyTokenFormProps = {
   className?: string;
@@ -59,71 +60,86 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
     [formik.values.amount, formik.values.currency, tokens]
   );
 
-  const classNames = clsx(classes.investing, props.className, {
-    [classes.disabled]: props.disabled
-  });
-
   const handleCloseTooltip = useCallback(() => {
     formik.setFieldError('amount', '');
     formik.setFieldError('amountOfToken', '');
   }, [formik]);
 
+  const isMobile = useMedia('(max-width: 959px)');
+
   return (
-    <form
-      className={classNames}
-      onSubmit={
-        !props.account ? handleOpenWalletListModal : formik.handleSubmit
-      }
-    >
-      <Tippy
-        visible={Boolean(formik.errors.amount)}
-        content={formik.errors.amount}
-        className={classes.tooltip}
-        maxWidth={200}
-        offset={[0, 25]}
-        onClickOutside={handleCloseTooltip}
+    <div className={clsx(classes.root, props.className)}>
+      <form
+        className={clsx(classes.investing, {
+          [classes.disabled]: props.disabled
+        })}
+        onSubmit={
+          !props.account ? handleOpenWalletListModal : formik.handleSubmit
+        }
       >
-        <Input
-          type="number"
-          onChange={formik.handleChange}
-          name="amount"
-          label={amountLabel}
-          min="0"
-          error={Boolean(formik.errors.amount)}
-          value={formik.values.amount}
+        <Tippy
+          visible={Boolean(formik.errors.amount)}
+          content={formik.errors.amount}
+          className={classes.tooltip}
+          maxWidth={200}
+          offset={[0, 25]}
+          onClickOutside={handleCloseTooltip}
+        >
+          <Input
+            type="number"
+            onChange={formik.handleChange}
+            name="amount"
+            label={amountLabel}
+            min="0"
+            error={Boolean(formik.errors.amount)}
+            value={formik.values.amount}
+            className={classes.input}
+          />
+        </Tippy>
+        <Select
+          label="Currency"
+          value={formik.values.currency}
           className={classes.input}
-        />
-      </Tippy>
-      <Select
-        label="Currency"
-        value={formik.values.currency}
-        className={classes.input}
-        onChange={(value) => formik.setFieldValue('currency', value)}
-      >
-        {Object.values(tokens).map(({ name }) => (
-          <SelectOption key={name} value={name} label={name} />
-        ))}
-      </Select>
-      <Tippy
-        visible={Boolean(formik.errors.amountOfToken)}
-        content={formik.errors.amountOfToken}
-        className={classes.tooltip}
-        maxWidth={200}
-        offset={[0, 25]}
-        onClickOutside={handleCloseTooltip}
-      >
-        <Input
-          type="text"
-          name="userGet"
-          label={`You get(${tokenName})`}
-          value={`${userGet.isNaN() ? '0' : userGet.toFixed(2)}`}
-          readOnly
-          className={classes.userGet}
-        />
-      </Tippy>
-      <Button className={classes.button} type="submit">
-        Buy
-      </Button>
-    </form>
+          onChange={(value) => formik.setFieldValue('currency', value)}
+        >
+          {Object.values(tokens).map(({ name }) => (
+            <SelectOption key={name} value={name} label={name} />
+          ))}
+        </Select>
+        <Tippy
+          visible={Boolean(formik.errors.amountOfToken)}
+          content={formik.errors.amountOfToken}
+          className={classes.tooltip}
+          maxWidth={200}
+          offset={[0, 25]}
+          onClickOutside={handleCloseTooltip}
+        >
+          <>
+            {isMobile && (
+              <Typography
+                variant="body1"
+                className={classes.userGet}
+                align="center"
+              >
+                You will get {userGet.isNaN() ? '0' : userGet.toFixed(2)} BAG
+              </Typography>
+            )}
+            {!isMobile && (
+              <Input
+                type="text"
+                name="userGet"
+                label={`You get(${tokenName})`}
+                value={`${userGet.isNaN() ? '0' : userGet.toFixed(2)}`}
+                readOnly
+                className={classes.userGet}
+              />
+            )}
+          </>
+        </Tippy>
+        <Button className={classes.button} type="submit">
+          Buy
+        </Button>
+      </form>
+    </div>
   );
 };

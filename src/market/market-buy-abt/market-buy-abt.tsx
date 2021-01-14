@@ -19,7 +19,7 @@ import {
   InfoCardSuccess,
   BuyTokenFormValues,
   Typography,
-  FullpageModal,
+  SmallModal,
   InfoCardLoader
 } from 'src/common';
 import { WalletModal } from 'src/wallets';
@@ -29,6 +29,8 @@ import { useMarketTokens, StableCoin } from 'src/market/common';
 export type MarketBuyAbtProps = {
   className?: string;
 };
+
+const DEFAULT_GAS = 2000000;
 
 export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
   const [userGet, setUserGet] = useState<BN>(new BN(0));
@@ -117,13 +119,13 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
         .toString(10);
 
       try {
-        if (currentToken.name === 'WETH') {
+        if (currentToken.name === 'ETH') {
           const buyABTFromETH = marketContract.methods.buyABTFromETH();
 
           await buyABTFromETH.send({
             from: account,
             value: formInvest,
-            gas: 2000000
+            gas: DEFAULT_GAS
           });
         } else {
           if (!currentContract) return;
@@ -159,7 +161,7 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
 
           await buyAbt.send({
             from: account,
-            gas: 2000000
+            gas: await buyAbt.estimateGas({ from: account })
           });
         }
 
@@ -225,23 +227,23 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
         </div>
       </FormikProvider>
       <Modal open={successOpen} onClose={handleSuccessClose}>
-        <FullpageModal>
+        <SmallModal>
           <InfoCardSuccess
             tokenName="USDp"
             onClick={handleSuccessClose}
             purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
           />
-        </FullpageModal>
+        </SmallModal>
       </Modal>
       <Modal open={failureOpen} onClose={failureToggle}>
-        <FullpageModal>
+        <SmallModal>
           <InfoCardFailure onClick={formik.submitForm} />
-        </FullpageModal>
+        </SmallModal>
       </Modal>
       <Modal open={transactionOpen}>
-        <FullpageModal>
+        <SmallModal>
           <InfoCardLoader isAnimating={transactionOpen} />
-        </FullpageModal>
+        </SmallModal>
       </Modal>
       <WalletModal open={walletsOpen} onClose={walletsToggle} />
     </>

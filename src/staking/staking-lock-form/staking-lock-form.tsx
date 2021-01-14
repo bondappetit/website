@@ -26,6 +26,8 @@ export type StakingLockFormProps = {
   balanceOfToken: string;
 };
 
+const DEFAULT_GAS = 2000000;
+
 export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const classes = useStakingLockFormStyles();
 
@@ -102,7 +104,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
       await stakingContract.methods.stake(formAmount).send({
         from: account,
-        gas: 2000000
+        gas: DEFAULT_GAS
       });
       resetForm();
       props.onSubmit?.();

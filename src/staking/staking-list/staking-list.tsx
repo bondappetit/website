@@ -1,13 +1,7 @@
 import React from 'react';
-import BN from 'bignumber.js';
 
 import { MainLayout } from 'src/layouts';
-import {
-  PageWrapper,
-  Typography,
-  Skeleton,
-  useNetworkConfig
-} from 'src/common';
+import { PageWrapper, Typography, Skeleton } from 'src/common';
 import {
   StakingCard,
   useGovernanceCost,
@@ -15,7 +9,6 @@ import {
   useStakingBalances
 } from 'src/staking/common';
 import { useStakingListStyles } from './staking-list.styles';
-import { useEarned } from './use-earned';
 
 const AVAILABLE_TOKENS = ['Governance', 'Stable'];
 
@@ -24,13 +17,8 @@ export const StakingList: React.FC = () => {
   const [stakingBalances] = useStakingBalances(AVAILABLE_TOKENS);
   const stakingBalancesWithApy = useStakingApy(stakingBalances);
   const { governanceInUSDC } = useGovernanceCost();
-  const earned = useEarned();
 
-  const networkConfig = useNetworkConfig();
-
-  const earnedUSD = new BN(earned)
-    .div(new BN(governanceInUSDC).pow(networkConfig.assets.Governance.decimals))
-    .toString(10);
+  const [governanceToken] = stakingBalancesWithApy;
 
   return (
     <MainLayout>
@@ -50,7 +38,8 @@ export const StakingList: React.FC = () => {
             <Typography variant="body1" align="center">
               You earned:{' '}
               <Typography variant="inherit" component="span" weight="bold">
-                {earned} BAG ({earnedUSD} USD)
+                {governanceToken?.reward ?? '0'} BAG (
+                {governanceToken?.rewardInUSDC ?? '0'} USD)
               </Typography>
             </Typography>
           </div>
@@ -63,6 +52,7 @@ export const StakingList: React.FC = () => {
             : stakingBalancesWithApy.map((stakingBalance) => (
                 <StakingCard
                   key={stakingBalance.name}
+                  stacked={Boolean(Number(stakingBalance.amount))}
                   tokenKey={stakingBalance.key}
                   tokenName={stakingBalance.name}
                   reward={stakingBalance.reward}

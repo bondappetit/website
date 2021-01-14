@@ -4,6 +4,11 @@ import { Theme } from 'src/common';
 
 export const useBuyTokenFormStyles = createUseStyles(
   (theme: Theme) => ({
+    root: {
+      display: 'flex',
+      height: '100%'
+    },
+
     investing: {
       display: 'flex',
       justifyContent: 'space-between',
@@ -18,7 +23,8 @@ export const useBuyTokenFormStyles = createUseStyles(
         marginLeft: 10,
 
         [theme.breakpoints.md()]: {
-          marginLeft: 0
+          marginLeft: 0,
+          marginRight: 35
         }
       },
 
@@ -28,13 +34,14 @@ export const useBuyTokenFormStyles = createUseStyles(
     },
 
     userGet: {
-      borderBottom: `1px dashed ${theme.colors.primary}`,
-      width: 95,
-      marginRight: 23,
+      width: '100%',
+      marginTop: 64,
 
       [theme.breakpoints.md()]: {
         width: 210,
-        marginRight: 0
+        marginTop: 17,
+        marginLeft: 80,
+        marginRight: 12
       }
     },
 

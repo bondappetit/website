@@ -8,8 +8,8 @@ import { useGovernanceCost } from './use-governance-cost';
 const BLOCK_PER_YEAR = '2102400';
 
 type APYWithTokenName = {
-  rewardPriceUSDC: string;
-  stakingPriceUSDC: string;
+  amountInUSDC: string;
+  rewardInUSDC: string;
   APY: string;
 } & StakingToken;
 
@@ -29,26 +29,36 @@ export const useStakingApy = (balances: StakingToken[]) => {
           throw new Error(`Config for token ${balance.key} not found`);
         }
 
+        let tokenInUSDC = '1';
         try {
-          let tokenInUSDC = '1';
-          try {
-            [
-              ,
-              tokenInUSDC
-            ] = await uniswapRouter.methods
-              .getAmountsOut(amountInGovernance, [
-                config.address,
-                networkConfig.assets.USDC.address
-              ])
-              .call();
-          } catch (e) {
-            console.warn(`${config.symbol}-USDC liquidity pool is empty`);
-          }
+          [
+            ,
+            tokenInUSDC
+          ] = await uniswapRouter.methods
+            .getAmountsOut(amountInGovernance, [
+              config.address,
+              networkConfig.assets.USDC.address
+            ])
+            .call();
+        } catch (e) {
+          console.warn(`${config.symbol}-USDC liquidity pool is empty`);
+        }
 
+        const amountInUSDC = new BN(balance.amount)
+          .multipliedBy(tokenInUSDC)
+          .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
+          .integerValue(2)
+          .toString(10);
+        const rewardInUSDC = new BN(balance.reward)
+          .multipliedBy(governanceInUSDC)
+          .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
+          .toString(10);
+
+        try {
           return {
             ...balance,
-            rewardPriceUSDC: governanceInUSDC,
-            stakingPriceUSDC: tokenInUSDC,
+            amountInUSDC,
+            rewardInUSDC,
             APY: new BN(balance.rewardRate)
               .div(
                 new BN(balance.totalSupply).gt(0)
@@ -64,8 +74,8 @@ export const useStakingApy = (balances: StakingToken[]) => {
         } catch {
           return {
             ...balance,
-            rewardPriceUSDC: '0',
-            stakingPriceUSDC: '0',
+            amountInUSDC: '0',
+            rewardInUSDC: '0',
             APY: '0'
           };
         }

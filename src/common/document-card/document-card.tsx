@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { ReactComponent as DownloadIcon } from 'src/assets/icons/download.svg';
 import { Typography } from '../typography';
-import { ButtonBase } from '../button-base';
 import { useDocumentCardStyles } from './document-card.styles';
 
 export type DocumentCardProps = {
@@ -21,10 +19,7 @@ export const DocumentCard: React.FC<DocumentCardProps> = (props) => {
         rel="noreferrer"
         className={classes.card}
       >
-        <Typography variant="h3">{props.children}</Typography>
-        <ButtonBase className={classes.download}>
-          <DownloadIcon className={classes.downloadIcon} />
-        </ButtonBase>
+        <Typography variant="h3">{props.children} ↗</Typography>
       </a>
     </div>
   );

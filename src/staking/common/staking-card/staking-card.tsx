@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Typography, Link } from 'src/common';
+import { Typography, Link, Status } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { ICONS } from '../constants';
 import { useStakingCardStyles } from './staking-card.styles';
@@ -9,6 +9,7 @@ import { useStakingCardStyles } from './staking-card.styles';
 export type StakingCardProps = {
   tokenKey: string;
   tokenName: string;
+  stacked?: boolean;
   reward?: string;
   APY?: string;
 };
@@ -26,6 +27,11 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       to={`${URLS.staking.detail(props.tokenKey)}?tokenName=${props.tokenName}`}
       className={classes.stakingCard}
     >
+      {props.stacked && (
+        <Status color="black" variant="contained" className={classes.stacked}>
+          Staked
+        </Status>
+      )}
       <Typography variant="h2" weight="bold" align="center">
         <Icon /> {props.tokenName}
       </Typography>

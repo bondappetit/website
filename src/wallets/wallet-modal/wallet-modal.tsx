@@ -4,7 +4,7 @@ import Web3 from 'web3';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { useUpdateEffect } from 'react-use';
 
-import { Modal, FullpageModal } from 'src/common';
+import { Modal, SmallModal } from 'src/common';
 import { WalletInfo, WalletList } from '../common';
 
 export type WalletModalProps = {
@@ -55,7 +55,7 @@ export const WalletModal: React.FC<WalletModalProps> = (props) => {
 
   return (
     <Modal open={open} onClose={onClose}>
-      <FullpageModal>{components[currentComponentIndex]}</FullpageModal>
+      <SmallModal>{components[currentComponentIndex]}</SmallModal>
     </Modal>
   );
 };

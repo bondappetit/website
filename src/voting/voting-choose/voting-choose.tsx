@@ -38,13 +38,11 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
     async (address?: string | null) => {
       if (!address || !account) return;
 
-      const estimategas = await governanceContract.methods
-        .delegate(address)
-        .estimateGas({ from: account });
+      const delegate = governanceContract.methods.delegate(address);
 
-      await governanceContract.methods.delegate(address).send({
+      await delegate.send({
         from: account,
-        gas: estimategas
+        gas: await delegate.estimateGas({ from: account })
       });
 
       handleClose();

@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import React, { useCallback, useRef, useState } from 'react';
 import { useClickAway, useUpdateEffect } from 'react-use';
 
-import { ReactComponent as SelectArrowIcon } from 'src/assets/icons/select-arrow.svg';
 import { Option, SelectContext } from './select.context';
 import { useSelectStyles } from './select.styles';
 
@@ -81,12 +80,14 @@ export const Select: React.FC<SelectProps> = (props) => {
           onKeyPress={handleClick}
           role="button"
         >
-          {currentOption?.label}
-          <SelectArrowIcon
-            className={clsx(classes.icon, {
+          {currentOption?.label}{' '}
+          <span
+            className={clsx({
               [classes.open]: open
             })}
-          />
+          >
+            ↓
+          </span>
         </div>
         <div
           className={clsx(classes.dropdown, {

@@ -9,22 +9,23 @@ export type InfoCardLoaderProps = {
 };
 
 export const InfoCardLoader: React.FC<InfoCardLoaderProps> = (props) => {
+  const classes = useInfoCardLoaderStyles();
+
   const { isFinished, progress } = useNProgress({
     isAnimating: props.isAnimating
   });
 
-  const classes = useInfoCardLoaderStyles({ isFinished });
+  const dots = ['.', '..', '...'];
 
   return (
     <InfoCardWrapper
       title={
-        <>
-          <div
-            className={classes.process}
-            style={{ width: `${progress * 100}%` }}
-          />
+        <span className={classes.heading}>
           Transaction in progress
-        </>
+          <span className={classes.dots}>
+            {!isFinished && dots[Math.floor(progress * 100) % dots.length]}
+          </span>
+        </span>
       }
     />
   );

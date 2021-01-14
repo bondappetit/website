@@ -17,6 +17,7 @@ export type Colors = {
   darkBlue: string;
   chetwodeBlue: string;
   lightGrey: string;
+  superGreen: string;
 };
 
 export type ThemeModes = 'light' | 'dark';
@@ -29,6 +30,7 @@ const mainColors = {
   yellow: '#FBFF43',
   beige: '#E7D7BE',
   green: '#09DE78',
+  superGreen: '#1B9861',
   darkGreen: '#8DC581',
   pink: '#E9D6EA',
   purple: '#FF35EB',
