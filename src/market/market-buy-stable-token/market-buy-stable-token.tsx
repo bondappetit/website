@@ -26,13 +26,15 @@ import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';
 import { useMarketTokens, StableCoin } from 'src/market/common';
 
-export type MarketBuyAbtProps = {
+export type MarketBuyStableTokenProps = {
   className?: string;
 };
 
 const DEFAULT_GAS = 2000000;
 
-export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
+export const MarketBuyStableToken: React.FC<MarketBuyStableTokenProps> = (
+  props
+) => {
   const [userGet, setUserGet] = useState<BN>(new BN(0));
   const tokenContracts: Record<string, Ierc20 | null> = {
     USDT: useUSDTContract(),
@@ -120,9 +122,9 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
 
       try {
         if (currentToken.name === 'ETH') {
-          const buyABTFromETH = marketContract.methods.buyABTFromETH();
+          const buyStableTokenFromETH = marketContract.methods.buyStableTokenFromETH();
 
-          await buyABTFromETH.send({
+          await buyStableTokenFromETH.send({
             from: account,
             value: formInvest,
             gas: DEFAULT_GAS
@@ -130,7 +132,7 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
         } else {
           if (!currentContract) return;
 
-          const buyAbt = marketContract.methods.buyABT(
+          const buyStableToken = marketContract.methods.buyStableToken(
             currentContract.options.address,
             formInvest
           );
@@ -159,9 +161,9 @@ export const MarketBuyAbt: React.FC<MarketBuyAbtProps> = (props) => {
           });
           window.onbeforeunload = () => 'wait please transaction in progress';
 
-          await buyAbt.send({
+          await buyStableToken.send({
             from: account,
-            gas: await buyAbt.estimateGas({ from: account })
+            gas: await buyStableToken.estimateGas({ from: account })
           });
         }
 

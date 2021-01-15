@@ -121,9 +121,9 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
 
       try {
         if (currentToken.name === 'ETH') {
-          const buyBondFromETH = marketContract.methods.buyBondFromETH();
+          const buyGovernanceTokenFromETH = marketContract.methods.buyGovernanceTokenFromETH();
 
-          await buyBondFromETH.send({
+          await buyGovernanceTokenFromETH.send({
             from: account,
             value: formInvest,
             gas: DEFAULT_GAS
@@ -131,7 +131,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         } else {
           if (!currentContract) return;
 
-          const buyBond = marketContract.methods.buyBond(
+          const buyGovernanceToken = marketContract.methods.buyGovernanceToken(
             currentContract.options.address,
             formInvest
           );
@@ -160,9 +160,9 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
           });
           window.onbeforeunload = () => 'wait please transaction in progress';
 
-          await buyBond.send({
+          await buyGovernanceToken.send({
             from: account,
-            gas: await buyBond.estimateGas({ from: account })
+            gas: await buyGovernanceToken.estimateGas({ from: account })
           });
         }
 
@@ -207,7 +207,9 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
   }, [governanceContract, getBalance, marketContract, network]);
 
   const handleGetGovernancePrice = useCallback(async () => {
-    const bondPrice = await marketContract.methods.bondPrice().call();
+    const bondPrice = await marketContract.methods
+      .governanceTokenPrice()
+      .call();
 
     if (!bondPrice) return;
 

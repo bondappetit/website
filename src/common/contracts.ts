@@ -1,12 +1,12 @@
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
-import { abi as BondAbi } from '@bondappetit/networks/abi/Bond.json';
+import { abi as GovernanceTokenAbi } from '@bondappetit/networks/abi/GovernanceToken.json';
 import { AbiItem } from 'web3-utils';
 
 import type { Investment } from 'src/generate/Investment';
 import type { Market } from 'src/generate/Market';
 import type { Ierc20 } from 'src/generate/IERC20';
 import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
-import type { Bond } from 'src/generate/Bond';
+import type { GovernanceToken } from 'src/generate/GovernanceToken';
 import type { Staking } from 'src/generate/Staking';
 import type { IUniswapV2Router02 } from 'src/generate/IUniswapV2Router02';
 import type { UniswapAnchoredView } from 'src/generate/UniswapAnchoredView';
@@ -67,10 +67,12 @@ export const useGovernorContract = createUseContract<GovernorAlpha>(
   })
 );
 
-export const useGovernanceContract = createUseContract<Bond>((network) => ({
-  abi: BondAbi as AbiItem[],
-  address: network.assets.Governance.address
-}));
+export const useGovernanceContract = createUseContract<GovernanceToken>(
+  (network) => ({
+    abi: GovernanceTokenAbi as AbiItem[],
+    address: network.assets.Governance.address
+  })
+);
 
 export const useGovStakingContract = createUseContract<Staking>((network) => ({
   abi: network.contracts.GovStaking.abi,
