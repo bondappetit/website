@@ -16,7 +16,7 @@ type MenuItem = {
 const MENU_ITEMS: MenuItem[] = [
   {
     title: 'USDp',
-    link: URLS.home
+    link: URLS.stablecoin
   },
 
   {
@@ -104,7 +104,7 @@ const LinkIfExternal: React.FC<MenuItem> = (props) => {
     <ReactRouterNavLink
       className={clsx(classes.navLink)}
       activeClassName={classes.activeNavLink}
-      exact={props.link === URLS.home}
+      exact={props.link === URLS.main}
       to={props.link}
     >
       {props.title}

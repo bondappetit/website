@@ -36,11 +36,12 @@ const CollateralDetail = React.lazy(
 const CollateralIssuer = React.lazy(
   () => import('src/collateral/collateral-issuer')
 );
+const Main = React.lazy(() => import('src/main'));
 
 export const routes = [
   {
-    url: URLS.home,
-    component: !config.IS_INVEST ? Stablecoin : Investing
+    url: URLS.main,
+    component: !config.IS_INVEST ? Main : Investing
   },
   {
     url: URLS.whitepaper,
@@ -51,6 +52,10 @@ export const routes = [
         {
           url: URLS.voting.create,
           component: VotingCreateProposal
+        },
+        {
+          url: URLS.stablecoin,
+          component: Stablecoin
         },
         {
           url: URLS.voting.detail(),
