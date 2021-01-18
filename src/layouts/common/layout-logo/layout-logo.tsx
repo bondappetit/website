@@ -9,7 +9,7 @@ export const LayoutLogo: React.FC = () => {
   const classes = useLayoutLogoStyles();
 
   return (
-    <Link to={URLS.home} className={classes.logo}>
+    <Link to={URLS.main} className={classes.logo}>
       <img src={BondHatIcon} alt="" className={classes.img} />
     </Link>
   );

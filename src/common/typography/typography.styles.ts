@@ -13,17 +13,17 @@ export const useTypographyStyles = createUseStyles(
     },
 
     h1: {
-      fontSize: 34,
-      lineHeight: '40px',
+      fontSize: 28,
+      lineHeight: '36px',
 
       [theme.breakpoints.md()]: {
-        fontSize: 50,
-        lineHeight: '58px'
+        fontSize: 40,
+        lineHeight: '48px'
       },
 
       [theme.breakpoints.lg()]: {
-        fontSize: 80,
-        lineHeight: '88px'
+        fontSize: 64,
+        lineHeight: '72px'
       }
     },
 

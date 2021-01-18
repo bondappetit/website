@@ -45,3 +45,4 @@ export * from './markdown-list';
 export * from './accordion';
 export * from './throttle';
 export * from './is-email';
+export * from './carousel';

@@ -1,10 +1,11 @@
 export const URLS = {
-  home: '/',
+  main: '/',
   voting: {
     list: '/voting',
     detail: (proposalId = ':proposalId') => `/voting/${proposalId}`,
     create: '/voting/create'
   },
+  stablecoin: '/stablecoin',
   notfound: '/404',
   market: '/market',
   staking: {
