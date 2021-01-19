@@ -31,7 +31,7 @@ const MENU_ITEMS: MenuItem[] = [
 
   {
     title: 'Governance',
-    link: URLS.voting.list
+    link: URLS.voting.info
   },
 
   {
