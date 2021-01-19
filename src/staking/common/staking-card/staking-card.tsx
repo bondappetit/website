@@ -1,30 +1,29 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Typography, Link, Status } from 'src/common';
+import { Typography, Link, Status, STAKING_ICONS } from 'src/common';
 import { URLS } from 'src/router/urls';
-import { ICONS } from '../constants';
 import { useStakingCardStyles } from './staking-card.styles';
 
 export type StakingCardProps = {
   tokenKey: string;
-  tokenName: string;
   stacked?: boolean;
   reward?: string;
   APY?: string;
+  token: string[];
 };
 
 export const StakingCard: React.FC<StakingCardProps> = (props) => {
-  const classes = useStakingCardStyles({
-    tokenName: props.tokenKey
-  });
+  const tokenName = useMemo(() => props.token.join('_'), [props.token]);
 
-  const Icon = ICONS[props.tokenKey];
+  const classes = useStakingCardStyles({
+    tokenName
+  });
 
   return (
     <Link
       component={ReactRouterLink}
-      to={`${URLS.staking.detail(props.tokenKey)}?tokenName=${props.tokenName}`}
+      to={`${URLS.staking.detail(props.tokenKey)}`}
       className={classes.stakingCard}
     >
       {props.stacked && (
@@ -33,7 +32,16 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
         </Status>
       )}
       <Typography variant="h2" weight="bold" align="center">
-        <Icon /> {props.tokenName}
+        {props.token.map((title, index) => {
+          const Icon = STAKING_ICONS[title];
+
+          return (
+            <React.Fragment key={title}>
+              {Icon && <Icon />} {title}{' '}
+              {index === 0 && props.token.length === 2 ? ' + ' : null}
+            </React.Fragment>
+          );
+        })}
       </Typography>
       <Typography variant="h2" align="center" className={classes.apy}>
         APY {props.APY} %
@@ -41,7 +49,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       <Typography variant="body1" align="center" className={classes.deposit}>
         Deposit:{' '}
         <Typography variant="inherit" component="span" weight="bold">
-          {props.tokenName}
+          {tokenName}
         </Typography>
       </Typography>
       <Typography variant="body1" align="center">

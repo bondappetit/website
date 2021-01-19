@@ -4,36 +4,46 @@ import Web3 from 'web3';
 import BN from 'bignumber.js';
 import { useInterval } from 'react-use';
 
-import { useNetworkConfig, useUpdate } from 'src/common';
+import { useUpdate } from 'src/common';
+import { StakingConfig } from 'src/staking-config';
 import { useStakingContracts } from './use-staking-contracts';
+import { useTokenContracts } from './use-token-contract';
 
 export type StakingToken = {
   amount: string;
-  name: string;
   totalSupply: string;
   rewardRate: string;
   reward: string;
   key: string;
+  decimals: string;
+  address: string;
+  contractName: string;
+  token: string[];
 };
 
-export const useStakingBalances = (availableTokens: string[]) => {
+export const useStakingBalances = (availableTokens: StakingConfig[]) => {
   const tokens = useRef(availableTokens);
   const [stakingBalances, setStakingBalances] = useState<StakingToken[]>([]);
-  const getContract = useStakingContracts();
+  const getStakingContract = useStakingContracts();
+  const getTokenContract = useTokenContracts();
   const { account } = useWeb3React<Web3>();
-  const networkConfig = useNetworkConfig();
   const [update, handleUpdate] = useUpdate();
 
   const handleGetBalances = useCallback(async () => {
     const balances = tokens.current.reduce<Promise<StakingToken[]>>(
-      async (previusPromise, key) => {
+      async (previusPromise, { contractName, token }, index) => {
         const acc = await previusPromise;
 
-        const tokenConfig = networkConfig.assets[key];
+        const stakingContract = getStakingContract(contractName);
 
-        const stakingContract = getContract(key);
+        const staingTokenAddress = await stakingContract.methods
+          .stakingToken()
+          .call();
+        const stakingTokenContract = getTokenContract(staingTokenAddress);
 
-        if (!tokenConfig || !stakingContract) return acc;
+        const decimals = await stakingTokenContract.methods.decimals().call();
+
+        if (!stakingContract) return acc;
 
         const [balance, earned, totalSupply, rewardRate] = await Promise.all([
           account ? stakingContract.methods.balanceOf(account).call() : '0',
@@ -44,19 +54,20 @@ export const useStakingBalances = (availableTokens: string[]) => {
           stakingContract.methods.rewardRate().call()
         ]);
 
-        const amount = new BN(balance).div(
-          new BN(10).pow(tokenConfig.decimals)
-        );
+        const amount = new BN(balance).div(new BN(10).pow(decimals));
 
-        const reward = new BN(earned).div(new BN(10).pow(tokenConfig.decimals));
+        const reward = new BN(earned).div(new BN(10).pow(decimals));
 
         const StakingToken = {
           amount: amount.isNaN() ? '0' : amount.toString(10),
-          name: tokenConfig.symbol,
-          key,
+          key: String(index),
+          decimals,
           totalSupply,
           rewardRate,
-          reward: reward.isNaN() ? '0' : reward.toString(10)
+          contractName,
+          address: staingTokenAddress,
+          reward: reward.isNaN() ? '0' : reward.toString(10),
+          token
         };
 
         acc.push(StakingToken);
@@ -69,7 +80,7 @@ export const useStakingBalances = (availableTokens: string[]) => {
     const tokenBalances = await balances;
 
     if (tokenBalances.length) setStakingBalances(tokenBalances);
-  }, [account, networkConfig, getContract]);
+  }, [account, getStakingContract, getTokenContract]);
 
   useEffect(() => {
     handleGetBalances();

@@ -47,13 +47,18 @@ export type VotingAddActionProps = {
 
 export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
   const networkConfig = useNetworkConfig();
-  const votingPresets = getVotingPresets(networkConfig).reduce<
-    Record<string, VotingPresetItem>
-  >((acc, preset) => {
-    acc[preset.title] = preset;
+  const votingPresets = useMemo(
+    () =>
+      getVotingPresets(networkConfig).reduce<Record<string, VotingPresetItem>>(
+        (acc, preset) => {
+          acc[preset.title] = preset;
 
-    return acc;
-  }, {});
+          return acc;
+        },
+        {}
+      ),
+    [networkConfig]
+  );
 
   const classes = useVotingAddActionStyles();
   const [state, dispatch] = useReducer(

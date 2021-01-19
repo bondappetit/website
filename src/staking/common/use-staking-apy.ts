@@ -7,7 +7,7 @@ import { useGovernanceCost } from './use-governance-cost';
 
 const BLOCK_PER_YEAR = '2102400';
 
-type APYWithTokenName = {
+export type APYWithTokenName = {
   amountInUSDC: string;
   rewardInUSDC: string;
   APY: string;
@@ -23,12 +23,6 @@ export const useStakingApy = (balances: StakingToken[]) => {
   const handleGetTokenPrice = useCallback(async () => {
     const result = await Promise.all(
       balances.map(async (balance) => {
-        const config = networkConfig.assets[balance.key];
-
-        if (config === undefined) {
-          throw new Error(`Config for token ${balance.key} not found`);
-        }
-
         let tokenInUSDC = '1';
         try {
           [
@@ -36,22 +30,22 @@ export const useStakingApy = (balances: StakingToken[]) => {
             tokenInUSDC
           ] = await uniswapRouter.methods
             .getAmountsOut(amountInGovernance, [
-              config.address,
+              balance.address,
               networkConfig.assets.USDC.address
             ])
             .call();
         } catch (e) {
-          console.warn(`${config.symbol}-USDC liquidity pool is empty`);
+          console.warn(`${balance.address} liquidity pool is empty`);
         }
 
         const amountInUSDC = new BN(balance.amount)
           .multipliedBy(tokenInUSDC)
-          .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
+          .div(new BN(10).pow(balance.decimals))
           .integerValue(2)
           .toString(10);
         const rewardInUSDC = new BN(balance.reward)
           .multipliedBy(governanceInUSDC)
-          .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
+          .div(new BN(10).pow(balance.decimals))
           .toString(10);
 
         try {
@@ -63,7 +57,7 @@ export const useStakingApy = (balances: StakingToken[]) => {
               .div(
                 new BN(balance.totalSupply).gt(0)
                   ? balance.totalSupply
-                  : new BN(10).pow(config.decimals)
+                  : new BN(10).pow(balance.decimals)
               )
               .multipliedBy(governanceInUSDC)
               .multipliedBy(BLOCK_PER_YEAR)

@@ -1,27 +1,20 @@
 import { useCallback } from 'react';
 
 import type { Staking } from 'src/generate/Staking';
-import { useGovStakingContract, useStableStakingContract } from 'src/common';
+import { useDynamicContract, useNetworkConfig } from 'src/common';
 
 export const useStakingContracts = () => {
-  const govStakingContract = useGovStakingContract();
-  const stableStakingContract = useStableStakingContract();
+  const networkConfig = useNetworkConfig();
+  const getContract = useDynamicContract<Staking>();
 
-  const handleGetContract = useCallback(
-    (tokenName: string) => {
-      const contracts: Record<string, Staking> = {
-        Governance: govStakingContract,
-        Stable: stableStakingContract
-      };
+  const handleGetStakingContract = useCallback(
+    (contractName: string) => {
+      const contractConfig = networkConfig.contracts[contractName];
 
-      const stakingContract = contracts[tokenName];
-
-      if (!stakingContract) return;
-
-      return stakingContract;
+      return getContract(contractConfig.address, contractConfig.abi);
     },
-    [govStakingContract, stableStakingContract]
+    [getContract, networkConfig.contracts]
   );
 
-  return handleGetContract;
+  return handleGetStakingContract;
 };

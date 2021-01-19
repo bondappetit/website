@@ -26,6 +26,10 @@ export const useMainStakingStyles = createUseStyles(
       [theme.breakpoints.up(1400)]: {
         gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
       }
+    },
+
+    skeleton: {
+      minHeight: 360
     }
   }),
   {

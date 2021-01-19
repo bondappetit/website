@@ -6,37 +6,32 @@ import clsx from 'clsx';
 import BN from 'bignumber.js';
 
 import { MainLayout } from 'src/layouts';
-import {
-  Button,
-  Plate,
-  Typography,
-  PageWrapper,
-  useQueryParams,
-  useBalance,
-  useNetworkConfig
-} from 'src/common';
+import { Button, Plate, Typography, PageWrapper, useBalance } from 'src/common';
 import {
   StakingHeader,
   useStakingApy,
   useStakingBalances,
   useStakingUnlock
 } from 'src/staking/common';
+import { STAKING_CONFIG } from 'src/staking-config';
 import { StakingLockForm } from '../staking-lock-form';
 import { useStakingDetailStyles } from './staking-detail.styles';
 
 export const StakingDetail: React.FC = () => {
   const classes = useStakingDetailStyles();
   const params = useParams<{ tokenId: string }>();
-  const networkConfig = useNetworkConfig();
   const { account } = useWeb3React<Web3>();
-  const [stakingBalances, update] = useStakingBalances([params.tokenId]);
+  const tokenId = Number(params.tokenId);
+
+  const [stakingBalances, update] = useStakingBalances([
+    STAKING_CONFIG[tokenId]
+  ]);
   const [stakingBalancesWithApy] = useStakingApy(stakingBalances);
-  const queryParams = useQueryParams();
   const [balanceOfToken, setbalanceOfToken] = useState('');
 
   const getBalance = useBalance();
 
-  const unlock = useStakingUnlock(params.tokenId);
+  const unlock = useStakingUnlock(stakingBalancesWithApy?.contractName);
 
   const stakingBalanceIsEmpty = useMemo(
     () => !Number(stakingBalancesWithApy?.amount),
@@ -56,29 +51,33 @@ export const StakingDetail: React.FC = () => {
   }, [unlock, update, stakingBalanceIsEmpty]);
 
   const handleGetBalanceOfToken = useCallback(async () => {
-    const currentAsset = networkConfig.assets[params.tokenId];
+    if (!stakingBalancesWithApy) return;
 
     const balanceOfTokenResult = await getBalance({
-      tokenAddress: currentAsset.address
+      tokenAddress: stakingBalancesWithApy.address
     });
 
     const balance = balanceOfTokenResult.div(
-      new BN(10).pow(currentAsset.decimals)
+      new BN(10).pow(stakingBalancesWithApy.decimals)
     );
 
     setbalanceOfToken(balance.isNaN() ? '0' : balance.toString(10));
-  }, [networkConfig, getBalance, params.tokenId]);
+  }, [getBalance, stakingBalancesWithApy]);
 
   useEffect(() => {
     handleGetBalanceOfToken();
   }, [handleGetBalanceOfToken, stakingBalances]);
+
+  const tokenName = useMemo(() => stakingBalancesWithApy?.token.join('_'), [
+    stakingBalancesWithApy
+  ]);
 
   return (
     <MainLayout>
       <PageWrapper className={classes.staking}>
         <StakingHeader
           tokenKey={params.tokenId}
-          tokenName={queryParams.get('tokenName')}
+          token={stakingBalancesWithApy?.token}
           APY={stakingBalancesWithApy?.APY}
           className={classes.header}
         />
@@ -86,8 +85,11 @@ export const StakingDetail: React.FC = () => {
           <Plate variant="dotted" className={classes.card}>
             <StakingLockForm
               account={account}
+              tokenName={tokenName}
               tokenKey={params.tokenId}
-              tokenName={queryParams.get('tokenName')}
+              tokenAddress={stakingBalancesWithApy?.address}
+              contractName={stakingBalancesWithApy?.contractName}
+              tokenDecimals={stakingBalancesWithApy?.decimals}
               onSubmit={update}
               balanceOfToken={balanceOfToken}
             />
@@ -99,7 +101,7 @@ export const StakingDetail: React.FC = () => {
             <div className={classes.stakingBalance}>
               <div className={classes.unstakeAndClaim}>
                 <Typography variant="body1" align="center">
-                  You staked {queryParams.get('tokenName')}
+                  You staked {tokenName}
                 </Typography>
                 <Typography variant="h2" align="center">
                   {stakingBalancesWithApy?.amount}

@@ -3,7 +3,7 @@ import { useCallback, useRef } from 'react';
 import type { Ierc20 } from 'src/generate/IERC20';
 import Web3 from 'web3';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
-import { AbiItem } from 'web3-utils';
+import type { AbiItem } from 'web3-utils';
 import BN from 'bignumber.js';
 
 import { useDynamicContract } from './create-use-contract';

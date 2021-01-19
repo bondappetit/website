@@ -2,13 +2,15 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useMedia } from 'react-use';
 
-import { Typography, Link, Carousel } from 'src/common';
+import { Typography, Link, Carousel, Skeleton } from 'src/common';
 import { URLS } from 'src/router/urls';
+import type { APYWithTokenName } from 'src/staking';
 import { MainStakingCard } from '../main-staking-card';
 import { useMainStakingStyles } from './main-staking.styles';
 
 export type MainStakingProps = {
   className?: string;
+  staking: APYWithTokenName[];
 };
 
 const Grid: React.FC = (props) => {
@@ -36,26 +38,22 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
         of time and providing liquidity for protocol’s assets.
       </Typography>
       <Grid>
-        <MainStakingCard
-          tokenName="BAG"
-          totalSupply="$ 960,642"
-          APY="240.64%"
-        />
-        <MainStakingCard
-          tokenName="BAG"
-          totalSupply="$ 960,642"
-          APY="240.64%"
-        />
-        <MainStakingCard
-          tokenName="BAG"
-          totalSupply="$ 960,642"
-          APY="240.64%"
-        />
-        <MainStakingCard
-          tokenName="BAG"
-          totalSupply="$ 960,642"
-          APY="240.64%"
-        />
+        {!props.staking.length
+          ? Array.from(Array(4), (_, i) => i).map((key) => (
+              <Skeleton key={key} className={classes.skeleton} />
+            ))
+          : props.staking.map((stakingItem, index) => {
+              const id = String(index);
+
+              return (
+                <MainStakingCard
+                  key={id}
+                  token={stakingItem.token}
+                  totalSupply={stakingItem.totalSupply}
+                  APY={stakingItem.APY}
+                />
+              );
+            })}
       </Grid>
       <Typography variant="h4" align="center">
         <Link component={ReactRouterLink} to={URLS.staking.list} color="blue">

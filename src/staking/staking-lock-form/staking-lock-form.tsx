@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useFormik } from 'formik';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
-import { AbiItem } from 'web3-utils';
+import type { AbiItem } from 'web3-utils';
 import BN from 'bignumber.js';
 import Tippy from '@tippyjs/react';
 import { useToggle } from 'react-use';
@@ -10,7 +10,6 @@ import type { Ierc20 } from 'src/generate/IERC20';
 import {
   Input,
   Button,
-  useNetworkConfig,
   useDynamicContract,
   Typography,
   ButtonBase
@@ -20,8 +19,11 @@ import { useStakingLockFormStyles } from './staking-lock-form.styles';
 
 export type StakingLockFormProps = {
   account?: string | null;
-  tokenName: string | null;
   tokenKey: string;
+  tokenName?: string;
+  tokenAddress?: string;
+  contractName?: string;
+  tokenDecimals?: string;
   onSubmit?: () => void;
   balanceOfToken: string;
 };
@@ -33,13 +35,12 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
   const [aquireOpen, aquireToggle] = useToggle(false);
 
-  const networkConfig = useNetworkConfig();
   const getStakingContract = useStakingContracts();
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
   });
 
-  const { account, tokenKey } = props;
+  const { account, tokenAddress, contractName, tokenDecimals } = props;
 
   const formik = useFormik({
     initialValues: {
@@ -55,41 +56,35 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         error.amount = 'Required';
       }
 
-      const currentAsset = networkConfig.assets[tokenKey];
-
       if (new BN(props.balanceOfToken).isLessThan(formValues.amount)) {
-        error.amount = `Looks like you don't have enough ${currentAsset.symbol}, please check your wallet`;
+        error.amount = `Looks like you don't have enough ${props.tokenName}, please check your wallet`;
       }
 
       return error;
     },
 
     onSubmit: async (formValues, { resetForm }) => {
-      if (!account) return;
+      if (!account || !contractName || !tokenDecimals) return;
 
-      const currentAsset = networkConfig.assets[tokenKey];
-
-      const currentContract = getIERC20Contract(currentAsset.address);
+      const currentAssetContract = getIERC20Contract(tokenAddress);
 
       const formAmount = new BN(formValues.amount)
-        .multipliedBy(new BN(10).pow(currentAsset.decimals))
+        .multipliedBy(new BN(10).pow(tokenDecimals))
         .toString(10);
 
-      const stakingContract = getStakingContract(tokenKey);
+      const stakingContract = getStakingContract(contractName);
 
-      if (!stakingContract) return;
-
-      const approve = currentContract.methods.approve(
+      const approve = currentAssetContract.methods.approve(
         stakingContract.options.address,
         formAmount
       );
 
-      const allowance = await currentContract.methods
+      const allowance = await currentAssetContract.methods
         .allowance(account, stakingContract.options.address)
         .call();
 
       if (allowance !== '0') {
-        await currentContract.methods
+        await currentAssetContract.methods
           .approve(stakingContract.options.address, '0')
           .send({
             from: account,

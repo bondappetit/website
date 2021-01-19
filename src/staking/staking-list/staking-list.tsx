@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import BN from 'bignumber.js';
 
 import { MainLayout } from 'src/layouts';
@@ -14,19 +14,22 @@ import {
   useStakingApy,
   useStakingBalances
 } from 'src/staking/common';
+import { STAKING_CONFIG } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
-
-const AVAILABLE_TOKENS = ['Governance', 'Stable'];
 
 export const StakingList: React.FC = () => {
   const networkConfig = useNetworkConfig();
   const classes = useStakingListStyles();
-  const [stakingBalances] = useStakingBalances(AVAILABLE_TOKENS);
+  const [stakingBalances] = useStakingBalances(STAKING_CONFIG);
   const stakingBalancesWithApy = useStakingApy(stakingBalances);
   const { governanceInUSDC } = useGovernanceCost();
-  const normalizeGovernanceInUSDC = new BN(governanceInUSDC)
-    .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
-    .toFixed(4);
+  const normalizeGovernanceInUSDC = useMemo(
+    () =>
+      new BN(governanceInUSDC)
+        .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
+        .toFixed(4),
+    [governanceInUSDC, networkConfig.assets.USDC.decimals]
+  );
 
   const [governanceToken] = stakingBalancesWithApy;
 
@@ -61,10 +64,10 @@ export const StakingList: React.FC = () => {
               ))
             : stakingBalancesWithApy.map((stakingBalance) => (
                 <StakingCard
-                  key={stakingBalance.name}
+                  key={stakingBalance.key}
                   stacked={Boolean(Number(stakingBalance.amount))}
                   tokenKey={stakingBalance.key}
-                  tokenName={stakingBalance.name}
+                  token={stakingBalance.token}
                   reward={stakingBalance.reward}
                   APY={stakingBalance.APY}
                 />

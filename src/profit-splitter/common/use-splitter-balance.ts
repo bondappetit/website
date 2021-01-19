@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useReducer } from 'react';
-import { AbiItem } from 'web3-utils';
+import type { AbiItem } from 'web3-utils';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import { Ierc20 } from 'src/generate/IERC20';
 import BN from 'bignumber.js';
