@@ -10,6 +10,34 @@ export const useVotingInfoStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         padding: '104px 40px 200px'
       }
+    },
+
+    block: {
+      maxWidth: 1200
+    },
+
+    proposals: {
+      margin: '0 auto 104px',
+
+      [theme.breakpoints.md()]: {
+        margin: '0 auto 160px'
+      }
+    },
+
+    factoid: {
+      margin: '0 auto 104px',
+
+      [theme.breakpoints.md()]: {
+        margin: '0 auto 160px'
+      }
+    },
+
+    decision: {
+      marginBottom: 14,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 160
+      }
     }
   }),
   {
