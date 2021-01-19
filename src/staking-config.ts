@@ -1,6 +1,8 @@
 export type StakingConfig = {
   contractName: string;
+  tokenName: string;
   token: string[];
+  liquidityPool: boolean;
 };
 
 const Gov = 'BAG';
@@ -9,25 +11,37 @@ const Stable = 'USDp';
 
 const USDC = 'USDC';
 
+const LP = 'UNI-V2';
+
 export const STAKING_CONFIG: StakingConfig[] = [
   {
     contractName: 'GovStaking',
-    token: [Gov]
+    tokenName: Gov,
+    token: [Gov],
+    liquidityPool: false
   },
   {
     contractName: 'StableStaking',
-    token: [Stable]
+    tokenName: Stable,
+    token: [Stable],
+    liquidityPool: false
   },
   {
     contractName: 'UsdcGovLPStaking',
-    token: [Gov, USDC]
+    tokenName: LP,
+    token: [Gov, USDC],
+    liquidityPool: true
   },
   {
     contractName: 'UsdcStableLPStaking',
-    token: [Stable, USDC]
+    tokenName: LP,
+    token: [Stable, USDC],
+    liquidityPool: true
   },
   {
     contractName: 'GovStableLPStaking',
-    token: [Gov]
+    tokenName: LP,
+    token: [Stable, Gov],
+    liquidityPool: true
   }
 ];

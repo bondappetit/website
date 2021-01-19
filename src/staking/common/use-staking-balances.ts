@@ -19,6 +19,7 @@ export type StakingToken = {
   address: string;
   contractName: string;
   token: string[];
+  liquidityPool: boolean;
 };
 
 export const useStakingBalances = (availableTokens: StakingConfig[]) => {
@@ -31,15 +32,15 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
 
   const handleGetBalances = useCallback(async () => {
     const balances = tokens.current.reduce<Promise<StakingToken[]>>(
-      async (previusPromise, { contractName, token }, index) => {
+      async (previusPromise, { contractName, token, liquidityPool }, index) => {
         const acc = await previusPromise;
 
         const stakingContract = getStakingContract(contractName);
 
-        const staingTokenAddress = await stakingContract.methods
+        const stakingTokenAddress = await stakingContract.methods
           .stakingToken()
           .call();
-        const stakingTokenContract = getTokenContract(staingTokenAddress);
+        const stakingTokenContract = getTokenContract(stakingTokenAddress);
 
         const decimals = await stakingTokenContract.methods.decimals().call();
 
@@ -65,9 +66,10 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
           totalSupply,
           rewardRate,
           contractName,
-          address: staingTokenAddress,
+          address: stakingTokenAddress,
           reward: reward.isNaN() ? '0' : reward.toString(10),
-          token
+          token,
+          liquidityPool
         };
 
         acc.push(StakingToken);

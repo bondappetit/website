@@ -68,9 +68,7 @@ export const StakingDetail: React.FC = () => {
     handleGetBalanceOfToken();
   }, [handleGetBalanceOfToken, stakingBalances]);
 
-  const tokenName = useMemo(() => stakingBalancesWithApy?.token.join('_'), [
-    stakingBalancesWithApy
-  ]);
+  const { tokenName } = STAKING_CONFIG[tokenId];
 
   return (
     <MainLayout>

@@ -31,7 +31,15 @@ export const StakingList: React.FC = () => {
     [governanceInUSDC, networkConfig.assets.USDC.decimals]
   );
 
-  const [governanceToken] = stakingBalancesWithApy;
+  const rewardSum = stakingBalancesWithApy.reduce(
+    (sum, { reward, rewardInUSDC }) => {
+      return {
+        reward: new BN(sum.reward).plus(reward).toFixed(6),
+        rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC).toString()
+      };
+    },
+    { reward: '0', rewardInUSDC: '0' }
+  );
 
   return (
     <MainLayout>
@@ -51,8 +59,7 @@ export const StakingList: React.FC = () => {
             <Typography variant="body1" align="center">
               You earned:{' '}
               <Typography variant="inherit" component="span" weight="bold">
-                {governanceToken?.reward ?? '0'} BAG (
-                {governanceToken?.rewardInUSDC ?? '0'} USD)
+                {rewardSum.reward} BAG ({rewardSum.rewardInUSDC} USD)
               </Typography>
             </Typography>
           </div>
