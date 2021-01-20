@@ -139,12 +139,14 @@ export const CollateralMarketModal: React.FC<CollateralMarketModalProps> = (
   useDebounce(
     () => {
       setUserGet(
-        new BN(formik.values.amount).multipliedBy(
-          new BN(10).pow(
-            network.assets.Stable.decimals -
-              network.assets[formik.values.currency].decimals
+        new BN(formik.values.amount)
+          .multipliedBy(
+            new BN(10).pow(
+              network.assets.Stable.decimals -
+                network.assets[formik.values.currency].decimals
+            )
           )
-        )
+          .div(new BN(10).pow(network.assets.Stable.decimals))
       );
     },
     100,
