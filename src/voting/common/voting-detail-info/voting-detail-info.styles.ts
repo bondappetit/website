@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useVotingInfoStyles = createUseStyles(
+export const useVotingDetailInfoStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       border: `2px solid ${theme.colors.proposalPlate}`,
@@ -55,6 +55,6 @@ export const useVotingInfoStyles = createUseStyles(
     }
   }),
   {
-    name: 'VotingInfo'
+    name: 'VotingDetailInfo'
   }
 );

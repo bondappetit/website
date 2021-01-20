@@ -1,6 +1,6 @@
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import { abi as GovernanceTokenAbi } from '@bondappetit/networks/abi/GovernanceToken.json';
-import { AbiItem } from 'web3-utils';
+import type { AbiItem } from 'web3-utils';
 
 import type { Investment } from 'src/generate/Investment';
 import type { Market } from 'src/generate/Market';

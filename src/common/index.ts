@@ -46,3 +46,4 @@ export * from './accordion';
 export * from './throttle';
 export * from './is-email';
 export * from './carousel';
+export * from './constants';

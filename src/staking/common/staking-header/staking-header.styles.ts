@@ -5,10 +5,10 @@ import { Theme } from 'src/common';
 export const useStakingHeaderStyles = createUseStyles(
   (theme: Theme) => {
     const bgColors: Record<string, string> = {
-      Governance: theme.colors.yellow,
-      Stable: theme.colors.pink,
-      Stable_USDC_LP: theme.colors.chetwodeBlue,
-      Governance_USDC_LP: theme.colors.darkGreen
+      BAG: theme.colors.yellow,
+      USDp: theme.colors.pink,
+      BAG_USDC: theme.colors.chetwodeBlue,
+      USDp_USDC: theme.colors.darkGreen
     };
 
     return {

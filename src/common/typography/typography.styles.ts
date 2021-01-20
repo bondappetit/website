@@ -86,7 +86,7 @@ export const useTypographyStyles = createUseStyles(
 
     body1: {
       fontSize: 16,
-      lineHeight: '20px'
+      lineHeight: '24px'
     },
 
     body2: {

@@ -3,14 +3,12 @@ import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
 import { useNetworkConfig, useGovernorContract, useUpdate } from 'src/common';
-import {
-  useVotingEvents,
-  FormattedProposal,
-  usePagination,
-  getProposal
-} from '../common';
+import { useVotingEvents } from './use-voting-events';
+import { usePagination } from './use-pagination';
+import { FormattedProposal } from './voting.types';
+import { getProposal } from './get-proposal';
 
-export const useVotingProposalList = () => {
+export const useVotingProposalList = (limit?: number) => {
   const [loading, setLoading] = useState(false);
   const {
     page,
@@ -19,7 +17,7 @@ export const useVotingProposalList = () => {
     countItems,
     currentPage,
     pages
-  } = usePagination();
+  } = usePagination(limit);
   const [proposals, setProposals] = useState<FormattedProposal[]>([]);
   const governorContract = useGovernorContract();
   const { chainId } = useWeb3React<Web3>();

@@ -6,7 +6,6 @@ import {
   Typography,
   Button,
   Link,
-  Status,
   ButtonBase,
   Skeleton,
   cutAccount,
@@ -14,9 +13,8 @@ import {
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useVotingProposalListStyles } from './voting-proposal-list.styles';
-import { ProposalState, ProposalStateColors, useVoteInfo } from '../common';
+import { useVoteInfo, VotingProposals, useVotingProposalList } from '../common';
 import { VotingChoose } from '../voting-choose';
-import { useVotingProposalList } from './use-voting-proposal-list';
 
 const DELEGATE_TO_DEFAULT = '0x0000000000000000000000000000000000000000';
 
@@ -96,44 +94,21 @@ export const VotingProposalList: React.FC = () => {
             </>
           )}
         </div>
-        <div className={classes.list}>
-          {canCreateProposal && (
-            <Button
-              component={ReactRouterLink}
-              variant="outlined"
-              to={URLS.voting.create}
-              className={classes.createProposal}
-            >
-              + Create new proposal
-            </Button>
-          )}
-          {loading &&
-            Array.from(Array(5), (_, index) => index).map((item) => (
-              <Skeleton key={item} className={classes.proposalSkeleton} />
-            ))}
-          {!loading &&
-            proposals.map((proposal) => (
-              <Typography key={proposal.id} variant="h4" component="div">
-                <Link
-                  component={ReactRouterLink}
-                  to={URLS.voting.detail(proposal.id)}
-                  className={classes.proposal}
-                >
-                  <Typography
-                    variant="inherit"
-                    className={classes.proposalTitle}
-                  >
-                    {proposal.title}
-                  </Typography>
-                  {proposal.status && (
-                    <Status color={ProposalStateColors[proposal.status]}>
-                      {ProposalState[Number(proposal.status)]}
-                    </Status>
-                  )}
-                </Link>
-              </Typography>
-            ))}
-        </div>
+        {canCreateProposal && (
+          <Button
+            component={ReactRouterLink}
+            variant="outlined"
+            to={URLS.voting.create}
+            className={classes.createProposal}
+          >
+            + Create new proposal
+          </Button>
+        )}
+        <VotingProposals
+          loading={loading}
+          proposals={proposals}
+          className={classes.list}
+        />
         {proposalPages.length > 1 && (
           <ButtonBase onClick={nextPage}>show more</ButtonBase>
         )}

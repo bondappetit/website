@@ -1,12 +1,12 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { Typography } from 'src/common';
+import { Typography, STAKING_ICONS } from 'src/common';
 import { useMainStakingCardStyles } from './main-staking-card.style';
 
 export type MainStakingCardProps = {
   className?: string;
-  tokenName?: string;
+  token?: string[];
   APY?: string;
   totalSupply?: string;
 };
@@ -14,11 +14,22 @@ export type MainStakingCardProps = {
 export const MainStakingCard: React.FC<MainStakingCardProps> = (props) => {
   const classes = useMainStakingCardStyles();
 
+  const tokenName = props.token?.join('_');
+
   return (
     <div className={clsx(classes.root, props.className)}>
       <div className={classes.head}>
         <Typography variant="h3" align="center" weight="bold">
-          {props.tokenName}
+          {props.token?.map((title, index) => {
+            const Icon = STAKING_ICONS[title];
+
+            return (
+              <React.Fragment key={title}>
+                {Icon && <Icon />} {title}{' '}
+                {index === 0 && props.token?.length === 2 ? ' + ' : null}
+              </React.Fragment>
+            );
+          })}
         </Typography>
         <Typography variant="h3" align="center">
           APY: {props.APY}
@@ -28,7 +39,7 @@ export const MainStakingCard: React.FC<MainStakingCardProps> = (props) => {
         <Typography variant="body1" align="center">
           Deposit:{' '}
           <Typography variant="inherit" weight="bold">
-            {props.tokenName}
+            {tokenName}
           </Typography>
         </Typography>
         <Typography variant="body1" align="center">

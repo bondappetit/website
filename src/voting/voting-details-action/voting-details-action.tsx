@@ -4,7 +4,7 @@ import Web3 from 'web3';
 import { useToggle } from 'react-use';
 
 import { Skeleton, useGovernorContract, Button } from 'src/common';
-import { ProposalState, VoteButton, VotingInfo } from '../common';
+import { ProposalState, VotingButton, VotingDetailInfo } from '../common';
 import { useVotingDetailsActionStyles } from './voting-details-action.styles';
 
 export type VotingDetailsActionProps = {
@@ -123,38 +123,38 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
             {!receipt?.hasVoted &&
               Number(props.status) === ProposalState.Active && (
                 <>
-                  <VoteButton
+                  <VotingButton
                     onClick={() => handleVote(true)}
                     variant="voteFor"
                   >
                     Vote for
-                  </VoteButton>
-                  <VoteButton
+                  </VotingButton>
+                  <VotingButton
                     onClick={() => handleVote(false)}
                     variant="voteAgainst"
                   >
                     Vote against
-                  </VoteButton>
+                  </VotingButton>
                 </>
               )}
             {receipt?.hasVoted && (
               <>
-                <VotingInfo
+                <VotingDetailInfo
                   active={receipt.support === true}
                   variant="voteFor"
                   total={(props.forCount ?? 0) + (props.againstCount ?? 0)}
                   count={props.forCount}
                 >
                   voted for
-                </VotingInfo>
-                <VotingInfo
+                </VotingDetailInfo>
+                <VotingDetailInfo
                   active={receipt.support === false}
                   variant="voteAgainst"
                   total={(props.forCount ?? 0) + (props.againstCount ?? 0)}
                   count={props.againstCount}
                 >
                   voted against
-                </VotingInfo>
+                </VotingDetailInfo>
               </>
             )}
           </div>
