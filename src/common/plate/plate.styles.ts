@@ -15,6 +15,10 @@ export const usePlateStyles = createUseStyles(
 
     dotted: {
       border: `2px dotted ${theme.colors.primary}`
+    },
+
+    solid: {
+      border: `1px solid ${theme.colors.primary}`
     }
   }),
   {

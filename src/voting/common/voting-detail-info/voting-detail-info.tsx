@@ -3,9 +3,9 @@ import React from 'react';
 
 import { ReactComponent as CheckedIcon } from 'src/assets/icons/checked.svg';
 import { Typography } from 'src/common';
-import { useVotingInfoStyles } from './voting-info.styles';
+import { useVotingDetailInfoStyles } from './voting-detail-info.styles';
 
-export type VotingInfoProps = {
+export type VotingDetailInfoProps = {
   variant: 'voteFor' | 'voteAgainst';
   active?: boolean;
   onAddresses?: () => void;
@@ -13,9 +13,9 @@ export type VotingInfoProps = {
   total?: number;
 };
 
-export const VotingInfo: React.FC<VotingInfoProps> = (props) => {
+export const VotingDetailInfo: React.FC<VotingDetailInfoProps> = (props) => {
   const percentage = ((props.count ?? 0) / (props.total ?? 0)) * 100;
-  const classes = useVotingInfoStyles({ percentage });
+  const classes = useVotingDetailInfoStyles({ percentage });
 
   return (
     <div

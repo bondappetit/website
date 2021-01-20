@@ -2,15 +2,15 @@ import clsx from 'clsx';
 import React from 'react';
 
 import { ButtonBase, Typography } from 'src/common';
-import { useVoteButtonStyles } from './vote-button.styles';
+import { useVotingButtonStyles } from './voting-button.styles';
 
-export type VoteButtonProps = {
+export type VotingButtonProps = {
   variant: 'voteFor' | 'voteAgainst';
   onClick?: () => void;
 };
 
-export const VoteButton: React.FC<VoteButtonProps> = (props) => {
-  const classes = useVoteButtonStyles();
+export const VotingButton: React.FC<VotingButtonProps> = (props) => {
+  const classes = useVotingButtonStyles();
 
   return (
     <ButtonBase

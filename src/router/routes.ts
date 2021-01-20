@@ -25,6 +25,7 @@ const VotingProposalList = React.lazy(
 const VotingCreateProposal = React.lazy(
   () => import('src/voting/voting-create-proposal')
 );
+const VotingInfo = React.lazy(() => import('src/voting/voting-info'));
 const DocsList = React.lazy(() => import('src/docs/docs-list'));
 const DocsDetail = React.lazy(() => import('src/docs/docs-detail'));
 const CollateralList = React.lazy(
@@ -56,6 +57,10 @@ export const routes = [
         {
           url: URLS.stablecoin,
           component: Stablecoin
+        },
+        {
+          url: URLS.voting.info,
+          component: VotingInfo
         },
         {
           url: URLS.voting.detail(),

@@ -5,7 +5,7 @@ import { usePlateStyles } from './plate.styles';
 
 export type PlateProps = React.HTMLProps<HTMLDivElement> & {
   component?: React.ElementType;
-  variant?: 'dotted' | 'dashed';
+  variant?: 'dotted' | 'dashed' | 'solid';
 };
 
 export const Plate = React.forwardRef<HTMLDivElement, PlateProps>(

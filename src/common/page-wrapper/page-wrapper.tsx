@@ -3,14 +3,19 @@ import clsx from 'clsx';
 
 import { usePageWrapperStyles } from './page-wrapper.styles';
 
-export type PageWrapperProps = React.HTMLProps<HTMLDivElement>;
+export type PageWrapperProps = {
+  className?: string;
+  children?: React.ReactNode;
+};
 
 export const PageWrapper = forwardRef<HTMLDivElement, PageWrapperProps>(
-  ({ className, ...props }, ref) => {
+  ({ className, children }, ref) => {
     const classes = usePageWrapperStyles();
 
     return (
-      <div ref={ref} className={clsx(classes.root, className)} {...props} />
+      <div ref={ref} className={clsx(classes.root, className)}>
+        {children}
+      </div>
     );
   }
 );

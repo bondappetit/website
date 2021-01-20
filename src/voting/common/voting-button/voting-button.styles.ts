@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useVoteButtonStyles = createUseStyles(
+export const useVotingButtonStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       border: '2px solid transparent',
@@ -34,6 +34,6 @@ export const useVoteButtonStyles = createUseStyles(
     }
   }),
   {
-    name: 'VoteButton'
+    name: 'VotingButton'
   }
 );

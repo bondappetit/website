@@ -25,24 +25,8 @@ export const useVotingProposalListStyles = createUseStyles(
       fontSize: 20,
       lineHeight: '28px',
       padding: 32,
-      width: '100%'
-    },
-
-    proposal: {
-      padding: 32,
       width: '100%',
-      backgroundColor: theme.colors.proposalPlate,
-      borderRadius: 24,
-      flexWrap: 'wrap',
-      justifyContent: 'space-between'
-    },
-
-    proposalSkeleton: {
-      height: 88
-    },
-
-    proposalTitle: {
-      width: 'calc(100% - 200px)'
+      marginBottom: 16
     },
 
     delegateTo: {
@@ -62,9 +46,6 @@ export const useVotingProposalListStyles = createUseStyles(
     },
 
     list: {
-      display: 'grid',
-      gridGap: 16,
-
       '&:not(:last-child)': {
         marginBottom: 40
       }
