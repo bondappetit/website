@@ -6,7 +6,7 @@ import { useStakingAcquireModalStyles } from './staking-acquire-modal.styles';
 export type StakingAcquireModalProps = {
   open: boolean;
   onClose: () => void;
-  tokenName: string | null;
+  tokenName?: string;
 };
 
 export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
