@@ -11,6 +11,8 @@ const Stable = 'USDp';
 
 const USDC = 'USDC';
 
+const ETH = 'ETH';
+
 const LP = 'UNI-V2';
 
 export const STAKING_CONFIG: StakingConfig[] = [
@@ -30,6 +32,12 @@ export const STAKING_CONFIG: StakingConfig[] = [
     contractName: 'UsdcGovLPStaking',
     tokenName: LP,
     token: [Gov, USDC],
+    liquidityPool: true
+  },
+  {
+    contractName: 'WethGovLPStaking',
+    tokenName: LP,
+    token: [Gov, ETH],
     liquidityPool: true
   },
   {
