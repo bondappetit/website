@@ -26,8 +26,60 @@ export type VotingPreset = {
   actions: VotingPresetAction[];
 };
 
+type NetworkConfig = ReturnType<typeof useNetworkConfig>;
+
+function transferRewardToStaking(
+  networkConfig: NetworkConfig,
+  stakingContract: string
+) {
+  return {
+    title: `Staking: transfer reward to ${stakingContract}`,
+    description: `Transfer rewards token to ${stakingContract} contract`,
+    variables: {
+      amount: {
+        type: 'uint256',
+        default: '1000000000000000000'
+      }
+    },
+    actions: [
+      {
+        contract: 'Treasury',
+        method: 'transfer',
+        input: [
+          {
+            variable: false,
+            type: 'address',
+            value: networkConfig.assets.Governance.address
+          },
+          {
+            variable: false,
+            type: 'address',
+            value: networkConfig.contracts[stakingContract].address
+          },
+          {
+            variable: true,
+            type: 'uint256',
+            value: 'amount'
+          }
+        ]
+      },
+      {
+        contract: stakingContract,
+        method: 'notifyRewardAmount',
+        input: [
+          {
+            variable: true,
+            type: 'uint256',
+            value: 'amount'
+          }
+        ]
+      }
+    ]
+  };
+}
+
 export const getVotingPresets = (
-  networkConfig: ReturnType<typeof useNetworkConfig>
+  networkConfig: NetworkConfig
 ): VotingPreset[] => [
   {
     title: 'Treasury: transfer BAG',
@@ -208,92 +260,10 @@ export const getVotingPresets = (
       }
     ]
   },
-  {
-    title: 'Staking: transfer reward to GovStaking',
-    description: 'Transfer rewards token to Governance Staking contract',
-    variables: {
-      amount: {
-        type: 'uint256',
-        default: '1000000000000000000'
-      }
-    },
-    actions: [
-      {
-        contract: 'Treasury',
-        method: 'transfer',
-        input: [
-          {
-            variable: false,
-            type: 'address',
-            value: networkConfig.assets.Governance.address
-          },
-          {
-            variable: false,
-            type: 'address',
-            value: networkConfig.contracts.GovStaking.address
-          },
-          {
-            variable: true,
-            type: 'uint256',
-            value: 'amount'
-          }
-        ]
-      },
-      {
-        contract: 'GovStaking',
-        method: 'notifyRewardAmount',
-        input: [
-          {
-            variable: true,
-            type: 'uint256',
-            value: 'amount'
-          }
-        ]
-      }
-    ]
-  },
-  {
-    title: 'Staking: transfer reward to StableStaking',
-    description: 'Transfer rewards token to Stable Staking contract',
-    variables: {
-      amount: {
-        type: 'uint256',
-        default: '1000000000000000000'
-      }
-    },
-    actions: [
-      {
-        contract: 'Treasury',
-        method: 'transfer',
-        input: [
-          {
-            variable: false,
-            type: 'address',
-            value: networkConfig.assets.Governance.address
-          },
-          {
-            variable: false,
-            type: 'address',
-            value: networkConfig.contracts.StableStaking.address
-          },
-          {
-            variable: true,
-            type: 'uint256',
-            value: 'amount'
-          }
-        ]
-      },
-      {
-        contract: 'StableStaking',
-        method: 'notifyRewardAmount',
-        input: [
-          {
-            variable: true,
-            type: 'uint256',
-            value: 'amount'
-          }
-        ]
-      }
-    ]
-  }
+  transferRewardToStaking(networkConfig, 'GovStaking'),
+  transferRewardToStaking(networkConfig, 'StableStaking'),
+  transferRewardToStaking(networkConfig, 'UsdcGovLPStaking'),
+  transferRewardToStaking(networkConfig, 'UsdcStableLPStaking'),
+  transferRewardToStaking(networkConfig, 'WethGovLPStaking'),
+  transferRewardToStaking(networkConfig, 'GovStableLPStaking')
 ];

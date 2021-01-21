@@ -64,7 +64,7 @@ export const useStakingApy = (balances: StakingToken[]) => {
             token1.methods.decimals().call()
           ]);
 
-          let token0USD = new BN(10).pow(USD.decimals).toString();
+          let token0USD = new BN(10).pow(USD.decimals).toString(10);
           try {
             token0USD =
               token0Address !== USD.address
@@ -72,7 +72,7 @@ export const useStakingApy = (balances: StakingToken[]) => {
                     uniswapRouter,
                     token0Address,
                     USD.address,
-                    new BN(10).pow(token0Decimals).toString()
+                    new BN(10).pow(token0Decimals).toString(10)
                   )
                 : token0USD;
           } catch (e) {
@@ -81,7 +81,7 @@ export const useStakingApy = (balances: StakingToken[]) => {
             );
           }
 
-          let token1USD = new BN(10).pow(USD.decimals).toString();
+          let token1USD = new BN(10).pow(USD.decimals).toString(10);
           try {
             token1USD =
               token1Address !== USD.address
@@ -89,7 +89,7 @@ export const useStakingApy = (balances: StakingToken[]) => {
                     uniswapRouter,
                     token1Address,
                     USD.address,
-                    new BN(10).pow(token1Decimals).toString()
+                    new BN(10).pow(token1Decimals).toString(10)
                   )
                 : token1USD;
           } catch (e) {
@@ -98,13 +98,13 @@ export const useStakingApy = (balances: StakingToken[]) => {
             );
           }
 
-          tokenInUSDC = new BN(token0USD).plus(token1USD).toString();
+          tokenInUSDC = new BN(token0USD).plus(token1USD).toString(10);
         } else {
           tokenInUSDC = await getAmountsOut(
             uniswapRouter,
             balance.address,
             USD.address,
-            new BN(10).pow(balance.decimals).toString()
+            new BN(10).pow(balance.decimals).toString(10)
           );
         }
 
