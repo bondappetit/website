@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
-import { useWeb3React } from '@web3-react/core';
-import Web3 from 'web3';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import clsx from 'clsx';
+import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
 
 import {
   ButtonBase,

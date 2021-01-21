@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { useFormik, FormikProvider } from 'formik';
 import BN from 'bignumber.js';
-import { useWeb3React } from '@web3-react/core';
-import Web3 from 'web3';
 import { useMedia, useToggle } from 'react-use';
+import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
 
 import {
   Modal,
@@ -50,7 +50,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
   const [transactionOpen, transactionToggle] = useToggle(false);
   const [walletsOpen, walletsToggle] = useToggle(false);
   const [investOpen, investToggle] = useToggle(false);
-  const [userGet, setUserGet] = useState<BN>(new BN(0));
+  const [result, setResult] = useState<BN>(new BN(0));
   const network = useNetworkConfig();
   const investmentContract = useInvestmentContract();
   const tokens = useInvestingTokens();
@@ -102,7 +102,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
         new BN(10).pow(network.assets.Governance.decimals)
       );
 
-      if (governanceBalanceNumber.isLessThan(userGet)) {
+      if (governanceBalanceNumber.isLessThan(result)) {
         error.amountOfToken = `Looks like we don't have enough Bond`;
       }
 
@@ -180,18 +180,10 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
     }
   });
 
-  const handleOpenWalletListModal = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      walletsToggle();
-    },
-    [walletsToggle]
-  );
-
   const handleSuccessClose = useCallback(() => {
     successToggle(false);
     formik.resetForm();
-    setUserGet(new BN(0));
+    setResult(new BN(0));
   }, [successToggle, formik]);
 
   const isMobile = useMedia('(max-width: 959px)');
@@ -204,12 +196,12 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
             <SmallModal mobile>
               <FormikProvider value={formik}>
                 <BuyTokenForm
-                  setUserGet={setUserGet}
-                  handleOpenWalletListModal={handleOpenWalletListModal}
+                  setResult={setResult}
+                  openWalletListModal={walletsToggle}
                   className={props.className}
                   account={account}
                   tokens={tokens}
-                  userGet={userGet}
+                  result={result}
                   network={network}
                 />
               </FormikProvider>
@@ -230,12 +222,12 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
       {!isMobile && (
         <FormikProvider value={formik}>
           <BuyTokenForm
-            setUserGet={setUserGet}
-            handleOpenWalletListModal={handleOpenWalletListModal}
+            setResult={setResult}
+            openWalletListModal={walletsToggle}
             className={props.className}
             account={account}
             tokens={tokens}
-            userGet={userGet}
+            result={result}
             network={network}
           />
         </FormikProvider>
@@ -245,7 +237,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
           <InfoCardSuccess
             tokenName="BAG"
             onClick={handleSuccessClose}
-            purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
+            purchased={result.isNaN() ? '0' : result.toFixed(2)}
           />
         </SmallModal>
       </Modal>

@@ -1,10 +1,11 @@
 import React, { ReactNode } from 'react';
+import dayjs from 'dayjs';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
+
 import { MainLayout } from 'src/layouts';
 import { useVestingPeriods, Period } from 'src/vesting/common';
 import { useVestingContract } from 'src/common';
-import dayjs from 'dayjs';
 
 interface PeriodDetailProps {
   period: Period;

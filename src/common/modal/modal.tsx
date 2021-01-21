@@ -1,6 +1,5 @@
 import React, { Children } from 'react';
-import useKeyPress from 'react-use/esm/useKeyPress';
-import { useLockBodyScroll, useUpdateEffect } from 'react-use';
+import { useLockBodyScroll, useUpdateEffect, useKeyPress } from 'react-use';
 
 import { Portal } from '../portal';
 import { useModalStyles } from './modal.styles';

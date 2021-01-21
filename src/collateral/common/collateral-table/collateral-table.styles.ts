@@ -11,7 +11,6 @@ export const useCollateralTableStyles = createUseStyles(
     },
 
     tableCellContent: {
-      lineHeight: '15px',
       whiteSpace: 'nowrap'
     },
 

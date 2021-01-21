@@ -19,6 +19,7 @@ import type { ProfitSplitter } from 'src/generate/ProfitSplitter';
 import type { Budget } from 'src/generate/Budget';
 import type { Buyback } from 'src/generate/Buyback';
 import type { UniswapMarketMaker } from 'src/generate/UniswapMarketMaker';
+import type { CollateralMarket } from 'src/generate/CollateralMarket';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -152,3 +153,10 @@ export const useUniswapMarketMakerContract = createUseContract<
   abi: network.contracts.UniswapMarketMaker.abi,
   address: network.contracts.UniswapMarketMaker.address
 }));
+
+export const useCollateralMarketContract = createUseContract<CollateralMarket>(
+  (network) => ({
+    abi: network.contracts.CollateralMarket.abi,
+    address: network.contracts.CollateralMarket.address
+  })
+);

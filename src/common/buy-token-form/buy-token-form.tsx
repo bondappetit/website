@@ -18,10 +18,10 @@ export type BuyTokenFormProps = {
   account?: string | null;
   tokens: Record<string, Token>;
   network?: Network;
-  handleOpenWalletListModal: (event: React.FormEvent<HTMLFormElement>) => void;
+  openWalletListModal: () => void;
   tokenName?: string;
-  setUserGet: React.Dispatch<React.SetStateAction<BN>>;
-  userGet: BN;
+  setResult: React.Dispatch<React.SetStateAction<BN>>;
+  result: BN;
   disabled?: boolean;
   amountLabel?: string;
 };
@@ -39,10 +39,10 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
 
   const {
     tokens,
-    handleOpenWalletListModal,
+    openWalletListModal,
     tokenName = 'BAG',
-    setUserGet,
-    userGet,
+    setResult,
+    result,
     amountLabel = 'You invest'
   } = props;
 
@@ -50,7 +50,7 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
     () => {
       if (!tokens[formik.values.currency]?.price) return;
 
-      setUserGet(
+      setResult(
         new BN(formik.values.amount).multipliedBy(
           tokens[formik.values.currency].price
         )
@@ -67,15 +67,22 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
 
   const isMobile = useMedia('(max-width: 959px)');
 
+  const handleOpenWalletList = useCallback(
+    (event: React.FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+
+      openWalletListModal();
+    },
+    [openWalletListModal]
+  );
+
   return (
     <div className={clsx(classes.root, props.className)}>
       <form
         className={clsx(classes.investing, {
           [classes.disabled]: props.disabled
         })}
-        onSubmit={
-          !props.account ? handleOpenWalletListModal : formik.handleSubmit
-        }
+        onSubmit={!props.account ? handleOpenWalletList : formik.handleSubmit}
       >
         <Tippy
           visible={Boolean(formik.errors.amount)}
@@ -118,20 +125,20 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
             {isMobile && (
               <Typography
                 variant="body1"
-                className={classes.userGet}
+                className={classes.result}
                 align="center"
               >
-                You will get {userGet.isNaN() ? '0' : userGet.toFixed(2)} BAG
+                You will get {result.isNaN() ? '0' : result.toFixed(2)} BAG
               </Typography>
             )}
             {!isMobile && (
               <Input
                 type="text"
-                name="userGet"
+                name="result"
                 label={`You get(${tokenName})`}
-                value={`${userGet.isNaN() ? '0' : userGet.toFixed(2)}`}
+                value={`${result.isNaN() ? '0' : result.toFixed(2)}`}
                 readOnly
-                className={classes.userGet}
+                className={classes.result}
               />
             )}
           </>

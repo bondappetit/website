@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFormik, FormikProvider } from 'formik';
 import BN from 'bignumber.js';
-import { useWeb3React } from '@web3-react/core';
-import Web3 from 'web3';
 import { useToggle } from 'react-use';
+import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
 
 import {
   useNetworkConfig,
@@ -35,7 +35,7 @@ const DEFAULT_GAS = 2000000;
 export const MarketBuyStableToken: React.FC<MarketBuyStableTokenProps> = (
   props
 ) => {
-  const [userGet, setUserGet] = useState<BN>(new BN(0));
+  const [result, setResult] = useState<BN>(new BN(0));
   const tokenContracts: Record<string, Ierc20 | null> = {
     USDT: useUSDTContract(),
     DAI: useDAIContract(),
@@ -100,7 +100,7 @@ export const MarketBuyStableToken: React.FC<MarketBuyStableTokenProps> = (
         new BN(10).pow(network.assets.Stable.decimals)
       );
 
-      if (abtBalanceNumber.isLessThan(userGet)) {
+      if (abtBalanceNumber.isLessThan(result)) {
         error.amountOfToken = `Looks like we don't have enough USDp`;
       }
 
@@ -178,18 +178,10 @@ export const MarketBuyStableToken: React.FC<MarketBuyStableTokenProps> = (
     }
   });
 
-  const handleOpenWalletListModal = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      walletsToggle();
-    },
-    [walletsToggle]
-  );
-
   const handleSuccessClose = useCallback(() => {
     successToggle(false);
     formik.resetForm();
-    setUserGet(new BN(0));
+    setResult(new BN(0));
   }, [successToggle, formik]);
 
   const handleGetAvailableTokens = useCallback(async () => {
@@ -217,14 +209,14 @@ export const MarketBuyStableToken: React.FC<MarketBuyStableTokenProps> = (
             available tokens on market {availableTokens}
           </Typography>
           <BuyTokenForm
-            handleOpenWalletListModal={handleOpenWalletListModal}
             account={account}
             tokens={tokens}
             network={network}
-            userGet={userGet}
+            result={result}
             amountLabel="Amount"
-            setUserGet={setUserGet}
+            setResult={setResult}
             tokenName="USDp"
+            openWalletListModal={walletsToggle}
           />
         </div>
       </FormikProvider>
@@ -233,7 +225,7 @@ export const MarketBuyStableToken: React.FC<MarketBuyStableTokenProps> = (
           <InfoCardSuccess
             tokenName="USDp"
             onClick={handleSuccessClose}
-            purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
+            purchased={result.isNaN() ? '0' : result.toFixed(2)}
           />
         </SmallModal>
       </Modal>

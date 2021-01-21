@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react';
-import { useWeb3React } from '@web3-react/core';
-import Web3 from 'web3';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { useUpdateEffect } from 'react-use';
+import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
 
 import { Modal, SmallModal } from 'src/common';
 import { WalletInfo, WalletList } from '../common';

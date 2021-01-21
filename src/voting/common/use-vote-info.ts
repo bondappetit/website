@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import BN from 'bignumber.js';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
-import BN from 'bignumber.js';
 
 import {
   useGovernorContract,

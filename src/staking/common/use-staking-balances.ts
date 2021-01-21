@@ -1,8 +1,8 @@
-import { useWeb3React } from '@web3-react/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import Web3 from 'web3';
 import BN from 'bignumber.js';
 import { useInterval } from 'react-use';
+import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
 
 import { useUpdate } from 'src/common';
 import { StakingConfig } from 'src/staking-config';
