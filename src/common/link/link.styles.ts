@@ -7,13 +7,7 @@ export const useLinkStyles = createUseStyles(
   (theme: Theme) => ({
     link: {
       display: 'inline-flex',
-      alignItems: 'flex-start',
-      justifyContent: 'flex-start',
       cursor: 'pointer',
-      padding: 0,
-      margin: 0,
-      border: 0,
-      backgroundColor: 'transparent',
       outline: 0,
       fontFamily: 'inherit',
       letterSpacing: '-0.02em',

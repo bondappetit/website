@@ -1,7 +1,8 @@
 import networks from '@bondappetit/networks';
 import { useMemo } from 'react';
-import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
+import Web3 from 'web3';
+
 import { config } from 'src/config';
 
 const defaultNetworkConfig = Object.values(networks).find(

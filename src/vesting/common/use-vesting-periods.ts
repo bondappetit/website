@@ -1,6 +1,7 @@
-import { useWeb3React } from '@web3-react/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
+
 import { useVestingContract, useUpdate } from 'src/common';
 
 export type Period = {

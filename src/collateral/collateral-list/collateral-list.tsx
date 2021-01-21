@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import React from 'react';
-import { useToggle } from 'react-use';
 
 import { PageWrapper, Typography, Link, Skeleton, Plate } from 'src/common';
 import { MainLayout } from 'src/layouts';
@@ -13,15 +12,12 @@ import {
   CollateralProtocolState
 } from '../common';
 import { useStableCoinBalance } from './use-stable-coin-balance';
-import { CollateralMarketModal } from '../collateral-market-modal/collateral-market-modal';
 
 export const CollateralList: React.FC = () => {
   const classes = useCollateralListStyles();
 
   const issuerBalance = useIssuerBalance();
   const stableCoinBalance = useStableCoinBalance();
-
-  const [open, toggleModal] = useToggle(true);
 
   return (
     <MainLayout>
@@ -119,7 +115,6 @@ export const CollateralList: React.FC = () => {
             </Link>
           </Typography>
         </div>
-        <CollateralMarketModal open={open} onClose={toggleModal} />
       </PageWrapper>
     </MainLayout>
   );

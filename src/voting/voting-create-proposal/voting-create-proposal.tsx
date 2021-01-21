@@ -1,9 +1,9 @@
 import { useFormik } from 'formik';
 import React, { useCallback, useState } from 'react';
-import Web3 from 'web3';
-import { useWeb3React } from '@web3-react/core';
 import { useToggle } from 'react-use';
 import { useHistory } from 'react-router-dom';
+import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
 
 import { Button, useGovernorContract, ButtonBase, Modal } from 'src/common';
 import { MainLayout } from 'src/layouts';

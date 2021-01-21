@@ -33,7 +33,7 @@ export const useBuyTokenFormStyles = createUseStyles(
       }
     },
 
-    userGet: {
+    result: {
       width: '100%',
       marginTop: 64,
 

@@ -1,54 +1,57 @@
-import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import { useFormik, FormikContext } from 'formik';
+import React, { useCallback, useState } from 'react';
 import BN from 'bignumber.js';
-import { useDebounce } from 'react-use';
-import { useWeb3React } from '@web3-react/core';
-import Web3 from 'web3';
+import { useDebounce, useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
+import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
 
+import { WalletModal } from 'src/wallets';
 import {
-  Modal,
-  SmallModal,
-  Input,
-  Select,
-  SelectOption,
   useCollateralMarketContract,
-  Button,
   useNetworkConfig,
   useBalance,
-  useDynamicContract
+  useDynamicContract,
+  FormModal,
+  Modal,
+  SmallModal,
+  InfoCardFailure,
+  InfoCardLoader,
+  InfoCardSuccess
 } from 'src/common';
-import { useCollateralTokens } from './use-collateral-tokens';
-import { useCollateralMarketModalStyles } from './collateral-market-modal.styles';
+import { useStablecoinTokens } from './use-stablecoin-tokens';
 
-export type CollateralMarketModalProps = {
+export type StablecoinMarketModalProps = {
   open: boolean;
   onClose: () => void;
+  tokenName: string;
 };
 
-export const CollateralMarketModal: React.FC<CollateralMarketModalProps> = (
+export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   props
 ) => {
-  const [userGet, setUserGet] = useState<BN>(new BN(0));
-  const tokens = useCollateralTokens();
+  const [result, setResult] = useState<BN>(new BN(0));
+  const tokens = useStablecoinTokens();
   const { account } = useWeb3React<Web3>();
   const collateralMarketContract = useCollateralMarketContract();
-  const classes = useCollateralMarketModalStyles();
   const network = useNetworkConfig();
   const getBalance = useBalance();
   const getContract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
   });
 
+  const [successOpen, successToggle] = useToggle(false);
+  const [failureOpen, failureToggle] = useToggle(false);
+  const [walletsOpen, walletsToggle] = useToggle(false);
+  const [transactionOpen, transactionToggle] = useToggle(false);
+
   const formik = useFormik({
     initialValues: {
       currency: 'USDC',
-      amount: '10000'
+      amount: ''
     },
-    validateOnBlur: false,
-    validateOnChange: false,
 
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
@@ -128,17 +131,26 @@ export const CollateralMarketModal: React.FC<CollateralMarketModalProps> = (
           from: account,
           gas: await buyStableToken.estimateGas({ from: account })
         });
+
+        failureToggle(false);
+        successToggle(true);
       } catch {
-        console.error('work');
+        failureToggle(true);
       } finally {
         window.onbeforeunload = () => null;
+        transactionToggle(false);
       }
     }
   });
 
   useDebounce(
     () => {
-      setUserGet(
+      if (!formik.values.amount) {
+        setResult(new BN(0));
+        return;
+      }
+
+      setResult(
         new BN(formik.values.amount)
           .multipliedBy(
             new BN(10).pow(
@@ -153,37 +165,49 @@ export const CollateralMarketModal: React.FC<CollateralMarketModalProps> = (
     [formik.values.amount, formik.values.currency, tokens]
   );
 
+  const handleSuccessClose = useCallback(() => {
+    successToggle(false);
+    formik.resetForm();
+    setResult(new BN(0));
+  }, [successToggle, formik]);
+
+  const handleClose = useCallback(() => {
+    props.onClose?.();
+    formik.resetForm();
+  }, [formik, props]);
+
   return (
-    <Modal open={props.open} onClose={props.onClose}>
-      <SmallModal>
-        <form onSubmit={formik.handleSubmit} className={classes.root}>
-          <div>
-            <Input
-              name="amount"
-              placeholder="You spent"
-              value={formik.values.amount}
-              onChange={formik.handleChange}
-            />
-            <Select
-              label="Currency"
-              value={formik.values.currency}
-              onChange={(value) => formik.setFieldValue('currency', value)}
-            >
-              {Object.values(tokens).map(({ symbol }) => (
-                <SelectOption key={symbol} value={symbol} label={symbol} />
-              ))}
-            </Select>
-          </div>
-          <Input
-            label="You will get"
-            readOnly
-            value={userGet.isNaN() ? '0' : userGet.toString(10)}
+    <>
+      <FormikContext.Provider value={formik}>
+        <FormModal
+          onClose={handleClose}
+          open={props.open}
+          tokenName="USDp"
+          tokens={tokens}
+          result={result.toString(10)}
+          openWalletListModal={walletsToggle}
+        />
+      </FormikContext.Provider>
+      <Modal open={successOpen} onClose={handleSuccessClose}>
+        <SmallModal>
+          <InfoCardSuccess
+            tokenName="BAG"
+            onClick={handleSuccessClose}
+            purchased={result.toString(10)}
           />
-          <Button type="submit">
-            {formik.errors.amount || formik.errors.currency || 'Buy'}
-          </Button>
-        </form>
-      </SmallModal>
-    </Modal>
+        </SmallModal>
+      </Modal>
+      <Modal open={failureOpen} onClose={failureToggle}>
+        <SmallModal>
+          <InfoCardFailure onClick={formik.submitForm} />
+        </SmallModal>
+      </Modal>
+      <Modal open={transactionOpen}>
+        <SmallModal>
+          <InfoCardLoader isAnimating={transactionOpen} />
+        </SmallModal>
+      </Modal>
+      <WalletModal open={walletsOpen} onClose={walletsToggle} />
+    </>
   );
 };

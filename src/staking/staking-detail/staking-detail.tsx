@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
 import BN from 'bignumber.js';
 

@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useFormik, FormikProvider } from 'formik';
 import BN from 'bignumber.js';
-import { useWeb3React } from '@web3-react/core';
-import Web3 from 'web3';
 import { useToggle } from 'react-use';
+import Web3 from 'web3';
+import { useWeb3React } from '@web3-react/core';
 
 import {
   useNetworkConfig,
@@ -48,7 +48,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
   const [walletsOpen, walletsToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
   const network = useNetworkConfig();
-  const [userGet, setUserGet] = useState<BN>(new BN(0));
+  const [result, setResult] = useState<BN>(new BN(0));
   const marketContract = useMarketContract();
   const tokens = useMarketTokens(StableCoin.Governance);
   const governanceContract = useGovernanceTokenContract();
@@ -99,7 +99,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
         new BN(10).pow(network.assets.Governance.decimals)
       );
 
-      if (governanceBalanceNumber.isLessThan(userGet)) {
+      if (governanceBalanceNumber.isLessThan(result)) {
         error.amountOfToken = `Looks like we don't have enough Bond`;
       }
 
@@ -177,14 +177,6 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
     }
   });
 
-  const handleOpenWalletListModal = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      walletsToggle();
-    },
-    [walletsToggle]
-  );
-
   const handleGetGovernanceBalance = useCallback(async () => {
     const balanceOfGovernance = await getBalance({
       tokenAddress: governanceContract.options.address
@@ -219,7 +211,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
   const handleSuccessClose = useCallback(() => {
     successToggle(false);
     formik.resetForm();
-    setUserGet(new BN(0));
+    setResult(new BN(0));
   }, [successToggle, formik]);
 
   useEffect(() => {
@@ -249,13 +241,13 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
           </Typography>
           <BuyTokenForm
             disabled={!canBuy}
-            handleOpenWalletListModal={handleOpenWalletListModal}
             account={account}
             tokens={tokens}
             amountLabel="Amount"
             network={network}
-            userGet={userGet}
-            setUserGet={setUserGet}
+            result={result}
+            setResult={setResult}
+            openWalletListModal={walletsToggle}
           />
         </div>
       </FormikProvider>
@@ -264,7 +256,7 @@ export const MarketBuyBond: React.FC<MarketBuyBondProps> = (props) => {
           <InfoCardSuccess
             tokenName="BAG"
             onClick={handleSuccessClose}
-            purchased={userGet.isNaN() ? '0' : userGet.toFixed(2)}
+            purchased={result.isNaN() ? '0' : result.toFixed(2)}
           />
         </SmallModal>
       </Modal>

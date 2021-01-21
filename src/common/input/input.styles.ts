@@ -9,7 +9,14 @@ export const useInputStyles = createUseStyles(
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
       display: 'inline-flex',
-      marginTop: 17
+      marginTop: 17,
+      fontSize: 20,
+      lineHeight: '24px',
+
+      [theme.breakpoints.md()]: {
+        fontSize: 40,
+        lineHeight: '48px'
+      }
     },
 
     input: {
@@ -23,8 +30,8 @@ export const useInputStyles = createUseStyles(
       letterSpacing: '-0.02em',
       width: '100%',
       textOverflow: 'inherit',
-      fontSize: 20,
-      lineHeight: '24px',
+      fontSize: 'inherit',
+      lineHeight: 'inherit',
       height: 24,
       textAlign: 'inherit',
 
@@ -34,8 +41,6 @@ export const useInputStyles = createUseStyles(
       },
 
       [theme.breakpoints.md()]: {
-        fontSize: 40,
-        lineHeight: '48px',
         height: 48
       }
     },
