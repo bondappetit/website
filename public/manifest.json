@@ -8,12 +8,12 @@
       "type": "image/x-icon"
     },
     {
-      "src": "favicon-196x196.png",
+      "src": "favicon-192x192.png",
       "type": "image/png",
       "sizes": "196x196"
     },
     {
-      "src": "mstile-310x310.png",
+      "src": "favicon-310x310.png",
       "type": "image/png",
       "sizes": "310x310"
     }
