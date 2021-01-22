@@ -1,8 +1,10 @@
 import { useFormikContext } from 'formik';
 import React, { useMemo, useCallback } from 'react';
-import { useToggle } from 'react-use';
+import { useToggle, useHover } from 'react-use';
 import { useWeb3React } from '@web3-react/core';
+import Tippy from '@tippyjs/react';
 
+import { ReactComponent as HelpIcon } from 'src/assets/icons/help.svg';
 import { ButtonBase } from '../button-base';
 import { Typography } from '../typography';
 import { Button } from '../button';
@@ -47,6 +49,24 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
     },
     [props]
   );
+
+  const tooltip = (isHovering: boolean) => (
+    <span>
+      <Tippy
+        visible={isHovering}
+        content="The given price is not exact, as the final price will be calculated based on the current USDC conversion rate on Uniswap"
+        maxWidth={280}
+        offset={[140, 8]}
+        className={classes.tippy}
+      >
+        <ButtonBase className={classes.hintButton}>
+          <HelpIcon />
+        </ButtonBase>
+      </Tippy>
+    </span>
+  );
+
+  const [hoverable] = useHover(tooltip);
 
   return (
     <>
@@ -114,6 +134,14 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                   </div>
                 </div>
               </div>
+              <Typography
+                variant="body1"
+                align="center"
+                className={classes.hint}
+              >
+                1.12 USDT per BAG, estimated price
+                {hoverable}
+              </Typography>
               <Button
                 type="submit"
                 disabled={

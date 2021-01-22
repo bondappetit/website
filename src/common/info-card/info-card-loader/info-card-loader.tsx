@@ -1,6 +1,8 @@
 import React from 'react';
 import { useNProgress } from '@tanem/react-nprogress';
 
+import { ReactComponent as HatOutlineIcon } from 'src/assets/icons/hat-outline.svg';
+import { Typography } from 'src/common/typography';
 import { InfoCardWrapper } from '../info-card-wrapper';
 import { useInfoCardLoaderStyles } from './info-card-loader.styles';
 
@@ -21,12 +23,16 @@ export const InfoCardLoader: React.FC<InfoCardLoaderProps> = (props) => {
     <InfoCardWrapper
       title={
         <span className={classes.heading}>
-          Transaction in progress
-          <span className={classes.dots}>
-            {!isFinished && dots[Math.floor(progress * 100) % dots.length]}
-          </span>
+          <HatOutlineIcon />
         </span>
       }
-    />
+    >
+      <Typography variant="h3">
+        Processing
+        <span className={classes.dots}>
+          {!isFinished && dots[Math.floor(progress * 100) % dots.length]}
+        </span>
+      </Typography>
+    </InfoCardWrapper>
   );
 };
