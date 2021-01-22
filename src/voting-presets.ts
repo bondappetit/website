@@ -264,6 +264,8 @@ export const getVotingPresets = (
   transferRewardToStaking(networkConfig, 'StableStaking'),
   transferRewardToStaking(networkConfig, 'UsdcGovLPStaking'),
   transferRewardToStaking(networkConfig, 'UsdcStableLPStaking'),
+  transferRewardToStaking(networkConfig, 'UsdnGovLPStaking'),
+  transferRewardToStaking(networkConfig, 'UsdnStableLPStaking'),
   transferRewardToStaking(networkConfig, 'WethGovLPStaking'),
   transferRewardToStaking(networkConfig, 'GovStableLPStaking')
 ];
