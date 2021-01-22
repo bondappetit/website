@@ -31,7 +31,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
           Staked
         </Status>
       )}
-      <Typography variant="h2" weight="bold" align="center">
+      <Typography variant="h3" weight="bold" align="center">
         {props.token.map((title, index) => {
           const Icon = STAKING_ICONS[title];
 
@@ -43,7 +43,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
           );
         })}
       </Typography>
-      <Typography variant="h2" align="center" className={classes.apy}>
+      <Typography variant="h3" align="center" className={classes.apy}>
         APY {props.APY} %
       </Typography>
       <Typography variant="body1" align="center" className={classes.deposit}>

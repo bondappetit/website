@@ -27,7 +27,7 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
         </Typography>
       </div>
       <div className={classes.list}>
-        <Plate variant="dotted" className={classes.card}>
+        <Plate className={classes.card}>
           <Typography
             variant="h4"
             weight="bold"
@@ -48,7 +48,7 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
             </Link>
           </Typography>
         </Plate>
-        <Plate variant="dotted" className={classes.card}>
+        <Plate className={classes.card}>
           <Typography
             variant="h4"
             weight="bold"

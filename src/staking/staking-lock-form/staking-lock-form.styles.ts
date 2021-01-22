@@ -8,7 +8,15 @@ export const useStakingLockFormStyles = createUseStyles(
     },
 
     max: {
-      marginBottom: 68
+      marginBottom: 8,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 68
+      }
+    },
+
+    title: {
+      marginBottom: 8
     },
 
     link: {
@@ -16,7 +24,11 @@ export const useStakingLockFormStyles = createUseStyles(
     },
 
     uniswapLink: {
-      marginBottom: 16
+      marginBottom: 24,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 16
+      }
     },
 
     tooltip: {
@@ -30,8 +42,15 @@ export const useStakingLockFormStyles = createUseStyles(
     },
 
     input: {
-      color: theme.colors.grey,
-      textAlign: 'center'
+      textAlign: 'center',
+      margin: 0,
+      fontSize: 24,
+      lineHeight: '32px',
+
+      [theme.breakpoints.md()]: {
+        fontSize: 40,
+        lineHeight: '48px'
+      }
     }
   }),
   {

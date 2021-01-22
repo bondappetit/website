@@ -5,18 +5,11 @@ import { usePlateStyles } from './plate.styles';
 
 export type PlateProps = React.HTMLProps<HTMLDivElement> & {
   component?: React.ElementType;
-  variant?: 'dotted' | 'dashed' | 'solid';
 };
 
 export const Plate = React.forwardRef<HTMLDivElement, PlateProps>(
   (props, ref) => {
-    const {
-      children,
-      className,
-      component = 'div',
-      variant = 'dashed',
-      ...restOfProps
-    } = props;
+    const { children, className, component = 'div', ...restOfProps } = props;
     const classes = usePlateStyles();
 
     const Component = component;
@@ -24,7 +17,7 @@ export const Plate = React.forwardRef<HTMLDivElement, PlateProps>(
     return (
       <Component
         {...restOfProps}
-        className={clsx(classes.plate, className, classes[variant])}
+        className={clsx(classes.plate, className)}
         ref={ref}
       >
         {children}

@@ -22,7 +22,7 @@ export const DocumentList: React.FC<DocumentListProps> = (props) => {
   return (
     <div className={clsx(props.className)}>
       <Typography
-        variant="h2"
+        variant="h3"
         weight="light"
         align="center"
         className={classes.title}

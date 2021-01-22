@@ -44,7 +44,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
   const formik = useFormik({
     initialValues: {
-      amount: '0'
+      amount: ''
     },
     validateOnBlur: false,
     validateOnChange: false,
@@ -114,7 +114,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     <>
       <form onSubmit={formik.handleSubmit} className={classes.root}>
         <div>
-          <Typography variant="body1" align="center">
+          <Typography variant="body1" align="center" className={classes.title}>
             Stake your {props.tokenName}
           </Typography>
           <Tippy
@@ -129,6 +129,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
               type="number"
               value={formik.values.amount}
               name="amount"
+              placeholder="0"
               disabled={formik.isSubmitting}
               onChange={formik.handleChange}
               error={Boolean(formik.errors.amount)}

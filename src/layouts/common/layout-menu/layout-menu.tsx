@@ -123,7 +123,8 @@ export type LayoutMenuProps = {
 
 export const LayoutMenu: React.FC<LayoutMenuProps> = ({
   menuItems = MENU_ITEMS,
-  className
+  className,
+  children
 }) => {
   const classes = useLayoutMenuStyles();
 
@@ -142,6 +143,9 @@ export const LayoutMenu: React.FC<LayoutMenuProps> = ({
           </li>
         );
       })}
+      <li className={clsx(classes.menuItem, classes.toggleTheme)}>
+        {children}
+      </li>
     </ul>
   );
 };

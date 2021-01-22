@@ -31,8 +31,6 @@ export const useCollateralDetailStyles = createUseStyles(
 
     card: {
       [theme.breakpoints.down(959)]: {
-        minHeight: 222,
-
         '&:first-child': {
           borderBottom: 'none',
           borderBottomLeftRadius: 0,

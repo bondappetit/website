@@ -41,54 +41,33 @@ export const CollateralDetail: React.FC = () => {
             url="tokenomica.com"
           >
             Tokenomica provides a tailored, cutting-edge solution for corporate
-            clients that
-            <br />
-            are willing to enter decentralized finance. Aim to help you profit
-            from the growing
-            <br />
-            paradigm, to navigate you through the market with ease, and to
-            provide a solution
-            <br />
-            that will suit your specific needs.
+            clients that are willing to enter decentralized finance. Aim to help
+            you profit from the growing paradigm, to navigate you through the
+            market with ease, and to provide a solution that will suit your
+            specific needs.
           </CollateralDescription>
           <div className={clsx(classes.list)}>
             <CollateralCard
               className={classes.card}
-              head={
-                <Typography variant="h5" align="center">
-                  Value of issued stable coin
-                </Typography>
-              }
+              title={<>Value of issued stable coin</>}
               body={
                 <>
-                  <Typography variant="h2" align="center">
-                    {!isserBalance && <Skeleton />}
-                    {isserBalance && <>$ {isserBalance}</>}
-                  </Typography>
-                  <Typography variant="h5" align="center">
-                    14.72% APY
-                  </Typography>
+                  {!isserBalance && <Skeleton />}
+                  {isserBalance && <>$ {isserBalance}</>}
                 </>
               }
+              subtitle={<>14.72% APY</>}
             />
             <CollateralCard
               className={classes.card}
-              head={
-                <Typography variant="h5" align="center">
-                  Value of Protocol&apos;s assets
-                </Typography>
-              }
+              title={<>Value of Protocol&apos;s assets</>}
               body={
                 <>
-                  <Typography variant="h2" align="center">
-                    {!isserBalance && <Skeleton />}
-                    {isserBalance && <>$ {isserBalance}</>}
-                  </Typography>
-                  <Typography variant="h5" align="center">
-                    8.64% APY
-                  </Typography>
+                  {!isserBalance && <Skeleton />}
+                  {isserBalance && <>$ {isserBalance}</>}
                 </>
               }
+              subtitle={<>8.64% APY</>}
             />
           </div>
         </div>

@@ -19,15 +19,8 @@ export const useInvestingStatisticStyles = createUseStyles(
     },
 
     title: {
-      '& br': {
-        display: 'none'
-      },
-
-      [theme.breakpoints.md()]: {
-        '& br': {
-          display: 'block'
-        }
-      }
+      maxWidth: 1200,
+      margin: '0 auto'
     },
 
     count: {
@@ -36,11 +29,7 @@ export const useInvestingStatisticStyles = createUseStyles(
 
       [theme.breakpoints.sm()]: {
         fontSize: 70,
-        lineHeight: '72px',
-
-        '& br': {
-          display: 'block'
-        }
+        lineHeight: '72px'
       },
 
       [theme.breakpoints.md()]: {
@@ -66,6 +55,11 @@ export const useInvestingStatisticStyles = createUseStyles(
         padding: 48,
         height: 560
       }
+    },
+
+    cardSubtitle: {
+      maxWidth: 536,
+      margin: '0 auto'
     }
   }),
   {

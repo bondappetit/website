@@ -18,7 +18,7 @@ export const VotingDetailsBlock: React.FC<VotingDetailsBlockProps> = (
     <div className={classes.root}>
       {props.loading && <Skeleton height={192} />}
       {!props.loading && (
-        <Plate className={classes.details} variant="dotted">
+        <Plate className={classes.details}>
           <>
             {props.details?.map((detail, index) => {
               const callData = detail.callData.split(',').map((data, id) => ({

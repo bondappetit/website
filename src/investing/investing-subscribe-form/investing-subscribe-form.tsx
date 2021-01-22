@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useFormik } from 'formik';
+import { useToggle } from 'react-use';
 
 import {
   Modal,
@@ -11,6 +12,7 @@ import {
 } from 'src/common';
 import { config } from 'src/config';
 import { useInvestingSubscribeFormStyles } from './investing-subscribe-form.styles';
+import { InvestingSuccessSubscribe } from '../common';
 
 export type InvestingSubscribeFormProps = {
   open: boolean;
@@ -22,11 +24,16 @@ export const InvestingSubscribeForm: React.FC<InvestingSubscribeFormProps> = (
 ) => {
   const classes = useInvestingSubscribeFormStyles();
 
+  const [open, toggle] = useToggle(false);
+
   const formik = useFormik({
     initialValues: {
       email: '',
       Name: ''
     },
+
+    validateOnBlur: false,
+    validateOnChange: false,
 
     validate: (formValues) => {
       const errors: Partial<typeof formValues> = {};
@@ -52,8 +59,9 @@ export const InvestingSubscribeForm: React.FC<InvestingSubscribeFormProps> = (
           return `fields[${key}]=${value}`;
         })
         .join('&');
+
       try {
-        const res = await fetch(
+        await fetch(
           `${config.UNISENDER_API}&list_ids=2&${query}&double_optin=3`,
           {
             method: 'POST',
@@ -61,50 +69,59 @@ export const InvestingSubscribeForm: React.FC<InvestingSubscribeFormProps> = (
             headers: { 'content-type': 'text/plain' }
           }
         );
-        await res.json();
+
+        toggle(true);
       } catch (error) {
-        console.warn(error);
-      } finally {
-        props.onClose();
+        console.error(error.message);
       }
     }
   });
 
+  const handleClose = useCallback(() => {
+    props.onClose();
+    toggle(false);
+  }, [toggle, props]);
+
   return (
-    <Modal open={props.open} onClose={props.onClose}>
-      <SmallModal>
-        <form className={classes.root} onSubmit={formik.handleSubmit}>
-          <div className={classes.inner}>
-            <Typography variant="body1">
-              Your email address and name:
-            </Typography>
-            <Input
-              variant="small"
-              name="email"
-              placeholder="Enter address"
+    <>
+      <Modal open={props.open} onClose={handleClose}>
+        <SmallModal>
+          <form className={classes.root} onSubmit={formik.handleSubmit}>
+            <div className={classes.inner}>
+              <Typography variant="h5">Your email address and name:</Typography>
+              <Input
+                name="email"
+                placeholder="Enter address"
+                disabled={formik.isSubmitting}
+                onChange={formik.handleChange}
+                className={classes.input}
+                error={Boolean(formik.errors.email)}
+              />
+              <Input
+                name="Name"
+                placeholder="Name"
+                disabled={formik.isSubmitting}
+                onChange={formik.handleChange}
+                className={classes.input}
+                error={Boolean(formik.errors.Name)}
+              />
+            </div>
+            <Button
+              className={classes.modalButton}
+              type="submit"
+              loading={formik.isSubmitting}
               disabled={formik.isSubmitting}
-              onChange={formik.handleChange}
-              className={classes.input}
-            />
-            <Input
-              variant="small"
-              name="Name"
-              placeholder="Name"
-              disabled={formik.isSubmitting}
-              onChange={formik.handleChange}
-              className={classes.input}
-            />
-          </div>
-          <Button
-            className={classes.modalButton}
-            type="submit"
-            loading={formik.isSubmitting}
-            disabled={formik.isSubmitting}
-          >
-            Notify me
-          </Button>
-        </form>
-      </SmallModal>
-    </Modal>
+            >
+              Notify me
+            </Button>
+          </form>
+        </SmallModal>
+      </Modal>
+      <InvestingSuccessSubscribe
+        name={formik.values.Name}
+        open={open}
+        onClose={handleClose}
+      />
+    </>
   );
 };

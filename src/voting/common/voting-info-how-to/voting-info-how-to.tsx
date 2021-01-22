@@ -23,7 +23,7 @@ export const VotingInfoHowTo: React.FC<VotingInfoHowToProps> = (props) => {
         How to get governance token?
       </Typography>
       <div className={classes.howToGetList}>
-        <Plate variant="solid" className={classes.howToGetCard}>
+        <Plate className={classes.howToGetCard}>
           <Typography
             variant="h4"
             align="center"
@@ -34,7 +34,7 @@ export const VotingInfoHowTo: React.FC<VotingInfoHowToProps> = (props) => {
           </Typography>
           <Button>Buy</Button>
         </Plate>
-        <Plate variant="solid" className={classes.howToGetCard}>
+        <Plate className={classes.howToGetCard}>
           <Typography
             variant="h4"
             align="center"

@@ -80,7 +80,7 @@ export const StakingDetail: React.FC = () => {
           className={classes.header}
         />
         <div className={classes.row}>
-          <Plate variant="dotted" className={classes.card}>
+          <Plate className={classes.card}>
             <StakingLockForm
               account={account}
               tokenName={tokenName}
@@ -92,13 +92,14 @@ export const StakingDetail: React.FC = () => {
               balanceOfToken={balanceOfToken}
             />
           </Plate>
-          <Plate
-            variant="dotted"
-            className={clsx(classes.card, classes.cardFlex)}
-          >
+          <Plate className={clsx(classes.card, classes.cardFlex)}>
             <div className={classes.stakingBalance}>
               <div className={classes.unstakeAndClaim}>
-                <Typography variant="body1" align="center">
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.cardTitle}
+                >
                   You staked {tokenName}
                 </Typography>
                 <Typography variant="h2" align="center">
@@ -116,7 +117,11 @@ export const StakingDetail: React.FC = () => {
                 </Button>
               </div>
               <div className={classes.unstakeAndClaim}>
-                <Typography variant="body1" align="center">
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.cardTitle}
+                >
                   You earned BAG
                 </Typography>
                 <Typography variant="h2" align="center">

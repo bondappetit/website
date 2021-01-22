@@ -25,7 +25,8 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     const classNamesWrapper = clsx(classes.root, className, {
       [classes.readOnly]: props.readOnly,
-      [classes.disabled]: props.disabled
+      [classes.disabled]: props.disabled,
+      [classes.error]: error
     });
 
     const classNamesInput = clsx(classes.input, classes[variant], {
@@ -33,9 +34,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       [classes.disabled]: props.disabled
     });
 
-    const classNamesLabel = clsx(classes.label, {
-      [classes.error]: error
-    });
+    const classNamesLabel = clsx(classes.label);
 
     const handleFocus = (event: React.FocusEvent<HTMLInputElement>) => {
       onFocus?.(event);

@@ -22,7 +22,10 @@ export const useInvestingSubscribeFormStyles = createUseStyles(
     },
 
     input: {
-      margin: 0
+      margin: 0,
+      fontSize: 20,
+      lineHeight: '28px',
+      height: 28
     }
   },
   {
