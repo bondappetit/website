@@ -1,11 +1,12 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { Plate } from 'src/common';
+import { Plate, Typography } from 'src/common';
 import { useCollateralCardStyles } from './collateral-card.styles';
 
 export type CollateralCardProps = {
-  head: React.ReactNode;
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
   body: React.ReactNode;
   className?: string;
 };
@@ -14,9 +15,20 @@ export const CollateralCard: React.FC<CollateralCardProps> = (props) => {
   const classes = useCollateralCardStyles();
 
   return (
-    <Plate variant="dotted" className={clsx(classes.root, props.className)}>
-      {props.head}
-      <div className={classes.body}>{props.body}</div>
+    <Plate className={clsx(classes.root, props.className)}>
+      <Typography variant="h5" align="center" className={classes.title}>
+        {props.title}
+      </Typography>
+      <div className={classes.body}>
+        <Typography variant="h2" align="center" className={classes.bodyText}>
+          {props.body}
+        </Typography>
+        {props.subtitle && (
+          <Typography variant="h5" align="center" className={classes.subtitle}>
+            {props.subtitle}
+          </Typography>
+        )}
+      </div>
     </Plate>
   );
 };

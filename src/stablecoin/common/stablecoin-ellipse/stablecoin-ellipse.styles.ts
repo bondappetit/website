@@ -25,6 +25,8 @@ export const useStablecoinEllipseStyles = createUseStyles(
 
     title: {
       marginBottom: 32,
+      maxWidth: 1200,
+      margin: '0 auto',
 
       [theme.breakpoints.lg()]: {
         fontSize: 64,

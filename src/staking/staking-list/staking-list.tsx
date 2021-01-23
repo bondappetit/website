@@ -45,18 +45,18 @@ export const StakingList: React.FC = () => {
     <MainLayout>
       <PageWrapper>
         <div className={classes.header}>
-          <Typography variant="h2" align="center" className={classes.title}>
-            Earn Staking Rewards in USDp by locking your assets for a certain
-            period of time and providing liquidity for protocol’s assets
+          <Typography variant="h1" align="center" className={classes.title}>
+            Earn Staking Rewards in BAG by providing liquidity for protocol’s
+            assets
           </Typography>
           <div className={classes.info}>
-            <Typography variant="body1" align="center" className={classes.bag}>
+            <Typography variant="h5" align="center" className={classes.bag}>
               BAG price:{' '}
               <Typography variant="inherit" component="span" weight="bold">
                 {normalizeGovernanceInUSDC} USD
               </Typography>
             </Typography>
-            <Typography variant="body1" align="center">
+            <Typography variant="h5" align="center">
               You earned:{' '}
               <Typography variant="inherit" component="span" weight="bold">
                 {rewardSum.reward} BAG ({rewardSum.rewardInUSDC} USD)

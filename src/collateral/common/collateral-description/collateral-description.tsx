@@ -36,7 +36,7 @@ export const CollateralDescription: React.FC<CollateralDescriptionProps> = (
         {props.title}
       </Typography>
       <Typography
-        variant="body1"
+        variant="h5"
         align="center"
         className={classes.subtitle}
         component="div"

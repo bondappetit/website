@@ -6,12 +6,8 @@ export const useCollateralListStyles = createUseStyles(
     root: {},
 
     title: {
-      marginBottom: 64,
-
-      [theme.breakpoints.md()]: {
-        fontSize: 64,
-        lineHeight: '72px'
-      }
+      maxWidth: 1200,
+      margin: '0 auto 64px'
     },
 
     list: {
@@ -40,9 +36,7 @@ export const useCollateralListStyles = createUseStyles(
       }
     },
 
-    assets: {},
-
-    assetsTitle: {
+    ussued: {
       marginBottom: 104,
 
       [theme.breakpoints.md()]: {
@@ -50,18 +44,22 @@ export const useCollateralListStyles = createUseStyles(
       }
     },
 
-    borrowText: {
-      marginBottom: 16
+    assets: {},
+
+    assetsTitle: {
+      maxWidth: 800,
+      margin: '0 auto 104px',
+
+      [theme.breakpoints.md()]: {
+        margin: '0 auto 128px'
+      }
     },
 
-    borrowTitle: {
-      [theme.breakpoints.lg()]: {
-        fontSize: 64,
-        lineHeight: '72px'
-      }
+    borrowText: {
+      marginBottom: 16
     }
   }),
   {
-    name: 'Collateral'
+    name: 'CollateralList'
   }
 );

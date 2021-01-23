@@ -26,7 +26,13 @@ export const useCollateralDescriptionStyles = createUseStyles(
     },
 
     description: {
-      marginBottom: 64
+      maxWidth: 960,
+      margin: '0 auto 64px',
+      textAlign: 'left',
+
+      [theme.breakpoints.md()]: {
+        textAlign: 'center'
+      }
     }
   }),
   {

@@ -28,6 +28,7 @@ export const URLS = {
     issuer: (companyName = ':companyName') =>
       `/collaterals/issuers/${companyName}`,
     detail: (companyName = ':companyName') =>
-      `/collaterals/borrowers/${companyName}`
+      `/collaterals/borrowers/${companyName}`,
+    borrow: '/collaterals/borrow'
   }
 } as const;

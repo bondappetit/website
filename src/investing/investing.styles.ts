@@ -5,15 +5,8 @@ import { Theme } from 'src/common';
 export const useInvestingStyles = createUseStyles(
   (theme: Theme) => ({
     title: {
-      '& br': {
-        display: 'none'
-      },
-
-      [theme.breakpoints.md()]: {
-        '& br': {
-          display: 'block'
-        }
-      }
+      maxWidth: 1200,
+      margin: '0 auto'
     },
 
     investingForm: {

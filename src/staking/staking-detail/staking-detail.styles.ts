@@ -5,7 +5,10 @@ import { Theme } from 'src/common';
 export const useStakingDetailStyles = createUseStyles(
   (theme: Theme) => ({
     staking: {
+      padding: '40px 16px 120px',
+
       [theme.breakpoints.md()]: {
+        padding: '48px 64px 160px',
         gridTemplateColumns: '1fr 1fr'
       }
     },
@@ -31,7 +34,7 @@ export const useStakingDetailStyles = createUseStyles(
     },
 
     card: {
-      padding: '80px 48px 40px',
+      padding: 40,
 
       [theme.breakpoints.lg()]: {
         padding: '80px 48px 40px'
@@ -49,6 +52,10 @@ export const useStakingDetailStyles = createUseStyles(
       }
     },
 
+    cardTitle: {
+      marginBottom: 8
+    },
+
     usd: {
       color: theme.colors.grey
     },
@@ -64,7 +71,7 @@ export const useStakingDetailStyles = createUseStyles(
 
     stakingBalance: {
       display: 'grid',
-      gridGap: 40,
+      gridGap: 64,
       height: '100%',
 
       [theme.breakpoints.sm()]: {

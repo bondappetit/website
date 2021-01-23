@@ -78,6 +78,25 @@ export const useFormModalStyles = createUseStyles(
     selectOptionActive: {
       opacity: 0.4,
       pointerEvents: 'none'
+    },
+
+    hint: {
+      marginBottom: 16,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+
+    hintButton: {
+      marginLeft: 5
+    },
+
+    tippy: {
+      backgroundColor: theme.colors.primary,
+      color: theme.colors.secondary,
+      padding: 16,
+      borderRadius: 16,
+      transition: 'none'
     }
   }),
   {

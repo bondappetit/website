@@ -23,9 +23,11 @@ export const SmallModal: React.FC<SmallModalProps> = (props) => {
             <ArrowLeft />
           </ButtonBase>
         )}
-        <ButtonBase className={classes.closeButton} onClick={props.onClose}>
-          <CloseIcon />
-        </ButtonBase>
+        {props.onClose && (
+          <ButtonBase className={classes.closeButton} onClick={props.onClose}>
+            <CloseIcon />
+          </ButtonBase>
+        )}
       </div>
       <div className={classes.content}>{props.children}</div>
     </div>

@@ -12,7 +12,7 @@ export const useLayoutHeaderStyles = createUseStyles(
       justifyContent: 'space-between',
 
       [theme.breakpoints.lg()]: {
-        padding: '12px 32px',
+        padding: '16px 32px',
         justifyContent: 'flex-start'
       }
     },
@@ -22,9 +22,8 @@ export const useLayoutHeaderStyles = createUseStyles(
     },
 
     logo: {
-      justifyContent: 'center',
-      display: 'flex',
-      width: '33.33%'
+      position: 'relative',
+      zIndex: 1
     },
 
     leftButton: {
@@ -50,8 +49,26 @@ export const useLayoutHeaderStyles = createUseStyles(
       }
     },
 
+    menuOpen: {
+      [theme.breakpoints.down(1279)]: {
+        display: 'flex',
+        flexDirection: 'column',
+        position: 'absolute',
+        width: '100%',
+        height: 'calc(100vh - 65px)',
+        left: 0,
+        top: 65,
+        backgroundColor: theme.colors.secondary,
+        flexWrap: 'nowrap',
+        overflowY: 'auto',
+        zIndex: 10,
+        padding: '20px 0'
+      }
+    },
+
     menuButton: {
-      display: 'block',
+      position: 'relative',
+      zIndex: 1,
 
       [theme.breakpoints.lg()]: {
         display: 'none'

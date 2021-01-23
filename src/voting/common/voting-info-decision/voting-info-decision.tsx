@@ -25,11 +25,7 @@ export const VotingInfoDecision: React.FC<VotingInfoDecisionProps> = (
       </Typography>
       <div className={classes.decision}>
         {DECISION_MAKING.map((decisionItem) => (
-          <Plate
-            key={decisionItem.title}
-            className={classes.decisionCard}
-            variant="solid"
-          >
+          <Plate key={decisionItem.title} className={classes.decisionCard}>
             <Typography
               variant="h4"
               weight="bold"

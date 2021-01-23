@@ -7,7 +7,6 @@ import { provider as Web3Provider } from 'web3-core';
 import { jss, JssProvider } from 'react-jss';
 import normalize from 'normalize-jss';
 import 'typeface-epilogue';
-import { ToastProvider } from 'react-toast-notifications';
 
 import { ThemeProvider, globalStyles } from './common';
 import { App } from './app';
@@ -29,9 +28,7 @@ ReactDOM.render(
         <JssProvider jss={jss}>
           <ThemeProvider>
             <ErrorBoundary>
-              <ToastProvider>
-                <App />
-              </ToastProvider>
+              <App />
             </ErrorBoundary>
           </ThemeProvider>
         </JssProvider>

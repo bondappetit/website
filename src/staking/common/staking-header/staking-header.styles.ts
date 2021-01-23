@@ -19,13 +19,14 @@ export const useStakingHeaderStyles = createUseStyles(
         backgroundSize: '884px',
         border: `1px solid ${theme.colors.primary}`,
         backgroundPosition: 'center 40%',
-        minHeight: 320,
         borderRadius: 24,
-        padding: 20,
+        padding: [72, 56],
         display: 'flex',
         flexDirection: 'column',
+        position: 'relative',
 
         [theme.breakpoints.md()]: {
+          padding: 48,
           minHeight: 240
         }
       },
@@ -36,7 +37,10 @@ export const useStakingHeaderStyles = createUseStyles(
         display: 'none',
 
         [theme.breakpoints.md()]: {
-          display: 'inline'
+          display: 'inline',
+          position: 'absolute',
+          top: 16,
+          left: 20
         }
       },
 

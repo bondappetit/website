@@ -40,10 +40,8 @@ export const Investing: React.FC = () => {
           align="center"
           className={classes.title}
         >
-          The first DeFi protocol that <br />
-          connects&nbsp;real-world debt <br />
-          instruments with the Ethereum <br />
-          ecosystem.
+          The first DeFi protocol that connects&nbsp;real-world debt instruments
+          with the Ethereum ecosystem.
         </Typography>
         {config.IS_DEV && <InvestingForm className={classes.investingForm} />}
         {!config.IS_DEV && (
@@ -59,7 +57,6 @@ export const Investing: React.FC = () => {
           title={
             <>
               Find out more about BondAppétit protocol, our unique stablecoin{' '}
-              <br />
               backed by real-world debt instruments (USDP), and other
               components:
             </>

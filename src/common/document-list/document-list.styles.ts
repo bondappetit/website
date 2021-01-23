@@ -5,18 +5,11 @@ import { Theme } from 'src/common';
 export const useDocumentListStyles = createUseStyles(
   (theme: Theme) => ({
     title: {
-      marginBottom: 40,
-
-      '& br': {
-        display: 'none'
-      },
+      maxWidth: 1200,
+      margin: '0 auto 40px',
 
       [theme.breakpoints.md()]: {
-        marginBottom: 64,
-
-        '& br': {
-          display: 'block'
-        }
+        margin: '0 auto 64px'
       }
     },
 

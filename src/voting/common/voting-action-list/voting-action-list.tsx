@@ -65,7 +65,7 @@ export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
   );
 
   return (
-    <Plate variant="dotted" className={classes.root}>
+    <Plate className={classes.root}>
       <DragDropContext onDragEnd={handleDragEnd}>
         <Droppable droppableId="droppable-1">
           {(droppableProvided) => (

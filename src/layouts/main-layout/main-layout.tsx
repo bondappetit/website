@@ -34,6 +34,7 @@ export const MainLayout: React.FC<MainLayoutProps> = (props) => {
             <WalletButton />
           </>
         }
+        mobileButton={<ToggleThemeButton />}
       />
       <LayoutContainer>{props.children}</LayoutContainer>
       <LayoutFooter />

@@ -37,6 +37,9 @@ const CollateralDetail = React.lazy(
 const CollateralIssuer = React.lazy(
   () => import('src/collateral/collateral-issuer')
 );
+const CollateralBorrow = React.lazy(
+  () => import('src/collateral/collateral-borrow')
+);
 const Main = React.lazy(() => import('src/main'));
 
 export const routes = [
@@ -117,6 +120,10 @@ export const routes = [
         {
           url: URLS.collateral.list,
           component: CollateralList
+        },
+        {
+          url: URLS.collateral.borrow,
+          component: CollateralBorrow
         }
       ]
     : []),

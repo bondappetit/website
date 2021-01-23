@@ -18,21 +18,21 @@ export const InfoCardWrapper: React.FC<InfoCardWrapperProps> = (props) => {
   return (
     <div className={classes.wrap}>
       <div className={classes.title}>
-        <Typography variant="h4" align="center">
-          <Typography
-            variant="inherit"
-            component="span"
-            className={classes.decoratedText}
-          >
-            {props.title}
-          </Typography>
+        <Typography
+          variant="h4"
+          align="center"
+          component="div"
+          className={classes.decoratedText}
+        >
+          {props.title}
         </Typography>
         {props.subtitle && (
-          <Typography variant="h4" align="center">
+          <Typography variant="h4" align="center" component="div">
             {props.subtitle}
           </Typography>
         )}
       </div>
+      {props.children}
       {props.button && (
         <Button color="primary" onClick={props.onClick}>
           {props.button}

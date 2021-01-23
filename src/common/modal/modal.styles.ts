@@ -13,7 +13,7 @@ export const useModalStyles = createUseStyles(
       bottom: 0,
       backgroundColor: rgba(theme.colors.primary, 0.4),
       color: theme.colors.secondary,
-      zIndex: 999999,
+      zIndex: 9999,
       overflow: 'hidden',
       display: 'flex',
       alignItems: 'center',

@@ -12,11 +12,17 @@ export const useInputStyles = createUseStyles(
       marginTop: 17,
       fontSize: 20,
       lineHeight: '24px',
+      height: 24,
 
       [theme.breakpoints.md()]: {
         fontSize: 40,
-        lineHeight: '48px'
+        lineHeight: '48px',
+        height: 48
       }
+    },
+
+    error: {
+      color: theme.colors.error
     },
 
     input: {
@@ -32,16 +38,28 @@ export const useInputStyles = createUseStyles(
       textOverflow: 'inherit',
       fontSize: 'inherit',
       lineHeight: 'inherit',
-      height: 24,
       textAlign: 'inherit',
+      height: 'inherit',
 
       '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
         '-webkit-appearance': 'none',
         margin: 0
       },
 
-      [theme.breakpoints.md()]: {
-        height: 48
+      '&::placeholder': {
+        color: 'inherit',
+        opacity: 0.4
+      },
+
+      '&::-ms-input-placeholder': {
+        color: 'inherit',
+        opacity: 0.4
+      },
+
+      [theme.mixins.hover()]: {
+        '&:focus': {
+          color: theme.colors.primary
+        }
       }
     },
 
@@ -85,10 +103,6 @@ export const useInputStyles = createUseStyles(
         lineHeight: '48px',
         transform: 'translateY(-17px) scale(0.35)'
       }
-    },
-
-    error: {
-      color: theme.colors.error
     }
   }),
   {
