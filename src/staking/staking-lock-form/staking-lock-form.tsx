@@ -12,7 +12,8 @@ import {
   Button,
   useDynamicContract,
   Typography,
-  ButtonBase
+  ButtonBase,
+  LinkIfAccount
 } from 'src/common';
 import { StakingAcquireModal, useStakingContracts } from '../common';
 import { useStakingLockFormStyles } from './staking-lock-form.styles';
@@ -115,7 +116,10 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       <form onSubmit={formik.handleSubmit} className={classes.root}>
         <div>
           <Typography variant="body1" align="center" className={classes.title}>
-            Stake your {props.tokenName}
+            Stake your{' '}
+            <LinkIfAccount title={props.tokenName}>
+              {props.tokenAddress ?? ''}
+            </LinkIfAccount>
           </Typography>
           <Tippy
             visible={Boolean(formik.errors.amount)}

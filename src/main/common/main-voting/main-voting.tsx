@@ -33,7 +33,7 @@ export const MainVoting: React.FC<MainVotingProps> = (props) => {
         </div>
       </div>
       <Typography variant="h4" align="center">
-        <Link component={ReactRouterLink} to={URLS.voting.list} color="blue">
+        <Link component={ReactRouterLink} to={URLS.voting.info} color="blue">
           Explore Governance →
         </Link>
       </Typography>

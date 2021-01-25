@@ -6,6 +6,7 @@ import { useStablecoinEllipseStyles } from './stablecoin-ellipse.styles';
 export type StablecoinEllipseProps = {
   className?: string;
   onBuy: () => void;
+  onSell: () => void;
 };
 
 export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
@@ -38,7 +39,7 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
           </Typography>
           <div className={classes.actions}>
             <Button onClick={props.onBuy}>Buy</Button>
-            <Button>Sell</Button>
+            <Button onClick={props.onSell}>Sell</Button>
           </div>
         </div>
       </div>

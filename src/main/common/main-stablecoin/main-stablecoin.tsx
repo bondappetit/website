@@ -8,6 +8,8 @@ import { useMainStablecoinStyles } from './main-stablecoin.styles';
 
 export type MainStablecoinProps = {
   className?: string;
+  onBuy: () => void;
+  onSell: () => void;
 };
 
 export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
@@ -24,8 +26,12 @@ export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
           64,840,720 USDp
         </Typography>
         <div className={classes.actions}>
-          <Button className={classes.button}>Buy</Button>
-          <Button className={classes.button}>Sell</Button>
+          <Button className={classes.button} onClick={props.onBuy}>
+            Buy
+          </Button>
+          <Button className={classes.button} onClick={props.onSell}>
+            Sell
+          </Button>
         </div>
         <Typography variant="h4" align="center">
           <Link component={ReactRouterLink} to={URLS.stablecoin} color="blue">
