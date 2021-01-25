@@ -25,6 +25,7 @@ export type FormModalProps = {
   tokenName: string;
   tokens: Asset[];
   result: string;
+  balance: string;
   openWalletListModal: () => void;
 };
 
@@ -126,7 +127,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                   />
                   <div className={classes.input}>
                     <Typography variant="body1" component="div">
-                      Balance: 0
+                      Balance: {props.balance}
                     </Typography>
                     <Typography variant="inherit" component="div">
                       {props.tokenName}
@@ -139,7 +140,8 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                 align="center"
                 className={classes.hint}
               >
-                1.12 USDT per BAG, estimated price
+                1.12 {formik.values.currency} per {props.tokenName}, estimated
+                price
                 {hoverable}
               </Typography>
               <Button

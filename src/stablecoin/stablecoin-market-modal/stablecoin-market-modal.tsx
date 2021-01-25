@@ -32,6 +32,7 @@ export type StablecoinMarketModalProps = {
 export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   props
 ) => {
+  const [balance, setBalance] = useState('0');
   const [result, setResult] = useState<BN>(new BN(0));
   const tokens = useStablecoinTokens();
   const { account } = useWeb3React<Web3>();
@@ -66,20 +67,9 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         return error;
       }
 
-      const currentToken = network.assets[formValues.currency];
+      const balanceOfToken = new BN(balance);
 
-      if (!currentToken) return;
-
-      const balanceOfToken = await getBalance({
-        tokenAddress: currentToken.address,
-        tokenName: currentToken.name
-      });
-
-      if (
-        balanceOfToken
-          .div(new BN(10).pow(currentToken.decimals))
-          .isLessThan(formValues.amount)
-      ) {
+      if (balanceOfToken.isLessThan(formValues.amount)) {
         error.amount = `Not enough ${formValues.currency}`;
       }
 
@@ -150,19 +140,29 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         return;
       }
 
-      setResult(
-        new BN(formik.values.amount)
-          .multipliedBy(
-            new BN(10).pow(
-              network.assets.Stable.decimals -
-                network.assets[formik.values.currency].decimals
-            )
-          )
-          .div(new BN(10).pow(network.assets.Stable.decimals))
-      );
+      setResult(new BN(formik.values.amount));
     },
     100,
     [formik.values.amount, formik.values.currency, tokens]
+  );
+
+  useDebounce(
+    async () => {
+      const currentToken = network.assets[formik.values.currency];
+
+      if (!currentToken) return;
+
+      const balanceOfToken = await getBalance({
+        tokenAddress: currentToken.address,
+        tokenName: currentToken.name
+      });
+
+      setBalance(
+        balanceOfToken.div(new BN(10).pow(currentToken.decimals)).toString(10)
+      );
+    },
+    100,
+    [formik.values.currency, tokens]
   );
 
   const handleSuccessClose = useCallback(() => {
@@ -184,6 +184,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           open={props.open}
           tokenName="USDp"
           tokens={tokens}
+          balance={balance}
           result={result.toString(10)}
           openWalletListModal={walletsToggle}
         />
@@ -191,7 +192,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <SmallModal>
           <InfoCardSuccess
-            tokenName="BAG"
+            tokenName="USDp"
             onClick={handleSuccessClose}
             purchased={result.toString(10)}
           />

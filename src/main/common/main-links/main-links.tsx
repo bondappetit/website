@@ -25,17 +25,17 @@ const SOCIAL_LINKS = [
   },
   {
     title: 'Twitter',
-    href: '',
+    href: 'https://twitter.com/DefiBonds',
     icon: TwitterIcon
   },
   {
     title: 'Telegram',
-    href: '',
+    href: 'https://t.me/BondAppetitEn',
     icon: TelegramIcon
   },
   {
     title: 'Discord',
-    href: '',
+    href: 'https://discord.gg/xRbgjwkz',
     icon: DiscordIcon
   }
 ];

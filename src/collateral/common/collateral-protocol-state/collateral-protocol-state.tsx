@@ -6,9 +6,7 @@ import { useHoverDirty, useMedia } from 'react-use';
 import { Typography } from 'src/common';
 import { useCollateralProtocolStateStyles } from './collateral-protocol-state.styles';
 
-export type CollateralProtocolStateProps = unknown;
-
-export const CollateralProtocolState: React.FC<CollateralProtocolStateProps> = () => {
+export const CollateralProtocolState: React.FC = () => {
   const balanced = useRef(null);
   const unbalanced = useRef(null);
   const critical = useRef(null);

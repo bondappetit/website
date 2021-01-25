@@ -3,9 +3,7 @@ import React from 'react';
 import { Typography } from '../typography';
 import { useMarkdownParagraphStyles } from './markdown-paragraph.styles';
 
-export type MarkdownParagraphProps = unknown;
-
-export const MarkdownParagraph: React.FC<MarkdownParagraphProps> = (props) => {
+export const MarkdownParagraph: React.FC = (props) => {
   const classes = useMarkdownParagraphStyles();
 
   return (

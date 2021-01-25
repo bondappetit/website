@@ -5,7 +5,12 @@ import { isEthAddress } from '../is-eth-address';
 import { Link } from '../link';
 import { useNetworkConfig } from '../use-network-config';
 
-export const LinkIfAccount: React.FC<{ children: string }> = (props) => {
+export type LinkIfAccountProps = {
+  children: string;
+  title?: string;
+};
+
+export const LinkIfAccount: React.FC<LinkIfAccountProps> = (props) => {
   const networkConfig = useNetworkConfig();
 
   return isEthAddress(props.children) ? (
@@ -14,7 +19,7 @@ export const LinkIfAccount: React.FC<{ children: string }> = (props) => {
       color="blue"
       href={`${networkConfig.networkEtherscan}/address/${props.children}`}
     >
-      {cutAccount(props.children)}
+      {props.title ?? cutAccount(props.children)}
     </Link>
   ) : (
     <>{props.children}</>

@@ -19,8 +19,6 @@ import {
   OracleGetFormValues
 } from '../common';
 
-export type OracleManageProps = unknown;
-
 enum TokenTypes {
   security = 'security',
   depositary = 'depositary'
@@ -32,7 +30,7 @@ type SavedToken = {
   tokenType: TokenTypes;
 };
 
-export const OracleManage: React.FC<OracleManageProps> = () => {
+export const OracleManage: React.FC = () => {
   const depositaryOracleContract = useDepositaryOracleContract();
   const securityOracleContract = useSecurityOracleContract();
   const { account, library } = useWeb3React<Web3>();

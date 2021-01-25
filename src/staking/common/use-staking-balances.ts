@@ -27,7 +27,8 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
   const [stakingBalances, setStakingBalances] = useState<StakingToken[]>([]);
   const getStakingContract = useStakingContracts();
   const getTokenContract = useTokenContracts();
-  const { account } = useWeb3React<Web3>();
+  const { account: web3Account } = useWeb3React<Web3>();
+  const [account, setAccount] = useState('');
   const [update, handleUpdate] = useUpdate();
 
   const handleGetBalances = useCallback(async () => {
@@ -83,6 +84,12 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
 
     if (tokenBalances.length) setStakingBalances(tokenBalances);
   }, [account, getStakingContract, getTokenContract]);
+
+  useEffect(() => {
+    if (web3Account !== undefined && web3Account !== null) {
+      setAccount(web3Account);
+    }
+  }, [web3Account]);
 
   useEffect(() => {
     handleGetBalances();

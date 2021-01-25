@@ -9,7 +9,8 @@ export type StablecoinLinkModalProps = {
   className?: string;
   open: boolean;
   onClose: () => void;
-  onBuy: () => void;
+  onBuy?: () => void;
+  withBuy?: boolean;
 };
 
 export const StablecoinLinkModal: React.FC<StablecoinLinkModalProps> = (
@@ -21,10 +22,12 @@ export const StablecoinLinkModal: React.FC<StablecoinLinkModalProps> = (
     <Modal open={props.open} onClose={props.onClose}>
       <SmallModal>
         <div className={classes.root}>
-          <div className={classes.button}>
-            <Typography variant="body1">From protocol</Typography>
-            <Button onClick={props.onBuy}>Buy</Button>
-          </div>
+          {props.withBuy && (
+            <div className={classes.button}>
+              <Typography variant="body1">From protocol</Typography>
+              <Button onClick={props.onBuy}>Buy</Button>
+            </div>
+          )}
           <div className={classes.button}>
             <Typography variant="body1">Decentralized Exchange</Typography>
             <Button
