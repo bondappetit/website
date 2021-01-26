@@ -85,7 +85,7 @@ const MENU_ITEMS: MenuItem[] = [
 
       {
         title: 'Twitter',
-        link: 'https://twitter.com'
+        link: 'https://twitter.com/DefiBonds'
       },
 
       {

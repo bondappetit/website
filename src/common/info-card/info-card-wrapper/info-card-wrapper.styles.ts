@@ -8,7 +8,6 @@ export const useInfoCardWrapperStyles = createUseStyles(
       flexDirection: 'column',
       justifyContent: 'space-between',
       height: '100%',
-      alignItems: 'center',
       marginBottom: 32,
       padding: '0 16px'
     },
