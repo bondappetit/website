@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import { useParams } from 'react-router-dom';
 
 import { DocsRenderer } from 'src/docs-renderer';
+import { Head } from 'src/common';
 import { DOCS } from '../common';
 
 export const DocsDetail: React.FC = () => {
@@ -17,8 +18,11 @@ export const DocsDetail: React.FC = () => {
   const params = useParams<{ contractName: string }>();
 
   return (
-    <DocsRenderer tableOfContents={tableOfContents}>
-      {DOCS[params.contractName]}
-    </DocsRenderer>
+    <>
+      <Head title={params.contractName} />
+      <DocsRenderer tableOfContents={tableOfContents}>
+        {DOCS[params.contractName]}
+      </DocsRenderer>
+    </>
   );
 };

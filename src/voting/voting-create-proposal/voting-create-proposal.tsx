@@ -5,7 +5,13 @@ import { useHistory } from 'react-router-dom';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { Button, useGovernorContract, ButtonBase, Modal } from 'src/common';
+import {
+  Button,
+  useGovernorContract,
+  ButtonBase,
+  Modal,
+  Head
+} from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { URLS } from 'src/router/urls';
 import { VotingInput, VotingMediumEditor, VotingActionList } from '../common';
@@ -138,57 +144,60 @@ export const VotingCreateProposal: React.FC = () => {
   }, [toggleAddAction]);
 
   return (
-    <MainLayout>
-      <form className={classes.form} onSubmit={formik.handleSubmit}>
-        <div className={classes.inputs}>
-          <VotingInput
-            name="title"
-            label="Enter the name of proposal"
-            value={formik.values.title}
-            disabled={formik.isSubmitting}
-            onChange={formik.handleChange}
-          />
-          {!!formik.values.actions.length && (
-            <VotingActionList
-              actions={formik.values.actions}
-              onAddAnother={toggleAddAction}
-              onEdit={handleEditAction}
-              onChange={handleChangeActions}
+    <>
+      <Head title="Create proposal" />
+      <MainLayout>
+        <form className={classes.form} onSubmit={formik.handleSubmit}>
+          <div className={classes.inputs}>
+            <VotingInput
+              name="title"
+              label="Enter the name of proposal"
+              value={formik.values.title}
+              disabled={formik.isSubmitting}
+              onChange={formik.handleChange}
             />
-          )}
-          {!formik.values.actions.length && (
-            <ButtonBase
-              type="button"
-              className={classes.button}
-              onClick={toggleAddAction}
-            >
-              +Add Action
-            </ButtonBase>
-          )}
-          <VotingMediumEditor
-            value={formik.values.description}
+            {!!formik.values.actions.length && (
+              <VotingActionList
+                actions={formik.values.actions}
+                onAddAnother={toggleAddAction}
+                onEdit={handleEditAction}
+                onChange={handleChangeActions}
+              />
+            )}
+            {!formik.values.actions.length && (
+              <ButtonBase
+                type="button"
+                className={classes.button}
+                onClick={toggleAddAction}
+              >
+                +Add Action
+              </ButtonBase>
+            )}
+            <VotingMediumEditor
+              value={formik.values.description}
+              disabled={formik.isSubmitting}
+              label="Write a description"
+              onChange={(value) => formik.setFieldValue('description', value)}
+            />
+          </div>
+          <Button
+            type="submit"
+            className={classes.submit}
             disabled={formik.isSubmitting}
-            label="Write a description"
-            onChange={(value) => formik.setFieldValue('description', value)}
+            loading={formik.isSubmitting}
+          >
+            Submit proposal
+          </Button>
+        </form>
+        <Modal onClose={handleCloseAddAction} open={addActionOpen}>
+          <VotingAddAction
+            onClose={handleCloseAddAction}
+            editAction={editAction}
+            onSubmit={handleSubmitAction}
+            onSubmitActions={handleSubmitActions}
           />
-        </div>
-        <Button
-          type="submit"
-          className={classes.submit}
-          disabled={formik.isSubmitting}
-          loading={formik.isSubmitting}
-        >
-          Submit proposal
-        </Button>
-      </form>
-      <Modal onClose={handleCloseAddAction} open={addActionOpen}>
-        <VotingAddAction
-          onClose={handleCloseAddAction}
-          editAction={editAction}
-          onSubmit={handleSubmitAction}
-          onSubmitActions={handleSubmitActions}
-        />
-      </Modal>
-    </MainLayout>
+        </Modal>
+      </MainLayout>
+    </>
   );
 };

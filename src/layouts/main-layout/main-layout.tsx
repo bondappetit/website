@@ -10,23 +10,11 @@ import {
 } from '../common';
 import { useMainLayoutStyles } from './main-layout.styles';
 
-export type MainLayoutProps = {
-  title?: string;
-  description?: string;
-  ogImage?: string;
-  ogUrl?: string;
-};
-
-export const MainLayout: React.FC<MainLayoutProps> = (props) => {
+export const MainLayout: React.FC = (props) => {
   const classes = useMainLayoutStyles();
 
   return (
-    <LayoutWrapper
-      title={props.title}
-      ogImage={props.ogImage}
-      ogUrl={props.ogUrl}
-      description={props.description}
-    >
+    <LayoutWrapper>
       <LayoutHeader
         rightButton={
           <>

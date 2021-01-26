@@ -1,6 +1,5 @@
 import { createUseStyles } from 'react-jss';
 
-import EllipseArrow from 'src/assets/images/ellipse-arrow.svg';
 import { Theme } from 'src/common';
 
 export const useStablecoinEllipseStyles = createUseStyles(
@@ -13,7 +12,7 @@ export const useStablecoinEllipseStyles = createUseStyles(
 
       [theme.breakpoints.lg()]: {
         backgroundSize: '105%',
-        backgroundImage: `url(${EllipseArrow})`,
+        backgroundImage: `url(${theme.images.ellipseDesktop})`,
         minHeight: 543,
         paddingTop: 94
       },
@@ -30,7 +29,8 @@ export const useStablecoinEllipseStyles = createUseStyles(
 
       [theme.breakpoints.lg()]: {
         fontSize: 64,
-        lineHeight: '72px'
+        lineHeight: '72px',
+        whiteSpace: 'pre'
       }
     },
 

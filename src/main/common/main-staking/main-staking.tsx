@@ -34,7 +34,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
         the Ethereum ecosystem
       </Typography>
       <Typography variant="h4" align="center" className={classes.subtitle}>
-        Earn Staking Rewards in ART by locking your assets for a certain period
+        Earn Staking Rewards in BAG by locking your assets for a certain period
         of time and providing liquidity for protocol’s assets.
       </Typography>
       <Grid>
@@ -49,6 +49,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
                 <MainStakingCard
                   key={id}
                   token={stakingItem.token}
+                  tokenKey={stakingItem.key}
                   totalSupply={stakingItem.totalSupply}
                   APY={stakingItem.APY}
                 />

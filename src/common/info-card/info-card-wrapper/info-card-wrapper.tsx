@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 
 import { Button } from 'src/common/button';
@@ -10,13 +11,14 @@ export type InfoCardWrapperProps = {
   button?: React.ReactNode;
   onClick?: () => void;
   success?: boolean;
+  className?: string;
 };
 
 export const InfoCardWrapper: React.FC<InfoCardWrapperProps> = (props) => {
   const classes = useInfoCardWrapperStyles();
 
   return (
-    <div className={classes.wrap}>
+    <div className={clsx(classes.wrap, props.className)}>
       <div className={classes.title}>
         <Typography
           variant="h4"

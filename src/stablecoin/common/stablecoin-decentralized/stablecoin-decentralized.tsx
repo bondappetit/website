@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { Link, Plate, Typography } from 'src/common';
+import { URLS } from 'src/router/urls';
 import { useStablecoinDecentralizedStyles } from './stablecoin-decentralized.styles';
 
 export type StablecoinDecentralizedProps = {
@@ -43,7 +45,11 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
             real time.
           </Typography>
           <Typography variant="h4" align="center" className={classes.link}>
-            <Link href="#more" color="blue">
+            <Link
+              color="blue"
+              component={ReactRouterLink}
+              to={URLS.collateral.list}
+            >
               Learn more
             </Link>
           </Typography>
@@ -62,7 +68,7 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
             of liquidity flows coming from real world assets.
           </Typography>
           <Typography variant="h4" align="center" className={classes.link}>
-            <Link href="#more" color="blue">
+            <Link color="blue" component={ReactRouterLink} to="/whitepaper#6">
               Learn more
             </Link>
           </Typography>

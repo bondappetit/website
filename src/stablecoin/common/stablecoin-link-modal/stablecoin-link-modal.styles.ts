@@ -6,12 +6,16 @@ export const useStablecoinLinkModalStyles = createUseStyles(
       display: 'flex',
       flexDirection: 'column',
       minHeight: '100%',
-      justifyContent: 'space-between'
+      justifyContent: 'center'
     },
 
     button: {
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+
+      '&:not(:last-child)': {
+        marginBottom: 'auto'
+      }
     }
   },
   {

@@ -31,10 +31,10 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
         <AccordionDetails className={classes.detail}>
           <Typography variant="body1">
             Liquidity Provision — Sufficient liquidity and the ability to
-            exchange ABT for another liquid asset are vital for the correct
+            exchange BAG for another liquid asset are vital for the correct
             operation of the protocol. Initially, the protocol will provide its
             own liquidity pool on the Uniswap exchange. The protocol has chosen
-            Uniswap in order to provide an opportunity to exchange ABT for any
+            Uniswap in order to provide an opportunity to exchange BAG for any
             other asset to all participants of the protocol (including automatic
             protocols).
           </Typography>
@@ -43,8 +43,8 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
             liquidity pools will be sufficient, the protocol will reduce its
             participation in liquidity pools. In order to stimulate
             participation in liquidity pools, the protocol provides the reward
-            in governance tokens — Appetit Reward Token (ART) (the list of
-            liquidity pools is determined by the community of the protocol).
+            in governance tokens — Appetit USD (USDp) (the list of liquidity
+            pools is determined by the community of the protocol).
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -55,15 +55,7 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails className={classes.detail}>
-          <Typography variant="body1">
-            Liquidity Provision — Sufficient liquidity and the ability to
-            exchange ABT for another liquid asset are vital for the correct
-            operation of the protocol. Initially, the protocol will provide its
-            own liquidity pool on the Uniswap exchange. The protocol has chosen
-            Uniswap in order to provide an opportunity to exchange ABT for any
-            other asset to all participants of the protocol (including automatic
-            protocols).
-          </Typography>
+          <Typography variant="body1">empty</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -73,15 +65,7 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails className={classes.detail}>
-          <Typography variant="body1">
-            Liquidity Provision — Sufficient liquidity and the ability to
-            exchange ABT for another liquid asset are vital for the correct
-            operation of the protocol. Initially, the protocol will provide its
-            own liquidity pool on the Uniswap exchange. The protocol has chosen
-            Uniswap in order to provide an opportunity to exchange ABT for any
-            other asset to all participants of the protocol (including automatic
-            protocols).
-          </Typography>
+          <Typography variant="body1">empty</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -91,15 +75,7 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails className={classes.detail}>
-          <Typography variant="body1">
-            Liquidity Provision — Sufficient liquidity and the ability to
-            exchange ABT for another liquid asset are vital for the correct
-            operation of the protocol. Initially, the protocol will provide its
-            own liquidity pool on the Uniswap exchange. The protocol has chosen
-            Uniswap in order to provide an opportunity to exchange ABT for any
-            other asset to all participants of the protocol (including automatic
-            protocols).
-          </Typography>
+          <Typography variant="body1">empty</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -109,15 +85,7 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails className={classes.detail}>
-          <Typography variant="body1">
-            Liquidity Provision — Sufficient liquidity and the ability to
-            exchange ABT for another liquid asset are vital for the correct
-            operation of the protocol. Initially, the protocol will provide its
-            own liquidity pool on the Uniswap exchange. The protocol has chosen
-            Uniswap in order to provide an opportunity to exchange ABT for any
-            other asset to all participants of the protocol (including automatic
-            protocols).
-          </Typography>
+          <Typography variant="body1">empty</Typography>
         </AccordionDetails>
       </Accordion>
       <Accordion>
@@ -127,15 +95,7 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
           </Typography>
         </AccordionSummary>
         <AccordionDetails className={classes.detail}>
-          <Typography variant="body1">
-            Liquidity Provision — Sufficient liquidity and the ability to
-            exchange ABT for another liquid asset are vital for the correct
-            operation of the protocol. Initially, the protocol will provide its
-            own liquidity pool on the Uniswap exchange. The protocol has chosen
-            Uniswap in order to provide an opportunity to exchange ABT for any
-            other asset to all participants of the protocol (including automatic
-            protocols).
-          </Typography>
+          <Typography variant="body1">empty</Typography>
         </AccordionDetails>
       </Accordion>
     </div>

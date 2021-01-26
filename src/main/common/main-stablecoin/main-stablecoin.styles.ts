@@ -1,13 +1,11 @@
 import { createUseStyles } from 'react-jss';
 
-import EllipseArrow from 'src/assets/images/ellipse-arrow.svg';
-import EllipseArrowMobile from 'src/assets/images/ellipse-arrow-mobile.svg';
 import { Theme } from 'src/common';
 
 export const useMainStablecoinStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
-      backgroundImage: `url(${EllipseArrowMobile})`,
+      backgroundImage: `url(${theme.images.ellipseMobile})`,
       backgroundRepeat: 'no-repeat',
       backgroundPosition: 'center',
       backgroundSize: 'cover',
@@ -20,7 +18,7 @@ export const useMainStablecoinStyles = createUseStyles(
       padding: '0 16px',
 
       [theme.breakpoints.md()]: {
-        backgroundImage: `url(${EllipseArrow})`,
+        backgroundImage: `url(${theme.images.ellipseDesktop})`,
         backgroundPosition: 'center',
         minHeight: 631,
         marginLeft: -64,

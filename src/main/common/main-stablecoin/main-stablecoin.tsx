@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Button, Typography, Link } from 'src/common';
+import { Button, Typography, Link, Skeleton } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useMainStablecoinStyles } from './main-stablecoin.styles';
 
@@ -10,6 +10,7 @@ export type MainStablecoinProps = {
   className?: string;
   onBuy: () => void;
   onSell: () => void;
+  stablecoinBalance: string;
 };
 
 export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
@@ -23,7 +24,8 @@ export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
           decentralized stablecoin based on real-world assets.
         </Typography>
         <Typography variant="h2" align="center" className={classes.total}>
-          64,840,720 USDp
+          {!props.stablecoinBalance && <Skeleton />}
+          {props.stablecoinBalance && <>{props.stablecoinBalance} USDp</>}
         </Typography>
         <div className={classes.actions}>
           <Button className={classes.button} onClick={props.onBuy}>

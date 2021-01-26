@@ -8,5 +8,13 @@ export const errorBoundaryStyles = (theme: Theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '100vh'
+  },
+
+  content: {
+    alignItems: 'center',
+
+    '& button': {
+      marginTop: 20
+    }
   }
 });

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useLocation } from 'react-router-dom';
 
 import { useScrollSpy } from 'src/common';
 import {
@@ -22,6 +22,7 @@ export const DocsRendererTableOfContentsContainer: React.FC<DocsRendererTableOfC
   const [tableOfContent, setTableOfContent] = useState<TableOfContent[]>([]);
 
   const params = useParams();
+  const { hash } = useLocation();
 
   useEffect(() => {
     const headingElements = document.querySelectorAll(HEADINGS);
@@ -31,6 +32,9 @@ export const DocsRendererTableOfContentsContainer: React.FC<DocsRendererTableOfC
     });
 
     setTableOfContent(buildTableOfContents([...headingElements]));
+
+    document.getElementById(hash.slice(1))?.scrollIntoView();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params]);
 
   const activeElement = useScrollSpy({

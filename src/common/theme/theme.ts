@@ -1,3 +1,8 @@
+import EllipseArrowBlack from 'src/assets/images/ellipse-arrow-black.svg';
+import EllipseArrowWhite from 'src/assets/images/ellipse-arrow-white.svg';
+import EllipseArrowMobileWhite from 'src/assets/images/ellipse-arrow-mobile-white.svg';
+import EllipseArrowMobileBlack from 'src/assets/images/ellipse-arrow-mobile-black.svg';
+
 export type Colors = {
   primary: string;
   secondary: string;
@@ -39,28 +44,45 @@ const mainColors = {
   lightGrey: '#EEEEEE'
 };
 
-export const themeModes: Record<ThemeModes, Colors> = {
+export const themeModes: Record<
+  ThemeModes,
+  { colors: Colors; images: Record<string, string> }
+> = {
   light: {
-    primary: '#000',
-    secondary: '#fff',
-    tokenTitleLine: '#ffdc24',
-    error: '#eb5757',
-    proposalPlate: '#EBEEEF',
-    ...mainColors
+    colors: {
+      primary: '#000',
+      secondary: '#fff',
+      tokenTitleLine: '#ffdc24',
+      error: '#eb5757',
+      proposalPlate: '#EBEEEF',
+      ...mainColors
+    },
+
+    images: {
+      ellipseDesktop: EllipseArrowBlack,
+      ellipseMobile: EllipseArrowMobileBlack
+    }
   },
 
   dark: {
-    primary: '#fff',
-    secondary: '#121314',
-    tokenTitleLine: '#243aff',
-    error: '#eb5757',
-    proposalPlate: '#222324',
-    ...mainColors
+    colors: {
+      primary: '#fff',
+      secondary: '#121314',
+      tokenTitleLine: '#243aff',
+      error: '#eb5757',
+      proposalPlate: '#222324',
+      ...mainColors
+    },
+
+    images: {
+      ellipseDesktop: EllipseArrowWhite,
+      ellipseMobile: EllipseArrowMobileWhite
+    }
   }
 };
 
 export const theme = {
-  colors: themeModes.light,
+  colors: themeModes.light.colors,
 
   mixins: {
     hover: () => '@media (hover: hover)' as const
@@ -76,7 +98,9 @@ export const theme = {
       `@media (min-width: ${width}px)` as '@media (min-width: {width}px)',
     down: (width: number) =>
       `@media (max-width: ${width}px)` as '@media (max-width: {width}px)'
-  }
+  },
+
+  images: themeModes.light.images
 } as const;
 
 export type Theme = typeof theme;

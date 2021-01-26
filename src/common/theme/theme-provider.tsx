@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ThemeProvider as JssThemeProvider } from 'react-jss';
-import useLocalStorage from 'react-use/esm/useLocalStorage';
+import { useLocalStorage, useMedia } from 'react-use';
 
 import { theme, themeModes, ThemeModes } from './theme';
 
@@ -14,47 +14,39 @@ export const useToggleTheme = () => {
 };
 
 export const ThemeProvider: React.FC = React.memo((props) => {
-  const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
+  const isDark = useMedia('(prefers-color-scheme: dark)');
   const [themeMode, setThemeMode] = useState<ThemeModes>(
-    mediaQuery.matches ? 'dark' : 'light'
+    isDark ? 'dark' : 'light'
   );
   const [persistedThemeMode, persistThemeMode] = useLocalStorage(THEME_KEY);
 
   const handlePersistTheme = () => {
-    if (
-      persistedThemeMode === 'dark' ||
-      (!persistedThemeMode && mediaQuery.matches)
-    ) {
+    if (persistedThemeMode === 'dark' || (!persistedThemeMode && isDark)) {
       persistThemeMode('light');
     } else {
       persistThemeMode('dark');
     }
   };
 
-  const handleToggleTheme = useCallback((event: MediaQueryListEvent) => {
-    if (event.matches) {
+  useEffect(() => {
+    if (isDark) {
       setThemeMode('dark');
     } else {
       setThemeMode('light');
     }
-  }, []);
+  }, [isDark]);
 
-  useEffect(() => {
-    mediaQuery.addListener?.(handleToggleTheme);
-
-    return () => {
-      mediaQuery.removeListener?.(handleToggleTheme);
-    };
-  });
+  const currentThemeMode = useMemo(
+    () => (persistedThemeMode ? (persistedThemeMode as ThemeModes) : themeMode),
+    [themeMode, persistedThemeMode]
+  );
 
   return (
     <JssThemeProvider
       theme={{
         ...theme,
-        colors:
-          themeModes[
-            persistedThemeMode ? (persistedThemeMode as ThemeModes) : themeMode
-          ]
+        colors: themeModes[currentThemeMode].colors,
+        images: themeModes[currentThemeMode].images
       }}
     >
       <toggleThemeContext.Provider value={handlePersistTheme}>

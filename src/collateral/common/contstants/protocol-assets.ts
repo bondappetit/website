@@ -18,168 +18,188 @@ export const PROTOCOL_ASSETS: TableData = {
       {
         title: 'Tokenomica',
         cellType: TableCellTypes.borrower,
-        value: '$ 2,156,480',
+        value: '$ 0',
         rowSpan: 100
       },
       {
-        title: '32'
+        title: '-'
       },
       {
-        title: 'Rusal',
-        cellType: TableCellTypes.issuer
+        title: '-'
       },
       {
-        title: '$ 1,480,720'
+        title: '$ 0'
       },
       {
-        title: '20,500'
+        title: '-'
       },
       {
-        title: '5.15%'
+        title: '0%'
       },
       {
-        title: '02.02.2022'
+        title: '-'
       },
       {
-        title: 'XS1533921299'
+        title: '-'
       },
       {
-        title: '27 Dec 2020'
+        title: '-'
       }
     ],
     [
       {
-        title: '10'
+        title: '-'
       },
       {
-        title: 'Rusal',
-        cellType: TableCellTypes.issuer
+        title: '-'
       },
       {
-        title: '$ 1,480,720'
+        title: '$ 0'
       },
       {
-        title: '20,500'
+        title: '-'
       },
       {
-        title: '5.15%'
+        title: '0%'
       },
       {
-        title: '02.02.2022'
+        title: '-'
       },
       {
-        title: 'XS1533921299'
+        title: '-'
       },
       {
-        title: '27 Dec 2020'
+        title: '-'
       }
     ],
     [
       {
-        title: '32'
+        title: '-'
       },
       {
-        title: 'Rusal',
-        cellType: TableCellTypes.issuer
+        title: '-'
       },
       {
-        title: '$ 1,480,720'
+        title: '$ 0'
       },
       {
-        title: '20,500'
+        title: '-'
       },
       {
-        title: '5.15%'
+        title: '0%'
       },
       {
-        title: '02.02.2022'
+        title: '-'
       },
       {
-        title: 'XS1533921299'
+        title: '-'
       },
       {
-        title: '27 Dec 2020'
+        title: '-'
       }
     ],
     [
       {
-        title: '15'
+        title: '-'
       },
       {
-        title: 'Gazprom',
-        cellType: TableCellTypes.issuer
+        title: '-'
       },
       {
-        title: '$ 1,480,720'
+        title: '$ 0'
       },
       {
-        title: '20,500'
+        title: '-'
       },
       {
-        title: '5.15%'
+        title: '0%'
       },
       {
-        title: '02.02.2022'
+        title: '-'
       },
       {
-        title: 'XS1533921299'
+        title: '-'
       },
       {
-        title: '27 Dec 2020'
+        title: '-'
       }
     ],
     [
       {
-        title: '20'
+        title: '-'
       },
       {
-        title: 'Gazprom',
-        cellType: TableCellTypes.issuer
+        title: '-'
       },
       {
-        title: '$ 1,480,720'
+        title: '$ 0'
       },
       {
-        title: '20,500'
+        title: '-'
       },
       {
-        title: '5.15%'
+        title: '0%'
       },
       {
-        title: '02.02.2022'
+        title: '-'
       },
       {
-        title: 'XS1533921299'
+        title: '-'
       },
       {
-        title: '27 Dec 2020'
+        title: '-'
       }
     ],
     [
       {
-        title: '32'
+        title: '-'
       },
       {
-        title: 'Gazprom',
-        cellType: TableCellTypes.issuer
+        title: '-'
       },
       {
-        title: '$ 1,480,720'
+        title: '$ 0'
       },
       {
-        title: '20,500'
+        title: '-'
       },
       {
-        title: '5.15%'
+        title: '0%'
       },
       {
-        title: '02.02.2022'
+        title: '-'
       },
       {
-        title: 'XS1533921299'
+        title: '-'
       },
       {
-        title: '27 Dec 2020'
+        title: '-'
+      }
+    ],
+    [
+      {
+        title: '-'
+      },
+      {
+        title: '-'
+      },
+      {
+        title: '$ 0'
+      },
+      {
+        title: '-'
+      },
+      {
+        title: '0%'
+      },
+      {
+        title: '-'
+      },
+      {
+        title: '-'
+      },
+      {
+        title: '-'
       }
     ]
   ]
