@@ -9,7 +9,6 @@ export const URLS = {
   },
   stablecoin: '/stablecoin',
   notfound: '/404',
-  market: '/market',
   staking: {
     list: '/staking',
     detail: (tokenId = ':tokenId') => `/staking/${tokenId}`

@@ -59,11 +59,6 @@ const MENU_ITEMS: MenuItem[] = [
       },
 
       {
-        title: 'Market',
-        link: URLS.market
-      },
-
-      {
         title: 'Docs',
         link: URLS.docs.list
       },
