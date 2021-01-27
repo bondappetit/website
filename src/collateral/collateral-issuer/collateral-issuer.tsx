@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, useParams } from 'react-router-dom';
 
-import { PageWrapper, Typography } from 'src/common';
+import { Head, PageWrapper, Typography } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { URLS } from 'src/router/urls';
 import { ReactComponent as RuFlagicon } from 'src/assets/icons/ru-flag.svg';
@@ -32,36 +32,39 @@ export const CollateralIssuer: React.FC = () => {
   }
 
   return (
-    <MainLayout>
-      <PageWrapper className={classes.root}>
-        <CollateralDescription
-          backLink={{ to: URLS.collateral.list, title: 'Collaterals' }}
-          title={company.title}
-          type={company.type}
-          url={company.url}
-          className={classes.description}
-        >
-          {company.description}
-        </CollateralDescription>
-        <ul className={classes.list}>
-          {company.list.map(({ title, value }) => {
-            const Icon = ICONS[value.toLowerCase()];
+    <>
+      <Head title={`${params.companyName}`} />
+      <MainLayout>
+        <PageWrapper className={classes.root}>
+          <CollateralDescription
+            backLink={{ to: URLS.collateral.list, title: 'Collaterals' }}
+            title={company.title}
+            type={company.type}
+            url={company.url}
+            className={classes.description}
+          >
+            {company.description}
+          </CollateralDescription>
+          <ul className={classes.list}>
+            {company.list.map(({ title, value }) => {
+              const Icon = ICONS[value.toLowerCase()];
 
-            return (
-              <li className={classes.listItem} key={title + value}>
-                <Typography variant="h4" component="div">
-                  {title}
-                </Typography>
-                <span className={classes.spacer} />
-                <Typography variant="h4" component="div">
-                  {Icon && <Icon className={classes.flag} />}
-                  {value}
-                </Typography>
-              </li>
-            );
-          })}
-        </ul>
-      </PageWrapper>
-    </MainLayout>
+              return (
+                <li className={classes.listItem} key={title + value}>
+                  <Typography variant="h4" component="div">
+                    {title}
+                  </Typography>
+                  <span className={classes.spacer} />
+                  <Typography variant="h4" component="div">
+                    {Icon && <Icon className={classes.flag} />}
+                    {value}
+                  </Typography>
+                </li>
+              );
+            })}
+          </ul>
+        </PageWrapper>
+      </MainLayout>
+    </>
   );
 };

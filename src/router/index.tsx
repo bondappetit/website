@@ -3,11 +3,13 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 
 import { SuspenseFallback } from 'src/common';
 import { routes } from './routes';
+import { ScrollToTop } from './scroll-to-top';
 
 const Router: React.FC = () => {
   return (
     <Suspense fallback={<SuspenseFallback />}>
       <BrowserRouter>
+        <ScrollToTop />
         <Switch>
           {routes.map((route, index) => {
             const id = `${route.url}-${index}`;

@@ -40,18 +40,21 @@ export const StablecoinLinkModal: React.FC<StablecoinLinkModalProps> = (
               Uniswap
             </Button>
           </div>
-          <div className={classes.button}>
-            <Typography variant="body1">Centralized Exchange</Typography>
-            <Button
-              variant="outlined"
-              component={Link}
-              href="https://www.binance.com/"
-              target="_blank"
-            >
-              <BinanceIcon />
-              Binance
-            </Button>
-          </div>
+          {false && (
+            <div className={classes.button}>
+              {/* TODO: hide binance for now */}
+              <Typography variant="body1">Centralized Exchange</Typography>
+              <Button
+                variant="outlined"
+                component={Link}
+                href="https://www.binance.com/"
+                target="_blank"
+              >
+                <BinanceIcon />
+                Binance
+              </Button>
+            </div>
+          )}
         </div>
       </SmallModal>
     </Modal>

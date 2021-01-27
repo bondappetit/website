@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 
 import { MainLayout } from 'src/layouts';
-import { Typography, Skeleton, Status, dateUtils } from 'src/common';
+import { Typography, Skeleton, Status, dateUtils, Head } from 'src/common';
 import {
   ProposalState,
   VotingDetailsBlock,
@@ -23,72 +23,75 @@ export const VotingProposalDetail: React.FC = () => {
   const classes = useVotingProposalDetailStyles();
 
   return (
-    <MainLayout>
-      <div className={classes.voting}>
-        <Typography
-          variant="h2"
-          weight="light"
-          align="center"
-          className={classes.title}
-        >
-          {loading ? (
-            <>
-              <Skeleton height={32} className={classes.skeletonTitle} />
-              <Skeleton
-                height={32}
-                maxWidth={252}
-                className={classes.skeletonTitle}
-              />
-            </>
-          ) : (
-            proposal?.title
-          )}
-        </Typography>
-        <Typography
-          variant="h5"
-          weight="light"
-          align="center"
-          className={classes.subtitle}
-          component="div"
-        >
-          {loading ? (
-            <>
-              <Skeleton
-                height={32}
-                maxWidth={388}
-                className={classes.skeletonTitle}
-              />
-            </>
-          ) : (
-            <>
-              {proposal?.status && (
-                <Status color={ProposalStateColors[proposal.status]}>
-                  {ProposalState[Number(proposal.status)]}
-                </Status>
-              )}
-              {ProposalState.Succeeded === Number(proposal?.status) &&
-                proposal?.eta && (
-                  <span className={classes.date}>
-                    Queue period {dateUtils.formatUnix(Number(proposal.eta))}
-                  </span>
+    <>
+      <Head title={proposal?.title} />
+      <MainLayout>
+        <div className={classes.voting}>
+          <Typography
+            variant="h2"
+            weight="light"
+            align="center"
+            className={classes.title}
+          >
+            {loading ? (
+              <>
+                <Skeleton height={32} className={classes.skeletonTitle} />
+                <Skeleton
+                  height={32}
+                  maxWidth={252}
+                  className={classes.skeletonTitle}
+                />
+              </>
+            ) : (
+              proposal?.title
+            )}
+          </Typography>
+          <Typography
+            variant="h5"
+            weight="light"
+            align="center"
+            className={classes.subtitle}
+            component="div"
+          >
+            {loading ? (
+              <>
+                <Skeleton
+                  height={32}
+                  maxWidth={388}
+                  className={classes.skeletonTitle}
+                />
+              </>
+            ) : (
+              <>
+                {proposal?.status && (
+                  <Status color={ProposalStateColors[proposal.status]}>
+                    {ProposalState[Number(proposal.status)]}
+                  </Status>
                 )}
-            </>
-          )}
-        </Typography>
-        <VotingDetailsAction
-          proposalId={proposalId}
-          loading={loading}
-          onUpdate={handleUpdateProposalDetail}
-          forCount={proposal?.forCount}
-          status={proposal?.status}
-          againstCount={proposal?.againstCount}
-        />
-        <VotingDetailsBlock loading={loading} details={proposal?.details} />
-        <VotingProposalDescription
-          loading={loading}
-          description={proposal?.description}
-        />
-      </div>
-    </MainLayout>
+                {ProposalState.Succeeded === Number(proposal?.status) &&
+                  proposal?.eta && (
+                    <span className={classes.date}>
+                      Queue period {dateUtils.formatUnix(Number(proposal.eta))}
+                    </span>
+                  )}
+              </>
+            )}
+          </Typography>
+          <VotingDetailsAction
+            proposalId={proposalId}
+            loading={loading}
+            onUpdate={handleUpdateProposalDetail}
+            forCount={proposal?.forCount}
+            status={proposal?.status}
+            againstCount={proposal?.againstCount}
+          />
+          <VotingDetailsBlock loading={loading} details={proposal?.details} />
+          <VotingProposalDescription
+            loading={loading}
+            description={proposal?.description}
+          />
+        </div>
+      </MainLayout>
+    </>
   );
 };

@@ -1,9 +1,13 @@
 import React, { useCallback } from 'react';
 import { useToggle } from 'react-use';
 
-import { PageWrapper } from 'src/common';
+import { Head, PageWrapper } from 'src/common';
 import { MainLayout } from 'src/layouts';
-import { StablecoinLinkModal, StablecoinMarketModal } from 'src/stablecoin';
+import {
+  StablecoinLinkModal,
+  StablecoinMarketModal,
+  useStableCoinBalance
+} from 'src/stablecoin';
 import { useStakingApy, useStakingBalances } from 'src/staking';
 import { STAKING_CONFIG } from 'src/staking-config';
 import {
@@ -23,6 +27,8 @@ export const Main: React.FC = () => {
   const [stakingBalances] = useStakingBalances(staking);
   const stakingBalancesWithApy = useStakingApy(stakingBalances);
 
+  const stablecoinBalance = useStableCoinBalance();
+
   const [linkModalOpen, togglelinkModal] = useToggle(false);
   const [marketModalOpen, toggleMarketModal] = useToggle(false);
   const [sellModalOpen, toggleSellModal] = useToggle(false);
@@ -34,6 +40,10 @@ export const Main: React.FC = () => {
 
   return (
     <>
+      <Head
+        title="The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem."
+        ogUrl="https://bondappetit.io"
+      />
       <MainLayout>
         <PageWrapper>
           <MainStaking
@@ -42,6 +52,7 @@ export const Main: React.FC = () => {
           />
           <MainStablecoin
             className={classes.stable}
+            stablecoinBalance={stablecoinBalance}
             onBuy={togglelinkModal}
             onSell={toggleSellModal}
           />

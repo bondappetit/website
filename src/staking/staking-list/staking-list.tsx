@@ -6,7 +6,8 @@ import {
   useNetworkConfig,
   PageWrapper,
   Typography,
-  Skeleton
+  Skeleton,
+  Head
 } from 'src/common';
 import {
   StakingCard,
@@ -42,45 +43,48 @@ export const StakingList: React.FC = () => {
   );
 
   return (
-    <MainLayout>
-      <PageWrapper>
-        <div className={classes.header}>
-          <Typography variant="h1" align="center" className={classes.title}>
-            Earn Staking Rewards in BAG by providing liquidity for protocol’s
-            assets
-          </Typography>
-          <div className={classes.info}>
-            <Typography variant="h5" align="center" className={classes.bag}>
-              BAG price:{' '}
-              <Typography variant="inherit" component="span" weight="bold">
-                {normalizeGovernanceInUSDC} USD
-              </Typography>
+    <>
+      <Head title="Earn Staking Rewards in BAG by providing liquidity for protocol’s assets" />
+      <MainLayout>
+        <PageWrapper>
+          <div className={classes.header}>
+            <Typography variant="h1" align="center" className={classes.title}>
+              Earn Staking Rewards in BAG by providing liquidity for protocol’s
+              assets
             </Typography>
-            <Typography variant="h5" align="center">
-              You earned:{' '}
-              <Typography variant="inherit" component="span" weight="bold">
-                {rewardSum.reward} BAG ({rewardSum.rewardInUSDC} USD)
+            <div className={classes.info}>
+              <Typography variant="h5" align="center" className={classes.bag}>
+                BAG price:{' '}
+                <Typography variant="inherit" component="span" weight="bold">
+                  {normalizeGovernanceInUSDC} USD
+                </Typography>
               </Typography>
-            </Typography>
+              <Typography variant="h5" align="center">
+                You earned:{' '}
+                <Typography variant="inherit" component="span" weight="bold">
+                  {rewardSum.reward} BAG ({rewardSum.rewardInUSDC} USD)
+                </Typography>
+              </Typography>
+            </div>
           </div>
-        </div>
-        <div className={classes.staking}>
-          {!stakingBalancesWithApy.length
-            ? Array.from(Array(4), (_, i) => i).map((key) => (
-                <Skeleton key={key} className={classes.skeleton} />
-              ))
-            : stakingBalancesWithApy.map((stakingBalance) => (
-                <StakingCard
-                  key={stakingBalance.key}
-                  stacked={Boolean(Number(stakingBalance.amount))}
-                  tokenKey={stakingBalance.key}
-                  token={stakingBalance.token}
-                  reward={stakingBalance.reward}
-                  APY={stakingBalance.APY}
-                />
-              ))}
-        </div>
-      </PageWrapper>
-    </MainLayout>
+          <div className={classes.staking}>
+            {!stakingBalancesWithApy.length
+              ? Array.from(Array(4), (_, i) => i).map((key) => (
+                  <Skeleton key={key} className={classes.skeleton} />
+                ))
+              : stakingBalancesWithApy.map((stakingBalance) => (
+                  <StakingCard
+                    key={stakingBalance.key}
+                    stacked={Boolean(Number(stakingBalance.amount))}
+                    tokenKey={stakingBalance.key}
+                    token={stakingBalance.token}
+                    reward={stakingBalance.reward}
+                    APY={stakingBalance.APY}
+                  />
+                ))}
+          </div>
+        </PageWrapper>
+      </MainLayout>
+    </>
   );
 };

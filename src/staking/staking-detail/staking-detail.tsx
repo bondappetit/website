@@ -6,7 +6,14 @@ import clsx from 'clsx';
 import BN from 'bignumber.js';
 
 import { MainLayout } from 'src/layouts';
-import { Button, Plate, Typography, PageWrapper, useBalance } from 'src/common';
+import {
+  Button,
+  Plate,
+  Typography,
+  PageWrapper,
+  useBalance,
+  Head
+} from 'src/common';
 import {
   StakingHeader,
   useStakingApy,
@@ -71,77 +78,80 @@ export const StakingDetail: React.FC = () => {
   const { tokenName } = STAKING_CONFIG[tokenId];
 
   return (
-    <MainLayout>
-      <PageWrapper className={classes.staking}>
-        <StakingHeader
-          tokenKey={params.tokenId}
-          token={stakingBalancesWithApy?.token}
-          APY={stakingBalancesWithApy?.APY}
-          className={classes.header}
-        />
-        <div className={classes.row}>
-          <Plate className={classes.card}>
-            <StakingLockForm
-              account={account}
-              tokenName={tokenName}
-              tokenKey={params.tokenId}
-              tokenAddress={stakingBalancesWithApy?.address}
-              contractName={stakingBalancesWithApy?.contractName}
-              tokenDecimals={stakingBalancesWithApy?.decimals}
-              onSubmit={update}
-              balanceOfToken={balanceOfToken}
-            />
-          </Plate>
-          <Plate className={clsx(classes.card, classes.cardFlex)}>
-            <div className={classes.stakingBalance}>
-              <div className={classes.unstakeAndClaim}>
-                <Typography
-                  variant="body1"
-                  align="center"
-                  className={classes.cardTitle}
-                >
-                  You staked {tokenName}
-                </Typography>
-                <Typography variant="h2" align="center">
-                  {stakingBalancesWithApy?.amount}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  align="center"
-                  className={classes.usd}
-                >
-                  {stakingBalancesWithApy?.amountInUSDC ?? '0'} USD
-                </Typography>
-                <Button onClick={handleUnstake} className={classes.unlock}>
-                  Unstake
-                </Button>
+    <>
+      <Head title={`Staking ${tokenName}`} />
+      <MainLayout>
+        <PageWrapper className={classes.staking}>
+          <StakingHeader
+            tokenKey={params.tokenId}
+            token={stakingBalancesWithApy?.token}
+            APY={stakingBalancesWithApy?.APY}
+            className={classes.header}
+          />
+          <div className={classes.row}>
+            <Plate className={classes.card}>
+              <StakingLockForm
+                account={account}
+                tokenName={tokenName}
+                tokenKey={params.tokenId}
+                tokenAddress={stakingBalancesWithApy?.address}
+                contractName={stakingBalancesWithApy?.contractName}
+                tokenDecimals={stakingBalancesWithApy?.decimals}
+                onSubmit={update}
+                balanceOfToken={balanceOfToken}
+              />
+            </Plate>
+            <Plate className={clsx(classes.card, classes.cardFlex)}>
+              <div className={classes.stakingBalance}>
+                <div className={classes.unstakeAndClaim}>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.cardTitle}
+                  >
+                    You staked {tokenName}
+                  </Typography>
+                  <Typography variant="h2" align="center">
+                    {stakingBalancesWithApy?.amount}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.usd}
+                  >
+                    {stakingBalancesWithApy?.amountInUSDC ?? '0'} USD
+                  </Typography>
+                  <Button onClick={handleUnstake} className={classes.unlock}>
+                    Unstake
+                  </Button>
+                </div>
+                <div className={classes.unstakeAndClaim}>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.cardTitle}
+                  >
+                    You earned BAG
+                  </Typography>
+                  <Typography variant="h2" align="center">
+                    {stakingBalancesWithApy?.reward}
+                  </Typography>
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.usd}
+                  >
+                    {stakingBalancesWithApy?.rewardInUSDC ?? '0'} USD
+                  </Typography>
+                  <Button onClick={handleClaim} className={classes.unlock}>
+                    Claim
+                  </Button>
+                </div>
               </div>
-              <div className={classes.unstakeAndClaim}>
-                <Typography
-                  variant="body1"
-                  align="center"
-                  className={classes.cardTitle}
-                >
-                  You earned BAG
-                </Typography>
-                <Typography variant="h2" align="center">
-                  {stakingBalancesWithApy?.reward}
-                </Typography>
-                <Typography
-                  variant="body1"
-                  align="center"
-                  className={classes.usd}
-                >
-                  {stakingBalancesWithApy?.rewardInUSDC ?? '0'} USD
-                </Typography>
-                <Button onClick={handleClaim} className={classes.unlock}>
-                  Claim
-                </Button>
-              </div>
-            </div>
-          </Plate>
-        </div>
-      </PageWrapper>
-    </MainLayout>
+            </Plate>
+          </div>
+        </PageWrapper>
+      </MainLayout>
+    </>
   );
 };

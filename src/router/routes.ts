@@ -5,7 +5,6 @@ import { URLS } from './urls';
 
 const Investing = React.lazy(() => import('src/investing'));
 const Stablecoin = React.lazy(() => import('src/stablecoin'));
-const Market = React.lazy(() => import('src/market/market-forms'));
 const StakingDetail = React.lazy(() => import('src/staking/staking-detail'));
 const StakingList = React.lazy(() => import('src/staking/staking-list'));
 const OracleManage = React.lazy(() => import('src/oracle/oracle-manage'));
@@ -72,10 +71,6 @@ export const routes = [
         {
           url: URLS.voting.list,
           component: VotingProposalList
-        },
-        {
-          url: URLS.market,
-          component: Market
         },
         {
           url: URLS.staking.detail(),

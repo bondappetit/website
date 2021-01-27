@@ -34,7 +34,14 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
           <InfoCardFailure
             onClick={this.handleReloadPage}
             buttonTitle="Reload"
-            title="Oh-oh, something went wrong. Please reload page"
+            className={this.props.classes.content}
+            title={
+              <>
+                Oh-oh, something went wrong.
+                <br />
+                Please reload page
+              </>
+            }
           />
         </div>
       );

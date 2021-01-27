@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNProgress } from '@tanem/react-nprogress';
 
-import { ReactComponent as HatOutlineIcon } from 'src/assets/icons/hat-outline.svg';
+import { ReactComponent as HatOutlineIcon } from 'src/assets/images/hat-loader-base.svg';
 import { Typography } from 'src/common/typography';
 import { InfoCardWrapper } from '../info-card-wrapper';
 import { useInfoCardLoaderStyles } from './info-card-loader.styles';

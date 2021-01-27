@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useToggle } from 'react-use';
 
-import { PageWrapper } from 'src/common';
+import { Head, PageWrapper } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
   StablecoinDecentralized,
@@ -27,6 +27,7 @@ export const Stablecoin: React.FC = () => {
 
   return (
     <>
+      <Head title="The first-ever decentralized stablecoin based on real-world assets." />
       <MainLayout>
         <PageWrapper>
           <StablecoinEllipse

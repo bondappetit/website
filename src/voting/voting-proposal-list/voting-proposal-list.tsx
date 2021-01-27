@@ -9,7 +9,8 @@ import {
   ButtonBase,
   Skeleton,
   cutAccount,
-  useNetworkConfig
+  useNetworkConfig,
+  Head
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useVotingProposalListStyles } from './voting-proposal-list.styles';
@@ -46,78 +47,81 @@ export const VotingProposalList: React.FC = () => {
   };
 
   return (
-    <MainLayout>
-      <div className={classes.root}>
-        <div className={classes.header}>
-          <Typography variant="h3" align="center">
-            {loading && <Skeleton className={classes.votesSkeleton} />}
-            {!loading &&
-              (Number(currentVotes) > 0 || Number(currentGovCoin) > 0) && (
-                <>
-                  {Number(currentVotes) === 0 ? currentGovCoin : currentVotes}{' '}
-                  {Number(currentVotes) === 0 ? 'BAG' : 'Votes'}
-                </>
-              )}
-            {!loading &&
-              Number(currentVotes) === 0 &&
-              Number(currentGovCoin) === 0 && <>No Votes</>}
-          </Typography>
-          {loading && <Skeleton className={classes.delegatesSkeleton} />}
-          {!loading && (
-            <>
-              <Typography variant="h2" align="center">
-                {Number(currentVotes) > 0 &&
-                  delegateTo !== DELEGATE_TO_DEFAULT && (
-                    <>
-                      deligated to{' '}
-                      <Link
-                        target="_blank"
-                        className={classes.delegateTo}
-                        href={`${networkConfig.networkEtherscan}/address/${delegateTo}`}
-                      >
-                        {cutAccount(delegateTo)}
-                      </Link>
-                    </>
-                  )}
-                {(Number(currentVotes) > 0 || Number(currentGovCoin) > 0) &&
-                  delegateTo === DELEGATE_TO_DEFAULT && (
-                    <>Unlock it so you can vote</>
-                  )}
-              </Typography>
-              {canDelegate && (
-                <Button onClick={handleToggleVotingChoose}>
-                  {delegateTo === DELEGATE_TO_DEFAULT
-                    ? 'Unlock votes'
-                    : 'Redelegate'}
-                </Button>
-              )}
-            </>
+    <>
+      <Head title="Proposals" />
+      <MainLayout>
+        <div className={classes.root}>
+          <div className={classes.header}>
+            <Typography variant="h3" align="center">
+              {loading && <Skeleton className={classes.votesSkeleton} />}
+              {!loading &&
+                (Number(currentVotes) > 0 || Number(currentGovCoin) > 0) && (
+                  <>
+                    {Number(currentVotes) === 0 ? currentGovCoin : currentVotes}{' '}
+                    {Number(currentVotes) === 0 ? 'BAG' : 'Votes'}
+                  </>
+                )}
+              {!loading &&
+                Number(currentVotes) === 0 &&
+                Number(currentGovCoin) === 0 && <>No Votes</>}
+            </Typography>
+            {loading && <Skeleton className={classes.delegatesSkeleton} />}
+            {!loading && (
+              <>
+                <Typography variant="h2" align="center">
+                  {Number(currentVotes) > 0 &&
+                    delegateTo !== DELEGATE_TO_DEFAULT && (
+                      <>
+                        deligated to{' '}
+                        <Link
+                          target="_blank"
+                          className={classes.delegateTo}
+                          href={`${networkConfig.networkEtherscan}/address/${delegateTo}`}
+                        >
+                          {cutAccount(delegateTo)}
+                        </Link>
+                      </>
+                    )}
+                  {(Number(currentVotes) > 0 || Number(currentGovCoin) > 0) &&
+                    delegateTo === DELEGATE_TO_DEFAULT && (
+                      <>Unlock it so you can vote</>
+                    )}
+                </Typography>
+                {canDelegate && (
+                  <Button onClick={handleToggleVotingChoose}>
+                    {delegateTo === DELEGATE_TO_DEFAULT
+                      ? 'Unlock votes'
+                      : 'Redelegate'}
+                  </Button>
+                )}
+              </>
+            )}
+          </div>
+          {canCreateProposal && (
+            <Button
+              component={ReactRouterLink}
+              variant="outlined"
+              to={URLS.voting.create}
+              className={classes.createProposal}
+            >
+              + Create new proposal
+            </Button>
+          )}
+          <VotingProposals
+            loading={loading}
+            proposals={proposals}
+            className={classes.list}
+          />
+          {proposalPages.length > 1 && (
+            <ButtonBase onClick={nextPage}>show more</ButtonBase>
           )}
         </div>
-        {canCreateProposal && (
-          <Button
-            component={ReactRouterLink}
-            variant="outlined"
-            to={URLS.voting.create}
-            className={classes.createProposal}
-          >
-            + Create new proposal
-          </Button>
-        )}
-        <VotingProposals
-          loading={loading}
-          proposals={proposals}
-          className={classes.list}
+        <VotingChoose
+          votes={Number(currentVotes) > 0 ? currentVotes : currentGovCoin}
+          open={votingChooseOpen}
+          onClose={handleToggleVotingChoose}
         />
-        {proposalPages.length > 1 && (
-          <ButtonBase onClick={nextPage}>show more</ButtonBase>
-        )}
-      </div>
-      <VotingChoose
-        votes={Number(currentVotes) > 0 ? currentVotes : currentGovCoin}
-        open={votingChooseOpen}
-        onClose={handleToggleVotingChoose}
-      />
-    </MainLayout>
+      </MainLayout>
+    </>
   );
 };

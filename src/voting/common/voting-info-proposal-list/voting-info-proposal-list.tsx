@@ -45,7 +45,7 @@ export const VotingInfoProposalList: React.FC<VotingInfoProposalListProps> = (
         className={classes.link}
       >
         {!props.proposalCount ? (
-          <>Create first proposals →</>
+          <>Create first proposal →</>
         ) : (
           <>Go to all {props.proposalCount} proposals →</>
         )}

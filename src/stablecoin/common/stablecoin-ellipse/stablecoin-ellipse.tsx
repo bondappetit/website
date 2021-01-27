@@ -16,7 +16,8 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
     <div className={props.className}>
       <div className={classes.ellipse}>
         <Typography variant="h1" align="center" className={classes.title}>
-          The first-ever decentralized stablecoin based on real-world assets
+          The first-ever decentralized{'\n'}
+          stablecoin based on real-world assets
         </Typography>
         <div>
           <Typography variant="body1" align="center" className={classes.info}>

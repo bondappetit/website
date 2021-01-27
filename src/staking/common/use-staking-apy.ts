@@ -117,21 +117,22 @@ export const useStakingApy = (balances: StakingToken[]) => {
           .div(new BN(10).pow(USD.decimals))
           .toFixed(4);
 
+        const APYBN = new BN(balance.rewardRate)
+          .div(
+            new BN(balance.totalSupply).gt(0)
+              ? balance.totalSupply
+              : new BN(10).pow(balance.decimals)
+          )
+          .multipliedBy(governanceInUSDC)
+          .multipliedBy(BLOCK_PER_YEAR)
+          .div(tokenInUSDC)
+          .multipliedBy(100);
+
         return {
           ...balance,
           amountInUSDC,
           rewardInUSDC,
-          APY: new BN(balance.rewardRate)
-            .div(
-              new BN(balance.totalSupply).gt(0)
-                ? balance.totalSupply
-                : new BN(10).pow(balance.decimals)
-            )
-            .multipliedBy(governanceInUSDC)
-            .multipliedBy(BLOCK_PER_YEAR)
-            .div(tokenInUSDC)
-            .multipliedBy(100)
-            .toFixed(2)
+          APY: APYBN.isNaN() ? '0' : APYBN.toFixed(2)
         };
       })
     );

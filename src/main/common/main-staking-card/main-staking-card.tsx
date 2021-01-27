@@ -1,12 +1,15 @@
 import clsx from 'clsx';
 import React from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Typography, STAKING_ICONS } from 'src/common';
+import { Typography, STAKING_ICONS, Link } from 'src/common';
+import { URLS } from 'src/router/urls';
 import { useMainStakingCardStyles } from './main-staking-card.style';
 
 export type MainStakingCardProps = {
   className?: string;
   token?: string[];
+  tokenKey: string;
   APY?: string;
   totalSupply?: string;
 };
@@ -17,7 +20,11 @@ export const MainStakingCard: React.FC<MainStakingCardProps> = (props) => {
   const tokenName = props.token?.join('_');
 
   return (
-    <div className={clsx(classes.root, props.className)}>
+    <Link
+      component={ReactRouterLink}
+      to={`${URLS.staking.detail(props.tokenKey)}`}
+      className={clsx(classes.root, props.className)}
+    >
       <div className={classes.head}>
         <Typography variant="h3" align="center" weight="bold">
           {props.token?.map((title, index) => {
@@ -55,6 +62,6 @@ export const MainStakingCard: React.FC<MainStakingCardProps> = (props) => {
           </Typography>
         </Typography>
       </div>
-    </div>
+    </Link>
   );
 };
