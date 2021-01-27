@@ -1,13 +1,9 @@
 import React, { useCallback } from 'react';
 import { useToggle } from 'react-use';
 
-import { Head, PageWrapper } from 'src/common';
+import { Head, PageWrapper, LinkModal } from 'src/common';
 import { MainLayout } from 'src/layouts';
-import {
-  StablecoinLinkModal,
-  StablecoinMarketModal,
-  useStableCoinBalance
-} from 'src/stablecoin';
+import { StablecoinMarketModal, useStableCoinBalance } from 'src/stablecoin';
 import { useStakingApy, useStakingBalances } from 'src/staking';
 import { STAKING_CONFIG } from 'src/staking-config';
 import {
@@ -61,13 +57,13 @@ export const Main: React.FC = () => {
           <MainLinks />
         </PageWrapper>
       </MainLayout>
-      <StablecoinLinkModal
+      <LinkModal
         open={linkModalOpen}
         onClose={togglelinkModal}
         onBuy={handleBuy}
         withBuy
       />
-      <StablecoinLinkModal open={sellModalOpen} onClose={toggleSellModal} />
+      <LinkModal open={sellModalOpen} onClose={toggleSellModal} />
       <StablecoinMarketModal
         open={marketModalOpen}
         onClose={toggleMarketModal}

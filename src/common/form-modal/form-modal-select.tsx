@@ -1,11 +1,9 @@
 import React from 'react';
 import clsx from 'clsx';
-import { development } from '@bondappetit/networks';
 
 import { ButtonBase } from '../button-base';
 import { useFormModalStyles } from './form-modal.styles';
-
-export type Asset = typeof development.assets[number] & { balance: string };
+import { Asset } from '../types';
 
 export type FormModalSelectProps = {
   onChange: (value: string, balance: string) => void;

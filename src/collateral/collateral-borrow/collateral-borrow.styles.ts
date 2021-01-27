@@ -82,6 +82,10 @@ export const useCollateralBorrowStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 24
       }
+    },
+
+    backLink: {
+      marginBottom: 24
     }
   }),
   {

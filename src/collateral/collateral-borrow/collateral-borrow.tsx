@@ -88,6 +88,19 @@ export const CollateralBorrow: React.FC = () => {
       <Head title="Borrow from BondAppétit" />
       <MainLayout>
         <PageWrapper className={classes.root}>
+          <Typography
+            variant="body1"
+            align="center"
+            className={classes.backLink}
+          >
+            <Link
+              to={URLS.collateral.list}
+              color="blue"
+              component={ReactRouterLink}
+            >
+              ← Collaterals
+            </Link>
+          </Typography>
           <div className={classes.wrap}>
             <div className={classes.section}>
               <Typography variant="h1" align="center" className={classes.title}>

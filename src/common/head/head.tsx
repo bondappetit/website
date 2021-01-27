@@ -10,10 +10,19 @@ export type HeadProps = {
   ogUrl?: string;
 };
 
+const SITE_URL = 'https://bondappetit.io';
+
+const SITE_DESCRIPTION =
+  'The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem';
+
 export const Head: React.FC<HeadProps> = (props) => {
   const siteTitle = ['BondAppetit', props.title].filter(Boolean).join(' - ');
 
-  const { ogImage = OpenGraph, ogUrl = 'https://bondappetit.io' } = props;
+  const {
+    ogImage = OpenGraph,
+    ogUrl = SITE_URL,
+    description = SITE_DESCRIPTION
+  } = props;
 
   const image = [ogUrl, ogImage].join('');
 
@@ -21,12 +30,8 @@ export const Head: React.FC<HeadProps> = (props) => {
     <Helmet>
       <title>{siteTitle}</title>
       <meta property="og:title" content={siteTitle} />
-      {props.description && (
-        <>
-          <meta name="twitter:description" content={props.description} />
-          <meta property="og:description" content={props.description} />
-        </>
-      )}
+      <meta name="twitter:description" content={description} />
+      <meta property="og:description" content={description} />
       <meta property="og:url" content={ogUrl} />
       <meta name="twitter:url" content={ogUrl} />
       <meta property="og:image" content={image} />

@@ -1,6 +1,8 @@
 import React from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { Typography, Link, Button } from 'src/common';
+import { URLS } from 'src/router/urls';
 import { useStablecoinEllipseStyles } from './stablecoin-ellipse.styles';
 
 export type StablecoinEllipseProps = {
@@ -51,7 +53,11 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
             basket of real-world debt obligations. USDp price equals $1 at all
             times and asset is issued only with sufficient collateral.
           </Typography>
-          <Link href="#more" color="blue">
+          <Link
+            color="blue"
+            component={ReactRouterLink}
+            to={`${URLS.whitepaper}#3`}
+          >
             Learn more
           </Link>
         </Typography>

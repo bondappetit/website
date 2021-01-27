@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-export const useStablecoinLinkModalStyles = createUseStyles(
+export const useLinkModalStyles = createUseStyles(
   {
     root: {
       display: 'flex',
@@ -19,6 +19,6 @@ export const useStablecoinLinkModalStyles = createUseStyles(
     }
   },
   {
-    name: 'StablecoinLinkModal'
+    name: 'LinkModal'
   }
 );

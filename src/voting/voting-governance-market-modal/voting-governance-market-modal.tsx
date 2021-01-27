@@ -10,7 +10,6 @@ import { useWeb3React } from '@web3-react/core';
 
 import { WalletModal } from 'src/wallets';
 import {
-  useCollateralMarketContract,
   useNetworkConfig,
   useBalance,
   useDynamicContract,
@@ -19,25 +18,28 @@ import {
   SmallModal,
   InfoCardFailure,
   InfoCardLoader,
-  InfoCardSuccess
+  InfoCardSuccess,
+  useMarketContract
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
-import { useStablecoinTokens } from './use-stablecoin-tokens';
+import { useGovernanceTokens } from './use-governance-tokens';
 
-export type StablecoinMarketModalProps = {
+export type VotingGovernanceMarketModalProps = {
   open: boolean;
   onClose: () => void;
   tokenName: string;
 };
 
-export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
+const DEFAULT_GAS = 2000000;
+
+export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalProps> = (
   props
 ) => {
   const [balance, setBalance] = useState('0');
   const [result, setResult] = useState<BN>(new BN(0));
-  const tokens = useStablecoinTokens();
+  const tokens = useGovernanceTokens();
   const { account } = useWeb3React<Web3>();
-  const collateralMarketContract = useCollateralMarketContract();
+  const marketContract = useMarketContract();
   const network = useNetworkConfig();
   const getBalance = useBalance();
   const getContract = useDynamicContract<Ierc20>({
@@ -91,39 +93,51 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         .toString(10);
 
       try {
-        const buyStableToken = collateralMarketContract.methods.buy(
-          currentContract.options.address,
-          formInvest
-        );
+        if (currentToken.name === 'ETH') {
+          const buyGovernanceTokenFromETH = marketContract.methods.buyGovernanceTokenFromETH();
 
-        const approve = currentContract.methods.approve(
-          collateralMarketContract.options.address,
-          formInvest
-        );
+          await buyGovernanceTokenFromETH.send({
+            from: account,
+            value: formInvest,
+            gas: DEFAULT_GAS
+          });
+        } else {
+          if (!currentContract) return;
 
-        const allowance = await currentContract.methods
-          .allowance(account, collateralMarketContract.options.address)
-          .call();
+          const buyGovernanceToken = marketContract.methods.buyGovernanceToken(
+            currentContract.options.address,
+            formInvest
+          );
 
-        if (allowance !== '0') {
-          await currentContract.methods
-            .approve(collateralMarketContract.options.address, '0')
-            .send({
-              from: account,
-              gas: await approve.estimateGas({ from: account })
-            });
+          const approve = currentContract.methods.approve(
+            marketContract.options.address,
+            formInvest
+          );
+
+          const allowance = await currentContract.methods
+            .allowance(account, marketContract.options.address)
+            .call();
+
+          if (allowance !== '0') {
+            await currentContract.methods
+              .approve(marketContract.options.address, '0')
+              .send({
+                from: account,
+                gas: await approve.estimateGas({ from: account })
+              });
+          }
+
+          await approve.send({
+            from: account,
+            gas: await approve.estimateGas({ from: account })
+          });
+          window.onbeforeunload = () => 'wait please transaction in progress';
+
+          await buyGovernanceToken.send({
+            from: account,
+            gas: await buyGovernanceToken.estimateGas({ from: account })
+          });
         }
-
-        await approve.send({
-          from: account,
-          gas: await approve.estimateGas({ from: account })
-        });
-        window.onbeforeunload = () => 'wait please transaction in progress';
-
-        await buyStableToken.send({
-          from: account,
-          gas: await buyStableToken.estimateGas({ from: account })
-        });
 
         failureToggle(false);
         successToggle(true);
@@ -152,13 +166,13 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   useDebounce(
     async () => {
       const balanceOfToken = await getBalance({
-        tokenAddress: network.assets.Stable.address,
-        tokenName: network.assets.Stable.name
+        tokenAddress: network.assets.Governance.address,
+        tokenName: network.assets.Governance.name
       });
 
       setBalance(
         balanceOfToken
-          .div(new BN(10).pow(network.assets.Stable.decimals))
+          .div(new BN(10).pow(network.assets.Governance.decimals))
           .toString(10)
       );
     },
@@ -183,7 +197,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         <FormModal
           onClose={handleClose}
           open={props.open}
-          tokenName="USDp"
+          tokenName={props.tokenName}
           tokens={tokens}
           balance={balance}
           tokenCost={governanceInUSDC}
@@ -194,7 +208,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <SmallModal>
           <InfoCardSuccess
-            tokenName="USDp"
+            tokenName={props.tokenName}
             onClick={handleSuccessClose}
             purchased={result.toString(10)}
           />

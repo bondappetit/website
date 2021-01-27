@@ -7,6 +7,7 @@ import { useVotingInfoHowToStyles } from './voting-info-how-to.styles';
 
 export type VotingInfoHowToProps = {
   className?: string;
+  onBuy?: () => void;
 };
 
 export const VotingInfoHowTo: React.FC<VotingInfoHowToProps> = (props) => {
@@ -32,7 +33,7 @@ export const VotingInfoHowTo: React.FC<VotingInfoHowToProps> = (props) => {
           >
             You can buy bond appetit governance token on exchange
           </Typography>
-          <Button>Buy</Button>
+          <Button onClick={props.onBuy}>Buy</Button>
         </Plate>
         <Plate className={classes.howToGetCard}>
           <Typography

@@ -1,11 +1,15 @@
 import React from 'react';
 
-import { Button, Modal, SmallModal, Typography, Link } from 'src/common';
 import { ReactComponent as BinanceIcon } from 'src/assets/icons/binance.svg';
 import { ReactComponent as UniswapIcon } from 'src/assets/icons/uniswap.svg';
-import { useStablecoinLinkModalStyles } from './stablecoin-link-modal.styles';
+import { Button } from '../button';
+import { Modal } from '../modal';
+import { SmallModal } from '../small-modal';
+import { Typography } from '../typography';
+import { Link } from '../link';
+import { useLinkModalStyles } from './link-modal.styles';
 
-export type StablecoinLinkModalProps = {
+export type LinkModalProps = {
   className?: string;
   open: boolean;
   onClose: () => void;
@@ -13,10 +17,8 @@ export type StablecoinLinkModalProps = {
   withBuy?: boolean;
 };
 
-export const StablecoinLinkModal: React.FC<StablecoinLinkModalProps> = (
-  props
-) => {
-  const classes = useStablecoinLinkModalStyles();
+export const LinkModal: React.FC<LinkModalProps> = (props) => {
+  const classes = useLinkModalStyles();
 
   return (
     <Modal open={props.open} onClose={props.onClose}>

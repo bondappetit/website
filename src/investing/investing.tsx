@@ -1,7 +1,6 @@
 import React from 'react';
 import { useToggle } from 'react-use';
 
-import OpenGraph from 'src/assets/images/ba-opengraph.jpg';
 import { MainLayout } from 'src/layouts';
 import { Typography, PageWrapper, DocumentList, Head } from 'src/common';
 import { config } from 'src/config';
@@ -29,11 +28,7 @@ export const Investing: React.FC = () => {
 
   return (
     <>
-      <Head
-        title="The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem."
-        ogImage={`https://bondappetit.io${OpenGraph}`}
-        ogUrl="https://bondappetit.io"
-      />
+      <Head />
       <MainLayout>
         <PageWrapper>
           <Typography

@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 import { NavLink as ReactRouterNavLink } from 'react-router-dom';
+import { useLocalStorage } from 'react-use';
 
 import { Link } from 'src/common';
 import { URLS } from 'src/router/urls';
@@ -10,6 +11,7 @@ import { LayoutMenuDropdown } from './layout-menu-dropdown';
 type MenuItem = {
   title: string;
   link: string;
+  inDevMode?: boolean;
   children?: MenuItem[];
 };
 
@@ -44,28 +46,8 @@ const MENU_ITEMS: MenuItem[] = [
     link: '',
     children: [
       {
-        title: 'Monitor',
-        link: URLS.monitor
-      },
-
-      {
-        title: 'Oracle',
-        link: URLS.oracle
-      },
-
-      {
-        title: 'Vesting',
-        link: URLS.vesting
-      },
-
-      {
         title: 'Docs',
         link: URLS.docs.list
-      },
-
-      {
-        title: 'Profit splitter',
-        link: URLS.profitSplitter
       },
 
       {
@@ -86,6 +68,33 @@ const MENU_ITEMS: MenuItem[] = [
       {
         title: 'Facebook',
         link: 'https://facebook.com'
+      }
+    ]
+  },
+
+  {
+    title: 'Developers',
+    link: '',
+    inDevMode: true,
+
+    children: [
+      {
+        title: 'Monitor',
+        link: URLS.monitor
+      },
+
+      {
+        title: 'Oracle',
+        link: URLS.oracle
+      },
+
+      {
+        title: 'Vesting',
+        link: URLS.vesting
+      },
+      {
+        title: 'Profit splitter',
+        link: URLS.profitSplitter
       }
     ]
   }
@@ -123,9 +132,13 @@ export const LayoutMenu: React.FC<LayoutMenuProps> = ({
 }) => {
   const classes = useLayoutMenuStyles();
 
+  const [devMode] = useLocalStorage('bond:devMode', false);
+
   return (
     <ul className={clsx(classes.root, classes.menu, className)}>
       {menuItems.map((menuItem) => {
+        if (menuItem.inDevMode && !devMode) return null;
+
         return (
           <li className={classes.menuItem} key={menuItem.title}>
             {menuItem.link ? (

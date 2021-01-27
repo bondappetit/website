@@ -48,3 +48,4 @@ export * from './carousel';
 export * from './constants';
 export * from './form-modal';
 export * from './head';
+export * from './link-modal';

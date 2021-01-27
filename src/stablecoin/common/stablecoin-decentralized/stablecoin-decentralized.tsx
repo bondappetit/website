@@ -68,7 +68,11 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
             of liquidity flows coming from real world assets.
           </Typography>
           <Typography variant="h4" align="center" className={classes.link}>
-            <Link color="blue" component={ReactRouterLink} to="/whitepaper#6">
+            <Link
+              color="blue"
+              component={ReactRouterLink}
+              to={`${URLS.whitepaper}#6`}
+            >
               Learn more
             </Link>
           </Typography>
