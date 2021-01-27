@@ -63,6 +63,10 @@ export const useStablecoinEllipseStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginRight: 32
       }
+    },
+
+    skeleton: {
+      width: 150
     }
   }),
   {

@@ -7,7 +7,8 @@ import {
   StablecoinDecentralized,
   StablecoinEllipse,
   StablecoinFaq,
-  StablecoinTable
+  StablecoinTable,
+  useStablecoinInfo
 } from './common';
 import { useStablecoinStyles } from './stablecoin.styles';
 import { StablecoinMarketModal } from './stablecoin-market-modal';
@@ -18,6 +19,8 @@ export const Stablecoin: React.FC = () => {
   const [linkModalOpen, togglelinkModal] = useToggle(false);
   const [marketModalOpen, toggleMarketModal] = useToggle(false);
   const [sellModalOpen, toggleSellModal] = useToggle(false);
+
+  const stablecoinInfo = useStablecoinInfo();
 
   const handleBuy = useCallback(() => {
     togglelinkModal(false);
@@ -33,6 +36,8 @@ export const Stablecoin: React.FC = () => {
             className={classes.section}
             onBuy={togglelinkModal}
             onSell={toggleSellModal}
+            loading={stablecoinInfo.loading}
+            tokenInfo={stablecoinInfo.value}
           />
           <StablecoinDecentralized className={classes.section} />
           <StablecoinTable className={classes.section} />

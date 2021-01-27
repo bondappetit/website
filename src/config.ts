@@ -1,3 +1,14 @@
+import networks from '@bondappetit/networks';
+
+const defaultNetworkConfig = Object.values(networks).find(
+  (network) =>
+    network.networkId === Number(process.env.REACT_APP_DEFAULT_CHAIN_ID)
+);
+
+if (!defaultNetworkConfig) {
+  throw new Error('process.env.REACT_APP_DEFAULT_CHAIN_ID is not specified');
+}
+
 export const config = {
   POLLING_INTERVAL: 12000,
   RPC_URL: 'http://127.0.0.1:8545',
@@ -5,7 +16,7 @@ export const config = {
   ENV: process.env.NODE_ENV,
   IS_DEV: process.env.NODE_ENV === 'development',
   DEFAULT_CHAIN_ID: process.env.REACT_APP_DEFAULT_CHAIN_ID,
-  MAINNET_URL: process.env.REACT_APP_INFURA_API_KEY ?? '',
+  DEFAULT_NETWORK_CONFIG: defaultNetworkConfig,
   COUNTDOWN_DATE: '2021-02-1',
   PORTIS_ID: process.env.REACT_APP_PORTIS_ID,
   FORTMATIC_KEY: process.env.REACT_APP_FORTMATIC_KEY,

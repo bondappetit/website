@@ -5,10 +5,6 @@ import Web3 from 'web3';
 
 import { config } from 'src/config';
 
-const defaultNetworkConfig = Object.values(networks).find(
-  (network) => network.networkId === Number(config.DEFAULT_CHAIN_ID)
-);
-
 export const useNetworkConfig = () => {
   const { chainId } = useWeb3React<Web3>();
 
@@ -17,12 +13,6 @@ export const useNetworkConfig = () => {
       (network) => network.networkId === chainId
     );
 
-    if (!defaultNetworkConfig) {
-      throw new Error(
-        'process.env.REACT_APP_DEFAULT_CHAIN_ID is not specified'
-      );
-    }
-
-    return networkConfig ?? defaultNetworkConfig;
+    return networkConfig ?? config.DEFAULT_NETWORK_CONFIG;
   }, [chainId]);
 };

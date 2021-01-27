@@ -21,18 +21,17 @@ export const injected = new InjectedConnector({
 
 export const ledger = new LedgerConnector({
   chainId: config.CHAIN_IDS[0],
-  url: config.MAINNET_URL,
+  url: config.DEFAULT_NETWORK_CONFIG.networkUrl,
   pollingInterval: config.POLLING_INTERVAL
 });
 
 export const walletlink = new WalletLinkConnector({
-  url: config.MAINNET_URL,
-  appName: 'Bondappetit',
-  appLogoUrl: ''
+  url: config.DEFAULT_NETWORK_CONFIG.networkUrl,
+  appName: 'Bondappetit'
 });
 
 export const walletconnect = new WalletConnectConnector({
-  rpc: { 1: config.MAINNET_URL },
+  rpc: { 1: config.DEFAULT_NETWORK_CONFIG.networkUrl },
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
   pollingInterval: 15000
