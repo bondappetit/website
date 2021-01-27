@@ -1,16 +1,37 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
+import BN from 'bignumber.js';
 
-import { Typography, Link, Button } from 'src/common';
+import { Typography, Link, Button, Skeleton } from 'src/common';
+import { URLS } from 'src/router/urls';
+import { SablecoinInfo } from '../use-stable-coin-info';
 import { useStablecoinEllipseStyles } from './stablecoin-ellipse.styles';
 
 export type StablecoinEllipseProps = {
   className?: string;
   onBuy: () => void;
   onSell: () => void;
+  tokenInfo?: SablecoinInfo;
+  loading: boolean;
+};
+
+const round = (sum?: string | null) => {
+  if (!sum) return null;
+
+  return new BN(sum).integerValue().toString(10);
 };
 
 export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
   const classes = useStablecoinEllipseStyles();
+
+  const dailyVolumeUSD = useMemo(
+    () => round(props.tokenInfo?.data.tokenDayDatas?.[0]?.dailyVolumeUSD),
+    [props.tokenInfo]
+  );
+  const totalLiquidityUSD = useMemo(
+    () => round(props.tokenInfo?.data.tokenDayDatas?.[0]?.totalLiquidityUSD),
+    [props.tokenInfo]
+  );
 
   return (
     <div className={props.className}>
@@ -26,16 +47,26 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
               component="span"
               className={classes.supply}
             >
-              Circulating Supply:{' '}
-              <Typography variant="inherit" component="span" weight="bold">
-                64,840,720 USDp
-              </Typography>
+              {props.loading && <Skeleton className={classes.skeleton} />}
+              {!props.loading && (
+                <>
+                  Total Liquidity:{' '}
+                  <Typography variant="inherit" component="span" weight="bold">
+                    {totalLiquidityUSD || 0} USDp
+                  </Typography>
+                </>
+              )}
             </Typography>
             <Typography variant="inherit" component="span">
-              Volume (24h):{' '}
-              <Typography variant="inherit" component="span" weight="bold">
-                64,840,720 USDp
-              </Typography>
+              {props.loading && <Skeleton className={classes.skeleton} />}
+              {!props.loading && (
+                <>
+                  Volume (24h):{' '}
+                  <Typography variant="inherit" component="span" weight="bold">
+                    {dailyVolumeUSD || 0} USDp
+                  </Typography>
+                </>
+              )}
             </Typography>
           </Typography>
           <div className={classes.actions}>
@@ -51,7 +82,11 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
             basket of real-world debt obligations. USDp price equals $1 at all
             times and asset is issued only with sufficient collateral.
           </Typography>
-          <Link href="#more" color="blue">
+          <Link
+            color="blue"
+            component={ReactRouterLink}
+            to={`${URLS.whitepaper}#3`}
+          >
             Learn more
           </Link>
         </Typography>

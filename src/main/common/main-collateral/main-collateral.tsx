@@ -31,17 +31,17 @@ export const MainCollateral: React.FC<MainCollateralProps> = (props) => {
         </Link>
       </Typography>
       <div className={classes.cards}>
-        <MainCollateralCard>
+        <MainCollateralCard id="3">
           The price of USDp equals $1 at all times and is balanced automatically
           based on a basket of real-world debt obligations that form part of the
           protocol’s assets
         </MainCollateralCard>
-        <MainCollateralCard>
+        <MainCollateralCard id="4">
           Real-world collateral prevents the protocol from
           over-collateralization and ensures the stability of the asset even in
           times of high volatility on the crypto market.
         </MainCollateralCard>
-        <MainCollateralCard>
+        <MainCollateralCard id="7">
           Real-world collateral allows the protocol to earn fixed periodical
           income, which can be distributed to holders of protocol tokens under
           incentivization mechanisms established by the community.

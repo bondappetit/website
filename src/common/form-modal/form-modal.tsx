@@ -11,7 +11,8 @@ import { Button } from '../button';
 import { Input } from '../input';
 import { SmallModal } from '../small-modal';
 import { Modal } from '../modal';
-import { FormModalSelect, Asset } from './form-modal-select';
+import { FormModalSelect } from './form-modal-select';
+import { Asset } from '../types';
 import { useFormModalStyles } from './form-modal.styles';
 
 export type FormModalValues = {
@@ -26,6 +27,7 @@ export type FormModalProps = {
   tokens: Asset[];
   result: string;
   balance: string;
+  tokenCost: string;
   openWalletListModal: () => void;
 };
 
@@ -55,7 +57,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
     <span>
       <Tippy
         visible={isHovering}
-        content="The given price is not exact, as the final price will be calculated based on the current USDC conversion rate on Uniswap"
+        content={`The given price is not exact, as the final price will be calculated based on the current ${props.tokenName} conversion rate on Uniswap`}
         maxWidth={280}
         offset={[140, 8]}
         className={classes.tippy}
@@ -135,15 +137,17 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                   </div>
                 </div>
               </div>
-              <Typography
-                variant="body1"
-                align="center"
-                className={classes.hint}
-              >
-                1.12 {formik.values.currency} per {props.tokenName}, estimated
-                price
-                {hoverable}
-              </Typography>
+              {currentToken?.symbol !== 'USDC' && (
+                <Typography
+                  variant="body1"
+                  align="center"
+                  className={classes.hint}
+                >
+                  {props.tokenCost} {formik.values.currency} per{' '}
+                  {props.tokenName}, estimated price
+                  {hoverable}
+                </Typography>
+              )}
               <Button
                 type="submit"
                 disabled={

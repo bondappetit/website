@@ -63,61 +63,65 @@ export const CollateralTable: React.FC<CollateralTableProps> = (props) => {
         </TableRow>
       </TableHead>
       <TableBody>
-        {props.data.body.map((row, index) => {
-          const id = String(index);
+        {props.data.body.map((row, rowIndex) => {
+          const rowId = String(rowIndex);
 
           return (
-            <TableRow key={id}>
-              {row.map((cell) => (
-                <TableCell
-                  key={cell.title}
-                  rowSpan={cell.rowSpan}
-                  className={clsx({
-                    [classes.tableCell]: index === 0 && props.emptyFirstCol
-                  })}
-                >
-                  <Typography
-                    variant="body1"
-                    className={classes.tableCellContent}
+            <TableRow key={rowId}>
+              {row.map((cell, cellIndex) => {
+                const cellId = String(cellIndex);
+
+                return (
+                  <TableCell
+                    key={cellId}
+                    rowSpan={cell.rowSpan}
+                    className={clsx({
+                      [classes.tableCell]: rowIndex === 0 && props.emptyFirstCol
+                    })}
                   >
-                    {numberIsNotNan(cell.title) &&
-                      !isEthAddress(cell.title) && (
-                        <PieIcon className={classes.pieIcon}>
-                          {Number(cell.title)}
-                        </PieIcon>
+                    <Typography
+                      variant="body1"
+                      className={classes.tableCellContent}
+                    >
+                      {numberIsNotNan(cell.title) &&
+                        !isEthAddress(cell.title) && (
+                          <PieIcon className={classes.pieIcon}>
+                            {Number(cell.title)}
+                          </PieIcon>
+                        )}
+                      {cell.cellType === TableCellTypes.borrower && (
+                        <Link
+                          component={ReactRouterLink}
+                          color="blue"
+                          to={URLS.collateral.detail(cell.title)}
+                        >
+                          {cell.title}
+                        </Link>
                       )}
-                    {cell.cellType === TableCellTypes.borrower && (
-                      <Link
-                        component={ReactRouterLink}
-                        color="blue"
-                        to={URLS.collateral.detail(cell.title)}
-                      >
-                        {cell.title}
-                      </Link>
-                    )}
-                    {cell.cellType === TableCellTypes.issuer && (
-                      <Link
-                        component={ReactRouterLink}
-                        color="blue"
-                        to={URLS.collateral.issuer(cell.title)}
-                      >
-                        {cell.title}
-                      </Link>
-                    )}
-                    {!cell.cellType && (
-                      <LinkIfAccount>{cell.title}</LinkIfAccount>
-                    )}
-                    {numberIsNotNan(cell.title) &&
-                      !isEthAddress(cell.title) && <>%</>}
-                    {cell.value && (
-                      <>
-                        <br />
-                        {cell.value}
-                      </>
-                    )}
-                  </Typography>
-                </TableCell>
-              ))}
+                      {cell.cellType === TableCellTypes.issuer && (
+                        <Link
+                          component={ReactRouterLink}
+                          color="blue"
+                          to={URLS.collateral.issuer(cell.title)}
+                        >
+                          {cell.title}
+                        </Link>
+                      )}
+                      {!cell.cellType && (
+                        <LinkIfAccount>{cell.title}</LinkIfAccount>
+                      )}
+                      {numberIsNotNan(cell.title) &&
+                        !isEthAddress(cell.title) && <>%</>}
+                      {cell.value && (
+                        <>
+                          <br />
+                          {cell.value}
+                        </>
+                      )}
+                    </Typography>
+                  </TableCell>
+                );
+              })}
             </TableRow>
           );
         })}

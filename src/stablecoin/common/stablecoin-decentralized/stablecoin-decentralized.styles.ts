@@ -34,7 +34,7 @@ export const useStablecoinDecentralizedStyles = createUseStyles(
       [theme.breakpoints.lg()]: {
         minHeight: 480,
         padding: '64px 116px 48px 116px',
-        border: `2px dotted ${theme.colors.primary}`
+        border: `1px solid ${theme.colors.primary}`
       }
     },
 

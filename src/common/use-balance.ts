@@ -54,7 +54,9 @@ export const useBalance = () => {
         );
       }
 
-      return new BN(balanceRef.current);
+      const balance = new BN(balanceRef.current);
+
+      return balance.isNaN() ? new BN(0) : balance;
     },
     [handleGetWETHBalance, handleGetIERC20Balance]
   );

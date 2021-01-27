@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
 import { useToggle } from 'react-use';
 
-import { Head, PageWrapper } from 'src/common';
+import { Head, PageWrapper, LinkModal } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
   StablecoinDecentralized,
   StablecoinEllipse,
   StablecoinFaq,
   StablecoinTable,
-  StablecoinLinkModal
+  useStablecoinInfo
 } from './common';
 import { useStablecoinStyles } from './stablecoin.styles';
 import { StablecoinMarketModal } from './stablecoin-market-modal';
@@ -19,6 +19,8 @@ export const Stablecoin: React.FC = () => {
   const [linkModalOpen, togglelinkModal] = useToggle(false);
   const [marketModalOpen, toggleMarketModal] = useToggle(false);
   const [sellModalOpen, toggleSellModal] = useToggle(false);
+
+  const stablecoinInfo = useStablecoinInfo();
 
   const handleBuy = useCallback(() => {
     togglelinkModal(false);
@@ -34,19 +36,21 @@ export const Stablecoin: React.FC = () => {
             className={classes.section}
             onBuy={togglelinkModal}
             onSell={toggleSellModal}
+            loading={stablecoinInfo.loading}
+            tokenInfo={stablecoinInfo.value}
           />
           <StablecoinDecentralized className={classes.section} />
           <StablecoinTable className={classes.section} />
           <StablecoinFaq className={classes.section} />
         </PageWrapper>
       </MainLayout>
-      <StablecoinLinkModal
+      <LinkModal
         open={linkModalOpen}
         onClose={togglelinkModal}
         onBuy={handleBuy}
         withBuy
       />
-      <StablecoinLinkModal open={sellModalOpen} onClose={toggleSellModal} />
+      <LinkModal open={sellModalOpen} onClose={toggleSellModal} />
       <StablecoinMarketModal
         open={marketModalOpen}
         onClose={toggleMarketModal}
