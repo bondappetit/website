@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs, { Dayjs } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 dayjs.extend(relativeTime);
@@ -17,11 +17,18 @@ export const dateUtils = {
     }
   },
 
-  format: (date: string, format = 'YYYY-MM-DD') => dayjs(date).format(format),
+  format: (date: string | number | Dayjs, format = 'YYYY-MM-DD') =>
+    dayjs(date).format(format),
 
   formatUnix: (timestamp: number, format = 'hh:mm:ss') => {
     const date = dayjs.unix(timestamp);
 
     return date.format(format);
-  }
+  },
+
+  startOfYesterday: dayjs(dayjs()).startOf('date').subtract(1, 'day').unix(),
+
+  isBeforeNow: (date: number | string) => dayjs(date).isBefore(dayjs()),
+
+  addSeconds: (seconds: number) => dayjs().add(seconds, 'second')
 };

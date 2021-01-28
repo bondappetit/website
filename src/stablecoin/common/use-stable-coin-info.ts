@@ -1,5 +1,4 @@
-import dayjs from 'dayjs';
-import { useQuery } from '../../common/use-query';
+import { useQuery, dateUtils } from 'src/common';
 
 const url = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2';
 
@@ -28,7 +27,7 @@ const QUERY = `
 
 const token = '0xdac17f958d2ee523a2206206994597c13d831ec7';
 
-const date = dayjs(dayjs()).startOf('date').subtract(1, 'day').unix();
+const date = dateUtils.startOfYesterday;
 
 type Maybe<T> = T | null;
 

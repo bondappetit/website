@@ -18,7 +18,8 @@ import {
   StakingHeader,
   useStakingApy,
   useStakingBalances,
-  useStakingUnlock
+  useStakingUnlock,
+  useStakingUnstakingBlock
 } from 'src/staking/common';
 import { STAKING_CONFIG } from 'src/staking-config';
 import { StakingLockForm } from '../staking-lock-form';
@@ -38,7 +39,16 @@ export const StakingDetail: React.FC = () => {
 
   const getBalance = useBalance();
 
-  const unlock = useStakingUnlock(stakingBalancesWithApy?.contractName);
+  const unlock = useStakingUnlock(stakingBalancesWithApy?.stakingContract);
+
+  const stake = useStakingUnstakingBlock(
+    stakingBalancesWithApy?.stakingContract
+  );
+
+  const unstake = useStakingUnstakingBlock(
+    stakingBalancesWithApy?.stakingContract,
+    false
+  );
 
   const stakingBalanceIsEmpty = useMemo(
     () => !Number(stakingBalancesWithApy?.amount),
@@ -94,8 +104,10 @@ export const StakingDetail: React.FC = () => {
                 account={account}
                 tokenName={tokenName}
                 tokenKey={params.tokenId}
+                canStake={stake.can}
+                stakeDate={stake.date}
                 tokenAddress={stakingBalancesWithApy?.address}
-                contractName={stakingBalancesWithApy?.contractName}
+                stakingContract={stakingBalancesWithApy?.stakingContract}
                 tokenDecimals={stakingBalancesWithApy?.decimals}
                 onSubmit={update}
                 balanceOfToken={balanceOfToken}
@@ -121,7 +133,16 @@ export const StakingDetail: React.FC = () => {
                   >
                     {stakingBalancesWithApy?.amountInUSDC ?? '0'} USD
                   </Typography>
-                  <Button onClick={handleUnstake} className={classes.unlock}>
+                  {unstake.date && (
+                    <Typography variant="body2" align="center">
+                      Unstaking started after {unstake.date} block number
+                    </Typography>
+                  )}
+                  <Button
+                    onClick={handleUnstake}
+                    className={classes.unlock}
+                    disabled={!unstake.can}
+                  >
                     Unstake
                   </Button>
                 </div>

@@ -5,6 +5,7 @@ import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
 import { useUpdate } from 'src/common';
+import type { Staking } from 'src/generate/Staking';
 import { StakingConfig } from 'src/staking-config';
 import { useStakingContracts } from './use-staking-contracts';
 import { useTokenContracts } from './use-token-contract';
@@ -17,7 +18,7 @@ export type StakingToken = {
   key: string;
   decimals: string;
   address: string;
-  contractName: string;
+  stakingContract: Staking;
   token: string[];
   liquidityPool: boolean;
 };
@@ -66,7 +67,7 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
           decimals,
           totalSupply,
           rewardRate,
-          contractName,
+          stakingContract,
           address: stakingTokenAddress,
           reward: reward.isNaN() ? '0' : reward.toString(10),
           token,
