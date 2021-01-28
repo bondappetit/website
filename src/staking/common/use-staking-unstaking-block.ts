@@ -10,7 +10,11 @@ export const useStakingUnstakingBlock = (
   stakingContract?: Staking,
   staking = true
 ) => {
-  const [state, setState] = useState({ can: false, date: '' });
+  const [state, setState] = useState({
+    can: false,
+    date: '',
+    blockNumber: ''
+  });
 
   const { library } = useWeb3React<Web3>();
 
@@ -37,7 +41,7 @@ export const useStakingUnstakingBlock = (
     );
 
     const date = endStakingBlockNumberGreaterZero
-      ? dateUtils.format(dateUtils.addSeconds(seconds))
+      ? dateUtils.format(dateUtils.addSeconds(seconds), 'YYYY-MM-DD ss')
       : '';
 
     const can =
@@ -45,7 +49,7 @@ export const useStakingUnstakingBlock = (
       (currentBlockNumber.isGreaterThan(endStakingBlockNumber) &&
         endStakingBlockNumberGreaterZero);
 
-    setState({ can, date });
+    setState({ can, date, blockNumber: endStakingBlockNumber.toString(10) });
   }, [stakingContract, staking, library]);
 
   useEffect(() => {

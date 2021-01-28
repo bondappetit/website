@@ -4,6 +4,8 @@ import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
 import BN from 'bignumber.js';
+import Tippy from '@tippyjs/react';
+import { useToggle } from 'react-use';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -30,6 +32,7 @@ export const StakingDetail: React.FC = () => {
   const params = useParams<{ tokenId: string }>();
   const { account } = useWeb3React<Web3>();
   const tokenId = Number(params.tokenId);
+  const [canUnstake, toggleCanUnstake] = useToggle(false);
 
   const [stakingBalances, update] = useStakingBalances([
     STAKING_CONFIG[tokenId]
@@ -58,8 +61,14 @@ export const StakingDetail: React.FC = () => {
   const handleUnstake = useCallback(() => {
     if (stakingBalanceIsEmpty) return;
 
+    if (!unstake.can) {
+      toggleCanUnstake(true);
+    } else {
+      toggleCanUnstake(false);
+    }
+
     unlock().then(update);
-  }, [unlock, update, stakingBalanceIsEmpty]);
+  }, [unlock, update, stakingBalanceIsEmpty, unstake.can, toggleCanUnstake]);
 
   const handleClaim = useCallback(() => {
     if (stakingBalanceIsEmpty) return;
@@ -106,6 +115,7 @@ export const StakingDetail: React.FC = () => {
                 tokenKey={params.tokenId}
                 canStake={stake.can}
                 stakeDate={stake.date}
+                stakeBlockNumber={stake.blockNumber}
                 tokenAddress={stakingBalancesWithApy?.address}
                 stakingContract={stakingBalancesWithApy?.stakingContract}
                 tokenDecimals={stakingBalancesWithApy?.decimals}
@@ -133,18 +143,23 @@ export const StakingDetail: React.FC = () => {
                   >
                     {stakingBalancesWithApy?.amountInUSDC ?? '0'} USD
                   </Typography>
-                  {unstake.date && (
+                  {Number(unstake.blockNumber) > 0 && (
                     <Typography variant="body2" align="center">
-                      Unstaking started after {unstake.date} block number
+                      Unstaking started after {unstake.blockNumber}{' '}
+                      {unstake.date && <>({unstake.date})</>}
                     </Typography>
                   )}
-                  <Button
-                    onClick={handleUnstake}
-                    className={classes.unlock}
-                    disabled={!unstake.can}
+                  <Tippy
+                    visible={canUnstake}
+                    content="Unstaking not started"
+                    maxWidth={200}
+                    offset={[0, 25]}
+                    animation={false}
                   >
-                    Unstake
-                  </Button>
+                    <Button onClick={handleUnstake} className={classes.unlock}>
+                      Unstake
+                    </Button>
+                  </Tippy>
                 </div>
                 <div className={classes.unstakeAndClaim}>
                   <Typography

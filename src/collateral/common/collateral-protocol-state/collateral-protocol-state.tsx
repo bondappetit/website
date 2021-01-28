@@ -25,6 +25,7 @@ export const CollateralProtocolState: React.FC = () => {
         content="This marker indicates if the protocol is fully balanced"
         maxWidth={248}
         offset={[140, 8]}
+        animation={false}
         className={classes.tippy}
       >
         <Typography
@@ -42,6 +43,7 @@ export const CollateralProtocolState: React.FC = () => {
         content="This marker indicates if the protocol does not have enough collateral, but it can be compensated by the funds of the protocol"
         maxWidth={248}
         offset={[140, 8]}
+        animation={false}
         className={classes.tippy}
       >
         <Typography
@@ -58,6 +60,7 @@ export const CollateralProtocolState: React.FC = () => {
         content="This marker indicates if the protocol in critical state and community have to take actions immediately to return the protocol in balanced state"
         maxWidth={248}
         offset={[140, 8]}
+        animation={false}
         className={classes.tippy}
       >
         <Typography

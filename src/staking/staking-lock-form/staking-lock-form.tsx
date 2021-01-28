@@ -29,6 +29,7 @@ export type StakingLockFormProps = {
   onSubmit?: () => void;
   canStake: boolean;
   stakeDate: string;
+  stakeBlockNumber: string;
   balanceOfToken: string;
 };
 
@@ -57,6 +58,10 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
       if (Number(formValues.amount) <= 0) {
         error.amount = 'Required';
+      }
+
+      if (props.canStake) {
+        error.amount = 'Staking ended';
       }
 
       if (new BN(props.balanceOfToken).isLessThan(formValues.amount)) {
@@ -127,6 +132,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             className={classes.tooltip}
             maxWidth={200}
             offset={[0, 25]}
+            animation={false}
             onClickOutside={handleCloseTooltip}
           >
             <Input
@@ -156,9 +162,10 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             >
               {props.balanceOfToken || 0} max
             </ButtonBase>
-            {props.stakeDate && (
+            {Number(props.stakeBlockNumber) > 0 && (
               <Typography variant="body1" component="div" align="center">
-                Staking ended after {props.stakeDate} block number
+                Staking ended after {props.stakeBlockNumber}{' '}
+                {props.stakeDate && <>({props.stakeDate})</>}
               </Typography>
             )}
           </Typography>
@@ -180,7 +187,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         </div>
         <Button
           type="submit"
-          disabled={formik.isSubmitting || !props.canStake}
+          disabled={formik.isSubmitting}
           loading={formik.isSubmitting}
         >
           Stake
