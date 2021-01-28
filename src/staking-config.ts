@@ -65,5 +65,17 @@ export const STAKING_CONFIG: StakingConfig[] = [
     tokenName: LP,
     token: [Stable, Gov],
     liquidityPool: true
+  },
+  {
+    contractName: 'UsdcStableLPLockStaking',
+    tokenName: LP,
+    token: [Stable, USDC],
+    liquidityPool: true
+  },
+  {
+    contractName: 'UsdnStableLPLockStaking',
+    tokenName: LP,
+    token: [Stable, USDN],
+    liquidityPool: true
   }
 ];
