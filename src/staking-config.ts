@@ -18,6 +18,7 @@ const ETH = 'ETH';
 const LP = 'UNI-V2';
 
 export const STAKING_CONFIG: StakingConfig[] = [
+  /*
   {
     contractName: 'GovStaking',
     tokenName: Gov,
@@ -66,6 +67,7 @@ export const STAKING_CONFIG: StakingConfig[] = [
     token: [Stable, Gov],
     liquidityPool: true
   },
+  */
   {
     contractName: 'UsdcStableLPLockStaking',
     tokenName: LP,
