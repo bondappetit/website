@@ -32,7 +32,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   public render() {
     const { error, hasError } = this.state;
 
-    if (hasError && error) {
+    if (hasError) {
       return (
         <div className={this.props.classes.errorBoundary}>
           <InfoCardFailure

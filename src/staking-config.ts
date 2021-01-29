@@ -5,7 +5,7 @@ export type StakingConfig = {
   liquidityPool: boolean;
 };
 
-const Gov = 'BAG';
+// const Gov = 'BAG';
 
 const Stable = 'USDp';
 
@@ -13,7 +13,7 @@ const USDC = 'USDC';
 
 const USDN = 'USDN';
 
-const ETH = 'ETH';
+// const ETH = 'ETH';
 
 const LP = 'UNI-V2';
 

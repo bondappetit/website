@@ -59,14 +59,18 @@ export const useDynamicContract = <T>(
     (address?: string, abi?: AbiItem[] | AbiItem) => {
       const currentAbi = contractParameters?.abi ?? abi;
 
-      if (!currentAbi) {
-        throw new Error('Abi is required');
-      }
+      try {
+        if (!currentAbi) {
+          throw new Error('Abi is required');
+        }
 
-      contract.current = (new library.eth.Contract(
-        currentAbi,
-        address
-      ) as unknown) as T;
+        contract.current = (new library.eth.Contract(
+          currentAbi,
+          address
+        ) as unknown) as T;
+      } catch {
+        throw new EthereumNetworkError();
+      }
 
       return contract.current;
     },

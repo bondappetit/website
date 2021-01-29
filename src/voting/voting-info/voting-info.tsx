@@ -9,8 +9,7 @@ import {
   VotingInfoFactoid,
   VotingInfoProposalList,
   VotingInfoDecision,
-  VotingInfoHowTo,
-  useCanBuy
+  VotingInfoHowTo
 } from '../common';
 import { useVotingInfoStyles } from './voting-info.styles';
 
@@ -25,8 +24,6 @@ export const VotingInfo: React.FC = () => {
     () => Math.round(pages.length * proposals.length),
     [pages.length, proposals.length]
   );
-
-  const canBuy = useCanBuy();
 
   return (
     <>
@@ -47,7 +44,7 @@ export const VotingInfo: React.FC = () => {
       <LinkModal
         open={linkModalOpen}
         onClose={togglelinkModal}
-        withBuy={canBuy}
+        withBuy={false}
       />
     </>
   );

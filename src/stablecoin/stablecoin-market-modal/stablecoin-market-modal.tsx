@@ -70,9 +70,20 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         return error;
       }
 
-      const balanceOfToken = new BN(balance);
+      const currentToken = network.assets[formValues.currency];
 
-      if (balanceOfToken.isLessThan(formValues.amount)) {
+      if (!currentToken) return;
+
+      const balanceOfToken = await getBalance({
+        tokenAddress: currentToken.address,
+        tokenName: currentToken.name
+      });
+
+      if (
+        balanceOfToken
+          .div(new BN(10).pow(currentToken.decimals))
+          .isLessThan(formValues.amount)
+      ) {
         error.amount = `Not enough ${formValues.currency}`;
       }
 

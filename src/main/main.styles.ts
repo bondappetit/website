@@ -34,6 +34,14 @@ export const useMainStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 240
       }
+    },
+
+    steps: {
+      margin: '0 -16px 48px',
+
+      [theme.breakpoints.md()]: {
+        margin: '0 -64px 144px'
+      }
     }
   }),
   {
