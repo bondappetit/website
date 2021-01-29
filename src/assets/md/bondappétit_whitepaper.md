@@ -200,9 +200,13 @@ To ensure transparency, the protocol updates the price of real world-assets hour
 
 The protocol constantly monitors the overall value of the collateral and issues new USDp right after collateralization of new assets, based on the following formula:
 
-— the amount of stablecoins that the protocol can issue additionally if the value of collateral provided by borrowers is sufficient;\
-— an infinite number of assets in the basket;\
-— the market value of the collateral
+$$
+\bigtriangleup{QABT} = Bondn *BondPricen
+$$
+
+* $\bigtriangleup{QABT}$ — the amount of stablecoins that the protocol can issue additionally if the value of collateral provided by borrowers is sufficient;
+* $Bondn$ — an infinite number of assets in the basket;
+* $BondPricen$ — the market value of the collateral
 
   
 
@@ -222,7 +226,7 @@ The protocol requests the asset price from the price oracle and then issues the 
 
   
 
-As a result, the protocol will issue: $95 + $105 = 200 USDp
+As a result, the protocol will issue: 95 + 105 = 200 USDp
 
 ### **3.3 Liquidity Pools and Additional Capitalization of the Protocol**
 
@@ -241,15 +245,23 @@ As soon as the participation of the protocol's community in liquidity pools will
 
 The formula for determining the available amount of BAG for current tokenholders: 
 
-— Amount of funds required by the protocol;\
-— Amount of governance tokens in tokenholder's wallet;\
-— Overall amount of governance tokens on the market.
+$$
+Quantity=SUM*(Tokenholder ART / ARTon market)
+$$
+
+* $\bigtriangleup{SUM}$ — Amount of funds required by the protocol;
+* $Tokenholder ART$ — Amount of governance tokens in tokenholder's wallet;
+* $ART on market$ — Overall amount of governance tokens on the market.
 
 
 The formula for determining the price of governance tokens for current tokenholders:
 
-— Market price for governance tokens on the Uniswap exchange\
-— Discount percentage that is determined by the community of the protocol.
+$$
+Price=\bigtriangleup{ART} price - Discount Amount \%
+$$
+
+* $\bigtriangleup{ART}$ — Market price for governance tokens on the Uniswap exchange
+* $Discount Amount$ — Discount percentage that is determined by the community of the protocol.
 
   
 
@@ -317,10 +329,14 @@ Liquidity pool technical tokens (LPT) — an ERC-20 technical liquidity pool tok
 
 **The price of a technical token is calculated using the formula below:**
 
-— Last price of the technical token prior to the last reward payout;\
-— Current block;\
-— The number of block of the last change in the reward rate;\
-— Current reward rate.
+$$
+LPTPrice = LPTPriceAccum + (CurrentBlock - LastChangeRewardBlock) * Reward
+$$
+
+* $LPTPriceAccum$ — Last price of the technical token prior to the last reward payout;
+* $CurrentBlock$ — Current block;
+* $LastChangeRewardBlock$ — The number of block of the last change in the reward rate;
+* $Reward$ — Current reward rate.
 
   
 
@@ -377,9 +393,14 @@ LPTPrice = 1,00000234 + (11060888 - 11060688) * 0,00000050 = 1,00010234
   
 
 The reward for all methods is calculated using the formula below:
-— Profit in Governance Tokens;\
-— The amount of USDp or BAG tokens locked (locked amount is saved in smart contract);\
-— Current price of liquidity pool technical tokens.
+
+$$
+ARTreward = LockLPTLastPrice - Lock
+$$
+
+* $ARTreward$ — Profit in Governance Tokens;
+* $Lock$ — The amount of USDp or BAG tokens locked (locked amount is saved in smart contract);
+* $LPTLastPrice$ — Current price of liquidity pool technical tokens.
 
   
 
