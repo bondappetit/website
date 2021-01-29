@@ -41,7 +41,7 @@ export const useStakingUnstakingBlock = (
     );
 
     const date = endStakingBlockNumberGreaterZero
-      ? dateUtils.format(dateUtils.addSeconds(seconds), 'YYYY-MM-DD ss')
+      ? dateUtils.format(dateUtils.addSeconds(seconds), 'YYYY-MM-DD HH:mm:ss')
       : '';
 
     const can =

@@ -50,3 +50,4 @@ export * from './form-modal';
 export * from './head';
 export * from './link-modal';
 export * from './use-query';
+export * from './ethereum-network-error';

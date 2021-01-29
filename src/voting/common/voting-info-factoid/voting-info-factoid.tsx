@@ -33,7 +33,7 @@ export const VotingInfoFactoid: React.FC<VotingInfoFactoidProps> = (props) => {
         align="center"
         className={classes.subtitle}
       >
-        51% of all 10,000,000 BAG reserved for protocol usage and future
+        65% of all 100,000,000 BAG reserved for protocol usage and future
         governance participation incentives.
       </Typography>
       <VotingChart className={classes.chart} />

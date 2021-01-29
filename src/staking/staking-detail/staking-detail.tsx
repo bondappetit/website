@@ -145,7 +145,7 @@ export const StakingDetail: React.FC = () => {
                   </Typography>
                   {Number(unstake.blockNumber) > 0 && (
                     <Typography variant="body2" align="center">
-                      Unstaking started after {unstake.blockNumber}{' '}
+                      Unstaking started after {unstake.blockNumber} block number{' '}
                       {unstake.date && <>({unstake.date})</>}
                     </Typography>
                   )}

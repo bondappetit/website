@@ -20,13 +20,16 @@ export const useVotingProposalListStyles = createUseStyles(
       marginBottom: 80
     },
 
+    createProposalMargin: {
+      marginBottom: 16
+    },
+
     createProposal: {
       border: `1px solid ${rgba(theme.colors.primary, 0.24)}`,
       fontSize: 20,
       lineHeight: '28px',
       padding: 32,
-      width: '100%',
-      marginBottom: 16
+      width: '100%'
     },
 
     delegateTo: {

@@ -54,6 +54,10 @@ export const useWalletInfoStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 24
       }
+    },
+
+    errorMessage: {
+      marginTop: 20
     }
   }),
   {

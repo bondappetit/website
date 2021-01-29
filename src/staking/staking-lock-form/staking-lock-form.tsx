@@ -164,7 +164,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             </ButtonBase>
             {Number(props.stakeBlockNumber) > 0 && (
               <Typography variant="body1" component="div" align="center">
-                Staking ended after {props.stakeBlockNumber}{' '}
+                Staking ended after {props.stakeBlockNumber} block number{' '}
                 {props.stakeDate && <>({props.stakeDate})</>}
               </Typography>
             )}

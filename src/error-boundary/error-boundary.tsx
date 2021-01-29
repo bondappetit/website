@@ -1,18 +1,20 @@
 import React, { Component, ErrorInfo } from 'react';
 import withStyles, { WithStylesProps } from 'react-jss';
 
-import { InfoCardFailure } from 'src/common';
+import { InfoCardFailure, EthereumNetworkError } from 'src/common';
 import { errorBoundaryStyles } from './error-boundary.styles';
 
 type ErrorBoundaryState = {
   hasError: boolean;
+  error: Error;
 };
 
 type ErrorBoundaryProps = WithStylesProps<typeof errorBoundaryStyles>;
 
 class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   public state = {
-    hasError: false
+    hasError: false,
+    error: new Error()
   };
 
   public static getDerivedStateFromError(error: Error) {
@@ -28,7 +30,9 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
   };
 
   public render() {
-    if (this.state.hasError) {
+    const { error, hasError } = this.state;
+
+    if (hasError && error) {
       return (
         <div className={this.props.classes.errorBoundary}>
           <InfoCardFailure
@@ -36,11 +40,18 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
             buttonTitle="Reload"
             className={this.props.classes.content}
             title={
-              <>
-                Oh-oh, something went wrong.
-                <br />
-                Please reload page
-              </>
+              error instanceof EthereumNetworkError ? (
+                <>
+                  Current ethereum network is not supported
+                  <br /> switch to another network and reload page
+                </>
+              ) : (
+                <>
+                  Oh-oh, something went wrong.
+                  <br />
+                  Please reload page
+                </>
+              )
             }
           />
         </div>

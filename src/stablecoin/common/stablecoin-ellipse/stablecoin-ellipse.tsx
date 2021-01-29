@@ -52,7 +52,7 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
                 <>
                   Total Liquidity:{' '}
                   <Typography variant="inherit" component="span" weight="bold">
-                    {totalLiquidityUSD || 0} USDp
+                    {totalLiquidityUSD || 0} $
                   </Typography>
                 </>
               )}
@@ -63,7 +63,7 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
                 <>
                   Volume (24h):{' '}
                   <Typography variant="inherit" component="span" weight="bold">
-                    {dailyVolumeUSD || 0} USDp
+                    {dailyVolumeUSD || 0} $
                   </Typography>
                 </>
               )}

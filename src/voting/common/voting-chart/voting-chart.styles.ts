@@ -11,7 +11,7 @@ export const useVotingChartStyles = createUseStyles(
     },
 
     fillSegment: {
-      width: '51%',
+      width: '65%',
       color: theme.colors.primary,
       backgroundColor: 'currentColor',
       position: 'relative',
@@ -41,14 +41,6 @@ export const useVotingChartStyles = createUseStyles(
 
     segment14: {
       width: '14%'
-    },
-
-    segment12: {
-      width: '12%'
-    },
-
-    segment2: {
-      width: '2%'
     },
 
     segment1: {

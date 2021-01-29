@@ -7,7 +7,11 @@ export const useWalletListStyles = createUseStyles(
   (theme: Theme) => ({
     wrap: {
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      overflowX: 'auto',
+      maxHeight: '100%',
+      padding: 2,
+      margin: -2
     },
 
     title: {
@@ -48,6 +52,10 @@ export const useWalletListStyles = createUseStyles(
           height: 40
         }
       }
+    },
+
+    errorMessage: {
+      marginTop: 20
     }
   }),
   {

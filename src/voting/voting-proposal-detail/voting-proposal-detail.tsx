@@ -1,8 +1,16 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link as ReactRouterLink } from 'react-router-dom';
 
 import { MainLayout } from 'src/layouts';
-import { Typography, Skeleton, Status, dateUtils, Head } from 'src/common';
+import {
+  Typography,
+  Skeleton,
+  Status,
+  dateUtils,
+  Head,
+  Link
+} from 'src/common';
+import { URLS } from 'src/router/urls';
 import {
   ProposalState,
   VotingDetailsBlock,
@@ -27,6 +35,15 @@ export const VotingProposalDetail: React.FC = () => {
       <Head title={proposal?.title} />
       <MainLayout>
         <div className={classes.voting}>
+          <Typography variant="body1" weight="light" align="center">
+            <Link
+              component={ReactRouterLink}
+              to={URLS.voting.list}
+              color="blue"
+            >
+              ← Proposals
+            </Link>
+          </Typography>
           <Typography
             variant="h2"
             weight="light"

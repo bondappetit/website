@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
+import clsx from 'clsx';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -52,6 +53,15 @@ export const VotingProposalList: React.FC = () => {
       <MainLayout>
         <div className={classes.root}>
           <div className={classes.header}>
+            <Typography variant="body1" align="center">
+              <Link
+                component={ReactRouterLink}
+                to={URLS.voting.info}
+                color="blue"
+              >
+                ← Governance
+              </Link>
+            </Typography>
             <Typography variant="h3" align="center">
               {loading && <Skeleton className={classes.votesSkeleton} />}
               {!loading &&
@@ -63,7 +73,13 @@ export const VotingProposalList: React.FC = () => {
                 )}
               {!loading &&
                 Number(currentVotes) === 0 &&
-                Number(currentGovCoin) === 0 && <>No Votes</>}
+                Number(currentGovCoin) === 0 && (
+                  <>
+                    No Votes <br />
+                    Voting can be applied only if 4% (4 000 000 BAG) of quorum
+                    reached
+                  </>
+                )}
             </Typography>
             {loading && <Skeleton className={classes.delegatesSkeleton} />}
             {!loading && (
@@ -97,15 +113,28 @@ export const VotingProposalList: React.FC = () => {
               </>
             )}
           </div>
-          {canCreateProposal && (
+          {!loading && canCreateProposal && (
             <Button
               component={ReactRouterLink}
               variant="outlined"
               to={URLS.voting.create}
-              className={classes.createProposal}
+              className={clsx(
+                classes.createProposal,
+                classes.createProposalMargin
+              )}
             >
               + Create new proposal
             </Button>
+          )}
+          {!loading && !canCreateProposal && (
+            <Typography
+              variant="h4"
+              component="div"
+              align="center"
+              className={classes.createProposalMargin}
+            >
+              You need to have at list 1 000 000 BAG tokens to create proposal
+            </Typography>
           )}
           <VotingProposals
             loading={loading}
