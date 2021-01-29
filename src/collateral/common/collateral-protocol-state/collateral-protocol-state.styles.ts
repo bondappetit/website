@@ -51,8 +51,7 @@ export const useCollateralProtocolStateStyles = createUseStyles(
       backgroundColor: theme.colors.primary,
       color: theme.colors.secondary,
       padding: 16,
-      borderRadius: 16,
-      transition: 'none'
+      borderRadius: 16
     }
   }),
   {

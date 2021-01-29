@@ -1,11 +1,10 @@
 import React, { ReactNode } from 'react';
-import dayjs from 'dayjs';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
 import { MainLayout } from 'src/layouts';
 import { useVestingPeriods, Period } from 'src/vesting/common';
-import { useVestingContract } from 'src/common';
+import { useVestingContract, dateUtils } from 'src/common';
 
 interface PeriodDetailProps {
   period: Period;
@@ -35,13 +34,13 @@ export const PeriodDetail = ({
   let status: (periodId: string) => ReactNode;
   if (withdraw) {
     status = () => <>Withdrawal</>;
-  } else if (isMyVesting && dayjs(date).isBefore(dayjs())) {
+  } else if (isMyVesting && dateUtils.isBeforeNow(date)) {
     status = (periodId: string) => (
       <button onClick={() => withdrawHandler(periodId)}>Withdraw now</button>
     );
   } else {
     status = () => (
-      <>Withdrawal at date: {dayjs(date).format('D.M.YYYY HH:mm')}</>
+      <>Withdrawal at date: {dateUtils.format(date, 'D.M.YYYY HH:mm')}</>
     );
   }
 

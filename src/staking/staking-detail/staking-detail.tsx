@@ -4,6 +4,8 @@ import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
 import BN from 'bignumber.js';
+import Tippy from '@tippyjs/react';
+import { useToggle } from 'react-use';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -18,7 +20,8 @@ import {
   StakingHeader,
   useStakingApy,
   useStakingBalances,
-  useStakingUnlock
+  useStakingUnlock,
+  useStakingUnstakingBlock
 } from 'src/staking/common';
 import { STAKING_CONFIG } from 'src/staking-config';
 import { StakingLockForm } from '../staking-lock-form';
@@ -29,6 +32,7 @@ export const StakingDetail: React.FC = () => {
   const params = useParams<{ tokenId: string }>();
   const { account } = useWeb3React<Web3>();
   const tokenId = Number(params.tokenId);
+  const [canUnstake, toggleCanUnstake] = useToggle(false);
 
   const [stakingBalances, update] = useStakingBalances([
     STAKING_CONFIG[tokenId]
@@ -38,7 +42,16 @@ export const StakingDetail: React.FC = () => {
 
   const getBalance = useBalance();
 
-  const unlock = useStakingUnlock(stakingBalancesWithApy?.contractName);
+  const unlock = useStakingUnlock(stakingBalancesWithApy?.stakingContract);
+
+  const stake = useStakingUnstakingBlock(
+    stakingBalancesWithApy?.stakingContract
+  );
+
+  const unstake = useStakingUnstakingBlock(
+    stakingBalancesWithApy?.stakingContract,
+    false
+  );
 
   const stakingBalanceIsEmpty = useMemo(
     () => !Number(stakingBalancesWithApy?.amount),
@@ -48,8 +61,14 @@ export const StakingDetail: React.FC = () => {
   const handleUnstake = useCallback(() => {
     if (stakingBalanceIsEmpty) return;
 
+    if (!unstake.can) {
+      toggleCanUnstake(true);
+    } else {
+      toggleCanUnstake(false);
+    }
+
     unlock().then(update);
-  }, [unlock, update, stakingBalanceIsEmpty]);
+  }, [unlock, update, stakingBalanceIsEmpty, unstake.can, toggleCanUnstake]);
 
   const handleClaim = useCallback(() => {
     if (stakingBalanceIsEmpty) return;
@@ -94,8 +113,11 @@ export const StakingDetail: React.FC = () => {
                 account={account}
                 tokenName={tokenName}
                 tokenKey={params.tokenId}
+                canStake={stake.can}
+                stakeDate={stake.date}
+                stakeBlockNumber={stake.blockNumber}
                 tokenAddress={stakingBalancesWithApy?.address}
-                contractName={stakingBalancesWithApy?.contractName}
+                stakingContract={stakingBalancesWithApy?.stakingContract}
                 tokenDecimals={stakingBalancesWithApy?.decimals}
                 onSubmit={update}
                 balanceOfToken={balanceOfToken}
@@ -121,9 +143,23 @@ export const StakingDetail: React.FC = () => {
                   >
                     {stakingBalancesWithApy?.amountInUSDC ?? '0'} USD
                   </Typography>
-                  <Button onClick={handleUnstake} className={classes.unlock}>
-                    Unstake
-                  </Button>
+                  {Number(unstake.blockNumber) > 0 && (
+                    <Typography variant="body2" align="center">
+                      Unstaking started after {unstake.blockNumber}{' '}
+                      {unstake.date && <>({unstake.date})</>}
+                    </Typography>
+                  )}
+                  <Tippy
+                    visible={canUnstake}
+                    content="Unstaking not started"
+                    maxWidth={200}
+                    offset={[0, 25]}
+                    animation={false}
+                  >
+                    <Button onClick={handleUnstake} className={classes.unlock}>
+                      Unstake
+                    </Button>
+                  </Tippy>
                 </div>
                 <div className={classes.unstakeAndClaim}>
                   <Typography

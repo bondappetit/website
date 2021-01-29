@@ -2,18 +2,13 @@ import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import { useCallback } from 'react';
 
-import { useStakingContracts } from './use-staking-contracts';
+import type { Staking } from 'src/generate/Staking';
 
-export const useStakingUnlock = (contractName?: string) => {
-  const getStakingContract = useStakingContracts();
+export const useStakingUnlock = (stakingContract?: Staking) => {
   const { account } = useWeb3React<Web3>();
 
   const handleUnstakeOrClaim = useCallback(
     async (unstake = true) => {
-      if (!contractName) return;
-
-      const stakingContract = getStakingContract(contractName);
-
       if (!account || !stakingContract) return;
 
       const exit = unstake
@@ -25,7 +20,7 @@ export const useStakingUnlock = (contractName?: string) => {
         gas: await exit.estimateGas({ from: account })
       });
     },
-    [contractName, account, getStakingContract]
+    [stakingContract, account]
   );
 
   return handleUnstakeOrClaim;

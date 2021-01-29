@@ -15,7 +15,8 @@ import {
   ButtonBase,
   LinkIfAccount
 } from 'src/common';
-import { StakingAcquireModal, useStakingContracts } from '../common';
+import type { Staking } from 'src/generate/Staking';
+import { StakingAcquireModal } from '../common';
 import { useStakingLockFormStyles } from './staking-lock-form.styles';
 
 export type StakingLockFormProps = {
@@ -23,9 +24,12 @@ export type StakingLockFormProps = {
   tokenKey: string;
   tokenName?: string;
   tokenAddress?: string;
-  contractName?: string;
+  stakingContract?: Staking;
   tokenDecimals?: string;
   onSubmit?: () => void;
+  canStake: boolean;
+  stakeDate: string;
+  stakeBlockNumber: string;
   balanceOfToken: string;
 };
 
@@ -36,12 +40,11 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
   const [aquireOpen, aquireToggle] = useToggle(false);
 
-  const getStakingContract = useStakingContracts();
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
   });
 
-  const { account, tokenAddress, contractName, tokenDecimals } = props;
+  const { account, tokenAddress, stakingContract, tokenDecimals } = props;
 
   const formik = useFormik({
     initialValues: {
@@ -57,6 +60,10 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         error.amount = 'Required';
       }
 
+      if (props.canStake) {
+        error.amount = 'Staking ended';
+      }
+
       if (new BN(props.balanceOfToken).isLessThan(formValues.amount)) {
         error.amount = `Looks like you don't have enough ${props.tokenName}, please check your wallet`;
       }
@@ -65,15 +72,13 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     },
 
     onSubmit: async (formValues, { resetForm }) => {
-      if (!account || !contractName || !tokenDecimals) return;
+      if (!account || !stakingContract || !tokenDecimals) return;
 
       const currentAssetContract = getIERC20Contract(tokenAddress);
 
       const formAmount = new BN(formValues.amount)
         .multipliedBy(new BN(10).pow(tokenDecimals))
         .toString(10);
-
-      const stakingContract = getStakingContract(contractName);
 
       const approve = currentAssetContract.methods.approve(
         stakingContract.options.address,
@@ -127,6 +132,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             className={classes.tooltip}
             maxWidth={200}
             offset={[0, 25]}
+            animation={false}
             onClickOutside={handleCloseTooltip}
           >
             <Input
@@ -140,7 +146,12 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
               className={classes.input}
             />
           </Tippy>
-          <Typography variant="body1" align="center" className={classes.max}>
+          <Typography
+            variant="body1"
+            align="center"
+            className={classes.max}
+            component="div"
+          >
             <ButtonBase
               className={classes.link}
               type="button"
@@ -151,6 +162,12 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             >
               {props.balanceOfToken || 0} max
             </ButtonBase>
+            {Number(props.stakeBlockNumber) > 0 && (
+              <Typography variant="body1" component="div" align="center">
+                Staking ended after {props.stakeBlockNumber}{' '}
+                {props.stakeDate && <>({props.stakeDate})</>}
+              </Typography>
+            )}
           </Typography>
           <Typography
             variant="body1"
