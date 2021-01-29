@@ -7,6 +7,7 @@ import { useWalletListStyles } from './wallet-list.styles';
 
 export type WalletListProps = {
   onClick: (connector: AbstractConnector) => void;
+  errorMessage?: string;
 };
 
 export const WalletList: React.FC<WalletListProps> = (props) => {
@@ -42,6 +43,15 @@ export const WalletList: React.FC<WalletListProps> = (props) => {
             </ButtonBase>
           );
         }
+      )}
+      {props.errorMessage && (
+        <Typography
+          variant="body1"
+          align="center"
+          className={classes.errorMessage}
+        >
+          {props.errorMessage}
+        </Typography>
       )}
     </div>
   );

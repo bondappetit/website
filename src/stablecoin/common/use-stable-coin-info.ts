@@ -1,4 +1,4 @@
-import { useQuery, dateUtils } from 'src/common';
+import { useQuery, dateUtils, useNetworkConfig } from 'src/common';
 
 const url = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2';
 
@@ -25,7 +25,7 @@ const QUERY = `
   }
 `;
 
-const token = '0xdac17f958d2ee523a2206206994597c13d831ec7';
+const DEFAULT_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 const date = dateUtils.startOfYesterday;
 
@@ -51,9 +51,14 @@ export type SablecoinInfo = {
 };
 
 export const useStablecoinInfo = () => {
+  const networkConfig = useNetworkConfig();
+
   const state = useQuery<SablecoinInfo>(url, {
     query: QUERY,
-    variables: { date, token }
+    variables: {
+      date,
+      token: networkConfig.assets.Stable?.address ?? DEFAULT_ADDRESS
+    }
   });
 
   return state;

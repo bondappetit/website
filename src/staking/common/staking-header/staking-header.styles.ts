@@ -1,4 +1,5 @@
 import { createUseStyles } from 'react-jss';
+import { lighten, invert } from 'polished';
 
 import { Theme } from 'src/common';
 
@@ -8,7 +9,8 @@ export const useStakingHeaderStyles = createUseStyles(
       BAG: theme.colors.yellow,
       USDp: theme.colors.pink,
       BAG_USDC: theme.colors.chetwodeBlue,
-      USDp_USDC: theme.colors.darkGreen
+      USDp_USDC: theme.colors.darkGreen,
+      USDp_USDN: lighten(0.4, invert(theme.colors.purple))
     };
 
     return {

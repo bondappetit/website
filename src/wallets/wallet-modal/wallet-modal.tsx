@@ -5,7 +5,7 @@ import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
 import { Modal, SmallModal } from 'src/common';
-import { WalletInfo, WalletList } from '../common';
+import { WalletInfo, WalletList, getWalletErrorMessage } from '../common';
 
 export type WalletModalProps = {
   open: boolean;
@@ -13,7 +13,9 @@ export type WalletModalProps = {
 };
 
 export const WalletModal: React.FC<WalletModalProps> = (props) => {
-  const { activate, account } = useWeb3React<Web3>();
+  const { activate, account, error, connector, setError } = useWeb3React<
+    Web3
+  >();
   const [currentComponentIndex, setCurrentComponentIndex] = useState(
     account ? 1 : 0
   );
@@ -22,14 +24,19 @@ export const WalletModal: React.FC<WalletModalProps> = (props) => {
 
   const handleActivateWallet = useCallback(
     async (wallet: AbstractConnector) => {
-      await activate(wallet);
+      try {
+        await activate(wallet, undefined, true);
 
-      if (account) {
-        onClose();
-        setCurrentComponentIndex(1);
+        if (connector && !error) {
+          onClose();
+          setCurrentComponentIndex(1);
+        }
+      } catch (e) {
+        setError(e);
+        console.error(e.message);
       }
     },
-    [onClose, account, activate]
+    [onClose, connector, activate, error, setError]
   );
 
   const handleChangeWallet = useCallback(() => {
@@ -43,14 +50,23 @@ export const WalletModal: React.FC<WalletModalProps> = (props) => {
   }, [account]);
 
   useUpdateEffect(() => {
-    if (account && open) {
+    if (error) return;
+
+    if (connector && open) {
       onClose();
     }
-  }, [account]);
+  }, [connector, error]);
 
   const components = [
-    <WalletList onClick={handleActivateWallet} />,
-    <WalletInfo account={account} onChange={handleChangeWallet} />
+    <WalletList
+      onClick={handleActivateWallet}
+      errorMessage={error ? getWalletErrorMessage(error) : undefined}
+    />,
+    <WalletInfo
+      account={account}
+      onChange={handleChangeWallet}
+      errorMessage={error ? getWalletErrorMessage(error) : undefined}
+    />
   ];
 
   return (

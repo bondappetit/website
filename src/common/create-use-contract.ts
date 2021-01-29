@@ -6,6 +6,7 @@ import networks from '@bondappetit/networks';
 import { useWeb3React } from '@web3-react/core';
 
 import { useNetworkConfig } from './use-network-config';
+import { EthereumNetworkError } from './ethereum-network-error';
 
 type ContractParameters = {
   abi: AbiItem[] | AbiItem;
@@ -34,13 +35,17 @@ export const createUseContract = <T>(cb: Callback) => () => {
   const networkConfig = useNetworkConfig();
 
   return useMemo(() => {
-    const contractParams = cb(networkConfig);
+    try {
+      const contractParams = cb(networkConfig);
 
-    return (new library.eth.Contract(
-      contractParams.abi,
-      contractParams.address,
-      contractParams.options
-    ) as unknown) as T;
+      return (new library.eth.Contract(
+        contractParams.abi,
+        contractParams.address,
+        contractParams.options
+      ) as unknown) as T;
+    } catch {
+      throw new EthereumNetworkError();
+    }
   }, [library, networkConfig]);
 };
 
@@ -54,14 +59,18 @@ export const useDynamicContract = <T>(
     (address?: string, abi?: AbiItem[] | AbiItem) => {
       const currentAbi = contractParameters?.abi ?? abi;
 
-      if (!currentAbi) {
-        throw new Error('Abi is required');
-      }
+      try {
+        if (!currentAbi) {
+          throw new Error('Abi is required');
+        }
 
-      contract.current = (new library.eth.Contract(
-        currentAbi,
-        address
-      ) as unknown) as T;
+        contract.current = (new library.eth.Contract(
+          currentAbi,
+          address
+        ) as unknown) as T;
+      } catch {
+        throw new EthereumNetworkError();
+      }
 
       return contract.current;
     },

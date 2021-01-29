@@ -48,7 +48,7 @@ export const useVotingInfoFactoidStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         padding: [0, 24],
         margin: 0,
-        width: '20%'
+        width: '33.33%'
       }
     },
 

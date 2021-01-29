@@ -13,6 +13,7 @@ import { useWalletInfoStyles } from './wallet-info.styles';
 export type WalletInfoProps = {
   account?: string | null;
   onChange: () => void;
+  errorMessage?: string;
 };
 
 export const WalletInfo: React.FC<WalletInfoProps> = (props) => {
@@ -52,6 +53,15 @@ export const WalletInfo: React.FC<WalletInfoProps> = (props) => {
       <ButtonBase className={classes.button} onClick={props.onChange}>
         Change
       </ButtonBase>
+      {props.errorMessage && (
+        <Typography
+          variant="body1"
+          align="center"
+          className={classes.errorMessage}
+        >
+          {props.errorMessage}
+        </Typography>
+      )}
     </div>
   );
 };

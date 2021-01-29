@@ -33,15 +33,6 @@ export const FACTOID = [
     sale;`
   },
   {
-    percent: '12%',
-    text: `to early investors and advisors, subject to a 1-year
-    moratorium on sale;`
-  },
-  {
-    percent: '2%',
-    text: `to advisors, subject to a 1-year moratorium on sale;`
-  },
-  {
     percent: '1%',
     text: `to the pre-launch investor;`
   }

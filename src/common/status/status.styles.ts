@@ -38,6 +38,10 @@ export const useStatusStyles = createUseStyles(
       color: theme.colors.green
     },
 
+    superGreen: {
+      color: theme.colors.superGreen
+    },
+
     pink: {
       color: theme.colors.pink
     },
@@ -85,6 +89,12 @@ export const useStatusStyles = createUseStyles(
         backgroundColor: theme.colors.green,
         color: theme.colors.primary,
         borderColor: theme.colors.green
+      },
+
+      '&$superGreen': {
+        backgroundColor: theme.colors.superGreen,
+        color: theme.colors.primary,
+        borderColor: theme.colors.superGreen
       },
 
       '&$pink': {
