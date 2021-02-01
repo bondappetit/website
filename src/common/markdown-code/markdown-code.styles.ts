@@ -8,9 +8,11 @@ export const useMarkdownCodeStyles = createUseStyles(
       backgroundColor: theme.colors.proposalPlate,
       borderRadius: 8,
       padding: '10px 8px',
-      maxWidth: '100%',
+      width: '100%',
       overflowX: 'auto',
-      position: 'relative'
+      position: 'relative',
+      wordWrap: 'break-word',
+      whiteSpace: 'pre-wrap'
     },
 
     button: {

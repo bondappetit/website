@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import Web3 from 'web3';
-import { useWeb3React } from '@web3-react/core';
 
 import { useVestingContract, useUpdate } from 'src/common';
 
@@ -14,14 +12,11 @@ export type Period = {
 export type PeriodMap = { [address: string]: Period[] };
 
 export const useVestingPeriods = () => {
-  const { account } = useWeb3React<Web3>();
   const vestingContract = useVestingContract();
   const [vestingPeriods, setVestingPeriods] = useState<PeriodMap>({});
   const [update, handleUpdate] = useUpdate();
 
   const handleGetPeriods = useCallback(async () => {
-    if (!account) return;
-
     const participants = await vestingContract.methods.getParticipants().call();
     if (participants === undefined) return;
 
@@ -42,7 +37,7 @@ export const useVestingPeriods = () => {
         };
       }, Promise.resolve({}))
     );
-  }, [vestingContract, account]);
+  }, [vestingContract]);
 
   useEffect(() => {
     handleGetPeriods();

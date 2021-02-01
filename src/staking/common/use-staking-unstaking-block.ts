@@ -44,12 +44,17 @@ export const useStakingUnstakingBlock = (
       ? dateUtils.format(dateUtils.addSeconds(seconds), 'YYYY-MM-DD HH:mm:ss')
       : '';
 
-    const can =
-      endStakingBlockNumberGreaterZero ||
-      (currentBlockNumber.isGreaterThan(endStakingBlockNumber) &&
-        endStakingBlockNumberGreaterZero);
+    const greaterThan = staking
+      ? currentBlockNumber.isGreaterThan(endStakingBlockNumber)
+      : endStakingBlockNumber.isGreaterThan(currentBlockNumber);
 
-    setState({ can, date, blockNumber: endStakingBlockNumber.toString(10) });
+    const can = endStakingBlockNumberGreaterZero && greaterThan;
+
+    setState({
+      can,
+      date,
+      blockNumber: endStakingBlockNumber.toString(10)
+    });
   }, [stakingContract, staking, library]);
 
   useEffect(() => {

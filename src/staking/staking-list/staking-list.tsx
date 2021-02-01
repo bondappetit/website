@@ -69,7 +69,7 @@ export const StakingList: React.FC = () => {
           </div>
           <div className={classes.staking}>
             {!stakingBalancesWithApy.length
-              ? Array.from(Array(4), (_, i) => i).map((key) => (
+              ? Array.from(Array(2), (_, i) => i).map((key) => (
                   <Skeleton key={key} className={classes.skeleton} />
                 ))
               : stakingBalancesWithApy.map((stakingBalance) => (

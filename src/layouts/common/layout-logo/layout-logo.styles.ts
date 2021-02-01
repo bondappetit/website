@@ -10,6 +10,7 @@ export const useLayoutLogoStyles = createUseStyles(
       textDecoration: 'none',
       display: 'inline-flex',
       width: 40,
+      height: 40,
       ...transitions('opacity 0.3s ease'),
 
       [theme.mixins.hover()]: {
@@ -25,7 +26,8 @@ export const useLayoutLogoStyles = createUseStyles(
     },
 
     img: {
-      maxWidth: '100%'
+      maxWidth: '100%',
+      objectFit: 'contain'
     }
   }),
   {

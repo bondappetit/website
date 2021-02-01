@@ -39,7 +39,7 @@ export const MainStakingCard: React.FC<MainStakingCardProps> = (props) => {
           })}
         </Typography>
         <Typography variant="h3" align="center">
-          APY: {props.APY}
+          APY: {props.APY} %
         </Typography>
       </div>
       <div>
