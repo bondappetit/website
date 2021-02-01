@@ -9,7 +9,6 @@ import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
 import type { GovernanceToken } from 'src/generate/GovernanceToken';
 import type { Staking } from 'src/generate/Staking';
 import type { IUniswapV2Router02 } from 'src/generate/IUniswapV2Router02';
-import type { UniswapAnchoredView } from 'src/generate/UniswapAnchoredView';
 import type { Issuer } from 'src/generate/Issuer';
 import type { SecurityOracle } from 'src/generate/SecurityOracle';
 import type { DepositaryOracle } from 'src/generate/DepositaryOracle';
@@ -91,13 +90,6 @@ export const useUniswapRouter = createUseContract<IUniswapV2Router02>(
   (network) => ({
     abi: network.contracts.UniswapV2Router02.abi,
     address: network.contracts.UniswapV2Router02.address
-  })
-);
-
-export const useUniswapAnchoredView = createUseContract<UniswapAnchoredView>(
-  (network) => ({
-    abi: network.contracts.UniswapAnchoredView.abi,
-    address: network.contracts.UniswapAnchoredView.address
   })
 );
 
