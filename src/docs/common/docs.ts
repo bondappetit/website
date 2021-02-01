@@ -1,5 +1,5 @@
-import BAG from '@bondappetit/docs/api/GovernanceToken.md';
-import USDp from '@bondappetit/docs/api/StableToken.md';
+import GovernanceToken from '@bondappetit/docs/api/GovernanceToken.md';
+import StableToken from '@bondappetit/docs/api/StableToken.md';
 import Timelock from '@bondappetit/docs/api/Timelock.md';
 import GovernorAlpha from '@bondappetit/docs/api/GovernorAlpha.md';
 import Treasury from '@bondappetit/docs/api/Treasury.md';
@@ -10,8 +10,8 @@ import CollateralMarket from '@bondappetit/docs/api/CollateralMarket.md';
 import Staking from '@bondappetit/docs/api/Staking.md';
 
 export const DOCS: Record<string, string> = {
-  BAG,
-  USDp,
+  GovernanceToken,
+  StableToken,
   Timelock,
   GovernorAlpha,
   Treasury,
