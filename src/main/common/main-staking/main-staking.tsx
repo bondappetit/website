@@ -39,7 +39,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
       </Typography>
       <Grid>
         {!props.staking.length
-          ? Array.from(Array(4), (_, i) => i).map((key) => (
+          ? Array.from(Array(2), (_, i) => i).map((key) => (
               <Skeleton key={key} className={classes.skeleton} />
             ))
           : props.staking.map((stakingItem, index) => {

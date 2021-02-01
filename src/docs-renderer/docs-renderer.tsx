@@ -1,9 +1,8 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import gfm from 'remark-gfm';
-import Tex from '@matejmazur/react-katex';
+
 import math from 'remark-math';
-import 'katex/dist/katex.min.css';
 
 import {
   MarkdownHeading,
@@ -22,7 +21,8 @@ import {
   DocsRendererParagraph,
   DocsRendererTable,
   DocsRendererTableOfContents,
-  TableOfContent
+  TableOfContent,
+  DocsRendererMath
 } from './common';
 import { useDocsRendererStyles } from './docs-renderer.styles';
 
@@ -39,8 +39,12 @@ const renderers = {
   code: MarkdownCode,
   list: MarkdownList,
   listItem: MarkdownListItem,
-  inlineMath: ({ value }: { value: string }) => <Tex math={value} />,
-  math: ({ value }: { value: string }) => <Tex block math={value} />
+  inlineMath: ({ value }: { value: string }) => (
+    <DocsRendererMath value={value} />
+  ),
+  math: ({ value }: { value: string }) => (
+    <DocsRendererMath block value={value} />
+  )
 };
 
 export type DocsRendererProps = {
