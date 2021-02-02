@@ -1,5 +1,4 @@
 import { useAsyncRetry, useAsyncFn } from 'react-use';
-import type { AsyncState } from 'react-use/lib/useAsyncFn';
 
 type Body = {
   query: string;
@@ -24,10 +23,7 @@ export const useQuery = <T = unknown>(url: string, body: Body) => {
   return state;
 };
 
-export const useLazyQuery = <T = unknown>(
-  url: string,
-  body: Body
-): [(body: Body) => Promise<T>, AsyncState<T>] => {
+export const useLazyQuery = <T = unknown>(url: string, body: Body) => {
   const [state, get] = useAsyncFn(
     async (variables: unknown) => {
       const response = await fetch(url, {
@@ -45,5 +41,5 @@ export const useLazyQuery = <T = unknown>(
     [url]
   );
 
-  return [get, state];
+  return [get, state] as const;
 };

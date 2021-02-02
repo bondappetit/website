@@ -1,6 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { useNetworkConfig, useUniswapRouter, BN } from 'src/common';
+import {
+  useNetworkConfig,
+  useUniswapRouter,
+  BN,
+  useUniswapPairInfo
+} from 'src/common';
 import { StakingToken } from './use-staking-balances';
 import { useStakingLpPair } from './use-staking-lp-pair';
 import { useTokenContracts } from './use-token-contract';
@@ -39,12 +44,15 @@ export const useStakingApy = (balances: StakingToken[]) => {
   const [APY, setAPY] = useState<APYWithTokenName[]>([]);
   const getStakingLpPair = useStakingLpPair();
   const getTokenContract = useTokenContracts();
+  const [getPairInfo] = useUniswapPairInfo();
 
   const { governanceInUSDC } = useGovernanceCost();
 
   const handleGetTokenPrice = useCallback(async () => {
     const result = await Promise.all(
       balances.map(async (balance) => {
+        const test = await getPairInfo({ id: USD.address });
+
         let tokenInUSDC;
         if (balance.liquidityPool) {
           tokenInUSDC = '0';
@@ -143,7 +151,8 @@ export const useStakingApy = (balances: StakingToken[]) => {
     balances,
     governanceInUSDC,
     getStakingLpPair,
-    getTokenContract
+    getTokenContract,
+    getPairInfo
   ]);
 
   useEffect(() => {

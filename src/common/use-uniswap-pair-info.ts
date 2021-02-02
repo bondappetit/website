@@ -1,4 +1,4 @@
-import { useQuery } from './use-query';
+import { useLazyQuery } from './use-query';
 
 const url = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2';
 
@@ -27,12 +27,9 @@ export type PairInfo = {
 };
 
 export const useUniswapPairInfo = () => {
-  const state = useQuery<PairInfo>(url, {
-    query: QUERY,
-    variables: {
-      id: '' // todo: paidId
-    }
+  const [get, state] = useLazyQuery<PairInfo>(url, {
+    query: QUERY
   });
 
-  return state;
+  return [get, state] as const;
 };
