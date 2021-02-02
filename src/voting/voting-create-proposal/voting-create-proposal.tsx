@@ -10,7 +10,8 @@ import {
   useGovernorContract,
   ButtonBase,
   Modal,
-  Head
+  Head,
+  estimateGas
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { URLS } from 'src/router/urls';
@@ -85,7 +86,7 @@ export const VotingCreateProposal: React.FC = () => {
 
       await propose.send({
         from: account,
-        gas: await propose.estimateGas({ from: account })
+        gas: await estimateGas(propose, { from: account })
       });
 
       resetForm();

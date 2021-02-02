@@ -1,10 +1,9 @@
 import { useCallback, useState, useEffect, useMemo } from 'react';
-import BN from 'bignumber.js';
 
-import { useNetworkConfig, useUniswapRouter } from 'src/common';
+import { useNetworkConfig, useUniswapRouter, BN } from 'src/common';
 
 export const useGovernanceCost = () => {
-  const [state, setState] = useState('1');
+  const [state, setState] = useState('1000000');
 
   const networkConfig = useNetworkConfig();
   const uniswapRouter = useUniswapRouter();

@@ -7,6 +7,7 @@ export type StakingAcquireModalProps = {
   open: boolean;
   onClose: () => void;
   tokenName?: string;
+  tokenAddresses?: string[];
 };
 
 export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
@@ -19,40 +20,36 @@ export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
       <SmallModal>
         <div className={classes.root}>
           <div className={classes.content}>
-            <Typography
-              weight="bold"
-              variant="h5"
-              align="center"
-              className={classes.title}
-            >
+            <Typography weight="bold" variant="h5">
               To acquire {props.tokenName}.
             </Typography>
-            <Typography variant="h5" align="center">
+            <Typography variant="h5">
               Stake your BAG to{' '}
-              <Link href="https://uniswap.org/" color="blue">
+              <Link
+                href={`https://app.uniswap.org/#/add/${props.tokenAddresses?.join(
+                  '/'
+                )}`}
+                target="_blank"
+                color="blue"
+              >
                 uniswap liquidity pool
               </Link>
             </Typography>
-            <Typography variant="h5" align="center">
-              ↓
+            <Typography variant="h5">
+              2. You will get LP tokens from UNISWAP automatically right after
+              stake
             </Typography>
-            <Typography variant="h5" align="center">
-              2. You will get LP tokens from
-            </Typography>
-            <Typography variant="h5" align="center">
-              UNISWAP automatically right after stake
-            </Typography>
-            <Typography variant="h5" align="center">
-              ↓
-            </Typography>
-            <Typography variant="h5" align="center">
+            <Typography variant="h5">
               3.Then stake LP tokens and earn BAG
             </Typography>
           </div>
           <Button
             className={classes.button}
             component="a"
-            href="https://uniswap.org/"
+            target="_blank"
+            href={`https://app.uniswap.org/#/add/${props.tokenAddresses?.join(
+              '/'
+            )}`}
           >
             Go to Liquidity Pool
           </Button>

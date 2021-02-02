@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { useFormik, FormikProvider } from 'formik';
-import BN from 'bignumber.js';
 import { useMedia, useToggle } from 'react-use';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
@@ -21,7 +20,10 @@ import {
   SmallModal,
   InfoCardLoader,
   Button,
-  Typography
+  Typography,
+  estimateGas,
+  autoApprove,
+  BN
 } from 'src/common';
 import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';
@@ -31,8 +33,6 @@ import { useInvestingFormStyles } from './investing-form.styles';
 export type InvestingFormProps = {
   className?: string;
 };
-
-const DEFAULT_GAS = 2000000;
 
 export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
   const classes = useInvestingFormStyles();
@@ -125,47 +125,32 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
       try {
         if (currentToken.name === 'ETH') {
           const investETH = investmentContract.methods.investETH();
-
           await investETH.send({
             from: account,
             value: formInvest,
-            gas: DEFAULT_GAS
+            gas: await estimateGas(investETH, {
+              from: account,
+              value: formInvest
+            })
           });
         } else {
           if (!currentContract) return;
+
+          await autoApprove(
+            currentContract,
+            account,
+            investmentContract.options.address,
+            formInvest
+          );
+          window.onbeforeunload = () => 'wait please transaction in progress';
 
           const invest = investmentContract.methods.invest(
             currentContract.options.address,
             formInvest
           );
-
-          const approve = currentContract.methods.approve(
-            investmentContract.options.address,
-            formInvest
-          );
-
-          const allowance = await currentContract.methods
-            .allowance(account, investmentContract.options.address)
-            .call();
-
-          if (allowance !== '0') {
-            await currentContract.methods
-              .approve(investmentContract.options.address, '0')
-              .send({
-                from: account,
-                gas: await approve.estimateGas({ from: account })
-              });
-          }
-
-          await approve.send({
-            from: account,
-            gas: await approve.estimateGas({ from: account })
-          });
-          window.onbeforeunload = () => 'wait please transaction in progress';
-
           await invest.send({
             from: account,
-            gas: await invest.estimateGas({ from: account })
+            gas: await estimateGas(invest, { from: account })
           });
         }
 

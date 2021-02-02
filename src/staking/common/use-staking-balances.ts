@@ -1,10 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import BN from 'bignumber.js';
-import { useInterval } from 'react-use';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { useUpdate } from 'src/common';
+import { useUpdate, BN, useTimeoutInterval } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { StakingConfig } from 'src/staking-config';
 import { useStakingContracts } from './use-staking-contracts';
@@ -21,7 +19,10 @@ export type StakingToken = {
   stakingContract: Staking;
   token: string[];
   liquidityPool: boolean;
+  poolRate: string;
 };
+
+const BLOCKS_PER_MINUTE = 4;
 
 export const useStakingBalances = (availableTokens: StakingConfig[]) => {
   const tokens = useRef(availableTokens);
@@ -29,7 +30,7 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
   const getStakingContract = useStakingContracts();
   const getTokenContract = useTokenContracts();
   const { account: web3Account } = useWeb3React<Web3>();
-  const [account, setAccount] = useState('');
+  const [account, setAccount] = useState(web3Account);
   const [update, handleUpdate] = useUpdate();
 
   const handleGetBalances = useCallback(async () => {
@@ -61,17 +62,26 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
 
         const reward = new BN(earned).div(new BN(10).pow(decimals));
 
+        const totalSupplyBN = new BN(totalSupply).div(new BN(10).pow(decimals));
+
+        const poolRate = reward
+          .multipliedBy(BLOCKS_PER_MINUTE)
+          .multipliedBy(60)
+          .multipliedBy(24)
+          .multipliedBy(30);
+
         const StakingToken = {
           amount: amount.isNaN() ? '0' : amount.toString(10),
           key: String(index),
           decimals,
-          totalSupply,
+          totalSupply: totalSupplyBN.isNaN() ? '0' : totalSupplyBN.toFormat(),
           rewardRate,
           stakingContract,
           address: stakingTokenAddress,
           reward: reward.isNaN() ? '0' : reward.toString(10),
           token,
-          liquidityPool
+          liquidityPool,
+          poolRate: poolRate.isNaN() ? '0' : poolRate.toFormat()
         };
 
         acc.push(StakingToken);
@@ -87,7 +97,7 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
   }, [account, getStakingContract, getTokenContract]);
 
   useEffect(() => {
-    if (web3Account !== undefined && web3Account !== null) {
+    if (web3Account) {
       setAccount(web3Account);
     }
   }, [web3Account]);
@@ -96,9 +106,7 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
     handleGetBalances();
   }, [handleGetBalances, update]);
 
-  useInterval(() => {
-    handleGetBalances();
-  }, 15000);
+  useTimeoutInterval(handleGetBalances, 15000);
 
   return useMemo(
     (): [StakingToken[], () => void] => [stakingBalances, handleUpdate],

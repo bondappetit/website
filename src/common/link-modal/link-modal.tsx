@@ -15,6 +15,7 @@ export type LinkModalProps = {
   onClose: () => void;
   onBuy?: () => void;
   withBuy?: boolean;
+  tokenAddress: string;
 };
 
 export const LinkModal: React.FC<LinkModalProps> = (props) => {
@@ -35,7 +36,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
             <Button
               variant="outlined"
               component={Link}
-              href="https://app.uniswap.org/"
+              href={`https://info.uniswap.org/token/${props.tokenAddress}`}
               target="_blank"
             >
               <UniswapIcon />

@@ -1,8 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
-import { useInterval } from 'react-use';
 
-import { Typography, dateUtils, Button } from 'src/common';
+import { Typography, dateUtils, Button, useTimeoutInterval } from 'src/common';
 import { config } from 'src/config';
 import { useInvestingAnnouncementStyles } from './investing-announcement.styles';
 
@@ -19,7 +18,7 @@ export const InvestingAnnouncement: React.FC<InvestingAnnouncementProps> = (
   );
   const classes = useInvestingAnnouncementStyles();
 
-  useInterval(() => {
+  useTimeoutInterval(() => {
     setCountdown(dateUtils.countdown(config.COUNTDOWN_DATE));
   }, 1000);
 

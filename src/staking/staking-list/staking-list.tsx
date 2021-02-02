@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import BN from 'bignumber.js';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -7,7 +6,8 @@ import {
   PageWrapper,
   Typography,
   Skeleton,
-  Head
+  Head,
+  BN
 } from 'src/common';
 import {
   StakingCard,
@@ -15,31 +15,48 @@ import {
   useStakingApy,
   useStakingBalances
 } from 'src/staking/common';
-import { STAKING_CONFIG } from 'src/staking-config';
+import { useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
 
 export const StakingList: React.FC = () => {
   const networkConfig = useNetworkConfig();
   const classes = useStakingListStyles();
-  const [stakingBalances] = useStakingBalances(STAKING_CONFIG);
+  const [stakingBalances] = useStakingBalances(
+    Object.values(useStakingConfig())
+  );
   const stakingBalancesWithApy = useStakingApy(stakingBalances);
   const { governanceInUSDC } = useGovernanceCost();
   const normalizeGovernanceInUSDC = useMemo(
     () =>
       new BN(governanceInUSDC)
         .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
-        .toFixed(4),
+        .toFormat(4),
     [governanceInUSDC, networkConfig.assets.USDC.decimals]
   );
 
-  const rewardSum = stakingBalancesWithApy.reduce(
-    (sum, { reward, rewardInUSDC }) => {
-      return {
-        reward: new BN(sum.reward).plus(reward).toFixed(6),
-        rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC).toString()
-      };
-    },
-    { reward: '0', rewardInUSDC: '0' }
+  const rewardSum = useMemo(
+    () =>
+      stakingBalancesWithApy.reduce(
+        (sum, { reward, rewardInUSDC }) => {
+          return {
+            reward: new BN(sum.reward).plus(reward).toFixed(6),
+            rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC).toFormat()
+          };
+        },
+        { reward: '0', rewardInUSDC: '0' }
+      ),
+    [stakingBalancesWithApy]
+  );
+
+  const totalValueLocked = useMemo(
+    () =>
+      stakingBalancesWithApy.reduce(
+        (sum, { totalSupply, stakingTokenUSDC }) => {
+          return sum.plus(new BN(totalSupply).multipliedBy(stakingTokenUSDC));
+        },
+        new BN('0')
+      ),
+    [stakingBalancesWithApy]
   );
 
   return (
@@ -53,6 +70,12 @@ export const StakingList: React.FC = () => {
               assets
             </Typography>
             <div className={classes.info}>
+              <Typography variant="h5" align="center" className={classes.bag}>
+                Total value locked:{' '}
+                <Typography variant="inherit" component="span" weight="bold">
+                  $ {totalValueLocked.toFormat(2)}
+                </Typography>
+              </Typography>
               <Typography variant="h5" align="center" className={classes.bag}>
                 BAG price:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
@@ -79,6 +102,11 @@ export const StakingList: React.FC = () => {
                     tokenKey={stakingBalance.key}
                     token={stakingBalance.token}
                     reward={stakingBalance.reward}
+                    totalSupply={stakingBalance.totalSupply}
+                    poolRate={stakingBalance.poolRate}
+                    stakingContractAddress={
+                      stakingBalance.stakingContract.options.address
+                    }
                     APY={stakingBalance.APY}
                   />
                 ))}

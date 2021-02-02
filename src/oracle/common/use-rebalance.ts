@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { useIssuerContract } from 'src/common';
+import { useIssuerContract, estimateGas } from 'src/common';
 
 export const useRebalance = () => {
   const issuerContract = useIssuerContract();
@@ -12,10 +12,9 @@ export const useRebalance = () => {
     if (!account) return;
 
     const rebalance = issuerContract.methods.rebalance();
-
     return rebalance.send({
       from: account,
-      gas: await rebalance.estimateGas({ from: account })
+      gas: await estimateGas(rebalance, { from: account })
     });
   }, [issuerContract, account]);
 

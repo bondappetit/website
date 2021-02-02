@@ -1,10 +1,9 @@
-import { useCallback, useEffect, useState } from 'react';
-import BN from 'bignumber.js';
+import { useCallback, useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
 
 import type { Staking } from 'src/generate/Staking';
-import { dateUtils } from 'src/common';
+import { dateUtils, BN, useTimeoutInterval } from 'src/common';
 
 export const useStakingUnstakingBlock = (
   stakingContract?: Staking,
@@ -57,9 +56,7 @@ export const useStakingUnstakingBlock = (
     });
   }, [stakingContract, staking, library]);
 
-  useEffect(() => {
-    handleStakingBlock();
-  }, [handleStakingBlock]);
+  useTimeoutInterval(handleStakingBlock, 15000);
 
   return state;
 };

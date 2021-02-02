@@ -1,5 +1,6 @@
 import React from 'react';
 import { useParams, Link as ReactRouterLink } from 'react-router-dom';
+import BN from 'bignumber.js';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -20,6 +21,7 @@ import {
 import { VotingDetailsAction } from '../voting-details-action';
 import { useVotingProposalDetailStyles } from './voting-proposal-detail.styles';
 import { useVotingProposalDetail } from './use-voting-proposal-detail';
+import { useVoteInfo } from './use-vote-info';
 
 export const VotingProposalDetail: React.FC = () => {
   const { proposalId } = useParams<{ proposalId: string }>();
@@ -28,6 +30,7 @@ export const VotingProposalDetail: React.FC = () => {
     loading,
     handleUpdateProposalDetail
   } = useVotingProposalDetail(Number(proposalId));
+  const { currentVotes } = useVoteInfo();
   const classes = useVotingProposalDetailStyles();
 
   return (
@@ -94,14 +97,39 @@ export const VotingProposalDetail: React.FC = () => {
               </>
             )}
           </Typography>
-          <VotingDetailsAction
-            proposalId={proposalId}
-            loading={loading}
-            onUpdate={handleUpdateProposalDetail}
-            forCount={proposal?.forCount}
-            status={proposal?.status}
-            againstCount={proposal?.againstCount}
-          />
+          <Typography
+            variant="subtitle1"
+            weight="light"
+            align="center"
+            component="div"
+          >
+            Voting can be applied only if 4% (4 000 000 BAG) of quorum reached
+          </Typography>
+          {new BN(currentVotes).isGreaterThan(0) && (
+            <VotingDetailsAction
+              proposalId={proposalId}
+              loading={loading}
+              onUpdate={handleUpdateProposalDetail}
+              forCount={proposal?.forCount}
+              status={proposal?.status}
+              againstCount={proposal?.againstCount}
+            />
+          )}
+          {new BN(currentVotes).isEqualTo(0) && (
+            <Typography
+              variant="body1"
+              align="center"
+              className={classes.getVotes}
+            >
+              <Link
+                component={ReactRouterLink}
+                to={URLS.voting.list}
+                color="blue"
+              >
+                Get votes
+              </Link>
+            </Typography>
+          )}
           <VotingDetailsBlock loading={loading} details={proposal?.details} />
           <VotingProposalDescription
             loading={loading}

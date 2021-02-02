@@ -1,8 +1,11 @@
-import { useCallback, useState, useEffect } from 'react';
-import BN from 'bignumber.js';
-import { useInterval } from 'react-use';
+import { useCallback, useState } from 'react';
 
-import { useBalance, useNetworkConfig } from 'src/common';
+import {
+  useBalance,
+  useNetworkConfig,
+  BN,
+  useTimeoutInterval
+} from 'src/common';
 
 type TokenBalance = {
   symbol: string;
@@ -32,11 +35,7 @@ export const useTokensBalance = (address?: string) => {
     setTokenBalances(await Promise.all(balances));
   }, [getBalance, address, networkConfig]);
 
-  useEffect(() => {
-    handleLoadTokensBalance();
-  }, [handleLoadTokensBalance]);
-
-  useInterval(handleLoadTokensBalance, 15000);
+  useTimeoutInterval(handleLoadTokensBalance, 15000);
 
   return tokenBalances;
 };

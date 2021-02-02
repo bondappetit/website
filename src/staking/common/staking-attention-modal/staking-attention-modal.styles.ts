@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useStakingAcquireModalStyles = createUseStyles(
+export const useStakingAttentionModalStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       display: 'flex',
@@ -18,6 +18,10 @@ export const useStakingAcquireModalStyles = createUseStyles(
       }
     },
 
+    title: {
+      marginBottom: 16
+    },
+
     button: {
       marginTop: 'auto',
       fontSize: 24,
@@ -27,9 +31,13 @@ export const useStakingAcquireModalStyles = createUseStyles(
         fontSize: 32,
         lineHeight: '40px'
       }
+    },
+
+    attention: {
+      color: theme.colors.red
     }
   }),
   {
-    name: 'StakingAcquireModal'
+    name: 'StakingAttentionModal'
   }
 );

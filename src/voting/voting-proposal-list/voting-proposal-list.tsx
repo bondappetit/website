@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import BN from 'bignumber.js';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 
@@ -40,12 +41,20 @@ export const VotingProposalList: React.FC = () => {
   const networkConfig = useNetworkConfig();
 
   const handleToggleVotingChoose = () => {
-    if (votingChooseOpen) {
-      handleUpdateVoteInfo();
-    }
-
     setVotingChooseOpen(!votingChooseOpen);
+    handleUpdateVoteInfo();
   };
+
+  let delegateButtonText = '';
+  if (new BN(currentVotes).isGreaterThan(0)) {
+    if (delegateTo === DELEGATE_TO_DEFAULT) {
+      delegateButtonText = 'Delegate to';
+    } else {
+      delegateButtonText = 'Redelegate';
+    }
+  } else {
+    delegateButtonText = 'Unlock votes';
+  }
 
   return (
     <>
@@ -65,19 +74,24 @@ export const VotingProposalList: React.FC = () => {
             <Typography variant="h3" align="center">
               {loading && <Skeleton className={classes.votesSkeleton} />}
               {!loading &&
-                (Number(currentVotes) > 0 || Number(currentGovCoin) > 0) && (
+                (new BN(currentVotes).isGreaterThan(0) ||
+                  new BN(currentGovCoin).isGreaterThan(0)) && (
                   <>
-                    {Number(currentVotes) === 0 ? currentGovCoin : currentVotes}{' '}
-                    {Number(currentVotes) === 0 ? 'BAG' : 'Votes'}
+                    {new BN(currentVotes).isEqualTo(0)
+                      ? currentGovCoin
+                      : currentVotes}{' '}
+                    {new BN(currentVotes).isEqualTo(0) ? 'BAG' : 'Votes'}
+                    {new BN(currentVotes).isGreaterThan(0) &&
+                      new BN(currentGovCoin).isGreaterThan(currentVotes) && (
+                        <> ({currentGovCoin} BAG)</>
+                      )}
                   </>
                 )}
               {!loading &&
-                Number(currentVotes) === 0 &&
-                Number(currentGovCoin) === 0 && (
+                new BN(currentVotes).isEqualTo(0) &&
+                new BN(currentGovCoin).isEqualTo(0) && (
                   <>
                     No Votes <br />
-                    Voting can be applied only if 4% (4 000 000 BAG) of quorum
-                    reached
                   </>
                 )}
             </Typography>
@@ -85,7 +99,7 @@ export const VotingProposalList: React.FC = () => {
             {!loading && (
               <>
                 <Typography variant="h2" align="center">
-                  {Number(currentVotes) > 0 &&
+                  {new BN(currentVotes).isGreaterThan(0) &&
                     delegateTo !== DELEGATE_TO_DEFAULT && (
                       <>
                         deligated to{' '}
@@ -98,16 +112,14 @@ export const VotingProposalList: React.FC = () => {
                         </Link>
                       </>
                     )}
-                  {(Number(currentVotes) > 0 || Number(currentGovCoin) > 0) &&
-                    delegateTo === DELEGATE_TO_DEFAULT && (
+                  {new BN(currentVotes).isEqualTo(0) &&
+                    new BN(currentGovCoin).isGreaterThan(0) && (
                       <>Unlock it so you can vote</>
                     )}
                 </Typography>
                 {canDelegate && (
                   <Button onClick={handleToggleVotingChoose}>
-                    {delegateTo === DELEGATE_TO_DEFAULT
-                      ? 'Unlock votes'
-                      : 'Redelegate'}
+                    {delegateButtonText}
                   </Button>
                 )}
               </>

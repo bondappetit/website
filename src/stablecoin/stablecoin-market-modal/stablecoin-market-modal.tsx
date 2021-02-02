@@ -1,6 +1,5 @@
 import { useFormik, FormikContext } from 'formik';
 import React, { useCallback, useState } from 'react';
-import BN from 'bignumber.js';
 import { useDebounce, useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
@@ -19,7 +18,11 @@ import {
   SmallModal,
   InfoCardFailure,
   InfoCardLoader,
-  InfoCardSuccess
+  InfoCardSuccess,
+  estimateGas,
+  autoApprove,
+  BN,
+  useTimeoutInterval
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useStablecoinTokens } from './use-stablecoin-tokens';
@@ -61,12 +64,12 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
       const error: Partial<typeof formValues> = {};
 
       if (!formValues.currency) {
-        error.currency = 'Required';
+        error.currency = 'Choose currency';
         return error;
       }
 
       if (Number(formValues.amount) <= 0) {
-        error.amount = 'Required';
+        error.amount = 'Amount of currency is required';
         return error;
       }
 
@@ -102,38 +105,21 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         .toString(10);
 
       try {
+        await autoApprove(
+          currentContract,
+          account,
+          collateralMarketContract.options.address,
+          formInvest
+        );
+        window.onbeforeunload = () => 'wait please transaction in progress';
+
         const buyStableToken = collateralMarketContract.methods.buy(
           currentContract.options.address,
           formInvest
         );
-
-        const approve = currentContract.methods.approve(
-          collateralMarketContract.options.address,
-          formInvest
-        );
-
-        const allowance = await currentContract.methods
-          .allowance(account, collateralMarketContract.options.address)
-          .call();
-
-        if (allowance !== '0') {
-          await currentContract.methods
-            .approve(collateralMarketContract.options.address, '0')
-            .send({
-              from: account,
-              gas: await approve.estimateGas({ from: account })
-            });
-        }
-
-        await approve.send({
-          from: account,
-          gas: await approve.estimateGas({ from: account })
-        });
-        window.onbeforeunload = () => 'wait please transaction in progress';
-
         await buyStableToken.send({
           from: account,
-          gas: await buyStableToken.estimateGas({ from: account })
+          gas: await estimateGas(buyStableToken, { from: account })
         });
 
         failureToggle(false);
@@ -160,22 +146,18 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     [formik.values.amount, formik.values.currency, tokens]
   );
 
-  useDebounce(
-    async () => {
-      const balanceOfToken = await getBalance({
-        tokenAddress: network.assets.Stable.address,
-        tokenName: network.assets.Stable.name
-      });
+  useTimeoutInterval(async () => {
+    const balanceOfToken = await getBalance({
+      tokenAddress: network.assets.Stable.address,
+      tokenName: network.assets.Stable.name
+    });
 
-      setBalance(
-        balanceOfToken
-          .div(new BN(10).pow(network.assets.Stable.decimals))
-          .toString(10)
-      );
-    },
-    100,
-    []
-  );
+    setBalance(
+      balanceOfToken
+        .div(new BN(10).pow(network.assets.Stable.decimals))
+        .toString(10)
+    );
+  }, 15000);
 
   const handleSuccessClose = useCallback(() => {
     successToggle(false);

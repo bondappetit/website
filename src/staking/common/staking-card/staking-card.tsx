@@ -11,6 +11,9 @@ export type StakingCardProps = {
   reward?: string;
   APY?: string;
   token: string[];
+  stakingContractAddress: string;
+  totalSupply: string;
+  poolRate: string;
 };
 
 export const StakingCard: React.FC<StakingCardProps> = (props) => {
@@ -23,7 +26,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
   return (
     <Link
       component={ReactRouterLink}
-      to={`${URLS.staking.detail(props.tokenKey)}`}
+      to={URLS.staking.detail(props.stakingContractAddress)}
       className={classes.stakingCard}
     >
       {props.stacked && (
@@ -58,6 +61,26 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
           BAG
         </Typography>
       </Typography>
+      <Typography variant="body1" align="center">
+        Total Supply:{' '}
+        <Typography variant="inherit" weight="bold">
+          $ {props.totalSupply}
+        </Typography>
+      </Typography>
+      <Typography variant="body1" align="center">
+        Pool rate:{' '}
+        <Typography variant="inherit" weight="bold">
+          {props.poolRate} BAG / month
+        </Typography>
+      </Typography>
+      {props.stacked && (
+        <Typography variant="body1" align="center">
+          Locking:{' '}
+          <Typography variant="inherit" weight="bold">
+            6 month
+          </Typography>
+        </Typography>
+      )}
     </Link>
   );
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useMedia } from 'react-use';
 
-import { Typography, Link, Carousel, Skeleton } from 'src/common';
+import { Typography, Link, Carousel, Skeleton, BN } from 'src/common';
 import { URLS } from 'src/router/urls';
 import type { APYWithTokenName } from 'src/staking';
 import { MainStakingCard } from '../main-staking-card';
@@ -49,8 +49,13 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
                 <MainStakingCard
                   key={id}
                   token={stakingItem.token}
+                  stakingContractAddress={
+                    stakingItem.stakingContract.options.address
+                  }
                   tokenKey={stakingItem.key}
-                  totalSupply={stakingItem.totalSupply}
+                  totalSupply={new BN(stakingItem.totalSupply)
+                    .multipliedBy(stakingItem.stakingTokenUSDC)
+                    .toFormat(2)}
                   APY={stakingItem.APY}
                 />
               );

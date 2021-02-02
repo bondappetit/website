@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { useUniswapMarketMakerContract } from 'src/common';
+import { useUniswapMarketMakerContract, estimateGas } from 'src/common';
 
 export const useAddLiquidity = (
   incomingAmount?: string,
@@ -24,7 +24,7 @@ export const useAddLiquidity = (
 
     await addLiquidity.send({
       from: account,
-      gas: await addLiquidity.estimateGas({ from: account })
+      gas: await estimateGas(addLiquidity, { from: account })
     });
 
     updateBalances?.();

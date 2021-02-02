@@ -7,3 +7,4 @@ export * from './use-staking-contracts';
 export * from './staking-acquire-modal';
 export * from './use-governance-cost';
 export * from './use-staking-unstaking-block';
+export * from './staking-attention-modal';

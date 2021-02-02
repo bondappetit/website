@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { useBuybackContract } from 'src/common';
+import { useBuybackContract, estimateGas } from 'src/common';
 
 export const useBuybackBuy = (balance: string, updateBalances?: () => void) => {
   const buybackContract = useBuybackContract();
@@ -16,7 +16,7 @@ export const useBuybackBuy = (balance: string, updateBalances?: () => void) => {
 
     await buy.send({
       from: account,
-      gas: await buy.estimateGas({ from: account })
+      gas: await estimateGas(buy, { from: account })
     });
 
     updateBalances?.();

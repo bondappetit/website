@@ -2,7 +2,12 @@ import React, { useCallback, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { useGovernanceContract, Modal, SmallModal } from 'src/common';
+import {
+  useGovernanceContract,
+  Modal,
+  SmallModal,
+  estimateGas
+} from 'src/common';
 import { useVotingChooseStyles } from './voting-choose.styles';
 import { VotingDelegate, VotingManual, VotingChooseButtons } from '../common';
 
@@ -42,7 +47,7 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
 
       await delegate.send({
         from: account,
-        gas: await delegate.estimateGas({ from: account })
+        gas: await estimateGas(delegate, { from: account })
       });
 
       handleClose();

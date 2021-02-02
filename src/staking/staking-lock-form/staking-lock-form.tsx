@@ -1,22 +1,25 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useFormik } from 'formik';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
-import BN from 'bignumber.js';
 import Tippy from '@tippyjs/react';
 import { useToggle } from 'react-use';
 
 import type { Ierc20 } from 'src/generate/IERC20';
 import {
   Input,
+  useNetworkConfig,
   Button,
+  BN,
   useDynamicContract,
+  LinkIfAccount,
+  estimateGas,
+  autoApprove,
   Typography,
-  ButtonBase,
-  LinkIfAccount
+  ButtonBase
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
-import { StakingAcquireModal } from '../common';
+import { StakingAcquireModal, StakingAttentionModal } from '../common';
 import { useStakingLockFormStyles } from './staking-lock-form.styles';
 
 export type StakingLockFormProps = {
@@ -24,6 +27,7 @@ export type StakingLockFormProps = {
   tokenKey: string;
   tokenName?: string;
   tokenAddress?: string;
+  token?: string[];
   stakingContract?: Staking;
   tokenDecimals?: string;
   onSubmit?: () => void;
@@ -33,12 +37,13 @@ export type StakingLockFormProps = {
   balanceOfToken: string;
 };
 
-const DEFAULT_GAS = 2000000;
-
 export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const classes = useStakingLockFormStyles();
 
   const [aquireOpen, aquireToggle] = useToggle(false);
+  const [stakingAttentionOpen, toggleStakingAttention] = useToggle(false);
+
+  const networkConfig = useNetworkConfig();
 
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
@@ -80,32 +85,17 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         .multipliedBy(new BN(10).pow(tokenDecimals))
         .toString(10);
 
-      const approve = currentAssetContract.methods.approve(
+      await autoApprove(
+        currentAssetContract,
+        account,
         stakingContract.options.address,
         formAmount
       );
 
-      const allowance = await currentAssetContract.methods
-        .allowance(account, stakingContract.options.address)
-        .call();
-
-      if (allowance !== '0') {
-        await currentAssetContract.methods
-          .approve(stakingContract.options.address, '0')
-          .send({
-            from: account,
-            gas: await approve.estimateGas({ from: account })
-          });
-      }
-
-      await approve.send({
+      const stake = stakingContract.methods.stake(formAmount);
+      await stake.send({
         from: account,
-        gas: await approve.estimateGas({ from: account })
-      });
-
-      await stakingContract.methods.stake(formAmount).send({
-        from: account,
-        gas: DEFAULT_GAS
+        gas: await estimateGas(stake, { from: account })
       });
       resetForm();
       props.onSubmit?.();
@@ -115,6 +105,12 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const handleCloseTooltip = useCallback(() => {
     formik.setFieldError('amount', '');
   }, [formik]);
+
+  const tokenAddresses = useMemo(() => {
+    return Object.values(networkConfig.assets)
+      .filter((asset) => props.token?.includes(asset.symbol))
+      .map(({ address }) => address);
+  }, [props.token, networkConfig.assets]);
 
   return (
     <>
@@ -162,7 +158,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             >
               {props.balanceOfToken || 0} max
             </ButtonBase>
-            {Number(props.stakeBlockNumber) > 0 && (
+            {new BN(props.stakeBlockNumber).isGreaterThan(0) && (
               <Typography variant="body2" component="div" align="center">
                 Staking ended after {props.stakeBlockNumber} block number{' '}
                 {props.stakeDate && <>({props.stakeDate})</>}
@@ -186,9 +182,18 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
           </Typography>
         </div>
         <Button
-          type="submit"
+          type={
+            Number(formik.values.amount) > 0 && formik.isValid
+              ? 'button'
+              : 'submit'
+          }
           disabled={formik.isSubmitting}
           loading={formik.isSubmitting}
+          onClick={
+            Number(formik.values.amount) > 0 && formik.isValid
+              ? toggleStakingAttention
+              : undefined
+          }
         >
           Stake
         </Button>
@@ -197,6 +202,15 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         open={aquireOpen}
         onClose={aquireToggle}
         tokenName={props.tokenName}
+        tokenAddresses={tokenAddresses}
+      />
+      <StakingAttentionModal
+        open={stakingAttentionOpen}
+        onClose={toggleStakingAttention}
+        onStake={() => {
+          toggleStakingAttention(false);
+          formik.handleSubmit();
+        }}
       />
     </>
   );

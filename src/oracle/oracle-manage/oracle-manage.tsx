@@ -1,5 +1,4 @@
 import React, { useCallback, useState } from 'react';
-import BN from 'bignumber.js';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
@@ -8,7 +7,9 @@ import {
   useSecurityOracleContract,
   useDepositaryOracleContract,
   Typography,
-  PageWrapper
+  PageWrapper,
+  estimateGas,
+  BN
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
@@ -49,7 +50,7 @@ export const OracleManage: React.FC = () => {
 
       await put.send({
         from: account,
-        gas: await put.estimateGas({ from: account })
+        gas: await estimateGas(put, { from: account })
       });
     },
     [depositaryOracleContract, account]
@@ -70,7 +71,7 @@ export const OracleManage: React.FC = () => {
 
       await put.send({
         from: account,
-        gas: await put.estimateGas({ from: account })
+        gas: await estimateGas(put, { from: account })
       });
     },
     [securityOracleContract, library, account]

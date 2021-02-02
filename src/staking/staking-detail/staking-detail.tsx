@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
-import BN from 'bignumber.js';
 import Tippy from '@tippyjs/react';
 import { useToggle } from 'react-use';
 
@@ -14,7 +13,8 @@ import {
   Typography,
   PageWrapper,
   useBalance,
-  Head
+  Head,
+  BN
 } from 'src/common';
 import {
   StakingHeader,
@@ -23,7 +23,7 @@ import {
   useStakingUnlock,
   useStakingUnstakingBlock
 } from 'src/staking/common';
-import { STAKING_CONFIG } from 'src/staking-config';
+import { useStakingConfig } from 'src/staking-config';
 import { StakingLockForm } from '../staking-lock-form';
 import { useStakingDetailStyles } from './staking-detail.styles';
 
@@ -31,12 +31,15 @@ export const StakingDetail: React.FC = () => {
   const classes = useStakingDetailStyles();
   const params = useParams<{ tokenId: string }>();
   const { account } = useWeb3React<Web3>();
-  const tokenId = Number(params.tokenId);
   const [canUnstake, toggleCanUnstake] = useToggle(false);
 
-  const [stakingBalances, update] = useStakingBalances([
-    STAKING_CONFIG[tokenId]
-  ]);
+  const stakingConfig = useStakingConfig();
+
+  const currentStakingToken = stakingConfig[params.tokenId];
+
+  const [stakingBalances, update] = useStakingBalances(
+    [currentStakingToken].filter(Boolean)
+  );
   const [stakingBalancesWithApy] = useStakingApy(stakingBalances);
   const [balanceOfToken, setbalanceOfToken] = useState('');
 
@@ -61,11 +64,13 @@ export const StakingDetail: React.FC = () => {
   const handleUnstake = useCallback(() => {
     if (stakingBalanceIsEmpty) return;
 
-    if (!unstake.can) {
+    if (unstake.can) {
       toggleCanUnstake(true);
-    } else {
-      toggleCanUnstake(false);
+
+      return;
     }
+
+    toggleCanUnstake(false);
 
     unlock().then(update);
   }, [unlock, update, stakingBalanceIsEmpty, unstake.can, toggleCanUnstake]);
@@ -94,7 +99,7 @@ export const StakingDetail: React.FC = () => {
     handleGetBalanceOfToken();
   }, [handleGetBalanceOfToken, stakingBalances]);
 
-  const { tokenName } = STAKING_CONFIG[tokenId];
+  const { tokenName } = currentStakingToken ?? {};
 
   return (
     <>
@@ -105,12 +110,16 @@ export const StakingDetail: React.FC = () => {
             tokenKey={params.tokenId}
             token={stakingBalancesWithApy?.token}
             APY={stakingBalancesWithApy?.APY}
+            totalSupply={new BN(stakingBalancesWithApy?.totalSupply || 0)
+              .multipliedBy(stakingBalancesWithApy?.stakingTokenUSDC || 1)
+              .toFormat(2)}
             className={classes.header}
           />
           <div className={classes.row}>
             <Plate className={classes.card}>
               <StakingLockForm
                 account={account}
+                token={stakingBalancesWithApy?.token}
                 tokenName={tokenName}
                 tokenKey={params.tokenId}
                 canStake={stake.can}
@@ -143,7 +152,7 @@ export const StakingDetail: React.FC = () => {
                   >
                     {stakingBalancesWithApy?.amountInUSDC ?? '0'} USD
                   </Typography>
-                  {Number(unstake.blockNumber) > 0 && (
+                  {new BN(unstake.blockNumber).isGreaterThan(0) && (
                     <Typography variant="body2" align="center">
                       Unstaking started after {unstake.blockNumber} block number{' '}
                       {unstake.date && <>({unstake.date})</>}
@@ -154,6 +163,7 @@ export const StakingDetail: React.FC = () => {
                     content="Unstaking not started"
                     maxWidth={200}
                     offset={[0, 25]}
+                    className={classes.tooltip}
                     animation={false}
                   >
                     <Button onClick={handleUnstake} className={classes.unlock}>

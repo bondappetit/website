@@ -2,9 +2,9 @@ import React, { useCallback } from 'react';
 import Tippy from '@tippyjs/react';
 import clsx from 'clsx';
 import { useFormikContext } from 'formik';
-import BN from 'bignumber.js';
 import { useDebounce, useMedia } from 'react-use';
 
+import { BN } from '../bignumber';
 import { useBuyTokenFormStyles } from './buy-token-form.styles';
 import { Network } from '../create-use-contract';
 import { Token } from '../types';

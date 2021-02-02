@@ -1,6 +1,6 @@
 const canceledPromise = new Error('Canceled');
 
-export function makeCancelable<T>(promise: Promise<T>) {
+export const makeCancelable = <T>(promise: Promise<T>) => {
   let hasCanceled = false;
 
   // eslint-disable-next-line no-new
@@ -14,4 +14,4 @@ export function makeCancelable<T>(promise: Promise<T>) {
   return () => {
     hasCanceled = true;
   };
-}
+};

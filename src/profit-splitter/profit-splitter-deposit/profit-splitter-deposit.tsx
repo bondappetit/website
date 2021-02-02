@@ -2,7 +2,6 @@ import { useFormik } from 'formik';
 import React from 'react';
 import clsx from 'clsx';
 import Tippy from '@tippyjs/react';
-import BN from 'bignumber.js';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
@@ -12,7 +11,9 @@ import {
   Typography,
   Plate,
   useProfitSplitterContract,
-  useBalance
+  useBalance,
+  estimateGas,
+  BN
 } from 'src/common';
 import { useSplitterBalance } from '../common';
 import { useProfitSplitterDepositStyles } from './profit-splitter-deposit.styles';
@@ -83,7 +84,7 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
 
       await transfer.send({
         from: account,
-        gas: await transfer.estimateGas({ from: account })
+        gas: await estimateGas(transfer, { from: account })
       });
 
       props.handleUpdate();

@@ -1,6 +1,5 @@
 import { useFormik, FormikContext } from 'formik';
 import React, { useCallback, useState } from 'react';
-import BN from 'bignumber.js';
 import { useDebounce, useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
@@ -19,7 +18,11 @@ import {
   InfoCardFailure,
   InfoCardLoader,
   InfoCardSuccess,
-  useMarketContract
+  useMarketContract,
+  autoApprove,
+  estimateGas,
+  BN,
+  useTimeoutInterval
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useGovernanceTokens } from './use-governance-tokens';
@@ -29,8 +32,6 @@ export type VotingGovernanceMarketModalProps = {
   onClose: () => void;
   tokenName: string;
 };
-
-const DEFAULT_GAS = 2000000;
 
 export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalProps> = (
   props
@@ -95,47 +96,32 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
       try {
         if (currentToken.name === 'ETH') {
           const buyGovernanceTokenFromETH = marketContract.methods.buyGovernanceTokenFromETH();
-
           await buyGovernanceTokenFromETH.send({
             from: account,
             value: formInvest,
-            gas: DEFAULT_GAS
+            gas: await estimateGas(buyGovernanceTokenFromETH, {
+              from: account,
+              value: formInvest
+            })
           });
         } else {
           if (!currentContract) return;
+
+          await autoApprove(
+            currentContract,
+            account,
+            marketContract.options.address,
+            formInvest
+          );
+          window.onbeforeunload = () => 'wait please transaction in progress';
 
           const buyGovernanceToken = marketContract.methods.buyGovernanceToken(
             currentContract.options.address,
             formInvest
           );
-
-          const approve = currentContract.methods.approve(
-            marketContract.options.address,
-            formInvest
-          );
-
-          const allowance = await currentContract.methods
-            .allowance(account, marketContract.options.address)
-            .call();
-
-          if (allowance !== '0') {
-            await currentContract.methods
-              .approve(marketContract.options.address, '0')
-              .send({
-                from: account,
-                gas: await approve.estimateGas({ from: account })
-              });
-          }
-
-          await approve.send({
-            from: account,
-            gas: await approve.estimateGas({ from: account })
-          });
-          window.onbeforeunload = () => 'wait please transaction in progress';
-
           await buyGovernanceToken.send({
             from: account,
-            gas: await buyGovernanceToken.estimateGas({ from: account })
+            gas: await estimateGas(buyGovernanceToken, { from: account })
           });
         }
 
@@ -163,22 +149,18 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
     [formik.values.amount, formik.values.currency, tokens]
   );
 
-  useDebounce(
-    async () => {
-      const balanceOfToken = await getBalance({
-        tokenAddress: network.assets.Governance.address,
-        tokenName: network.assets.Governance.name
-      });
+  useTimeoutInterval(async () => {
+    const balanceOfToken = await getBalance({
+      tokenAddress: network.assets.Governance.address,
+      tokenName: network.assets.Governance.name
+    });
 
-      setBalance(
-        balanceOfToken
-          .div(new BN(10).pow(network.assets.Governance.decimals))
-          .toString(10)
-      );
-    },
-    100,
-    []
-  );
+    setBalance(
+      balanceOfToken
+        .div(new BN(10).pow(network.assets.Governance.decimals))
+        .toString(10)
+    );
+  }, 15000);
 
   const handleSuccessClose = useCallback(() => {
     successToggle(false);
