@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { useProfitSplitterContract } from 'src/common';
+import { useProfitSplitterContract, estimateGas } from 'src/common';
 
 export const useSplit = (balance?: string, updateBalances?: () => void) => {
   const { account } = useWeb3React<Web3>();
@@ -16,7 +16,7 @@ export const useSplit = (balance?: string, updateBalances?: () => void) => {
 
     await split.send({
       from: account,
-      gas: await split.estimateGas({ from: account })
+      gas: await estimateGas(split, { from: account })
     });
 
     updateBalances?.();

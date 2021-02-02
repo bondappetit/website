@@ -19,7 +19,9 @@ import {
   SmallModal,
   InfoCardFailure,
   InfoCardLoader,
-  InfoCardSuccess
+  InfoCardSuccess,
+  estimateGas,
+  autoApprove
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useStablecoinTokens } from './use-stablecoin-tokens';
@@ -102,41 +104,21 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         .toString(10);
 
       try {
+        await autoApprove(
+          currentContract,
+          account,
+          collateralMarketContract.options.address,
+          formInvest
+        );
+        window.onbeforeunload = () => 'wait please transaction in progress';
+
         const buyStableToken = collateralMarketContract.methods.buy(
           currentContract.options.address,
           formInvest
         );
-
-        const approve = currentContract.methods.approve(
-          collateralMarketContract.options.address,
-          formInvest
-        );
-
-        const allowance = await currentContract.methods
-          .allowance(account, collateralMarketContract.options.address)
-          .call();
-
-        if (allowance !== '0') {
-          const approveZero = currentContract.methods.approve(
-            collateralMarketContract.options.address,
-            '0'
-          );
-
-          await approveZero.send({
-            from: account,
-            gas: await approveZero.estimateGas({ from: account })
-          });
-        }
-
-        await approve.send({
-          from: account,
-          gas: await approve.estimateGas({ from: account })
-        });
-        window.onbeforeunload = () => 'wait please transaction in progress';
-
         await buyStableToken.send({
           from: account,
-          gas: await buyStableToken.estimateGas({ from: account })
+          gas: await estimateGas(buyStableToken, { from: account })
         });
 
         failureToggle(false);

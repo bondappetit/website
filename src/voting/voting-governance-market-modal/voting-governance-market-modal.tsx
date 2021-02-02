@@ -19,7 +19,9 @@ import {
   InfoCardFailure,
   InfoCardLoader,
   InfoCardSuccess,
-  useMarketContract
+  useMarketContract,
+  autoApprove,
+  estimateGas
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useGovernanceTokens } from './use-governance-tokens';
@@ -93,50 +95,32 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
       try {
         if (currentToken.name === 'ETH') {
           const buyGovernanceTokenFromETH = marketContract.methods.buyGovernanceTokenFromETH();
-
           await buyGovernanceTokenFromETH.send({
             from: account,
             value: formInvest,
-            gas: network.gasPrice
+            gas: await estimateGas(buyGovernanceTokenFromETH, {
+              from: account,
+              value: formInvest
+            })
           });
         } else {
           if (!currentContract) return;
+
+          await autoApprove(
+            currentContract,
+            account,
+            marketContract.options.address,
+            formInvest
+          );
+          window.onbeforeunload = () => 'wait please transaction in progress';
 
           const buyGovernanceToken = marketContract.methods.buyGovernanceToken(
             currentContract.options.address,
             formInvest
           );
-
-          const approve = currentContract.methods.approve(
-            marketContract.options.address,
-            formInvest
-          );
-
-          const allowance = await currentContract.methods
-            .allowance(account, marketContract.options.address)
-            .call();
-
-          if (allowance !== '0') {
-            const approveZero = currentContract.methods.approve(
-              marketContract.options.address,
-              '0'
-            );
-
-            await approveZero.send({
-              from: account,
-              gas: await approveZero.estimateGas({ from: account })
-            });
-          }
-
-          await approve.send({
-            from: account,
-            gas: await approve.estimateGas({ from: account })
-          });
-          window.onbeforeunload = () => 'wait please transaction in progress';
-
           await buyGovernanceToken.send({
             from: account,
-            gas: await buyGovernanceToken.estimateGas({ from: account })
+            gas: await estimateGas(buyGovernanceToken, { from: account })
           });
         }
 

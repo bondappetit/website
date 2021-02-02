@@ -14,7 +14,9 @@ import {
   Typography,
   ButtonBase,
   LinkIfAccount,
-  useNetworkConfig
+  useNetworkConfig,
+  estimateGas,
+  autoApprove
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { StakingAcquireModal } from '../common';
@@ -81,35 +83,17 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         .multipliedBy(new BN(10).pow(tokenDecimals))
         .toString(10);
 
-      const approve = currentAssetContract.methods.approve(
+      await autoApprove(
+        currentAssetContract,
+        account,
         stakingContract.options.address,
         formAmount
       );
 
-      const allowance = await currentAssetContract.methods
-        .allowance(account, stakingContract.options.address)
-        .call();
-
-      if (allowance !== '0') {
-        const approveZero = currentAssetContract.methods.approve(
-          stakingContract.options.address,
-          '0'
-        );
-
-        await approveZero.send({
-          from: account,
-          gas: await approveZero.estimateGas({ from: account })
-        });
-      }
-
-      await approve.send({
+      const stake = stakingContract.methods.stake(formAmount);
+      await stake.send({
         from: account,
-        gas: await approve.estimateGas({ from: account })
-      });
-
-      await stakingContract.methods.stake(formAmount).send({
-        from: account,
-        gas: networkConfig.gasPrice
+        gas: await estimateGas(stake, { from: account })
       });
       resetForm();
       props.onSubmit?.();

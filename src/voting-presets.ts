@@ -194,6 +194,7 @@ export const getVotingPresets = (
       }
     ]
   },
+  /*
   {
     title: 'Market: transfer USDp from Treasury',
     description: 'Transfer USDp token from Treasury to Market contract',
@@ -260,12 +261,7 @@ export const getVotingPresets = (
       }
     ]
   },
-  transferRewardToStaking(networkConfig, 'GovStaking'),
-  transferRewardToStaking(networkConfig, 'StableStaking'),
-  transferRewardToStaking(networkConfig, 'UsdcGovLPStaking'),
-  transferRewardToStaking(networkConfig, 'UsdcStableLPStaking'),
-  transferRewardToStaking(networkConfig, 'UsdnGovLPStaking'),
-  transferRewardToStaking(networkConfig, 'UsdnStableLPStaking'),
-  transferRewardToStaking(networkConfig, 'WethGovLPStaking'),
-  transferRewardToStaking(networkConfig, 'GovStableLPStaking')
+  */
+  transferRewardToStaking(networkConfig, 'UsdcStableLPLockStaking'),
+  transferRewardToStaking(networkConfig, 'UsdnStableLPLockStaking')
 ];

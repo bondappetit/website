@@ -4,7 +4,7 @@ import { useWeb3React } from '@web3-react/core';
 
 import { MainLayout } from 'src/layouts';
 import { useVestingPeriods, Period } from 'src/vesting/common';
-import { useVestingContract, dateUtils } from 'src/common';
+import { useVestingContract, dateUtils, estimateGas } from 'src/common';
 
 interface PeriodDetailProps {
   period: Period;
@@ -26,7 +26,7 @@ export const PeriodDetail = ({
     const withdrawMethod = vestingContract.methods.withdraw(periodId);
     await withdrawMethod.send({
       from: account,
-      gas: await withdrawMethod.estimateGas({ from: account })
+      gas: await estimateGas(withdrawMethod, { from: account })
     });
     onWithdraw(periodId);
   };

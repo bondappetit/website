@@ -12,7 +12,8 @@ import {
   Typography,
   Plate,
   useProfitSplitterContract,
-  useBalance
+  useBalance,
+  estimateGas
 } from 'src/common';
 import { useSplitterBalance } from '../common';
 import { useProfitSplitterDepositStyles } from './profit-splitter-deposit.styles';
@@ -83,7 +84,7 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
 
       await transfer.send({
         from: account,
-        gas: await transfer.estimateGas({ from: account })
+        gas: await estimateGas(transfer, { from: account })
       });
 
       props.handleUpdate();

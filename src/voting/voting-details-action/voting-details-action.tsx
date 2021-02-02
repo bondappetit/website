@@ -3,7 +3,7 @@ import { useToggle } from 'react-use';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { Skeleton, useGovernorContract, Button } from 'src/common';
+import { Skeleton, useGovernorContract, Button, estimateGas } from 'src/common';
 import { ProposalState, VotingButton, VotingDetailInfo } from '../common';
 import { useVotingDetailsActionStyles } from './voting-details-action.styles';
 
@@ -46,7 +46,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
 
         await castVote.send({
           from: account,
-          gas: await castVote.estimateGas({ from: account })
+          gas: await estimateGas(castVote, { from: account })
         });
       } finally {
         onUpdate?.();
@@ -65,7 +65,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
 
       await execute.send({
         from: account,
-        gas: await execute.estimateGas({ from: account })
+        gas: await estimateGas(execute, { from: account })
       });
     } finally {
       onUpdate?.();
@@ -83,7 +83,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
 
       await queue.send({
         from: account,
-        gas: await queue.estimateGas({ from: account })
+        gas: await estimateGas(queue, { from: account })
       });
     } finally {
       onUpdate?.();
