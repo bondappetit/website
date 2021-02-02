@@ -158,7 +158,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             >
               {props.balanceOfToken || 0} max
             </ButtonBase>
-            {Number(props.stakeBlockNumber) > 0 && (
+            {new BN(props.stakeBlockNumber).isGreaterThan(0) && (
               <Typography variant="body2" component="div" align="center">
                 Staking ended after {props.stakeBlockNumber} block number{' '}
                 {props.stakeDate && <>({props.stakeDate})</>}

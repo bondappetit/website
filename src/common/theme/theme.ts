@@ -23,6 +23,7 @@ export type Colors = {
   chetwodeBlue: string;
   lightGrey: string;
   superGreen: string;
+  anotherGrey: string;
 };
 
 export type ThemeModes = 'light' | 'dark';
@@ -41,7 +42,8 @@ const mainColors = {
   purple: '#FF35EB',
   darkBlue: '#3280BB',
   chetwodeBlue: '#8AA0DF',
-  lightGrey: '#EEEEEE'
+  lightGrey: '#EEEEEE',
+  anotherGrey: '#F2F3F4'
 };
 
 export const themeModes: Record<

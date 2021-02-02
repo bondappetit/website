@@ -157,7 +157,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         .div(new BN(10).pow(network.assets.Stable.decimals))
         .toString(10)
     );
-  }, 1500);
+  }, 15000);
 
   const handleSuccessClose = useCallback(() => {
     successToggle(false);

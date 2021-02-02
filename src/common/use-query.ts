@@ -1,4 +1,5 @@
-import { useAsyncRetry, useAsyncFn } from 'react-use';
+import { useCallback } from 'react';
+import { useAsyncRetry } from 'react-use';
 
 type Body = {
   query: string;
@@ -24,7 +25,7 @@ export const useQuery = <T = unknown>(url: string, body: Body) => {
 };
 
 export const useLazyQuery = <T = unknown>(url: string, body: Body) => {
-  const [state, get] = useAsyncFn(
+  const get = useCallback(
     async (variables: unknown) => {
       const response = await fetch(url, {
         method: 'POST',
@@ -38,8 +39,9 @@ export const useLazyQuery = <T = unknown>(url: string, body: Body) => {
 
       return result as T;
     },
-    [url]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [url, body]
   );
 
-  return [get, state] as const;
+  return get;
 };

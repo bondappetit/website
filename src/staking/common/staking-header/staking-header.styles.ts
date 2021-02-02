@@ -1,25 +1,14 @@
 import { createUseStyles } from 'react-jss';
-import { lighten, invert } from 'polished';
 
 import { Theme } from 'src/common';
 
 export const useStakingHeaderStyles = createUseStyles(
   (theme: Theme) => {
-    const bgColors: Record<string, string> = {
-      BAG: theme.colors.yellow,
-      USDp: theme.colors.pink,
-      BAG_USDC: theme.colors.chetwodeBlue,
-      USDp_USDC: theme.colors.darkGreen,
-      USDp_USDN: lighten(0.4, invert(theme.colors.purple))
-    };
-
     return {
       root: {
-        backgroundColor: (props: { tokenName: string }) =>
-          bgColors[props.tokenName],
+        backgroundColor: theme.colors.anotherGrey,
         backgroundRepeat: 'no-repeat',
         backgroundSize: '884px',
-        border: `1px solid ${theme.colors.primary}`,
         backgroundPosition: 'center 40%',
         borderRadius: 24,
         padding: [72, 56],

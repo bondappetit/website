@@ -41,7 +41,7 @@ export const useStakingApy = (balances: StakingToken[]) => {
   const networkConfig = useNetworkConfig();
   const USD = networkConfig.assets.USDC;
   const [APY, setAPY] = useState<APYWithTokenName[]>([]);
-  const [getPairInfo] = useUniswapPairInfo();
+  const getPairInfo = useUniswapPairInfo();
 
   const { governanceInUSDC } = useGovernanceCost();
 

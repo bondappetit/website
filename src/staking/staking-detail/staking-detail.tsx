@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
@@ -23,7 +23,6 @@ import {
   useStakingUnlock,
   useStakingUnstakingBlock
 } from 'src/staking/common';
-import { URLS } from 'src/router/urls';
 import { useStakingConfig } from 'src/staking-config';
 import { StakingLockForm } from '../staking-lock-form';
 import { useStakingDetailStyles } from './staking-detail.styles';
@@ -100,11 +99,7 @@ export const StakingDetail: React.FC = () => {
     handleGetBalanceOfToken();
   }, [handleGetBalanceOfToken, stakingBalances]);
 
-  if (!currentStakingToken) {
-    return <Redirect to={URLS.notfound} />;
-  }
-
-  const { tokenName } = currentStakingToken;
+  const { tokenName } = currentStakingToken ?? {};
 
   return (
     <>
@@ -157,7 +152,7 @@ export const StakingDetail: React.FC = () => {
                   >
                     {stakingBalancesWithApy?.amountInUSDC ?? '0'} USD
                   </Typography>
-                  {Number(unstake.blockNumber) > 0 && (
+                  {new BN(unstake.blockNumber).isGreaterThan(0) && (
                     <Typography variant="body2" align="center">
                       Unstaking started after {unstake.blockNumber} block number{' '}
                       {unstake.date && <>({unstake.date})</>}
