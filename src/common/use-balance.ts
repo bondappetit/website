@@ -4,8 +4,8 @@ import { useCallback, useRef } from 'react';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
-import BN from 'bignumber.js';
 
+import { BN } from './bignumber';
 import { useDynamicContract } from './create-use-contract';
 
 type GetBalanceOptions = {

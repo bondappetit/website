@@ -2,7 +2,6 @@ import { useFormik } from 'formik';
 import React from 'react';
 import clsx from 'clsx';
 import Tippy from '@tippyjs/react';
-import BN from 'bignumber.js';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
@@ -13,7 +12,8 @@ import {
   Plate,
   useProfitSplitterContract,
   useBalance,
-  estimateGas
+  estimateGas,
+  BN
 } from 'src/common';
 import { useSplitterBalance } from '../common';
 import { useProfitSplitterDepositStyles } from './profit-splitter-deposit.styles';

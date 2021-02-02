@@ -1,11 +1,11 @@
 import { useEffect, useCallback, useState } from 'react';
-import BN from 'bignumber.js';
 
 import {
   useNetworkConfig,
   useMarketContract,
   useBalance,
-  Asset
+  Asset,
+  BN
 } from 'src/common';
 
 export const useGovernanceTokens = () => {

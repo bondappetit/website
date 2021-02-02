@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useState } from 'react';
-import BN from 'bignumber.js';
-import { useInterval } from 'react-use';
+import { useCallback, useState } from 'react';
 
 import {
   useNetworkConfig,
   useGovStakingContract,
   useStableStakingContract,
   useGovernanceContract,
-  useStableCoinContract
+  useStableCoinContract,
+  BN,
+  useTimeoutInterval
 } from 'src/common';
 import { Balance } from './monitor-contract-list.types';
 
@@ -58,13 +58,7 @@ export const useInvestStakingBalance = (): Balance[] | null => {
     stableCoinContract
   ]);
 
-  useEffect(() => {
-    handleLoadinvestStakingBalance();
-  }, [handleLoadinvestStakingBalance]);
-
-  useInterval(() => {
-    handleLoadinvestStakingBalance();
-  }, 15000);
+  useTimeoutInterval(handleLoadinvestStakingBalance, 15000);
 
   return investStakingBalance;
 };

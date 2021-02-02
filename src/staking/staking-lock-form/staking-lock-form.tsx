@@ -1,25 +1,25 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useFormik } from 'formik';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
-import BN from 'bignumber.js';
 import Tippy from '@tippyjs/react';
 import { useToggle } from 'react-use';
 
 import type { Ierc20 } from 'src/generate/IERC20';
 import {
   Input,
-  Button,
-  useDynamicContract,
-  Typography,
-  ButtonBase,
-  LinkIfAccount,
   useNetworkConfig,
+  Button,
+  BN,
+  useDynamicContract,
+  LinkIfAccount,
   estimateGas,
-  autoApprove
+  autoApprove,
+  Typography,
+  ButtonBase
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
-import { StakingAcquireModal } from '../common';
+import { StakingAcquireModal, StakingAttentionModal } from '../common';
 import { useStakingLockFormStyles } from './staking-lock-form.styles';
 
 export type StakingLockFormProps = {
@@ -27,6 +27,7 @@ export type StakingLockFormProps = {
   tokenKey: string;
   tokenName?: string;
   tokenAddress?: string;
+  token?: string[];
   stakingContract?: Staking;
   tokenDecimals?: string;
   onSubmit?: () => void;
@@ -40,6 +41,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const classes = useStakingLockFormStyles();
 
   const [aquireOpen, aquireToggle] = useToggle(false);
+  const [stakingAttentionOpen, toggleStakingAttention] = useToggle(false);
 
   const networkConfig = useNetworkConfig();
 
@@ -103,6 +105,12 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const handleCloseTooltip = useCallback(() => {
     formik.setFieldError('amount', '');
   }, [formik]);
+
+  const tokenAddresses = useMemo(() => {
+    return Object.values(networkConfig.assets)
+      .filter((asset) => props.token?.includes(asset.symbol))
+      .map(({ address }) => address);
+  }, [props.token, networkConfig.assets]);
 
   return (
     <>
@@ -174,9 +182,18 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
           </Typography>
         </div>
         <Button
-          type="submit"
+          type={
+            Number(formik.values.amount) > 0 && formik.isValid
+              ? 'button'
+              : 'submit'
+          }
           disabled={formik.isSubmitting}
           loading={formik.isSubmitting}
+          onClick={
+            Number(formik.values.amount) > 0 && formik.isValid
+              ? toggleStakingAttention
+              : undefined
+          }
         >
           Stake
         </Button>
@@ -185,7 +202,15 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         open={aquireOpen}
         onClose={aquireToggle}
         tokenName={props.tokenName}
-        tokenAddress={networkConfig.assets.Stable.address}
+        tokenAddresses={tokenAddresses}
+      />
+      <StakingAttentionModal
+        open={stakingAttentionOpen}
+        onClose={toggleStakingAttention}
+        onStake={() => {
+          toggleStakingAttention(false);
+          formik.handleSubmit();
+        }}
       />
     </>
   );

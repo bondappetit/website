@@ -98,7 +98,11 @@ export const useTypographyStyles = createUseStyles(
 
     subtitle2: {},
 
-    inherit: {},
+    inherit: {
+      fontWeight: 'inherit',
+      fontSize: 'inherit',
+      lineHeight: 'inherit'
+    },
 
     light: {
       fontWeight: 400

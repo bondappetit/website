@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import BN from 'bignumber.js';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
@@ -8,7 +7,8 @@ import {
   useGovernanceContract,
   useNetworkConfig,
   useUpdate,
-  useBalance
+  useBalance,
+  BN
 } from 'src/common';
 import { ProposalState } from './constants';
 
