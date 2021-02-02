@@ -1,11 +1,12 @@
-import { useEffect, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import {
   useNetworkConfig,
   useMarketContract,
   useBalance,
   Asset,
-  BN
+  BN,
+  useTimeoutInterval
 } from 'src/common';
 
 export const useGovernanceTokens = () => {
@@ -51,9 +52,9 @@ export const useGovernanceTokens = () => {
     }
   }, [network, marketContract, getBalance]);
 
-  useEffect(() => {
+  useTimeoutInterval(() => {
     handleLoadTokenPrices();
-  }, [handleLoadTokenPrices]);
+  }, 15000);
 
   return tokens;
 };

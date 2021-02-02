@@ -1,11 +1,12 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { development } from '@bondappetit/networks';
 
 import {
   useCollateralMarketContract,
   useNetworkConfig,
   useBalance,
-  BN
+  BN,
+  useTimeoutInterval
 } from 'src/common';
 
 export type Asset = typeof development.assets[number] & { balance: string };
@@ -42,9 +43,9 @@ export const useStablecoinTokens = () => {
     setState(await Promise.all(tokens));
   }, [collateralMarketContract, network, getBalance]);
 
-  useEffect(() => {
+  useTimeoutInterval(() => {
     handleGetTokens();
-  }, [handleGetTokens]);
+  }, 15000);
 
   return state;
 };

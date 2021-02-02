@@ -116,13 +116,19 @@ export const VotingProposalDetail: React.FC = () => {
             />
           )}
           {new BN(currentVotes).isEqualTo(0) && (
-            <Link
-              component={ReactRouterLink}
-              to={URLS.voting.list}
-              color="blue"
+            <Typography
+              variant="body1"
+              align="center"
+              className={classes.getVotes}
             >
-              Get votes
-            </Link>
+              <Link
+                component={ReactRouterLink}
+                to={URLS.voting.list}
+                color="blue"
+              >
+                Get votes
+              </Link>
+            </Typography>
           )}
           <VotingDetailsBlock loading={loading} details={proposal?.details} />
           <VotingProposalDescription
