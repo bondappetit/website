@@ -115,7 +115,9 @@ export const StakingDetail: React.FC = () => {
             tokenKey={params.tokenId}
             token={stakingBalancesWithApy?.token}
             APY={stakingBalancesWithApy?.APY}
-            totalSupply={stakingBalancesWithApy?.totalSupply}
+            totalSupply={new BN(stakingBalancesWithApy?.totalSupply || 0)
+              .multipliedBy(stakingBalancesWithApy?.stakingTokenUSDC || 1)
+              .toFormat(2)}
             className={classes.header}
           />
           <div className={classes.row}>

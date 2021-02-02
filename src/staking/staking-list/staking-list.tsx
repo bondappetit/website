@@ -50,9 +50,12 @@ export const StakingList: React.FC = () => {
 
   const totalValueLocked = useMemo(
     () =>
-      stakingBalancesWithApy.reduce((sum, { totalSupply }) => {
-        return new BN(sum).plus(new BN(totalSupply)).toFormat();
-      }, '0'),
+      stakingBalancesWithApy.reduce(
+        (sum, { totalSupply, stakingTokenUSDC }) => {
+          return sum.plus(new BN(totalSupply).multipliedBy(stakingTokenUSDC));
+        },
+        new BN('0')
+      ),
     [stakingBalancesWithApy]
   );
 
@@ -70,7 +73,7 @@ export const StakingList: React.FC = () => {
               <Typography variant="h5" align="center" className={classes.bag}>
                 Total value locked:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  $ {totalValueLocked}
+                  $ {totalValueLocked.toFormat(2)}
                 </Typography>
               </Typography>
               <Typography variant="h5" align="center" className={classes.bag}>
