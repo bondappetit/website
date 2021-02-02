@@ -1,4 +1,4 @@
-import BN from 'bignumber.js';
+import { BN } from 'src/common';
 
 export type Balance = {
   name: string;

@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import BN from 'bignumber.js';
 
-import { useBalance, useNetworkConfig } from 'src/common';
+import { useBalance, useNetworkConfig, BN } from 'src/common';
 
 export const useETHBalance = (
   accountAddress?: string,

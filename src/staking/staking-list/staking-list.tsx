@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import BN from 'bignumber.js';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -7,7 +6,8 @@ import {
   PageWrapper,
   Typography,
   Skeleton,
-  Head
+  Head,
+  BN
 } from 'src/common';
 import {
   StakingCard,
@@ -30,18 +30,30 @@ export const StakingList: React.FC = () => {
     () =>
       new BN(governanceInUSDC)
         .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
-        .toFixed(4),
+        .toFormat(4),
     [governanceInUSDC, networkConfig.assets.USDC.decimals]
   );
 
-  const rewardSum = stakingBalancesWithApy.reduce(
-    (sum, { reward, rewardInUSDC }) => {
-      return {
-        reward: new BN(sum.reward).plus(reward).toFixed(6),
-        rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC).toString()
-      };
-    },
-    { reward: '0', rewardInUSDC: '0' }
+  const rewardSum = useMemo(
+    () =>
+      stakingBalancesWithApy.reduce(
+        (sum, { reward, rewardInUSDC }) => {
+          return {
+            reward: new BN(sum.reward).plus(reward).toFixed(6),
+            rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC).toFormat()
+          };
+        },
+        { reward: '0', rewardInUSDC: '0' }
+      ),
+    [stakingBalancesWithApy]
+  );
+
+  const totalValueLocked = useMemo(
+    () =>
+      stakingBalancesWithApy.reduce((sum, { totalSupply }) => {
+        return new BN(sum).plus(new BN(totalSupply)).toFormat();
+      }, '0'),
+    [stakingBalancesWithApy]
   );
 
   return (
@@ -55,6 +67,12 @@ export const StakingList: React.FC = () => {
               assets
             </Typography>
             <div className={classes.info}>
+              <Typography variant="h5" align="center" className={classes.bag}>
+                Total value locked:{' '}
+                <Typography variant="inherit" component="span" weight="bold">
+                  $ {totalValueLocked}
+                </Typography>
+              </Typography>
               <Typography variant="h5" align="center" className={classes.bag}>
                 BAG price:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
@@ -82,6 +100,7 @@ export const StakingList: React.FC = () => {
                     token={stakingBalance.token}
                     reward={stakingBalance.reward}
                     totalSupply={stakingBalance.totalSupply}
+                    poolRate={stakingBalance.poolRate}
                     stakingContractAddress={
                       stakingBalance.stakingContract.options.address
                     }

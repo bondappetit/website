@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import BN from 'bignumber.js';
 
-import { useIssuerContract, useNetworkConfig } from 'src/common';
+import { useIssuerContract, useNetworkConfig, BN } from 'src/common';
 
 export const useIssuerBalance = () => {
   const [state, setState] = useState('');

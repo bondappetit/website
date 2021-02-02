@@ -51,3 +51,5 @@ export * from './head';
 export * from './link-modal';
 export * from './use-query';
 export * from './ethereum-network-error';
+export * from './bignumber';
+export * from './use-timeout-interval';

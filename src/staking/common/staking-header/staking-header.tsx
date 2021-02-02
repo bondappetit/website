@@ -11,6 +11,7 @@ export type StakingHeaderProps = {
   token?: string[];
   tokenKey: string;
   APY?: string;
+  totalSupply?: string;
   className?: string;
 };
 
@@ -61,6 +62,12 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
             Earn:{' '}
             <Typography variant="inherit" component="span" weight="bold">
               BAG
+            </Typography>
+          </Typography>
+          <Typography variant="body1" component="span">
+            Total Supply:{' '}
+            <Typography variant="inherit" component="span" weight="bold">
+              $ {props.totalSupply}
             </Typography>
           </Typography>
         </div>

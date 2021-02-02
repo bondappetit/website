@@ -1,6 +1,5 @@
 import { useFormik, FormikContext } from 'formik';
 import React, { useCallback, useState } from 'react';
-import BN from 'bignumber.js';
 import { useDebounce, useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
@@ -19,7 +18,8 @@ import {
   InfoCardFailure,
   InfoCardLoader,
   InfoCardSuccess,
-  useMarketContract
+  useMarketContract,
+  BN
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useGovernanceTokens } from './use-governance-tokens';

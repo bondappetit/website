@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useState } from 'react';
-import BN from 'bignumber.js';
-import { useInterval } from 'react-use';
+import { useCallback, useState } from 'react';
 
 import {
   useNetworkConfig,
   useGovernanceContract,
   useStableCoinContract,
-  useMarketContract
+  useMarketContract,
+  BN,
+  useTimeoutInterval
 } from 'src/common';
 import { Balance } from './monitor-contract-list.types';
 
@@ -48,13 +48,7 @@ export const useMarketBalance = (): Balance[] | null => {
     setMarketBalances(await Promise.all(balances));
   }, [networkConfig, stableCoinContract, governanceContract, marketContract]);
 
-  useEffect(() => {
-    handleLoadMarketBalances();
-  }, [handleLoadMarketBalances]);
-
-  useInterval(() => {
-    handleLoadMarketBalances();
-  }, 15000);
+  useTimeoutInterval(handleLoadMarketBalances, 15000);
 
   return marketBalances;
 };

@@ -1,11 +1,11 @@
 import { useEffect, useState, useCallback } from 'react';
 import { development } from '@bondappetit/networks';
-import BN from 'bignumber.js';
 
 import {
   useCollateralMarketContract,
   useNetworkConfig,
-  useBalance
+  useBalance,
+  BN
 } from 'src/common';
 
 export type Asset = typeof development.assets[number] & { balance: string };

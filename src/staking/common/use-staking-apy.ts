@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import BN from 'bignumber.js';
 
-import { useNetworkConfig, useUniswapRouter } from 'src/common';
+import { useNetworkConfig, useUniswapRouter, BN } from 'src/common';
 import { StakingToken } from './use-staking-balances';
 import { useStakingLpPair } from './use-staking-lp-pair';
 import { useTokenContracts } from './use-token-contract';

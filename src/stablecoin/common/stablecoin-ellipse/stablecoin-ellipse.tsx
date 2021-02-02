@@ -1,8 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
-import BN from 'bignumber.js';
 
-import { Typography, Link, Button, Skeleton } from 'src/common';
+import { Typography, Link, Button, Skeleton, BN } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { SablecoinInfo } from '../use-stable-coin-info';
 import { useStablecoinEllipseStyles } from './stablecoin-ellipse.styles';
@@ -18,7 +17,7 @@ export type StablecoinEllipseProps = {
 const round = (sum?: string | null) => {
   if (!sum) return null;
 
-  return new BN(sum).integerValue().toString(10);
+  return new BN(sum).integerValue().toFormat(10);
 };
 
 export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {

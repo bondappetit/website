@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { useFormik, FormikProvider } from 'formik';
-import BN from 'bignumber.js';
 import { useMedia, useToggle } from 'react-use';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
@@ -21,7 +20,8 @@ import {
   SmallModal,
   InfoCardLoader,
   Button,
-  Typography
+  Typography,
+  BN
 } from 'src/common';
 import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';

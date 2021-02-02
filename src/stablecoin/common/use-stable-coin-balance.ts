@@ -1,7 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
-import BN from 'bignumber.js';
 
-import { useNetworkConfig, useStableCoinContract } from 'src/common';
+import { useNetworkConfig, useStableCoinContract, BN } from 'src/common';
 
 export const useStableCoinBalance = () => {
   const [state, setState] = useState('');
