@@ -132,7 +132,7 @@ export const useStakingApy = (balances: StakingToken[]) => {
           ...balance,
           amountInUSDC,
           rewardInUSDC,
-          APY: APYBN.isNaN() ? '0' : APYBN.toString(10)
+          APY: APYBN.isNaN() ? '0' : APYBN.integerValue().toString(10)
         };
       })
     );

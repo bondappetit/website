@@ -84,6 +84,16 @@ export const useStakingDetailStyles = createUseStyles(
       display: 'flex',
       flexDirection: 'column',
       height: '100%'
+    },
+
+    tooltip: {
+      backgroundColor: theme.colors.error,
+      color: 'white',
+      borderRadius: 8,
+      padding: 8,
+      fontSize: 14,
+      lineHeight: '20px',
+      transition: 'none'
     }
   }),
   {

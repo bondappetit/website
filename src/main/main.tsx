@@ -1,11 +1,11 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useToggle } from 'react-use';
 
-import { Head, PageWrapper, LinkModal } from 'src/common';
+import { Head, PageWrapper, LinkModal, useNetworkConfig } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { StablecoinMarketModal, useStableCoinBalance } from 'src/stablecoin';
 import { useStakingApy, useStakingBalances } from 'src/staking';
-import { STAKING_CONFIG } from 'src/staking-config';
+import { useStakingConfig } from 'src/staking-config';
 import {
   MainStaking,
   MainStablecoin,
@@ -16,13 +16,19 @@ import {
 } from './common';
 import { useMainStyles } from './main.styles';
 
-const staking = STAKING_CONFIG.slice(0, 4);
-
 export const Main: React.FC = () => {
   const classes = useMainStyles();
 
-  const [stakingBalances] = useStakingBalances(staking);
+  const stakingConfig = useStakingConfig();
+
+  const fourTokens = useMemo(() => Object.values(stakingConfig).slice(0, 4), [
+    stakingConfig
+  ]);
+
+  const [stakingBalances] = useStakingBalances(fourTokens);
   const stakingBalancesWithApy = useStakingApy(stakingBalances);
+
+  const networkConfig = useNetworkConfig();
 
   const stablecoinBalance = useStableCoinBalance();
 
@@ -64,8 +70,13 @@ export const Main: React.FC = () => {
         onClose={togglelinkModal}
         onBuy={handleBuy}
         withBuy
+        tokenAddress={networkConfig.assets.Stable.address}
       />
-      <LinkModal open={sellModalOpen} onClose={toggleSellModal} />
+      <LinkModal
+        open={sellModalOpen}
+        onClose={toggleSellModal}
+        tokenAddress={networkConfig.assets.Stable.address}
+      />
       <StablecoinMarketModal
         open={marketModalOpen}
         onClose={toggleMarketModal}

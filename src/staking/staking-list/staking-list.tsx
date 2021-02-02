@@ -15,13 +15,15 @@ import {
   useStakingApy,
   useStakingBalances
 } from 'src/staking/common';
-import { STAKING_CONFIG } from 'src/staking-config';
+import { useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
 
 export const StakingList: React.FC = () => {
   const networkConfig = useNetworkConfig();
   const classes = useStakingListStyles();
-  const [stakingBalances] = useStakingBalances(STAKING_CONFIG);
+  const [stakingBalances] = useStakingBalances(
+    Object.values(useStakingConfig())
+  );
   const stakingBalancesWithApy = useStakingApy(stakingBalances);
   const { governanceInUSDC } = useGovernanceCost();
   const normalizeGovernanceInUSDC = useMemo(
@@ -79,6 +81,10 @@ export const StakingList: React.FC = () => {
                     tokenKey={stakingBalance.key}
                     token={stakingBalance.token}
                     reward={stakingBalance.reward}
+                    totalSupply={stakingBalance.totalSupply}
+                    stakingContractAddress={
+                      stakingBalance.stakingContract.options.address
+                    }
                     APY={stakingBalance.APY}
                   />
                 ))}

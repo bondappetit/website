@@ -12,6 +12,7 @@ export type MainStakingCardProps = {
   tokenKey: string;
   APY?: string;
   totalSupply?: string;
+  stakingContractAddress: string;
 };
 
 export const MainStakingCard: React.FC<MainStakingCardProps> = (props) => {
@@ -22,7 +23,7 @@ export const MainStakingCard: React.FC<MainStakingCardProps> = (props) => {
   return (
     <Link
       component={ReactRouterLink}
-      to={`${URLS.staking.detail(props.tokenKey)}`}
+      to={URLS.staking.detail(props.stakingContractAddress)}
       className={clsx(classes.root, props.className)}
     >
       <div className={classes.head}>
@@ -58,7 +59,7 @@ export const MainStakingCard: React.FC<MainStakingCardProps> = (props) => {
         <Typography variant="body1" align="center">
           Total Supply:{' '}
           <Typography variant="inherit" weight="bold">
-            {props.totalSupply}
+            $ {props.totalSupply}
           </Typography>
         </Typography>
       </div>

@@ -1,4 +1,4 @@
-import { useNetworkConfig } from './common/use-network-config';
+import { Network } from './common';
 
 export type VotingPresetVariables = {
   [key: string]: {
@@ -26,7 +26,7 @@ export type VotingPreset = {
   actions: VotingPresetAction[];
 };
 
-type NetworkConfig = ReturnType<typeof useNetworkConfig>;
+type NetworkConfig = Network;
 
 function transferRewardToStaking(
   networkConfig: NetworkConfig,

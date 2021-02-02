@@ -23,7 +23,7 @@ import {
   useStakingUnlock,
   useStakingUnstakingBlock
 } from 'src/staking/common';
-import { STAKING_CONFIG } from 'src/staking-config';
+import { useStakingConfig } from 'src/staking-config';
 import { StakingLockForm } from '../staking-lock-form';
 import { useStakingDetailStyles } from './staking-detail.styles';
 
@@ -31,12 +31,13 @@ export const StakingDetail: React.FC = () => {
   const classes = useStakingDetailStyles();
   const params = useParams<{ tokenId: string }>();
   const { account } = useWeb3React<Web3>();
-  const tokenId = Number(params.tokenId);
   const [canUnstake, toggleCanUnstake] = useToggle(false);
 
-  const [stakingBalances, update] = useStakingBalances([
-    STAKING_CONFIG[tokenId]
-  ]);
+  const stakingConfig = useStakingConfig();
+
+  const currentStakingToken = stakingConfig[params.tokenId];
+
+  const [stakingBalances, update] = useStakingBalances([currentStakingToken]);
   const [stakingBalancesWithApy] = useStakingApy(stakingBalances);
   const [balanceOfToken, setbalanceOfToken] = useState('');
 
@@ -61,11 +62,13 @@ export const StakingDetail: React.FC = () => {
   const handleUnstake = useCallback(() => {
     if (stakingBalanceIsEmpty) return;
 
-    if (!unstake.can) {
+    if (unstake.can) {
       toggleCanUnstake(true);
-    } else {
-      toggleCanUnstake(false);
+
+      return;
     }
+
+    toggleCanUnstake(false);
 
     unlock().then(update);
   }, [unlock, update, stakingBalanceIsEmpty, unstake.can, toggleCanUnstake]);
@@ -94,7 +97,7 @@ export const StakingDetail: React.FC = () => {
     handleGetBalanceOfToken();
   }, [handleGetBalanceOfToken, stakingBalances]);
 
-  const { tokenName } = STAKING_CONFIG[tokenId];
+  const { tokenName } = currentStakingToken ?? {};
 
   return (
     <>
@@ -154,6 +157,7 @@ export const StakingDetail: React.FC = () => {
                     content="Unstaking not started"
                     maxWidth={200}
                     offset={[0, 25]}
+                    className={classes.tooltip}
                     animation={false}
                   >
                     <Button onClick={handleUnstake} className={classes.unlock}>

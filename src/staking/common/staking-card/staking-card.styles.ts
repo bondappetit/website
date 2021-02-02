@@ -39,7 +39,7 @@ export const useStakingCardStyles = createUseStyles(
       },
 
       apy: {
-        marginBottom: 16
+        marginBottom: 30
       },
 
       deposit: {

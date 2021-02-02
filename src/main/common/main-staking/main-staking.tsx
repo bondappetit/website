@@ -49,6 +49,9 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
                 <MainStakingCard
                   key={id}
                   token={stakingItem.token}
+                  stakingContractAddress={
+                    stakingItem.stakingContract.options.address
+                  }
                   tokenKey={stakingItem.key}
                   totalSupply={stakingItem.totalSupply}
                   APY={stakingItem.APY}

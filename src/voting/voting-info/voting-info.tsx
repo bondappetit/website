@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React, { useMemo } from 'react';
 import { useToggle } from 'react-use';
 
-import { Head, LinkModal, PageWrapper } from 'src/common';
+import { Head, LinkModal, PageWrapper, useNetworkConfig } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
   useVotingProposalList,
@@ -19,6 +19,8 @@ export const VotingInfo: React.FC = () => {
   const [linkModalOpen, togglelinkModal] = useToggle(false);
 
   const { proposals = [], loading, pages } = useVotingProposalList(3);
+
+  const networkConfig = useNetworkConfig();
 
   const proposalCount = useMemo(
     () => Math.round(pages.length * proposals.length),
@@ -45,6 +47,7 @@ export const VotingInfo: React.FC = () => {
         open={linkModalOpen}
         onClose={togglelinkModal}
         withBuy={false}
+        tokenAddress={networkConfig.assets.Governance.address}
       />
     </>
   );

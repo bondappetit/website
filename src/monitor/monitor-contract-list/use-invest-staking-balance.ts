@@ -7,7 +7,6 @@ import {
   useGovStakingContract,
   useStableStakingContract,
   useGovernanceContract,
-  useInvestmentContract,
   useStableCoinContract
 } from 'src/common';
 import { Balance } from './monitor-contract-list.types';
@@ -22,17 +21,9 @@ export const useInvestStakingBalance = (): Balance[] | null => {
   const stakingStableContract = useStableStakingContract();
   const governanceContract = useGovernanceContract();
   const stableCoinContract = useStableCoinContract();
-  const investmentContract = useInvestmentContract();
 
   const handleLoadinvestStakingBalance = useCallback(async () => {
     const balanceConfig = [
-      {
-        name: 'Investment BAG',
-        decimals: networkConfig.assets.Governance.decimals,
-        balanceOf: governanceContract.methods.balanceOf(
-          investmentContract.options.address
-        )
-      },
       {
         name: 'Staking BAG',
         decimals: networkConfig.assets.Governance.decimals,
@@ -63,7 +54,6 @@ export const useInvestStakingBalance = (): Balance[] | null => {
     stakingGovContract,
     stakingStableContract,
     governanceContract,
-    investmentContract,
     networkConfig,
     stableCoinContract
   ]);

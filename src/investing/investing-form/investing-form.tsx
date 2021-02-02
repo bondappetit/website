@@ -32,8 +32,6 @@ export type InvestingFormProps = {
   className?: string;
 };
 
-const DEFAULT_GAS = 2000000;
-
 export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
   const classes = useInvestingFormStyles();
 
@@ -129,7 +127,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
           await investETH.send({
             from: account,
             value: formInvest,
-            gas: DEFAULT_GAS
+            gas: network.gasPrice
           });
         } else {
           if (!currentContract) return;
@@ -149,12 +147,15 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
             .call();
 
           if (allowance !== '0') {
-            await currentContract.methods
-              .approve(investmentContract.options.address, '0')
-              .send({
-                from: account,
-                gas: await approve.estimateGas({ from: account })
-              });
+            const approveZero = currentContract.methods.approve(
+              investmentContract.options.address,
+              '0'
+            );
+
+            await approveZero.send({
+              from: account,
+              gas: await approveZero.estimateGas({ from: account })
+            });
           }
 
           await approve.send({

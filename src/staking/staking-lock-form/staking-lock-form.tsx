@@ -13,7 +13,8 @@ import {
   useDynamicContract,
   Typography,
   ButtonBase,
-  LinkIfAccount
+  LinkIfAccount,
+  useNetworkConfig
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { StakingAcquireModal } from '../common';
@@ -33,12 +34,12 @@ export type StakingLockFormProps = {
   balanceOfToken: string;
 };
 
-const DEFAULT_GAS = 2000000;
-
 export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const classes = useStakingLockFormStyles();
 
   const [aquireOpen, aquireToggle] = useToggle(false);
+
+  const networkConfig = useNetworkConfig();
 
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
@@ -90,12 +91,15 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         .call();
 
       if (allowance !== '0') {
-        await currentAssetContract.methods
-          .approve(stakingContract.options.address, '0')
-          .send({
-            from: account,
-            gas: await approve.estimateGas({ from: account })
-          });
+        const approveZero = currentAssetContract.methods.approve(
+          stakingContract.options.address,
+          '0'
+        );
+
+        await approveZero.send({
+          from: account,
+          gas: await approveZero.estimateGas({ from: account })
+        });
       }
 
       await approve.send({
@@ -105,7 +109,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
       await stakingContract.methods.stake(formAmount).send({
         from: account,
-        gas: DEFAULT_GAS
+        gas: networkConfig.gasPrice
       });
       resetForm();
       props.onSubmit?.();
@@ -197,6 +201,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         open={aquireOpen}
         onClose={aquireToggle}
         tokenName={props.tokenName}
+        tokenAddress={networkConfig.assets.Stable.address}
       />
     </>
   );

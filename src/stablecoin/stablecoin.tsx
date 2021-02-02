@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useToggle } from 'react-use';
 
-import { Head, PageWrapper, LinkModal } from 'src/common';
+import { Head, PageWrapper, LinkModal, useNetworkConfig } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
   StablecoinDecentralized,
@@ -21,6 +21,8 @@ export const Stablecoin: React.FC = () => {
   const [sellModalOpen, toggleSellModal] = useToggle(false);
 
   const stablecoinInfo = useStablecoinInfo();
+
+  const networkConfig = useNetworkConfig();
 
   const handleBuy = useCallback(() => {
     togglelinkModal(false);
@@ -49,8 +51,13 @@ export const Stablecoin: React.FC = () => {
         onClose={togglelinkModal}
         onBuy={handleBuy}
         withBuy
+        tokenAddress={networkConfig.assets.Stable.address}
       />
-      <LinkModal open={sellModalOpen} onClose={toggleSellModal} />
+      <LinkModal
+        open={sellModalOpen}
+        onClose={toggleSellModal}
+        tokenAddress={networkConfig.assets.Stable.address}
+      />
       <StablecoinMarketModal
         open={marketModalOpen}
         onClose={toggleMarketModal}

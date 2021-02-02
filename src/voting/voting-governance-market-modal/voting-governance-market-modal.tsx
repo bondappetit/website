@@ -30,8 +30,6 @@ export type VotingGovernanceMarketModalProps = {
   tokenName: string;
 };
 
-const DEFAULT_GAS = 2000000;
-
 export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalProps> = (
   props
 ) => {
@@ -99,7 +97,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
           await buyGovernanceTokenFromETH.send({
             from: account,
             value: formInvest,
-            gas: DEFAULT_GAS
+            gas: network.gasPrice
           });
         } else {
           if (!currentContract) return;
@@ -119,12 +117,15 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
             .call();
 
           if (allowance !== '0') {
-            await currentContract.methods
-              .approve(marketContract.options.address, '0')
-              .send({
-                from: account,
-                gas: await approve.estimateGas({ from: account })
-              });
+            const approveZero = currentContract.methods.approve(
+              marketContract.options.address,
+              '0'
+            );
+
+            await approveZero.send({
+              from: account,
+              gas: await approveZero.estimateGas({ from: account })
+            });
           }
 
           await approve.send({

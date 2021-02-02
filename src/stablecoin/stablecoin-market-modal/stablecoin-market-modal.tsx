@@ -117,12 +117,15 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           .call();
 
         if (allowance !== '0') {
-          await currentContract.methods
-            .approve(collateralMarketContract.options.address, '0')
-            .send({
-              from: account,
-              gas: await approve.estimateGas({ from: account })
-            });
+          const approveZero = currentContract.methods.approve(
+            collateralMarketContract.options.address,
+            '0'
+          );
+
+          await approveZero.send({
+            from: account,
+            gas: await approveZero.estimateGas({ from: account })
+          });
         }
 
         await approve.send({

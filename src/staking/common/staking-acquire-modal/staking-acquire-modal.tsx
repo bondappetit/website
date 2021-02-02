@@ -7,6 +7,7 @@ export type StakingAcquireModalProps = {
   open: boolean;
   onClose: () => void;
   tokenName?: string;
+  tokenAddress: string;
 };
 
 export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
@@ -29,7 +30,10 @@ export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
             </Typography>
             <Typography variant="h5" align="center">
               Stake your BAG to{' '}
-              <Link href="https://uniswap.org/" color="blue">
+              <Link
+                href={`https://info.uniswap.org/token/${props.tokenAddress}`}
+                color="blue"
+              >
                 uniswap liquidity pool
               </Link>
             </Typography>
@@ -52,7 +56,7 @@ export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
           <Button
             className={classes.button}
             component="a"
-            href="https://uniswap.org/"
+            href={`https://info.uniswap.org/token/${props.tokenAddress}`}
           >
             Go to Liquidity Pool
           </Button>
