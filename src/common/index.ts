@@ -55,3 +55,4 @@ export * from './estimate-gas';
 export * from './approve-tx';
 export * from './bignumber';
 export * from './use-timeout-interval';
+export * from './use-uniswap-pair-info';
