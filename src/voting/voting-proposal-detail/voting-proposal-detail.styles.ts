@@ -46,6 +46,10 @@ export const useVotingProposalDetailStyles = createUseStyles(
 
     date: {
       marginLeft: 12
+    },
+
+    getVotes: {
+      marginBottom: 12
     }
   }),
   {

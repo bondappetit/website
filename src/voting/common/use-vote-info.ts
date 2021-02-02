@@ -107,7 +107,7 @@ export const useVoteInfo = () => {
 
   useEffect(() => {
     handleGetDelegates();
-  }, [handleGetDelegates]);
+  }, [handleGetDelegates, update]);
 
   return useMemo(
     () => ({
