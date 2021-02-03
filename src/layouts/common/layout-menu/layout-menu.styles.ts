@@ -105,8 +105,8 @@ export const useLayoutMenuStyles = createUseStyles(
     },
 
     phaseLink: {
-      backgroundColor: theme.colors.anotherGrey,
-      borderColor: theme.colors.anotherGrey,
+      backgroundColor: theme.colors.proposalPlate,
+      borderColor: theme.colors.proposalPlate,
       display: 'flex',
 
       '&:before': {

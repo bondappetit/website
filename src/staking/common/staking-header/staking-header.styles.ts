@@ -6,7 +6,7 @@ export const useStakingHeaderStyles = createUseStyles(
   (theme: Theme) => {
     return {
       root: {
-        backgroundColor: theme.colors.anotherGrey,
+        backgroundColor: theme.colors.proposalPlate,
         backgroundRepeat: 'no-repeat',
         backgroundSize: '884px',
         backgroundPosition: 'center 40%',
