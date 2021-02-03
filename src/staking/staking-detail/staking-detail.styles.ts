@@ -27,7 +27,7 @@ export const useStakingDetailStyles = createUseStyles(
       gridGap: 16,
       textAlign: 'center',
 
-      [theme.breakpoints.md()]: {
+      [theme.breakpoints.lg()]: {
         gridGap: 48,
         gridTemplateColumns: '424px 1fr'
       }
@@ -61,12 +61,8 @@ export const useStakingDetailStyles = createUseStyles(
     },
 
     unlock: {
-      margin: '30px auto 0',
-      maxWidth: 429,
-
-      [theme.breakpoints.lg()]: {
-        margin: 'auto auto 0'
-      }
+      margin: '0 auto 0',
+      maxWidth: 429
     },
 
     stakingBalance: {
@@ -94,6 +90,28 @@ export const useStakingDetailStyles = createUseStyles(
       fontSize: 14,
       lineHeight: '20px',
       transition: 'none'
+    },
+
+    attention: {
+      opacity: 0.4,
+      marginTop: 16,
+      minHeight: 40
+    },
+
+    marginBottom: {
+      marginBottom: 24,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 64
+      }
+    },
+
+    marginBottom2: {
+      marginBottom: 24,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 88
+      }
     }
   }),
   {

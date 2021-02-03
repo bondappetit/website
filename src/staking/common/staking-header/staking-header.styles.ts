@@ -67,10 +67,17 @@ export const useStakingHeaderStyles = createUseStyles(
       },
 
       info: {
-        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
 
-        '& > *:not(:last-child)': {
-          marginRight: 32
+        [theme.breakpoints.lg()]: {
+          justifyContent: 'center',
+          flexDirection: 'row',
+
+          '& > *:not(:last-child)': {
+            marginRight: 32
+          }
         }
       }
     };

@@ -22,6 +22,7 @@ export const useMainCollateralStyles = createUseStyles(
       margin: '0 auto 48px',
 
       [theme.breakpoints.lg()]: {
+        gridGap: 128,
         gridTemplateColumns: '1fr 1fr 1fr'
       }
     },

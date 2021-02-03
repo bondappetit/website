@@ -26,10 +26,7 @@ export type PairInfo = {
   };
 };
 
-export const useUniswapPairInfo = () => {
-  const get = useLazyQuery<PairInfo>(url, {
+export const useUniswapPairInfo = () =>
+  useLazyQuery<PairInfo>(url, {
     query: QUERY
   });
-
-  return get;
-};

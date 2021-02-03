@@ -1,3 +1,5 @@
+import { invert, lighten } from 'polished';
+
 import EllipseArrowBlack from 'src/assets/images/ellipse-arrow-black.svg';
 import EllipseArrowWhite from 'src/assets/images/ellipse-arrow-white.svg';
 import EllipseArrowMobileWhite from 'src/assets/images/ellipse-arrow-mobile-white.svg';
@@ -42,8 +44,7 @@ const mainColors = {
   purple: '#FF35EB',
   darkBlue: '#3280BB',
   chetwodeBlue: '#8AA0DF',
-  lightGrey: '#EEEEEE',
-  anotherGrey: '#F2F3F4'
+  lightGrey: '#EEEEEE'
 };
 
 export const themeModes: Record<
@@ -57,6 +58,7 @@ export const themeModes: Record<
       tokenTitleLine: '#ffdc24',
       error: '#eb5757',
       proposalPlate: '#EBEEEF',
+      anotherGrey: '#F2F3F4',
       ...mainColors
     },
 
@@ -73,6 +75,7 @@ export const themeModes: Record<
       tokenTitleLine: '#243aff',
       error: '#eb5757',
       proposalPlate: '#222324',
+      anotherGrey: lighten(0.1, invert('#F2F3F4')),
       ...mainColors
     },
 

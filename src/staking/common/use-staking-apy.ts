@@ -89,6 +89,9 @@ export const useStakingApy = (balances: StakingToken[]) => {
 
         return {
           ...balance,
+          totalSupply: new BN(balance.totalSupply)
+            .multipliedBy(tokenInUSDC)
+            .toFormat(2),
           amountInUSDC,
           rewardInUSDC,
           stakingTokenUSDC: tokenInUSDC,
@@ -98,7 +101,14 @@ export const useStakingApy = (balances: StakingToken[]) => {
     );
 
     if (result.length) setAPY(result);
-  }, [USD, uniswapRouter, balances, governanceInUSDC, getPairInfo]);
+  }, [
+    balances,
+    governanceInUSDC,
+    USD.decimals,
+    USD.address,
+    getPairInfo,
+    uniswapRouter
+  ]);
 
   useEffect(() => {
     handleGetTokenPrice();

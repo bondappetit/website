@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { Status, Typography } from 'src/common';
+import { Typography } from 'src/common';
 import { useMainStepsStyles } from './main-steps.styles';
 import { STEPS } from '../constants';
 
@@ -21,15 +21,13 @@ export const MainSteps: React.FC<MainStepsProps> = (props) => {
       <div className={classes.segment} />
       <div className={classes.list}>
         {STEPS.map((step, index) => (
-          <div key={step.title} className={classes.card}>
-            <Typography variant="h5">
-              Phase {index + 1}{' '}
-              {step.active && (
-                <Status color="superGreen" variant="contained">
-                  Active
-                </Status>
-              )}
-            </Typography>
+          <div
+            key={step.title}
+            className={clsx(classes.card, {
+              [classes.cardActive]: step.active
+            })}
+          >
+            <Typography variant="h5">Phase {index + 1}</Typography>
             <Typography variant="h5" weight="bold">
               {step.title}
             </Typography>

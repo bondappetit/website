@@ -73,14 +73,12 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
           {props.poolRate} BAG / month
         </Typography>
       </Typography>
-      {props.stacked && (
-        <Typography variant="body1" align="center">
-          Locking:{' '}
-          <Typography variant="inherit" weight="bold">
-            6 month
-          </Typography>
+      <Typography variant="body1" align="center">
+        Locking:{' '}
+        <Typography variant="inherit" weight="bold">
+          6 month
         </Typography>
-      )}
+      </Typography>
     </Link>
   );
 };

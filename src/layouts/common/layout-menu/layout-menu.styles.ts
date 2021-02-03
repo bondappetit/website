@@ -34,6 +34,7 @@ export const useLayoutMenuStyles = createUseStyles(
       top: '125%',
       width: '100%',
       zIndex: 400,
+      listStyle: 'none',
 
       [theme.breakpoints.lg()]: {
         border: `1px solid ${theme.colors.primary}`,
@@ -41,6 +42,11 @@ export const useLayoutMenuStyles = createUseStyles(
         position: 'absolute',
         padding: 16
       }
+    },
+
+    dropdownPhases: {
+      width: 480,
+      padding: 32
     },
 
     dropdownItem: {
@@ -53,6 +59,16 @@ export const useLayoutMenuStyles = createUseStyles(
           marginBottom: 0
         }
       }
+    },
+
+    dropdownPhasesItem: {
+      '&:not(:last-child)': {
+        marginBottom: 24
+      }
+    },
+
+    dropdownPhasesItemDate: {
+      opacity: 0.4
     },
 
     navLink: {
@@ -77,6 +93,38 @@ export const useLayoutMenuStyles = createUseStyles(
         borderRadius: 16,
         padding: '6px 16px',
         marginBottom: 0
+      }
+    },
+
+    phase: {
+      display: 'none',
+
+      [theme.breakpoints.lg()]: {
+        display: 'block'
+      }
+    },
+
+    phaseLink: {
+      backgroundColor: theme.colors.anotherGrey,
+      borderColor: theme.colors.anotherGrey,
+      display: 'flex',
+
+      '&:before': {
+        content: '""',
+        display: 'block',
+        width: 8,
+        height: 8,
+        borderRadius: '50%',
+        backgroundColor: theme.colors.superGreen,
+        marginRight: 8
+      },
+
+      [theme.mixins.hover()]: {
+        '&:hover': {
+          backgroundColor: theme.colors.primary,
+          color: theme.colors.secondary,
+          borderColor: theme.colors.primary
+        }
       }
     },
 

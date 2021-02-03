@@ -4,7 +4,11 @@ import { useToggle } from 'react-use';
 import { Head, PageWrapper, LinkModal, useNetworkConfig } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { StablecoinMarketModal, useStableCoinBalance } from 'src/stablecoin';
-import { useStakingApy, useStakingBalances } from 'src/staking';
+import {
+  useStakingApy,
+  useStakingBalances,
+  useTotalValueLocked
+} from 'src/staking';
 import { useStakingConfig } from 'src/staking-config';
 import {
   MainStaking,
@@ -12,7 +16,8 @@ import {
   MainCollateral,
   MainVoting,
   MainLinks,
-  MainSteps
+  MainSteps,
+  MainEditor
 } from './common';
 import { useMainStyles } from './main.styles';
 
@@ -41,6 +46,8 @@ export const Main: React.FC = () => {
     toggleMarketModal();
   }, [togglelinkModal, toggleMarketModal]);
 
+  const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy);
+
   return (
     <>
       <Head
@@ -52,6 +59,7 @@ export const Main: React.FC = () => {
           <MainStaking
             className={classes.staking}
             staking={stakingBalancesWithApy}
+            totalValueLocked={totalValueLocked.toFormat(2)}
           />
           <MainStablecoin
             className={classes.stable}
@@ -60,8 +68,9 @@ export const Main: React.FC = () => {
             onSell={toggleSellModal}
           />
           <MainCollateral className={classes.collateral} />
-          <MainVoting className={classes.voting} />
           <MainSteps className={classes.steps} />
+          <MainEditor className={classes.editor} />
+          <MainVoting className={classes.voting} />
           <MainLinks />
         </PageWrapper>
       </MainLayout>

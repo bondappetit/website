@@ -5,12 +5,12 @@ export const useMainStakingStyles = createUseStyles(
   (theme: Theme) => ({
     title: {
       maxWidth: 1200,
-      margin: '0 auto 104px auto'
+      margin: '0 auto 104px'
     },
 
     subtitle: {
       maxWidth: 790,
-      margin: '0 auto 48px auto'
+      margin: '0 auto 8px'
     },
 
     stakingList: {
@@ -20,6 +20,7 @@ export const useMainStakingStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 48,
         display: 'grid',
+        gridGap: 48,
         gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))'
       },
 
@@ -30,6 +31,18 @@ export const useMainStakingStyles = createUseStyles(
 
     skeleton: {
       minHeight: 360
+    },
+
+    totalValueLocked: {
+      padding: 16,
+      marginBottom: 16,
+      borderRadius: 16,
+
+      [theme.breakpoints.md()]: {
+        padding: 24,
+        marginBottom: 48,
+        borderRadius: 24
+      }
     }
   }),
   {

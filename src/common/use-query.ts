@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useAsyncRetry } from 'react-use';
 
 type Body = {
@@ -25,11 +25,17 @@ export const useQuery = <T = unknown>(url: string, body: Body) => {
 };
 
 export const useLazyQuery = <T = unknown>(url: string, body: Body) => {
+  const bodyRef = useRef(body);
+
+  useEffect(() => {
+    bodyRef.current = body;
+  }, [body]);
+
   const get = useCallback(
     async (variables: unknown) => {
       const response = await fetch(url, {
         method: 'POST',
-        body: JSON.stringify({ ...body, variables }),
+        body: JSON.stringify({ ...bodyRef.current, variables }),
         headers: {
           'Content-Type': 'application/json'
         }
@@ -40,7 +46,7 @@ export const useLazyQuery = <T = unknown>(url: string, body: Body) => {
       return result as T;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [url, body]
+    [url]
   );
 
   return get;

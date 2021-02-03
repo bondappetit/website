@@ -101,6 +101,10 @@ export const StakingDetail: React.FC = () => {
 
   const { tokenName } = currentStakingToken ?? {};
 
+  const poolShare = new BN(stakingBalancesWithApy?.amount ?? '0')
+    .div(stakingBalancesWithApy?.totalSupply)
+    .multipliedBy(100);
+
   return (
     <>
       <Head title={`Staking ${tokenName}`} />
@@ -110,10 +114,9 @@ export const StakingDetail: React.FC = () => {
             tokenKey={params.tokenId}
             token={stakingBalancesWithApy?.token}
             APY={stakingBalancesWithApy?.APY}
-            totalSupply={new BN(stakingBalancesWithApy?.totalSupply || 0)
-              .multipliedBy(stakingBalancesWithApy?.stakingTokenUSDC || 1)
-              .toFormat(2)}
+            totalSupply={stakingBalancesWithApy?.totalSupply}
             className={classes.header}
+            poolRate={stakingBalancesWithApy?.poolRate}
           />
           <div className={classes.row}>
             <Plate className={classes.card}>
@@ -150,14 +153,16 @@ export const StakingDetail: React.FC = () => {
                     align="center"
                     className={classes.usd}
                   >
-                    {stakingBalancesWithApy?.amountInUSDC ?? '0'} USD
+                    {poolShare.isNaN() ? '0' : poolShare.toFormat(4)}% Pool
+                    share
                   </Typography>
-                  {new BN(unstake.blockNumber).isGreaterThan(0) && (
-                    <Typography variant="body2" align="center">
-                      Unstaking started after {unstake.blockNumber} block number{' '}
-                      {unstake.date && <>({unstake.date})</>}
-                    </Typography>
-                  )}
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={clsx(classes.usd, classes.marginBottom)}
+                  >
+                    $ {stakingBalancesWithApy?.amountInUSDC ?? '0'}
+                  </Typography>
                   <Tippy
                     visible={canUnstake}
                     content="Unstaking not started"
@@ -170,6 +175,16 @@ export const StakingDetail: React.FC = () => {
                       Unstake
                     </Button>
                   </Tippy>
+                  {new BN(unstake.blockNumber).isGreaterThan(0) && (
+                    <Typography
+                      variant="body2"
+                      align="center"
+                      className={classes.attention}
+                    >
+                      Unstaking will start at {unstake.date}
+                      <br /> after {unstake.blockNumber} block
+                    </Typography>
+                  )}
                 </div>
                 <div className={classes.unstakeAndClaim}>
                   <Typography
@@ -185,13 +200,20 @@ export const StakingDetail: React.FC = () => {
                   <Typography
                     variant="body1"
                     align="center"
-                    className={classes.usd}
+                    className={clsx(classes.usd, classes.marginBottom2)}
                   >
-                    {stakingBalancesWithApy?.rewardInUSDC ?? '0'} USD
+                    $ {stakingBalancesWithApy?.rewardInUSDC ?? '0'}
                   </Typography>
                   <Button onClick={handleClaim} className={classes.unlock}>
                     Claim
                   </Button>
+                  <Typography
+                    variant="body2"
+                    align="center"
+                    className={classes.attention}
+                  >
+                    Claim your rewards anytime
+                  </Typography>
                 </div>
               </div>
             </Plate>

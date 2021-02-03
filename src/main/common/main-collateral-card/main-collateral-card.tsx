@@ -18,8 +18,10 @@ export const MainCollateralCard: React.FC<MainCollateralCardProps> = (
 
   return (
     <div className={clsx(classes.root, props.className)}>
-      <div className={classes.content}>{props.children}</div>
-      <Typography variant="h4">
+      <Typography variant="body1" className={classes.content}>
+        {props.children}
+      </Typography>
+      <Typography variant="body1">
         <Link
           color="blue"
           component={ReactRouterLink}

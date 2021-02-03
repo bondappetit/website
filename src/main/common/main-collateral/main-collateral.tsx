@@ -16,11 +16,6 @@ export const MainCollateral: React.FC<MainCollateralProps> = (props) => {
 
   return (
     <div className={clsx(props.className)}>
-      <Typography variant="h4" align="center" className={classes.title}>
-        The assets of the protocol are formed by outstanding debt of the
-        borrowers, which in turn is secured by real world collateral in form of
-        bonds kept on special security accounts.
-      </Typography>
       <Typography variant="h4" align="center" className={classes.mobileLink}>
         <Link
           component={ReactRouterLink}
@@ -32,18 +27,27 @@ export const MainCollateral: React.FC<MainCollateralProps> = (props) => {
       </Typography>
       <div className={classes.cards}>
         <MainCollateralCard id="3">
-          The price of USDp equals $1 at all times and is balanced automatically
-          based on a basket of real-world debt obligations that form part of the
-          protocol’s assets
+          The price of USDp{' '}
+          <Typography variant="inherit" weight="bold">
+            equals $1 at all times
+          </Typography>{' '}
+          and is balanced automatically based on a basket of real-world debt
+          obligations that form part of the protocol’s assets
         </MainCollateralCard>
         <MainCollateralCard id="4">
           Real-world collateral prevents the protocol from
-          over-collateralization and ensures the stability of the asset even in
-          times of high volatility on the crypto market.
+          over-collateralization and{' '}
+          <Typography variant="inherit" weight="bold">
+            ensures the stability
+          </Typography>{' '}
+          of the asset even in times of high volatility on the crypto market.
         </MainCollateralCard>
         <MainCollateralCard id="7">
-          Real-world collateral allows the protocol to earn fixed periodical
-          income, which can be distributed to holders of protocol tokens under
+          Real-world collateral{' '}
+          <Typography variant="inherit" weight="bold">
+            allows the protocol to earn fixed periodical income
+          </Typography>
+          , which can be distributed to holders of protocol tokens under
           incentivization mechanisms established by the community.
         </MainCollateralCard>
       </div>

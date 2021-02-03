@@ -7,13 +7,16 @@ import {
   Typography,
   Skeleton,
   Head,
-  BN
+  BN,
+  Plate
 } from 'src/common';
 import {
   StakingCard,
+  StakingInfo,
   useGovernanceCost,
   useStakingApy,
-  useStakingBalances
+  useStakingBalances,
+  useTotalValueLocked
 } from 'src/staking/common';
 import { useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
@@ -48,16 +51,7 @@ export const StakingList: React.FC = () => {
     [stakingBalancesWithApy]
   );
 
-  const totalValueLocked = useMemo(
-    () =>
-      stakingBalancesWithApy.reduce(
-        (sum, { totalSupply, stakingTokenUSDC }) => {
-          return sum.plus(new BN(totalSupply).multipliedBy(stakingTokenUSDC));
-        },
-        new BN('0')
-      ),
-    [stakingBalancesWithApy]
-  );
+  const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy);
 
   return (
     <>
@@ -69,26 +63,26 @@ export const StakingList: React.FC = () => {
               Earn Staking Rewards in BAG by providing liquidity for protocol’s
               assets
             </Typography>
-            <div className={classes.info}>
+            <Plate color="grey" withoutBorder className={classes.info}>
               <Typography variant="h5" align="center" className={classes.bag}>
                 Total value locked:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  $ {totalValueLocked.toFormat(2)}
+                  ${totalValueLocked.toFormat(2)}
                 </Typography>
               </Typography>
               <Typography variant="h5" align="center" className={classes.bag}>
                 BAG price:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  {normalizeGovernanceInUSDC} USD
+                  ${normalizeGovernanceInUSDC}
                 </Typography>
               </Typography>
               <Typography variant="h5" align="center">
                 You earned:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  {rewardSum.reward} BAG ({rewardSum.rewardInUSDC} USD)
+                  {rewardSum.reward} BAG (${rewardSum.rewardInUSDC})
                 </Typography>
               </Typography>
-            </div>
+            </Plate>
           </div>
           <div className={classes.staking}>
             {!stakingBalancesWithApy.length
@@ -111,6 +105,7 @@ export const StakingList: React.FC = () => {
                   />
                 ))}
           </div>
+          <StakingInfo />
         </PageWrapper>
       </MainLayout>
     </>
