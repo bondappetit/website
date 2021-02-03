@@ -17,13 +17,13 @@ export const MainVoting: React.FC<MainVotingProps> = (props) => {
     <div className={clsx(props.className)}>
       <Typography variant="h4" align="center" className={classes.title}>
         Influence the future and features of BondAppétite using the main tool
-        for decision-making in the protocol — BondAppétit Governance.
+        for decision-making in the protocol — BondAppétit Governance. In order
+        to enforce certain actions, a simple majority of tokenholders must vote
+        for a certain proposal.
       </Typography>
-      <div className={classes.block}>
+      <div className={classes.content}>
         <Typography variant="h2" component="p" className={classes.text}>
-          BAG holders are entitled to influence the future and features of
-          BondAppétite. In order to enforce certain actions, a simple majority
-          of tokenholders must vote for a certain proposal.
+          Add new markets for the automatic excha
         </Typography>
         <div className={classes.tickets}>
           <div className={clsx(classes.ticket, classes.against)}>

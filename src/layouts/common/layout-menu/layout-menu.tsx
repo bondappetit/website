@@ -1,12 +1,13 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { useRef } from 'react';
 import { NavLink as ReactRouterNavLink } from 'react-router-dom';
-import { useLocalStorage } from 'react-use';
+import { useLocalStorage, useHoverDirty } from 'react-use';
 
-import { Link } from 'src/common';
+import { ButtonBase, Link } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useLayoutMenuStyles } from './layout-menu.styles';
 import { LayoutMenuDropdown } from './layout-menu-dropdown';
+import { LayoutMenuPhasesDropdown } from './layout-menu-phases-dropdown';
 
 type MenuItem = {
   title: string;
@@ -134,8 +135,21 @@ export const LayoutMenu: React.FC<LayoutMenuProps> = ({
 
   const [devMode] = useLocalStorage('bond:devMode', false);
 
+  const phasesRef = useRef<HTMLButtonElement | null>(null);
+
+  const phasesHovered = useHoverDirty(phasesRef);
+
   return (
     <ul className={clsx(classes.root, classes.menu, className)}>
+      <li className={clsx(classes.menuItem, classes.phase)}>
+        <ButtonBase
+          ref={phasesRef}
+          className={clsx(classes.navLink, classes.phaseLink)}
+        >
+          Phase 1
+        </ButtonBase>
+        {phasesHovered && <LayoutMenuPhasesDropdown />}
+      </li>
       {menuItems.map((menuItem) => {
         if (menuItem.inDevMode && !devMode) return null;
 

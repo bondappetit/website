@@ -40,7 +40,7 @@ export const useMainStepsStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         margin: '0 auto',
         gridTemplateColumns: '1fr 1fr 1fr',
-        gridGap: 157,
+        gridGap: 128,
         padding: '0 64px'
       },
 
@@ -71,6 +71,12 @@ export const useMainStepsStyles = createUseStyles(
 
       [theme.breakpoints.md()]: {
         minHeight: 255
+      }
+    },
+
+    cardActive: {
+      '&:before': {
+        backgroundColor: theme.colors.primary
       }
     },
 

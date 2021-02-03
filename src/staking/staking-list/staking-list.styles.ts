@@ -5,18 +5,23 @@ import { Theme } from 'src/common';
 export const useStakingListStyles = createUseStyles(
   (theme: Theme) => ({
     header: {
-      marginBottom: 104
+      marginBottom: 24,
+
+      [theme.breakpoints.lg()]: {
+        marginBottom: 48
+      }
     },
 
     title: {
       maxWidth: 1200,
-      margin: '0 auto 40px'
+      margin: '0 auto 80px'
     },
 
     info: {
       justifyContent: 'center',
       display: 'flex',
       flexDirection: 'column',
+      padding: '24px 0',
 
       [theme.breakpoints.md()]: {
         flexDirection: 'row'
@@ -32,10 +37,16 @@ export const useStakingListStyles = createUseStyles(
     staking: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      gridGap: 48,
+      gridGap: 24,
+      marginBottom: 24,
 
       [theme.breakpoints.md()]: {
         gridTemplateColumns: '1fr 1fr'
+      },
+
+      [theme.breakpoints.lg()]: {
+        gridGap: 48,
+        marginBottom: 48
       }
     },
 

@@ -24,39 +24,12 @@ export const useCollateralListStyles = createUseStyles(
       border: 'none'
     },
 
-    section: {
-      marginBottom: 100,
-
-      [theme.breakpoints.md()]: {
-        marginBottom: 200,
-
-        '&:last-child': {
-          marginBottom: 40
-        }
-      }
-    },
-
     ussued: {
-      marginBottom: 104,
+      marginBottom: 24,
 
       [theme.breakpoints.md()]: {
-        marginBottom: 128
+        marginBottom: 48
       }
-    },
-
-    assets: {},
-
-    assetsTitle: {
-      maxWidth: 800,
-      margin: '0 auto 104px',
-
-      [theme.breakpoints.md()]: {
-        margin: '0 auto 128px'
-      }
-    },
-
-    borrowText: {
-      marginBottom: 16
     }
   }),
   {

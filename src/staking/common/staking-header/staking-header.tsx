@@ -13,6 +13,7 @@ export type StakingHeaderProps = {
   APY?: string;
   totalSupply?: string;
   className?: string;
+  poolRate?: string;
 };
 
 export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
@@ -68,6 +69,18 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
             Total Supply:{' '}
             <Typography variant="inherit" component="span" weight="bold">
               $ {props.totalSupply}
+            </Typography>
+          </Typography>
+          <Typography variant="body1" component="span">
+            Pool rate:{' '}
+            <Typography variant="inherit" component="span" weight="bold">
+              {props.poolRate} BAG / month
+            </Typography>
+          </Typography>
+          <Typography variant="body1" component="span">
+            Locking:{' '}
+            <Typography variant="inherit" component="span" weight="bold">
+              6 month
             </Typography>
           </Typography>
         </div>

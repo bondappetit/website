@@ -13,11 +13,7 @@ export const useMainStyles = createUseStyles(
     },
 
     stable: {
-      marginBottom: 97,
-
-      [theme.breakpoints.md()]: {
-        marginBottom: 174
-      }
+      marginBottom: 55
     },
 
     collateral: {
@@ -28,7 +24,15 @@ export const useMainStyles = createUseStyles(
       }
     },
 
-    voting: {
+    steps: {
+      margin: '0 -16px 48px',
+
+      [theme.breakpoints.md()]: {
+        margin: '0 -64px 144px'
+      }
+    },
+
+    editor: {
       marginBottom: 160,
 
       [theme.breakpoints.md()]: {
@@ -36,11 +40,11 @@ export const useMainStyles = createUseStyles(
       }
     },
 
-    steps: {
-      margin: '0 -16px 48px',
+    voting: {
+      marginBottom: 160,
 
       [theme.breakpoints.md()]: {
-        margin: '0 -64px 144px'
+        marginBottom: 240
       }
     }
   }),

@@ -6,7 +6,7 @@ export const useStakingHeaderStyles = createUseStyles(
   (theme: Theme) => {
     return {
       root: {
-        backgroundColor: theme.colors.anotherGrey,
+        backgroundColor: theme.colors.proposalPlate,
         backgroundRepeat: 'no-repeat',
         backgroundSize: '884px',
         backgroundPosition: 'center 40%',
@@ -67,10 +67,17 @@ export const useStakingHeaderStyles = createUseStyles(
       },
 
       info: {
-        textAlign: 'center',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
 
-        '& > *:not(:last-child)': {
-          marginRight: 32
+        [theme.breakpoints.lg()]: {
+          justifyContent: 'center',
+          flexDirection: 'row',
+
+          '& > *:not(:last-child)': {
+            marginRight: 32
+          }
         }
       }
     };

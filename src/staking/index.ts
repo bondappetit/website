@@ -1,2 +1,7 @@
-export { useStakingBalances, useStakingApy, useGovernanceCost } from './common';
+export {
+  useStakingBalances,
+  useStakingApy,
+  useGovernanceCost,
+  useTotalValueLocked
+} from './common';
 export type { APYWithTokenName } from './common';

@@ -11,7 +11,7 @@ export const useStakingLockFormStyles = createUseStyles(
       marginBottom: 8,
 
       [theme.breakpoints.md()]: {
-        marginBottom: 68
+        marginBottom: 0
       }
     },
 
@@ -27,7 +27,7 @@ export const useStakingLockFormStyles = createUseStyles(
       marginBottom: 24,
 
       [theme.breakpoints.md()]: {
-        marginBottom: 16
+        marginBottom: 64
       }
     },
 
@@ -51,6 +51,12 @@ export const useStakingLockFormStyles = createUseStyles(
         fontSize: 40,
         lineHeight: '48px'
       }
+    },
+
+    attention: {
+      opacity: 0.4,
+      marginTop: 16,
+      minHeight: 40
     }
   }),
   {

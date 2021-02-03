@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import React from 'react';
-import { Link as ReactRouterLink } from 'react-router-dom';
 
 import {
   PageWrapper,
@@ -11,15 +10,14 @@ import {
   Head
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
-import { URLS } from 'src/router/urls';
 import { useStableCoinBalance } from 'src/stablecoin';
 import { useCollateralListStyles } from './collateral-list.styles';
 import {
-  CollateralTable,
-  PROTOCOL_ASSETS,
   CollateralCard,
   useIssuerBalance,
-  CollateralProtocolState
+  CollateralProtocolState,
+  CollateralPhases,
+  CollateralBorrowInfo
 } from '../common';
 
 export const CollateralList: React.FC = () => {
@@ -46,17 +44,7 @@ export const CollateralList: React.FC = () => {
                   {stableCoinBalance && <>$ {stableCoinBalance}</>}
                 </>
               }
-              subtitle={
-                <>
-                  {!stableCoinBalance && <Skeleton />}
-                  {stableCoinBalance && (
-                    <>
-                      {stableCoinBalance} USDp issued
-                      <br />1 USDp = 1 USD
-                    </>
-                  )}
-                </>
-              }
+              subtitle={<>1 USDp = $1 USD</>}
             />
             <CollateralProtocolState />
             <CollateralCard
@@ -69,57 +57,15 @@ export const CollateralList: React.FC = () => {
                 </>
               }
               subtitle={
-                <>
-                  0 assets from 1 issuers
-                  <br />
-                  <Link href="/#" color="blue">
-                    check here
-                  </Link>
-                </>
+                <Link href="/#" color="blue">
+                  check here
+                </Link>
               }
             />
           </Plate>
-          <div className={classes.section}>
-            <Typography
-              variant="h4"
-              align="center"
-              className={classes.assetsTitle}
-            >
-              The assets of the protocol are formed by outstanding debt of the
-              borrowers, which in turn is secured by real world collateral in
-              form of bonds kept on special security accounts.
-            </Typography>
-            <CollateralTable data={PROTOCOL_ASSETS} emptyFirstCol />
-          </div>
-          <div className={classes.section}>
-            <Typography
-              variant="h1"
-              component="h2"
-              align="center"
-              className={clsx(classes.borrowText)}
-            >
-              Borrow from BondAppétit
-            </Typography>
-            <Typography
-              variant="h4"
-              align="center"
-              className={classes.borrowText}
-            >
-              BondAppétit provides an opportunity to borrow funds providing
-              fixed-income
-              <br />
-              securities as collateral. Explore terms and benefits of our offer.
-            </Typography>
-            <Typography align="center" variant="h3">
-              <Link
-                color="blue"
-                component={ReactRouterLink}
-                to={URLS.collateral.borrow}
-              >
-                Explore →
-              </Link>
-            </Typography>
-          </div>
+          <CollateralPhases />
+          {/* TODO: hide for now */}
+          {false && <CollateralBorrowInfo />}
         </PageWrapper>
       </MainLayout>
     </>

@@ -37,49 +37,57 @@ export const CollateralDetail: React.FC = () => {
               through the market with ease, and to provide a solution that will
               suit your specific needs.
             </CollateralDescription>
-            <div className={clsx(classes.list)}>
-              <CollateralCard
-                className={classes.card}
-                title={<>Value of issued stable coin</>}
-                body={
-                  <>
-                    {!isserBalance && <Skeleton />}
-                    {isserBalance && <>$ {isserBalance}</>}
-                  </>
-                }
-              />
-              <CollateralCard
-                className={classes.card}
-                title={<>Outstanding Debt</>}
-                body={
-                  <>
-                    {!isserBalance && <Skeleton />}
-                    {isserBalance && <>$ {isserBalance}</>}
-                  </>
-                }
-              />
-            </div>
+            {/* TODO: hide for now */}
+            {false && (
+              <div className={clsx(classes.list)}>
+                <CollateralCard
+                  className={classes.card}
+                  title={<>Value of issued stable coin</>}
+                  body={
+                    <>
+                      {!isserBalance && <Skeleton />}
+                      {isserBalance && <>$ {isserBalance}</>}
+                    </>
+                  }
+                />
+                <CollateralCard
+                  className={classes.card}
+                  title={<>Outstanding Debt</>}
+                  body={
+                    <>
+                      {!isserBalance && <Skeleton />}
+                      {isserBalance && <>$ {isserBalance}</>}
+                    </>
+                  }
+                />
+              </div>
+            )}
           </div>
-          <div className={classes.section}>
-            <Typography
-              variant="h2"
-              align="center"
-              className={classes.sectionTitle}
-            >
-              Collateral of the borrower
-            </Typography>
-            <CollateralTable data={BORROWERS} />
-          </div>
-          <div className={classes.section}>
-            <Typography
-              variant="h2"
-              align="center"
-              className={classes.sectionTitle}
-            >
-              Repayment
-            </Typography>
-            <CollateralTable data={REPAYMENT} />
-          </div>
+          {/* TODO: hide for now */}
+          {false && (
+            <>
+              <div className={classes.section}>
+                <Typography
+                  variant="h2"
+                  align="center"
+                  className={classes.sectionTitle}
+                >
+                  Collateral of the borrower
+                </Typography>
+                <CollateralTable data={BORROWERS} />
+              </div>
+              <div className={classes.section}>
+                <Typography
+                  variant="h2"
+                  align="center"
+                  className={classes.sectionTitle}
+                >
+                  Repayment
+                </Typography>
+                <CollateralTable data={REPAYMENT} />
+              </div>
+            </>
+          )}
         </PageWrapper>
       </MainLayout>
     </>

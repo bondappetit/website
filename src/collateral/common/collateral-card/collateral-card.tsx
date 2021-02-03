@@ -16,10 +16,10 @@ export const CollateralCard: React.FC<CollateralCardProps> = (props) => {
 
   return (
     <Plate className={clsx(classes.root, props.className)}>
-      <Typography variant="h5" align="center" className={classes.title}>
-        {props.title}
-      </Typography>
       <div className={classes.body}>
+        <Typography variant="h5" align="center" className={classes.title}>
+          {props.title}
+        </Typography>
         <Typography variant="h2" align="center" className={classes.bodyText}>
           {props.body}
         </Typography>

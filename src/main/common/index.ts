@@ -5,3 +5,4 @@ export * from './main-collateral';
 export * from './main-voting';
 export * from './main-links';
 export * from './main-steps';
+export * from './main-editor';
