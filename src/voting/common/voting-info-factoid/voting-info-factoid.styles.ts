@@ -6,49 +6,62 @@ export const useVotingInfoFactoidStyles = createUseStyles(
   (theme: Theme) => ({
     title: {
       maxWidth: 960,
-      margin: '0 auto 104px',
+      margin: '0 auto 40px',
 
       [theme.breakpoints.md()]: {
-        margin: '0 auto 160px'
+        margin: '0 auto 80px'
       }
     },
 
-    subtitle: {
-      marginBottom: 42,
+    plate: {
+      padding: '48px 16px',
+      marginBottom: 40,
 
       [theme.breakpoints.md()]: {
-        marginBottom: 40
+        padding: 72,
+        marginBottom: 80
       }
     },
 
     chart: {
-      marginBottom: 32,
+      display: 'none',
 
       [theme.breakpoints.md()]: {
+        display: 'flex',
         marginBottom: 48
       }
     },
 
     factoid: {
       display: 'flex',
-      flexWrap: 'wrap',
+      flexDirection: 'column',
       listStyle: 'none',
       padding: 0,
-      margin: [0, 0, 104],
+      margin: 0
+    },
+
+    factoidText: {
+      display: 'grid',
+      gridGap: 40,
 
       [theme.breakpoints.md()]: {
-        margin: [0, -24, 160]
+        gridTemplateColumns: '1fr 260px'
+      },
+
+      [theme.breakpoints.lg()]: {
+        gridTemplateColumns: '1fr 360px'
       }
     },
 
     factoidItem: {
       width: '100%',
-      marginBottom: 16,
 
-      [theme.breakpoints.md()]: {
-        padding: [0, 24],
-        margin: 0,
-        width: '33.33%'
+      '&:not(:last-child)': {
+        marginBottom: 16,
+
+        [theme.breakpoints.md()]: {
+          marginBottom: 24
+        }
       }
     },
 

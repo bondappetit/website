@@ -46,7 +46,7 @@ export const MainEditor: React.FC<MainEditorProps> = (props) => {
           </Typography>
           <Typography variant="h4">
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <Link color="blue" component={ReactRouterLink} to={URLS.whitepaper}>
+            <Link color="blue" component={ReactRouterLink} to={URLS.docs.list}>
               Read our docs →
             </Link>
           </Typography>

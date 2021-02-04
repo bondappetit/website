@@ -21,21 +21,20 @@ export const CollateralDetail: React.FC = () => {
 
   return (
     <>
-      <Head title="Tokenomica Malta Ltd" />
+      <Head title="DigiRepresent Services OÜ" />
       <MainLayout>
         <PageWrapper>
           <div className={classes.section}>
             <CollateralDescription
               backLink={{ to: URLS.collateral.list, title: 'Collaterals' }}
-              title="Tokenomica Malta Ltd"
+              title="DigiRepresent Services OÜ"
               type="Borrower"
-              url="tokenomica.com"
             >
-              Tokenomica provides a tailored, cutting-edge solution for
-              corporate clients that are willing to enter decentralized finance.
-              Aim to help you profit from the growing paradigm, to navigate you
-              through the market with ease, and to provide a solution that will
-              suit your specific needs.
+              DigiRepresent Services OÜ provides a tailored, cutting-edge
+              solution for corporate clients that are willing to enter
+              decentralized finance. Aim to help you profit from the growing
+              paradigm, to navigate you through the market with ease, and to
+              provide a solution that will suit your specific needs.
             </CollateralDescription>
             {/* TODO: hide for now */}
             {false && (

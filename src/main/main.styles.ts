@@ -38,14 +38,6 @@ export const useMainStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 240
       }
-    },
-
-    voting: {
-      marginBottom: 160,
-
-      [theme.breakpoints.md()]: {
-        marginBottom: 240
-      }
     }
   }),
   {

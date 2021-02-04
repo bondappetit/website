@@ -43,7 +43,7 @@ Another issue with the crypto market is lack of means to generate revenue tied t
 
   
 
-The most recent change in this regard came with the emergence of Decentralized Finance (DeFi)[^7]. However, with the DAI case in mind, protocols will require over-collateralization as there are no guarantees with such a volatile market. This leads to a situation where many of the protocols won't actually work with a borrower unless they can effectively front a significant amount of assets, which undermines the essential function of borrowing.
+The most recent change in this regard came with the emergence of Decentralized Finance (DeFi)(Decentralized Finance (DeFi) is an open finance infrastructure that allows investors to earn fixed periodical income by lending or holding their assets via DeFi protocols.). However, with the DAI case in mind, protocols will require over-collateralization as there are no guarantees with such a volatile market. This leads to a situation where many of the protocols won't actually work with a borrower unless they can effectively front a significant amount of assets, which undermines the essential function of borrowing.
 
   
 
@@ -466,7 +466,7 @@ This section describes the process of whitelisting intermediaries as well as the
 
   
 
-**Intermediaries and borrowers**
+### **Intermediaries and borrowers**
 
   
 
@@ -484,7 +484,7 @@ Intermediaries must satisfy the following basic requirements in order to be able
   
   
 
-1. Holding of 1%[^8] of the total amount of issued Governance tokens and locking this amount in protocol's smart contract;
+1. Holding of 1%(This amount can be subject to changes by the community of the protocol) of the total amount of issued Governance tokens and locking this amount in protocol's smart contract;
 
 2. Approval by majority voting of Governance token holders and whitelisting by the protocol.
 
@@ -792,12 +792,12 @@ We understand that the availability of a higher number of governance tokens on t
   
   
 
-| Year    | Amount of tokens | Distribution (%)   |
-| ------- | ---------------- | ------------------ |
-| Q2 2022 | 8 000 000,00       | 40%              |
-| Q2 2023 | 6 000 000,00       | 30%              |
-| Q2 2024 | 4 000 000,00       | 20%              |
-| Q2 2025 | 2 000 000,00       | 10%              |
+| Year    | Amount of tokens | Distribution (%) |
+| ------- | ---------------- | ---------------- |
+| Q4 2021 | 800 000,00       | 40%              |
+| Q4 2022 | 600 000,00       | 30%              |
+| Q4 2023 | 400 000,00       | 20%              |
+| Q4 2024 | 200 000,00       | 10%              |
 
   
   
@@ -1049,54 +1049,26 @@ With all these ideas in mind, we would like to present you the Roadmap of BondAp
 | Protocol launch | 2 separate debt obligations provided as a collateral | Reach \$10 000 000 in capitalization of the protocol | 5 separate debt obligations provided as a collateral | Reach \$35 000 000 in capitalization of the protocol; | Listing on centralized and decentralized exchanges | Reach \$150 000 000 in capitalization of the protocol | Reach \$600 000 000 in capitalization of the protocol |
   
 
-## Notes
+
+[^1]: https://www.statista.com/statistics/377382/bitcoin-market-capitalization/#:~:text=The%20market%20capitalization%20of%20Bitcoin,circulation%20by%20the%20Bitcoin%20price
 
   
 
-[^1]:
-
-https://www.statista.com/statistics/377382/bitcoin-market-capitalization/#:~:text=The%20market%20capitalization%20of%20Bitcoin,circulation%20by%20the%20Bitcoin%20price.
+[^2]: https://coinmarketcap.com/charts/
 
   
 
-[^2]:
-
-https://coinmarketcap.com/charts/
+[^3]: https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20200406&end=20201006
 
   
 
-[^3]:
-
-https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20200406&end=20201006
+[^4]: [https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20191007&end=20191007](https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20191007&end=20191007)
 
   
 
-[^4]:
-
-[https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20191007&end=20191007](https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20191007&end=20191007)
+[^5]: https://www.coingecko.com/en/stablecoins
 
   
 
-[^5]:
+[^6]: https://www.coindesk.com/makerdao-users-sue-stablecoin-issuer-following-black-thursday-losses
 
-https://www.coingecko.com/en/stablecoins
-
-  
-
-[^6]:
-
-https://www.coindesk.com/makerdao-users-sue-stablecoin-issuer-following-black-thursday-losses
-
-  
-
-[^7]:
-
-Decentralized Finance (DeFi) is an open finance infrastructure that allows investors to earn fixed periodical income by lending or holding their assets via DeFi protocols.
-
-  
-
-[^8]:
-
-  
-
-This amount can be subject to changes by the community of the protoco

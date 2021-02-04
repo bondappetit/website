@@ -15,7 +15,6 @@ import {
   MainStablecoin,
   MainCollateral,
   MainVoting,
-  MainLinks,
   MainSteps,
   MainEditor
 } from './common';
@@ -70,8 +69,7 @@ export const Main: React.FC = () => {
           <MainCollateral className={classes.collateral} />
           <MainSteps className={classes.steps} />
           <MainEditor className={classes.editor} />
-          <MainVoting className={classes.voting} />
-          <MainLinks />
+          <MainVoting />
         </PageWrapper>
       </MainLayout>
       <LinkModal

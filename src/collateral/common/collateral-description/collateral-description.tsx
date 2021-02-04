@@ -12,7 +12,7 @@ export type CollateralDescriptionProps = {
   };
   title: string;
   type: string;
-  url: string;
+  url?: string;
 };
 
 export const Colors: Record<string, StatusProps['color']> = {
@@ -48,9 +48,11 @@ export const CollateralDescription: React.FC<CollateralDescriptionProps> = (
         >
           {props.type}
         </Status>
-        <Link href={`https://${props.url}`} color="blue" target="_blank">
-          {props.url}
-        </Link>
+        {!!props.url && (
+          <Link href={`https://${props.url}`} color="blue" target="_blank">
+            {props.url}
+          </Link>
+        )}
       </Typography>
       <Typography variant="h4" align="center" className={classes.description}>
         {props.children}

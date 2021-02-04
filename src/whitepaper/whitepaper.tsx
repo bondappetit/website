@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useRef } from 'react';
+import clsx from 'clsx';
 
 import WhitepaperMd from 'src/assets/md/bondappétit_whitepaper.md';
 import WhitepaperPdf from 'src/assets/pdf/whitepaper.pdf';
 import OnepagerPdf from 'src/assets/pdf/BA-concept.pdf';
-import { Typography, Link, Head } from 'src/common';
+import {
+  Typography,
+  Link,
+  Head,
+  Portal,
+  ButtonBase,
+  useUpButton
+} from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { DocsRenderer } from '../docs-renderer';
 import { useWhitepaperStyles } from './whitepaper.styles';
 
 export const WhitePaper: React.FC = () => {
   const classes = useWhitepaperStyles();
+
+  const ref = useRef<HTMLButtonElement | null>(null);
+
+  const visible = useUpButton(ref);
 
   return (
     <>
@@ -40,6 +52,16 @@ export const WhitePaper: React.FC = () => {
         </div>
         <DocsRenderer>{WhitepaperMd}</DocsRenderer>
       </MainLayout>
+      <Portal>
+        <ButtonBase
+          className={clsx(classes.upButton, {
+            [classes.upButtonVisible]: visible
+          })}
+          ref={ref}
+        >
+          UP
+        </ButtonBase>
+      </Portal>
     </>
   );
 };

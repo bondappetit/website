@@ -7,7 +7,8 @@ export const useVotingChartStyles = createUseStyles(
     root: {
       display: 'flex',
       border: `1px solid ${theme.colors.primary}`,
-      height: 24
+      height: 24,
+      borderRadius: 4
     },
 
     fillSegment: {
@@ -16,20 +17,12 @@ export const useVotingChartStyles = createUseStyles(
       backgroundColor: 'currentColor',
       position: 'relative',
       zIndex: 0,
-
-      '&:after': {
-        content: '" "',
-        height: 50,
-        width: 2,
-        right: 0,
-        bottom: 0,
-        zIndex: 1,
-        position: 'absolute',
-        backgroundColor: 'currentColor'
-      }
+      borderRadius: 4
     },
 
     segment: {
+      borderRadius: 4,
+
       '&:not(:last-child)': {
         borderRight: '1px solid currentColor'
       }
