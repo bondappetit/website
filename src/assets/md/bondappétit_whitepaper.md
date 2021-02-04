@@ -792,12 +792,12 @@ We understand that the availability of a higher number of governance tokens on t
   
   
 
-| Year    | Amount of tokens | Distribution (%) |
-| ------- | ---------------- | ---------------- |
-| Q2 2022 | 800 000,00       | 40%              |
-| Q2 2023 | 600 000,00       | 30%              |
-| Q2 2024 | 400 000,00       | 20%              |
-| Q2 2025 | 200 000,00       | 10%              |
+| Year    | Amount of tokens | Distribution (%)   |
+| ------- | ---------------- | ------------------ |
+| Q2 2022 | 8 000 000,00       | 40%              |
+| Q2 2023 | 6 000 000,00       | 30%              |
+| Q2 2024 | 4 000 000,00       | 20%              |
+| Q2 2025 | 2 000 000,00       | 10%              |
 
   
   
