@@ -9,7 +9,7 @@ const PHASES = [
     title: 'Phase 1: Protocol launch',
     body:
       'Stake stablecoins in early stage and earn more BAG as staking rewards',
-    date: 'Up to 2 month, Started February 16'
+    date: 'Up to 2 month, Started February 15'
   },
   {
     title: 'Phase 2: BAG investment round',

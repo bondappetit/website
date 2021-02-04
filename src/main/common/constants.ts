@@ -3,7 +3,7 @@ export const STEPS = [
     title: 'Protocol launch',
     body:
       'Stake stablecoins in early stage and earn more BAG as staking rewards',
-    startDate: 'February 16',
+    startDate: 'February 15',
     duration: 'Up to 2 month',
     active: true
   },
