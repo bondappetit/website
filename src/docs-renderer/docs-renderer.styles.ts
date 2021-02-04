@@ -13,12 +13,13 @@ export const useDocsRendererStyles = createUseStyles(
       },
 
       [theme.breakpoints.lg()]: {
-        padding: '104px 64px 64px'
+        padding: '120px 64px 64px'
       }
     },
 
     list: {
-      width: 216,
+      minWidth: 216,
+      maxWidth: 216,
       marginRight: 30,
       paddingLeft: 30,
       marginLeft: -30,

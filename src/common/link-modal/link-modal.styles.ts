@@ -9,12 +9,20 @@ export const useLinkModalStyles = createUseStyles(
       justifyContent: 'center'
     },
 
+    buttons: {
+      margin: 'auto 0',
+      display: 'flex',
+      flexDirection: 'column'
+    },
+
     button: {
       display: 'flex',
-      flexDirection: 'column',
+      fontSize: 32,
+      lineHeight: '40px',
+      height: 64,
 
       '&:not(:last-child)': {
-        marginBottom: 'auto'
+        marginBottom: 24
       }
     }
   },

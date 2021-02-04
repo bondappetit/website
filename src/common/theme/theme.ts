@@ -23,6 +23,7 @@ export type Colors = {
   chetwodeBlue: string;
   lightGrey: string;
   superGreen: string;
+  docsParagraph: string;
 };
 
 export type ThemeModes = 'light' | 'dark';
@@ -55,6 +56,7 @@ export const themeModes: Record<
       tokenTitleLine: '#ffdc24',
       error: '#eb5757',
       proposalPlate: '#F2F3F4',
+      docsParagraph: '#222324',
       ...mainColors
     },
 
@@ -71,6 +73,7 @@ export const themeModes: Record<
       tokenTitleLine: '#243aff',
       error: '#eb5757',
       proposalPlate: '#222324',
+      docsParagraph: '#D2D3D4',
       ...mainColors
     },
 
@@ -83,6 +86,8 @@ export const themeModes: Record<
 
 export const theme = {
   colors: themeModes.light.colors,
+
+  currentTheme: 'light',
 
   mixins: {
     hover: () => '@media (hover: hover)' as const
