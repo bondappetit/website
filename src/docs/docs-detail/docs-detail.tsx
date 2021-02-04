@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 import { DocsRenderer } from 'src/docs-renderer';
 import { Head } from 'src/common';
+import { MainLayout } from 'src/layouts';
 import { DOCS } from '../common';
 
 export const DocsDetail: React.FC = () => {
@@ -20,9 +21,11 @@ export const DocsDetail: React.FC = () => {
   return (
     <>
       <Head title={params.contractName} />
-      <DocsRenderer tableOfContents={tableOfContents}>
-        {DOCS[params.contractName]}
-      </DocsRenderer>
+      <MainLayout>
+        <DocsRenderer tableOfContents={tableOfContents}>
+          {DOCS[params.contractName]}
+        </DocsRenderer>
+      </MainLayout>
     </>
   );
 };

@@ -46,7 +46,8 @@ export const ThemeProvider: React.FC = React.memo((props) => {
       theme={{
         ...theme,
         colors: themeModes[currentThemeMode].colors,
-        images: themeModes[currentThemeMode].images
+        images: themeModes[currentThemeMode].images,
+        currentTheme: currentThemeMode
       }}
     >
       <toggleThemeContext.Provider value={handlePersistTheme}>

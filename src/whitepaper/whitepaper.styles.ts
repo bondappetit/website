@@ -4,10 +4,10 @@ import { Theme } from 'src/common';
 export const useWhitepaperStyles = createUseStyles(
   (theme: Theme) => ({
     header: {
-      marginBottom: 52,
+      padding: '32px 16px 0',
 
-      [theme.breakpoints.lg()]: {
-        marginBottom: 104
+      [theme.breakpoints.md()]: {
+        padding: '80px 16px 0'
       }
     },
 

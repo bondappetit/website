@@ -1,41 +1,41 @@
 ## **1. Introduction**
 
-Since the invention of Bitcoin in 2008, the crypto market has been introduced to more than 4000 cryptocurrencies. The market capitalization of Bitcoin equals $117.81 billion in 2020[^1], while the total market capitalization of the crypto overcame the $300 billion mark[^2] and is expected to grow even further. However, the market is isolated from traditional finance and there is a lack of instruments tied to real profitability.
+Since the invention of Bitcoin in 2008, the crypto market has been introduced to more than 4000 cryptocurrencies. The market capitalization of Bitcoin equals \$117.81 billion in 2020[^1], while the total market capitalization of the crypto overcame the \$300 billion mark[^2] and is expected to grow even further. However, the market is isolated from traditional finance and there is a lack of instruments tied to real profitability.
 
-![](https://i.imgur.com/lgdtlcC.png)
+![](g1)
 
 
 ### **1.2 Market Problems**
 
   
 
-As nearly all assets on the crypto market suffer from high volatility, it seems to be a logical starting point. During 2020 alone, the price of Bitcoin has suffered a 53% loss and then gone up 57,4%.[^3] Sure, this year has been rather unusual but the market situation was even more radical in 2019, let's see the real price in USD now: the BTC price has gone up from $5 167 on April 15 to $10 907 on June 27 only to drop to $7 980 on October 7. [^4] And the situation was similar in 2018 with a significant drop in price after Bitcoin boom in December 2017.
+As nearly all assets on the crypto market suffer from high volatility, it seems to be a logical starting point. During 2020 alone, the price of Bitcoin has suffered a 53% loss and then gone up 57,4%.[^3] Sure, this year has been rather unusual but the market situation was even more radical in 2019, let's see the real price in USD now: the BTC price has gone up from \$5 167 on April 15 to \$10 907 on June 27 only to drop to \$7 980 on October 7. [^4] And the situation was similar in 2018 with a significant drop in price after Bitcoin boom in December 2017.
 
-![](https://i.imgur.com/SZfyc0c.png)
+![](g2)
 
 
-A solution to both volatility and lack of ties to real-world assets came in a form of stablecoins. Originally pegged to fiat money or exchange-traded commodities such as precious metals, stablecoins were presented as crypto-assets designed to not fluctuate in value — a safer option for investors looking to minimize their financial risks. In 2020, the market capitalization of stablecoins overcame the $20 billion mark.
+A solution to both volatility and lack of ties to real-world assets came in a form of stablecoins. Originally pegged to fiat money or exchange-traded commodities such as precious metals, stablecoins were presented as crypto-assets designed to not fluctuate in value — a safer option for investors looking to minimize their financial risks. In 2020, the market capitalization of stablecoins overcame the \$20 billion mark.
 
-![](https://i.imgur.com/CwNfo1F.png)
+![](g3)
 
 
 [^5]
 
   
 
-However, there have been several cases when stablecoins turned out to be a bit volatile. The first case is Tether, the company behind the largest stablecoin backed by the US dollar on the market, faced accusations of being unable to provide audits for their reserves while continually issuing new coins into circulation. Then, in October 2018, Tether price dropped below the value of its underlying asset, USD, when in theory it should worth exactly $1.
+However, there have been several cases when stablecoins turned out to be a bit volatile. The first case is Tether, the company behind the largest stablecoin backed by the US dollar on the market, faced accusations of being unable to provide audits for their reserves while continually issuing new coins into circulation. Then, in October 2018, Tether price dropped below the value of its underlying asset, USD, when in theory it should worth exactly \$1.
 
   
 
-Later, new types of stablecoins emerged — Crypto-Collateralized. Rather than being backed by fiat, crypto-collateralized stablecoins hold currencies such as Ether ($ETH) in escrow for the issuance of new tokens. In doing so, users have the ability to mint and burn tokens without needing to utilize or trust a centralized third party.
+Later, new types of stablecoins emerged — Crypto-Collateralized. Rather than being backed by fiat, crypto-collateralized stablecoins hold currencies such as Ether (\$ETH) in escrow for the issuance of new tokens. In doing so, users have the ability to mint and burn tokens without needing to utilize or trust a centralized third party.
 
   
 
-However, there is a major drawback — over-collateralization to account for price volatility. Most commonly, this ratio is set at 150%, meaning that in order to issue $100 worth of a certain stablecoin, you will need to post at least $150 worth of ETH as collateral.
+However, there is a major drawback — over-collateralization to account for price volatility. Most commonly, this ratio is set at 150%, meaning that in order to issue \$100 worth of a certain stablecoin, you will need to post at least \$150 worth of ETH as collateral.
 
   
 
-In March 2020, the most popular crypto-backed stablecoin DAI failed to maintain its soft peg to the US Dollar. A sharp drop in the price of Ether — the primary digital asset used as collateral in the MakerDAO protocol for collateralizing loans of the dollar-pegged DAI stablecoin created underlying congestion on the Ethereum blockchain while also liquidating thousands of collateralized debt positions (CDPs) held by investors. As a result, investors lost $8.325 million. [^6]
+In March 2020, the most popular crypto-backed stablecoin DAI failed to maintain its soft peg to the US Dollar. A sharp drop in the price of Ether — the primary digital asset used as collateral in the MakerDAO protocol for collateralizing loans of the dollar-pegged DAI stablecoin created underlying congestion on the Ethereum blockchain while also liquidating thousands of collateralized debt positions (CDPs) held by investors. As a result, investors lost \$8.325 million. [^6]
 
   
 
@@ -116,13 +116,13 @@ Together with mentioned features, BondAppétit utilizes the best elements of on-
 | Listing on exchanges and use of liquidity pools, such as Uniswap, Curve, SushiSwap, Balancer | Connection to Bloomberg terminal and other securities pricing sources   |
 
 
-![](https://i.imgur.com/McNobHX.png)
+![](g4)
 
 
   
   
 
-The main asset inside the protocol's ecosystem is the stablecoin — Appetite USD (USDp). The price of USDp equals $1 at all times, while the token is issued only if the protocol has sufficient collateral. Information regarding the collateral can be checked through blockchain at all times. The USDp price is balanced automatically based on a basket of real-world debt obligations that form part of the protocol's assets.
+The main asset inside the protocol's ecosystem is the stablecoin — Appetite USD (USDp). The price of USDp equals \$1 at all times, while the token is issued only if the protocol has sufficient collateral. Information regarding the collateral can be checked through blockchain at all times. The USDp price is balanced automatically based on a basket of real-world debt obligations that form part of the protocol's assets.
 
   
 
@@ -139,20 +139,20 @@ As mentioned in the overview of the protocol, the main asset inside the protocol
 
   
 
-The price of USDp equals $1 at all times and is balanced automatically based on a basket of real-world debt obligations that form part of the protocol's assets. Information about the protocol's assets is provided by oracles connected to custody accounts where the collateral is held. Issuance of the stablecoin is technically impossible without sufficient collateral, the price of which is tied to USD.
+The price of USDp equals \$1 at all times and is balanced automatically based on a basket of real-world debt obligations that form part of the protocol's assets. Information about the protocol's assets is provided by oracles connected to custody accounts where the collateral is held. Issuance of the stablecoin is technically impossible without sufficient collateral, the price of which is tied to USD.
 
   
 
 Outside of providing a whole new product for DeFi and traditional markets, we aim to make USDp one of the most popular stablecoins on the market.
 
 
-![](https://i.imgur.com/7w9fhOG.png)
+![](g5)
 
 
 The use of real-world debt obligations allows the protocol to earn fixed periodical income, which can be distributed to holders of protocol tokens under incentivization mechanisms established by the community.
 
 
-![](https://i.imgur.com/TgEr5NQ.png)
+![](g6)
 
 
 
@@ -173,17 +173,17 @@ In the foundation of the protocol lies a new type of asset — fixed income secu
 
   
 
-As of August 2020, the overall size of the global bond markets in terms of USD equivalent notional outstanding is approximately $128.3tn. This consists of $87.5tn SSA bonds (68%) and $40.9tn corporate bonds (32%). Collateral assets are part of the corporate bonds market.
+As of August 2020, the overall size of the global bond markets in terms of USD equivalent notional outstanding is approximately \$128.3tn. This consists of \$87.5tn SSA bonds (68%) and \$40.9tn corporate bonds (32%). Collateral assets are part of the corporate bonds market.
 
   
 
-The global corporate bond markets are dominated by the US ($10.9tn) and China ($7.4tn). Between them, they make up 45% of the total global corporate bond market. 53% ($21.5tn) of outstanding corporate bonds are issued by financial institutions.
+The global corporate bond markets are dominated by the US (\$10.9tn) and China (\$7.4tn). Between them, they make up 45% of the total global corporate bond market. 53% (\$21.5tn) of outstanding corporate bonds are issued by financial institutions.
 
-![](https://i.imgur.com/AvwBGC6.jpg)
+![](g7)
 
 
 
-![](https://i.imgur.com/sM0ZPHS.jpg)
+![](g8)
 
 
   
@@ -214,11 +214,11 @@ $$
 
   
 
-100 Debt securities were added as collateral by borrower 1 with a value of $95
+100 Debt securities were added as collateral by borrower 1 with a value of \$95
 
   
 
-100 Debt securities were added as collateral by borrower 2 with a value of $105
+100 Debt securities were added as collateral by borrower 2 with a value of \$105
 
   
 
@@ -424,7 +424,7 @@ The target audience of the USDp includes four types of investors: retail crypto 
 | Retail crypto investors |
 |-------------------------|
 | Experience              | Investors come from a wide range of backgrounds; most are newcomers to intermediate trading                                                                              |
-| Investment appetite     | Average investor could invest from $1000 to $5000                                                                                                                        |
+| Investment appetite     | Average investor could invest from \$1000 to \$5000                                                                                                                        |
 | Motivation              | Investing in a crypto asset that is backed by traditional collateral and has stable fixed income with several       other incentivization mechanisms inside the protocol |
 
 
@@ -432,7 +432,7 @@ The target audience of the USDp includes four types of investors: retail crypto 
 | Sophisticated crypto investors |
 | ------------------------------ |
 | Experience                     | Investors that have advanced trading experience and rely on data market and analytics provided by professional brokers |
-| Investment appetite            | Average investor could invest from $5000 to $10 000 |
+| Investment appetite            | Average investor could invest from \$5000 to \$10 000 |
 | Motivation                     | Investing in a crypto asset that is backed by a traditional collateral |
   
   
@@ -620,7 +620,7 @@ Both mechanisms, as well as corresponding risks and mitigation measures, are des
 
 10. The intermediary converts payments received from the borrower to crypto and makes corresponding payments to the protocol.
 
-![](https://i.imgur.com/aBiVDCg.png)
+![](g9)
 
 
 **C. Risks for the Protocol**
@@ -682,7 +682,7 @@ In order to mitigate this risk, the following measures are undertaken:
 
 8. The intermediary converts payments received on the securities to crypto and makes corresponding payments to the protocol.
 
-![](https://i.imgur.com/n83pJAw.png)
+![](g10)
 
 
 **C. Risks for the Protocol**
@@ -1024,7 +1024,7 @@ The long-term goal of the protocol lies in building a stable bridge between trad
 
   
 
-In the long-term, BondAppétit will allow increasing capitalization of crypto to a whole new level by tying it to the real-world assets which prices depend on the true performance of companies and traditional market situation. Simultaneously, the protocol aims to provide traditional financial market players with regulated and clear access to the whole crypto market. The first step to achieve this will be helping them utilize DeFi borrowing. In a 4 years perspective, BondAppétit aims to bring at least 0.1% ($40.8 billion) of the overall corporate debt securities market to the crypto market.
+In the long-term, BondAppétit will allow increasing capitalization of crypto to a whole new level by tying it to the real-world assets which prices depend on the true performance of companies and traditional market situation. Simultaneously, the protocol aims to provide traditional financial market players with regulated and clear access to the whole crypto market. The first step to achieve this will be helping them utilize DeFi borrowing. In a 4 years perspective, BondAppétit aims to bring at least 0.1% (\$40.8 billion) of the overall corporate debt securities market to the crypto market.
 
   
 
@@ -1032,7 +1032,7 @@ Right now the borrowing process includes intermediaries including custodians and
 
   
 
-When it comes to the assets that form BondAppétit, the initial plan is to be listed on all major crypto exchanges by the Q3 2021 and reaching the capitalization of $50M by the end of 2021.
+When it comes to the assets that form BondAppétit, the initial plan is to be listed on all major crypto exchanges by the Q3 2021 and reaching the capitalization of \$50M by the end of 2021.
 
   
 
@@ -1046,7 +1046,7 @@ With all these ideas in mind, we would like to present you the Roadmap of BondAp
 
 | Q4 2020         | Q1 2021                                              | Q2 2021                                                         | Q3 2021                                              | Q1 2022                                               | Q2 2022                                            | Q1 2023                                               | Q2 2023                                               |
 | --------------- | ---------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
-| Protocol launch | 2 separate debt obligations provided as a collateral | Reach $10 000 000 in capitalization of the protocol | 5 separate debt obligations provided as a collateral | Reach $35 000 000 in capitalization of the protocol; | Listing on centralized and decentralized exchanges | Reach $150 000 000 in capitalization of the protocol | Reach $600 000 000 in capitalization of the protocol |
+| Protocol launch | 2 separate debt obligations provided as a collateral | Reach \$10 000 000 in capitalization of the protocol | 5 separate debt obligations provided as a collateral | Reach \$35 000 000 in capitalization of the protocol; | Listing on centralized and decentralized exchanges | Reach \$150 000 000 in capitalization of the protocol | Reach \$600 000 000 in capitalization of the protocol |
   
 
 ## Notes

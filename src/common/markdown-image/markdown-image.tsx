@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 
 import { useMarkdownImageStyles } from './markdown-image.styles';
@@ -5,9 +6,10 @@ import { useMarkdownImageStyles } from './markdown-image.styles';
 export type MarkdownImageProps = {
   alt: string;
   src: string;
+  className?: string;
 };
 
-export const MarkdownImage: React.FC<MarkdownImageProps> = (props) => {
+export const MarkdownImage: React.VFC<MarkdownImageProps> = (props) => {
   const classes = useMarkdownImageStyles();
 
   return (
@@ -15,7 +17,7 @@ export const MarkdownImage: React.FC<MarkdownImageProps> = (props) => {
       alt={props.alt}
       src={props.src}
       loading="lazy"
-      className={classes.root}
+      className={clsx(classes.root, props.className)}
     />
   );
 };
