@@ -2,12 +2,17 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useMainLinksStyles = createUseStyles(
+export const useLayoutLinksStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
+      marginBottom: 104,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 160
+      }
     },
 
     link: {
@@ -37,6 +42,6 @@ export const useMainLinksStyles = createUseStyles(
     }
   }),
   {
-    name: 'MainLinks'
+    name: 'LayoutLinks'
   }
 );

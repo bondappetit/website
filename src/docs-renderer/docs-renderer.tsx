@@ -29,6 +29,7 @@ import { useDocsRendererStyles } from './docs-renderer.styles';
 const renderers = {
   paragraph: DocsRendererParagraph,
   link: MarkdownLink,
+  linkReference: MarkdownLink,
   heading: DocsRendererHeading,
   image: DocsRendererImage,
   table: DocsRendererTable,

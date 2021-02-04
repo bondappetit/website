@@ -16,7 +16,7 @@ export const PROTOCOL_ASSETS: TableData = {
   body: [
     [
       {
-        title: 'Tokenomica',
+        title: 'DigiRepresent Services OÜ',
         cellType: TableCellTypes.borrower,
         value: '$ 0',
         rowSpan: 100

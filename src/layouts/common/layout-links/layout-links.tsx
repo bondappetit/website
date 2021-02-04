@@ -6,9 +6,9 @@ import { ReactComponent as DiscordIcon } from 'src/assets/icons/discord.svg';
 import { ReactComponent as GithubIcon } from 'src/assets/icons/github.svg';
 import { ReactComponent as TelegramIcon } from 'src/assets/icons/telegram.svg';
 import { ReactComponent as TwitterIcon } from 'src/assets/icons/twitter.svg';
-import { useMainLinksStyles } from './main-links.styles';
+import { useLayoutLinksStyles } from './layout-links.styles';
 
-export type MainLinksProps = {
+export type LayoutLinksProps = {
   className?: string;
 };
 
@@ -40,8 +40,8 @@ const SOCIAL_LINKS = [
   }
 ];
 
-export const MainLinks: React.FC<MainLinksProps> = () => {
-  const classes = useMainLinksStyles();
+export const LayoutLinks: React.FC<LayoutLinksProps> = () => {
+  const classes = useLayoutLinksStyles();
 
   return (
     <div className={classes.root}>

@@ -27,6 +27,22 @@ export const useWhitepaperStyles = createUseStyles(
       '&:not(:last-child)': {
         marginRight: 40
       }
+    },
+
+    upButton: {
+      position: 'fixed',
+      bottom: 30,
+      right: 30,
+      width: 50,
+      height: 50,
+      opacity: 0,
+      transition: 'opacity .3s ease-out',
+      visibility: 'hidden'
+    },
+
+    upButtonVisible: {
+      opacity: 1,
+      visibility: 'visible'
     }
   }),
   {

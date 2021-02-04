@@ -122,11 +122,9 @@ export const CollateralBorrow: React.FC = () => {
               <Table>
                 <TableHead>
                   <TableRow>
-                    {['Intermediary', 'Country', 'Website', 'Contact'].map(
-                      (cell) => (
-                        <TableCell key={cell}>{cell}</TableCell>
-                      )
-                    )}
+                    {['Intermediary', 'Country'].map((cell) => (
+                      <TableCell key={cell}>{cell}</TableCell>
+                    ))}
                   </TableRow>
                 </TableHead>
                 <TableBody>
@@ -135,30 +133,12 @@ export const CollateralBorrow: React.FC = () => {
                       <Link
                         color="blue"
                         component={ReactRouterLink}
-                        to={URLS.collateral.detail('Tokenomica')}
+                        to={URLS.collateral.detail('DigiRepresent')}
                       >
-                        Tokenomica Malta Ltd
+                        DigiRepresent Services OÜ
                       </Link>
                     </TableCell>
                     <TableCell>Estonia</TableCell>
-                    <TableCell>
-                      <Link
-                        href="https://tokenomica.com/"
-                        color="blue"
-                        target="blank"
-                      >
-                        tokenomica.com
-                      </Link>
-                    </TableCell>
-                    <TableCell>
-                      <Link
-                        href="https://tokenomica.com/contact"
-                        color="blue"
-                        target="blank"
-                      >
-                        email, phone
-                      </Link>
-                    </TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
