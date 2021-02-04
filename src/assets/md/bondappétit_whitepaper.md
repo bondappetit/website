@@ -5,7 +5,7 @@ Since the invention of Bitcoin in 2008, the crypto market has been introduced to
 ![](g1)
 
 
-### **1.2 Market Problems**
+#### **Market Problems**
 
   
 
@@ -66,7 +66,7 @@ BondAppétit offers a unique opportunity for investors to benefit from both inco
 
   
 
-**_The secret of our cuisine is simple — we want to serve exquisite products to the crypto world by creating a perfect blend of traditional and crypto products. _**
+**_The secret of our cuisine is simple — we want to serve exquisite products to the crypto world by creating a perfect blend of traditional and crypto products._**
 
   
   
@@ -464,9 +464,8 @@ There are two mechanisms available in order to borrow funds from the protocol. B
 
 This section describes the process of whitelisting intermediaries as well as the ultimate borrowers, and details both mechanisms mentioned above.
 
-  
 
-### **Intermediaries and borrowers**
+### **4.1 Intermediaries and borrowers**
 
   
 
@@ -532,9 +531,8 @@ Once the information above is available, the intermediary finds a borrower who n
 
 * The redemption period of debt securities must match the term of the loan indicated in section 3 above.
 
-  
 
-**Custodians**
+### **4.2 Custodians**
 
   
 
@@ -566,10 +564,8 @@ The custodian must fulfill the following requirements:
 
 * Must be able to technically exchange information with the protocol.
 
-  
 
-**Borrowing process**
-
+### **4.2 Borrowing process**
   
 
 There are two mechanisms available in order to borrow funds from the protocol.
@@ -582,15 +578,14 @@ The difference between them lies in the legal structure of the deal between the 
 
 Both mechanisms, as well as corresponding risks and mitigation measures, are described below.
 
+
+#### **_Mechanism 1: Loan agreement_**
+
+  
+  
   
 
-**_Mechanism 1: Loan agreement_**
-
-  
-  
-  
-
-1.  **Borrowing**
+**A. Borrowing**
 
 1. The borrower enters into a loan agreement with the intermediary, providing debt securities as collateral.
 
@@ -648,15 +643,10 @@ In order to mitigate this risk, the following measures are undertaken:
 
 2. Governance tokens locked by the intermediary in the protocol prior to taking the loan, cannot be unlocked unless the intermediary fully repays the loan to the protocol.
 
-  
 
-**_Mechanism 2: Sale and Purchase Agreement_**
+#### **_Mechanism 2: Sale and Purchase Agreement_**
 
-  
-  
-  
-
-1.  **Borrowing**
+**A. Borrowing**
 
 1. The borrower enters into a sale and purchase agreement with the intermediary under which the borrower sells debt securities to the intermediary with deferred payment.
 
@@ -700,7 +690,7 @@ In order to mitigate this risk, in addition to measures mentioned in the previou
   
   
 
-### **Default**
+**Default**
 
   
 
@@ -729,10 +719,8 @@ Governance is one of the most important foundational things for each DeFi protoc
 
 The main tool for decision-making in the protocol is the BondAppetit Governance (BAG), as well as the main reward and incentive tool for participants of the protocol and the community.
 
-  
 
-**Acquisition of BAG:**
-
+### **5.1 Acquisition of BAG**
   
   
   
@@ -749,17 +737,8 @@ The main tool for decision-making in the protocol is the BondAppetit Governance 
 
 To ensure the inexhaustibly of BAG — the protocol contains the ability to issue new tokens each block. The decision regarding the new issuance is taken is by voting of tokenholders.
 
-  
 
-**Initial Offering and Distribution of BAG:**
-
-  
-  
-  
-
-* 12% to early investors and advisors, subject to a 1-year moratorium on sale;
-
-* 2% to advisors, subject to a 1-year moratorium on sale;
+### **5.2 Initial Offering and Distribution of BAG**
 
 * 20% BondAppétite team & future team members, subject to 4-year vesting;
 
@@ -767,7 +746,7 @@ To ensure the inexhaustibly of BAG — the protocol contains the ability to issu
 
 * 1% to the pre-launch investor;
 
-* 51% reserved for protocol usage and future governance participation incentives.
+* 65% reserved for protocol usage and future governance participation incentives.
 
   
 
@@ -794,16 +773,16 @@ We understand that the availability of a higher number of governance tokens on t
 
 | Year    | Amount of tokens | Distribution (%) |
 | ------- | ---------------- | ---------------- |
-| Q4 2021 | 800 000,00       | 40%              |
-| Q4 2022 | 600 000,00       | 30%              |
-| Q4 2023 | 400 000,00       | 20%              |
-| Q4 2024 | 200 000,00       | 10%              |
+| Q2 2022 | 8 000 000,00       | 40%              |
+| Q2 2023 | 6 000 000,00       | 30%              |
+| Q2 2024 | 4 000 000,00       | 20%              |
+| Q2 2025 | 2 000 000,00       | 10%              |
 
   
   
   
 
-### **5.1 Decision-Making Mechanisms Using BAG**
+### **5.3 Decision-Making Mechanisms Using BAG**
 
   
 
@@ -975,7 +954,7 @@ Tokens issued by BondAppétit have the following classification for legal purpos
   
   
 
-### **Appetite USD (USDp)**
+### **7.1 Appetite USD (USDp)**
 
   
 
@@ -989,10 +968,8 @@ Price stability is connected to the protocol's assets, the price of which should
 
 USDp owners do not possess any rights to assets of the protocol. Neither they have any legal mechanisms or rights to oblige the protocol or its participants to buy-back or redeem USDp or receive any other payments or assets from the protocol. The value or liquidity of USDp is not guaranteed, meaning that no individual or legal entity guarantees the acceptance of the token as payment for goods or services, its price, or the ability to exchange it for any other asset.
 
-  
 
-**BondAppetit Governance (BAG)**
-
+### **7.2 BondAppetit Governance (BAG)**
   
 
 BondAppetit Governance does not have a legal issuer (as it is created by the protocol itself). The token represents the mean of transferring value, and it is defined as such exclusively by market participants. The token itself does not imply any obligations of the protocol or any of its participants.
@@ -1044,7 +1021,7 @@ With all these ideas in mind, we would like to present you the Roadmap of BondAp
   
   
 
-| Q4 2020         | Q1 2021                                              | Q2 2021                                                         | Q3 2021                                              | Q1 2022                                               | Q2 2022                                            | Q1 2023                                               | Q2 2023                                               |
+| Q1 2021         | Q3 2021                                              | Q3 2021                                                         | Q4 2021                                              | Q1 2022                                               | Q2 2022                                            | Q1 2023                                               | Q2 2023                                               |
 | --------------- | ---------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
 | Protocol launch | 2 separate debt obligations provided as a collateral | Reach \$10 000 000 in capitalization of the protocol | 5 separate debt obligations provided as a collateral | Reach \$35 000 000 in capitalization of the protocol; | Listing on centralized and decentralized exchanges | Reach \$150 000 000 in capitalization of the protocol | Reach \$600 000 000 in capitalization of the protocol |
   
