@@ -40,7 +40,7 @@ export const useStakingApy = (balances: StakingToken[]) => {
   const uniswapRouter = useUniswapRouter();
   const networkConfig = useNetworkConfig();
   const USD = networkConfig.assets.USDC;
-  const [APY, setAPY] = useState<APYWithTokenName[]>([]);
+  const [state, setState] = useState<APYWithTokenName[]>([]);
   const getPairInfo = useUniswapPairInfo();
 
   const { governanceInUSDC } = useGovernanceCost();
@@ -87,6 +87,8 @@ export const useStakingApy = (balances: StakingToken[]) => {
           .div(tokenInUSDC)
           .multipliedBy(100);
 
+        const APY = APYBN.integerValue().toString(10);
+
         return {
           ...balance,
           totalSupply: new BN(balance.totalSupply)
@@ -95,12 +97,12 @@ export const useStakingApy = (balances: StakingToken[]) => {
           amountInUSDC,
           rewardInUSDC,
           stakingTokenUSDC: tokenInUSDC,
-          APY: APYBN.isNaN() ? '0' : APYBN.integerValue().toString(10)
+          APY: APYBN.isNaN() || APY === 'Infinity' ? '0' : APY
         };
       })
     );
 
-    if (result.length) setAPY(result);
+    if (result.length) setState(result);
   }, [
     balances,
     governanceInUSDC,
@@ -114,5 +116,5 @@ export const useStakingApy = (balances: StakingToken[]) => {
     handleGetTokenPrice();
   }, [handleGetTokenPrice]);
 
-  return APY;
+  return state;
 };
