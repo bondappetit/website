@@ -52,10 +52,9 @@ export const useLayoutHeaderStyles = createUseStyles(
     menuOpen: {
       [theme.breakpoints.down(1279)]: {
         display: 'block',
-        // flexDirection: 'column',
         position: 'fixed',
         width: '100%',
-        height: 'calc(100vh - 65px)',
+        height: 'calc(100% - 65px)',
         left: 0,
         top: 65,
         bottom: 0,

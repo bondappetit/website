@@ -1,6 +1,6 @@
 ## **1. Introduction**
 
-Since the invention of Bitcoin in 2008, the crypto market has been introduced to more than 4000 cryptocurrencies. The market capitalization of Bitcoin equals \$117.81 billion in 2020[^1], while the total market capitalization of the crypto overcame the \$300 billion mark[^2] and is expected to grow even further. However, the market is isolated from traditional finance and there is a lack of instruments tied to real profitability.
+Since the invention of Bitcoin in 2008, the crypto market has been introduced to more than 4000 cryptocurrencies. The market capitalization of Bitcoin equals \$117.81 billion in 2020 [statista.com](https://www.statista.com/statistics/377382/bitcoin-market-capitalization/#:~:text=The%20market%20capitalization%20of%20Bitcoin,circulation%20by%20the%20Bitcoin%20price), while the total market capitalization of the crypto overcame the \$300 billion mark [coinmarketcap.com](https://coinmarketcap.com/charts/) and is expected to grow even further. However, the market is isolated from traditional finance and there is a lack of instruments tied to real profitability.
 
 ![](g1)
 
@@ -9,7 +9,7 @@ Since the invention of Bitcoin in 2008, the crypto market has been introduced to
 
   
 
-As nearly all assets on the crypto market suffer from high volatility, it seems to be a logical starting point. During 2020 alone, the price of Bitcoin has suffered a 53% loss and then gone up 57,4%.[^3] Sure, this year has been rather unusual but the market situation was even more radical in 2019, let's see the real price in USD now: the BTC price has gone up from \$5 167 on April 15 to \$10 907 on June 27 only to drop to \$7 980 on October 7. [^4] And the situation was similar in 2018 with a significant drop in price after Bitcoin boom in December 2017.
+As nearly all assets on the crypto market suffer from high volatility, it seems to be a logical starting point. During 2020 alone, the price of Bitcoin has suffered a 53% loss and then gone up 57,4%. [coinmarketcap.com](https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20200406&end=20201006) Sure, this year has been rather unusual but the market situation was even more radical in 2019, let's see the real price in USD now: the BTC price has gone up from \$5 167 on April 15 to \$10 907 on June 27 only to drop to \$7 980 on October 7. [coinmarketcap.com](https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20191007&end=20191007) And the situation was similar in 2018 with a significant drop in price after Bitcoin boom in December 2017.
 
 ![](g2)
 
@@ -19,7 +19,7 @@ A solution to both volatility and lack of ties to real-world assets came in a fo
 ![](g3)
 
 
-[^5]
+[coingecko.com](https://www.coingecko.com/en/stablecoins)
 
   
 
@@ -35,7 +35,7 @@ However, there is a major drawback — over-collateralization to account for pri
 
   
 
-In March 2020, the most popular crypto-backed stablecoin DAI failed to maintain its soft peg to the US Dollar. A sharp drop in the price of Ether — the primary digital asset used as collateral in the MakerDAO protocol for collateralizing loans of the dollar-pegged DAI stablecoin created underlying congestion on the Ethereum blockchain while also liquidating thousands of collateralized debt positions (CDPs) held by investors. As a result, investors lost \$8.325 million. [^6]
+In March 2020, the most popular crypto-backed stablecoin DAI failed to maintain its soft peg to the US Dollar. A sharp drop in the price of Ether — the primary digital asset used as collateral in the MakerDAO protocol for collateralizing loans of the dollar-pegged DAI stablecoin created underlying congestion on the Ethereum blockchain while also liquidating thousands of collateralized debt positions (CDPs) held by investors. As a result, investors lost \$8.325 million. [coindesk.com](https://www.coindesk.com/makerdao-users-sue-stablecoin-issuer-following-black-thursday-losses)
 
   
 
@@ -1024,28 +1024,3 @@ With all these ideas in mind, we would like to present you the Roadmap of BondAp
 | Q1 2021         | Q3 2021                                              | Q3 2021                                                         | Q4 2021                                              | Q1 2022                                               | Q2 2022                                            | Q1 2023                                               | Q2 2023                                               |
 | --------------- | ---------------------------------------------------- | --------------------------------------------------------------- | ---------------------------------------------------- | ----------------------------------------------------- | -------------------------------------------------- | ----------------------------------------------------- | ----------------------------------------------------- |
 | Protocol launch | 2 separate debt obligations provided as a collateral | Reach \$10 000 000 in capitalization of the protocol | 5 separate debt obligations provided as a collateral | Reach \$35 000 000 in capitalization of the protocol; | Listing on centralized and decentralized exchanges | Reach \$150 000 000 in capitalization of the protocol | Reach \$600 000 000 in capitalization of the protocol |
-  
-
-
-[^1]: https://www.statista.com/statistics/377382/bitcoin-market-capitalization/#:~:text=The%20market%20capitalization%20of%20Bitcoin,circulation%20by%20the%20Bitcoin%20price
-
-  
-
-[^2]: https://coinmarketcap.com/charts/
-
-  
-
-[^3]: https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20200406&end=20201006
-
-  
-
-[^4]: [https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20191007&end=20191007](https://coinmarketcap.com/currencies/bitcoin/historical-data/?start=20191007&end=20191007)
-
-  
-
-[^5]: https://www.coingecko.com/en/stablecoins
-
-  
-
-[^6]: https://www.coindesk.com/makerdao-users-sue-stablecoin-issuer-following-black-thursday-losses
-
