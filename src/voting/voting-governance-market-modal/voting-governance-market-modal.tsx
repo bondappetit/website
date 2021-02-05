@@ -203,7 +203,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
       </Modal>
       <Modal open={transactionOpen}>
         <SmallModal>
-          <InfoCardLoader isAnimating={transactionOpen} />
+          <InfoCardLoader />
         </SmallModal>
       </Modal>
       <WalletModal open={walletsOpen} onClose={walletsToggle} />

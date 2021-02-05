@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { Typography } from 'src/common';
+import { Status, Typography } from 'src/common';
 import { useMainStepsStyles } from './main-steps.styles';
 import { STEPS } from '../constants';
 
@@ -27,20 +27,39 @@ export const MainSteps: React.FC<MainStepsProps> = (props) => {
               [classes.cardActive]: step.active
             })}
           >
-            <Typography variant="h5">Phase {index + 1}</Typography>
+            <Typography variant="h5">
+              Phase {index + 1}{' '}
+              {step.active && (
+                <Status
+                  color="black"
+                  variant="contained"
+                  className={classes.status}
+                >
+                  Active
+                </Status>
+              )}
+            </Typography>
             <Typography variant="h5" weight="bold">
               {step.title}
             </Typography>
             <Typography variant="h5" component="p" className={classes.cardBody}>
               {step.body}
             </Typography>
-            <div className={classes.cardDate}>
-              <Typography variant="h5" component="div">
-                Start: {step.startDate}
-                <span className={classes.dateComma}>,</span>
-                <br /> Duration: {step.duration}
-              </Typography>
-            </div>
+            <Typography
+              variant="body1"
+              component="div"
+              className={classes.cardDate}
+            >
+              Start: {step.startDate}
+              <br /> Duration: {step.duration}
+            </Typography>
+            <Typography
+              variant="body1"
+              component="div"
+              className={classes.mobileCardDate}
+            >
+              {step.mobileDate}
+            </Typography>
           </div>
         ))}
       </div>

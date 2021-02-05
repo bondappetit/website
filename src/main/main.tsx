@@ -54,7 +54,7 @@ export const Main: React.FC = () => {
         ogUrl="https://bondappetit.io"
       />
       <MainLayout>
-        <PageWrapper>
+        <PageWrapper className={classes.root}>
           <MainStaking
             className={classes.staking}
             staking={stakingBalancesWithApy}

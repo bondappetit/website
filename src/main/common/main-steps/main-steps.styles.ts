@@ -9,13 +9,20 @@ export const useMainStepsStyles = createUseStyles(
     title: {
       maxWidth: 800,
       margin: '0 0 48px',
-      textAlign: 'left',
       padding: '0 16px',
 
       [theme.breakpoints.md()]: {
         margin: '0 auto 70px',
-        padding: 0,
-        textAlign: 'center'
+        padding: 0
+      }
+    },
+
+    status: {
+      borderRadius: 8,
+      padding: '2px 8px',
+
+      [theme.breakpoints.md()]: {
+        display: 'none'
       }
     },
 
@@ -33,7 +40,7 @@ export const useMainStepsStyles = createUseStyles(
 
     list: {
       display: 'grid',
-      maxWidth: 1139,
+      maxWidth: 1120,
       gridGap: 48,
       padding: '0 16px',
 
@@ -70,7 +77,7 @@ export const useMainStepsStyles = createUseStyles(
       },
 
       [theme.breakpoints.md()]: {
-        minHeight: 255
+        minHeight: 208
       }
     },
 
@@ -88,17 +95,18 @@ export const useMainStepsStyles = createUseStyles(
 
     cardDate: {
       opacity: 0.64,
-
-      '& br': {
-        display: 'none'
-      },
+      display: 'none',
 
       [theme.breakpoints.md()]: {
-        opacity: 0.8,
+        display: 'block'
+      }
+    },
 
-        '& br': {
-          display: 'block'
-        }
+    mobileCardDate: {
+      opacity: 0.64,
+
+      [theme.breakpoints.md()]: {
+        display: 'none'
       }
     },
 

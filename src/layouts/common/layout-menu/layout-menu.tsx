@@ -8,6 +8,7 @@ import { URLS } from 'src/router/urls';
 import { useLayoutMenuStyles } from './layout-menu.styles';
 import { LayoutMenuDropdown } from './layout-menu-dropdown';
 import { LayoutMenuPhasesDropdown } from './layout-menu-phases-dropdown';
+import { SOCIAL_LINKS } from '../constants';
 
 type MenuItem = {
   title: string;
@@ -45,32 +46,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     title: 'Resources',
     link: '',
-    children: [
-      {
-        title: 'Docs',
-        link: URLS.docs.list
-      },
-
-      {
-        title: 'Github',
-        link: 'https://github.com/bondappetit'
-      },
-
-      {
-        title: 'Blog',
-        link: 'https://medium.com'
-      },
-
-      {
-        title: 'Twitter',
-        link: 'https://twitter.com/DefiBonds'
-      },
-
-      {
-        title: 'Facebook',
-        link: 'https://facebook.com'
-      }
-    ]
+    children: SOCIAL_LINKS
   },
 
   {

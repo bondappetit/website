@@ -21,7 +21,7 @@ export const BORROWERS: TableData = {
         title: '-'
       },
       {
-        title: '$ 0'
+        title: '$0'
       },
       {
         title: '-'
@@ -47,7 +47,7 @@ export const BORROWERS: TableData = {
         title: '-'
       },
       {
-        title: '$ 0'
+        title: '$0'
       },
       {
         title: '-'
@@ -73,7 +73,7 @@ export const BORROWERS: TableData = {
         title: '-'
       },
       {
-        title: '$ 0'
+        title: '$0'
       },
       {
         title: '-'
@@ -99,7 +99,7 @@ export const BORROWERS: TableData = {
         title: '-'
       },
       {
-        title: '$ 0'
+        title: '$0'
       },
       {
         title: '-'
@@ -125,7 +125,7 @@ export const BORROWERS: TableData = {
         title: '-'
       },
       {
-        title: '$ 0'
+        title: '$0'
       },
       {
         title: '-'

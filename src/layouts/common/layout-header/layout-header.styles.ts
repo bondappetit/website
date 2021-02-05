@@ -51,16 +51,17 @@ export const useLayoutHeaderStyles = createUseStyles(
 
     menuOpen: {
       [theme.breakpoints.down(1279)]: {
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'absolute',
+        display: 'block',
+        // flexDirection: 'column',
+        position: 'fixed',
         width: '100%',
         height: 'calc(100vh - 65px)',
         left: 0,
         top: 65,
+        bottom: 0,
         backgroundColor: theme.colors.secondary,
         flexWrap: 'nowrap',
-        overflowY: 'auto',
+        overflowY: 'scroll',
         zIndex: 10,
         padding: '20px 0'
       }

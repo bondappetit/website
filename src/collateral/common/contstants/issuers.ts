@@ -26,7 +26,7 @@ export const ISSUERS = [
       },
       {
         title: 'Turnover',
-        value: '$ 156,480,724'
+        value: '$156,480,724'
       },
       {
         title: 'Credit Rating',
@@ -34,7 +34,7 @@ export const ISSUERS = [
       },
       {
         title: 'Total historical volume of issued bonds (USD)',
-        value: '$ 168,856,420'
+        value: '$168,856,420'
       },
       {
         title: 'First issue date',
@@ -72,7 +72,7 @@ export const ISSUERS = [
       },
       {
         title: 'Turnover',
-        value: '$ 156,480,724'
+        value: '$156,480,724'
       },
       {
         title: 'Credit Rating',
@@ -80,7 +80,7 @@ export const ISSUERS = [
       },
       {
         title: 'Total historical volume of issued bonds (USD)',
-        value: '$ 168,856,420'
+        value: '$168,856,420'
       },
       {
         title: 'First issue date',

@@ -45,7 +45,7 @@ export const CollateralDetail: React.FC = () => {
                   body={
                     <>
                       {!isserBalance && <Skeleton />}
-                      {isserBalance && <>$ {isserBalance}</>}
+                      {isserBalance && <>${isserBalance}</>}
                     </>
                   }
                 />
@@ -55,7 +55,7 @@ export const CollateralDetail: React.FC = () => {
                   body={
                     <>
                       {!isserBalance && <Skeleton />}
-                      {isserBalance && <>$ {isserBalance}</>}
+                      {isserBalance && <>${isserBalance}</>}
                     </>
                   }
                 />

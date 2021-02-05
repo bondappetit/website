@@ -34,14 +34,21 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
           Staked
         </Status>
       )}
-      <Typography variant="h3" weight="bold" align="center">
+      <Typography
+        variant="h3"
+        weight="bold"
+        align="center"
+        className={classes.title}
+      >
         {props.token.map((title, index) => {
           const Icon = STAKING_ICONS[title];
 
           return (
             <React.Fragment key={title}>
-              {Icon && <Icon />} {title}{' '}
-              {index === 0 && props.token.length === 2 ? ' + ' : null}
+              {Icon && <Icon className={classes.icon} />} {title}{' '}
+              {index === 0 && props.token.length === 2 && (
+                <span className={classes.plus}>+</span>
+              )}
             </React.Fragment>
           );
         })}
@@ -64,7 +71,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       <Typography variant="body1" align="center">
         Total Supply:{' '}
         <Typography variant="inherit" weight="bold">
-          $ {props.totalSupply}
+          ${props.totalSupply}
         </Typography>
       </Typography>
       <Typography variant="body1" align="center">

@@ -198,7 +198,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
               align="center"
               className={classes.title}
             >
-              Pre-sale round price: 1 BAG = $ 1
+              Pre-sale round price: 1 BAG = $1
             </Typography>
             <Button onClick={investToggle}>Buy BAG</Button>
           </div>
@@ -233,7 +233,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
       </Modal>
       <Modal open={transactionOpen}>
         <SmallModal>
-          <InfoCardLoader isAnimating={transactionOpen} />
+          <InfoCardLoader />
         </SmallModal>
       </Modal>
       <WalletModal open={walletsOpen} onClose={walletsToggle} />

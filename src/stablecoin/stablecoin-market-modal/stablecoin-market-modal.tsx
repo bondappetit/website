@@ -200,7 +200,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
       </Modal>
       <Modal open={transactionOpen}>
         <SmallModal>
-          <InfoCardLoader isAnimating={transactionOpen} />
+          <InfoCardLoader />
         </SmallModal>
       </Modal>
       <WalletModal open={walletsOpen} onClose={walletsToggle} />

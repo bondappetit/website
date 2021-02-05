@@ -32,6 +32,8 @@ export const StakingDetail: React.FC = () => {
   const params = useParams<{ tokenId: string }>();
   const { account } = useWeb3React<Web3>();
   const [canUnstake, toggleCanUnstake] = useToggle(false);
+  const [claimLoading, toggleClaimLoading] = useToggle(false);
+  const [unstakeLoading, toggleUnstakeLoading] = useToggle(false);
 
   const stakingConfig = useStakingConfig();
 
@@ -70,16 +72,33 @@ export const StakingDetail: React.FC = () => {
       return;
     }
 
+    toggleUnstakeLoading();
+
     toggleCanUnstake(false);
 
-    unlock().then(update);
-  }, [unlock, update, stakingBalanceIsEmpty, unstake.can, toggleCanUnstake]);
+    unlock().then(() => {
+      update();
+      toggleUnstakeLoading();
+    });
+  }, [
+    unlock,
+    update,
+    stakingBalanceIsEmpty,
+    unstake.can,
+    toggleCanUnstake,
+    toggleUnstakeLoading
+  ]);
 
   const handleClaim = useCallback(() => {
     if (stakingBalanceIsEmpty) return;
 
-    unlock(false).then(update);
-  }, [unlock, update, stakingBalanceIsEmpty]);
+    toggleClaimLoading();
+
+    unlock(false).then(() => {
+      update();
+      toggleClaimLoading();
+    });
+  }, [unlock, update, stakingBalanceIsEmpty, toggleClaimLoading]);
 
   const handleGetBalanceOfToken = useCallback(async () => {
     if (!stakingBalancesWithApy) return;
@@ -161,7 +180,7 @@ export const StakingDetail: React.FC = () => {
                     align="center"
                     className={clsx(classes.usd, classes.marginBottom)}
                   >
-                    $ {stakingBalancesWithApy?.amountInUSDC ?? '0'}
+                    ${stakingBalancesWithApy?.amountInUSDC ?? '0'}
                   </Typography>
                   <Tippy
                     visible={canUnstake}
@@ -171,11 +190,16 @@ export const StakingDetail: React.FC = () => {
                     className={classes.tooltip}
                     animation={false}
                   >
-                    <Button onClick={handleUnstake} className={classes.unlock}>
+                    <Button
+                      onClick={handleUnstake}
+                      className={classes.unlock}
+                      loading={unstakeLoading}
+                      disabled={unstakeLoading}
+                    >
                       Unstake
                     </Button>
                   </Tippy>
-                  {new BN(unstake.blockNumber).isGreaterThan(0) && (
+                  {unstake.can && (
                     <Typography
                       variant="body2"
                       align="center"
@@ -202,9 +226,14 @@ export const StakingDetail: React.FC = () => {
                     align="center"
                     className={clsx(classes.usd, classes.marginBottom2)}
                   >
-                    $ {stakingBalancesWithApy?.rewardInUSDC ?? '0'}
+                    ${stakingBalancesWithApy?.rewardInUSDC ?? '0'}
                   </Typography>
-                  <Button onClick={handleClaim} className={classes.unlock}>
+                  <Button
+                    onClick={handleClaim}
+                    className={classes.unlock}
+                    loading={claimLoading}
+                    disabled={claimLoading}
+                  >
                     Claim
                   </Button>
                   <Typography

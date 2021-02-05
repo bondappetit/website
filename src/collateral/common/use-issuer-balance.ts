@@ -14,7 +14,7 @@ export const useIssuerBalance = () => {
     setState(
       new BN(issuerBalance)
         .div(new BN(10).pow(networkConfig.assets.Stable.decimals))
-        .toString(10)
+        .toFormat(2)
     );
   }, [issuerContract, networkConfig]);
 
