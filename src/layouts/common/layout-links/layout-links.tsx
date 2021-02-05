@@ -20,7 +20,7 @@ const SOCIAL_LINKS = [
   },
   {
     title: 'Github',
-    href: 'https://github.com/bondappetit/bondappetit-protocol',
+    href: 'https://github.com/bondappetit',
     icon: GithubIcon
   },
   {

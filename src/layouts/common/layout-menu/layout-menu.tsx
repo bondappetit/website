@@ -53,7 +53,7 @@ const MENU_ITEMS: MenuItem[] = [
 
       {
         title: 'Github',
-        link: 'https://github.com/bondappetit/bondappetit-protocol'
+        link: 'https://github.com/bondappetit'
       },
 
       {
