@@ -4,6 +4,14 @@ import { Theme } from 'src/common';
 
 export const useMainStyles = createUseStyles(
   (theme: Theme) => ({
+    root: {
+      padding: '48px 16px 120px',
+
+      [theme.breakpoints.md()]: {
+        padding: '82px 64px 240px'
+      }
+    },
+
     staking: {
       marginBottom: 71,
 
@@ -20,15 +28,15 @@ export const useMainStyles = createUseStyles(
       marginBottom: 120,
 
       [theme.breakpoints.md()]: {
-        marginBottom: 200
+        marginBottom: 240
       }
     },
 
     steps: {
-      margin: '0 -16px 48px',
+      margin: '0 -16px 120px',
 
       [theme.breakpoints.md()]: {
-        margin: '0 -64px 144px'
+        margin: '0 -64px 240px'
       }
     },
 

@@ -106,9 +106,7 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
     handleGetBalances();
   }, [handleGetBalances, update]);
 
-  useTimeoutInterval(() => {
-    handleGetBalances();
-  }, 15000);
+  useTimeoutInterval(handleGetBalances, 15000);
 
   return useMemo(
     (): [StakingToken[], () => void] => [stakingBalances, handleUpdate],

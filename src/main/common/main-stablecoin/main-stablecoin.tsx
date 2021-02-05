@@ -19,10 +19,6 @@ export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)}>
       <div>
-        <Typography variant="h4" align="center" className={classes.title}>
-          In the foundation of the protocol lies the USDp — first-ever
-          decentralized stablecoin based on real-world assets.
-        </Typography>
         <Typography variant="h2" align="center" className={classes.total}>
           {!props.stablecoinBalance && <Skeleton />}
           {props.stablecoinBalance && <>{props.stablecoinBalance} USDp</>}
@@ -35,6 +31,10 @@ export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
             Sell
           </Button>
         </div>
+        <Typography variant="h4" align="center" className={classes.title}>
+          In the foundation of the protocol lies the USDp — first-ever
+          decentralized stablecoin based on real-world assets.
+        </Typography>
         <Typography variant="h4" align="center">
           <Link component={ReactRouterLink} to={URLS.stablecoin} color="blue">
             Explore Stablecoin →

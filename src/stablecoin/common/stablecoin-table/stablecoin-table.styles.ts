@@ -22,8 +22,8 @@ export const useStablecoinTableStyles = createUseStyles(
       color: theme.colors.green
     },
 
-    rowYellow: {
-      background: theme.colors.yellow
+    rowGrey: {
+      background: theme.colors.proposalPlate
     }
   }),
   {

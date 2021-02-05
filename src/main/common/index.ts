@@ -1,4 +1,3 @@
-export * from './main-staking-card';
 export * from './main-staking';
 export * from './main-stablecoin';
 export * from './main-collateral';

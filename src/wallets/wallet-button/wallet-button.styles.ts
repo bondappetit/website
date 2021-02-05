@@ -10,16 +10,10 @@ export const useWalletButtonStyles = createUseStyles(
       position: 'relative'
     },
 
-    button: {
-      [theme.breakpoints.lg()]: {
-        marginLeft: 19
-      }
-    },
-
     connected: {
       border: `1px solid ${theme.colors.primary}`,
       borderRadius: 16,
-      padding: 2
+      padding: 1
     },
 
     chip: {
@@ -27,7 +21,8 @@ export const useWalletButtonStyles = createUseStyles(
       textTransform: 'capitalize',
 
       [theme.breakpoints.lg()]: {
-        display: 'block'
+        display: 'block',
+        marginRight: 19
       }
     },
 

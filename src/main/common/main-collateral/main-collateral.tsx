@@ -16,15 +16,6 @@ export const MainCollateral: React.FC<MainCollateralProps> = (props) => {
 
   return (
     <div className={clsx(props.className)}>
-      <Typography variant="h4" align="center" className={classes.mobileLink}>
-        <Link
-          component={ReactRouterLink}
-          to={URLS.collateral.list}
-          color="blue"
-        >
-          Explore Collateral →
-        </Link>
-      </Typography>
       <div className={classes.cards}>
         <MainCollateralCard id="3">
           The price of USDp{' '}
@@ -51,7 +42,7 @@ export const MainCollateral: React.FC<MainCollateralProps> = (props) => {
           incentivization mechanisms established by the community.
         </MainCollateralCard>
       </div>
-      <Typography variant="h4" align="center" className={classes.desktopLink}>
+      <Typography variant="h4" align="center">
         <Link
           component={ReactRouterLink}
           to={URLS.collateral.list}
@@ -60,11 +51,6 @@ export const MainCollateral: React.FC<MainCollateralProps> = (props) => {
           Explore Collateral →
         </Link>
       </Typography>
-      <div className={classes.mobileCircles}>
-        <div className={classes.circle} />
-        <div className={classes.circle} />
-        <div className={classes.circle} />
-      </div>
     </div>
   );
 };

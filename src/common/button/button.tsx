@@ -24,7 +24,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     return (
       <ButtonBase className={classNames} ref={ref} {...props}>
-        {loading && <Loader width={45} height={45} />}
+        {loading && <Loader width={45} height={45} strokeWidth={5} />}
         {!loading && children}
       </ButtonBase>
     );

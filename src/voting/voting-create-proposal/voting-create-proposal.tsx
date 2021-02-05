@@ -113,7 +113,10 @@ export const VotingCreateProposal: React.FC = () => {
   const handleSubmitAction = useCallback(
     (formValues: VotingAddActionFormValues) => {
       const actions = formik.values.actions.map((action) => {
-        if (action.address === formValues.address) {
+        if (
+          action.contract + action.functionSig ===
+          formValues.contract + formValues.functionSig
+        ) {
           return formValues;
         }
 

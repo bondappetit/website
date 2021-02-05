@@ -1,8 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import Jazzicon, { jsNumberForAddress } from 'react-jazzicon';
 import clsx from 'clsx';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
+import { useToggle } from 'react-use';
 
 import {
   ButtonBase,
@@ -18,10 +19,8 @@ import { WalletModal } from '../wallet-modal';
 export const WalletButton: React.FC = () => {
   const classes = useWalletButtonStyles();
   const { account } = useWeb3React<Web3>();
-  const [open, setOpen] = useState(false);
+  const [open, toggleOpen] = useToggle(false);
   const networkConfig = useNetworkConfig();
-
-  const handleClose = useCallback(() => setOpen(false), []);
 
   return (
     <div className={classes.wrap}>
@@ -30,12 +29,13 @@ export const WalletButton: React.FC = () => {
         networkConfig.networkName !== 'mainnet' && (
           <Chip className={classes.chip}>{networkConfig.networkName}</Chip>
         )}
-      <ButtonBase
-        onClick={() => setOpen(true)}
-        className={clsx(classes.button, classes.connected)}
-      >
-        <Typography variant="body2" className={classes.account}>
-          {account ? cutAccount(account) : <>Connect your wallet</>}
+      <ButtonBase onClick={toggleOpen} className={clsx(classes.connected)}>
+        <Typography
+          variant="body1"
+          className={classes.account}
+          component="span"
+        >
+          {account ? cutAccount(account) : <>Connect wallet</>}
         </Typography>
         {account ? (
           <Jazzicon diameter={28} seed={jsNumberForAddress(account)} />
@@ -43,7 +43,7 @@ export const WalletButton: React.FC = () => {
           <WalletIcon className={classes.walletIcon} />
         )}
       </ButtonBase>
-      <WalletModal open={open} onClose={handleClose} />
+      <WalletModal open={open} onClose={toggleOpen} />
     </div>
   );
 };
