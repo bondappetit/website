@@ -2,7 +2,6 @@ import clsx from 'clsx';
 import React from 'react';
 
 import { Typography } from 'src/common';
-import { StatisticCard } from './statistic-card';
 import { useInvestingStatisticStyles } from './statistic.styles';
 
 export type InvestingStatisticProps = {
