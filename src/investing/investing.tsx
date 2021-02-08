@@ -4,7 +4,7 @@ import { useToggle } from 'react-use';
 import { MainLayout } from 'src/layouts';
 import { Typography, PageWrapper, DocumentList, Head } from 'src/common';
 import { config } from 'src/config';
-import InvestmentDeckPdf from 'src/assets/pdf/BA-concept.pdf';
+import Litepaper from 'src/assets/pdf/BA-concept.pdf';
 import { URLS } from 'src/router/urls';
 import { InvestingForm } from './investing-form';
 import { useInvestingStyles } from './investing.styles';
@@ -17,8 +17,8 @@ const DOCUMENTS = [
     title: 'Whitepaper'
   },
   {
-    url: InvestmentDeckPdf,
-    title: 'Investment Deck'
+    url: Litepaper,
+    title: 'Litepaper'
   }
 ];
 

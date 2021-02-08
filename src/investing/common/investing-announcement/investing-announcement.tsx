@@ -25,7 +25,7 @@ export const InvestingAnnouncement: React.FC<InvestingAnnouncementProps> = (
   return (
     <div className={clsx(classes.announcement, props.className)}>
       <Typography variant="h4" align="center" className={classes.title}>
-        The pre-sale round of BAG starts in {countdown}
+        The protocol starts in {countdown}
       </Typography>
       <Button onClick={props.onClick}>Notify me</Button>
     </div>
