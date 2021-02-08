@@ -12,7 +12,8 @@ import {
   Skeleton,
   cutAccount,
   useNetworkConfig,
-  Head
+  Head,
+  humanizeNumeral
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useVotingProposalListStyles } from './voting-proposal-list.styles';
@@ -83,7 +84,7 @@ export const VotingProposalList: React.FC = () => {
                     {new BN(currentVotes).isEqualTo(0) ? 'BAG' : 'Votes'}
                     {new BN(currentVotes).isGreaterThan(0) &&
                       new BN(currentGovCoin).isGreaterThan(currentVotes) && (
-                        <> ({currentGovCoin} BAG)</>
+                        <> ({humanizeNumeral(currentGovCoin)} BAG)</>
                       )}
                   </>
                 )}

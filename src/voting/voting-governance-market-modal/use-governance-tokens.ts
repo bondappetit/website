@@ -52,9 +52,7 @@ export const useGovernanceTokens = () => {
     }
   }, [network, marketContract, getBalance]);
 
-  useTimeoutInterval(() => {
-    handleLoadTokenPrices();
-  }, 15000);
+  useTimeoutInterval(handleLoadTokenPrices, 15000, handleLoadTokenPrices);
 
   return tokens;
 };

@@ -1,7 +1,13 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { PageWrapper, Typography, Skeleton, Head } from 'src/common';
+import {
+  PageWrapper,
+  Typography,
+  Skeleton,
+  Head,
+  humanizeNumeral
+} from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { URLS } from 'src/router/urls';
 import {
@@ -45,7 +51,7 @@ export const CollateralDetail: React.FC = () => {
                   body={
                     <>
                       {!isserBalance && <Skeleton />}
-                      {isserBalance && <>${isserBalance}</>}
+                      {isserBalance && <>${humanizeNumeral(isserBalance)}</>}
                     </>
                   }
                 />
@@ -55,7 +61,7 @@ export const CollateralDetail: React.FC = () => {
                   body={
                     <>
                       {!isserBalance && <Skeleton />}
-                      {isserBalance && <>${isserBalance}</>}
+                      {isserBalance && <>${humanizeNumeral(isserBalance)}</>}
                     </>
                   }
                 />

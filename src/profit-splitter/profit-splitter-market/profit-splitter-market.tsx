@@ -3,6 +3,7 @@ import clsx from 'clsx';
 
 import {
   Button,
+  humanizeNumeral,
   Plate,
   Typography,
   useUniswapMarketMakerContract
@@ -49,14 +50,14 @@ export const ProfitSplitterMarket: React.FC<ProfitSplitterMarketProps> = (
       <Typography variant="h3">Market</Typography>
       <div>
         <Typography variant="body1">
-          Incoming balance: {incomig.tokenBalance?.toString(10)}{' '}
+          Incoming balance: {humanizeNumeral(incomig.tokenBalance)}{' '}
           {incomig.asset?.symbol}
         </Typography>
         <Button onClick={handleBuyLuqidity}>Buy</Button>
       </div>
       <div>
         <Typography variant="body1">
-          Support balance: {support.tokenBalance?.toString(10)}{' '}
+          Support balance: {humanizeNumeral(support.tokenBalance)}{' '}
           {support.asset?.symbol}
         </Typography>
         <Button onClick={handleAddLuqidity}>Add</Button>

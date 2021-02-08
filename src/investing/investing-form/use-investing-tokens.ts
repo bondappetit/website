@@ -19,11 +19,9 @@ export const useInvestingTokens = () => {
           name: asset.symbol,
           address: asset.address,
           decimals: asset.decimals,
-          price: price
-            ? new BN(price)
-                .div(new BN(10).pow(network.assets.Governance.decimals))
-                .toString(10)
-            : ''
+          price: new BN(price)
+            .div(new BN(10).pow(network.assets.Governance.decimals))
+            .toString(10)
         };
       });
 

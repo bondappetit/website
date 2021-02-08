@@ -3,17 +3,23 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { ReactComponent as ArrowLeftIcon } from 'src/assets/icons/arrow-left-bold.svg';
-import { Link, Typography, STAKING_ICONS } from 'src/common';
+import {
+  Link,
+  Typography,
+  STAKING_ICONS,
+  BN,
+  humanizeNumeral
+} from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useStakingHeaderStyles } from './staking-header.styles';
 
 export type StakingHeaderProps = {
   token?: string[];
   tokenKey: string;
-  APY?: string;
-  totalSupply?: string;
+  APY?: BN;
+  totalSupply?: BN;
   className?: string;
-  poolRate?: string;
+  poolRate?: BN;
 };
 
 export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
@@ -49,7 +55,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
             })}
           </Typography>
           <Typography variant="h2" align="center">
-            APY {props.APY} %
+            APY {humanizeNumeral(props.APY)} %
           </Typography>
         </div>
         <div className={classes.info}>
@@ -68,13 +74,13 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
           <Typography variant="body1" component="span">
             Total Supply:{' '}
             <Typography variant="inherit" component="span" weight="bold">
-              ${props.totalSupply}
+              ${humanizeNumeral(props.totalSupply)}
             </Typography>
           </Typography>
           <Typography variant="body1" component="span">
             Pool rate:{' '}
             <Typography variant="inherit" component="span" weight="bold">
-              {props.poolRate} BAG / month
+              {humanizeNumeral(props.poolRate)} BAG / month
             </Typography>
           </Typography>
           <Typography variant="body1" component="span">

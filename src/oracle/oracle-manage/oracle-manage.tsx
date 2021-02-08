@@ -9,7 +9,8 @@ import {
   Typography,
   PageWrapper,
   estimateGas,
-  BN
+  BN,
+  humanizeNumeral
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
@@ -144,7 +145,7 @@ export const OracleManage: React.FC = () => {
             <>
               <Typography variant="body1">Key: {savedToken.isin}</Typography>
               <Typography variant="body1">
-                Amount: {savedToken.amount}
+                Amount: {humanizeNumeral(savedToken.amount)}
               </Typography>
             </>
           )}
@@ -156,7 +157,7 @@ export const OracleManage: React.FC = () => {
             <>
               <Typography variant="body1">Key: {savedToken.isin}</Typography>
               <Typography variant="body1">
-                Amount: {savedToken.amount}
+                Amount: {humanizeNumeral(savedToken.amount)}
               </Typography>
             </>
           )}

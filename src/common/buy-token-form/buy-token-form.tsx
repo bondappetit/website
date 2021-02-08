@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { useFormikContext } from 'formik';
 import { useDebounce, useMedia } from 'react-use';
 
-import { BN } from '../bignumber';
+import { BN, humanizeNumeral } from '../bignumber';
 import { useBuyTokenFormStyles } from './buy-token-form.styles';
 import { Network } from '../create-use-contract';
 import { Token } from '../types';
@@ -128,7 +128,7 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
                 className={classes.result}
                 align="center"
               >
-                You will get {result.isNaN() ? '0' : result.toFixed(2)} BAG
+                You will get {humanizeNumeral(result)} BAG
               </Typography>
             )}
             {!isMobile && (
@@ -136,7 +136,7 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
                 type="text"
                 name="result"
                 label={`You get(${tokenName})`}
-                value={`${result.isNaN() ? '0' : result.toFixed(2)}`}
+                value={humanizeNumeral(result)}
                 readOnly
                 className={classes.result}
               />

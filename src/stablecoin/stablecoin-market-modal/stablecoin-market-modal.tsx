@@ -22,7 +22,8 @@ import {
   estimateGas,
   autoApprove,
   BN,
-  useTimeoutInterval
+  useTimeoutInterval,
+  humanizeNumeral
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useStablecoinTokens } from './use-stablecoin-tokens';
@@ -146,18 +147,22 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     [formik.values.amount, formik.values.currency, tokens]
   );
 
-  useTimeoutInterval(async () => {
-    const balanceOfToken = await getBalance({
-      tokenAddress: network.assets.Stable.address,
-      tokenName: network.assets.Stable.name
-    });
+  useTimeoutInterval(
+    async () => {
+      const balanceOfToken = await getBalance({
+        tokenAddress: network.assets.Stable.address,
+        tokenName: network.assets.Stable.name
+      });
 
-    setBalance(
-      balanceOfToken
-        .div(new BN(10).pow(network.assets.Stable.decimals))
-        .toString(10)
-    );
-  }, 15000);
+      setBalance(
+        balanceOfToken
+          .div(new BN(10).pow(network.assets.Stable.decimals))
+          .toString(10)
+      );
+    },
+    15000,
+    network
+  );
 
   const handleSuccessClose = useCallback(() => {
     successToggle(false);
@@ -180,7 +185,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           tokens={tokens}
           balance={balance}
           tokenCost={governanceInUSDC}
-          result={result.toString(10)}
+          result={humanizeNumeral(result)}
           openWalletListModal={walletsToggle}
         />
       </FormikContext.Provider>
@@ -189,7 +194,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           <InfoCardSuccess
             tokenName="USDp"
             onClick={handleSuccessClose}
-            purchased={result.toString(10)}
+            purchased={humanizeNumeral(result)}
           />
         </SmallModal>
       </Modal>

@@ -6,7 +6,8 @@ import {
   Typography,
   Button,
   LinkIfAccount,
-  useBuybackContract
+  useBuybackContract,
+  humanizeNumeral
 } from 'src/common';
 import { useBuybackBuy } from './use-buyback-buy';
 import { useSplitterBalance } from '../common';
@@ -39,7 +40,7 @@ export const ProfitSplitterBuyback: React.FC<ProfitSplitterBuybackProps> = (
     <Plate className={clsx(props.className)}>
       <Typography variant="h3">Buyback</Typography>
       <Typography variant="h5">
-        Incoming balance: {balance} {asset?.symbol}
+        Incoming balance: {humanizeNumeral(balance)} {asset?.symbol}
       </Typography>
       <Button onClick={handleBuy}>Buy</Button>
       {recipient && (

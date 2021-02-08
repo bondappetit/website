@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Typography } from 'src/common';
+import { humanizeNumeral, Typography } from 'src/common';
 import { useTokensBalance } from './use-token-balance';
 
 export type MonitorTokenListProps = {
@@ -14,7 +14,7 @@ export const MonitorTokenList: React.FC<MonitorTokenListProps> = (props) => {
     <div>
       {balances.map((balance) => (
         <Typography variant="body1" key={balance.symbol}>
-          {balance.symbol}: {balance.balance}
+          {balance.symbol}: {humanizeNumeral(balance.balance)}
         </Typography>
       ))}
     </div>

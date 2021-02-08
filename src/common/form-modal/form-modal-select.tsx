@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { ButtonBase } from '../button-base';
 import { useFormModalStyles } from './form-modal.styles';
 import { Asset } from '../types';
+import { humanizeNumeral } from '../bignumber';
 
 export type FormModalSelectProps = {
   onChange: (value: string, balance: string) => void;
@@ -26,7 +27,7 @@ export const FormModalSelect: React.FC<FormModalSelectProps> = (props) => {
           onClick={() => props.onChange(option.symbol, option.balance)}
         >
           <span>{option.symbol}</span>
-          <span>{option.balance}</span>
+          <span>{humanizeNumeral(option.balance)}</span>
         </ButtonBase>
       ))}
     </div>

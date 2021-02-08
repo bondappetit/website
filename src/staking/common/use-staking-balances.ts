@@ -9,17 +9,17 @@ import { useStakingContracts } from './use-staking-contracts';
 import { useTokenContracts } from './use-token-contract';
 
 export type StakingToken = {
-  amount: string;
-  totalSupply: string;
+  amount: BN;
+  totalSupply: BN;
   rewardRate: string;
-  reward: string;
+  reward: BN;
   key: string;
   decimals: string;
   address: string;
   stakingContract: Staking;
   token: string[];
   liquidityPool: boolean;
-  poolRate: string;
+  poolRate: BN;
 };
 
 const BLOCKS_PER_MINUTE = 4;
@@ -71,17 +71,17 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
           .multipliedBy(30);
 
         const StakingToken = {
-          amount: amount.isNaN() ? '0' : amount.toString(10),
+          amount,
           key: String(index),
           decimals,
-          totalSupply: totalSupplyBN.isNaN() ? '0' : totalSupplyBN.toFormat(),
+          totalSupply: totalSupplyBN,
           rewardRate,
           stakingContract,
           address: stakingTokenAddress,
-          reward: reward.isNaN() ? '0' : reward.toString(10),
+          reward,
           token,
           liquidityPool,
-          poolRate: poolRate.isNaN() ? '0' : poolRate.toFormat()
+          poolRate
         };
 
         acc.push(StakingToken);

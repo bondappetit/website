@@ -13,7 +13,8 @@ import {
   useProfitSplitterContract,
   useBalance,
   estimateGas,
-  BN
+  BN,
+  humanizeNumeral
 } from 'src/common';
 import { useSplitterBalance } from '../common';
 import { useProfitSplitterDepositStyles } from './profit-splitter-deposit.styles';
@@ -115,7 +116,7 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
       </form>
       <div>
         <Typography variant="body1" component="span">
-          Balance: {tokenBalance?.toString(10)} {asset?.symbol}
+          Balance: {humanizeNumeral(tokenBalance)} {asset?.symbol}
         </Typography>
         <Button onClick={handleSplit}>Split</Button>
       </div>

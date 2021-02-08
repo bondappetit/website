@@ -1,7 +1,14 @@
 import React, { useMemo } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Typography, Link, Button, Skeleton, BN } from 'src/common';
+import {
+  Typography,
+  Link,
+  Button,
+  Skeleton,
+  BN,
+  humanizeNumeral
+} from 'src/common';
 import { URLS } from 'src/router/urls';
 import { SablecoinInfo } from '../use-stable-coin-info';
 import { useStablecoinEllipseStyles } from './stablecoin-ellipse.styles';
@@ -51,7 +58,7 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
                 <>
                   Total Liquidity:{' '}
                   <Typography variant="inherit" component="span" weight="bold">
-                    {totalLiquidityUSD || 0} $
+                    ${humanizeNumeral(totalLiquidityUSD)}
                   </Typography>
                 </>
               )}
@@ -62,7 +69,7 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
                 <>
                   Volume (24h):{' '}
                   <Typography variant="inherit" component="span" weight="bold">
-                    {dailyVolumeUSD || 0} $
+                    ${humanizeNumeral(dailyVolumeUSD)}
                   </Typography>
                 </>
               )}

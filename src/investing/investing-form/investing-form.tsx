@@ -23,7 +23,8 @@ import {
   Typography,
   estimateGas,
   autoApprove,
-  BN
+  BN,
+  humanizeNumeral
 } from 'src/common';
 import { WalletModal } from 'src/wallets';
 import type { Ierc20 } from 'src/generate/IERC20';
@@ -222,7 +223,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
           <InfoCardSuccess
             tokenName="BAG"
             onClick={handleSuccessClose}
-            purchased={result.isNaN() ? '0' : result.toFixed(2)}
+            purchased={humanizeNumeral(result)}
           />
         </SmallModal>
       </Modal>

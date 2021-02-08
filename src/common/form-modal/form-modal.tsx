@@ -14,6 +14,7 @@ import { Modal } from '../modal';
 import { FormModalSelect } from './form-modal-select';
 import { Asset } from '../types';
 import { useFormModalStyles } from './form-modal.styles';
+import { humanizeNumeral } from '../bignumber';
 
 export type FormModalValues = {
   currency: string;
@@ -107,7 +108,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                   />
                   <div className={classes.input}>
                     <Typography variant="body1" component="div">
-                      Balance: {currentToken?.balance}
+                      Balance: {humanizeNumeral(currentToken?.balance)}
                     </Typography>
                     <ButtonBase
                       type="button"
@@ -129,7 +130,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                   />
                   <div className={classes.input}>
                     <Typography variant="body1" component="div">
-                      Balance: {props.balance}
+                      Balance: {humanizeNumeral(props.balance)}
                     </Typography>
                     <Typography variant="inherit" component="div">
                       {props.tokenName}
@@ -143,8 +144,8 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                   align="center"
                   className={classes.hint}
                 >
-                  {props.tokenCost} {formik.values.currency} per{' '}
-                  {props.tokenName}, estimated price
+                  {humanizeNumeral(props.tokenCost)} {formik.values.currency}{' '}
+                  per {props.tokenName}, estimated price
                   {hoverable}
                 </Typography>
               )}

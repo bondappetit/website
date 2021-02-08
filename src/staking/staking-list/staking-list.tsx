@@ -8,7 +8,8 @@ import {
   Skeleton,
   Head,
   BN,
-  Plate
+  Plate,
+  humanizeNumeral
 } from 'src/common';
 import {
   StakingCard,
@@ -67,22 +68,22 @@ export const StakingList: React.FC = () => {
               <Typography variant="h5" align="center" className={classes.bag}>
                 Total value locked:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  ${totalValueLocked.toFormat(2)}
+                  ${humanizeNumeral(totalValueLocked)}
                 </Typography>
               </Typography>
               <Typography variant="h5" align="center" className={classes.bag}>
                 BAG price:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  ${normalizeGovernanceInUSDC}
+                  ${humanizeNumeral(normalizeGovernanceInUSDC)}
                 </Typography>
               </Typography>
               <Typography variant="h5" align="center">
                 You earned:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  {rewardSum.reward} BAG
+                  {humanizeNumeral(rewardSum.reward)} BAG
                 </Typography>
                 {rewardSum.rewardInUSDC !== '0' && (
-                  <>(${rewardSum.rewardInUSDC})</>
+                  <>(${humanizeNumeral(rewardSum.rewardInUSDC)})</>
                 )}
               </Typography>
             </Plate>

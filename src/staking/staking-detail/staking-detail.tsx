@@ -14,7 +14,8 @@ import {
   PageWrapper,
   useBalance,
   Head,
-  BN
+  BN,
+  humanizeNumeral
 } from 'src/common';
 import {
   StakingHeader,
@@ -165,22 +166,21 @@ export const StakingDetail: React.FC = () => {
                     You staked {tokenName}
                   </Typography>
                   <Typography variant="h2" align="center">
-                    {stakingBalancesWithApy?.amount}
+                    {humanizeNumeral(stakingBalancesWithApy?.amount)}
                   </Typography>
                   <Typography
                     variant="body1"
                     align="center"
                     className={classes.usd}
                   >
-                    {poolShare.isNaN() ? '0' : poolShare.toFormat(4)}% Pool
-                    share
+                    {humanizeNumeral(poolShare)}% Pool share
                   </Typography>
                   <Typography
                     variant="body1"
                     align="center"
                     className={clsx(classes.usd, classes.marginBottom)}
                   >
-                    ${stakingBalancesWithApy?.amountInUSDC ?? '0'}
+                    ${humanizeNumeral(stakingBalancesWithApy?.amountInUSDC)}
                   </Typography>
                   <Tippy
                     visible={canUnstake}
@@ -219,14 +219,14 @@ export const StakingDetail: React.FC = () => {
                     You earned BAG
                   </Typography>
                   <Typography variant="h2" align="center">
-                    {stakingBalancesWithApy?.reward}
+                    {humanizeNumeral(stakingBalancesWithApy?.reward)}
                   </Typography>
                   <Typography
                     variant="body1"
                     align="center"
                     className={clsx(classes.usd, classes.marginBottom2)}
                   >
-                    ${stakingBalancesWithApy?.rewardInUSDC ?? '0'}
+                    ${humanizeNumeral(stakingBalancesWithApy?.rewardInUSDC)}
                   </Typography>
                   <Button
                     onClick={handleClaim}
