@@ -235,17 +235,16 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
       <div className={classes.form}>
         {!state.currentVariant && (
           <VotingChooseButtons
-            title="Add action"
-            subtitle="Actions will be automaticaly executed in case of succesfull voting."
+            subtitle="Actions will be automatically executed if the voting on the proposal is successful"
             buttons={[
               {
-                title: 'Setup manually',
-                subtitle: `Choose target and set functions to it.`,
+                title: 'Set up manually',
+                subtitle: `Adjust the target and all characteristics of the voting manually`,
                 onClick: () => dispatch(setVariant(AddActionVariants.manually))
               },
               {
                 title: 'Use template',
-                subtitle: `Choose one of several presets and fill in your data to setup complete event`,
+                subtitle: `Choose one of several presets and simply launch voting in a few clicks`,
                 onClick: () => dispatch(setVariant(AddActionVariants.template))
               }
             ]}

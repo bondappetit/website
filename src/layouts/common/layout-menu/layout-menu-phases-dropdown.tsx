@@ -9,17 +9,17 @@ const PHASES = [
     title: 'Phase 1: Protocol launch',
     body:
       'Stake stablecoins in early stage and earn more BAG as staking rewards',
-    date: 'Up to 2 month, Started February 15'
+    date: 'Up to 2 months, Started February 15'
   },
   {
-    title: 'Phase 2: BAG investment round',
-    body:
-      'Invest in BondAppétit Governance and infuence the future of protocol',
+    title: 'Phase 2: Invest in BondAppétit',
+    body: 'Governance and shape the future of the protocol',
     date: '1 month, starts in a day after P1'
   },
   {
     title: 'Phase 3: RWA-collateral',
-    body: 'Invest in first real-world baked Stablecoin',
+    body:
+      'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
     date: '1 month, starts in a day after P2'
   }
 ];

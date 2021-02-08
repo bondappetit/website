@@ -22,12 +22,16 @@ export const VotingChooseButtons: React.FC<VotingChooseButtonsProps> = (
 
   return (
     <>
-      <Typography variant="h5" align="center" weight="bold">
-        {props.title}
-      </Typography>
-      <Typography variant="body1" align="center" className={classes.subtitle}>
-        {props.subtitle}
-      </Typography>
+      {props.title && (
+        <Typography variant="h5" align="center" weight="bold">
+          {props.title}
+        </Typography>
+      )}
+      {props.subtitle && (
+        <Typography variant="body1" align="center" className={classes.subtitle}>
+          {props.subtitle}
+        </Typography>
+      )}
       {props.buttons?.map(({ onClick, title, subtitle }) => (
         <ButtonBase
           onClick={onClick}

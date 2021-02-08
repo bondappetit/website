@@ -22,23 +22,16 @@ export const FAQ = [
   {
     title: 'Which assets are used as collateral of USDp?',
     body: [
-      `The main assets of the protocol are debt obligations assumed by the borrowers.`,
-      `USDp is issued only when a new borrower originates a loan in the protocol.
-      Currently, the protocol lends money only to intermediaries which fulfill certain conditions.`,
-      `Intermediaries then lend money to the ultimate borrowers under
-      classic lending agreements, which require borrowers to provide collateral.
-      The collateral ensures that the borrower will pay to the intermediary,
-      and intermediary will pay to the protocol.`,
-      `If the borrower fails to pay, the collateral is sold by the intermediary allowing it to repay its debt to the protocol.`,
-      `Fixed income securities (bonds) are accepted by the intermediaries as a collateral under their agreements with the borrowers.`
+      `USDp is backed by real-world fixed-income securities (bonds) provided as collateral for the loan by borrowers.`
     ]
   },
 
   {
     title: 'What is the legal classification of USDp?',
     body: [
-      `USDp represents the mean of transferring value, and it is defined as such exclusively by market participants.
-    The token itself does not imply any obligations of the protocol, any of its participants or third parties.`
+      `USDp represents the mean of transferring value and it is defined as
+      such exclusively by market participants. The token itself does not imply any
+      obligations of the protocol, any of its participants, or third parties.`
     ]
   }
 ];

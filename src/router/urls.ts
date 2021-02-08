@@ -23,11 +23,11 @@ export const URLS = {
     detail: (contractName = ':contractName') => `/docs/${contractName}`
   },
   collateral: {
-    list: '/collaterals',
+    list: '/collateral',
     issuer: (companyName = ':companyName') =>
-      `/collaterals/issuers/${companyName}`,
+      `/collateral/issuers/${companyName}`,
     detail: (companyName = ':companyName') =>
-      `/collaterals/borrowers/${companyName}`,
-    borrow: '/collaterals/borrow'
+      `/collateral/borrowers/${companyName}`,
+    borrow: '/collateral/borrow'
   }
 } as const;

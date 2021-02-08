@@ -29,7 +29,7 @@ export const VotingInfo: React.FC = () => {
 
   return (
     <>
-      <Head title="Influence the future of protocol using the BondAppétit Governance" />
+      <Head title="Shape the future of the protocol using BondAppétit Governance (BAG)" />
       <MainLayout>
         <PageWrapper className={classes.root}>
           <VotingInfoProposalList

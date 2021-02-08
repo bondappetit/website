@@ -32,7 +32,7 @@ export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
           </Button>
         </div>
         <Typography variant="h4" align="center" className={classes.title}>
-          In the foundation of the protocol lies the USDp — first-ever
+          In the foundation of the protocol lies USDp — the first-ever
           decentralized stablecoin based on real-world assets.
         </Typography>
         <Typography variant="h4" align="center">

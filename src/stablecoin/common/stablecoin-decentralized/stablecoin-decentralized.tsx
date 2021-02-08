@@ -41,8 +41,7 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
           <Typography variant="h4" align="center">
             There is no centralized issuer behind USDp — tokens are issued
             automatically by a smart-contract only when required collateral is
-            available in the real world, which can be checked by any user in
-            real time.
+            available, which can be checked by any user in real-time.
           </Typography>
           <Typography variant="h4" align="center" className={classes.link}>
             <Link
@@ -65,7 +64,7 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
           </Typography>
           <Typography variant="h4" align="center">
             USDp has its own crypto liquidity pools which are partially composed
-            of liquidity flows coming from real world assets.
+            of liquidity flows coming from real-world assets.
           </Typography>
           <Typography variant="h4" align="center" className={classes.link}>
             <Link

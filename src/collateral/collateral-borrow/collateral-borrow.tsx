@@ -98,7 +98,7 @@ export const CollateralBorrow: React.FC = () => {
               color="blue"
               component={ReactRouterLink}
             >
-              ← Collaterals
+              ← Collateral
             </Link>
           </Typography>
           <div className={classes.wrap}>

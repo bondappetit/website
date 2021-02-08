@@ -103,7 +103,7 @@ export const VotingProposalDetail: React.FC = () => {
             align="center"
             component="div"
           >
-            Voting can be applied only if 4% (4 000 000 BAG) of quorum reached
+            In order to be applied, the quorum of 4% must be reached
           </Typography>
           {new BN(currentVotes).isGreaterThan(0) && (
             <VotingDetailsAction
