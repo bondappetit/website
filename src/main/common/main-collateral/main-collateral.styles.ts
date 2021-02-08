@@ -18,49 +18,13 @@ export const useMainCollateralStyles = createUseStyles(
     cards: {
       display: 'grid',
       gridGap: 32,
-      maxWidth: 1362,
+      maxWidth: 1120,
       margin: '0 auto 48px',
 
       [theme.breakpoints.lg()]: {
         gridGap: 128,
         gridTemplateColumns: '1fr 1fr 1fr'
       }
-    },
-
-    mobileLink: {
-      margin: '0 auto 45px',
-
-      [theme.breakpoints.md()]: {
-        display: 'none'
-      }
-    },
-
-    desktopLink: {
-      display: 'none',
-
-      [theme.breakpoints.md()]: {
-        display: 'block'
-      }
-    },
-
-    mobileCircles: {
-      display: 'flex',
-      justifyContent: 'center',
-      overflow: 'hidden',
-      marginLeft: -16,
-      marginRight: -16,
-
-      [theme.breakpoints.md()]: {
-        display: 'none'
-      }
-    },
-
-    circle: {
-      minWidth: 136,
-      height: 136,
-      border: `1px solid ${theme.colors.primary}`,
-      borderRadius: '50%',
-      margin: '0 17px'
     }
   }),
   {

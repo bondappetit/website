@@ -17,7 +17,7 @@ export const LayoutMenuDropdown: React.FC<LayoutMenuDropdownProps> = (
   const dropdownRef = useRef(null);
   const [open, toggleOpen] = useToggle(false);
 
-  useClickAway(dropdownRef, () => toggleOpen(false));
+  useClickAway(dropdownRef, () => toggleOpen(false), ['mouseup']);
 
   return (
     <div ref={dropdownRef}>

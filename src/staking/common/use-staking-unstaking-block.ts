@@ -18,9 +18,11 @@ export const useStakingUnstakingBlock = (
   const { library } = useWeb3React<Web3>();
 
   const handleStakingBlock = useCallback(async () => {
+    if (!stakingContract) return;
+
     const stakingMethod = staking
-      ? stakingContract?.methods.stakingEndBlock()
-      : stakingContract?.methods.unstakingStartBlock();
+      ? stakingContract.methods.stakingEndBlock()
+      : stakingContract.methods.unstakingStartBlock();
 
     const result = await stakingMethod?.call();
 
@@ -56,7 +58,7 @@ export const useStakingUnstakingBlock = (
     });
   }, [stakingContract, staking, library]);
 
-  useTimeoutInterval(handleStakingBlock, 15000);
+  useTimeoutInterval(handleStakingBlock, 15000, stakingContract);
 
   return state;
 };

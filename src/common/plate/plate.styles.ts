@@ -5,8 +5,12 @@ import { Theme } from 'src/common';
 export const usePlateStyles = createUseStyles(
   (theme: Theme) => ({
     plate: {
-      borderRadius: 24,
-      border: `1px solid ${theme.colors.primary}`
+      border: `1px solid ${theme.colors.primary}`,
+      borderRadius: 16,
+
+      [theme.breakpoints.md()]: {
+        borderRadius: 24
+      }
     },
 
     grey: {

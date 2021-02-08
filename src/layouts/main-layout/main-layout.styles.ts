@@ -9,7 +9,7 @@ export const useMainLayoutStyles = createUseStyles(
       display: 'none',
 
       [theme.breakpoints.lg()]: {
-        display: 'block'
+        display: 'flex'
       }
     }
   }),

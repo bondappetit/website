@@ -9,8 +9,13 @@ export const useVotingInputStyles = createUseStyles(
       position: 'relative',
       textOverflow: 'ellipsis',
       whiteSpace: 'nowrap',
-      fontSize: 32,
-      lineHeight: '40px'
+      fontSize: 18,
+      lineHeight: '20px',
+
+      [theme.breakpoints.md()]: {
+        fontSize: 32,
+        lineHeight: '40px'
+      }
     },
 
     input: {

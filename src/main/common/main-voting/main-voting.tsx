@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Typography, Link } from 'src/common';
+import { Typography, Link, Typewriter } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useMainVotingStyles } from './main-voting.styles';
 
@@ -23,7 +23,7 @@ export const MainVoting: React.FC<MainVotingProps> = (props) => {
       </Typography>
       <div className={classes.content}>
         <Typography variant="h2" component="p" className={classes.text}>
-          Add new markets for the automatic excha
+          <Typewriter>Add new markets for the automatic excha</Typewriter>
         </Typography>
         <div className={classes.tickets}>
           <div className={clsx(classes.ticket, classes.against)}>

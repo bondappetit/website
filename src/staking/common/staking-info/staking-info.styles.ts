@@ -25,6 +25,16 @@ export const useStakingInfoStyles = createUseStyles(
       }
     },
 
+    cardTitle: {
+      fontSize: 40,
+      lineHeight: '48px',
+
+      [theme.breakpoints.md()]: {
+        fontSize: 64,
+        lineHeight: '72px'
+      }
+    },
+
     cardBody: {
       marginBottom: 16,
 

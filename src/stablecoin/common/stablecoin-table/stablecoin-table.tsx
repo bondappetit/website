@@ -49,7 +49,7 @@ export const StablecoinTable: React.FC<StablecoinTableProps> = (props) => {
               <TableRow
                 key={rowId}
                 className={clsx({
-                  [classes.rowYellow]: rowInd === 0
+                  [classes.rowGrey]: rowInd === 0
                 })}
               >
                 {row.map((cell, cellInd) => {

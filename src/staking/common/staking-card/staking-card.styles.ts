@@ -24,7 +24,7 @@ export const useStakingCardStyles = createUseStyles(
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         borderRadius: 24,
-        minHeight: 360,
+        minHeight: 400,
         position: 'relative',
         border: `1px solid ${theme.colors.primary}`,
         ...transitions('background-color .3s ease-in-out'),
@@ -38,8 +38,26 @@ export const useStakingCardStyles = createUseStyles(
         }
       },
 
+      title: {
+        display: 'flex',
+        fontSize: 24,
+        lineHeight: '32px',
+
+        [theme.breakpoints.md()]: {
+          fontSize: 32,
+          lineHeight: '40px'
+        }
+      },
+
       apy: {
-        marginBottom: 30
+        marginBottom: 30,
+        fontSize: 24,
+        lineHeight: '32px',
+
+        [theme.breakpoints.md()]: {
+          fontSize: 32,
+          lineHeight: '40px'
+        }
       },
 
       deposit: {
@@ -50,6 +68,21 @@ export const useStakingCardStyles = createUseStyles(
         position: 'absolute',
         top: 16,
         left: 16
+      },
+
+      icon: {
+        width: 28,
+        height: 28,
+        marginRight: 4,
+
+        [theme.breakpoints.md()]: {
+          width: 32,
+          height: 32
+        }
+      },
+
+      plus: {
+        margin: '0 8px'
       }
     };
   },

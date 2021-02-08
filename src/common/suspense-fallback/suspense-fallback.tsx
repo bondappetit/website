@@ -8,7 +8,7 @@ export const SuspenseFallback: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <Loader />
+      <Loader width={202} height={156} />
     </div>
   );
 };

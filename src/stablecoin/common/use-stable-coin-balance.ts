@@ -17,7 +17,7 @@ export const useStableCoinBalance = () => {
     setState(
       new BN(stableCoinBalance)
         .div(new BN(10).pow(networkConfig.assets.Stable.decimals))
-        .toString(10)
+        .toFormat(2)
     );
   }, [stableCoinContract, networkConfig]);
 

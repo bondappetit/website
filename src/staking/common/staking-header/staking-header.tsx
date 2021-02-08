@@ -68,7 +68,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
           <Typography variant="body1" component="span">
             Total Supply:{' '}
             <Typography variant="inherit" component="span" weight="bold">
-              $ {props.totalSupply}
+              ${props.totalSupply}
             </Typography>
           </Typography>
           <Typography variant="body1" component="span">

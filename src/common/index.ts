@@ -57,3 +57,5 @@ export * from './bignumber';
 export * from './use-timeout-interval';
 export * from './use-uniswap-pair-info';
 export * from './use-up-button';
+export * from './typewriter-effect';
+export * from './use-body-scroll-lock';

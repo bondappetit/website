@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/ban-types */
 import { useEffect, useRef } from 'react';
 
-export const useTimeoutInterval = (callback: Function, delay?: number) => {
+export const useTimeoutInterval = <T>(
+  callback: Function,
+  delay?: number,
+  deps?: T
+) => {
   const ref = useRef<number>();
   const savedCallback = useRef<Function>(() => {});
 
@@ -21,5 +25,5 @@ export const useTimeoutInterval = (callback: Function, delay?: number) => {
     return () => {
       clearTimeout(ref.current);
     };
-  }, [delay]);
+  }, [delay, deps]);
 };

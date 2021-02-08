@@ -1,11 +1,11 @@
 import React from 'react';
 import clsx from 'clsx';
-import { useToggle, useLockBodyScroll } from 'react-use';
+import { useToggle } from 'react-use';
 
 import { ReactComponent as MenuIcon } from 'src/assets/icons/menu.svg';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close.svg';
 import { config } from 'src/config';
-import { ButtonBase } from 'src/common';
+import { ButtonBase, useBodyScrollLock } from 'src/common';
 import { LayoutLogo } from '../layout-logo';
 import { LayoutMenu } from '../layout-menu';
 import { useLayoutHeaderStyles } from './layout-header.styles';
@@ -20,7 +20,7 @@ export const LayoutHeader: React.FC<LayoutHeaderProps> = (props) => {
 
   const [open, toggle] = useToggle(false);
 
-  useLockBodyScroll(open);
+  useBodyScrollLock(open);
 
   return (
     <header className={classes.root}>
