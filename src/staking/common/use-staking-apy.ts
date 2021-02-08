@@ -15,7 +15,7 @@ export type APYWithTokenName = {
   amountInUSDC: string;
   rewardInUSDC: string;
   stakingTokenUSDC: string;
-  APY: string;
+  APY: BN;
 } & StakingToken;
 
 async function getAmountsOut(
@@ -87,17 +87,15 @@ export const useStakingApy = (balances: StakingToken[]) => {
           .div(tokenInUSDC)
           .multipliedBy(100);
 
-        const APY = APYBN.integerValue().toString(10);
+        const APY = APYBN.integerValue();
 
         return {
           ...balance,
-          totalSupply: new BN(balance.totalSupply)
-            .multipliedBy(tokenInUSDC)
-            .toFormat(2),
+          totalSupply: new BN(balance.totalSupply).multipliedBy(tokenInUSDC),
           amountInUSDC,
           rewardInUSDC,
           stakingTokenUSDC: tokenInUSDC,
-          APY: APYBN.isNaN() || APY === 'Infinity' ? '0' : APY
+          APY
         };
       })
     );

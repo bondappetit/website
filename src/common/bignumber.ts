@@ -11,10 +11,13 @@ BN.set({
   }
 });
 
-function humanizeNumeral(value: string | number | undefined) {
-  if (value === undefined) return 0;
+function humanizeNumeral(value: string | number | undefined | null | BN) {
+  if (value === undefined || value === null) return '0';
 
   const result = BN.isBigNumber(value) ? value : new BN(value);
+
+  if (result.isNaN() || result.toString(10) === 'Infinity' || result.eq(0))
+    return '0';
 
   if (result.lt(10)) return result.toFormat(8);
 

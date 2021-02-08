@@ -1,7 +1,12 @@
 import React from 'react';
 
 import { MainLayout } from 'src/layouts';
-import { useNetworkConfig, Link, Typography } from 'src/common';
+import {
+  useNetworkConfig,
+  Link,
+  Typography,
+  humanizeNumeral
+} from 'src/common';
 import { useMonitorContractListStyles } from './monitor-contract-list.styles';
 import { useInvestStakingBalance } from './use-invest-staking-balance';
 import { MonitorTokenList } from '../monitor-token-list';
@@ -33,7 +38,7 @@ export const MonitorContractList: React.FC = () => {
           <div className={classes.investStaking}>
             {investStakingBalance?.map(({ balance, name }) => (
               <div key={name}>
-                {name}: {balance.toFixed(2)}
+                {name}: {humanizeNumeral(balance)}
               </div>
             ))}
           </div>

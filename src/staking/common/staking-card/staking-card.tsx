@@ -1,19 +1,26 @@
 import React, { useMemo } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Typography, Link, Status, STAKING_ICONS } from 'src/common';
+import {
+  Typography,
+  Link,
+  Status,
+  STAKING_ICONS,
+  BN,
+  humanizeNumeral
+} from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useStakingCardStyles } from './staking-card.styles';
 
 export type StakingCardProps = {
   tokenKey: string;
   stacked?: boolean;
-  reward?: string;
-  APY?: string;
+  reward?: BN;
+  APY?: BN;
   token: string[];
   stakingContractAddress: string;
-  totalSupply: string;
-  poolRate: string;
+  totalSupply: BN;
+  poolRate: BN;
 };
 
 export const StakingCard: React.FC<StakingCardProps> = (props) => {
@@ -54,7 +61,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
         })}
       </Typography>
       <Typography variant="h3" align="center" className={classes.apy}>
-        APY {props.APY} %
+        APY {humanizeNumeral(props.APY)} %
       </Typography>
       <Typography variant="body1" align="center" className={classes.deposit}>
         Deposit:{' '}
@@ -71,13 +78,13 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       <Typography variant="body1" align="center">
         Total Supply:{' '}
         <Typography variant="inherit" weight="bold">
-          ${props.totalSupply}
+          ${humanizeNumeral(props.totalSupply)}
         </Typography>
       </Typography>
       <Typography variant="body1" align="center">
         Pool rate:{' '}
         <Typography variant="inherit" weight="bold">
-          {props.poolRate} BAG / month
+          {humanizeNumeral(props.poolRate)} BAG / month
         </Typography>
       </Typography>
       <Typography variant="body1" align="center">

@@ -32,7 +32,7 @@ export const useVoteInfo = () => {
 
   return useMemo(
     () => ({
-      currentVotes: new BN(currentVotes).toFixed(2),
+      currentVotes: new BN(currentVotes),
       handleUpdateVoteInfo
     }),
     [currentVotes, handleUpdateVoteInfo]

@@ -22,7 +22,8 @@ import {
   estimateGas,
   autoApprove,
   BN,
-  useTimeoutInterval
+  useTimeoutInterval,
+  humanizeNumeral
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useStablecoinTokens } from './use-stablecoin-tokens';
@@ -180,7 +181,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           tokens={tokens}
           balance={balance}
           tokenCost={governanceInUSDC}
-          result={result.toString(10)}
+          result={humanizeNumeral(result)}
           openWalletListModal={walletsToggle}
         />
       </FormikContext.Provider>
@@ -189,7 +190,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           <InfoCardSuccess
             tokenName="USDp"
             onClick={handleSuccessClose}
-            purchased={result.toString(10)}
+            purchased={humanizeNumeral(result)}
           />
         </SmallModal>
       </Modal>
