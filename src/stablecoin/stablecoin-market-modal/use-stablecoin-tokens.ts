@@ -43,9 +43,7 @@ export const useStablecoinTokens = () => {
     setState(await Promise.all(tokens));
   }, [collateralMarketContract, network, getBalance]);
 
-  useTimeoutInterval(() => {
-    handleGetTokens();
-  }, 15000);
+  useTimeoutInterval(handleGetTokens, 15000, handleGetTokens);
 
   return state;
 };

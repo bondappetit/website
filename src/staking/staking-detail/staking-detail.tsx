@@ -166,7 +166,7 @@ export const StakingDetail: React.FC = () => {
                     You staked {tokenName}
                   </Typography>
                   <Typography variant="h2" align="center">
-                    {stakingBalancesWithApy?.amount}
+                    {humanizeNumeral(stakingBalancesWithApy?.amount)}
                   </Typography>
                   <Typography
                     variant="body1"

@@ -2,7 +2,14 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useMedia } from 'react-use';
 
-import { Typography, Link, Carousel, Skeleton, Plate } from 'src/common';
+import {
+  Typography,
+  Link,
+  Carousel,
+  Skeleton,
+  Plate,
+  humanizeNumeral
+} from 'src/common';
 import { URLS } from 'src/router/urls';
 import type { APYWithTokenName } from 'src/staking';
 import { StakingCard } from 'src/staking';
@@ -38,7 +45,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
         <Typography variant="h4" align="center">
           Total Value Locked:{' '}
           <Typography variant="inherit" weight="bold">
-            ${props.totalValueLocked}
+            ${humanizeNumeral(props.totalValueLocked)}
           </Typography>
         </Typography>
       </Plate>

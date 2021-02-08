@@ -80,7 +80,7 @@ export const StakingList: React.FC = () => {
               <Typography variant="h5" align="center">
                 You earned:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  {rewardSum.reward} BAG
+                  {humanizeNumeral(rewardSum.reward)} BAG
                 </Typography>
                 {rewardSum.rewardInUSDC !== '0' && (
                   <>(${humanizeNumeral(rewardSum.rewardInUSDC)})</>

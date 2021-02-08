@@ -7,7 +7,8 @@ import {
   Link,
   Skeleton,
   Plate,
-  Head
+  Head,
+  humanizeNumeral
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
@@ -41,7 +42,9 @@ export const CollateralList: React.FC = () => {
               body={
                 <>
                   {!stableCoinBalance && <Skeleton />}
-                  {stableCoinBalance && <>{stableCoinBalance} USDp</>}
+                  {stableCoinBalance && (
+                    <>{humanizeNumeral(stableCoinBalance)} USDp</>
+                  )}
                 </>
               }
               subtitle={<>1 USDp = $1 USD</>}
@@ -53,7 +56,7 @@ export const CollateralList: React.FC = () => {
               body={
                 <>
                   {!issuerBalance && <Skeleton />}
-                  {issuerBalance && <>{issuerBalance} USDC</>}
+                  {issuerBalance && <>{humanizeNumeral(issuerBalance)} USDC</>}
                 </>
               }
               subtitle={
