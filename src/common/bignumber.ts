@@ -16,8 +16,7 @@ function humanizeNumeral(value: string | number | undefined | null | BN) {
 
   const result = BN.isBigNumber(value) ? value : new BN(value);
 
-  if (result.isNaN() || result.toString(10) === 'Infinity' || result.eq(0))
-    return '0';
+  if (result.isNaN() || !result.isFinite() || result.eq(0)) return '0';
 
   if (result.lt(10)) return result.toFormat(8);
 
