@@ -6,8 +6,7 @@ import {
   LayoutHeader,
   LayoutContainer,
   LayoutWrapper,
-  LayoutFooter,
-  LayoutLinks
+  LayoutFooter
 } from '../common';
 import { useMainLayoutStyles } from './main-layout.styles';
 
@@ -26,7 +25,6 @@ export const MainLayout: React.FC = (props) => {
         mobileButton={<ToggleThemeButton />}
       />
       <LayoutContainer>{props.children}</LayoutContainer>
-      <LayoutLinks />
       <LayoutFooter />
     </LayoutWrapper>
   );

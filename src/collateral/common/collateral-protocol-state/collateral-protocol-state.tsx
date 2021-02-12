@@ -22,7 +22,7 @@ export const CollateralProtocolState: React.FC = () => {
     <div className={classes.root}>
       <Tippy
         visible={isHoveringBalanced}
-        content="This marker indicates if the protocol is fully balanced"
+        content="The protocol is fully balanced "
         maxWidth={248}
         offset={[140, 8]}
         animation={false}
@@ -40,7 +40,7 @@ export const CollateralProtocolState: React.FC = () => {
 
       <Tippy
         visible={isHoveringUnbalanced}
-        content="This marker indicates if the protocol does not have enough collateral, but it can be compensated by the funds of the protocol"
+        content="Insufficient collateral stored but unbalance can be compensated by the funds of the protocol"
         maxWidth={248}
         offset={[140, 8]}
         animation={false}
@@ -57,7 +57,7 @@ export const CollateralProtocolState: React.FC = () => {
       </Tippy>
       <Tippy
         visible={isHoveringCritical}
-        content="This marker indicates if the protocol in critical state and community have to take actions immediately to return the protocol in balanced state"
+        content="The protocol is in a critical state, the community must take immediate actions to rebalance the protocol"
         maxWidth={248}
         offset={[140, 8]}
         animation={false}

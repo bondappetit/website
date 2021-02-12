@@ -22,7 +22,7 @@ export const VotingInfoProposalList: React.FC<VotingInfoProposalListProps> = (
   return (
     <div className={props.className}>
       <Typography variant="h1" align="center" className={classes.title}>
-        Influence the future of protocol using the BondAppétit Governance
+        Shape the future of the protocol using BondAppétit Governance (BAG)
       </Typography>
       <Typography
         variant="h4"

@@ -37,7 +37,7 @@ export const CollateralIssuer: React.FC = () => {
       <MainLayout>
         <PageWrapper className={classes.root}>
           <CollateralDescription
-            backLink={{ to: URLS.collateral.list, title: 'Collaterals' }}
+            backLink={{ to: URLS.collateral.list, title: 'Collateral' }}
             title={company.title}
             type={company.type}
             url={company.url}

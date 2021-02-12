@@ -42,7 +42,7 @@ export const useStakingUnstakingBlock = (
     );
 
     const date = endStakingBlockNumberGreaterZero
-      ? dateUtils.format(dateUtils.addSeconds(seconds), 'HH:mm:ss MMMM DD')
+      ? dateUtils.format(dateUtils.addSeconds(seconds), 'HH:mm:ss on MMMM DD')
       : '';
 
     const greaterThan = staking

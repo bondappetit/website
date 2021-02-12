@@ -24,7 +24,7 @@ export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
               To acquire {props.tokenName}.
             </Typography>
             <Typography variant="h5">
-              Stake your BAG to{' '}
+              1. Stake your BAG to{' '}
               <Link
                 href={`https://app.uniswap.org/#/add/${props.tokenAddresses?.join(
                   '/'

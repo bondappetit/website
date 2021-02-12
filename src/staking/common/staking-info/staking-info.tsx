@@ -11,12 +11,12 @@ const STAKING_CARDS = [
   },
   {
     title: '10%',
-    body: `of all governance tokens reserved for protocol usage will be distributed as staking reward for Phase 1 investors only during 6 month.`,
+    body: `of all governance tokens reserved for protocol’s usage will be distributed as staking reward in the first 6 months for Phase 1 investors only.`,
     date: '15 February 2021 — 15 July 2021'
   },
   {
     title: '90%',
-    body: `of all governance tokens reserved for protocol usage will be distributed as staking reward in Phase 2 and 3.`,
+    body: `of all governance tokens reserved for protocol usage will be distributed as staking rewards during Phases 2 and 3.`,
     date: '15 April 2021 - 15 February 2023'
   }
 ];

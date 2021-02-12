@@ -29,16 +29,17 @@ export const CollateralList: React.FC = () => {
 
   return (
     <>
-      <Head title="The assets secured by real world collateral in form of bonds" />
+      <Head title="The protocol’s assets are backed by real-world collateral in the form of bonds" />
       <MainLayout>
         <PageWrapper>
           <Typography variant="h1" align="center" className={classes.title}>
-            The assets secured by real world collateral in form of bonds
+            The protocol’s assets are backed by real-world collateral in the
+            form of bonds
           </Typography>
           <Plate className={clsx(classes.list, classes.ussued)}>
             <CollateralCard
               className={classes.card}
-              title={<>Issued stablecoin</>}
+              title={<>USDp Issued</>}
               body={
                 <>
                   {!stableCoinBalance && <Skeleton />}

@@ -31,7 +31,7 @@ export const VotingInfoHowTo: React.FC<VotingInfoHowToProps> = (props) => {
             component="p"
             className={classes.howToGetCardText}
           >
-            You can buy bond appetit governance token on exchange
+            Buy BAG on the exchange
           </Typography>
           <Button onClick={props.onBuy}>Buy</Button>
         </Plate>

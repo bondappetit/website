@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 
 import { Typography, Link } from 'src/common';
@@ -8,11 +9,11 @@ export type LayoutLinksProps = {
   className?: string;
 };
 
-export const LayoutLinks: React.FC<LayoutLinksProps> = () => {
+export const LayoutLinks: React.FC<LayoutLinksProps> = (props) => {
   const classes = useLayoutLinksStyles();
 
   return (
-    <div className={classes.root}>
+    <div className={clsx(classes.root, props.className)}>
       {SOCIAL_LINKS.map((link) => (
         <Link
           href={link.link}
@@ -22,7 +23,7 @@ export const LayoutLinks: React.FC<LayoutLinksProps> = () => {
         >
           <link.icon className={classes.linkIcon} />
           <Typography
-            variant="h4"
+            variant="body1"
             component="span"
             className={classes.linkTitle}
           >

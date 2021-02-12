@@ -32,7 +32,7 @@ export const CollateralDetail: React.FC = () => {
         <PageWrapper>
           <div className={classes.section}>
             <CollateralDescription
-              backLink={{ to: URLS.collateral.list, title: 'Collaterals' }}
+              backLink={{ to: URLS.collateral.list, title: 'Collateral' }}
               title="DigiRepresent Services OÜ"
               type="Borrower"
             >

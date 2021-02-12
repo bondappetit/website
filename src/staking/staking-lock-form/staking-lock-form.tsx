@@ -212,6 +212,8 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         tokenAddresses={tokenAddresses}
       />
       <StakingAttentionModal
+        date={props.stakeDate}
+        blockNumber={props.stakeBlockNumber}
         open={stakingAttentionOpen}
         onClose={toggleStakingAttention}
         onStake={() => {
