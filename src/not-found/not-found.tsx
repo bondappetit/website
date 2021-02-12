@@ -1,7 +1,9 @@
 import React from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Head, Typography } from 'src/common';
+import { Head, Link, Typography } from 'src/common';
 import { MainLayout } from 'src/layouts';
+import { URLS } from 'src/router/urls';
 import { useNotFoundStyles } from './not-found.styles';
 
 export const NotFound: React.FC = () => {
@@ -12,11 +14,20 @@ export const NotFound: React.FC = () => {
       <Head title="404" />
       <MainLayout>
         <div className={classes.root}>
-          <Typography variant="h2" align="center">
+          <Typography variant="h1" align="center" className={classes.title}>
             404
           </Typography>
-          <Typography variant="h3" align="center">
-            Not found
+          <Typography
+            variant="body1"
+            align="center"
+            className={classes.subtitle}
+          >
+            Oops! The page you were looking for doesn’t exist.
+          </Typography>
+          <Typography variant="body1" align="center">
+            <Link component={ReactRouterLink} to={URLS.main} color="blue">
+              Go home →
+            </Link>
           </Typography>
         </div>
       </MainLayout>

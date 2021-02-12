@@ -1,5 +1,4 @@
 'use strict';
-
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -25,6 +24,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -631,6 +631,9 @@ module.exports = function (webpackEnv) {
             new RegExp('/[^/?]+\\.[^/]+$')
           ]
         }),
+
+      process.env.ANALYZE === 'true' &&
+        new BundleAnalyzerPlugin(),
       // TypeScript type checking
       useTypeScript &&
         new ForkTsCheckerWebpackPlugin({

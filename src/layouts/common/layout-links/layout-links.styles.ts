@@ -7,30 +7,27 @@ export const useLayoutLinksStyles = createUseStyles(
     root: {
       display: 'flex',
       justifyContent: 'center',
-      alignItems: 'center',
-      marginBottom: 104,
-
-      [theme.breakpoints.md()]: {
-        marginBottom: 160
-      }
+      alignItems: 'center'
     },
 
     link: {
       display: 'flex',
       alignItems: 'center',
-      margin: [0, 9],
+      margin: [0, 5],
 
       [theme.breakpoints.up(375)]: {
-        margin: [0, 16]
+        margin: [0, 10]
       },
 
       [theme.breakpoints.md()]: {
-        margin: [0, 42]
+        margin: [0, 20]
       }
     },
 
     linkIcon: {
-      marginRight: 8
+      marginRight: 4,
+      width: 24,
+      height: 24
     },
 
     linkTitle: {

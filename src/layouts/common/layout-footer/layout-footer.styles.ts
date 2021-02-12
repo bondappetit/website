@@ -6,14 +6,45 @@ export const useLayoutFooterStyles = createUseStyles(
   (theme: Theme) => ({
     footer: {
       display: 'flex',
-      flexWrap: 'wrap',
+      padding: '0 16px',
+      marginBottom: 24,
       justifyContent: 'center',
       alignItems: 'center',
-      marginBottom: 40,
 
       [theme.breakpoints.md()]: {
-        marginBottom: 64
+        marginBottom: 36,
+        padding: '0 37px',
+        justifyContent: 'space-between'
       }
+    },
+
+    copyright: {
+      [theme.breakpoints.md()]: {
+        width: 216
+      }
+    },
+
+    links: {
+      display: 'none',
+
+      [theme.breakpoints.lg()]: {
+        display: 'flex'
+      }
+    },
+
+    button: {
+      border: `1px solid ${theme.colors.primary}`,
+      borderRadius: 16,
+      padding: '0 16px 0 8px',
+      display: 'none',
+
+      [theme.breakpoints.md()]: {
+        display: 'inline-flex'
+      }
+    },
+
+    icon: {
+      marginRight: 8
     }
   }),
   {

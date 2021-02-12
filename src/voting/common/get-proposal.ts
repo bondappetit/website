@@ -1,4 +1,4 @@
-import { ethers } from 'ethers';
+import { formatUnits } from 'ethers/lib.esm/utils';
 
 import { Network } from 'src/common';
 import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
@@ -25,13 +25,13 @@ export const getProposal = (proposalId: number) => (
     proposer: proposal?.proposer,
     status: await governorContract.methods.state(proposalId).call(),
     forCount: Number(
-      ethers.utils.formatUnits(
+      formatUnits(
         String(proposal?.forVotes),
         networkConfig.assets.Governance.decimals
       )
     ),
     againstCount: Number(
-      ethers.utils.formatUnits(
+      formatUnits(
         String(proposal?.againstVotes),
         networkConfig.assets.Governance.decimals
       )
