@@ -5,3 +5,5 @@ export * from './main-voting';
 export * from './main-steps';
 export * from './main-editor';
 export * from './main-audit';
+export * from './main-how-it-works';
+export * from './main-how-it-works-modal';

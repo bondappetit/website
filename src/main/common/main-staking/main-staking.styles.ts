@@ -5,7 +5,11 @@ export const useMainStakingStyles = createUseStyles(
   (theme: Theme) => ({
     title: {
       maxWidth: 1200,
-      margin: '0 auto 104px'
+      margin: '0 auto 64px',
+
+      [theme.breakpoints.md()]: {
+        margin: '0 auto 35px'
+      }
     },
 
     subtitle: {
@@ -43,6 +47,19 @@ export const useMainStakingStyles = createUseStyles(
         marginBottom: 48,
         borderRadius: 24
       }
+    },
+
+    howItWorks: {
+      marginBottom: 120,
+      display: 'none',
+
+      [theme.breakpoints.md()]: {
+        display: 'block'
+      }
+    },
+
+    playButton: {
+      marginRight: 15
     }
   }),
   {

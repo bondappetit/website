@@ -19,7 +19,8 @@ import {
   MainVoting,
   MainSteps,
   MainEditor,
-  MainAudit
+  MainAudit,
+  MainHowItWorksModal
 } from './common';
 import { useMainStyles } from './main.styles';
 
@@ -42,6 +43,7 @@ export const Main: React.FC = () => {
   const [linkModalOpen, togglelinkModal] = useToggle(false);
   const [marketModalOpen, toggleMarketModal] = useToggle(false);
   const [sellModalOpen, toggleSellModal] = useToggle(false);
+  const [howItWorksOpen, toggleHowItWorksModal] = useToggle(false);
 
   const handleBuy = useCallback(() => {
     togglelinkModal(false);
@@ -62,6 +64,7 @@ export const Main: React.FC = () => {
             className={classes.staking}
             staking={stakingBalancesWithApy}
             totalValueLocked={totalValueLocked.toFormat(2)}
+            onHowItWorks={toggleHowItWorksModal}
           />
           <MainStablecoin
             className={classes.stable}
@@ -95,6 +98,10 @@ export const Main: React.FC = () => {
         open={marketModalOpen}
         onClose={toggleMarketModal}
         tokenName="USDp"
+      />
+      <MainHowItWorksModal
+        open={howItWorksOpen}
+        onClose={toggleHowItWorksModal}
       />
     </>
   );
