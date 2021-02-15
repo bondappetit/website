@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-export const useInvestingSubscribeFormStyles = createUseStyles(
+export const useSubscribeStyles = createUseStyles(
   {
     root: {
       display: 'flex',
@@ -15,10 +15,7 @@ export const useInvestingSubscribeFormStyles = createUseStyles(
     },
 
     modalButton: {
-      fontSize: 32,
-      lineHeight: '40px',
-      paddingTop: 4,
-      paddingBottom: 4
+      width: '100%'
     },
 
     input: {
@@ -29,6 +26,6 @@ export const useInvestingSubscribeFormStyles = createUseStyles(
     }
   },
   {
-    name: 'InvestingSubscribeForm'
+    name: 'Subscribe'
   }
 );

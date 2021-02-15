@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-export const useInvestingSuccessSubscribeStyles = createUseStyles(
+export const useSubscribeSuccessStyles = createUseStyles(
   {
     root: {
       display: 'flex',
@@ -12,9 +12,13 @@ export const useInvestingSuccessSubscribeStyles = createUseStyles(
     text: {
       margin: 'auto',
       maxWidth: 400
+    },
+
+    button: {
+      width: '100%'
     }
   },
   {
-    name: 'InvestingSuccessSubscribe'
+    name: 'SubscribeSuccess'
   }
 );
