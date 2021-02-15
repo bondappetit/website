@@ -50,16 +50,13 @@ export const useMainStakingStyles = createUseStyles(
     },
 
     howItWorks: {
-      marginBottom: 120,
       display: 'none',
 
       [theme.breakpoints.md()]: {
-        display: 'block'
+        display: 'block',
+        width: 900,
+        margin: '0 auto 120px'
       }
-    },
-
-    playButton: {
-      marginRight: 15
     }
   }),
   {

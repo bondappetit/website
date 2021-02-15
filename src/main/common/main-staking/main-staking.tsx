@@ -8,20 +8,18 @@ import {
   Carousel,
   Skeleton,
   Plate,
-  humanizeNumeral,
-  ButtonBase
+  humanizeNumeral
 } from 'src/common';
 import { URLS } from 'src/router/urls';
-import { ReactComponent as PlayIcon } from 'src/assets/icons/play.svg';
 import type { APYWithTokenName } from 'src/staking';
 import { StakingCard } from 'src/staking';
 import { useMainStakingStyles } from './main-staking.styles';
+import { MainHowItWorks } from '../main-how-it-works';
 
 export type MainStakingProps = {
   className?: string;
   staking: APYWithTokenName[];
   totalValueLocked: string;
-  onHowItWorks?: () => void;
 };
 
 const Grid: React.FC = (props) => {
@@ -44,17 +42,9 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
         The first DeFi protocol that connects real-world debt instruments with
         the Ethereum ecosystem
       </Typography>
-      <Typography
-        variant="h4"
-        component="div"
-        align="center"
-        className={classes.howItWorks}
-      >
-        <ButtonBase onClick={props.onHowItWorks}>
-          <PlayIcon className={classes.playButton} />
-          See how it works
-        </ButtonBase>
-      </Typography>
+      <div className={classes.howItWorks}>
+        <MainHowItWorks />
+      </div>
       <Plate color="grey" withoutBorder className={classes.totalValueLocked}>
         <Typography variant="h4" align="center">
           Total Value Locked:{' '}
