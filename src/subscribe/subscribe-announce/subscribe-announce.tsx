@@ -8,21 +8,19 @@ import {
   Input,
   Button,
   Typography,
-  isEmail
+  isEmail,
+  unisenderQueryString
 } from 'src/common';
 import { config } from 'src/config';
-import { useInvestingSubscribeFormStyles } from './investing-subscribe-form.styles';
-import { InvestingSuccessSubscribe } from '../common';
+import { SubscribeSuccess, useSubscribeStyles } from '../common';
 
-export type InvestingSubscribeFormProps = {
+export type SubscribeAnnounceProps = {
   open: boolean;
   onClose: () => void;
 };
 
-export const InvestingSubscribeForm: React.FC<InvestingSubscribeFormProps> = (
-  props
-) => {
-  const classes = useInvestingSubscribeFormStyles();
+export const SubscribeAnnounce: React.FC<SubscribeAnnounceProps> = (props) => {
+  const classes = useSubscribeStyles();
 
   const [open, toggle] = useToggle(false);
 
@@ -54,11 +52,7 @@ export const InvestingSubscribeForm: React.FC<InvestingSubscribeFormProps> = (
     },
 
     onSubmit: async (formValues) => {
-      const query = Object.entries(formValues)
-        .flatMap(([key, value]) => {
-          return `fields[${key}]=${value}`;
-        })
-        .join('&');
+      const query = unisenderQueryString(formValues);
 
       try {
         await fetch(
@@ -117,11 +111,10 @@ export const InvestingSubscribeForm: React.FC<InvestingSubscribeFormProps> = (
           </form>
         </SmallModal>
       </Modal>
-      <InvestingSuccessSubscribe
-        name={formik.values.Name}
-        open={open}
-        onClose={handleClose}
-      />
+      <SubscribeSuccess open={open} onClose={handleClose}>
+        Thank you, {formik.values.Name}!<br />
+        We will notify you as soon as or pre-sale round starts.
+      </SubscribeSuccess>
     </>
   );
 };

@@ -6,10 +6,10 @@ import { Typography, PageWrapper, DocumentList, Head } from 'src/common';
 import { config } from 'src/config';
 import Litepaper from 'src/assets/pdf/BA-concept.pdf';
 import { URLS } from 'src/router/urls';
+import { SubscribeAnnounce } from 'src/subscribe/subscribe-announce';
 import { InvestingForm } from './investing-form';
 import { useInvestingStyles } from './investing.styles';
 import { InvestingAnnouncement, InvestingStatistic } from './common';
-import { InvestingSubscribeForm } from './investing-subscribe-form';
 
 const DOCUMENTS = [
   {
@@ -59,7 +59,7 @@ export const Investing: React.FC = () => {
               </>
             }
           />
-          <InvestingSubscribeForm onClose={toggleModal} open={open} />
+          <SubscribeAnnounce onClose={toggleModal} open={open} />
         </PageWrapper>
       </MainLayout>
     </>
