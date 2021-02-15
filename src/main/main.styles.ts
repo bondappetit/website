@@ -24,11 +24,19 @@ export const useMainStyles = createUseStyles(
       marginBottom: 55
     },
 
-    collateral: {
+    section: {
       marginBottom: 120,
 
       [theme.breakpoints.md()]: {
         marginBottom: 240
+      }
+    },
+
+    audit: {
+      display: 'none',
+
+      [theme.breakpoints.md()]: {
+        display: 'block'
       }
     },
 

@@ -1,7 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { useToggle } from 'react-use';
+import clsx from 'clsx';
 
 import { Head, PageWrapper, LinkModal, useNetworkConfig } from 'src/common';
+import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
 import { MainLayout } from 'src/layouts';
 import { StablecoinMarketModal, useStableCoinBalance } from 'src/stablecoin';
 import {
@@ -16,7 +18,8 @@ import {
   MainCollateral,
   MainVoting,
   MainSteps,
-  MainEditor
+  MainEditor,
+  MainAudit
 } from './common';
 import { useMainStyles } from './main.styles';
 
@@ -66,7 +69,11 @@ export const Main: React.FC = () => {
             onBuy={togglelinkModal}
             onSell={toggleSellModal}
           />
-          <MainCollateral className={classes.collateral} />
+          <MainCollateral className={classes.section} />
+          <MainAudit
+            className={clsx(classes.section, classes.audit)}
+            companyLogo={<MixBytesLogo />}
+          />
           <MainSteps className={classes.steps} />
           <MainEditor className={classes.editor} />
           <MainVoting />
