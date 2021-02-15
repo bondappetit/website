@@ -22,8 +22,7 @@ export const InvestingStatistic: React.FC<InvestingStatisticProps> = (
         align="center"
         className={classes.title}
       >
-        Right now, BondAppétit protocol is waiting for the security audit
-        result.
+        Right now, BondAppétit is undergoing the external security audit
       </Typography>
     </div>
   );
