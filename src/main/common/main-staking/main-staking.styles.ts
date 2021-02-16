@@ -8,7 +8,7 @@ export const useMainStakingStyles = createUseStyles(
       margin: '0 auto 64px',
 
       [theme.breakpoints.md()]: {
-        margin: '0 auto 35px'
+        margin: '0 auto 104px'
       }
     },
 
@@ -50,12 +50,11 @@ export const useMainStakingStyles = createUseStyles(
     },
 
     howItWorks: {
-      display: 'none',
+      width: '100%',
+      margin: '0 auto 104px',
 
       [theme.breakpoints.md()]: {
-        display: 'block',
-        width: 900,
-        margin: '0 auto 120px'
+        margin: '0 auto 200px'
       }
     }
   }),
