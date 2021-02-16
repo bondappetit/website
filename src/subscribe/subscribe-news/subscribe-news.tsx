@@ -1,18 +1,12 @@
 import React, { useCallback } from 'react';
-import { useFormik } from 'formik';
 import { useToggle } from 'react-use';
 
+import { Modal, SmallModal, Input, Button, Typography } from 'src/common';
 import {
-  Modal,
-  SmallModal,
-  Input,
-  Button,
-  Typography,
-  isEmail,
-  unisenderQueryString
-} from 'src/common';
-import { config } from 'src/config';
-import { SubscribeSuccess, useSubscribeStyles } from '../common';
+  SubscribeSuccess,
+  useSubscribeNews,
+  useSubscribeStyles
+} from '../common';
 
 export type SubscribeNewsProps = {
   open: boolean;
@@ -24,47 +18,7 @@ export const SubscribeNews: React.FC<SubscribeNewsProps> = (props) => {
 
   const [open, toggle] = useToggle(false);
 
-  const formik = useFormik({
-    initialValues: {
-      email: ''
-    },
-
-    validateOnBlur: false,
-    validateOnChange: false,
-
-    validate: (formValues) => {
-      const errors: Partial<typeof formValues> = {};
-
-      if (!formValues.email) {
-        errors.email = 'Required';
-      }
-
-      if (!isEmail(formValues.email)) {
-        errors.email = 'invalid email';
-      }
-
-      return errors;
-    },
-
-    onSubmit: async (formValues) => {
-      const query = unisenderQueryString(formValues);
-
-      try {
-        await fetch(
-          `${config.UNISENDER_API}&list_ids=38&${query}&double_optin=3`,
-          {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'content-type': 'text/plain' }
-          }
-        );
-
-        toggle(true);
-      } catch (error) {
-        console.error(error.message);
-      }
-    }
-  });
+  const formik = useSubscribeNews(toggle);
 
   const handleClose = useCallback(() => {
     props.onClose();
@@ -104,7 +58,7 @@ export const SubscribeNews: React.FC<SubscribeNewsProps> = (props) => {
           component="div"
           align="center"
         >
-          Thanks for subscriprion!
+          Thanks for subscription!
         </Typography>
         We will share with you the hotest news and latest updates of
         BondAppétit.
