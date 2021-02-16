@@ -15,8 +15,14 @@ export const MainHowItWorks: React.FC = () => {
   return (
     <div className={classes.root}>
       {!play && (
-        <>
-          <ButtonBase onClick={togglePlay} className={classes.button}>
+        <div
+          onClick={togglePlay}
+          onKeyDown={togglePlay}
+          role="button"
+          tabIndex={0}
+          className={classes.buttonWrap}
+        >
+          <ButtonBase className={classes.button}>
             <PlayIcon className={classes.buttonPlayIcon} />
             <Typography variant="h4" component="span">
               See how it works
@@ -27,7 +33,7 @@ export const MainHowItWorks: React.FC = () => {
             src={`https://i.ytimg.com/vi/${VIDEO_UD}/maxresdefault.jpg`}
             alt=""
           />
-        </>
+        </div>
       )}
       {play && (
         <iframe

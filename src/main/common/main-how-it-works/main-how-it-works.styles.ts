@@ -33,6 +33,10 @@ export const useMainHowItWorksStyles = createUseStyles(
       objectFit: 'cover'
     },
 
+    buttonWrap: {
+      cursor: 'pointer'
+    },
+
     button: {
       alignItems: 'center',
       position: 'absolute',
