@@ -58,7 +58,7 @@ export const useInputStyles = createUseStyles(
 
       [theme.mixins.hover()]: {
         '&:focus': {
-          color: theme.colors.primary
+          color: 'inherit'
         }
       }
     },

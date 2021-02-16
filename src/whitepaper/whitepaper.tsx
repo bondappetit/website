@@ -1,9 +1,11 @@
+import { useTimeoutFn, useToggle } from 'react-use';
 import React, { useRef } from 'react';
 import clsx from 'clsx';
 
 import WhitepaperMd from 'src/assets/md/bondappétit_whitepaper.md';
 import WhitepaperPdf from 'src/assets/pdf/whitepaper.pdf';
 import OnepagerPdf from 'src/assets/pdf/BA-concept.pdf';
+import { SubscribeNewsFloat } from 'src/subscribe/subscribe-news-float';
 import {
   Typography,
   Link,
@@ -22,6 +24,10 @@ export const WhitePaper: React.FC = () => {
   const ref = useRef<HTMLButtonElement | null>(null);
 
   const visible = useUpButton(ref);
+
+  const [open, toggle] = useToggle(false);
+
+  useTimeoutFn(toggle, 30000);
 
   return (
     <>
@@ -62,6 +68,7 @@ export const WhitePaper: React.FC = () => {
           UP
         </ButtonBase>
       </Portal>
+      {open && <SubscribeNewsFloat onClose={toggle} />}
     </>
   );
 };
