@@ -52,7 +52,7 @@ export const WhitePaper: React.FC = () => {
               target="_blank"
               color="blue"
             >
-              ↓ investment-deck.pdf
+              ↓ litepaper.pdf
             </Link>
           </Typography>
         </div>
