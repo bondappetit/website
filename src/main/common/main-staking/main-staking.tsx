@@ -14,6 +14,7 @@ import { URLS } from 'src/router/urls';
 import type { APYWithTokenName } from 'src/staking';
 import { StakingCard } from 'src/staking';
 import { useMainStakingStyles } from './main-staking.styles';
+import { MainHowItWorks } from '../main-how-it-works';
 
 export type MainStakingProps = {
   className?: string;
@@ -41,6 +42,9 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
         The first DeFi protocol that connects real-world debt instruments with
         the Ethereum ecosystem
       </Typography>
+      <div className={classes.howItWorks}>
+        <MainHowItWorks />
+      </div>
       <Plate color="grey" withoutBorder className={classes.totalValueLocked}>
         <Typography variant="h4" align="center">
           Total Value Locked:{' '}

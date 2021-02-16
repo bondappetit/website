@@ -10,13 +10,20 @@ export type SmallModalProps = {
   onClose?: () => void;
   onBack?: () => void;
   mobile?: boolean;
+  className?: string;
 };
 
 export const SmallModal: React.FC<SmallModalProps> = (props) => {
   const classes = useSmallModalStyles();
 
   return (
-    <div className={clsx(classes.root, props.mobile && classes.mobile)}>
+    <div
+      className={clsx(
+        classes.root,
+        props.className,
+        props.mobile && classes.mobile
+      )}
+    >
       <div className={classes.header}>
         {props.onBack && (
           <ButtonBase className={classes.backButton} onClick={props.onBack}>
