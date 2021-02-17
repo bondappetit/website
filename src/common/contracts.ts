@@ -19,6 +19,7 @@ import type { Budget } from 'src/generate/Budget';
 import type { Buyback } from 'src/generate/Buyback';
 import type { UniswapMarketMaker } from 'src/generate/UniswapMarketMaker';
 import type { CollateralMarket } from 'src/generate/CollateralMarket';
+import type { VestingSplitter } from 'src/generate/VestingSplitter';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -150,5 +151,12 @@ export const useCollateralMarketContract = createUseContract<CollateralMarket>(
   (network) => ({
     abi: network.contracts.CollateralMarket.abi,
     address: network.contracts.CollateralMarket.address
+  })
+);
+
+export const useVestingSplitterContract = createUseContract<VestingSplitter>(
+  (network) => ({
+    abi: network.contracts.VestingSplitter.abi,
+    address: network.contracts.VestingSplitter.address
   })
 );
