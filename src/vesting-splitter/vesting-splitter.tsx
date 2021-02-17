@@ -1,61 +1,80 @@
 import React from 'react';
+import { useToggle } from 'react-use';
 
-import { PageWrapper, Button, Input, Typography } from 'src/common';
+import {
+  PageWrapper,
+  Button,
+  Typography,
+  dateUtils,
+  humanizeNumeral,
+  BN,
+  Modal,
+  SmallModal
+} from 'src/common';
 import { MainLayout } from 'src/layouts';
+import {
+  useVestingsplitterShares,
+  useVestingSplitterTotalSupply,
+  VestingSplitterChangeShare
+} from './common';
 import { useVestingSplitterInfo } from './common/use-vesting-splitter-info';
 
 type VestingBlockProps = {
+  id: string;
   amount: string;
   date: string;
   description: string;
-  withDrawal?: boolean;
+  withdrawal?: boolean;
   onWithDrawal?: () => void;
 };
 
 const VestingBlock: React.VFC<VestingBlockProps> = (props) => {
   return (
-    <>
+    <div>
+      <div>{props.id}</div>
       <Typography variant="h4">Amount: {props.amount} BAG</Typography>
-      <Typography variant="h4">Date: {props.date}</Typography>
+      <Typography variant="h4">
+        Date: {dateUtils.formatUnix(props.date, 'YYYY-MM-DD')}
+      </Typography>
       <Typography variant="h4">Description: {props.description}</Typography>
       <Typography variant="h4">
-        Withdrawal: {props.withDrawal ? 'yes' : 'no'}
+        Withdrawal: {props.withdrawal ? 'yes' : 'no'}
       </Typography>
-      {!props.withDrawal && (
+      {!props.withdrawal && (
         <Button onClick={props.onWithDrawal}>Withdraw</Button>
       )}
-    </>
+    </div>
   );
 };
 
 type SharesBlockProps = {
   share: string;
-  balance: string;
-  address: string;
+  balance: BN;
+  account: string;
 };
 
 const SharesBlock: React.VFC<SharesBlockProps> = (props) => {
   return (
     <div>
-      <Typography variant="h3">{props.address}</Typography>
-      <Typography variant="h4">Share: {props.share}</Typography>
-      <Typography variant="h4">Balance: {props.balance} BAG</Typography>
+      <Typography variant="h3">{props.account}</Typography>
+      <Typography variant="h4">Share: {props.share} %</Typography>
+      <Typography variant="h4">
+        Balance: {humanizeNumeral(props.balance)} BAG
+      </Typography>
     </div>
   );
 };
 
-const RecipientForm: React.VFC = () => {
-  return (
-    <form>
-      <Input placeholder="address" />
-      <Input placeholder="share" />
-      <Button type="submit">Add recipient</Button>
-    </form>
-  );
-};
-
 export const VestingSplitter: React.FC = () => {
-  const [splitterInfo, handleWithDraw] = useVestingSplitterInfo();
+  const [open, toggle] = useToggle(false);
+
+  const [splitterInfo, handleWithDrawInfo] = useVestingSplitterInfo();
+  const [totalSupply, handleSplit] = useVestingSplitterTotalSupply();
+  const [
+    splitterShares,
+    handleWithdrawShares,
+    handleChangeShares
+  ] = useVestingsplitterShares();
 
   return (
     <MainLayout>
@@ -67,36 +86,43 @@ export const VestingSplitter: React.FC = () => {
             splitterInfo.value?.map((splitterItem) => (
               <VestingBlock
                 key={splitterItem.id}
-                amount={splitterItem.amount}
-                date={splitterItem.date}
-                description={splitterItem.description}
-                withDrawal={splitterItem.withdrawal}
-                onWithDrawal={() => handleWithDraw(splitterItem.id)}
+                {...splitterItem}
+                onWithDrawal={() => handleWithDrawInfo(splitterItem.id)}
               />
             ))
           )}
-          <Button>Split 500 BAG</Button>
+          {totalSupply.loading && (
+            <Typography variant="body1">loading...</Typography>
+          )}
+          {totalSupply.value?.isGreaterThan(0) && (
+            <Button onClick={handleSplit}>
+              Split {humanizeNumeral(totalSupply.value)} BAG
+            </Button>
+          )}
         </div>
         <div>
-          <div>
-            <SharesBlock
-              share="20%"
-              balance="10000"
-              address="0x9403932015576D13Fb26B135ed7a35d5d95C18d4"
-            />
-            <Button>Withdraw</Button>
-          </div>
-          <div>
-            <SharesBlock
-              share="40%"
-              balance="50000"
-              address="0x876A207aD9f6f0fA2C58A7902B2E7568a41c299f"
-            />
-            <Button>Change</Button>
-            <Button>Delete</Button>
-          </div>
+          {splitterShares.value?.shares.map((sharesItem) => (
+            <div key={sharesItem.account}>
+              <SharesBlock {...sharesItem} />
+              {sharesItem.balance.isGreaterThan(0) &&
+                sharesItem.canWithdraw && (
+                  <Button onClick={handleWithdrawShares}>Withdraw</Button>
+                )}
+            </div>
+          ))}
+          <Button onClick={toggle}>Change</Button>
         </div>
-        <RecipientForm />
+        <Modal open={open} onClose={toggle}>
+          <SmallModal>
+            <VestingSplitterChangeShare
+              accountsWithSharesMap={
+                splitterShares.value?.accountsWithSharesMap
+              }
+              onClose={toggle}
+              onSubmit={handleChangeShares}
+            />
+          </SmallModal>
+        </Modal>
       </PageWrapper>
     </MainLayout>
   );

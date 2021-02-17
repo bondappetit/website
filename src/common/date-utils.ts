@@ -20,8 +20,8 @@ export const dateUtils = {
   format: (date: string | number | Dayjs, format = 'YYYY-MM-DD') =>
     dayjs(date).format(format),
 
-  formatUnix: (timestamp: number, format = 'hh:mm:ss') => {
-    const date = dayjs.unix(timestamp);
+  formatUnix: (timestamp: number | string, format = 'hh:mm:ss') => {
+    const date = dayjs.unix(Number(timestamp));
 
     return date.format(format);
   },
