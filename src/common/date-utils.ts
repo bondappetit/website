@@ -20,8 +20,8 @@ export const dateUtils = {
   format: (date: string | number | Dayjs, format = 'YYYY-MM-DD') =>
     dayjs(date).format(format),
 
-  formatUnix: (timestamp: number, format = 'hh:mm:ss') => {
-    const date = dayjs.unix(timestamp);
+  formatUnix: (timestamp: number | string, format = 'hh:mm:ss') => {
+    const date = dayjs.unix(Number(timestamp));
 
     return date.format(format);
   },
@@ -30,5 +30,10 @@ export const dateUtils = {
 
   isBeforeNow: (date: number | string) => dayjs(date).isBefore(dayjs()),
 
-  addSeconds: (seconds: number) => dayjs().add(seconds, 'second')
+  addSeconds: (seconds: number) => dayjs().add(seconds, 'second'),
+
+  after: (
+    from: string | number | Date | Dayjs,
+    to: string | number | Date | Dayjs
+  ) => dayjs(from).isAfter(to)
 };

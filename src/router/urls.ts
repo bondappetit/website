@@ -15,6 +15,7 @@ export const URLS = {
   },
   oracle: '/oracle',
   vesting: '/vesting',
+  vestingSplitter: '/vesting-splitter',
   monitor: '/monitor',
   profitSplitter: '/profit-splitter',
   whitepaper: '/whitepaper',
