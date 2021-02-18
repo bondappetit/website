@@ -32,8 +32,8 @@ export const dateUtils = {
 
   addSeconds: (seconds: number) => dayjs().add(seconds, 'second'),
 
-  equal: (
+  after: (
     from: string | number | Date | Dayjs,
     to: string | number | Date | Dayjs
-  ) => dayjs(from).isSame(to)
+  ) => dayjs(from).isAfter(to)
 };

@@ -42,7 +42,7 @@ const VestingBlock: React.VFC<VestingBlockProps> = (props) => {
         Withdrawal: {props.withdrawal ? 'yes' : 'no'}
       </Typography>
       {!props.withdrawal &&
-        dateUtils.equal(
+        dateUtils.after(
           new Date(dateUtils.formatUnix(props.date, 'YYYY-MM-DD HH:mm:ss')),
           new Date()
         ) && <Button onClick={props.onWithDrawal}>Withdraw</Button>}

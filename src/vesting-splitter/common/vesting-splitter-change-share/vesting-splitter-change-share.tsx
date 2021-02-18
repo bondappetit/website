@@ -30,12 +30,17 @@ export const VestingSplitterChangeShare: React.FC<VestingSplitterChangeShareProp
       const result = formValues.accountsWithShares.reduce<{
         accountsWithShares: [string, string][];
         sum: number;
+        addresses: string[];
       }>(
         (acc, [account, share]) => {
           const currentErrorArr: [string, string] = ['', ''];
 
           if (!account) {
             currentErrorArr[0] = 'Specify account, please!';
+          }
+
+          if (acc.addresses.includes(account)) {
+            currentErrorArr[0] = 'Current address is already specified';
           }
 
           if (account && !isEthAddress(account)) {
@@ -50,13 +55,19 @@ export const VestingSplitterChangeShare: React.FC<VestingSplitterChangeShareProp
             currentErrorArr[1] = 'Shares amount must be between 1 and 100';
           }
 
+          acc.addresses.push(account);
+
           acc.sum = Number(share) + acc.sum;
 
           acc.accountsWithShares.push(currentErrorArr);
 
           return acc;
         },
-        { accountsWithShares: [], sum: 0 }
+        {
+          accountsWithShares: [],
+          sum: 0,
+          addresses: []
+        }
       );
 
       if (result.sum !== 100) {
