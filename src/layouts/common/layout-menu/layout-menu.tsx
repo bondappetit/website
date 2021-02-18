@@ -46,7 +46,13 @@ const MENU_ITEMS: MenuItem[] = [
   {
     title: 'Resources',
     link: '',
-    children: SOCIAL_LINKS
+    children: [
+      {
+        title: 'Docs',
+        link: URLS.docs.list
+      },
+      ...SOCIAL_LINKS
+    ]
   },
 
   {

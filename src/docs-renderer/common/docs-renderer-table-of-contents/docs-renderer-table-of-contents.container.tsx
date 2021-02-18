@@ -21,7 +21,7 @@ export const DocsRendererTableOfContentsContainer: React.FC<DocsRendererTableOfC
 ) => {
   const [tableOfContent, setTableOfContent] = useState<TableOfContent[]>([]);
 
-  const params = useParams();
+  const params = useParams<{ contractName?: string }>();
   const { hash } = useLocation();
 
   useEffect(() => {
@@ -40,7 +40,8 @@ export const DocsRendererTableOfContentsContainer: React.FC<DocsRendererTableOfC
   const activeElement = useScrollSpy({
     activeSectionDefault: '0',
     sectionElements: HEADINGS,
-    offsetPx: 10
+    offsetPx: 10,
+    routerParams: params.contractName
   });
 
   return <>{props.children(tableOfContent, activeElement)}</>;
