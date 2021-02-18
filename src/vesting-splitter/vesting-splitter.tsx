@@ -35,7 +35,7 @@ const VestingBlock: React.VFC<VestingBlockProps> = (props) => {
       <div>{props.id}</div>
       <Typography variant="h4">Amount: {props.amount} BAG</Typography>
       <Typography variant="h4">
-        Date: {dateUtils.formatUnix(props.date, 'YYYY-MM-DD hh:mm')}
+        Date: {dateUtils.formatUnix(props.date, 'YYYY-MM-DD HH:mm')}
       </Typography>
       <Typography variant="h4">Description: {props.description}</Typography>
       <Typography variant="h4">
@@ -43,7 +43,7 @@ const VestingBlock: React.VFC<VestingBlockProps> = (props) => {
       </Typography>
       {!props.withdrawal &&
         dateUtils.equal(
-          new Date(dateUtils.formatUnix(props.date, 'YYYY-MM-DD hh:mm:ss')),
+          new Date(dateUtils.formatUnix(props.date, 'YYYY-MM-DD HH:mm:ss')),
           new Date()
         ) && <Button onClick={props.onWithDrawal}>Withdraw</Button>}
     </div>
