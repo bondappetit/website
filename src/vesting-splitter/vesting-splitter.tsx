@@ -22,10 +22,11 @@ import { useVestingSplitterStyles } from './vesting-splitter.styles';
 
 type VestingBlockProps = {
   id: string;
-  amount: string;
+  amount: BN;
   date: number;
   description: string;
   withdrawal?: boolean;
+  withDrawLoading: boolean;
   onWithDrawal?: () => void;
 };
 
@@ -33,7 +34,9 @@ const VestingBlock: React.VFC<VestingBlockProps> = (props) => {
   return (
     <div>
       <div>{props.id}</div>
-      <Typography variant="h4">Amount: {props.amount} BAG</Typography>
+      <Typography variant="h4">
+        Amount: {humanizeNumeral(props.amount)} BAG
+      </Typography>
       <Typography variant="h4">
         Date: {dateUtils.formatUnix(props.date, 'YYYY-MM-DD HH:mm')}
       </Typography>
@@ -45,7 +48,15 @@ const VestingBlock: React.VFC<VestingBlockProps> = (props) => {
         dateUtils.after(
           new Date(),
           new Date(dateUtils.formatUnix(props.date, 'YYYY-MM-DD HH:mm:ss'))
-        ) && <Button onClick={props.onWithDrawal}>Withdraw</Button>}
+        ) && (
+          <Button
+            loading={props.withDrawLoading}
+            disabled={props.withDrawLoading}
+            onClick={props.onWithDrawal}
+          >
+            Withdraw
+          </Button>
+        )}
     </div>
   );
 };
@@ -72,13 +83,30 @@ export const VestingSplitter: React.FC = () => {
   const [open, toggle] = useToggle(false);
   const classes = useVestingSplitterStyles();
 
-  const [splitterInfo, handleWithDrawInfo] = useVestingSplitterInfo();
-  const [totalSupply, handleSplit] = useVestingSplitterTotalSupply();
+  const [
+    splitterInfo,
+    withDrawInfo,
+    withDrawInfoLoading
+  ] = useVestingSplitterInfo();
+  const [totalSupply, split, splitLoading] = useVestingSplitterTotalSupply();
   const [
     splitterShares,
     handleWithdrawShares,
-    handleChangeShares
+    handleChangeShares,
+    withDrawSharesLoading
   ] = useVestingsplitterShares();
+
+  const handleSplit = async () => {
+    await split();
+
+    splitterShares.retry();
+  };
+
+  const handleWithDrawInfo = async (periodId: string) => {
+    await withDrawInfo(periodId);
+
+    totalSupply.retry();
+  };
 
   return (
     <MainLayout>
@@ -92,6 +120,7 @@ export const VestingSplitter: React.FC = () => {
               <VestingBlock
                 key={splitterItem.id}
                 {...splitterItem}
+                withDrawLoading={withDrawInfoLoading}
                 onWithDrawal={() => handleWithDrawInfo(splitterItem.id)}
               />
             ))
@@ -100,7 +129,11 @@ export const VestingSplitter: React.FC = () => {
             <Typography variant="body1">loading...</Typography>
           )}
           {totalSupply.value?.isGreaterThan(0) && (
-            <Button onClick={handleSplit}>
+            <Button
+              loading={splitLoading}
+              disabled={splitLoading}
+              onClick={handleSplit}
+            >
               Split {humanizeNumeral(totalSupply.value)} BAG
             </Button>
           )}
@@ -110,10 +143,15 @@ export const VestingSplitter: React.FC = () => {
           {splitterShares.value?.shares.map((sharesItem) => (
             <div key={sharesItem.account}>
               <SharesBlock {...sharesItem} />
-              {sharesItem.balance.isGreaterThan(0) &&
-                sharesItem.canWithdraw && (
-                  <Button onClick={handleWithdrawShares}>Withdraw</Button>
-                )}
+              {sharesItem.balance.isGreaterThan(0) && sharesItem.canWithdraw && (
+                <Button
+                  loading={withDrawSharesLoading}
+                  disabled={withDrawSharesLoading}
+                  onClick={handleWithdrawShares}
+                >
+                  Withdraw
+                </Button>
+              )}
             </div>
           ))}
           <Button onClick={toggle}>Change</Button>

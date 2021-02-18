@@ -1,6 +1,6 @@
 import { useWeb3React } from '@web3-react/core';
 import { useCallback } from 'react';
-import { useAsyncRetry } from 'react-use';
+import { useAsyncRetry, useToggle } from 'react-use';
 import {
   BN,
   estimateGas,
@@ -11,6 +11,8 @@ import Web3 from 'web3';
 
 export const useVestingsplitterShares = () => {
   const vestingSplitterContract = useVestingSplitterContract();
+
+  const [loading, toggleLoading] = useToggle(false);
 
   const networkConfig = useNetworkConfig();
 
@@ -63,20 +65,30 @@ export const useVestingsplitterShares = () => {
   const handleWithDraw = useCallback(async () => {
     if (!account) return;
 
+    toggleLoading(true);
+
     const withDraw = vestingSplitterContract.methods.withdraw(
       networkConfig.assets.Governance.address
     );
 
-    await withDraw.send({
-      from: account,
-      gas: await estimateGas(withDraw, {
-        from: account
-      })
-    });
+    try {
+      await withDraw.send({
+        from: account,
+        gas: await estimateGas(withDraw, {
+          from: account
+        })
+      });
+
+      state.retry();
+    } finally {
+      toggleLoading(false);
+    }
   }, [
     vestingSplitterContract,
     account,
-    networkConfig.assets.Governance.address
+    networkConfig.assets.Governance.address,
+    state,
+    toggleLoading
   ]);
 
   const handleChangeShares = useCallback(
@@ -100,5 +112,5 @@ export const useVestingsplitterShares = () => {
     [state, vestingSplitterContract, account]
   );
 
-  return [state, handleWithDraw, handleChangeShares] as const;
+  return [state, handleWithDraw, handleChangeShares, loading] as const;
 };

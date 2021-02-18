@@ -1,10 +1,12 @@
 import { useWeb3React } from '@web3-react/core';
 import { useCallback } from 'react';
-import { useAsyncRetry } from 'react-use';
+import { useAsyncRetry, useToggle } from 'react-use';
 import Web3 from 'web3';
 
 import {
+  BN,
   estimateGas,
+  useNetworkConfig,
   useVestingContract,
   useVestingSplitterContract
 } from 'src/common';
@@ -12,6 +14,9 @@ import {
 export const useVestingSplitterInfo = () => {
   const vestingSplitterContract = useVestingSplitterContract();
   const vestingContract = useVestingContract();
+  const networkConfig = useNetworkConfig();
+
+  const [loading, toggleLoading] = useToggle(false);
 
   const { account } = useWeb3React<Web3>();
 
@@ -22,33 +27,47 @@ export const useVestingSplitterInfo = () => {
 
     return result.map(([id, amount, date, description, withdrawal]) => ({
       id,
-      amount,
+      amount: new BN(amount).div(
+        new BN(10).pow(networkConfig.assets.Governance.decimals)
+      ),
       date: Number(date),
       description,
       withdrawal
     }));
-  }, [vestingSplitterContract, vestingContract]);
+  }, [vestingSplitterContract, vestingContract, networkConfig]);
 
   const handleWithDraw = useCallback(
     async (periodId: string) => {
       if (!account) return;
+
+      toggleLoading(true);
 
       const vestingWithdraw = vestingSplitterContract.methods.vestingWithdraw(
         vestingContract.options.address,
         periodId
       );
 
-      await vestingWithdraw.send({
-        from: account,
-        gas: await estimateGas(vestingWithdraw, {
-          from: account
-        })
-      });
+      try {
+        await vestingWithdraw.send({
+          from: account,
+          gas: await estimateGas(vestingWithdraw, {
+            from: account
+          })
+        });
 
-      state.retry();
+        state.retry();
+      } finally {
+        toggleLoading(false);
+      }
     },
-    [vestingSplitterContract, vestingContract.options.address, state, account]
+    [
+      vestingSplitterContract,
+      vestingContract.options.address,
+      state,
+      account,
+      toggleLoading
+    ]
   );
 
-  return [state, handleWithDraw] as const;
+  return [state, handleWithDraw, loading] as const;
 };
