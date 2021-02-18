@@ -30,5 +30,10 @@ export const dateUtils = {
 
   isBeforeNow: (date: number | string) => dayjs(date).isBefore(dayjs()),
 
-  addSeconds: (seconds: number) => dayjs().add(seconds, 'second')
+  addSeconds: (seconds: number) => dayjs().add(seconds, 'second'),
+
+  equal: (
+    from: string | number | Date | Dayjs,
+    to: string | number | Date | Dayjs
+  ) => dayjs(from).isSame(to)
 };

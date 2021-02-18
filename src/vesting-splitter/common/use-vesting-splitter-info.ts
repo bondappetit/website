@@ -23,7 +23,7 @@ export const useVestingSplitterInfo = () => {
     return result.map(([id, amount, date, description, withdrawal]) => ({
       id,
       amount,
-      date,
+      date: Number(date),
       description,
       withdrawal
     }));

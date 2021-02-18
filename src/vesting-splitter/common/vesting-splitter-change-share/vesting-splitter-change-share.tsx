@@ -3,9 +3,10 @@ import React from 'react';
 
 import { Button, ButtonBase, Input, isEthAddress } from 'src/common';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-24.svg';
+import { useVestingSplitterChangeShareStyles } from './vesting-splitter-change-share.styles';
 
 const betweenOneAndHundred = (share: string | number) =>
-  Number(share) > 0 && Number(share) < 100;
+  Number(share) > 0 && Number(share) <= 100;
 
 export type VestingSplitterChangeShareProps = {
   onClose: () => void;
@@ -16,6 +17,8 @@ export type VestingSplitterChangeShareProps = {
 export const VestingSplitterChangeShare: React.FC<VestingSplitterChangeShareProps> = (
   props
 ) => {
+  const classes = useVestingSplitterChangeShareStyles();
+
   const formik = useFormik({
     initialValues: {
       accountsWithShares: [...(props.accountsWithSharesMap?.entries() ?? [])]
@@ -97,7 +100,7 @@ export const VestingSplitterChangeShare: React.FC<VestingSplitterChangeShareProp
   });
 
   return (
-    <form onSubmit={formik.handleSubmit}>
+    <form onSubmit={formik.handleSubmit} className={classes.root}>
       {formik.values.accountsWithShares.map(([account, share], index) => {
         const id = String(index);
 

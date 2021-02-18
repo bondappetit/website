@@ -18,11 +18,12 @@ import {
   VestingSplitterChangeShare
 } from './common';
 import { useVestingSplitterInfo } from './common/use-vesting-splitter-info';
+import { useVestingSplitterStyles } from './vesting-splitter.styles';
 
 type VestingBlockProps = {
   id: string;
   amount: string;
-  date: string;
+  date: number;
   description: string;
   withdrawal?: boolean;
   onWithDrawal?: () => void;
@@ -34,15 +35,17 @@ const VestingBlock: React.VFC<VestingBlockProps> = (props) => {
       <div>{props.id}</div>
       <Typography variant="h4">Amount: {props.amount} BAG</Typography>
       <Typography variant="h4">
-        Date: {dateUtils.formatUnix(props.date, 'YYYY-MM-DD')}
+        Date: {dateUtils.formatUnix(props.date, 'YYYY-MM-DD hh:mm')}
       </Typography>
       <Typography variant="h4">Description: {props.description}</Typography>
       <Typography variant="h4">
         Withdrawal: {props.withdrawal ? 'yes' : 'no'}
       </Typography>
-      {!props.withdrawal && (
-        <Button onClick={props.onWithDrawal}>Withdraw</Button>
-      )}
+      {!props.withdrawal &&
+        dateUtils.equal(
+          new Date(dateUtils.formatUnix(props.date, 'YYYY-MM-DD hh:mm:ss')),
+          new Date()
+        ) && <Button onClick={props.onWithDrawal}>Withdraw</Button>}
     </div>
   );
 };
@@ -67,6 +70,7 @@ const SharesBlock: React.VFC<SharesBlockProps> = (props) => {
 
 export const VestingSplitter: React.FC = () => {
   const [open, toggle] = useToggle(false);
+  const classes = useVestingSplitterStyles();
 
   const [splitterInfo, handleWithDrawInfo] = useVestingSplitterInfo();
   const [totalSupply, handleSplit] = useVestingSplitterTotalSupply();
@@ -79,6 +83,7 @@ export const VestingSplitter: React.FC = () => {
   return (
     <MainLayout>
       <PageWrapper>
+        <Typography variant="h2">Vesting</Typography>
         <div>
           {splitterInfo.loading ? (
             <Typography variant="body1">loading...</Typography>
@@ -100,6 +105,7 @@ export const VestingSplitter: React.FC = () => {
             </Button>
           )}
         </div>
+        <Typography variant="h2">Shares</Typography>
         <div>
           {splitterShares.value?.shares.map((sharesItem) => (
             <div key={sharesItem.account}>
@@ -113,7 +119,7 @@ export const VestingSplitter: React.FC = () => {
           <Button onClick={toggle}>Change</Button>
         </div>
         <Modal open={open} onClose={toggle}>
-          <SmallModal>
+          <SmallModal className={classes.modal}>
             <VestingSplitterChangeShare
               accountsWithSharesMap={
                 splitterShares.value?.accountsWithSharesMap

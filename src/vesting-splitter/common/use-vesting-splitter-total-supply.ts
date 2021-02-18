@@ -6,26 +6,27 @@ import { useWeb3React } from '@web3-react/core';
 import {
   BN,
   estimateGas,
+  useBalance,
   useNetworkConfig,
   useVestingSplitterContract
 } from 'src/common';
 
 export const useVestingSplitterTotalSupply = () => {
   const vestingSplitterContract = useVestingSplitterContract();
+  const getBalance = useBalance();
 
   const networkConfig = useNetworkConfig();
 
   const { account } = useWeb3React<Web3>();
 
   const state = useAsyncRetry(async () => {
-    const result = await vestingSplitterContract.methods
-      .totalSupply(networkConfig.assets.Governance.address)
-      .call();
+    const result = await getBalance({
+      tokenAddress: networkConfig.assets.Governance.address,
+      accountAddress: vestingSplitterContract.options.address
+    });
 
-    return new BN(result).div(
-      new BN(10).pow(networkConfig.assets.Governance.decimals)
-    );
-  }, [networkConfig, vestingSplitterContract]);
+    return result.div(new BN(10).pow(networkConfig.assets.Governance.decimals));
+  }, [networkConfig, vestingSplitterContract, getBalance]);
 
   const handleSplitTotalSupply = useCallback(async () => {
     if (!account) return;
