@@ -33,7 +33,7 @@ export const useVestingSplitterTotalSupply = () => {
 
     return result
       .minus(new BN(totalSupply))
-      .div(new BN(10).pow(networkConfig.assets.Govvernance.decimals));
+      .div(new BN(10).pow(networkConfig.assets.Governance.decimals));
   }, [networkConfig, vestingSplitterContract, getBalance]);
 
   const handleSplitTotalSupply = useCallback(async () => {
