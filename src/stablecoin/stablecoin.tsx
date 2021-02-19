@@ -1,7 +1,6 @@
-import React, { useCallback } from 'react';
-import { useToggle } from 'react-use';
+import React from 'react';
 
-import { Head, PageWrapper, LinkModal, useNetworkConfig } from 'src/common';
+import { Head, PageWrapper } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
   StablecoinDecentralized,
@@ -11,32 +10,25 @@ import {
   useStablecoinInfo
 } from './common';
 import { useStablecoinStyles } from './stablecoin.styles';
-import { StablecoinCollateralMarketModal } from './stablecoin-collateral-market-modal';
-import { StablecoinMarketModal } from './stablecoin-market-modal';
+import { StablecoinModals, useStablecoinModals } from './stablecoin-modals';
 
 export const Stablecoin: React.FC = () => {
   const classes = useStablecoinStyles();
 
-  const [linkModalOpen, togglelinkModal] = useToggle(false);
-  const [collateralMarketModalOpen, toggleCollateralMarketModal] = useToggle(
-    false
-  );
-  const [marketModalOpen, toggleMarketModal] = useToggle(false);
-  const [sellModalOpen, toggleSellModal] = useToggle(false);
-
   const stablecoinInfo = useStablecoinInfo();
 
-  const networkConfig = useNetworkConfig();
-
-  const handleBuyCollateralMarket = useCallback(() => {
-    togglelinkModal(false);
-    toggleCollateralMarketModal();
-  }, [togglelinkModal, toggleCollateralMarketModal]);
-
-  const handleBuyMarket = useCallback(() => {
-    togglelinkModal(false);
-    toggleMarketModal();
-  }, [togglelinkModal, toggleMarketModal]);
+  const {
+    linkModalOpen,
+    togglelinkModal,
+    sellModalOpen,
+    toggleSellModal,
+    handleBuyCollateralMarket,
+    handleBuyMarket,
+    marketModalOpen,
+    toggleMarketModal,
+    collateralMarketModalOpen,
+    toggleCollateralMarketModal
+  } = useStablecoinModals();
 
   return (
     <>
@@ -55,29 +47,17 @@ export const Stablecoin: React.FC = () => {
           <StablecoinFaq className={classes.section} />
         </PageWrapper>
       </MainLayout>
-      <LinkModal
-        open={linkModalOpen}
-        onClose={togglelinkModal}
-        withBuyMarket
+      <StablecoinModals
+        marketModalOpen={marketModalOpen}
+        toggleMarketModal={toggleMarketModal}
+        linkModalOpen={linkModalOpen}
+        togglelinkModal={togglelinkModal}
+        sellModalOpen={sellModalOpen}
+        toggleSellModal={toggleSellModal}
         onBuyCollateralMarket={handleBuyCollateralMarket}
         onBuyMarket={handleBuyMarket}
-        withBuyCollateralMarket
-        tokenAddress={networkConfig.assets.Stable.address}
-      />
-      <LinkModal
-        open={sellModalOpen}
-        onClose={toggleSellModal}
-        tokenAddress={networkConfig.assets.Stable.address}
-      />
-      <StablecoinMarketModal
-        open={marketModalOpen}
-        onClose={toggleMarketModal}
-        tokenName="USDp"
-      />
-      <StablecoinCollateralMarketModal
-        open={collateralMarketModalOpen}
-        onClose={toggleCollateralMarketModal}
-        tokenName="USDp"
+        toggleCollateralMarketModal={toggleCollateralMarketModal}
+        collateralMarketModalOpen={collateralMarketModalOpen}
       />
     </>
   );
