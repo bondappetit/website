@@ -165,13 +165,13 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   useTimeoutInterval(
     async () => {
       const balanceOfToken = await getBalance({
-        tokenAddress: network.assets.Governance.address,
-        tokenName: network.assets.Governance.name
+        tokenAddress: network.assets.Stable.address,
+        tokenName: network.assets.Stable.name
       });
 
       setBalance(
         balanceOfToken
-          .div(new BN(10).pow(network.assets.Governance.decimals))
+          .div(new BN(10).pow(network.assets.Stable.decimals))
           .toString(10)
       );
     },

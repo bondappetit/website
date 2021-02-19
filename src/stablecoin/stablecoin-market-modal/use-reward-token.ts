@@ -24,11 +24,14 @@ export const useRewardToken = (options: Options) => {
 
     const product = new BN(reward.product);
 
-    const rewardGov = new BN(reward.reward);
+    const rewardGov = new BN(reward.reward).div(
+      new BN(10).pow(networkConfig.assets.Governance.decimals)
+    );
 
     return {
       product,
-      rewardGov: rewardGov.div(product).multipliedBy(100)
+      rewardGov,
+      rewardPercent: rewardGov.div(product).multipliedBy(100)
     };
   }, [marketContract.methods, currency, payment]);
 

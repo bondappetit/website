@@ -33,6 +33,7 @@ export type FormModalProps = {
   reward?: {
     product: BN;
     rewardGov: BN;
+    rewardPercent: BN;
   };
   openWalletListModal: () => void;
 };
@@ -88,7 +89,8 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
           content={
             <>
               <Typography variant="body2">
-                Buying USDP during Phase1 you will get extra 5% of you
+                Buying USDP during Phase1 you will get extra{' '}
+                {props.reward?.rewardPercent.toFormat(1) || '0'}% of you
                 investment in BAG as a reward.
               </Typography>
               <br />
@@ -102,7 +104,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
           className={classes.tippy}
         >
           <Typography variant="body2" align="center" className={classes.reward}>
-            + {props.reward?.rewardGov.toFormat(1) || '0'} BAG reward
+            + {humanizeNumeral(props.reward?.rewardGov)} BAG reward
           </Typography>
         </Tippy>
       </span>
