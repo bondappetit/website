@@ -1,5 +1,5 @@
 import { useFormik, FormikContext } from 'formik';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDebounce, useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
@@ -9,7 +9,6 @@ import { useWeb3React } from '@web3-react/core';
 
 import { WalletModal } from 'src/wallets';
 import {
-  useCollateralMarketContract,
   useNetworkConfig,
   useBalance,
   useDynamicContract,
@@ -19,14 +18,15 @@ import {
   InfoCardFailure,
   InfoCardLoader,
   InfoCardSuccess,
-  estimateGas,
+  useMarketContract,
   autoApprove,
+  estimateGas,
   BN,
-  useTimeoutInterval,
-  humanizeNumeral
+  useTimeoutInterval
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
-import { useStablecoinTokens } from './use-stablecoin-tokens';
+import { useGovernanceTokens } from './use-stablecoin-tokens';
+import { useRewardToken } from './use-reward-token';
 
 export type StablecoinMarketModalProps = {
   open: boolean;
@@ -39,9 +39,9 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
 ) => {
   const [balance, setBalance] = useState('0');
   const [result, setResult] = useState<BN>(new BN(0));
-  const tokens = useStablecoinTokens();
+  const tokens = useGovernanceTokens();
   const { account } = useWeb3React<Web3>();
-  const collateralMarketContract = useCollateralMarketContract();
+  const marketContract = useMarketContract();
   const network = useNetworkConfig();
   const getBalance = useBalance();
   const getContract = useDynamicContract<Ierc20>({
@@ -58,19 +58,19 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   const formik = useFormik({
     initialValues: {
       currency: 'USDC',
-      amount: ''
+      payment: ''
     },
 
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
 
       if (!formValues.currency) {
-        error.currency = 'Choose currency';
+        error.currency = 'Required';
         return error;
       }
 
-      if (Number(formValues.amount) <= 0) {
-        error.amount = 'Amount of currency is required';
+      if (Number(formValues.payment) <= 0) {
+        error.payment = 'Required';
         return error;
       }
 
@@ -86,9 +86,9 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
       if (
         balanceOfToken
           .div(new BN(10).pow(currentToken.decimals))
-          .isLessThan(formValues.amount)
+          .isLessThan(formValues.payment)
       ) {
-        error.amount = `Not enough ${formValues.currency}`;
+        error.payment = `Not enough ${formValues.currency}`;
       }
 
       return error;
@@ -101,27 +101,42 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
 
       const currentContract = getContract(currentToken.address);
 
-      const formInvest = new BN(formValues.amount)
+      const formInvest = new BN(formValues.payment)
         .multipliedBy(new BN(10).pow(currentToken.decimals))
         .toString(10);
 
       try {
-        await autoApprove(
-          currentContract,
-          account,
-          collateralMarketContract.options.address,
-          formInvest
-        );
-        window.onbeforeunload = () => 'wait please transaction in progress';
+        if (currentToken.name === 'ETH') {
+          const buyFromETH = marketContract.methods.buyFromETH();
 
-        const buyStableToken = collateralMarketContract.methods.buy(
-          currentContract.options.address,
-          formInvest
-        );
-        await buyStableToken.send({
-          from: account,
-          gas: await estimateGas(buyStableToken, { from: account })
-        });
+          await buyFromETH.send({
+            from: account,
+            value: formInvest,
+            gas: await estimateGas(buyFromETH, {
+              from: account,
+              value: formInvest
+            })
+          });
+        } else {
+          if (!currentContract) return;
+
+          await autoApprove(
+            currentContract,
+            account,
+            marketContract.options.address,
+            formInvest
+          );
+          window.onbeforeunload = () => 'wait please transaction in progress';
+
+          const buy = marketContract.methods.buy(
+            currentContract.options.address,
+            formInvest
+          );
+          await buy.send({
+            from: account,
+            gas: await estimateGas(buy, { from: account })
+          });
+        }
 
         failureToggle(false);
         successToggle(true);
@@ -136,27 +151,27 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
 
   useDebounce(
     () => {
-      if (!formik.values.amount) {
+      if (!formik.values.payment) {
         setResult(new BN(0));
         return;
       }
 
-      setResult(new BN(formik.values.amount));
+      setResult(new BN(formik.values.payment));
     },
     100,
-    [formik.values.amount, formik.values.currency, tokens]
+    [formik.values.payment, formik.values.currency, tokens.value]
   );
 
   useTimeoutInterval(
     async () => {
       const balanceOfToken = await getBalance({
-        tokenAddress: network.assets.Stable.address,
-        tokenName: network.assets.Stable.name
+        tokenAddress: network.assets.Governance.address,
+        tokenName: network.assets.Governance.name
       });
 
       setBalance(
         balanceOfToken
-          .div(new BN(10).pow(network.assets.Stable.decimals))
+          .div(new BN(10).pow(network.assets.Governance.decimals))
           .toString(10)
       );
     },
@@ -175,26 +190,42 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     formik.resetForm();
   }, [formik, props]);
 
+  const reward = useRewardToken({
+    currency: formik.values.currency,
+    payment: formik.values.payment
+  });
+
+  const tokenCost = useMemo(
+    () =>
+      new BN(1)
+        .multipliedBy(governanceInUSDC)
+        .div(new BN(10).pow(network.assets.USDC.decimals))
+        .toString(10),
+    [governanceInUSDC, network.assets.USDC.decimals]
+  );
+
   return (
     <>
       <FormikContext.Provider value={formik}>
         <FormModal
           onClose={handleClose}
           open={props.open}
-          tokenName="USDp"
-          tokens={tokens}
+          reward={reward.value}
+          withReward
+          tokenName={props.tokenName}
+          tokens={tokens.value ?? []}
           balance={balance}
-          tokenCost={governanceInUSDC}
-          result={humanizeNumeral(result)}
+          tokenCost={tokenCost}
+          result={result.toString(10)}
           openWalletListModal={walletsToggle}
         />
       </FormikContext.Provider>
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <SmallModal>
           <InfoCardSuccess
-            tokenName="USDp"
+            tokenName={props.tokenName}
             onClick={handleSuccessClose}
-            purchased={humanizeNumeral(result)}
+            purchased={result.toString(10)}
           />
         </SmallModal>
       </Modal>

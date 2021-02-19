@@ -5,7 +5,10 @@ import clsx from 'clsx';
 import { Head, PageWrapper, LinkModal, useNetworkConfig } from 'src/common';
 import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
 import { MainLayout } from 'src/layouts';
-import { StablecoinMarketModal, useStableCoinBalance } from 'src/stablecoin';
+import {
+  StablecoinCollateralMarketModal,
+  useStableCoinBalance
+} from 'src/stablecoin';
 import {
   useStakingApy,
   useStakingBalances,
@@ -82,8 +85,8 @@ export const Main: React.FC = () => {
       <LinkModal
         open={linkModalOpen}
         onClose={togglelinkModal}
-        onBuy={handleBuy}
-        withBuy
+        onBuyCollateralMarket={handleBuy}
+        withBuyCollateralMarket
         tokenAddress={networkConfig.assets.Stable.address}
       />
       <LinkModal
@@ -91,7 +94,7 @@ export const Main: React.FC = () => {
         onClose={toggleSellModal}
         tokenAddress={networkConfig.assets.Stable.address}
       />
-      <StablecoinMarketModal
+      <StablecoinCollateralMarketModal
         open={marketModalOpen}
         onClose={toggleMarketModal}
         tokenName="USDp"
