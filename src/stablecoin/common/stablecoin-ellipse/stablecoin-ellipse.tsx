@@ -31,11 +31,11 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
   const classes = useStablecoinEllipseStyles();
 
   const dailyVolumeUSD = useMemo(
-    () => round(props.tokenInfo?.data.tokenDayDatas?.[0]?.dailyVolumeUSD),
+    () => round(props.tokenInfo?.data?.tokenDayDatas?.[0]?.dailyVolumeUSD),
     [props.tokenInfo]
   );
   const totalLiquidityUSD = useMemo(
-    () => round(props.tokenInfo?.data.tokenDayDatas?.[0]?.totalLiquidityUSD),
+    () => round(props.tokenInfo?.data?.tokenDayDatas?.[0]?.totalLiquidityUSD),
     [props.tokenInfo]
   );
 

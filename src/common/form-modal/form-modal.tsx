@@ -14,11 +14,11 @@ import { Modal } from '../modal';
 import { FormModalSelect } from './form-modal-select';
 import { Asset } from '../types';
 import { useFormModalStyles } from './form-modal.styles';
-import { humanizeNumeral } from '../bignumber';
+import { BN, humanizeNumeral } from '../bignumber';
 
 export type FormModalValues = {
   currency: string;
-  amount: string;
+  payment: string;
 };
 
 export type FormModalProps = {
@@ -29,6 +29,12 @@ export type FormModalProps = {
   result: string;
   balance: string;
   tokenCost: string;
+  withReward?: boolean;
+  reward?: {
+    product: BN;
+    rewardGov: BN;
+    rewardPercent: BN;
+  };
   openWalletListModal: () => void;
 };
 
@@ -54,23 +60,59 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
     [props]
   );
 
-  const tooltip = (isHovering: boolean) => (
-    <span>
-      <Tippy
-        visible={isHovering}
-        content={`The given price is not exact, as the final price will be calculated based on the current ${props.tokenName} conversion rate on Uniswap`}
-        maxWidth={280}
-        offset={[140, 8]}
-        className={classes.tippy}
-      >
-        <ButtonBase className={classes.hintButton}>
-          <HelpIcon />
-        </ButtonBase>
-      </Tippy>
-    </span>
+  const help = useCallback(
+    (isHovering: boolean) => (
+      <span>
+        <Tippy
+          visible={isHovering}
+          content={`The given price is not exact, as the final price will be calculated based on the current ${props.tokenName} conversion rate on Uniswap`}
+          maxWidth={280}
+          offset={[140, 8]}
+          className={classes.tippy}
+        >
+          <ButtonBase className={classes.hintButton}>
+            <HelpIcon />
+          </ButtonBase>
+        </Tippy>
+      </span>
+    ),
+    [classes.tippy, classes.hintButton, props.tokenName]
   );
 
-  const [hoverable] = useHover(tooltip);
+  const [helpHoverable] = useHover(help);
+
+  const reward = useCallback(
+    (isHovering: boolean) => (
+      <span>
+        <Tippy
+          visible={isHovering}
+          content={
+            <>
+              <Typography variant="body2">
+                Buying USDP during Phase1 you will get extra{' '}
+                {props.reward?.rewardPercent.toFormat(1) || '0'}% of you
+                investment in BAG as a reward.
+              </Typography>
+              <br />
+              <Typography variant="body2">
+                Current price: 1 BAG = ${humanizeNumeral(props.tokenCost)}
+              </Typography>
+            </>
+          }
+          maxWidth={280}
+          offset={[140, 8]}
+          className={classes.tippy}
+        >
+          <Typography variant="body2" align="center" className={classes.reward}>
+            + {humanizeNumeral(props.reward?.rewardGov)} BAG reward
+          </Typography>
+        </Tippy>
+      </span>
+    ),
+    [classes.tippy, classes.reward, props.reward, props.tokenCost]
+  );
+
+  const [rewardHoverable] = useHover(reward);
 
   return (
     <>
@@ -98,11 +140,12 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
               <div className={classes.inputs}>
                 <div className={classes.row}>
                   <Input
-                    name="amount"
+                    name="payment"
                     label="You spent"
                     placeholder="0.0"
+                    type="number"
                     disabled={formik.isSubmitting}
-                    value={formik.values.amount}
+                    value={formik.values.payment}
                     className={classes.input}
                     onChange={formik.handleChange}
                   />
@@ -121,13 +164,15 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                   </div>
                 </div>
                 <div className={classes.row}>
-                  <Input
-                    label="You will get"
-                    readOnly
-                    placeholder="0.0"
-                    className={classes.input}
-                    value={props.result}
-                  />
+                  <div className={classes.input}>
+                    <Typography variant="body1" component="div">
+                      You will get
+                    </Typography>
+                    <Typography variant="inherit" component="div">
+                      {props.result || '0.0'}
+                    </Typography>
+                  </div>
+                  {props.withReward && rewardHoverable}
                   <div className={classes.input}>
                     <Typography variant="body1" component="div">
                       Balance: {humanizeNumeral(props.balance)}
@@ -146,20 +191,20 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                 >
                   {humanizeNumeral(props.tokenCost)} {formik.values.currency}{' '}
                   per {props.tokenName}, estimated price
-                  {hoverable}
+                  {helpHoverable}
                 </Typography>
               )}
               <Button
                 type="submit"
                 disabled={
-                  Boolean(formik.errors.amount || formik.errors.currency) ||
+                  Boolean(formik.errors.payment || formik.errors.currency) ||
                   formik.isSubmitting
                 }
                 loading={formik.isSubmitting}
               >
                 {!account
                   ? 'Connect Wallet'
-                  : formik.errors.amount || formik.errors.currency || 'Buy'}
+                  : formik.errors.payment || formik.errors.currency || 'Buy'}
               </Button>
             </form>
           )}

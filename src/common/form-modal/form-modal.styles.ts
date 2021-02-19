@@ -18,10 +18,20 @@ export const useFormModalStyles = createUseStyles(
     row: {
       display: 'flex',
       justifyContent: 'space-between',
+      position: 'relative',
 
       '&:not(:last-child)': {
         marginBottom: 56
       }
+    },
+
+    reward: {
+      position: 'absolute',
+      top: '100%',
+      left: 0,
+      background: theme.colors.yellow,
+      padding: '4px 9px',
+      borderRadius: 12
     },
 
     input: {

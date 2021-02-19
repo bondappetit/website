@@ -1,32 +1,30 @@
-import { useState, useCallback } from 'react';
-import { development } from '@bondappetit/networks';
+import { useAsyncRetry, useInterval } from 'react-use';
 
 import {
-  useCollateralMarketContract,
   useNetworkConfig,
+  useMarketContract,
   useBalance,
-  BN,
-  useTimeoutInterval
+  Asset,
+  BN
 } from 'src/common';
 
-export type Asset = typeof development.assets[number] & { balance: string };
-
-export const useStablecoinTokens = () => {
-  const [state, setState] = useState<Asset[]>([]);
+export const useGovernanceTokens = () => {
+  const network = useNetworkConfig();
+  const marketContract = useMarketContract();
 
   const getBalance = useBalance();
 
-  const network = useNetworkConfig();
-  const collateralMarketContract = useCollateralMarketContract();
+  const state = useAsyncRetry(async () => {
+    const tokensWithPrice = Object.values(network.assets).reduce<
+      Promise<Asset[]>
+    >(async (previusPromise, asset) => {
+      const acc = await previusPromise;
 
-  const handleGetTokens = useCallback(async () => {
-    const tokenAddresses = await collateralMarketContract.methods
-      .allowedTokens()
-      .call();
+      const isAllowedToken = await marketContract.methods
+        .isAllowedToken(asset.address)
+        .call();
 
-    const tokens = Object.values(network.assets)
-      .filter(({ address }) => tokenAddresses.includes(address))
-      .map(async (asset) => {
+      if (isAllowedToken) {
         const balanceOfToken = await getBalance({
           tokenAddress: asset.address,
           tokenName: asset.symbol
@@ -34,16 +32,21 @@ export const useStablecoinTokens = () => {
 
         const balance = balanceOfToken.div(new BN(10).pow(asset.decimals));
 
-        return {
+        const token: Asset = {
           ...asset,
           balance: balance.isNaN() ? '0' : balance.toString(10)
         };
-      });
 
-    setState(await Promise.all(tokens));
-  }, [collateralMarketContract, network, getBalance]);
+        acc.push(token);
+      }
 
-  useTimeoutInterval(handleGetTokens, 15000, handleGetTokens);
+      return acc;
+    }, Promise.resolve([]));
+
+    return tokensWithPrice;
+  }, [network, marketContract, getBalance]);
+
+  useInterval(state.retry, 15000);
 
   return state;
 };

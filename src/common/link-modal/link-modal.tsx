@@ -1,6 +1,8 @@
 import React from 'react';
+import clsx from 'clsx';
 
 import { ReactComponent as UniswapIcon } from 'src/assets/icons/uniswap.svg';
+import { ReactComponent as BAGicon } from 'src/assets/icons/coins/bag.svg';
 import { Button } from '../button';
 import { Modal } from '../modal';
 import { SmallModal } from '../small-modal';
@@ -12,8 +14,10 @@ export type LinkModalProps = {
   className?: string;
   open: boolean;
   onClose: () => void;
-  onBuy?: () => void;
-  withBuy?: boolean;
+  onBuyCollateralMarket?: () => void;
+  onBuyMarket?: () => void;
+  withBuyMarket?: boolean;
+  withBuyCollateralMarket?: boolean;
   tokenAddress: string;
 };
 
@@ -25,9 +29,36 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
       <SmallModal>
         <div className={classes.root}>
           <div className={classes.buttons}>
-            {props.withBuy && (
-              <Button onClick={props.onBuy} className={classes.button}>
+            {props.withBuyCollateralMarket && (
+              <Button
+                onClick={props.onBuyCollateralMarket}
+                className={classes.button}
+              >
                 Buy from protocol
+              </Button>
+            )}
+            {props.withBuyMarket && (
+              <Button
+                onClick={props.onBuyMarket}
+                className={clsx(classes.button, classes.fromProtocol)}
+              >
+                <Typography
+                  variant="inherit"
+                  component="span"
+                  className={classes.buttonTitle}
+                >
+                  Buy from protocol
+                </Typography>
+                <Typography variant="body1" component="span" align="center">
+                  Get extra +5% of your investment as
+                  <br />
+                  <BAGicon
+                    className={classes.bagIcon}
+                    height="1em"
+                    width="1em"
+                  />{' '}
+                  BAG reward
+                </Typography>
               </Button>
             )}
             <Button
@@ -41,12 +72,6 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
               Uniswap
             </Button>
           </div>
-          <Typography variant="body1">
-            <Typography variant="inherit" weight="bold">
-              Bonus
-            </Typography>
-            : Get +5% as BAG reward buying from protocol
-          </Typography>
         </div>
       </SmallModal>
     </Modal>
