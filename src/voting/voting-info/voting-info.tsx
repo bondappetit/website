@@ -46,7 +46,8 @@ export const VotingInfo: React.FC = () => {
       <LinkModal
         open={linkModalOpen}
         onClose={togglelinkModal}
-        withBuy={false}
+        withBuyCollateralMarket={false}
+        withBuyMarket={false}
         tokenAddress={networkConfig.assets.Governance.address}
       />
     </>

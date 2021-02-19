@@ -4,11 +4,13 @@ import { useMountedState } from 'react-use';
 export const useScrollSpy = ({
   activeSectionDefault = '',
   offsetPx = 0,
-  sectionElements
+  sectionElements,
+  routerParams
 }: {
   activeSectionDefault?: string;
   offsetPx?: number;
   sectionElements: string;
+  routerParams?: unknown;
 }) => {
   const [activeSection, setActiveSection] = useState(activeSectionDefault);
   const sectionElementsRef = useRef<Element[]>([]);
@@ -40,10 +42,19 @@ export const useScrollSpy = ({
 
     window.addEventListener('scroll', handle);
 
-    return () => {
-      window.removeEventListener('scroll', handle);
-    };
-  }, [offsetPx, handle, sectionElements, mounted]);
+    return () => window.removeEventListener('scroll', handle);
+  }, [
+    activeSection,
+    offsetPx,
+    handle,
+    sectionElements,
+    mounted,
+    activeSectionDefault
+  ]);
+
+  useEffect(() => {
+    setActiveSection(activeSectionDefault);
+  }, [routerParams, activeSectionDefault]);
 
   return activeSection;
 };

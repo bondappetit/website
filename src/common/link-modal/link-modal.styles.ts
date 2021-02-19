@@ -24,6 +24,20 @@ export const useLinkModalStyles = createUseStyles(
       '&:not(:last-child)': {
         marginBottom: 24
       }
+    },
+
+    fromProtocol: {
+      flexDirection: 'column',
+      height: 'auto',
+      padding: 40
+    },
+
+    buttonTitle: {
+      marginBottom: 8
+    },
+
+    bagIcon: {
+      marginBottom: -2
     }
   },
   {

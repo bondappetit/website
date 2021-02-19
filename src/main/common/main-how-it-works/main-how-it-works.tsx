@@ -1,5 +1,6 @@
 import React from 'react';
 import { useToggle } from 'react-use';
+import clsx from 'clsx';
 
 import { ButtonBase, Typography } from 'src/common';
 import { ReactComponent as PlayIcon } from 'src/assets/icons/play.svg';
@@ -29,7 +30,7 @@ export const MainHowItWorks: React.FC = () => {
             </Typography>
           </ButtonBase>
           <img
-            className={classes.video}
+            className={clsx(classes.video, classes.cover)}
             src={`https://i.ytimg.com/vi/${VIDEO_UD}/maxresdefault.jpg`}
             alt=""
           />
@@ -38,6 +39,7 @@ export const MainHowItWorks: React.FC = () => {
       {play && (
         <iframe
           className={classes.video}
+          scrolling="no"
           title="This is a unique title"
           src={`https://www.youtube.com/embed/${VIDEO_UD}?autoplay=1`}
           frameBorder="0"

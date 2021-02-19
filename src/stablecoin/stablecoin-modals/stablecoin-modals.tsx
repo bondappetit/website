@@ -1,0 +1,68 @@
+import React from 'react';
+import { useAsyncRetry } from 'react-use';
+
+import {
+  BN,
+  LinkModal,
+  useMarketContract,
+  useNetworkConfig,
+  useStableCoinContract
+} from 'src/common';
+import { StablecoinCollateralMarketModal } from 'src/stablecoin/stablecoin-collateral-market-modal';
+import { StablecoinMarketModal } from 'src/stablecoin/stablecoin-market-modal';
+
+export type StablecoinModalsProps = {
+  linkModalOpen: boolean;
+  togglelinkModal: () => void;
+  onBuyCollateralMarket: () => void;
+  onBuyMarket: () => void;
+  sellModalOpen: boolean;
+  toggleSellModal: () => void;
+  marketModalOpen: boolean;
+  toggleMarketModal: () => void;
+  collateralMarketModalOpen: boolean;
+  toggleCollateralMarketModal: () => void;
+};
+
+export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
+  const networkConfig = useNetworkConfig();
+
+  const marketContract = useMarketContract();
+  const stableContract = useStableCoinContract();
+  const state = useAsyncRetry(async () => {
+    const result = await stableContract.methods
+      .balanceOf(marketContract.options.address)
+      .call();
+
+    return new BN(result).isGreaterThan(0);
+  }, [marketContract.options.address, stableContract.methods]);
+
+  return (
+    <>
+      <LinkModal
+        open={props.linkModalOpen}
+        onClose={props.togglelinkModal}
+        withBuyMarket={state.value}
+        onBuyCollateralMarket={props.onBuyCollateralMarket}
+        onBuyMarket={props.onBuyMarket}
+        withBuyCollateralMarket
+        tokenAddress={networkConfig.assets.Stable.address}
+      />
+      <LinkModal
+        open={props.sellModalOpen}
+        onClose={props.toggleSellModal}
+        tokenAddress={networkConfig.assets.Stable.address}
+      />
+      <StablecoinMarketModal
+        open={props.marketModalOpen}
+        onClose={props.toggleMarketModal}
+        tokenName="USDp"
+      />
+      <StablecoinCollateralMarketModal
+        open={props.collateralMarketModalOpen}
+        onClose={props.toggleCollateralMarketModal}
+        tokenName="USDp"
+      />
+    </>
+  );
+};

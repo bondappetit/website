@@ -1,11 +1,14 @@
-import React, { useCallback, useMemo } from 'react';
-import { useToggle } from 'react-use';
+import React, { useMemo } from 'react';
 import clsx from 'clsx';
 
-import { Head, PageWrapper, LinkModal, useNetworkConfig } from 'src/common';
+import { Head, PageWrapper } from 'src/common';
 import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
 import { MainLayout } from 'src/layouts';
-import { StablecoinMarketModal, useStableCoinBalance } from 'src/stablecoin';
+import {
+  useStableCoinBalance,
+  StablecoinModals,
+  useStablecoinModals
+} from 'src/stablecoin';
 import {
   useStakingApy,
   useStakingBalances,
@@ -35,20 +38,22 @@ export const Main: React.FC = () => {
   const [stakingBalances] = useStakingBalances(fourTokens);
   const stakingBalancesWithApy = useStakingApy(stakingBalances);
 
-  const networkConfig = useNetworkConfig();
-
   const stablecoinBalance = useStableCoinBalance();
 
-  const [linkModalOpen, togglelinkModal] = useToggle(false);
-  const [marketModalOpen, toggleMarketModal] = useToggle(false);
-  const [sellModalOpen, toggleSellModal] = useToggle(false);
-
-  const handleBuy = useCallback(() => {
-    togglelinkModal(false);
-    toggleMarketModal();
-  }, [togglelinkModal, toggleMarketModal]);
-
   const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy);
+
+  const {
+    linkModalOpen,
+    togglelinkModal,
+    sellModalOpen,
+    toggleSellModal,
+    handleBuyCollateralMarket,
+    handleBuyMarket,
+    marketModalOpen,
+    toggleMarketModal,
+    collateralMarketModalOpen,
+    toggleCollateralMarketModal
+  } = useStablecoinModals();
 
   return (
     <>
@@ -79,22 +84,17 @@ export const Main: React.FC = () => {
           <MainVoting />
         </PageWrapper>
       </MainLayout>
-      <LinkModal
-        open={linkModalOpen}
-        onClose={togglelinkModal}
-        onBuy={handleBuy}
-        withBuy
-        tokenAddress={networkConfig.assets.Stable.address}
-      />
-      <LinkModal
-        open={sellModalOpen}
-        onClose={toggleSellModal}
-        tokenAddress={networkConfig.assets.Stable.address}
-      />
-      <StablecoinMarketModal
-        open={marketModalOpen}
-        onClose={toggleMarketModal}
-        tokenName="USDp"
+      <StablecoinModals
+        marketModalOpen={marketModalOpen}
+        toggleMarketModal={toggleMarketModal}
+        linkModalOpen={linkModalOpen}
+        togglelinkModal={togglelinkModal}
+        sellModalOpen={sellModalOpen}
+        toggleSellModal={toggleSellModal}
+        onBuyCollateralMarket={handleBuyCollateralMarket}
+        onBuyMarket={handleBuyMarket}
+        toggleCollateralMarketModal={toggleCollateralMarketModal}
+        collateralMarketModalOpen={collateralMarketModalOpen}
       />
     </>
   );
