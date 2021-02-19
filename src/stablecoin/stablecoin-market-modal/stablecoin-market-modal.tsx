@@ -176,7 +176,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
       );
     },
     15000,
-    network
+    getBalance
   );
 
   const handleSuccessClose = useCallback(() => {

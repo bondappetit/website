@@ -161,7 +161,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
       );
     },
     15000,
-    network
+    getBalance
   );
 
   const handleSuccessClose = useCallback(() => {

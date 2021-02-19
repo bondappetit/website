@@ -143,6 +143,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                     name="payment"
                     label="You spent"
                     placeholder="0.0"
+                    type="number"
                     disabled={formik.isSubmitting}
                     value={formik.values.payment}
                     className={classes.input}

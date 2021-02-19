@@ -18,15 +18,19 @@ export const useRewardToken = (options: Options) => {
 
     if (!currentAsset || !currency || !payment) return;
 
+    const paymentBN = new BN(payment).multipliedBy(
+      new BN(10).pow(currentAsset.decimals)
+    );
+
     const reward = await marketContract.methods
-      .price(currentAsset.address, payment)
+      .price(currentAsset.address, paymentBN.toString(10))
       .call();
 
-    const product = new BN(reward.product);
+    const div = new BN(10).pow(networkConfig.assets.Governance.decimals);
 
-    const rewardGov = new BN(reward.reward).div(
-      new BN(10).pow(networkConfig.assets.Governance.decimals)
-    );
+    const product = new BN(reward.product).div(div);
+
+    const rewardGov = new BN(reward.reward).div(div);
 
     return {
       product,
