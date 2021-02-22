@@ -75,10 +75,13 @@ export const Main: React.FC = () => {
             onSell={toggleSellModal}
           />
           <MainCollateral className={classes.section} />
-          <MainAudit
-            className={clsx(classes.section, classes.audit)}
-            companyLogo={<MixBytesLogo />}
-          />
+          {/* TODO: hide for now */}
+          {false && (
+            <MainAudit
+              className={clsx(classes.section, classes.audit)}
+              companyLogo={<MixBytesLogo />}
+            />
+          )}
           <MainSteps className={classes.steps} />
           <MainEditor className={classes.editor} />
           <MainVoting />
