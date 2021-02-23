@@ -12,6 +12,7 @@ import {
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
+import { config } from 'src/config';
 import { useCollateralListStyles } from './collateral-list.styles';
 import {
   CollateralCard,
@@ -67,9 +68,11 @@ export const CollateralList: React.FC = () => {
               }
             />
           </Plate>
-          <CollateralPhases />
-          {/* TODO: hide for now */}
-          {false && <CollateralBorrowInfo />}
+          {config.IS_COLLATERAL ? (
+            <CollateralBorrowInfo />
+          ) : (
+            <CollateralPhases />
+          )}
         </PageWrapper>
       </MainLayout>
     </>

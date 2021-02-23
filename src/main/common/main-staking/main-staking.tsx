@@ -2,14 +2,7 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useMedia } from 'react-use';
 
-import {
-  Typography,
-  Link,
-  Carousel,
-  Skeleton,
-  Plate,
-  humanizeNumeral
-} from 'src/common';
+import { Typography, Link, Carousel, Plate, humanizeNumeral } from 'src/common';
 import { URLS } from 'src/router/urls';
 import type { APYWithTokenName } from 'src/staking';
 import { StakingCard } from 'src/staking';
@@ -56,7 +49,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
       <Grid>
         {!props.staking.length
           ? Array.from(Array(2), (_, key) => (
-              <Skeleton key={key} className={classes.skeleton} />
+              <StakingCard loading={!props.staking.length} key={key} />
             ))
           : props.staking.map((stakingItem, index) => {
               const id = String(index);
@@ -65,7 +58,6 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
                 <StakingCard
                   key={id}
                   stacked={Boolean(Number(stakingItem.amount))}
-                  tokenKey={stakingItem.key}
                   token={stakingItem.token}
                   reward={stakingItem.reward}
                   totalSupply={stakingItem.totalSupply}

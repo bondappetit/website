@@ -11,32 +11,39 @@ export type SmallModalProps = {
   onBack?: () => void;
   mobile?: boolean;
   className?: string;
+  children?: React.ReactNode;
+  withoutOnclose?: boolean;
 };
 
-export const SmallModal: React.FC<SmallModalProps> = (props) => {
-  const classes = useSmallModalStyles();
+export const SmallModal = React.forwardRef<HTMLDivElement, SmallModalProps>(
+  (props, ref) => {
+    const classes = useSmallModalStyles();
 
-  return (
-    <div
-      className={clsx(
-        classes.root,
-        props.className,
-        props.mobile && classes.mobile
-      )}
-    >
-      <div className={classes.header}>
-        {props.onBack && (
-          <ButtonBase className={classes.backButton} onClick={props.onBack}>
-            <ArrowLeft />
-          </ButtonBase>
+    return (
+      <div
+        ref={ref}
+        className={clsx(
+          classes.root,
+          props.className,
+          props.mobile && classes.mobile
         )}
-        {props.onClose && (
-          <ButtonBase className={classes.closeButton} onClick={props.onClose}>
-            <CloseIcon />
-          </ButtonBase>
-        )}
+      >
+        <div className={classes.header}>
+          {props.onBack && (
+            <ButtonBase className={classes.backButton} onClick={props.onBack}>
+              <ArrowLeft />
+            </ButtonBase>
+          )}
+          {props.onClose && !props.withoutOnclose && (
+            <ButtonBase className={classes.closeButton} onClick={props.onClose}>
+              <CloseIcon />
+            </ButtonBase>
+          )}
+        </div>
+        <div className={classes.content}>{props.children}</div>
       </div>
-      <div className={classes.content}>{props.children}</div>
-    </div>
-  );
-};
+    );
+  }
+);
+
+SmallModal.displayName = 'SmallModal';

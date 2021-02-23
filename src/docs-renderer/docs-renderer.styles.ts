@@ -17,21 +17,48 @@ export const useDocsRendererStyles = createUseStyles(
       }
     },
 
-    list: {
-      minWidth: 216,
-      maxWidth: 216,
-      marginRight: 30,
-      paddingLeft: 30,
-      marginLeft: -30,
-      position: 'sticky',
-      top: 64,
-      display: 'none',
-      overflowY: 'auto',
-      maxHeight: 'calc(100vh - 128px)',
+    mobileToolbar: {
+      position: 'fixed',
+      zIndex: 1,
+      bottom: 0,
+      left: 0,
+      width: '100%',
+      display: 'flex',
+      justifyContent: 'flex-start',
+      background: theme.colors.secondary,
+      borderTop: `1px solid ${theme.colors.primary}`,
+      alignItems: 'center',
+      padding: '10px 15px 10px 12px'
+    },
+
+    mobileToolbarIcon: {
+      marginRight: 20
+    },
+
+    mobileMenu: {
+      maxHeight: '100%',
+      height: 'auto'
+    },
+
+    tableOfContents: {
+      position: 'fixed',
+      width: '100%',
+      left: 0,
+      zIndex: 1,
+      bottom: 0,
+      margin: 0,
+      background: theme.colors.secondary,
 
       [theme.breakpoints.md()]: {
-        display: 'block',
-        marginRight: 60
+        marginRight: 60,
+        paddingLeft: 30,
+        marginLeft: -30,
+        position: 'sticky',
+        minWidth: 216,
+        maxWidth: 216,
+        top: 64,
+        bottom: 'auto',
+        maxHeight: 'calc(100vh - 128px)'
       },
 
       [theme.breakpoints.lg()]: {

@@ -7,7 +7,10 @@ export const useDocsRendererTableOfContentsStyles = createUseStyles(
     root: {
       padding: 0,
       margin: 0,
-      listStyle: 'none'
+      listStyle: 'none',
+      overflowY: 'auto',
+      overflowX: 'hidden',
+      maxHeight: '100%'
     },
 
     subList: {
@@ -53,7 +56,12 @@ export const useDocsRendererTableOfContentsStyles = createUseStyles(
 
     arrow: {
       position: 'absolute',
-      left: 0
+      left: 0,
+      display: 'none',
+
+      [theme.breakpoints.md()]: {
+        display: 'block'
+      }
     }
   }),
   {

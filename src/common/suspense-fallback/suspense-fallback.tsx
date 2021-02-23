@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Loader } from '../loader';
+import { ReactComponent as PageLoader } from 'src/assets/images/page-loader.svg';
 import { useSuspenseFallbackStyles } from './suspense-fallback.styles';
 
 export const SuspenseFallback: React.FC = () => {
@@ -8,7 +8,7 @@ export const SuspenseFallback: React.FC = () => {
 
   return (
     <div className={classes.root}>
-      <Loader width={202} height={156} />
+      <PageLoader />
     </div>
   );
 };

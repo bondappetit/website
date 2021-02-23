@@ -2,8 +2,10 @@ import clsx from 'clsx';
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Typography, Link, Typewriter } from 'src/common';
+import { Typography, Link } from 'src/common';
 import { URLS } from 'src/router/urls';
+import { VOTING_TEXT } from '../constants';
+import { MainVotingTypewriter } from './main-voting-typewriter';
 import { useMainVotingStyles } from './main-voting.styles';
 
 export type MainVotingProps = {
@@ -23,7 +25,7 @@ export const MainVoting: React.FC<MainVotingProps> = (props) => {
       </Typography>
       <div className={classes.content}>
         <Typography variant="h2" component="p" className={classes.text}>
-          <Typewriter>Add new markets for the automatic exchange</Typewriter>
+          <MainVotingTypewriter>{VOTING_TEXT}</MainVotingTypewriter>
         </Typography>
         <div className={classes.tickets}>
           <div className={clsx(classes.ticket, classes.against)}>

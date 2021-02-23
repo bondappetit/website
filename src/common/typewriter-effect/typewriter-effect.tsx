@@ -9,6 +9,7 @@ export interface TypewriterProps {
   children: string;
   delay?: number;
   className?: string;
+  onEnd?: () => void;
 }
 
 export const Typewriter: React.VFC<TypewriterProps> = (props) => {
@@ -26,6 +27,7 @@ export const Typewriter: React.VFC<TypewriterProps> = (props) => {
       } else {
         setText('');
         setPointer(0);
+        props.onEnd?.();
       }
     },
     delay,
