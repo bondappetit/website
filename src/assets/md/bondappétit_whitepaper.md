@@ -192,25 +192,6 @@ Using this method, the community of the protocol will receive reward per block o
 
 Liquidity pool technical tokens (LPT) — an ERC-20 technical liquidity pool token used for calculation of the reward. The reward is calculated through a change in token’s price per block, while the reward rate is decided by the community of the protocol.
 
-**The price of a technical token is calculated using the formula below:**
-
-$$
-RewardPerToken = Distribution / (TotalSupply + Stake) / Duration
-$$
-
-* RewardPerToken - вознаграждение в BAG токенах, которое будет назначено за каждый застейканный токен за один блок
-* TotalSupply - количество ранее застейканных токенов
-* Stake - количество новых токенов, которые будут застейканы
-* Distribution - объем распределяемых в данный момент BAG токенов
-* Duration - количество блоков, за которое будет распределена награда за стейкинг
-  
-
-**Example:**
-
-```
-Контрактом распределяется 2000 BAG токенов (Distribution) за 10 блоков (Duration). Ранее застейканно пользователями 50 токенов (TotalSupply). Пользователь планирует застейкать еще 20 токенов (Stake) на 3м блоке. За один застейканный токен в блок пользователь будет получать: 2000 / (50 + 20) / 10 = 2,857142857 BAG токенов. За время стейкинга (7 блоков) пользователь получит: 2,857142857 * 7 * 20 = 400 BAG токенов.
-```
-
 ### **3.5 Target Audience**
 
 The target audience of the USDp includes four types of investors: retail crypto investors, sophisticated crypto investors, institutional investors, and cryptocurrency exchanges.
@@ -522,7 +503,7 @@ BondAppetit Governance does not have a legal issuer (as it is created by the pro
 
 The asset price is not stable and depends on two factors: the profitability of the protocol and expectation of the protocol’s growth. BAG can be allocated by the protocol to USDp/BAG owners, and can also be purchased on the market. The value or liquidity of the BAG is not guaranteed, meaning that no individual or legal entity guarantees the acceptance of the token as payment for goods or services, its price, or the ability to exchange it for any other asset.
 
-## 8**. Protocol Launch Phases**
+## **8. Protocol Launch Phases**
 
 In order to ensure the fast deployment of the protocol, the protocol will be launched in 3 phases. Each phase is launched with its own goal. Once the goal is achieved, the community of the protocol can move the protocol to the next phase.
 
@@ -546,7 +527,7 @@ The last stage of protocol’s launch. We expect that the protocol’s capitaliz
 
 Potential users will be able to purchase USDp directly from the protocol, which they will be able to use on the open market. This will allow to increase the popularity of the protocol, due to an increase in rewards, as no more BAG will be issued.
 
-## 9**. The Future of the Protocol**
+## **9. The Future of the Protocol**
 
 Initially, developers of BondAppétite were driven by a simple and ambitious goal — providing DeFi borrowing from current protocols to traditional companies. However, the market right now is designed to work strictly with crypto assets and over-collateralization is a significant hurdle for traditional market players, even with all benefits of DeFi in mind.
 
