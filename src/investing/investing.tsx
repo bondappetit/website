@@ -4,7 +4,7 @@ import { useToggle } from 'react-use';
 import { MainLayout } from 'src/layouts';
 import { Typography, PageWrapper, DocumentList, Head } from 'src/common';
 import { config } from 'src/config';
-import Litepaper from 'src/assets/pdf/BA-concept.pdf';
+import Litepaper from 'src/assets/pdf/bondappetit_litepaper.pdf';
 import { URLS } from 'src/router/urls';
 import { SubscribeAnnounce } from 'src/subscribe/subscribe-announce';
 import { InvestingForm } from './investing-form';
