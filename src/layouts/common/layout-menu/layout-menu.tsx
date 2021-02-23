@@ -5,6 +5,7 @@ import { useLocalStorage, useHoverDirty } from 'react-use';
 
 import { ButtonBase, Link } from 'src/common';
 import { URLS } from 'src/router/urls';
+import { config } from 'src/config';
 import { useLayoutMenuStyles } from './layout-menu.styles';
 import { LayoutMenuDropdown } from './layout-menu-dropdown';
 import { LayoutMenuPhasesDropdown } from './layout-menu-phases-dropdown';
@@ -128,7 +129,7 @@ export const LayoutMenu: React.FC<LayoutMenuProps> = ({
           ref={phasesRef}
           className={clsx(classes.navLink, classes.phaseLink)}
         >
-          Phase 1
+          Phase {config.IS_COLLATERAL ? '3' : '1'}
         </ButtonBase>
         {phasesHovered && <LayoutMenuPhasesDropdown />}
       </li>
