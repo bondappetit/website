@@ -1,3 +1,5 @@
+import { config } from 'src/config';
+
 export const STEPS = [
   {
     title: 'Protocol launch',
@@ -6,7 +8,7 @@ export const STEPS = [
     startDate: 'February 15',
     duration: 'Up to 2 months',
     mobileDate: 'From February 16, up to 2 months duration',
-    active: true
+    active: !config.IS_COLLATERAL
   },
 
   {
@@ -25,6 +27,6 @@ export const STEPS = [
     startDate: '1 Day after P2',
     duration: '1 month',
     mobileDate: '1 Day after P2, 1 month duration',
-    active: false
+    active: config.IS_COLLATERAL
   }
 ];
