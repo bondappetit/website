@@ -3,8 +3,8 @@ import React, { useRef } from 'react';
 import clsx from 'clsx';
 
 import WhitepaperMd from 'src/assets/md/bondappétit_whitepaper.md';
-import WhitepaperPdf from 'src/assets/pdf/whitepaper.pdf';
-import OnepagerPdf from 'src/assets/pdf/BA-concept.pdf';
+import WhitepaperPdf from 'src/assets/pdf/bondappetit_whitepaper.pdf';
+import OnepagerPdf from 'src/assets/pdf/bondappetit_litepaper.pdf';
 import { SubscribeNewsFloat } from 'src/subscribe/subscribe-news-float';
 import {
   Typography,
