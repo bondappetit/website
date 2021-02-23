@@ -8,6 +8,7 @@ import {
   useNetworkConfig,
   useStableCoinContract
 } from 'src/common';
+import { config } from 'src/config';
 import { StablecoinCollateralMarketModal } from 'src/stablecoin/stablecoin-collateral-market-modal';
 import { StablecoinMarketModal } from 'src/stablecoin/stablecoin-market-modal';
 
@@ -42,7 +43,7 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
       <LinkModal
         open={props.linkModalOpen}
         onClose={props.togglelinkModal}
-        withBuyMarket={state.value}
+        withBuyMarket={state.value && !config.IS_COLLATERAL}
         onBuyCollateralMarket={props.onBuyCollateralMarket}
         onBuyMarket={props.onBuyMarket}
         withBuyCollateralMarket
