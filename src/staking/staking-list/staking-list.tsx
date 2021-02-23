@@ -5,7 +5,6 @@ import {
   useNetworkConfig,
   PageWrapper,
   Typography,
-  Skeleton,
   Head,
   BN,
   Plate,
@@ -19,6 +18,7 @@ import {
   useStakingBalances,
   useTotalValueLocked
 } from 'src/staking/common';
+import { config } from 'src/config';
 import { useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
 
@@ -91,13 +91,15 @@ export const StakingList: React.FC = () => {
           <div className={classes.staking}>
             {!stakingBalancesWithApy.length
               ? Array.from(Array(2), (_, i) => i).map((key) => (
-                  <Skeleton key={key} className={classes.skeleton} />
+                  <StakingCard
+                    key={key}
+                    loading={!stakingBalancesWithApy.length}
+                  />
                 ))
               : stakingBalancesWithApy.map((stakingBalance) => (
                   <StakingCard
                     key={stakingBalance.key}
                     stacked={Boolean(Number(stakingBalance.amount))}
-                    tokenKey={stakingBalance.key}
                     token={stakingBalance.token}
                     reward={stakingBalance.reward}
                     totalSupply={stakingBalance.totalSupply}
@@ -109,7 +111,7 @@ export const StakingList: React.FC = () => {
                   />
                 ))}
           </div>
-          <StakingInfo />
+          {!config.IS_COLLATERAL && <StakingInfo />}
         </PageWrapper>
       </MainLayout>
     </>

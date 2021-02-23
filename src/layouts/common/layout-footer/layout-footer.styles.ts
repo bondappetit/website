@@ -4,42 +4,60 @@ import { Theme } from 'src/common';
 
 export const useLayoutFooterStyles = createUseStyles(
   (theme: Theme) => ({
-    footer: {
+    root: {
       display: 'flex',
       padding: '0 16px',
       marginBottom: 24,
       justifyContent: 'center',
       alignItems: 'center',
+      flexWrap: 'wrap',
 
       [theme.breakpoints.md()]: {
         marginBottom: 36,
         padding: '0 37px',
         justifyContent: 'space-between'
+      },
+
+      [theme.breakpoints.lg()]: {
+        flexWrap: 'nowrap'
       }
     },
 
     copyright: {
-      [theme.breakpoints.md()]: {
-        width: 216
+      width: '100%',
+      textAlign: 'center',
+      order: 2,
+
+      [theme.breakpoints.lg()]: {
+        width: 216,
+        textAlign: 'left',
+        order: 'unset'
       }
     },
 
     links: {
-      display: 'none',
+      width: '100%',
+      order: -1,
+      marginBottom: 32,
 
       [theme.breakpoints.lg()]: {
-        display: 'flex'
+        width: 'auto',
+        marginBottom: 'unset',
+        order: 'unset'
       }
     },
 
-    button: {
+    subscribe: {
       border: `1px solid ${theme.colors.primary}`,
       borderRadius: 16,
       padding: '0 16px 0 8px',
-      display: 'none',
+      margin: '0 auto 32px',
+      width: '100%',
+      maxWidth: '327px',
 
-      [theme.breakpoints.md()]: {
-        display: 'inline-flex'
+      [theme.breakpoints.lg()]: {
+        margin: 'unset',
+        width: 'auto'
       }
     },
 

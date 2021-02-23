@@ -13,12 +13,12 @@ export const LayoutFooter: React.FC<LayoutFooterProps> = (props) => {
   const classes = useLayoutFooterStyles();
 
   return (
-    <footer className={classes.footer}>
+    <footer className={classes.root}>
       <Typography variant="body1" className={classes.copyright}>
         © BondAppétit, {new Date().getFullYear()}
       </Typography>
       <LayoutLinks className={classes.links} />
-      <ButtonBase className={classes.button} onClick={props.onSubscribe}>
+      <ButtonBase className={classes.subscribe} onClick={props.onSubscribe}>
         <MailIcon className={classes.icon} />
         <Typography variant="inherit">Subscribe for emails</Typography>
       </ButtonBase>

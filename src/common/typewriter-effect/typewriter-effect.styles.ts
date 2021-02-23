@@ -11,17 +11,17 @@ export const useTypewriterStyles = createUseStyles(
         height: '1.2em',
         bottom: '-0.3em',
         width: 1,
-        animation: '$blink-caret .75s step-end infinite',
+        animation: '$blink-caret .65s step-end infinite',
         background: 'currentColor'
       }
     },
 
     '@keyframes blink-caret': {
       'from, to': {
-        borderColor: 'transparent'
+        background: 'transparent'
       },
       '50%': {
-        borderColor: 'currentColor'
+        background: 'currentColor'
       }
     }
   },

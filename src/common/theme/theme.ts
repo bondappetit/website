@@ -24,11 +24,15 @@ export type Colors = {
   lightGrey: string;
   superGreen: string;
   docsParagraph: string;
+  white: string;
+  black: string;
 };
 
 export type ThemeModes = 'light' | 'dark';
 
 const mainColors = {
+  white: '#fff',
+  black: '#000',
   grey: '#A9A9A9',
   blue: '#326BFF',
   red: '#DE4909',
@@ -94,7 +98,7 @@ export const theme = {
   },
 
   breakpoints: {
-    xs: () => '@media (min-width: 0px)' as const,
+    xs: () => `@media (min-width: 0px)` as const,
     sm: () => '@media (min-width: 600px)' as const,
     md: () => '@media (min-width: 960px)' as const,
     lg: () => '@media (min-width: 1280px)' as const,

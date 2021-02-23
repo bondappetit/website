@@ -13,11 +13,7 @@ export const useLayoutLinksStyles = createUseStyles(
     link: {
       display: 'flex',
       alignItems: 'center',
-      margin: [0, 5],
-
-      [theme.breakpoints.up(375)]: {
-        margin: [0, 10]
-      },
+      margin: [0, 10],
 
       [theme.breakpoints.md()]: {
         margin: [0, 20]
@@ -25,9 +21,14 @@ export const useLayoutLinksStyles = createUseStyles(
     },
 
     linkIcon: {
-      marginRight: 4,
-      width: 24,
-      height: 24
+      width: 32,
+      height: 32,
+
+      [theme.breakpoints.md()]: {
+        marginRight: 4,
+        width: 24,
+        height: 24
+      }
     },
 
     linkTitle: {

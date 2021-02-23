@@ -6,14 +6,9 @@ export const useButtonStyles = createUseStyles(
     button: {
       borderRadius: 16,
       letterSpacing: '-0.02em',
-      padding: '8px 40px',
+      padding: '11px 40px',
       fontSize: 32,
-      lineHeight: '40px',
-
-      [theme.breakpoints.md()]: {
-        fontSize: 40,
-        lineHeight: '48px'
-      }
+      lineHeight: '40px'
     },
 
     primary: {
