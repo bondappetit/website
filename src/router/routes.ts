@@ -41,6 +41,7 @@ const CollateralBorrow = React.lazy(
 );
 const Main = React.lazy(() => import('src/main'));
 const VestingSplitter = React.lazy(() => import('src/vesting-splitter'));
+const Playground = React.lazy(() => import('src/playground'));
 
 export const routes = [
   {
@@ -50,6 +51,10 @@ export const routes = [
   {
     url: URLS.whitepaper,
     component: Whitepaper
+  },
+  {
+    url: URLS.playground,
+    component: Playground
   },
   ...(!config.IS_INVEST
     ? [
