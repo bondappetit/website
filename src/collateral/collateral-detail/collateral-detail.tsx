@@ -50,8 +50,10 @@ export const CollateralDetail: React.FC = () => {
                   title={<>Value of issued stable coin</>}
                   body={
                     <>
-                      {!isserBalance && <Skeleton />}
-                      {isserBalance && <>${humanizeNumeral(isserBalance)}</>}
+                      {isserBalance.loading && <Skeleton />}
+                      {!isserBalance.loading && (
+                        <>${humanizeNumeral(isserBalance.value)}</>
+                      )}
                     </>
                   }
                 />
@@ -60,8 +62,10 @@ export const CollateralDetail: React.FC = () => {
                   title={<>Outstanding Debt</>}
                   body={
                     <>
-                      {!isserBalance && <Skeleton />}
-                      {isserBalance && <>${humanizeNumeral(isserBalance)}</>}
+                      {isserBalance.loading && <Skeleton />}
+                      {!isserBalance.loading && (
+                        <>${humanizeNumeral(isserBalance.value)}</>
+                      )}
                     </>
                   }
                 />

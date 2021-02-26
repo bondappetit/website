@@ -13,8 +13,8 @@ import {
   humanizeNumeral
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
+import { useIssuerRebalance } from 'src/collateral';
 import {
-  useRebalance,
   OracleSaveForm,
   OracleSaveFormValues,
   OracleGetForm,
@@ -38,7 +38,7 @@ export const OracleManage: React.FC = () => {
   const { account, library } = useWeb3React<Web3>();
   const [savedToken, setSavedToken] = useState<SavedToken | null>(null);
 
-  const handleRebalance = useRebalance();
+  const [, handleRebalance] = useIssuerRebalance();
 
   const handleSaveDepositary = useCallback(
     async (formValues: OracleSaveFormValues) => {
