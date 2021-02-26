@@ -62,19 +62,10 @@ export const CollateralList: React.FC = () => {
               }
               subtitle={<>1 USDp = $1 USD</>}
             />
-            <div className={classes.state}>
-              <CollateralProtocolState
-                stableCoinBalanceValue={stableCoinBalance.value}
-                issuerBalanceValue={issuerBalance.value}
-              />
-              <Button
-                loading={result.loading}
-                disabled={result.loading}
-                onClick={handleRebalance}
-              >
-                Up
-              </Button>
-            </div>
+            <CollateralProtocolState
+              stableCoinBalanceValue={stableCoinBalance.value}
+              issuerBalanceValue={issuerBalance.value}
+            />
             <CollateralCard
               className={classes.card}
               title={<>Value of Protocol&apos;s assets</>}
@@ -93,6 +84,20 @@ export const CollateralList: React.FC = () => {
               }
             />
           </Plate>
+          <Typography
+            variant="inherit"
+            component="div"
+            className={classes.ussued}
+            align="center"
+          >
+            <Button
+              loading={result.loading}
+              disabled={result.loading}
+              onClick={handleRebalance}
+            >
+              Rebalance
+            </Button>
+          </Typography>
           {config.IS_COLLATERAL ? (
             <CollateralBorrowInfo />
           ) : (

@@ -35,6 +35,9 @@ export const CollateralProtocolState: React.FC<CollateralProtocolStateProps> = (
     if (!props.stableCoinBalanceValue || !props.issuerBalanceValue)
       return CollateralProtocolStates.balanced;
 
+    if (props.stableCoinBalanceValue.eq(props.issuerBalanceValue))
+      return CollateralProtocolStates.balanced;
+
     const collateralValue = props.stableCoinBalanceValue
       .div(props.issuerBalanceValue)
       .minus(1)
