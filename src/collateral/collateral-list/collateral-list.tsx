@@ -8,7 +8,8 @@ import {
   Skeleton,
   Plate,
   Head,
-  humanizeNumeral
+  humanizeNumeral,
+  Button
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
@@ -19,14 +20,24 @@ import {
   useIssuerBalance,
   CollateralProtocolState,
   CollateralPhases,
-  CollateralBorrowInfo
+  CollateralBorrowInfo,
+  useIssuerRebalance
 } from '../common';
 
 export const CollateralList: React.FC = () => {
   const classes = useCollateralListStyles();
 
-  const issuerBalance = useIssuerBalance();
   const stableCoinBalance = useStableCoinBalance();
+  const issuerBalance = useIssuerBalance();
+
+  const [result, rebalance] = useIssuerRebalance();
+
+  const handleRebalance = () => {
+    rebalance().then(() => {
+      issuerBalance.retry();
+      stableCoinBalance.retry();
+    });
+  };
 
   return (
     <>
@@ -43,22 +54,36 @@ export const CollateralList: React.FC = () => {
               title={<>USDp Issued</>}
               body={
                 <>
-                  {!stableCoinBalance && <Skeleton />}
-                  {stableCoinBalance && (
-                    <>{humanizeNumeral(stableCoinBalance)} USDp</>
+                  {stableCoinBalance.loading && <Skeleton />}
+                  {!stableCoinBalance.loading && (
+                    <>{humanizeNumeral(stableCoinBalance.value)} USDp</>
                   )}
                 </>
               }
               subtitle={<>1 USDp = $1 USD</>}
             />
-            <CollateralProtocolState />
+            <div className={classes.state}>
+              <CollateralProtocolState
+                stableCoinBalanceValue={stableCoinBalance.value}
+                issuerBalanceValue={issuerBalance.value}
+              />
+              <Button
+                loading={result.loading}
+                disabled={result.loading}
+                onClick={handleRebalance}
+              >
+                Up
+              </Button>
+            </div>
             <CollateralCard
               className={classes.card}
               title={<>Value of Protocol&apos;s assets</>}
               body={
                 <>
-                  {!issuerBalance && <Skeleton />}
-                  {issuerBalance && <>{humanizeNumeral(issuerBalance)} USDC</>}
+                  {issuerBalance.loading && <Skeleton />}
+                  {!issuerBalance.loading && (
+                    <>${humanizeNumeral(issuerBalance.value)}</>
+                  )}
                 </>
               }
               subtitle={

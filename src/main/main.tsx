@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 
-import { Head, PageWrapper } from 'src/common';
+import { Head, humanizeNumeral, PageWrapper } from 'src/common';
 import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
 import { MainLayout } from 'src/layouts';
 import {
@@ -70,7 +70,7 @@ export const Main: React.FC = () => {
           />
           <MainStablecoin
             className={classes.stable}
-            stablecoinBalance={stablecoinBalance}
+            stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
             onBuy={togglelinkModal}
             onSell={toggleSellModal}
           />

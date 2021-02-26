@@ -30,6 +30,11 @@ export const useCollateralListStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 48
       }
+    },
+
+    state: {
+      display: 'flex',
+      flexDirection: 'column'
     }
   }),
   {
