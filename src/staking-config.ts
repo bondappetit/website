@@ -8,7 +8,7 @@ export type StakingConfig = {
   liquidityPool: boolean;
 };
 
-// const Gov = 'BAG';
+const Gov = 'BAG';
 
 const Stable = 'USDp';
 
@@ -40,12 +40,12 @@ const getStakingConfig = (
   //   liquidityPool: false
   // },
 
-  // [getStakingAddress(networkConfig, 'UsdcGovLPStaking')]: {
-  //   contractName: 'UsdcGovLPStaking',
-  //   tokenName: LP,
-  //   token: [Gov, USDC],
-  //   liquidityPool: true
-  // },
+  [getStakingAddress(networkConfig, 'UsdcGovLPStaking')]: {
+    contractName: 'UsdcGovLPStaking',
+    tokenName: LP,
+    token: [Gov, USDC],
+    liquidityPool: true
+  },
 
   // [getStakingAddress(networkConfig, 'UsdnGovLPStaking')]: {
   //   contractName: 'UsdnGovLPStaking',
