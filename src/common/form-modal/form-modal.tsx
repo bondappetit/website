@@ -89,7 +89,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
           content={
             <>
               <Typography variant="body2">
-                Buying USDP during Phase1 you will get extra{' '}
+                Buying USDP during sale you will get extra{' '}
                 {props.reward?.rewardPercent.toFormat(1) || '0'}% of you
                 investment in BAG as a reward.
               </Typography>
