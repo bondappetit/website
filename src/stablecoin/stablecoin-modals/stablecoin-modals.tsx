@@ -43,7 +43,7 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
       <LinkModal
         open={props.linkModalOpen}
         onClose={props.togglelinkModal}
-        withBuyMarket={state.value && !config.IS_COLLATERAL}
+        withBuyMarket={state.value && config.IS_COLLATERAL}
         onBuyCollateralMarket={props.onBuyCollateralMarket}
         onBuyMarket={props.onBuyMarket}
         withBuyCollateralMarket
