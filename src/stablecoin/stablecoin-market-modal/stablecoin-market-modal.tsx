@@ -95,7 +95,9 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     },
 
     onSubmit: async (formValues) => {
-      const currentToken = network.assets[formValues.currency];
+      const currentToken = Object.values(network.assets).find(
+        ({ symbol }) => symbol === formValues.currency
+      );
 
       if (!currentToken || !account) return;
 
@@ -106,7 +108,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         .toString(10);
 
       try {
-        if (currentToken.name === 'ETH') {
+        if (currentToken.symbol === 'ETH') {
           const buyFromETH = marketContract.methods.buyFromETH();
 
           await buyFromETH.send({
