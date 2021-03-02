@@ -134,7 +134,7 @@ export const StakingDetail: React.FC = () => {
             tokenKey={params.tokenId}
             token={stakingBalancesWithApy?.token}
             APY={stakingBalancesWithApy?.APY}
-            totalSupply={stakingBalancesWithApy?.totalSupply}
+            totalSupply={stakingBalancesWithApy?.totalSupplyUSDC}
             className={classes.header}
             poolRate={stakingBalancesWithApy?.poolRate}
           />

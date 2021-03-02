@@ -15,6 +15,7 @@ export type APYWithTokenName = {
   amountInUSDC: string;
   rewardInUSDC: string;
   stakingTokenUSDC: string;
+  totalSupplyUSDC: BN;
   APY: BN;
 } & StakingToken;
 
@@ -91,7 +92,10 @@ export const useStakingApy = (balances: StakingToken[]) => {
 
         return {
           ...balance,
-          totalSupply: new BN(balance.totalSupply).multipliedBy(tokenInUSDC),
+          totalSupply: balance.totalSupply,
+          totalSupplyUSDC: new BN(balance.totalSupply).multipliedBy(
+            tokenInUSDC
+          ),
           amountInUSDC,
           rewardInUSDC,
           stakingTokenUSDC: tokenInUSDC,
