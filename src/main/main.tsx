@@ -64,6 +64,7 @@ export const Main: React.FC = () => {
       <MainLayout>
         <PageWrapper className={classes.root}>
           <MainStaking
+            countOfCards={fourTokens.length}
             className={classes.staking}
             staking={stakingBalancesWithApy}
             totalValueLocked={totalValueLocked.toFormat(2)}

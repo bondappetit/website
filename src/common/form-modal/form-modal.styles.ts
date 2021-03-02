@@ -30,6 +30,7 @@ export const useFormModalStyles = createUseStyles(
       top: '100%',
       left: 0,
       background: theme.colors.yellow,
+      color: theme.colors.black,
       padding: '4px 9px',
       borderRadius: 12
     },

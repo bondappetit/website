@@ -10,7 +10,7 @@ export type LinkIfAccountProps = {
   title?: string;
 };
 
-export const LinkIfAccount: React.FC<LinkIfAccountProps> = (props) => {
+export const LinkIfAccount: React.VFC<LinkIfAccountProps> = (props) => {
   const networkConfig = useNetworkConfig();
 
   return isEthAddress(props.children) ? (

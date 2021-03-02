@@ -25,9 +25,14 @@ import { useStakingListStyles } from './staking-list.styles';
 export const StakingList: React.FC = () => {
   const networkConfig = useNetworkConfig();
   const classes = useStakingListStyles();
-  const [stakingBalances] = useStakingBalances(
-    Object.values(useStakingConfig())
-  );
+
+  const stakingConfig = useStakingConfig();
+
+  const stakingConfigValues = useMemo(() => Object.values(stakingConfig), [
+    stakingConfig
+  ]);
+
+  const [stakingBalances] = useStakingBalances(stakingConfigValues);
   const stakingBalancesWithApy = useStakingApy(stakingBalances);
   const { governanceInUSDC } = useGovernanceCost();
   const normalizeGovernanceInUSDC = useMemo(
@@ -90,7 +95,10 @@ export const StakingList: React.FC = () => {
           </div>
           <div className={classes.staking}>
             {!stakingBalancesWithApy.length
-              ? Array.from(Array(2), (_, i) => i).map((key) => (
+              ? Array.from(
+                  Array(stakingConfigValues.length),
+                  (_, i) => i
+                ).map((key) => (
                   <StakingCard
                     key={key}
                     loading={!stakingBalancesWithApy.length}
@@ -104,6 +112,7 @@ export const StakingList: React.FC = () => {
                     reward={stakingBalance.reward}
                     totalSupply={stakingBalance.totalSupply}
                     poolRate={stakingBalance.poolRate}
+                    lockable={stakingBalance.lockable}
                     stakingContractAddress={
                       stakingBalance.stakingContract.options.address
                     }

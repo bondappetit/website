@@ -21,6 +21,7 @@ export type StakingCardProps = {
   stakingContractAddress?: string;
   totalSupply?: BN;
   poolRate?: BN;
+  lockable?: boolean;
   loading?: boolean;
 };
 
@@ -102,16 +103,18 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
           </Typography>
         )}
       </Typography>
-      <Typography variant="body1" align="center">
-        Locking:{' '}
-        {props.loading ? (
-          '...'
-        ) : (
-          <Typography variant="inherit" weight="bold">
-            6 month
-          </Typography>
-        )}
-      </Typography>
+      {props.lockable && (
+        <Typography variant="body1" align="center">
+          Locking:{' '}
+          {props.loading ? (
+            '...'
+          ) : (
+            <Typography variant="inherit" weight="bold">
+              6 month
+            </Typography>
+          )}
+        </Typography>
+      )}
     </Link>
   );
 };

@@ -68,6 +68,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
           content={`The given price is not exact, as the final price will be calculated based on the current ${props.tokenName} conversion rate on Uniswap`}
           maxWidth={280}
           offset={[140, 8]}
+          animation={false}
           className={classes.tippy}
         >
           <ButtonBase className={classes.hintButton}>
@@ -99,6 +100,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
               </Typography>
             </>
           }
+          animation={false}
           maxWidth={280}
           offset={[140, 8]}
           className={classes.tippy}
@@ -168,9 +170,16 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                     <Typography variant="body1" component="div">
                       You will get
                     </Typography>
-                    <Typography variant="inherit" component="div">
-                      {props.result || '0.0'}
-                    </Typography>
+                    {props.reward && (
+                      <Typography variant="inherit" component="div">
+                        {humanizeNumeral(props.reward.product)}
+                      </Typography>
+                    )}
+                    {!props.reward && (
+                      <Typography variant="inherit" component="div">
+                        {humanizeNumeral(props.result) || '0.0'}
+                      </Typography>
+                    )}
                   </div>
                   {props.withReward && rewardHoverable}
                   <div className={classes.input}>

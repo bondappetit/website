@@ -19,6 +19,7 @@ export type LinkModalProps = {
   withBuyMarket?: boolean;
   withBuyCollateralMarket?: boolean;
   tokenAddress: string;
+  rewardPercent?: string;
 };
 
 export const LinkModal: React.FC<LinkModalProps> = (props) => {
@@ -50,7 +51,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                   Buy from protocol
                 </Typography>
                 <Typography variant="body1" component="span" align="center">
-                  Get extra +5% of your investment as
+                  Get extra +{props.rewardPercent}% of your investment as
                   <br />
                   <BAGicon
                     className={classes.bagIcon}

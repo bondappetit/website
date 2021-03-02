@@ -4,12 +4,13 @@ import React from 'react';
 import {
   PageWrapper,
   Typography,
-  Link,
   Skeleton,
   Plate,
   Head,
   humanizeNumeral,
-  Button
+  Button,
+  LinkIfAccount,
+  useNetworkConfig
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
@@ -29,6 +30,8 @@ export const CollateralList: React.FC = () => {
 
   const stableCoinBalance = useStableCoinBalance();
   const issuerBalance = useIssuerBalance();
+
+  const networkConfig = useNetworkConfig();
 
   const [result, rebalance] = useIssuerRebalance();
 
@@ -78,9 +81,12 @@ export const CollateralList: React.FC = () => {
                 </>
               }
               subtitle={
-                <Link href="/#" color="blue">
-                  check here
-                </Link>
+                <LinkIfAccount title="check here">
+                  {
+                    networkConfig.contracts.StableTokenDepositaryBalanceView
+                      .address
+                  }
+                </LinkIfAccount>
               }
             />
           </Plate>

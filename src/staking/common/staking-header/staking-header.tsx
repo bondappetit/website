@@ -20,6 +20,7 @@ export type StakingHeaderProps = {
   totalSupply?: BN;
   className?: string;
   poolRate?: BN;
+  lockable?: boolean;
 };
 
 export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
@@ -83,12 +84,14 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
               {humanizeNumeral(props.poolRate)} BAG / month
             </Typography>
           </Typography>
-          <Typography variant="body1" component="span">
-            Locking:{' '}
-            <Typography variant="inherit" component="span" weight="bold">
-              6 month
+          {props.lockable && (
+            <Typography variant="body1" component="span">
+              Locking:{' '}
+              <Typography variant="inherit" component="span" weight="bold">
+                6 month
+              </Typography>
             </Typography>
-          </Typography>
+          )}
         </div>
       </div>
     </div>
