@@ -44,8 +44,17 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
           .stakingToken()
           .call();
         const stakingTokenContract = getTokenContract(stakingTokenAddress);
+        const stakingTokenDecimals = await stakingTokenContract.methods
+          .decimals()
+          .call();
 
-        const decimals = await stakingTokenContract.methods.decimals().call();
+        const rewardTokenAddress = await stakingContract.methods
+          .rewardsToken()
+          .call();
+        const rewardTokenContract = getTokenContract(rewardTokenAddress);
+        const rewardTokenDecimals = await rewardTokenContract.methods
+          .decimals()
+          .call();
 
         if (!stakingContract) return acc;
 
@@ -58,22 +67,26 @@ export const useStakingBalances = (availableTokens: StakingConfig[]) => {
           stakingContract.methods.rewardRate().call()
         ]);
 
-        const amount = new BN(balance).div(new BN(10).pow(decimals));
+        const amount = new BN(balance).div(
+          new BN(10).pow(stakingTokenDecimals)
+        );
 
-        const reward = new BN(earned).div(new BN(10).pow(decimals));
+        const reward = new BN(earned).div(new BN(10).pow(rewardTokenDecimals));
 
-        const totalSupplyBN = new BN(totalSupply).div(new BN(10).pow(decimals));
+        const totalSupplyBN = new BN(totalSupply).div(
+          new BN(10).pow(stakingTokenDecimals)
+        );
 
-        const poolRate = reward
+        const poolRate = new BN(rewardRate)
+          .div(new BN(10).pow(rewardTokenDecimals))
           .multipliedBy(BLOCKS_PER_MINUTE)
           .multipliedBy(60)
-          .multipliedBy(24)
-          .multipliedBy(30);
+          .multipliedBy(24);
 
         const StakingToken = {
           amount,
           key: String(index),
-          decimals,
+          decimals: stakingTokenDecimals,
           totalSupply: totalSupplyBN,
           rewardRate,
           stakingContract,

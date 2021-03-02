@@ -81,7 +81,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
           <Typography variant="body1" component="span">
             Pool rate:{' '}
             <Typography variant="inherit" component="span" weight="bold">
-              {humanizeNumeral(props.poolRate)} BAG / month
+              {humanizeNumeral(props.poolRate)} BAG / day
             </Typography>
           </Typography>
           {props.lockable && (
