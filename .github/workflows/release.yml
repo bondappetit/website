@@ -19,7 +19,7 @@ jobs:
         run: npm run build-dev
         env:
           REACT_APP_IS_INVEST: false
-          REACT_APP_IS_COLLATERAL: true
+          REACT_APP_IS_COLLATERAL: false
           NODE_ENV: development
           REACT_APP_DEFAULT_CHAIN_ID: 3
           REACT_APP_UNISENDER_API: ${{secrets.REACT_APP_UNISENDER_API}}
