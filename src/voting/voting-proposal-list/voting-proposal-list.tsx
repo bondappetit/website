@@ -24,12 +24,7 @@ const DELEGATE_TO_DEFAULT = '0x0000000000000000000000000000000000000000';
 
 export const VotingProposalList: React.FC = () => {
   const classes = useVotingProposalListStyles();
-  const {
-    proposals = [],
-    loading,
-    nextPage,
-    pages: proposalPages
-  } = useVotingProposalList();
+  const { proposals, nextPage, pages: proposalPages } = useVotingProposalList();
   const {
     currentVotes,
     canCreateProposal,
@@ -73,8 +68,10 @@ export const VotingProposalList: React.FC = () => {
               </Link>
             </Typography>
             <Typography variant="h3" align="center">
-              {loading && <Skeleton className={classes.votesSkeleton} />}
-              {!loading &&
+              {proposals.loading && (
+                <Skeleton className={classes.votesSkeleton} />
+              )}
+              {!proposals.loading &&
                 (new BN(currentVotes).isGreaterThan(0) ||
                   new BN(currentGovCoin).isGreaterThan(0)) && (
                   <>
@@ -88,7 +85,7 @@ export const VotingProposalList: React.FC = () => {
                       )}
                   </>
                 )}
-              {!loading &&
+              {!proposals.loading &&
                 new BN(currentVotes).isEqualTo(0) &&
                 new BN(currentGovCoin).isEqualTo(0) && (
                   <>
@@ -96,8 +93,10 @@ export const VotingProposalList: React.FC = () => {
                   </>
                 )}
             </Typography>
-            {loading && <Skeleton className={classes.delegatesSkeleton} />}
-            {!loading && (
+            {proposals.loading && (
+              <Skeleton className={classes.delegatesSkeleton} />
+            )}
+            {!proposals.loading && (
               <>
                 <Typography variant="h2" align="center">
                   {new BN(currentVotes).isGreaterThan(0) &&
@@ -126,7 +125,7 @@ export const VotingProposalList: React.FC = () => {
               </>
             )}
           </div>
-          {!loading && canCreateProposal && (
+          {!proposals.loading && canCreateProposal && (
             <Button
               component={ReactRouterLink}
               variant="outlined"
@@ -139,7 +138,7 @@ export const VotingProposalList: React.FC = () => {
               + Create new proposal
             </Button>
           )}
-          {!loading && !canCreateProposal && (
+          {!proposals.loading && !canCreateProposal && (
             <Typography
               variant="h4"
               component="div"
@@ -150,8 +149,8 @@ export const VotingProposalList: React.FC = () => {
             </Typography>
           )}
           <VotingProposals
-            loading={loading}
-            proposals={proposals}
+            loading={proposals.loading}
+            proposals={proposals.value}
             className={classes.list}
           />
           {proposalPages.length > 1 && (

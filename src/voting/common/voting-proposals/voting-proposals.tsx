@@ -11,7 +11,7 @@ import { useVotingProposalsStyles } from './voting-proposals.styles';
 export type VotingProposalsProps = {
   className?: string;
   loading: boolean;
-  proposals: FormattedProposal[];
+  proposals?: FormattedProposal[];
 };
 
 export const VotingProposals: React.FC<VotingProposalsProps> = (props) => {
@@ -24,7 +24,7 @@ export const VotingProposals: React.FC<VotingProposalsProps> = (props) => {
           <Skeleton key={item} className={classes.proposalSkeleton} />
         ))}
       {!props.loading &&
-        props.proposals.map((proposal) => (
+        props.proposals?.map((proposal) => (
           <Typography key={proposal.id} variant="h5" component="div">
             <Link
               component={ReactRouterLink}
@@ -42,7 +42,7 @@ export const VotingProposals: React.FC<VotingProposalsProps> = (props) => {
             </Link>
           </Typography>
         ))}
-      {!props.loading && !props.proposals.length && (
+      {!props.loading && !props.proposals?.length && (
         <Typography variant="h5" component="div">
           <div className={classes.proposal}>
             <Typography variant="inherit" className={classes.proposalTitle}>
