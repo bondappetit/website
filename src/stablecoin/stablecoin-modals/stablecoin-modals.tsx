@@ -11,6 +11,7 @@ import {
 import { config } from 'src/config';
 import { StablecoinCollateralMarketModal } from 'src/stablecoin/stablecoin-collateral-market-modal';
 import { StablecoinMarketModal } from 'src/stablecoin/stablecoin-market-modal';
+import { useRewardToken } from '../common/use-reward-token';
 
 export type StablecoinModalsProps = {
   linkModalOpen: boolean;
@@ -38,6 +39,8 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
     return new BN(result).isGreaterThan(0);
   }, [marketContract.options.address, stableContract.methods]);
 
+  const reward = useRewardToken();
+
   return (
     <>
       <LinkModal
@@ -48,6 +51,7 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
         onBuyMarket={props.onBuyMarket}
         withBuyCollateralMarket
         tokenAddress={networkConfig.assets.Stable.address}
+        rewardPercent={reward.value?.rewardPercent.toFormat(1)}
       />
       <LinkModal
         open={props.sellModalOpen}

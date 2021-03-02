@@ -17,6 +17,7 @@ export type APYWithTokenName = {
   stakingTokenUSDC: string;
   totalSupplyUSDC: BN;
   APY: BN;
+  lockable: boolean;
 } & StakingToken;
 
 async function getAmountsOut(
@@ -52,11 +53,13 @@ export const useStakingApy = (balances: StakingToken[]) => {
         let tokenInUSDC;
         if (balance.liquidityPool) {
           tokenInUSDC = '0';
+
           const {
             data: { pair }
           } = await getPairInfo({
             id: balance.address
           });
+
           tokenInUSDC = new BN(pair?.reserveUSD || 0)
             .div(pair?.totalSupply || 1)
             .toFixed(2);
@@ -90,8 +93,15 @@ export const useStakingApy = (balances: StakingToken[]) => {
 
         const APY = APYBN.integerValue();
 
+        const unstakingStartBlock = await balance.stakingContract.methods
+          .unstakingStartBlock()
+          .call();
+
+        const lockable = new BN(unstakingStartBlock).isGreaterThan(0);
+
         return {
           ...balance,
+          lockable,
           totalSupply: balance.totalSupply,
           totalSupplyUSDC: new BN(balance.totalSupply).multipliedBy(
             tokenInUSDC

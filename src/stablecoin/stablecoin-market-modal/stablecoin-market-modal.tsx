@@ -26,7 +26,7 @@ import {
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useGovernanceTokens } from './use-stablecoin-tokens';
-import { useRewardToken } from './use-reward-token';
+import { useRewardToken } from '../common/use-reward-token';
 
 export type StablecoinMarketModalProps = {
   open: boolean;

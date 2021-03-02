@@ -1,6 +1,6 @@
-import { useCallback, useState } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
+import { useAsyncFn } from 'react-use';
 
 import type { Staking } from 'src/generate/Staking';
 import { dateUtils, BN, useTimeoutInterval } from 'src/common';
@@ -9,15 +9,9 @@ export const useStakingUnstakingBlock = (
   stakingContract?: Staking,
   staking = true
 ) => {
-  const [state, setState] = useState({
-    can: false,
-    date: '',
-    blockNumber: ''
-  });
-
   const { library } = useWeb3React<Web3>();
 
-  const handleStakingBlock = useCallback(async () => {
+  const [state, handleStakingBlock] = useAsyncFn(async () => {
     if (!stakingContract) return;
 
     const stakingMethod = staking
@@ -51,11 +45,11 @@ export const useStakingUnstakingBlock = (
 
     const can = endStakingBlockNumberGreaterZero && greaterThan;
 
-    setState({
+    return {
       can,
       date,
       blockNumber: endStakingBlockNumber.toString(10)
-    });
+    };
   }, [stakingContract, staking, library]);
 
   useTimeoutInterval(handleStakingBlock, 15000, stakingContract);

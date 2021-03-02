@@ -13,6 +13,7 @@ export type MainStakingProps = {
   className?: string;
   staking: APYWithTokenName[];
   totalValueLocked: string;
+  countOfCards: number;
 };
 
 const Grid: React.FC = (props) => {
@@ -48,7 +49,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
       </Plate>
       <Grid>
         {!props.staking.length
-          ? Array.from(Array(2), (_, key) => (
+          ? Array.from(Array(props.countOfCards), (_, key) => (
               <StakingCard loading={!props.staking.length} key={key} />
             ))
           : props.staking.map((stakingItem, index) => {
@@ -62,6 +63,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
                   reward={stakingItem.reward}
                   totalSupply={stakingItem.totalSupply}
                   poolRate={stakingItem.poolRate}
+                  lockable={stakingItem.lockable}
                   stakingContractAddress={
                     stakingItem.stakingContract.options.address
                   }

@@ -7,11 +7,12 @@ type Options = {
   payment: string | number;
 };
 
-export const useRewardToken = (options: Options) => {
+export const useRewardToken = (options?: Options) => {
   const marketContract = useMarketContract();
   const networkConfig = useNetworkConfig();
 
-  const { currency, payment } = options;
+  const { currency = networkConfig.assets.USDC.symbol, payment = 1 } =
+    options ?? {};
 
   const state = useAsyncRetry(async () => {
     const currentAsset = networkConfig.assets[currency];

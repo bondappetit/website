@@ -16,8 +16,7 @@ import {
   estimateGas,
   autoApprove,
   Typography,
-  ButtonBase,
-  humanizeNumeral
+  ButtonBase
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { StakingAcquireModal, StakingAttentionModal } from '../common';
@@ -154,13 +153,10 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
               type="button"
               disabled={formik.isSubmitting}
               onClick={() =>
-                formik.setFieldValue(
-                  'amount',
-                  humanizeNumeral(props.balanceOfToken)
-                )
+                formik.setFieldValue('amount', props.balanceOfToken)
               }
             >
-              {humanizeNumeral(props.balanceOfToken)} max
+              {props.balanceOfToken || 0} max
             </ButtonBase>
           </Typography>
           <Typography

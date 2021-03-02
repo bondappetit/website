@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
 import Tippy from '@tippyjs/react';
-import { useToggle } from 'react-use';
+import { useToggle, useAsyncFn, useAsyncRetry } from 'react-use';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -33,8 +33,6 @@ export const StakingDetail: React.FC = () => {
   const params = useParams<{ tokenId: string }>();
   const { account } = useWeb3React<Web3>();
   const [canUnstake, toggleCanUnstake] = useToggle(false);
-  const [claimLoading, toggleClaimLoading] = useToggle(false);
-  const [unstakeLoading, toggleUnstakeLoading] = useToggle(false);
 
   const stakingConfig = useStakingConfig();
 
@@ -44,7 +42,6 @@ export const StakingDetail: React.FC = () => {
     [currentStakingToken].filter(Boolean)
   );
   const [stakingBalancesWithApy] = useStakingApy(stakingBalances);
-  const [balanceOfToken, setbalanceOfToken] = useState('');
 
   const getBalance = useBalance();
 
@@ -64,44 +61,29 @@ export const StakingDetail: React.FC = () => {
     [stakingBalancesWithApy]
   );
 
-  const handleUnstake = useCallback(() => {
+  const [unstakeState, handleUnstake] = useAsyncFn(async () => {
     if (stakingBalanceIsEmpty) return;
 
-    if (unstake.can) {
+    if (unstake.value?.can && stakingBalancesWithApy?.lockable) {
       toggleCanUnstake(true);
-
-      return;
+    } else {
+      toggleCanUnstake(false);
     }
 
-    toggleUnstakeLoading();
+    await unlock();
 
-    toggleCanUnstake(false);
+    update();
+  }, [unlock, update, stakingBalanceIsEmpty, unstake.value, toggleCanUnstake]);
 
-    unlock().then(() => {
-      update();
-      toggleUnstakeLoading();
-    });
-  }, [
-    unlock,
-    update,
-    stakingBalanceIsEmpty,
-    unstake.can,
-    toggleCanUnstake,
-    toggleUnstakeLoading
-  ]);
-
-  const handleClaim = useCallback(() => {
+  const [claimState, handleClaim] = useAsyncFn(async () => {
     if (stakingBalanceIsEmpty) return;
 
-    toggleClaimLoading();
+    await unlock(false);
 
-    unlock(false).then(() => {
-      update();
-      toggleClaimLoading();
-    });
-  }, [unlock, update, stakingBalanceIsEmpty, toggleClaimLoading]);
+    update();
+  }, [unlock, update, stakingBalanceIsEmpty]);
 
-  const handleGetBalanceOfToken = useCallback(async () => {
+  const balanceOfToken = useAsyncRetry(async () => {
     if (!stakingBalancesWithApy) return;
 
     const balanceOfTokenResult = await getBalance({
@@ -112,12 +94,8 @@ export const StakingDetail: React.FC = () => {
       new BN(10).pow(stakingBalancesWithApy.decimals)
     );
 
-    setbalanceOfToken(balance.isNaN() ? '0' : balance.toString(10));
-  }, [getBalance, stakingBalancesWithApy]);
-
-  useEffect(() => {
-    handleGetBalanceOfToken();
-  }, [handleGetBalanceOfToken, stakingBalances]);
+    return balance.isNaN() ? '0' : balance.toString(10);
+  }, [getBalance, stakingBalancesWithApy, stakingBalances]);
 
   const { tokenName } = currentStakingToken ?? {};
 
@@ -131,6 +109,7 @@ export const StakingDetail: React.FC = () => {
       <MainLayout>
         <PageWrapper className={classes.staking}>
           <StakingHeader
+            lockable={stakingBalancesWithApy?.lockable}
             tokenKey={params.tokenId}
             token={stakingBalancesWithApy?.token}
             APY={stakingBalancesWithApy?.APY}
@@ -145,14 +124,14 @@ export const StakingDetail: React.FC = () => {
                 token={stakingBalancesWithApy?.token}
                 tokenName={tokenName}
                 tokenKey={params.tokenId}
-                canStake={stake.can}
-                stakeDate={stake.date}
-                stakeBlockNumber={stake.blockNumber}
+                canStake={stake.value?.can ?? false}
+                stakeDate={stake.value?.date ?? ''}
+                stakeBlockNumber={stake.value?.blockNumber ?? ''}
                 tokenAddress={stakingBalancesWithApy?.address}
                 stakingContract={stakingBalancesWithApy?.stakingContract}
                 tokenDecimals={stakingBalancesWithApy?.decimals}
                 onSubmit={update}
-                balanceOfToken={balanceOfToken}
+                balanceOfToken={balanceOfToken.value ?? ''}
               />
             </Plate>
             <Plate className={clsx(classes.card, classes.cardFlex)}>
@@ -193,20 +172,20 @@ export const StakingDetail: React.FC = () => {
                     <Button
                       onClick={handleUnstake}
                       className={classes.unlock}
-                      loading={unstakeLoading}
-                      disabled={unstakeLoading}
+                      loading={unstakeState.loading}
+                      disabled={unstakeState.loading}
                     >
                       Unstake
                     </Button>
                   </Tippy>
-                  {unstake.can && (
+                  {unstake.value?.can && stakingBalancesWithApy.lockable && (
                     <Typography
                       variant="body2"
                       align="center"
                       className={classes.attention}
                     >
-                      Unstaking will start at {unstake.date}
-                      <br /> after {unstake.blockNumber} block
+                      Unstaking will start at {unstake.value?.date}
+                      <br /> after {unstake.value?.blockNumber} block
                     </Typography>
                   )}
                 </div>
@@ -231,8 +210,8 @@ export const StakingDetail: React.FC = () => {
                   <Button
                     onClick={handleClaim}
                     className={classes.unlock}
-                    loading={claimLoading}
-                    disabled={claimLoading}
+                    loading={claimState.loading}
+                    disabled={claimState.loading}
                   >
                     Claim
                   </Button>
