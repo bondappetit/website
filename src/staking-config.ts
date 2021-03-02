@@ -47,12 +47,12 @@ const getStakingConfig = (
     liquidityPool: true
   },
 
-  // [getStakingAddress(networkConfig, 'UsdnGovLPStaking')]: {
-  //   contractName: 'UsdnGovLPStaking',
-  //   tokenName: LP,
-  //   token: [Gov, USDN],
-  //   liquidityPool: true
-  // },
+  [getStakingAddress(networkConfig, 'UsdnGovLPStaking')]: {
+    contractName: 'UsdnGovLPStaking',
+    tokenName: LP,
+    token: [Gov, USDN],
+    liquidityPool: true
+  },
 
   // [getStakingAddress(networkConfig, 'WethGovLPStaking')]: {
   //   contractName: 'WethGovLPStaking',
