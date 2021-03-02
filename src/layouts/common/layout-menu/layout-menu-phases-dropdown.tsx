@@ -13,7 +13,7 @@ const PHASES = [
   },
   {
     title: 'Phase 2: Invest in BondAppétit',
-    body: 'Governance and shape the future of the protocol',
+    body: 'Offering of BAG on the open market to purchase RWA assets',
     date: '1 month, starts in a day after P1'
   },
   {
@@ -21,6 +21,12 @@ const PHASES = [
     body:
       'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
     date: '1 month, starts in a day after P2'
+  },
+  {
+    title: 'Phase 4: Direct Investment',
+    body:
+      'Protocol’s capitalization - $100M. No more BAG tokens will be issued to the open market',
+    date: 'in 2 years'
   }
 ];
 

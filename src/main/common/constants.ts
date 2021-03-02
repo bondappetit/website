@@ -5,15 +5,16 @@ export const STEPS = [
     title: 'Protocol launch',
     body:
       'Stake stablecoins in early stage and earn more BAG as staking rewards',
-    startDate: 'February 15',
+    startDate: 'March 15',
     duration: 'Up to 2 months',
-    mobileDate: 'From February 16, up to 2 months duration',
+    mobileDate: 'From March 16, up to 2 months duration',
     active: !config.IS_COLLATERAL
   },
 
   {
     title: 'Invest in BondAppétit',
-    body: 'Governance and shape the future of the protocol',
+    body:
+      'Offering of BAG on the open market to purchase RWA assets in collateral',
     startDate: '1 Day after P1',
     duration: '1 month',
     mobileDate: '1 Day after P1, 1 month duration',
@@ -28,6 +29,16 @@ export const STEPS = [
     duration: '1 month',
     mobileDate: '1 Day after P2, 1 month duration',
     active: config.IS_COLLATERAL
+  },
+
+  {
+    title: 'Direct Investment',
+    body:
+      'Protocol’s capitalization - $100M. No more BAG tokens will be issued to the open market',
+    startDate: '1 Day after P3',
+    duration: '2 years',
+    mobileDate: '1 Day after P3, 2 years',
+    active: false
   }
 ];
 
