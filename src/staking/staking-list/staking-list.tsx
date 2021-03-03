@@ -98,7 +98,7 @@ export const StakingList: React.FC = () => {
                 </Typography>
                 {rewardSum?.rewardInUSDC.isGreaterThan(0) &&
                   stakingBalancesWithApy.value && (
-                    <>(${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
+                    <> (${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
                   )}
               </Typography>
             </Plate>
