@@ -1,9 +1,9 @@
 import clsx from 'clsx';
 import React, { useRef } from 'react';
 import { NavLink as ReactRouterNavLink } from 'react-router-dom';
-import { useLocalStorage, useHoverDirty } from 'react-use';
+import { useHoverDirty } from 'react-use';
 
-import { ButtonBase, Link } from 'src/common';
+import { ButtonBase, Link, useDevMode } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { config } from 'src/config';
 import { useLayoutMenuStyles } from './layout-menu.styles';
@@ -116,7 +116,7 @@ export const LayoutMenu: React.FC<LayoutMenuProps> = ({
 }) => {
   const classes = useLayoutMenuStyles();
 
-  const [devMode] = useLocalStorage('bond:devMode', false);
+  const [devMode] = useDevMode();
 
   const phasesRef = useRef<HTMLButtonElement | null>(null);
 

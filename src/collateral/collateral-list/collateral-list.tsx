@@ -10,7 +10,8 @@ import {
   humanizeNumeral,
   Button,
   LinkIfAccount,
-  useNetworkConfig
+  useNetworkConfig,
+  useDevMode
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
@@ -27,6 +28,8 @@ import {
 
 export const CollateralList: React.FC = () => {
   const classes = useCollateralListStyles();
+
+  const [devMode] = useDevMode();
 
   const stableCoinBalance = useStableCoinBalance();
   const issuerBalance = useIssuerBalance();
@@ -90,20 +93,22 @@ export const CollateralList: React.FC = () => {
               }
             />
           </Plate>
-          <Typography
-            variant="inherit"
-            component="div"
-            className={classes.ussued}
-            align="center"
-          >
-            <Button
-              loading={result.loading}
-              disabled={result.loading}
-              onClick={handleRebalance}
+          {devMode && (
+            <Typography
+              variant="inherit"
+              component="div"
+              className={classes.ussued}
+              align="center"
             >
-              Rebalance
-            </Button>
-          </Typography>
+              <Button
+                loading={result.loading}
+                disabled={result.loading}
+                onClick={handleRebalance}
+              >
+                Rebalance
+              </Button>
+            </Typography>
+          )}
           {config.IS_COLLATERAL ? (
             <CollateralBorrowInfo />
           ) : (
