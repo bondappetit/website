@@ -47,12 +47,12 @@ const config = [
     liquidityPool: true
   },
 
-  // {
-  //   contractName: 'UsdnGovLPStaking',
-  //   tokenName: LP,
-  //   token: [Gov, USDN],
-  //   liquidityPool: true
-  // },
+  {
+    contractName: 'UsdnGovLPStaking',
+    tokenName: LP,
+    token: [Gov, USDN],
+    liquidityPool: true
+  },
 
   // {
   //   contractName: 'WethGovLPStaking',
