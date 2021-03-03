@@ -29,6 +29,14 @@ type FormValues = {
   value: string;
 };
 
+const joinAction = ({ input, ...action }: VotingAddActionFormValues) => {
+  const joinedInput = input
+    .map(({ type, name, value }) => [type, name, value].join(''))
+    .join('');
+
+  return [Object.values(action).join(''), joinedInput].join('');
+};
+
 export const VotingCreateProposal: React.FC = () => {
   const governorContract = useGovernorContract();
   const classes = useVotingCreateProposalStyles();
@@ -113,10 +121,7 @@ export const VotingCreateProposal: React.FC = () => {
   const handleSubmitAction = useCallback(
     (formValues: VotingAddActionFormValues) => {
       const actions = formik.values.actions.map((action) => {
-        if (
-          action.contract + action.functionSig ===
-          formValues.contract + formValues.functionSig
-        ) {
+        if (joinAction(action) === joinAction(formValues)) {
           return formValues;
         }
 

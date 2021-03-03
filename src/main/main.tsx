@@ -9,11 +9,7 @@ import {
   StablecoinModals,
   useStablecoinModals
 } from 'src/stablecoin';
-import {
-  useStakingApy,
-  useStakingBalances,
-  useTotalValueLocked
-} from 'src/staking';
+import { useStakingTokens, useTotalValueLocked } from 'src/staking';
 import { useStakingConfig } from 'src/staking-config';
 import {
   MainStaking,
@@ -34,13 +30,11 @@ export const Main: React.FC = () => {
   const fourTokens = useMemo(() => Object.values(stakingConfig).slice(0, 4), [
     stakingConfig
   ]);
-
-  const [stakingBalances] = useStakingBalances(fourTokens);
-  const stakingBalancesWithApy = useStakingApy(stakingBalances);
+  const stakingBalancesWithApy = useStakingTokens(fourTokens);
 
   const stablecoinBalance = useStableCoinBalance();
 
-  const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy);
+  const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy.value);
 
   const {
     linkModalOpen,
@@ -66,12 +60,16 @@ export const Main: React.FC = () => {
           <MainStaking
             countOfCards={fourTokens.length}
             className={classes.staking}
-            staking={stakingBalancesWithApy}
-            totalValueLocked={totalValueLocked.toFormat(2)}
+            staking={stakingBalancesWithApy.value}
+            totalValueLocked={totalValueLocked?.toFormat(2)}
           />
           <MainStablecoin
             className={classes.stable}
-            stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
+            stablecoinBalance={
+              stablecoinBalance.value
+                ? humanizeNumeral(stablecoinBalance.value)
+                : ''
+            }
             onBuy={togglelinkModal}
             onSell={toggleSellModal}
           />
