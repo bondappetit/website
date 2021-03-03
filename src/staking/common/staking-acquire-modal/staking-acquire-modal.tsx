@@ -16,9 +16,9 @@ export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
   const classes = useStakingAcquireModalStyles();
 
   return (
-    <Modal open={props.open} onClose={props.onClose}>
+    <Modal open={props.open} onClose={props.onClose} className={classes.root}>
       <SmallModal>
-        <div className={classes.root}>
+        <div className={classes.inner}>
           <div className={classes.content}>
             <Typography weight="bold" variant="h5">
               To acquire {props.tokenName}.

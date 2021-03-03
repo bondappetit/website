@@ -15,9 +15,11 @@ export const useRewardToken = (options?: Options) => {
     options ?? {};
 
   const state = useAsyncRetry(async () => {
-    const currentAsset = networkConfig.assets[currency];
+    const currentAsset = Object.values(networkConfig.assets).find(
+      ({ symbol }) => symbol === currency
+    );
 
-    if (!currentAsset || !currency || !payment) return;
+    if (!currentAsset || !payment) return;
 
     const paymentBN = new BN(payment).multipliedBy(
       new BN(10).pow(currentAsset.decimals)

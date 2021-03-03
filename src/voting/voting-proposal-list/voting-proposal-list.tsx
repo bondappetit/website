@@ -24,7 +24,12 @@ const DELEGATE_TO_DEFAULT = '0x0000000000000000000000000000000000000000';
 
 export const VotingProposalList: React.FC = () => {
   const classes = useVotingProposalListStyles();
-  const { proposals, nextPage, pages: proposalPages } = useVotingProposalList();
+  const {
+    proposals,
+    nextPage,
+    pages: proposalPages,
+    currentPage
+  } = useVotingProposalList();
   const {
     currentVotes,
     canCreateProposal,
@@ -153,7 +158,7 @@ export const VotingProposalList: React.FC = () => {
             proposals={proposals.value}
             className={classes.list}
           />
-          {proposalPages.length > 1 && (
+          {proposalPages.length > 1 && proposalPages.length < currentPage && (
             <ButtonBase onClick={nextPage}>show more</ButtonBase>
           )}
         </div>

@@ -1,6 +1,6 @@
 import { useFormik, FormikContext } from 'formik';
-import React, { useCallback, useState } from 'react';
-import { useDebounce, useToggle } from 'react-use';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
@@ -22,8 +22,7 @@ import {
   estimateGas,
   autoApprove,
   BN,
-  useTimeoutInterval,
-  humanizeNumeral
+  useTimeoutInterval
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useStablecoinTokens } from './use-stablecoin-tokens';
@@ -38,7 +37,6 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
   props
 ) => {
   const [balance, setBalance] = useState('0');
-  const [result, setResult] = useState<BN>(new BN(0));
   const tokens = useStablecoinTokens();
   const { account } = useWeb3React<Web3>();
   const collateralMarketContract = useCollateralMarketContract();
@@ -58,7 +56,8 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
   const formik = useFormik({
     initialValues: {
       currency: 'USDC',
-      payment: ''
+      payment: '',
+      youGet: ''
     },
 
     validate: async (formValues) => {
@@ -74,13 +73,15 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
         return error;
       }
 
-      const currentToken = network.assets[formValues.currency];
+      const currentToken = Object.values(network.assets).find(
+        ({ symbol }) => symbol === formValues.currency
+      );
 
       if (!currentToken) return;
 
       const balanceOfToken = await getBalance({
         tokenAddress: currentToken.address,
-        tokenName: currentToken.name
+        tokenName: currentToken.symbol
       });
 
       if (
@@ -95,7 +96,9 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
     },
 
     onSubmit: async (formValues) => {
-      const currentToken = network.assets[formValues.currency];
+      const currentToken = Object.values(network.assets).find(
+        ({ symbol }) => symbol === formValues.currency
+      );
 
       if (!currentToken || !account) return;
 
@@ -134,19 +137,6 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
     }
   });
 
-  useDebounce(
-    () => {
-      if (!formik.values.payment) {
-        setResult(new BN(0));
-        return;
-      }
-
-      setResult(new BN(formik.values.payment));
-    },
-    100,
-    [formik.values.payment, formik.values.currency, tokens]
-  );
-
   useTimeoutInterval(
     async () => {
       const balanceOfToken = await getBalance({
@@ -167,13 +157,26 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
   const handleSuccessClose = useCallback(() => {
     successToggle(false);
     formik.resetForm();
-    setResult(new BN(0));
   }, [successToggle, formik]);
 
   const handleClose = useCallback(() => {
     props.onClose?.();
     formik.resetForm();
   }, [formik, props]);
+
+  const { setFieldValue } = formik;
+
+  useEffect(() => {
+    const payment = new BN(formik.values.payment);
+
+    setFieldValue('youGet', payment.isNaN() ? '0' : payment.toString(10));
+  }, [formik.values.payment, setFieldValue]);
+
+  useEffect(() => {
+    const youGet = new BN(formik.values.youGet);
+
+    setFieldValue('payment', youGet.isNaN() ? '0' : youGet.toString(10));
+  }, [formik.values.youGet, formik.values.currency, setFieldValue]);
 
   return (
     <>
@@ -184,8 +187,8 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
           tokenName="USDp"
           tokens={tokens}
           balance={balance}
+          writableYouGet
           tokenCost={governanceInUSDC}
-          result={humanizeNumeral(result)}
           openWalletListModal={walletsToggle}
         />
       </FormikContext.Provider>
@@ -194,7 +197,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
           <InfoCardSuccess
             tokenName="USDp"
             onClick={handleSuccessClose}
-            purchased={humanizeNumeral(result)}
+            purchased={formik.values.youGet}
           />
         </SmallModal>
       </Modal>

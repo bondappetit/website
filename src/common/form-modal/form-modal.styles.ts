@@ -51,6 +51,10 @@ export const useFormModalStyles = createUseStyles(
       }
     },
 
+    balanceButton: {
+      color: theme.colors.darkBlue
+    },
+
     selectButton: {
       padding: [4, 8],
       margin: [-4, -8],

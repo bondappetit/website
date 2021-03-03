@@ -45,11 +45,11 @@ export const StakingList: React.FC = () => {
       stakingBalancesWithApy.value?.reduce(
         (sum, { reward, rewardInUSDC }) => {
           return {
-            reward: new BN(sum.reward).plus(reward).toFormat(2),
-            rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC).toFormat()
+            reward: new BN(sum.reward).plus(reward),
+            rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC)
           };
         },
-        { reward: '0', rewardInUSDC: '0' }
+        { reward: new BN('0'), rewardInUSDC: new BN('0') }
       ),
     [stakingBalancesWithApy.value]
   );
@@ -96,7 +96,7 @@ export const StakingList: React.FC = () => {
                     <>{humanizeNumeral(rewardSum?.reward)} BAG</>
                   )}
                 </Typography>
-                {rewardSum?.rewardInUSDC !== '0' &&
+                {rewardSum?.rewardInUSDC.isGreaterThan(0) &&
                   stakingBalancesWithApy.value && (
                     <>(${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
                   )}
