@@ -14,8 +14,7 @@ import {
   StakingCard,
   StakingInfo,
   useGovernanceCost,
-  useStakingApy,
-  useStakingBalances,
+  useStakingTokens,
   useTotalValueLocked
 } from 'src/staking/common';
 import { config } from 'src/config';
@@ -31,9 +30,7 @@ export const StakingList: React.FC = () => {
   const stakingConfigValues = useMemo(() => Object.values(stakingConfig), [
     stakingConfig
   ]);
-
-  const [stakingBalances] = useStakingBalances(stakingConfigValues);
-  const stakingBalancesWithApy = useStakingApy(stakingBalances);
+  const stakingBalancesWithApy = useStakingTokens(stakingConfigValues);
   const { governanceInUSDC } = useGovernanceCost();
   const normalizeGovernanceInUSDC = useMemo(
     () =>
@@ -45,19 +42,19 @@ export const StakingList: React.FC = () => {
 
   const rewardSum = useMemo(
     () =>
-      stakingBalancesWithApy.reduce(
+      stakingBalancesWithApy.value?.reduce(
         (sum, { reward, rewardInUSDC }) => {
           return {
-            reward: new BN(sum.reward).plus(reward).toFormat(2),
-            rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC).toFormat()
+            reward: new BN(sum.reward).plus(reward),
+            rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC)
           };
         },
-        { reward: '0', rewardInUSDC: '0' }
+        { reward: new BN('0'), rewardInUSDC: new BN('0') }
       ),
-    [stakingBalancesWithApy]
+    [stakingBalancesWithApy.value]
   );
 
-  const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy);
+  const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy.value);
 
   return (
     <>
@@ -73,38 +70,51 @@ export const StakingList: React.FC = () => {
               <Typography variant="h5" align="center" className={classes.bag}>
                 Total value locked:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  ${humanizeNumeral(totalValueLocked)}
+                  {!stakingBalancesWithApy.value ? (
+                    '...'
+                  ) : (
+                    <>${humanizeNumeral(totalValueLocked)}</>
+                  )}
                 </Typography>
               </Typography>
               <Typography variant="h5" align="center" className={classes.bag}>
                 BAG price:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  ${humanizeNumeral(normalizeGovernanceInUSDC)}
+                  {!stakingBalancesWithApy.value ? (
+                    '...'
+                  ) : (
+                    <>${humanizeNumeral(normalizeGovernanceInUSDC)}</>
+                  )}
                 </Typography>
               </Typography>
               <Typography variant="h5" align="center">
                 You earned:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
-                  {humanizeNumeral(rewardSum.reward)} BAG
+                  {!stakingBalancesWithApy.value ? (
+                    '...'
+                  ) : (
+                    <>{humanizeNumeral(rewardSum?.reward)} BAG</>
+                  )}
                 </Typography>
-                {rewardSum.rewardInUSDC !== '0' && (
-                  <>(${humanizeNumeral(rewardSum.rewardInUSDC)})</>
-                )}
+                {rewardSum?.rewardInUSDC.isGreaterThan(0) &&
+                  stakingBalancesWithApy.value && (
+                    <>(${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
+                  )}
               </Typography>
             </Plate>
           </div>
           <div className={classes.staking}>
-            {!stakingBalancesWithApy.length
+            {!stakingBalancesWithApy.value
               ? Array.from(
                   Array(stakingConfigValues.length),
                   (_, i) => i
                 ).map((key) => (
                   <StakingCard
                     key={key}
-                    loading={!stakingBalancesWithApy.length}
+                    loading={!stakingBalancesWithApy.value}
                   />
                 ))
-              : stakingBalancesWithApy.map((stakingBalance) => (
+              : stakingBalancesWithApy.value?.map((stakingBalance) => (
                   <StakingCard
                     key={stakingBalance.key}
                     stacked={Boolean(Number(stakingBalance.amount))}

@@ -99,7 +99,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
           '...'
         ) : (
           <Typography variant="inherit" weight="bold">
-            {humanizeNumeral(props.poolRate)} BAG / month
+            {humanizeNumeral(props.poolRate)} BAG / day
           </Typography>
         )}
       </Typography>

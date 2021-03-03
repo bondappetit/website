@@ -5,6 +5,10 @@ import { Theme } from 'src/common';
 export const useStakingAcquireModalStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
+      height: '375px'
+    },
+
+    inner: {
       display: 'flex',
       flexDirection: 'column',
       minHeight: '100%'

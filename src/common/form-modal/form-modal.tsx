@@ -19,6 +19,7 @@ import { BN, humanizeNumeral } from '../bignumber';
 export type FormModalValues = {
   currency: string;
   payment: string;
+  youGet: string;
 };
 
 export type FormModalProps = {
@@ -26,10 +27,10 @@ export type FormModalProps = {
   onClose: () => void;
   tokenName: string;
   tokens: Asset[];
-  result: string;
   balance: string;
   tokenCost: string;
   withReward?: boolean;
+  writableYouGet?: boolean;
   reward?: {
     product: BN;
     rewardGov: BN;
@@ -153,7 +154,22 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                   />
                   <div className={classes.input}>
                     <Typography variant="body1" component="div">
-                      Balance: {humanizeNumeral(currentToken?.balance)}
+                      Balance:{' '}
+                      <ButtonBase
+                        type="button"
+                        className={classes.balanceButton}
+                        onClick={
+                          currentToken?.balance
+                            ? () =>
+                                formik.setFieldValue(
+                                  'payment',
+                                  currentToken?.balance
+                                )
+                            : undefined
+                        }
+                      >
+                        {humanizeNumeral(currentToken?.balance ?? '0')}
+                      </ButtonBase>
                     </Typography>
                     <ButtonBase
                       type="button"
@@ -167,19 +183,19 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                 </div>
                 <div className={classes.row}>
                   <div className={classes.input}>
-                    <Typography variant="body1" component="div">
-                      You will get
-                    </Typography>
-                    {props.reward && (
-                      <Typography variant="inherit" component="div">
-                        {humanizeNumeral(props.reward.product)}
-                      </Typography>
-                    )}
-                    {!props.reward && (
-                      <Typography variant="inherit" component="div">
-                        {humanizeNumeral(props.result) || '0.0'}
-                      </Typography>
-                    )}
+                    <Input
+                      name="youGet"
+                      label="You will get"
+                      placeholder="0.0"
+                      type="number"
+                      disabled={formik.isSubmitting}
+                      value={formik.values.youGet}
+                      className={classes.input}
+                      readOnly={!props.writableYouGet}
+                      onChange={
+                        props.writableYouGet ? formik.handleChange : undefined
+                      }
+                    />
                   </div>
                   {props.withReward && rewardHoverable}
                   <div className={classes.input}>

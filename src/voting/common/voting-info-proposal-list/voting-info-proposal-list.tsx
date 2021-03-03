@@ -9,7 +9,7 @@ import { useVotingInfoProposalListStyles } from './voting-info-proposal-list.sty
 
 export type VotingInfoProposalListProps = {
   loading: boolean;
-  proposals: FormattedProposal[];
+  proposals?: FormattedProposal[];
   proposalCount: number;
   className?: string;
 };

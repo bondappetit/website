@@ -7,6 +7,7 @@ export const useVotingProposalListStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       maxWidth: 800,
+      width: '100%',
       margin: '0 auto',
       textAlign: 'center',
       padding: '64px 16px',

@@ -18,13 +18,13 @@ export const VotingInfo: React.FC = () => {
 
   const [linkModalOpen, togglelinkModal] = useToggle(false);
 
-  const { proposals = [], loading, pages } = useVotingProposalList(3);
+  const { proposals, pages } = useVotingProposalList(3);
 
   const networkConfig = useNetworkConfig();
 
   const proposalCount = useMemo(
-    () => Math.round(pages.length * proposals.length),
-    [pages.length, proposals.length]
+    () => Math.round(pages.length * (proposals.value?.length || 0)),
+    [pages.length, proposals.value]
   );
 
   return (
@@ -33,8 +33,8 @@ export const VotingInfo: React.FC = () => {
       <MainLayout>
         <PageWrapper className={classes.root}>
           <VotingInfoProposalList
-            loading={loading}
-            proposals={proposals}
+            loading={proposals.loading}
+            proposals={proposals.value}
             proposalCount={proposalCount}
             className={clsx(classes.proposals, classes.block)}
           />

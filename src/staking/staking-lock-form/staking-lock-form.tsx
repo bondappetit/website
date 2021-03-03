@@ -12,11 +12,11 @@ import {
   Button,
   BN,
   useDynamicContract,
-  LinkIfAccount,
   estimateGas,
   autoApprove,
   Typography,
-  ButtonBase
+  ButtonBase,
+  Link
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { StakingAcquireModal, StakingAttentionModal } from '../common';
@@ -33,9 +33,13 @@ export type StakingLockFormProps = {
   onSubmit?: () => void;
   canStake: boolean;
   stakeDate: string;
+  unstakeStart?: string;
   stakeBlockNumber: string;
   balanceOfToken: string;
+  loading: boolean;
 };
+
+const UNISWAP_URL = 'https://app.uniswap.org/#/add/';
 
 export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const classes = useStakingLockFormStyles();
@@ -107,9 +111,12 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   }, [formik]);
 
   const tokenAddresses = useMemo(() => {
-    return Object.values(networkConfig.assets)
+    const addresses = Object.values(networkConfig.assets)
       .filter((asset) => props.token?.includes(asset.symbol))
-      .map(({ address }) => address);
+      .map(({ address }) => address)
+      .join('/');
+
+    return `${UNISWAP_URL}${addresses}`;
   }, [props.token, networkConfig.assets]);
 
   return (
@@ -118,9 +125,9 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         <div>
           <Typography variant="body1" align="center" className={classes.title}>
             Stake your{' '}
-            <LinkIfAccount title={props.tokenName}>
-              {props.tokenAddress ?? ''}
-            </LinkIfAccount>
+            <Link href={tokenAddresses} target="_blank" color="blue">
+              {props.loading ? '...' : props.tokenName}
+            </Link>
           </Typography>
           <Tippy
             visible={Boolean(formik.errors.amount)}
@@ -156,7 +163,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
                 formik.setFieldValue('amount', props.balanceOfToken)
               }
             >
-              {props.balanceOfToken || 0} max
+              {props.loading ? '...' : props.balanceOfToken || 0} max
             </ButtonBase>
           </Typography>
           <Typography
@@ -197,8 +204,8 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
           align="center"
           className={classes.attention}
         >
-          Staking will end at {props.stakeDate}
-          <br /> after {props.stakeBlockNumber} block
+          Staking will end at {props.loading ? '...' : props.stakeDate}
+          <br /> after {props.loading ? '...' : props.stakeBlockNumber} block
         </Typography>
       </form>
       <StakingAcquireModal
@@ -208,7 +215,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         tokenAddresses={tokenAddresses}
       />
       <StakingAttentionModal
-        date={props.stakeDate}
+        date={props.unstakeStart}
         blockNumber={props.stakeBlockNumber}
         open={stakingAttentionOpen}
         onClose={toggleStakingAttention}

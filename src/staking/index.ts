@@ -1,6 +1,5 @@
 export {
-  useStakingBalances,
-  useStakingApy,
+  useStakingTokens,
   useGovernanceCost,
   useTotalValueLocked,
   StakingCard

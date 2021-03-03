@@ -7,7 +7,7 @@ export type StakingAcquireModalProps = {
   open: boolean;
   onClose: () => void;
   tokenName?: string;
-  tokenAddresses?: string[];
+  tokenAddresses?: string;
 };
 
 export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
@@ -16,22 +16,16 @@ export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
   const classes = useStakingAcquireModalStyles();
 
   return (
-    <Modal open={props.open} onClose={props.onClose}>
+    <Modal open={props.open} onClose={props.onClose} className={classes.root}>
       <SmallModal>
-        <div className={classes.root}>
+        <div className={classes.inner}>
           <div className={classes.content}>
             <Typography weight="bold" variant="h5">
               To acquire {props.tokenName}.
             </Typography>
             <Typography variant="h5">
               1. Stake your BAG to{' '}
-              <Link
-                href={`https://app.uniswap.org/#/add/${props.tokenAddresses?.join(
-                  '/'
-                )}`}
-                target="_blank"
-                color="blue"
-              >
+              <Link href={props.tokenAddresses} target="_blank" color="blue">
                 uniswap liquidity pool
               </Link>
             </Typography>
@@ -47,9 +41,7 @@ export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
             className={classes.button}
             component="a"
             target="_blank"
-            href={`https://app.uniswap.org/#/add/${props.tokenAddresses?.join(
-              '/'
-            )}`}
+            href={props.tokenAddresses}
           >
             Go to Liquidity Pool
           </Button>
