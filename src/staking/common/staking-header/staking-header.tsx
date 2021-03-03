@@ -21,6 +21,7 @@ export type StakingHeaderProps = {
   className?: string;
   poolRate?: BN;
   lockable?: boolean;
+  loading: boolean;
 };
 
 export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
@@ -44,51 +45,61 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
       <div className={classes.content}>
         <div className={classes.title}>
           <Typography variant="h2" weight="bold" align="center">
-            {props.token?.map((title, index) => {
-              const Icon = STAKING_ICONS[title];
+            {props.loading
+              ? 'Loading pool...'
+              : props.token?.map((title, index) => {
+                  const Icon = STAKING_ICONS[title];
 
-              return (
-                <React.Fragment key={title}>
-                  {Icon && <Icon />} {title}{' '}
-                  {index === 0 && props.token?.length === 2 ? ' + ' : null}
-                </React.Fragment>
-              );
-            })}
+                  return (
+                    <React.Fragment key={title}>
+                      {Icon && <Icon />} {title}{' '}
+                      {index === 0 && props.token?.length === 2 ? ' + ' : null}
+                    </React.Fragment>
+                  );
+                })}
           </Typography>
           <Typography variant="h2" align="center">
-            APY {humanizeNumeral(props.APY)} %
+            APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
           </Typography>
         </div>
         <div className={classes.info}>
           <Typography variant="body1" component="span">
             Deposit:{' '}
             <Typography variant="inherit" component="span" weight="bold">
-              {tokenName}
+              {props.loading ? '...' : tokenName}
             </Typography>
           </Typography>
           <Typography variant="body1" component="span">
             Earn:{' '}
             <Typography variant="inherit" component="span" weight="bold">
-              BAG
+              {props.loading ? '...' : 'BAG'}
             </Typography>
           </Typography>
           <Typography variant="body1" component="span">
             Total Supply:{' '}
             <Typography variant="inherit" component="span" weight="bold">
-              ${humanizeNumeral(props.totalSupply)}
+              {props.loading ? (
+                '...'
+              ) : (
+                <>${humanizeNumeral(props.totalSupply)}</>
+              )}
             </Typography>
           </Typography>
           <Typography variant="body1" component="span">
             Pool rate:{' '}
             <Typography variant="inherit" component="span" weight="bold">
-              {humanizeNumeral(props.poolRate)} BAG / day
+              {props.loading ? (
+                '...'
+              ) : (
+                <>{humanizeNumeral(props.poolRate)} BAG / day</>
+              )}
             </Typography>
           </Typography>
           {props.lockable && (
             <Typography variant="body1" component="span">
               Locking:{' '}
               <Typography variant="inherit" component="span" weight="bold">
-                6 month
+                {props.loading ? '...' : '6 month'}
               </Typography>
             </Typography>
           )}

@@ -1,6 +1,5 @@
 import React from 'react';
 import { useParams, Link as ReactRouterLink } from 'react-router-dom';
-import BN from 'bignumber.js';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -25,17 +24,13 @@ import { useVoteInfo } from './use-vote-info';
 
 export const VotingProposalDetail: React.FC = () => {
   const { proposalId } = useParams<{ proposalId: string }>();
-  const {
-    proposal,
-    loading,
-    handleUpdateProposalDetail
-  } = useVotingProposalDetail(Number(proposalId));
-  const { currentVotes } = useVoteInfo();
+  const votingProposalState = useVotingProposalDetail(Number(proposalId));
+  const currentVotes = useVoteInfo();
   const classes = useVotingProposalDetailStyles();
 
   return (
     <>
-      <Head title={proposal?.title} />
+      <Head title={votingProposalState.value?.title} />
       <MainLayout>
         <div className={classes.voting}>
           <Typography variant="body1" weight="light" align="center">
@@ -53,7 +48,7 @@ export const VotingProposalDetail: React.FC = () => {
             align="center"
             className={classes.title}
           >
-            {loading ? (
+            {votingProposalState.loading ? (
               <>
                 <Skeleton height={32} className={classes.skeletonTitle} />
                 <Skeleton
@@ -63,7 +58,7 @@ export const VotingProposalDetail: React.FC = () => {
                 />
               </>
             ) : (
-              proposal?.title
+              votingProposalState.value?.title
             )}
           </Typography>
           <Typography
@@ -73,7 +68,7 @@ export const VotingProposalDetail: React.FC = () => {
             className={classes.subtitle}
             component="div"
           >
-            {loading ? (
+            {votingProposalState.loading ? (
               <>
                 <Skeleton
                   height={32}
@@ -83,15 +78,23 @@ export const VotingProposalDetail: React.FC = () => {
               </>
             ) : (
               <>
-                {proposal?.status && (
-                  <Status color={ProposalStateColors[proposal.status]}>
-                    {ProposalState[Number(proposal.status)]}
+                {votingProposalState.value?.status && (
+                  <Status
+                    color={
+                      ProposalStateColors[votingProposalState.value.status]
+                    }
+                  >
+                    {ProposalState[Number(votingProposalState.value.status)]}
                   </Status>
                 )}
-                {ProposalState.Succeeded === Number(proposal?.status) &&
-                  proposal?.eta && (
+                {ProposalState.Succeeded ===
+                  Number(votingProposalState.value?.status) &&
+                  votingProposalState.value?.eta && (
                     <span className={classes.date}>
-                      Queue period {dateUtils.formatUnix(Number(proposal.eta))}
+                      Queue period{' '}
+                      {dateUtils.formatUnix(
+                        Number(votingProposalState.value.eta)
+                      )}
                     </span>
                   )}
               </>
@@ -105,17 +108,17 @@ export const VotingProposalDetail: React.FC = () => {
           >
             In order to be applied, the quorum of 4% must be reached
           </Typography>
-          {new BN(currentVotes).isGreaterThan(0) && (
+          {currentVotes.value?.isGreaterThan(0) && (
             <VotingDetailsAction
               proposalId={proposalId}
-              loading={loading}
-              onUpdate={handleUpdateProposalDetail}
-              forCount={proposal?.forCount}
-              status={proposal?.status}
-              againstCount={proposal?.againstCount}
+              loading={votingProposalState.loading}
+              onUpdate={votingProposalState.retry}
+              forCount={votingProposalState.value?.forCount}
+              status={votingProposalState.value?.status}
+              againstCount={votingProposalState.value?.againstCount}
             />
           )}
-          {new BN(currentVotes).isEqualTo(0) && (
+          {currentVotes.value?.isEqualTo(0) && (
             <Typography
               variant="body1"
               align="center"
@@ -130,10 +133,13 @@ export const VotingProposalDetail: React.FC = () => {
               </Link>
             </Typography>
           )}
-          <VotingDetailsBlock loading={loading} details={proposal?.details} />
+          <VotingDetailsBlock
+            loading={votingProposalState.loading}
+            details={votingProposalState.value?.details}
+          />
           <VotingProposalDescription
-            loading={loading}
-            description={proposal?.description}
+            loading={votingProposalState.loading}
+            description={votingProposalState.value?.description}
           />
         </div>
       </MainLayout>

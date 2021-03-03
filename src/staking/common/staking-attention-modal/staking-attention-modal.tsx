@@ -7,7 +7,7 @@ export type StakingAttentionModalProps = {
   className?: string;
   open: boolean;
   blockNumber: string;
-  date: string;
+  date?: string;
   onClose: () => void;
   onStake: () => void;
 };

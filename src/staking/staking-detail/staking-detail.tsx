@@ -19,8 +19,7 @@ import {
 } from 'src/common';
 import {
   StakingHeader,
-  useStakingApy,
-  useStakingBalances,
+  useStakingTokens,
   useStakingUnlock,
   useStakingUnstakingBlock
 } from 'src/staking/common';
@@ -38,10 +37,13 @@ export const StakingDetail: React.FC = () => {
 
   const currentStakingToken = stakingConfig[params.tokenId];
 
-  const [stakingBalances, update] = useStakingBalances(
+  const stakingBalances = useStakingTokens(
     [currentStakingToken].filter(Boolean)
   );
-  const [stakingBalancesWithApy] = useStakingApy(stakingBalances);
+
+  const stakingBalancesWithApy = useMemo(() => {
+    return stakingBalances.value?.[0];
+  }, [stakingBalances.value]);
 
   const getBalance = useBalance();
 
@@ -72,16 +74,22 @@ export const StakingDetail: React.FC = () => {
 
     await unlock();
 
-    update();
-  }, [unlock, update, stakingBalanceIsEmpty, unstake.value, toggleCanUnstake]);
+    stakingBalances.retry();
+  }, [
+    unlock,
+    stakingBalances.retry,
+    stakingBalanceIsEmpty,
+    unstake.value,
+    toggleCanUnstake
+  ]);
 
   const [claimState, handleClaim] = useAsyncFn(async () => {
     if (stakingBalanceIsEmpty) return;
 
     await unlock(false);
 
-    update();
-  }, [unlock, update, stakingBalanceIsEmpty]);
+    stakingBalances.retry();
+  }, [unlock, stakingBalances.retry, stakingBalanceIsEmpty]);
 
   const balanceOfToken = useAsyncRetry(async () => {
     if (!stakingBalancesWithApy) return;
@@ -95,13 +103,15 @@ export const StakingDetail: React.FC = () => {
     );
 
     return balance.isNaN() ? '0' : balance.toString(10);
-  }, [getBalance, stakingBalancesWithApy, stakingBalances]);
+  }, [getBalance, stakingBalancesWithApy]);
 
   const { tokenName } = currentStakingToken ?? {};
 
   const poolShare = new BN(stakingBalancesWithApy?.amount ?? '0')
-    .div(stakingBalancesWithApy?.totalSupply)
+    .div(stakingBalancesWithApy?.totalSupply ?? '1')
     .multipliedBy(100);
+
+  const loading = !stakingBalances.value || !stakingBalancesWithApy;
 
   return (
     <>
@@ -116,6 +126,7 @@ export const StakingDetail: React.FC = () => {
             totalSupply={stakingBalancesWithApy?.totalSupplyUSDC}
             className={classes.header}
             poolRate={stakingBalancesWithApy?.poolRate}
+            loading={loading}
           />
           <div className={classes.row}>
             <Plate className={classes.card}>
@@ -130,8 +141,10 @@ export const StakingDetail: React.FC = () => {
                 tokenAddress={stakingBalancesWithApy?.address}
                 stakingContract={stakingBalancesWithApy?.stakingContract}
                 tokenDecimals={stakingBalancesWithApy?.decimals}
-                onSubmit={update}
+                unstakeStart={unstake.value?.date}
+                onSubmit={stakingBalances.retry}
                 balanceOfToken={balanceOfToken.value ?? ''}
+                loading={loading}
               />
             </Plate>
             <Plate className={clsx(classes.card, classes.cardFlex)}>
@@ -142,7 +155,7 @@ export const StakingDetail: React.FC = () => {
                     align="center"
                     className={classes.cardTitle}
                   >
-                    You staked {tokenName}
+                    You staked {loading ? '...' : tokenName}
                   </Typography>
                   <Typography variant="h2" align="center">
                     {humanizeNumeral(stakingBalancesWithApy?.amount)}
@@ -152,14 +165,24 @@ export const StakingDetail: React.FC = () => {
                     align="center"
                     className={classes.usd}
                   >
-                    {humanizeNumeral(poolShare)}% Pool share
+                    {loading ? (
+                      '...'
+                    ) : (
+                      <>{humanizeNumeral(poolShare)}% Pool share</>
+                    )}
                   </Typography>
                   <Typography
                     variant="body1"
                     align="center"
                     className={clsx(classes.usd, classes.marginBottom)}
                   >
-                    ${humanizeNumeral(stakingBalancesWithApy?.amountInUSDC)}
+                    {loading ? (
+                      '...'
+                    ) : (
+                      <>
+                        ${humanizeNumeral(stakingBalancesWithApy?.amountInUSDC)}
+                      </>
+                    )}
                   </Typography>
                   <Tippy
                     visible={canUnstake}
@@ -178,7 +201,7 @@ export const StakingDetail: React.FC = () => {
                       Unstake
                     </Button>
                   </Tippy>
-                  {unstake.value?.can && stakingBalancesWithApy.lockable && (
+                  {unstake.value?.can && stakingBalancesWithApy?.lockable && (
                     <Typography
                       variant="body2"
                       align="center"
@@ -198,14 +221,22 @@ export const StakingDetail: React.FC = () => {
                     You earned BAG
                   </Typography>
                   <Typography variant="h2" align="center">
-                    {humanizeNumeral(stakingBalancesWithApy?.reward)}
+                    {loading
+                      ? '...'
+                      : humanizeNumeral(stakingBalancesWithApy?.reward)}
                   </Typography>
                   <Typography
                     variant="body1"
                     align="center"
                     className={clsx(classes.usd, classes.marginBottom2)}
                   >
-                    ${humanizeNumeral(stakingBalancesWithApy?.rewardInUSDC)}
+                    {loading ? (
+                      '...'
+                    ) : (
+                      <>
+                        ${humanizeNumeral(stakingBalancesWithApy?.rewardInUSDC)}
+                      </>
+                    )}
                   </Typography>
                   <Button
                     onClick={handleClaim}

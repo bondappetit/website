@@ -4,19 +4,21 @@ import { useAsyncFn } from 'react-use';
 
 import type { Staking } from 'src/generate/Staking';
 import { dateUtils, BN, useTimeoutInterval } from 'src/common';
+import { useEffect, useRef } from 'react';
 
 export const useStakingUnstakingBlock = (
   stakingContract?: Staking,
   staking = true
 ) => {
   const { library } = useWeb3React<Web3>();
+  const stakingContractRef = useRef(stakingContract);
 
   const [state, handleStakingBlock] = useAsyncFn(async () => {
-    if (!stakingContract) return;
+    if (!stakingContractRef.current) return;
 
     const stakingMethod = staking
-      ? stakingContract.methods.stakingEndBlock()
-      : stakingContract.methods.unstakingStartBlock();
+      ? stakingContractRef.current.methods.stakingEndBlock()
+      : stakingContractRef.current.methods.unstakingStartBlock();
 
     const result = await stakingMethod?.call();
 
@@ -50,7 +52,11 @@ export const useStakingUnstakingBlock = (
       date,
       blockNumber: endStakingBlockNumber.toString(10)
     };
-  }, [stakingContract, staking, library]);
+  }, [staking, library]);
+
+  useEffect(() => {
+    stakingContractRef.current = stakingContract;
+  }, [stakingContract]);
 
   useTimeoutInterval(handleStakingBlock, 15000, stakingContract);
 

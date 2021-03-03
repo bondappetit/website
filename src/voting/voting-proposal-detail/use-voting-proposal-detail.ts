@@ -1,47 +1,22 @@
-import { useCallback, useEffect, useRef, useReducer } from 'react';
+import { useAsyncRetry } from 'react-use';
 
-import { useNetworkConfig, useGovernorContract, useUpdate } from 'src/common';
+import { useNetworkConfig, useGovernorContract } from 'src/common';
 import { useVotingEvents, getProposal } from '../common';
-import {
-  votingProposalDetailReducer,
-  initialState,
-  setLoading,
-  setProposal
-} from './voting-proposal-detail.reducer';
 
-export const useVotingProposalDetail = (proposalId: number) => {
-  const proposalIdRef = useRef(proposalId);
-  const [state, dispatch] = useReducer(
-    votingProposalDetailReducer,
-    initialState
-  );
+export const useVotingProposalDetail = (proposalId?: number) => {
   const governorContract = useGovernorContract();
   const eventData = useVotingEvents();
   const networkConfig = useNetworkConfig();
-  const [update, handleUpdateProposalDetail] = useUpdate();
 
-  const loadExistingProposal = useCallback(async () => {
-    if (!proposalIdRef.current) return;
+  const state = useAsyncRetry(async () => {
+    if (!proposalId) return;
 
-    dispatch(setLoading(true));
-
-    dispatch(
-      setProposal(
-        await getProposal(proposalIdRef.current)(governorContract)(eventData)(
-          networkConfig
-        )
-      )
+    const result = await getProposal(proposalId)(governorContract)(eventData)(
+      networkConfig
     );
 
-    dispatch(setLoading(false));
-  }, [governorContract, eventData, networkConfig]);
+    return result;
+  }, [proposalId, governorContract, eventData, networkConfig]);
 
-  useEffect(() => {
-    loadExistingProposal();
-  }, [loadExistingProposal, update]);
-
-  return {
-    ...state,
-    handleUpdateProposalDetail
-  };
+  return state;
 };
