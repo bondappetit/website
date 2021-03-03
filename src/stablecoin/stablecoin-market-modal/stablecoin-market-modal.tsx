@@ -1,5 +1,5 @@
 import { useFormik, FormikContext } from 'formik';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDebounce, useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
@@ -58,7 +58,8 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   const formik = useFormik({
     initialValues: {
       currency: 'USDC',
-      payment: ''
+      payment: '',
+      youGet: ''
     },
 
     validate: async (formValues) => {
@@ -74,13 +75,15 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         return error;
       }
 
-      const currentToken = network.assets[formValues.currency];
+      const currentToken = Object.values(network.assets).find(
+        ({ symbol }) => symbol === formValues.currency
+      );
 
       if (!currentToken) return;
 
       const balanceOfToken = await getBalance({
         tokenAddress: currentToken.address,
-        tokenName: currentToken.name
+        tokenName: currentToken.symbol
       });
 
       if (
@@ -206,6 +209,17 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     [governanceInUSDC, network.assets.USDC.decimals]
   );
 
+  const { setFieldValue } = formik;
+
+  useEffect(() => {
+    const youGet = reward.value?.product;
+
+    setFieldValue(
+      'youGet',
+      youGet?.isNaN() || !youGet ? '0' : youGet.toString(10)
+    );
+  }, [reward.value, setFieldValue]);
+
   return (
     <>
       <FormikContext.Provider value={formik}>
@@ -218,7 +232,6 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           tokens={tokens.value ?? []}
           balance={balance}
           tokenCost={tokenCost}
-          result={result.toString(10)}
           openWalletListModal={walletsToggle}
         />
       </FormikContext.Provider>
