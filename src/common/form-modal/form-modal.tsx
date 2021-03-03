@@ -65,7 +65,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
       <span>
         <Tippy
           visible={isHovering}
-          content={`The given price is not exact, as the final price will be calculated based on the current ${props.tokenName} conversion rate on Uniswap`}
+          content={`The given price is not exact, as the final price will be calculated based on the current ${props.tokenName} conversion rate on exchange`}
           maxWidth={280}
           offset={[140, 8]}
           animation={false}
