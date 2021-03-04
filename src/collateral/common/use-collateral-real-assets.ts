@@ -1,19 +1,24 @@
 import { useAsyncRetry } from 'react-use';
 import NodeRSA from 'node-rsa';
+import { useWeb3React } from '@web3-react/core';
+import Web3 from 'web3';
 
 import {
   BN,
   dateUtils,
+  humanizeNumeral,
   useNetworkConfig,
   useRealAssetDepositaryBalanceView
 } from 'src/common';
-import { ASSETS_MAP, PROTOCOL_ASSETS } from './contstants';
+import { config } from 'src/config';
+import { ASSETS_MAP, PROTOCOL_ASSETS, ConfigAsset } from './contstants';
 import { TableCellTypes, TableData } from './collateral-table';
 
 type Asset = {
   id: string;
   amount: string;
   price: string;
+  totalValue: BN;
 };
 
 type Proof = {
@@ -46,12 +51,26 @@ const rsa = new NodeRSA(key, 'pkcs8-public-pem', {
   signingScheme: 'pkcs1-sha512'
 });
 
+const defaultAsset: ConfigAsset = {
+  percent: '-',
+  issuer: '-',
+  totalValue: '-',
+  amount: '-',
+  coupon: '-',
+  maturity: '-',
+  isinCode: '-',
+  isValid: false,
+  updatedAt: '-'
+};
+
 const isValid = (data: string, signature: string) =>
   rsa.verify(data, Buffer.from(signature, 'base64'));
 
 export const useCollateralRealAssets = () => {
   const realAssetDepositaryBalanceViewContract = useRealAssetDepositaryBalanceView();
   const networkConfig = useNetworkConfig();
+
+  const { library } = useWeb3React<Web3>();
 
   return useAsyncRetry(async () => {
     const { USDC } = networkConfig.assets;
@@ -60,20 +79,32 @@ export const useCollateralRealAssets = () => {
       .assets()
       .call();
 
-    const normalizedAssets = result.reduce((acc, [id, amount, price]) => {
-      acc.set(id, {
-        id,
-        amount,
-        price
-      });
+    const [normalizedAssets, sumTotalValue] = result.reduce<
+      [Map<string, Asset>, BN]
+    >(
+      ([acc, totalValueAcc], [id, amount, price]) => {
+        const totalValue = new BN(amount)
+          .multipliedBy(price)
+          .div(new BN(10).pow(USDC.decimals));
 
-      return acc;
-    }, new Map<string, Asset>());
+        acc.set(id, {
+          id,
+          amount,
+          price,
+          totalValue
+        });
+
+        return [acc, totalValueAcc.plus(totalValue)];
+      },
+      [new Map<string, Asset>(), new BN(0)]
+    );
+
+    const currentBlock = (await library?.eth.getBlockNumber()) ?? 0;
 
     const events = await realAssetDepositaryBalanceViewContract.getPastEvents(
       'AssetUpdated',
       {
-        fromBlock: 4 * 60 * 24 * 3
+        fromBlock: currentBlock - (!config.IS_DEV ? 5 : 4 * 60 * 24 * 3)
       }
     );
 
@@ -92,7 +123,7 @@ export const useCollateralRealAssets = () => {
             isValid: isValid(data, signature),
             signature,
             data,
-            updatedAt: dateUtils.formatUnix(updatedAt, 'YYYY-MM-DD hh:mm:ss'),
+            updatedAt: dateUtils.formatUnix(updatedAt, 'DD MMM YYYY'),
             ...asset
           } as unknown) as RealAsset);
         }
@@ -102,44 +133,44 @@ export const useCollateralRealAssets = () => {
       new Map<string, RealAsset>()
     );
 
-    const protocolAssets = [...tableDataMap.values()].reduce<TableData['body']>(
-      (acc, tableDataItem) => {
-        const hardcodeAsset = ASSETS_MAP.get(tableDataItem.id);
+    const protocolAssets: TableData['body'] = [
+      ...normalizedAssets.entries()
+    ].map(([id]) => {
+      const asset = tableDataMap.get(id);
+      const hardcodeAsset = ASSETS_MAP.get(id);
 
-        if (hardcodeAsset && tableDataItem.id !== 'USD') {
-          hardcodeAsset.totalValue = new BN(tableDataItem.amount)
-            .multipliedBy(new BN(10).pow(USDC.decimals))
-            .toString(10);
+      const getTableCell = (cell: ConfigAsset) => {
+        return Object.values(cell).map((title) =>
+          typeof title === 'object'
+            ? title
+            : {
+                title
+              }
+        );
+      };
 
-          hardcodeAsset.updatedAt = tableDataItem.updatedAt;
+      const newAsset = hardcodeAsset
+        ? { ...hardcodeAsset }
+        : { ...defaultAsset };
 
-          hardcodeAsset.amount = tableDataItem.amount;
+      if (asset) {
+        newAsset.percent = `${asset.totalValue
+          .div(sumTotalValue)
+          .multipliedBy(100)
+          .integerValue()
+          .toString(10)}%`;
 
-          hardcodeAsset.isValid = tableDataItem.isValid;
+        newAsset.totalValue = `$ ${humanizeNumeral(asset.totalValue)}`;
+        newAsset.updatedAt = asset.updatedAt;
+        newAsset.amount = humanizeNumeral(asset.amount);
+        newAsset.isValid = asset.isValid;
+        newAsset.isinCode = asset.id;
 
-          hardcodeAsset.isinCode = tableDataItem.id;
+        return getTableCell(newAsset);
+      }
 
-          acc.push(
-            Object.values(hardcodeAsset).map((title) => ({
-              title
-            }))
-          );
-        }
-
-        if (hardcodeAsset && tableDataItem.id === 'USD') {
-          hardcodeAsset.isinCode = tableDataItem.id;
-
-          acc.push(
-            Object.values(hardcodeAsset).map((title) => ({
-              title
-            }))
-          );
-        }
-
-        return acc;
-      },
-      []
-    );
+      return getTableCell(newAsset);
+    });
 
     const firstColumn: TableData['body'][number] = [
       {

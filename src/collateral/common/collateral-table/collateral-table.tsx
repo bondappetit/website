@@ -41,9 +41,6 @@ export type CollateralTableProps = {
   id?: string;
 };
 
-const numberIsNotNan = (numberLike: string | boolean) =>
-  !Number.isNaN(Number(numberLike));
-
 const isBoolean = (booleanLike: unknown): booleanLike is boolean =>
   typeof booleanLike === 'boolean';
 
@@ -106,8 +103,7 @@ export const CollateralTable: React.FC<CollateralTableProps> = (props) => {
                           variant="body1"
                           className={classes.tableCellContent}
                         >
-                          {numberIsNotNan(cell.title) &&
-                            !isBoolean(cell.title) &&
+                          {!isBoolean(cell.title) &&
                             isPercentValue(cell.title) && (
                               <PieIcon className={classes.pieIcon}>
                                 {Number(cell.title.replace('%', ''))}

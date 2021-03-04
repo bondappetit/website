@@ -4,23 +4,29 @@ import { useParams } from 'react-router-dom';
 import { Link, PageWrapper, Typography } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useCollateralRealAssets } from '../common';
+import { useCollateralCheckStyles } from './collateral-check.styles';
 
 export const CollateralCheck: React.VFC = () => {
   const tableData = useCollateralRealAssets();
   const params = useParams<{ isinCode: string }>();
 
+  const classes = useCollateralCheckStyles();
+
   return (
     <MainLayout>
       <PageWrapper>
-        <Typography variant="body1">
+        <Typography variant="body1" component="div">
           <Typography variant="inherit" component="div">
             public key:
           </Typography>
-          -----BEGIN PUBLIC KEY-----
-          MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIY/1CNmMbKN7JJiorkpxz2RnX
-          3sClnDZ/zDFm0Zmh+0lU4xfEkjfp05sQzxrbgXztL0HzJkTB8v5HMICuv2WY4nPa
-          s8SgE8wCt19IAS/uiHkPVqOLdnfBN5iKMjOaS7GEkODlnd8KRvyeUQLP3t/a6aQt
-          DSvBPnFsJAs1dKhWwwIDAQAB -----END PUBLIC KEY-----
+          <Typography variant="inherit" className={classes.publicKey}>
+            {`-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIY/1CNmMbKN7JJiorkpxz2RnX
+3sClnDZ/zDFm0Zmh+0lU4xfEkjfp05sQzxrbgXztL0HzJkTB8v5HMICuv2WY4nPa
+s8SgE8wCt19IAS/uiHkPVqOLdnfBN5iKMjOaS7GEkODlnd8KRvyeUQLP3t/a6aQt
+DSvBPnFsJAs1dKhWwwIDAQAB
+-----END PUBLIC KEY-----`}
+          </Typography>
         </Typography>
         <Typography variant="body1">
           data:{' '}

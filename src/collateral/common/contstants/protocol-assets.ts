@@ -1,10 +1,10 @@
-import { TableData } from '../collateral-table';
+import { TableCellTypes, TableData } from '../collateral-table';
 
 export const PROTOCOL_ASSETS: TableData = {
   head: [
     'Borrower',
     '%',
-    'Issuer',
+    'ConfigIssuer',
     'Total value',
     'Amount',
     'Coupon',
@@ -17,9 +17,14 @@ export const PROTOCOL_ASSETS: TableData = {
   body: []
 };
 
-export type HardCodeAsset = {
+export type ConfigIssuer = {
+  cellType: TableCellTypes;
+  title: string;
+};
+
+export type ConfigAsset = {
   percent: string;
-  issuer: string;
+  issuer: string | ConfigIssuer;
   totalValue: string;
   amount: string;
   coupon: string;
@@ -29,7 +34,7 @@ export type HardCodeAsset = {
   isValid: boolean | string;
 };
 
-export const ASSETS_MAP = new Map<string, HardCodeAsset>([
+export const ASSETS_MAP = new Map<string, ConfigAsset>([
   [
     'USD',
     {
