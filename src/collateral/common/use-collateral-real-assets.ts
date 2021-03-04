@@ -94,7 +94,7 @@ export const useCollateralRealAssets = () => {
 
       acc.set(id, {
         id,
-        amount,
+        amount: ['USD'].includes(id) ? totalValue.toString() : amount,
         price,
         totalValue,
         ...(updateEvent
