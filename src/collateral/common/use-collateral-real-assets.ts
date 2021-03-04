@@ -104,7 +104,7 @@ export const useCollateralRealAssets = () => {
     const events = await realAssetDepositaryBalanceViewContract.getPastEvents(
       'AssetUpdated',
       {
-        fromBlock: currentBlock - (!config.IS_DEV ? 5 : 4 * 60 * 24 * 3)
+        fromBlock: currentBlock - (config.IS_DEV ? 5 : 4 * 60 * 24 * 3)
       }
     );
 
