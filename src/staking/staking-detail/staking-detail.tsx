@@ -21,7 +21,7 @@ import {
   StakingHeader,
   useStakingTokens,
   useStakingUnlock,
-  useStakingUnstakingBlock
+  useCanUnStaking
 } from 'src/staking/common';
 import { useStakingConfig } from 'src/staking-config';
 import { StakingLockForm } from '../staking-lock-form';
@@ -49,14 +49,7 @@ export const StakingDetail: React.FC = () => {
 
   const unlock = useStakingUnlock(stakingBalancesWithApy?.stakingContract);
 
-  const stake = useStakingUnstakingBlock(
-    stakingBalancesWithApy?.stakingContract
-  );
-
-  const unstake = useStakingUnstakingBlock(
-    stakingBalancesWithApy?.stakingContract,
-    false
-  );
+  const unstake = useCanUnStaking(stakingBalancesWithApy?.stakingContract);
 
   const stakingBalanceIsEmpty = useMemo(
     () => !Number(stakingBalancesWithApy?.amount),
@@ -66,11 +59,12 @@ export const StakingDetail: React.FC = () => {
   const [unstakeState, handleUnstake] = useAsyncFn(async () => {
     if (stakingBalanceIsEmpty) return;
 
-    if (unstake.value?.can && stakingBalancesWithApy?.lockable) {
+    if (!unstake.value?.can && stakingBalancesWithApy?.lockable) {
       toggleCanUnstake(true);
-    } else {
-      toggleCanUnstake(false);
+
+      return;
     }
+    toggleCanUnstake(false);
 
     await unlock();
 
@@ -135,9 +129,6 @@ export const StakingDetail: React.FC = () => {
                 token={stakingBalancesWithApy?.token}
                 tokenName={tokenName}
                 tokenKey={params.tokenId}
-                canStake={stake.value?.can ?? false}
-                stakeDate={stake.value?.date ?? ''}
-                stakeBlockNumber={stake.value?.blockNumber ?? ''}
                 tokenAddress={stakingBalancesWithApy?.address}
                 stakingContract={stakingBalancesWithApy?.stakingContract}
                 tokenDecimals={stakingBalancesWithApy?.decimals}
@@ -201,16 +192,18 @@ export const StakingDetail: React.FC = () => {
                       Unstake
                     </Button>
                   </Tippy>
-                  {unstake.value?.can && stakingBalancesWithApy?.lockable && (
-                    <Typography
-                      variant="body2"
-                      align="center"
-                      className={classes.attention}
-                    >
-                      Unstaking will start at {unstake.value?.date}
-                      <br /> after {unstake.value?.blockNumber} block
-                    </Typography>
-                  )}
+                  {unstake.value?.unstakingStartBlock.isGreaterThan(0) &&
+                    stakingBalancesWithApy?.lockable && (
+                      <Typography
+                        variant="body2"
+                        align="center"
+                        className={classes.attention}
+                      >
+                        Unstaking will start at {unstake.value?.date}
+                        <br /> after{' '}
+                        {unstake.value?.unstakingStartBlock.toString(10)} block
+                      </Typography>
+                    )}
                 </div>
                 <div className={classes.unstakeAndClaim}>
                   <Typography

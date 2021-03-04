@@ -19,7 +19,11 @@ import {
   Link
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
-import { StakingAcquireModal, StakingAttentionModal } from '../common';
+import {
+  StakingAcquireModal,
+  StakingAttentionModal,
+  useCanStaking
+} from '../common';
 import { useStakingLockFormStyles } from './staking-lock-form.styles';
 
 export type StakingLockFormProps = {
@@ -31,10 +35,7 @@ export type StakingLockFormProps = {
   stakingContract?: Staking;
   tokenDecimals?: string;
   onSubmit?: () => void;
-  canStake: boolean;
-  stakeDate: string;
   unstakeStart?: string;
-  stakeBlockNumber: string;
   balanceOfToken: string;
   loading: boolean;
 };
@@ -48,6 +49,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const [stakingAttentionOpen, toggleStakingAttention] = useToggle(false);
 
   const networkConfig = useNetworkConfig();
+  const staking = useCanStaking();
 
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
@@ -69,7 +71,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         error.amount = 'Required';
       }
 
-      if (props.canStake) {
+      if (staking.value?.cant) {
         error.amount = 'Staking ended';
       }
 
@@ -184,29 +186,39 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         </div>
         <Button
           type={
-            Number(formik.values.amount) > 0 && formik.isValid
+            Number(formik.values.amount) > 0 &&
+            formik.isValid &&
+            staking.value?.stakingEndBlock.isGreaterThan(0)
               ? 'button'
               : 'submit'
           }
           disabled={formik.isSubmitting}
           loading={formik.isSubmitting}
           onClick={
-            Number(formik.values.amount) > 0 && formik.isValid
+            Number(formik.values.amount) > 0 &&
+            formik.isValid &&
+            staking.value?.stakingEndBlock.isGreaterThan(0)
               ? toggleStakingAttention
               : undefined
           }
         >
           Stake
         </Button>
-        <Typography
-          variant="body2"
-          component="div"
-          align="center"
-          className={classes.attention}
-        >
-          Staking will end at {props.loading ? '...' : props.stakeDate}
-          <br /> after {props.loading ? '...' : props.stakeBlockNumber} block
-        </Typography>
+        {staking.value?.stakingEndBlock.isGreaterThan(0) && (
+          <Typography
+            variant="body2"
+            component="div"
+            align="center"
+            className={classes.attention}
+          >
+            Staking will end at {props.loading ? '...' : staking.value.date}
+            <br /> after{' '}
+            {props.loading
+              ? '...'
+              : staking.value?.stakingEndBlock.toString(10)}{' '}
+            block
+          </Typography>
+        )}
       </form>
       <StakingAcquireModal
         open={aquireOpen}
@@ -216,7 +228,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       />
       <StakingAttentionModal
         date={props.unstakeStart}
-        blockNumber={props.stakeBlockNumber}
+        blockNumber={staking.value?.stakingEndBlock.toString(10) ?? ''}
         open={stakingAttentionOpen}
         onClose={toggleStakingAttention}
         onStake={() => {
