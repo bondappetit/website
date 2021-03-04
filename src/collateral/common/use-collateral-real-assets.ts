@@ -172,5 +172,9 @@ export const useCollateralRealAssets = () => {
       assets: { ...PROTOCOL_ASSETS, body: [firstColumn, ...protocolAssets] },
       tableDataMap
     };
-  }, [realAssetDepositaryBalanceViewContract.methods, networkConfig.assets]);
+  }, [
+    realAssetDepositaryBalanceViewContract.methods,
+    library,
+    networkConfig.assets
+  ]);
 };
