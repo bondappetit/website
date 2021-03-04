@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Link, Typography } from 'src/common';
+import { Link, Typography, numberArray } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useMainEditorStyles } from './main-editor.styles';
 
@@ -22,8 +22,8 @@ export const MainEditor: React.FC<MainEditorProps> = (props) => {
       </div>
       <div className={classes.wrap}>
         <Typography variant="h4" className={classes.numbers}>
-          {Array.from(Array(11), (_, index) => (
-            <div key={index}>{index + 1}</div>
+          {numberArray(11).map((num) => (
+            <div key={num}>{num + 1}</div>
           ))}
         </Typography>
         <div>

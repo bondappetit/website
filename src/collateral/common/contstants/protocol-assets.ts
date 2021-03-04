@@ -1,4 +1,4 @@
-import { TableData, TableCellTypes } from '../collateral-table';
+import { TableData } from '../collateral-table';
 
 export const PROTOCOL_ASSETS: TableData = {
   head: [
@@ -10,197 +10,220 @@ export const PROTOCOL_ASSETS: TableData = {
     'Coupon',
     'Maturity',
     'ISIN code',
+    'Valid',
     'Last update'
   ],
 
-  body: [
-    [
-      {
-        title: 'DigiRepresent Services OÜ',
-        cellType: TableCellTypes.borrower,
-        value: '$0',
-        rowSpan: 100
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '$0'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '0%'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      }
-    ],
-    [
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '$0'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '0%'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      }
-    ],
-    [
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '$0'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '0%'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      }
-    ],
-    [
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '$0'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '0%'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      }
-    ],
-    [
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '$0'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '0%'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      }
-    ],
-    [
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '$0'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '0%'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      }
-    ],
-    [
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '$0'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '0%'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      },
-      {
-        title: '-'
-      }
-    ]
-  ]
+  body: []
 };
+
+export type HardCodeAsset = {
+  percent: string;
+  issuer: string;
+  totalValue: string;
+  amount: string;
+  coupon: string;
+  maturity: string;
+  isinCode: string;
+  updatedAt: string;
+  isValid: boolean | string;
+};
+
+export const ASSETS_MAP = new Map<string, HardCodeAsset>([
+  [
+    'USD',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: '-',
+      updatedAt: '-'
+    }
+  ],
+  [
+    'XS1533921299',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'US247361ZZ42',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'USY00130VS35',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'USP32466AA50',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'XS1890684688',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'US682051AB34',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'US91086QBA58',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'US50247VAA70',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'US456837AK90',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'USN30707AD06',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'US09659X2E17',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'US06738EAQ89',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'US77586TAA43',
+    {
+      percent: '-',
+      issuer: '-',
+      totalValue: '-',
+      amount: '-',
+      coupon: '-',
+      maturity: '-',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ]
+]);

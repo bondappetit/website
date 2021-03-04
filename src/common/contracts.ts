@@ -20,6 +20,7 @@ import type { Buyback } from 'src/generate/Buyback';
 import type { UniswapMarketMaker } from 'src/generate/UniswapMarketMaker';
 import type { CollateralMarket } from 'src/generate/CollateralMarket';
 import type { VestingSplitter } from 'src/generate/VestingSplitter';
+import type { RealAssetDepositaryBalanceView } from 'src/generate/RealAssetDepositaryBalanceView';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -160,3 +161,10 @@ export const useVestingSplitterContract = createUseContract<VestingSplitter>(
     address: network.contracts.VestingSplitter.address
   })
 );
+
+export const useRealAssetDepositaryBalanceView = createUseContract<
+  RealAssetDepositaryBalanceView
+>((network) => ({
+  abi: network.contracts.RealAssetDepositaryBalanceView.abi,
+  address: network.contracts.RealAssetDepositaryBalanceView.address
+}));

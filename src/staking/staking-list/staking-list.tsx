@@ -8,7 +8,8 @@ import {
   Head,
   BN,
   Plate,
-  humanizeNumeral
+  humanizeNumeral,
+  numberArray
 } from 'src/common';
 import {
   StakingCard,
@@ -105,10 +106,7 @@ export const StakingList: React.FC = () => {
           </div>
           <div className={classes.staking}>
             {!stakingBalancesWithApy.value
-              ? Array.from(
-                  Array(stakingConfigValues.length),
-                  (_, i) => i
-                ).map((key) => (
+              ? numberArray(stakingConfigValues.length).map((key) => (
                   <StakingCard
                     key={key}
                     loading={!stakingBalancesWithApy.value}

@@ -1,7 +1,9 @@
 import clsx from 'clsx';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import { ButtonBase } from '../button-base';
 
 import { useScrollStyles } from './scroll-into-view.styles';
+import { useScrollIntoView } from './use-scroll-into-view';
 
 export type ScrollIntoViewProps = {
   target: string;
@@ -10,28 +12,15 @@ export type ScrollIntoViewProps = {
 
 export const ScrollIntoView: React.FC<ScrollIntoViewProps> = (props) => {
   const classes = useScrollStyles();
-  const targetElement = useRef<Element | null>(null);
 
-  useEffect(() => {
-    targetElement.current = document.querySelector(props.target);
-  }, [props.target]);
-
-  const handleScrollIntoView = () => {
-    targetElement.current?.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start'
-    });
-  };
+  const handleScrollIntoView = useScrollIntoView(props.target);
 
   return (
-    <div
+    <ButtonBase
       onClick={handleScrollIntoView}
-      role="button"
-      tabIndex={0}
       className={clsx(props.className, classes.scrollIntoView)}
-      onKeyPress={handleScrollIntoView}
     >
       {props.children}
-    </div>
+    </ButtonBase>
   );
 };
