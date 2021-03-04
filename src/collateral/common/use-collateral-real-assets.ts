@@ -1,7 +1,5 @@
 import { useAsyncRetry } from 'react-use';
 import NodeRSA from 'node-rsa';
-import { useWeb3React } from '@web3-react/core';
-import Web3 from 'web3';
 
 import {
   BN,
@@ -10,7 +8,6 @@ import {
   useNetworkConfig,
   useRealAssetDepositaryBalanceView
 } from 'src/common';
-import { config } from 'src/config';
 import { ASSETS_MAP, PROTOCOL_ASSETS, ConfigAsset } from './contstants';
 import { TableCellTypes, TableData } from './collateral-table';
 
@@ -70,8 +67,6 @@ export const useCollateralRealAssets = () => {
   const realAssetDepositaryBalanceViewContract = useRealAssetDepositaryBalanceView();
   const networkConfig = useNetworkConfig();
 
-  const { library } = useWeb3React<Web3>();
-
   return useAsyncRetry(async () => {
     const { USDC } = networkConfig.assets;
 
@@ -79,98 +74,90 @@ export const useCollateralRealAssets = () => {
       .assets()
       .call();
 
-    const [normalizedAssets, sumTotalValue] = result.reduce<
-      [Map<string, Asset>, BN]
-    >(
-      ([acc, totalValueAcc], [id, amount, price]) => {
-        const totalValue = new BN(amount)
-          .multipliedBy(price)
-          .div(new BN(10).pow(USDC.decimals));
+    const [tableDataMap, sumTotalValue] = await result.reduce<
+      Promise<[Map<string, RealAsset>, BN]>
+    >(async (prev, [id, amount, price, updatedBlockAt]) => {
+      const [acc, totalValueAcc] = await prev;
+      const totalValue = new BN(amount)
+        .multipliedBy(price)
+        .div(new BN(10).pow(USDC.decimals));
 
-        acc.set(id, {
-          id,
-          amount,
-          price,
-          totalValue
-        });
+      const [
+        updateEvent
+      ] = await realAssetDepositaryBalanceViewContract.getPastEvents(
+        'AssetUpdated',
+        {
+          fromBlock: updatedBlockAt,
+          toBlock: updatedBlockAt
+        }
+      );
 
-        return [acc, totalValueAcc.plus(totalValue)];
-      },
-      [new Map<string, Asset>(), new BN(0)]
-    );
+      acc.set(id, {
+        id,
+        amount,
+        price,
+        totalValue,
+        ...(updateEvent
+          ? {
+              signature: updateEvent.returnValues.proof.signature,
+              data: updateEvent.returnValues.proof.data,
+              updatedAt: dateUtils.formatUnix(
+                updateEvent.returnValues.updatedAt,
+                'DD MMM YYYY'
+              ),
+              isValid: isValid(
+                updateEvent.returnValues.proof.data,
+                updateEvent.returnValues.proof.signature
+              )
+            }
+          : {
+              signature: '',
+              data: '',
+              updatedAt: '0',
+              isValid: false
+            })
+      });
 
-    const currentBlock = (await library?.eth.getBlockNumber()) ?? 0;
+      return [acc, totalValueAcc.plus(totalValue)];
+    }, Promise.resolve([new Map<string, RealAsset>(), new BN(0)]));
 
-    const events = await realAssetDepositaryBalanceViewContract.getPastEvents(
-      'AssetUpdated',
-      {
-        fromBlock: currentBlock - (config.IS_DEV ? 5 : 4 * 60 * 24 * 3)
-      }
-    );
+    const protocolAssets: TableData['body'] = [...tableDataMap.entries()].map(
+      ([id, asset]) => {
+        const hardcodeAsset = ASSETS_MAP.get(id);
 
-    const sortedEvents = events
-      .map(({ returnValues }) => returnValues)
-      .sort((a, b) => a.updatedAt - b.updatedAt);
+        const getTableCell = (cell: ConfigAsset) => {
+          return Object.values(cell).map((title) =>
+            typeof title === 'object'
+              ? title
+              : {
+                  title
+                }
+          );
+        };
 
-    const tableDataMap = sortedEvents.reduce<Map<string, RealAsset>>(
-      (acc, { id, proof, updatedAt }) => {
-        const asset = normalizedAssets.get(id);
+        const newAsset = hardcodeAsset
+          ? { ...hardcodeAsset }
+          : { ...defaultAsset };
 
         if (asset) {
-          const { signature, data } = proof;
+          newAsset.percent = `${asset.totalValue
+            .div(sumTotalValue)
+            .multipliedBy(100)
+            .integerValue()
+            .toString(10)}%`;
 
-          acc.set(id, ({
-            isValid: isValid(data, signature),
-            signature,
-            data,
-            updatedAt: dateUtils.formatUnix(updatedAt, 'DD MMM YYYY'),
-            ...asset
-          } as unknown) as RealAsset);
+          newAsset.totalValue = `$ ${humanizeNumeral(asset.totalValue)}`;
+          newAsset.updatedAt = asset.updatedAt;
+          newAsset.amount = humanizeNumeral(asset.amount);
+          newAsset.isValid = asset.isValid;
+          newAsset.isinCode = asset.id;
+
+          return getTableCell(newAsset);
         }
-
-        return acc;
-      },
-      new Map<string, RealAsset>()
-    );
-
-    const protocolAssets: TableData['body'] = [
-      ...normalizedAssets.entries()
-    ].map(([id]) => {
-      const asset = tableDataMap.get(id);
-      const hardcodeAsset = ASSETS_MAP.get(id);
-
-      const getTableCell = (cell: ConfigAsset) => {
-        return Object.values(cell).map((title) =>
-          typeof title === 'object'
-            ? title
-            : {
-                title
-              }
-        );
-      };
-
-      const newAsset = hardcodeAsset
-        ? { ...hardcodeAsset }
-        : { ...defaultAsset };
-
-      if (asset) {
-        newAsset.percent = `${asset.totalValue
-          .div(sumTotalValue)
-          .multipliedBy(100)
-          .integerValue()
-          .toString(10)}%`;
-
-        newAsset.totalValue = `$ ${humanizeNumeral(asset.totalValue)}`;
-        newAsset.updatedAt = asset.updatedAt;
-        newAsset.amount = humanizeNumeral(asset.amount);
-        newAsset.isValid = asset.isValid;
-        newAsset.isinCode = asset.id;
 
         return getTableCell(newAsset);
       }
-
-      return getTableCell(newAsset);
-    });
+    );
 
     const firstColumn: TableData['body'][number] = [
       {
