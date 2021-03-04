@@ -24,7 +24,6 @@ import {
   BN,
   useTimeoutInterval
 } from 'src/common';
-import { useGovernanceCost } from 'src/staking';
 import { useStablecoinTokens } from './use-stablecoin-tokens';
 
 export type StablecoinCollateralMarketModalProps = {
@@ -50,8 +49,6 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
   const [failureOpen, failureToggle] = useToggle(false);
   const [walletsOpen, walletsToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
-
-  const { governanceInUSDC } = useGovernanceCost();
 
   const formik = useFormik({
     initialValues: {
@@ -188,7 +185,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
           tokens={tokens}
           balance={balance}
           writableYouGet
-          tokenCost={governanceInUSDC}
+          tokenCost="1"
           openWalletListModal={walletsToggle}
         />
       </FormikContext.Provider>
