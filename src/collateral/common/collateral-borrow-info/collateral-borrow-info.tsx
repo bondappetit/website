@@ -5,10 +5,12 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 import { Typography, Link } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useCollateralBorrowInfoStyles } from './collateral-borrow-info.styles';
-import { CollateralTable } from '../collateral-table';
-import { PROTOCOL_ASSETS } from '../contstants';
+import { CollateralTable, TableData } from '../collateral-table';
 
-export const CollateralBorrowInfo: React.FC = () => {
+export const CollateralBorrowInfo: React.VFC<{
+  tableData?: TableData;
+  id?: string;
+}> = (props) => {
   const classes = useCollateralBorrowInfoStyles();
 
   return (
@@ -19,7 +21,7 @@ export const CollateralBorrowInfo: React.FC = () => {
           borrowers, which in turn is secured by real world collateral in form
           of bonds kept on special security accounts.
         </Typography>
-        <CollateralTable data={PROTOCOL_ASSETS} emptyFirstCol />
+        <CollateralTable id={props.id} data={props.tableData} emptyFirstCol />
       </div>
       <div className={classes.section}>
         <Typography

@@ -1,5 +1,6 @@
+import { useToggle } from 'react-use';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import {
   PageWrapper,
@@ -9,9 +10,11 @@ import {
   Head,
   humanizeNumeral,
   Button,
-  LinkIfAccount,
-  useNetworkConfig,
-  useDevMode
+  useDevMode,
+  ButtonBase,
+  Modal,
+  SmallModal,
+  useScrollIntoView
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
@@ -23,18 +26,19 @@ import {
   CollateralProtocolState,
   CollateralPhases,
   CollateralBorrowInfo,
-  useIssuerRebalance
+  useIssuerRebalance,
+  useCollateralRealAssets
 } from '../common';
 
 export const CollateralList: React.FC = () => {
   const classes = useCollateralListStyles();
 
+  const [open, toggleOpen] = useToggle(false);
+
   const [devMode] = useDevMode();
 
   const stableCoinBalance = useStableCoinBalance();
   const issuerBalance = useIssuerBalance();
-
-  const networkConfig = useNetworkConfig();
 
   const [result, rebalance] = useIssuerRebalance();
 
@@ -44,6 +48,16 @@ export const CollateralList: React.FC = () => {
       stableCoinBalance.retry();
     });
   };
+
+  const tableData = useCollateralRealAssets();
+
+  const scrollIntoView = useScrollIntoView('#borrower-check');
+
+  const handleClose = useCallback(() => {
+    toggleOpen(false);
+
+    scrollIntoView();
+  }, [toggleOpen, scrollIntoView]);
 
   return (
     <>
@@ -60,8 +74,9 @@ export const CollateralList: React.FC = () => {
               title={<>USDp Issued</>}
               body={
                 <>
-                  {stableCoinBalance.loading && <Skeleton />}
-                  {!stableCoinBalance.loading && (
+                  {stableCoinBalance.loading && !stableCoinBalance ? (
+                    <Skeleton />
+                  ) : (
                     <>{humanizeNumeral(stableCoinBalance.value)} USDp</>
                   )}
                 </>
@@ -77,19 +92,17 @@ export const CollateralList: React.FC = () => {
               title={<>Value of Protocol&apos;s assets</>}
               body={
                 <>
-                  {issuerBalance.loading && <Skeleton />}
-                  {!issuerBalance.loading && (
+                  {issuerBalance.loading && !issuerBalance.value ? (
+                    <Skeleton />
+                  ) : (
                     <>${humanizeNumeral(issuerBalance.value)}</>
                   )}
                 </>
               }
               subtitle={
-                <LinkIfAccount title="check here">
-                  {
-                    networkConfig.contracts.StableTokenDepositaryBalanceView
-                      .address
-                  }
-                </LinkIfAccount>
+                <ButtonBase className={classes.checkHere} onClick={toggleOpen}>
+                  check here
+                </ButtonBase>
               }
             />
           </Plate>
@@ -110,12 +123,20 @@ export const CollateralList: React.FC = () => {
             </Typography>
           )}
           {config.IS_COLLATERAL ? (
-            <CollateralBorrowInfo />
+            <CollateralBorrowInfo
+              id="borrower-check"
+              tableData={tableData.value?.assets}
+            />
           ) : (
             <CollateralPhases />
           )}
         </PageWrapper>
       </MainLayout>
+      <Modal open={open} onClose={toggleOpen}>
+        <SmallModal>
+          <Button onClick={handleClose}>Ok</Button>
+        </SmallModal>
+      </Modal>
     </>
   );
 };

@@ -30,6 +30,10 @@ export const useCollateralListStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 48
       }
+    },
+
+    checkHere: {
+      color: theme.colors.darkBlue
     }
   }),
   {

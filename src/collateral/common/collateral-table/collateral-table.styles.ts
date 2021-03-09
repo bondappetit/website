@@ -16,6 +16,14 @@ export const useCollateralTableStyles = createUseStyles(
 
     pieIcon: {
       marginRight: 8
+    },
+
+    no: {
+      color: theme.colors.red
+    },
+
+    yes: {
+      color: theme.colors.green
     }
   }),
   {
