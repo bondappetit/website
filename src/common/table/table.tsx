@@ -34,7 +34,7 @@ export const Table: React.FC<TableProps> = (props) => {
         tableState: state
       }}
     >
-      <div className={classes.root}>
+      <div className={classes.root} id={props.id}>
         <table className={clsx(classes.table, props.className)}>
           {props.children}
         </table>
