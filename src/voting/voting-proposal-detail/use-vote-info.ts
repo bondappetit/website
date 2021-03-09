@@ -11,7 +11,7 @@ export const useVoteInfo = () => {
   const { account } = useWeb3React<Web3>();
 
   const state = useAsyncRetry(async () => {
-    if (!account) return;
+    if (!account || !governanceContract) return;
 
     const votes = await governanceContract.methods
       .getCurrentVotes(account)

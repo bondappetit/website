@@ -67,7 +67,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
   const price = useAsyncRetry(async () => {
     const currentToken = network.assets[formik.values.currency];
 
-    if (!currentToken) return;
+    if (!currentToken || !investmentContract) return;
 
     const priceOfToken = await investmentContract.methods
       .price(

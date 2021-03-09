@@ -25,6 +25,8 @@ export const useRewardToken = (options?: Options) => {
 
     const paymentBN = new BN(payment).multipliedBy(currentAssetDiv);
 
+    if (!marketContract) return;
+
     const reward = await marketContract.methods
       .price(currentAsset.address, paymentBN.toString(10))
       .call();
@@ -41,5 +43,5 @@ export const useRewardToken = (options?: Options) => {
       rewardGov,
       rewardPercent: rewardGov.div(product).multipliedBy(100)
     };
-  }, [marketContract.methods, currency, payment]);
+  }, [marketContract, currency, payment]);
 };

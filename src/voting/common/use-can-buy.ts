@@ -9,6 +9,8 @@ export const useCanBuy = () => {
   const governanceContract = useGovernanceContract();
 
   const handleGetGovernanceBalance = useCallback(async () => {
+    if (!governanceContract) return;
+
     const balanceOfGovernance = await getBalance({
       tokenAddress: governanceContract.options.address
     });

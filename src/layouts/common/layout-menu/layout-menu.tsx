@@ -68,8 +68,8 @@ const MENU_ITEMS: MenuItem[] = [
       },
 
       {
-        title: 'Oracle',
-        link: URLS.oracle
+        title: 'VestingSplitter',
+        link: URLS.vestingSplitter
       },
 
       {

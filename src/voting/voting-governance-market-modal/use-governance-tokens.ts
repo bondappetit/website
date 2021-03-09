@@ -17,6 +17,8 @@ export const useGovernanceTokens = () => {
   const getBalance = useBalance();
 
   const handleLoadTokenPrices = useCallback(async () => {
+    if (!marketContract) return;
+
     const tokensWithPrice = Object.values(network.assets).reduce<
       Promise<Asset[]>
     >(async (previusPromise, asset) => {

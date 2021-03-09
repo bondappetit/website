@@ -11,7 +11,7 @@ export const useInvestingTokens = () => {
     const tokensWithPrice = Object.values(network.assets)
       .filter(({ investing }) => investing)
       .map(async (asset) => {
-        const price = await investmentContract.methods
+        const price = await investmentContract?.methods
           .price(asset.address, new BN(10).pow(asset.decimals).toString(10))
           .call();
 
@@ -19,7 +19,7 @@ export const useInvestingTokens = () => {
           name: asset.symbol,
           address: asset.address,
           decimals: asset.decimals,
-          price: new BN(price)
+          price: new BN(price ?? 0)
             .div(new BN(10).pow(network.assets.Governance.decimals))
             .toString(10)
         };

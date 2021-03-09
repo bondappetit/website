@@ -9,7 +9,7 @@ export const useVotingProposalDetail = (proposalId?: number) => {
   const networkConfig = useNetworkConfig();
 
   const state = useAsyncRetry(async () => {
-    if (!proposalId) return;
+    if (!proposalId || !governorContract) return;
 
     const result = await getProposal(proposalId)(governorContract)(eventData)(
       networkConfig

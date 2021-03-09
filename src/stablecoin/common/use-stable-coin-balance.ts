@@ -8,6 +8,8 @@ export const useStableCoinBalance = () => {
   const networkConfig = useNetworkConfig();
 
   const state = useAsyncRetry(async () => {
+    if (!stableCoinContract) return;
+
     const stableCoinBalance = await stableCoinContract.methods
       .totalSupply()
       .call();

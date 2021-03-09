@@ -21,6 +21,8 @@ export const useVestingSplitterInfo = () => {
   const { account } = useWeb3React<Web3>();
 
   const state = useAsyncRetry(async () => {
+    if (!vestingContract || !vestingSplitterContract) return;
+
     const result = await vestingContract.methods
       .info(vestingSplitterContract.options.address)
       .call();
@@ -38,7 +40,7 @@ export const useVestingSplitterInfo = () => {
 
   const handleWithDraw = useCallback(
     async (periodId: string) => {
-      if (!account) return;
+      if (!account || !vestingSplitterContract || !vestingContract) return;
 
       toggleLoading(true);
 
@@ -60,13 +62,7 @@ export const useVestingSplitterInfo = () => {
         toggleLoading(false);
       }
     },
-    [
-      vestingSplitterContract,
-      vestingContract.options.address,
-      state,
-      account,
-      toggleLoading
-    ]
+    [vestingSplitterContract, vestingContract, state, account, toggleLoading]
   );
 
   return [state, handleWithDraw, loading] as const;

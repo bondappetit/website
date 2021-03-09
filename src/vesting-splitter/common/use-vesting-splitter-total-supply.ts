@@ -22,6 +22,8 @@ export const useVestingSplitterTotalSupply = () => {
   const { account } = useWeb3React<Web3>();
 
   const state = useAsyncRetry(async () => {
+    if (!vestingSplitterContract) return;
+
     const result = await getBalance({
       tokenAddress: networkConfig.assets.Governance.address,
       accountAddress: vestingSplitterContract.options.address
@@ -37,7 +39,7 @@ export const useVestingSplitterTotalSupply = () => {
   }, [networkConfig, vestingSplitterContract, getBalance]);
 
   const handleSplitTotalSupply = useCallback(async () => {
-    if (!account) return;
+    if (!account || !vestingSplitterContract) return;
 
     toggleLoading(true);
 
@@ -59,7 +61,7 @@ export const useVestingSplitterTotalSupply = () => {
     }
   }, [
     account,
-    vestingSplitterContract.methods,
+    vestingSplitterContract,
     networkConfig.assets.Governance.address,
     toggleLoading,
     state

@@ -85,7 +85,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
     onSubmit: async (formValues) => {
       const currentToken = network.assets[formValues.currency];
 
-      if (!currentToken || !account) return;
+      if (!currentToken || !account || !marketContract) return;
 
       const currentContract = getContract(currentToken.address);
 

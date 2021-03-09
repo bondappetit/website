@@ -24,7 +24,7 @@ export const ProfitSplitterBudget: React.FC<ProfitSplitterBudgetProps> = (
   const budgetContract = useBudgetContract();
 
   const ethBalance = useETHBalance(
-    budgetContract.options.address,
+    budgetContract?.options.address,
     props.updateCount
   );
 

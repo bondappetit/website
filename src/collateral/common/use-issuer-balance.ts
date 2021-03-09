@@ -8,6 +8,8 @@ export const useIssuerBalance = () => {
   const networkConfig = useNetworkConfig();
 
   return useAsyncRetry(async () => {
+    if (!issuerContract) return;
+
     const issuerBalance = await issuerContract.methods.balance().call();
 
     return new BN(issuerBalance).div(

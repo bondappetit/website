@@ -28,6 +28,8 @@ export const VotingInvesting: React.VFC<VotingInvestingProps> = () => {
   const classes = useVotingInvestingStyles();
 
   const state = useAsyncRetry(async () => {
+    if (!governanceContract || !investmentContract) return;
+
     const balanceOfGovernance = await governanceContract.methods
       .balanceOf(investmentContract.options.address)
       .call();

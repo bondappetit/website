@@ -20,6 +20,8 @@ export const useStablecoinTokens = () => {
   const collateralMarketContract = useCollateralMarketContract();
 
   const handleGetTokens = useCallback(async () => {
+    if (!collateralMarketContract) return;
+
     const tokenAddresses = await collateralMarketContract.methods
       .allowedTokens()
       .call();
