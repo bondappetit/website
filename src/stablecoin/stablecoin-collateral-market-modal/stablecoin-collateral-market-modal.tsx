@@ -53,8 +53,8 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
   const formik = useFormik({
     initialValues: {
       currency: 'USDC',
-      payment: '',
-      youGet: ''
+      payment: '0',
+      youGet: '0'
     },
 
     validate: async (formValues) => {
@@ -66,7 +66,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
       }
 
       if (Number(formValues.payment) <= 0) {
-        error.payment = 'payment of currency is required';
+        error.payment = 'Payment of currency is required';
         return error;
       }
 

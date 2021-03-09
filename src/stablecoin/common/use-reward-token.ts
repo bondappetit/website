@@ -14,33 +14,32 @@ export const useRewardToken = (options?: Options) => {
   const { currency = networkConfig.assets.USDC.symbol, payment = 1 } =
     options ?? {};
 
-  const state = useAsyncRetry(async () => {
+  return useAsyncRetry(async () => {
     const currentAsset = Object.values(networkConfig.assets).find(
       ({ symbol }) => symbol === currency
     );
 
-    if (!currentAsset || !payment) return;
+    if (!currentAsset) return;
 
-    const paymentBN = new BN(payment).multipliedBy(
-      new BN(10).pow(currentAsset.decimals)
-    );
+    const currentAssetDiv = new BN(10).pow(currentAsset.decimals);
+
+    const paymentBN = new BN(payment).multipliedBy(currentAssetDiv);
 
     const reward = await marketContract.methods
       .price(currentAsset.address, paymentBN.toString(10))
       .call();
 
-    const div = new BN(10).pow(networkConfig.assets.Governance.decimals);
+    const govDiv = new BN(10).pow(networkConfig.assets.Governance.decimals);
 
-    const product = new BN(reward.product).div(div);
+    const product = new BN(reward.product).div(govDiv);
 
-    const rewardGov = new BN(reward.reward).div(div);
+    const rewardGov = new BN(reward.reward).div(govDiv);
 
     return {
       product,
+      paymentBN,
       rewardGov,
       rewardPercent: rewardGov.div(product).multipliedBy(100)
     };
   }, [marketContract.methods, currency, payment]);
-
-  return state;
 };
