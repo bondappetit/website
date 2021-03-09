@@ -232,7 +232,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           tokens={tokens.value ?? []}
           balance={balance}
           tokenCost={tokenCost}
-          openWalletListModal={walletsToggle}
+          onOpenWallet={walletsToggle}
         />
       </FormikContext.Provider>
       <Modal open={successOpen} onClose={handleSuccessClose}>

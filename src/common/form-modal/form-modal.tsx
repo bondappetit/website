@@ -1,6 +1,6 @@
 import { useFormikContext } from 'formik';
-import React, { useMemo, useCallback } from 'react';
-import { useToggle, useHover } from 'react-use';
+import React, { useMemo, useCallback, useRef } from 'react';
+import { useToggle, useHover, useUpdateEffect } from 'react-use';
 import { useWeb3React } from '@web3-react/core';
 import Tippy from '@tippyjs/react';
 
@@ -30,13 +30,14 @@ export type FormModalProps = {
   balance: string;
   tokenCost: string;
   withReward?: boolean;
-  writableYouGet?: boolean;
   reward?: {
     product: BN;
     rewardGov: BN;
     rewardPercent: BN;
   };
-  openWalletListModal: () => void;
+  onOpenWallet: () => void;
+  onPaymentChange?: () => void;
+  onYouGetChange?: () => void;
 };
 
 export const FormModal: React.FC<FormModalProps> = (props) => {
@@ -56,10 +57,47 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      props.openWalletListModal();
+      props.onOpenWallet();
     },
     [props]
   );
+
+  const youGetRef = useRef(false);
+  const paymentRef = useRef(false);
+
+  useUpdateEffect(() => {
+    if (props.tokenCost === '0' || paymentRef.current) return;
+
+    youGetRef.current = true;
+
+    props.onPaymentChange?.();
+
+    const timeout = setTimeout(() => {
+      youGetRef.current = false;
+    }, 300);
+
+    return () => {
+      youGetRef.current = false;
+      clearTimeout(timeout);
+    };
+  }, [formik.values.payment, props.tokenCost]);
+
+  useUpdateEffect(() => {
+    if (props.tokenCost === '0' || youGetRef.current) return;
+
+    paymentRef.current = true;
+
+    props.onYouGetChange?.();
+
+    const timeout = setTimeout(() => {
+      paymentRef.current = false;
+    }, 300);
+
+    return () => {
+      paymentRef.current = false;
+      clearTimeout(timeout);
+    };
+  }, [formik.values.youGet, props.tokenCost]);
 
   const help = useCallback(
     (isHovering: boolean) => (
@@ -191,10 +229,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                       disabled={formik.isSubmitting}
                       value={formik.values.youGet}
                       className={classes.input}
-                      readOnly={!props.writableYouGet}
-                      onChange={
-                        props.writableYouGet ? formik.handleChange : undefined
-                      }
+                      onChange={formik.handleChange}
                     />
                   </div>
                   {props.withReward && rewardHoverable}

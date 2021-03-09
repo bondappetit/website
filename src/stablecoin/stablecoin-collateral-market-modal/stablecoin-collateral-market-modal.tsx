@@ -184,9 +184,8 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
           tokenName="USDp"
           tokens={tokens}
           balance={balance}
-          writableYouGet
           tokenCost="1"
-          openWalletListModal={walletsToggle}
+          onOpenWallet={walletsToggle}
         />
       </FormikContext.Provider>
       <Modal open={successOpen} onClose={handleSuccessClose}>

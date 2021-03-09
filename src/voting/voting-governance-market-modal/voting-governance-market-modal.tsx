@@ -184,7 +184,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
           tokens={tokens}
           balance={balance}
           tokenCost={governanceInUSDC}
-          openWalletListModal={walletsToggle}
+          onOpenWallet={walletsToggle}
         />
       </FormikContext.Provider>
       <Modal open={successOpen} onClose={handleSuccessClose}>

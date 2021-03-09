@@ -11,6 +11,7 @@ import {
   VotingInfoDecision,
   VotingInfoHowTo
 } from '../common';
+import { VotingInvesting } from '../voting-investing';
 import { useVotingInfoStyles } from './voting-info.styles';
 
 export const VotingInfo: React.FC = () => {
@@ -32,6 +33,7 @@ export const VotingInfo: React.FC = () => {
       <Head title="Shape the future of the protocol using BondAppétit Governance (BAG)" />
       <MainLayout>
         <PageWrapper className={classes.root}>
+          <VotingInvesting />
           <VotingInfoProposalList
             loading={proposals.loading}
             proposals={proposals.value}

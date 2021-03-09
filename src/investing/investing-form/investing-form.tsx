@@ -38,7 +38,7 @@ export type InvestingFormProps = {
 export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
   const classes = useInvestingFormStyles();
 
-  const tokenContracts: Record<string, Ierc20 | null> = {
+  const tokenContracts: Record<string, Ierc20> = {
     USDT: useUSDTContract(),
     DAI: useDAIContract(),
     USDC: useUSDCContract()
@@ -182,8 +182,8 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
             <SmallModal mobile>
               <FormikProvider value={formik}>
                 <BuyTokenForm
-                  setResult={setResult}
-                  openWalletListModal={walletsToggle}
+                  onAmountChange={setResult}
+                  onWalletOpen={walletsToggle}
                   className={props.className}
                   account={account}
                   tokens={tokens}
@@ -208,8 +208,8 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
       {!isMobile && (
         <FormikProvider value={formik}>
           <BuyTokenForm
-            setResult={setResult}
-            openWalletListModal={walletsToggle}
+            onAmountChange={setResult}
+            onWalletOpen={walletsToggle}
             className={props.className}
             account={account}
             tokens={tokens}

@@ -22,6 +22,8 @@ export type LinkModalProps = {
   rewardPercent?: string;
 };
 
+const UNISWAP_URL = 'https://info.uniswap.org/token/';
+
 export const LinkModal: React.FC<LinkModalProps> = (props) => {
   const classes = useLinkModalStyles();
 
@@ -65,7 +67,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
             <Button
               variant="outlined"
               component={Link}
-              href={`https://info.uniswap.org/token/${props.tokenAddress}`}
+              href={`${UNISWAP_URL}${props.tokenAddress}`}
               target="_blank"
               className={classes.button}
             >
