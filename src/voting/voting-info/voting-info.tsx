@@ -50,6 +50,7 @@ export const VotingInfo: React.FC = () => {
         onClose={togglelinkModal}
         withBuyCollateralMarket={false}
         withBuyMarket={false}
+        tokenName={networkConfig.assets.Governance.symbol}
         tokenAddress={networkConfig.assets.Governance.address}
       />
     </>

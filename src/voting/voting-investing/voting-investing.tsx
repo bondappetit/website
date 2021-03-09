@@ -86,7 +86,8 @@ export const VotingInvesting: React.VFC<VotingInvestingProps> = () => {
         onBuyCollateralMarket={handleOpenBuyModal}
         open={linkModalIsOpen}
         onClose={toggleLinkModal}
-        tokenAddress=""
+        tokenName={networkConfig.assets.Governance.symbol}
+        tokenAddress={networkConfig.assets.Governance.address}
       />
     </>
   );
