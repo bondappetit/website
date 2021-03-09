@@ -20,6 +20,7 @@ export type LinkModalProps = {
   withBuyCollateralMarket?: boolean;
   tokenAddress: string;
   rewardPercent?: string;
+  tokenName: string;
 };
 
 const UNISWAP_URL = 'https://info.uniswap.org/token/';
@@ -37,7 +38,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                 onClick={props.onBuyCollateralMarket}
                 className={classes.button}
               >
-                Buy from protocol
+                Buy {props.tokenName}
               </Button>
             )}
             {props.withBuyMarket && (
@@ -50,7 +51,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                   component="span"
                   className={classes.buttonTitle}
                 >
-                  Buy from protocol
+                  Buy {props.tokenName}
                 </Typography>
                 <Typography variant="body1" component="span" align="center">
                   Get extra +{props.rewardPercent}% of your investment as

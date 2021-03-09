@@ -52,12 +52,14 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
         onBuyCollateralMarket={props.onBuyCollateralMarket}
         onBuyMarket={props.onBuyMarket}
         withBuyCollateralMarket
+        tokenName={networkConfig.assets.Stable.symbol}
         tokenAddress={networkConfig.assets.Stable.address}
         rewardPercent={reward.value?.rewardPercent.toFormat(1)}
       />
       <LinkModal
         open={props.sellModalOpen}
         onClose={props.toggleSellModal}
+        tokenName={networkConfig.assets.Stable.symbol}
         tokenAddress={networkConfig.assets.Stable.address}
       />
       <StablecoinMarketModal
