@@ -9,7 +9,7 @@ export const useIssuerRebalance = () => {
   const { account } = useWeb3React<Web3>();
 
   return useAsyncFn(async () => {
-    if (!account) return;
+    if (!account || !issuerContract) return;
 
     const rebalance = issuerContract.methods.rebalance();
 

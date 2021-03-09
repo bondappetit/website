@@ -13,7 +13,7 @@ export const useBuyLiquidity = (
   const marketMakerContract = useUniswapMarketMakerContract();
 
   const handleBuyLiquidity = useCallback(async () => {
-    if (!balance || !account) return;
+    if (!balance || !account || !marketMakerContract) return;
 
     if (Number(balance) <= 0) return;
 

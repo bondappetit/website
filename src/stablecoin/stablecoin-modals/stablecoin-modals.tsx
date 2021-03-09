@@ -32,12 +32,14 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
   const marketContract = useMarketContract();
   const stableContract = useStableCoinContract();
   const state = useAsyncRetry(async () => {
+    if (!stableContract || !marketContract) return;
+
     const result = await stableContract.methods
       .balanceOf(marketContract.options.address)
       .call();
 
     return new BN(result).isGreaterThan(0);
-  }, [marketContract.options.address, stableContract.methods]);
+  }, [marketContract, stableContract]);
 
   const reward = useRewardToken();
 

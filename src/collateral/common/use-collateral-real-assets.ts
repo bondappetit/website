@@ -70,6 +70,8 @@ export const useCollateralRealAssets = () => {
   return useAsyncRetry(async () => {
     const { USDC } = networkConfig.assets;
 
+    if (!realAssetDepositaryBalanceViewContract) return;
+
     const result = await realAssetDepositaryBalanceViewContract.methods
       .assets()
       .call();
@@ -172,5 +174,5 @@ export const useCollateralRealAssets = () => {
       assets: { ...PROTOCOL_ASSETS, body: [firstColumn, ...protocolAssets] },
       tableDataMap
     };
-  }, [realAssetDepositaryBalanceViewContract.methods, networkConfig.assets]);
+  }, [realAssetDepositaryBalanceViewContract, networkConfig.assets]);
 };

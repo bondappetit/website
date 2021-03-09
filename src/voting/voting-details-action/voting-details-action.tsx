@@ -27,7 +27,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
 
   const [votingState, handleVote] = useAsyncFn(
     async (value: boolean) => {
-      if (!account) return;
+      if (!account || !governorContract) return;
 
       try {
         const castVote = governorContract.methods.castVote(
@@ -47,7 +47,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   );
 
   const [executingState, handleExecuteProposal] = useAsyncFn(async () => {
-    if (!account) return;
+    if (!account || !governorContract) return;
 
     try {
       const execute = governorContract.methods.execute(props.proposalId);
@@ -62,7 +62,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   }, [governorContract, props.proposalId, account, onUpdate]);
 
   const [queueState, handleQueueProposal] = useAsyncFn(async () => {
-    if (!account) return;
+    if (!account || !governorContract) return;
 
     try {
       const queue = governorContract.methods.queue(props.proposalId);
@@ -77,7 +77,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   }, [governorContract, props.proposalId, account, onUpdate]);
 
   const receiptState = useAsyncRetry(async () => {
-    if (!account) return;
+    if (!account || !governorContract) return;
 
     const result = await governorContract.methods
       .getReceipt(props.proposalId, account)

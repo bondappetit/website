@@ -39,12 +39,12 @@ export const createUseContract = <T>(cb: Callback) => () => {
       const contractParams = cb(networkConfig);
 
       return (new library.eth.Contract(
-        contractParams.abi,
-        contractParams.address,
-        contractParams.options
+        contractParams?.abi,
+        contractParams?.address,
+        contractParams?.options
       ) as unknown) as T;
     } catch {
-      throw new EthereumNetworkError();
+      return null;
     }
   }, [library, networkConfig]);
 };

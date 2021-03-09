@@ -38,7 +38,7 @@ export type InvestingFormProps = {
 export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
   const classes = useInvestingFormStyles();
 
-  const tokenContracts: Record<string, Ierc20> = {
+  const tokenContracts: Record<string, Ierc20 | null> = {
     USDT: useUSDTContract(),
     DAI: useDAIContract(),
     USDC: useUSDCContract()
@@ -80,7 +80,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
 
       const currentToken = tokens[formValues.currency];
 
-      if (!currentToken) return;
+      if (!currentToken || !governanceContract || !investmentContract) return;
 
       const balanceOfToken = await getBalance({
         tokenAddress: currentToken.address,
@@ -122,6 +122,8 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
         .toString(10);
 
       const currentContract = tokenContracts[currentToken.name];
+
+      if (!investmentContract) return;
 
       try {
         if (currentToken.name === 'ETH') {

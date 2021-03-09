@@ -38,8 +38,8 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
   const profitSplitterContract = useProfitSplitterContract();
 
   const { tokenBalance, tokenContract, asset } = useSplitterBalance(
-    profitSplitterContract.methods.incoming,
-    profitSplitterContract.options.address,
+    profitSplitterContract?.methods.incoming,
+    profitSplitterContract?.options.address,
     props.updateCount
   );
 

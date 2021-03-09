@@ -24,13 +24,13 @@ export const ProfitSplitterMarket: React.FC<ProfitSplitterMarketProps> = (
   const marketMakerContract = useUniswapMarketMakerContract();
 
   const incomig = useSplitterBalance(
-    marketMakerContract.methods.incoming,
-    marketMakerContract.options.address,
+    marketMakerContract?.methods.incoming,
+    marketMakerContract?.options.address,
     props.updateCount
   );
   const support = useSplitterBalance(
-    marketMakerContract.methods.support,
-    marketMakerContract.options.address,
+    marketMakerContract?.methods.support,
+    marketMakerContract?.options.address,
     props.updateCount
   );
 

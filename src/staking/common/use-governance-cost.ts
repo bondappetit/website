@@ -16,6 +16,8 @@ export const useGovernanceCost = () => {
   );
 
   const getGovernanceCost = useCallback(async () => {
+    if (!uniswapRouter) return;
+
     try {
       const [
         ,

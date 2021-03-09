@@ -26,7 +26,7 @@ export const useVoteInfo = () => {
   const [update, handleUpdateVoteInfo] = useUpdate();
 
   const handleGetVotes = useCallback(async () => {
-    if (!account) return;
+    if (!account || !governanceContract) return;
 
     const votes = await governanceContract.methods
       .getCurrentVotes(account)
@@ -51,7 +51,7 @@ export const useVoteInfo = () => {
   }, [account, governanceContract, networkConfig, getBalance]);
 
   const handleCanCreateProposal = useCallback(async () => {
-    if (!account) return;
+    if (!account || !governorContract) return;
 
     const propsalThreshold = await governorContract.methods
       .proposalThreshold()
@@ -88,7 +88,7 @@ export const useVoteInfo = () => {
   }, [governorContract, account, currentVotes, networkConfig]);
 
   const handleGetDelegates = useCallback(async () => {
-    if (!account) return;
+    if (!account || !governanceContract) return;
 
     const delegates = await governanceContract.methods
       .delegates(account)

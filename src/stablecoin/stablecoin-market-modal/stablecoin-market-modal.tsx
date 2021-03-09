@@ -102,7 +102,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         ({ symbol }) => symbol === formValues.currency
       );
 
-      if (!currentToken || !account) return;
+      if (!currentToken || !account || !marketContract) return;
 
       const currentContract = getContract(currentToken.address);
 
@@ -225,7 +225,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
       ({ symbol }) => symbol === formik.values.currency
     );
 
-    if (!currentAsset) return;
+    if (!currentAsset || !marketContract) return;
 
     const currentAssetDiv = new BN(10).pow(currentAsset.decimals);
 

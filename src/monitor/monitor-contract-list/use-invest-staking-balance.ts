@@ -1,64 +1,40 @@
-import { useCallback, useState } from 'react';
+import { useAsyncRetry } from 'react-use';
 
 import {
   useNetworkConfig,
-  useGovStakingContract,
-  useStableStakingContract,
   useGovernanceContract,
   useStableCoinContract,
-  BN,
   useTimeoutInterval
 } from 'src/common';
-import { Balance } from './monitor-contract-list.types';
 
-export const useInvestStakingBalance = (): Balance[] | null => {
-  const [investStakingBalance, setinvestStakingBalance] = useState<
-    Balance[] | null
-  >(null);
+export const useInvestStakingBalance = () => {
   const networkConfig = useNetworkConfig();
-
-  const stakingGovContract = useGovStakingContract();
-  const stakingStableContract = useStableStakingContract();
   const governanceContract = useGovernanceContract();
   const stableCoinContract = useStableCoinContract();
 
-  const handleLoadinvestStakingBalance = useCallback(async () => {
+  const state = useAsyncRetry(async () => {
     const balanceConfig = [
       {
         name: 'Staking BAG',
-        decimals: networkConfig.assets.Governance.decimals,
-        balanceOf: governanceContract.methods.balanceOf(
-          stakingGovContract.options.address
-        )
+        decimals: networkConfig.assets.Governance.decimals
       },
       {
         name: 'Staking USDp',
-        decimals: networkConfig.assets.Stable.decimals,
-        balanceOf: stableCoinContract.methods.balanceOf(
-          stakingStableContract.options.address
-        )
+        decimals: networkConfig.assets.Stable.decimals
       }
     ];
 
     const balances = balanceConfig.map(async (config) => {
-      const balance = await config.balanceOf.call();
-
       return {
         name: config.name,
-        balance: new BN(balance).div(new BN(10).pow(config.decimals))
+        balance: null
       };
     });
 
-    setinvestStakingBalance(await Promise.all(balances));
-  }, [
-    stakingGovContract,
-    stakingStableContract,
-    governanceContract,
-    networkConfig,
-    stableCoinContract
-  ]);
+    return Promise.all(balances);
+  }, [governanceContract, networkConfig, stableCoinContract]);
 
-  useTimeoutInterval(handleLoadinvestStakingBalance, 15000);
+  useTimeoutInterval(state.retry, 15000);
 
-  return investStakingBalance;
+  return state;
 };

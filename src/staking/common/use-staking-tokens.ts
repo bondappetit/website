@@ -48,6 +48,9 @@ async function getAmountsOut(
   amount: string
 ) {
   let amountsOut = '0';
+
+  if (!uniswapRouter) return amountsOut;
+
   try {
     [, amountsOut] = await uniswapRouter.methods
       .getAmountsOut(amount, [tokenA, tokenB])

@@ -97,7 +97,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
         ({ symbol }) => symbol === formValues.currency
       );
 
-      if (!currentToken || !account) return;
+      if (!currentToken || !account || !collateralMarketContract) return;
 
       const currentContract = getContract(currentToken.address);
 

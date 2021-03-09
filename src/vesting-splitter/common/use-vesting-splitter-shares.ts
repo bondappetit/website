@@ -19,6 +19,8 @@ export const useVestingsplitterShares = () => {
   const { account } = useWeb3React<Web3>();
 
   const state = useAsyncRetry(async () => {
+    if (!vestingSplitterContract) return;
+
     const accounts = await vestingSplitterContract.methods.getAccounts().call();
 
     const result = accounts.map(async (accountAddress) => {
@@ -63,7 +65,7 @@ export const useVestingsplitterShares = () => {
   ]);
 
   const handleWithDraw = useCallback(async () => {
-    if (!account) return;
+    if (!account || !vestingSplitterContract) return;
 
     toggleLoading(true);
 
@@ -93,7 +95,7 @@ export const useVestingsplitterShares = () => {
 
   const handleChangeShares = useCallback(
     async (accounts: string[], shares: string[]) => {
-      if (!account || !state.value) return;
+      if (!account || !state.value || !vestingSplitterContract) return;
 
       const changeShares = vestingSplitterContract.methods.changeShares(
         accounts,

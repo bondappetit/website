@@ -20,7 +20,7 @@ export const useInvestingForm = () => {
   const network = useNetworkConfig();
   const getBalance = useBalance();
 
-  const tokenContracts: Record<string, Ierc20> = {
+  const tokenContracts: Record<string, Ierc20 | null> = {
     USDT: useUSDTContract(),
     DAI: useDAIContract(),
     USDC: useUSDCContract()
@@ -82,7 +82,7 @@ export const useInvestingForm = () => {
         ({ symbol }) => symbol === formValues.currency
       );
 
-      if (!currentToken || !account) return;
+      if (!currentToken || !account || !investmentContract) return;
 
       const formInvest = new BN(formValues.payment)
         .multipliedBy(new BN(10).pow(currentToken.decimals))
