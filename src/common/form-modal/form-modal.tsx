@@ -66,38 +66,16 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
   const paymentRef = useRef(false);
 
   useUpdateEffect(() => {
-    if (props.tokenCost === '0' || paymentRef.current) return;
-
-    youGetRef.current = true;
+    if (props.tokenCost === '0' || paymentRef.current || select) return;
 
     props.onPaymentChange?.();
-
-    const timeout = setTimeout(() => {
-      youGetRef.current = false;
-    }, 300);
-
-    return () => {
-      youGetRef.current = false;
-      clearTimeout(timeout);
-    };
-  }, [formik.values.payment, props.tokenCost]);
+  }, [formik.values.payment, props.tokenCost, props.onPaymentChange]);
 
   useUpdateEffect(() => {
-    if (props.tokenCost === '0' || youGetRef.current) return;
-
-    paymentRef.current = true;
+    if (props.tokenCost === '0' || youGetRef.current || select) return;
 
     props.onYouGetChange?.();
-
-    const timeout = setTimeout(() => {
-      paymentRef.current = false;
-    }, 300);
-
-    return () => {
-      paymentRef.current = false;
-      clearTimeout(timeout);
-    };
-  }, [formik.values.youGet, props.tokenCost]);
+  }, [formik.values.youGet, props.tokenCost, props.onYouGetChange]);
 
   const help = useCallback(
     (isHovering: boolean) => (
@@ -168,6 +146,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
               value={formik.values.currency}
               options={props.tokens}
               onChange={(value: string) => {
+                formik.resetForm();
                 formik.setFieldValue('currency', value);
                 toggleSelect();
               }}
@@ -189,6 +168,12 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                     value={formik.values.payment}
                     className={classes.input}
                     onChange={formik.handleChange}
+                    onFocus={() => {
+                      youGetRef.current = true;
+                    }}
+                    onBlur={() => {
+                      youGetRef.current = false;
+                    }}
                   />
                   <div className={classes.input}>
                     <Typography variant="body1" component="div">
@@ -230,6 +215,12 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                       value={formik.values.youGet}
                       className={classes.input}
                       onChange={formik.handleChange}
+                      onFocus={() => {
+                        paymentRef.current = true;
+                      }}
+                      onBlur={() => {
+                        paymentRef.current = false;
+                      }}
                     />
                   </div>
                   {props.withReward && rewardHoverable}
