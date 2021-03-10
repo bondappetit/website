@@ -65,12 +65,12 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
       <StablecoinMarketModal
         open={props.marketModalOpen}
         onClose={props.toggleMarketModal}
-        tokenName="USDp"
+        tokenName="USDap"
       />
       <StablecoinCollateralMarketModal
         open={props.collateralMarketModalOpen}
         onClose={props.toggleCollateralMarketModal}
-        tokenName="USDp"
+        tokenName="USDap"
       />
     </>
   );

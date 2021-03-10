@@ -30,7 +30,7 @@ export const useInvestingTotal = () => {
     return {
       balance,
       totalTokens,
-      percent: balance.div(totalTokens).multipliedBy(100)
+      percent: new BN(1).minus(balance.div(totalTokens)).multipliedBy(100)
     };
   }, [networkConfig.assets]);
 

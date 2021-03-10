@@ -21,7 +21,7 @@ export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
       <div>
         <Typography variant="h2" align="center" className={classes.total}>
           {!props.stablecoinBalance && <Skeleton />}
-          {props.stablecoinBalance && <>{props.stablecoinBalance} USDp</>}
+          {props.stablecoinBalance && <>{props.stablecoinBalance} USDap</>}
         </Typography>
         <div className={classes.actions}>
           <Button className={classes.button} onClick={props.onBuy}>
@@ -32,7 +32,7 @@ export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
           </Button>
         </div>
         <Typography variant="h4" align="center" className={classes.title}>
-          In the foundation of the protocol lies USDp — the first-ever
+          In the foundation of the protocol lies USDap — the first-ever
           decentralized stablecoin based on real-world assets.
         </Typography>
         <Typography variant="h4" align="center">

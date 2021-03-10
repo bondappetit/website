@@ -20,7 +20,7 @@ type MenuItem = {
 
 const MENU_ITEMS: MenuItem[] = [
   {
-    title: 'USDp',
+    title: 'USDap',
     link: URLS.stablecoin
   },
 

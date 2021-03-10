@@ -119,8 +119,8 @@ export const getVotingPresets = (
     ]
   },
   {
-    title: 'Treasury: transfer USDp',
-    description: 'Transfer USDp token from Treasury contract',
+    title: 'Treasury: transfer USDap',
+    description: 'Transfer USDap token from Treasury contract',
     variables: {
       recipient: {
         type: 'address',
@@ -156,9 +156,9 @@ export const getVotingPresets = (
     ]
   },
   {
-    title: 'Issuer: burn USDp',
+    title: 'Issuer: burn USDap',
     description:
-      'Transfer USDp token from Treasury to Issuer contract and call rebalance',
+      'Transfer USDap token from Treasury to Issuer contract and call rebalance',
     variables: {
       amount: {
         type: 'uint256',
@@ -196,8 +196,8 @@ export const getVotingPresets = (
   },
   /*
   {
-    title: 'Market: transfer USDp from Treasury',
-    description: 'Transfer USDp token from Treasury to Market contract',
+    title: 'Market: transfer USDap from Treasury',
+    description: 'Transfer USDap token from Treasury to Market contract',
     variables: {
       amount: {
         type: 'uint256',
