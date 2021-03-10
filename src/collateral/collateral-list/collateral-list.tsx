@@ -71,17 +71,17 @@ export const CollateralList: React.FC = () => {
           <Plate className={clsx(classes.list, classes.ussued)}>
             <CollateralCard
               className={classes.card}
-              title={<>USDp Issued</>}
+              title={<>USDap Issued</>}
               body={
                 <>
                   {stableCoinBalance.loading && !stableCoinBalance ? (
                     <Skeleton />
                   ) : (
-                    <>{humanizeNumeral(stableCoinBalance.value)} USDp</>
+                    <>{humanizeNumeral(stableCoinBalance.value)} USDap</>
                   )}
                 </>
               }
-              subtitle={<>1 USDp = $1 USD</>}
+              subtitle={<>1 USDap = $1 USD</>}
             />
             <CollateralProtocolState
               stableCoinBalanceValue={stableCoinBalance.value}

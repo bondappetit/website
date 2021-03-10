@@ -54,7 +54,7 @@ export const Investing: React.FC = () => {
             title={
               <>
                 Find out more about BondAppétit protocol, our unique stablecoin{' '}
-                backed by real-world debt instruments (USDP), and other
+                backed by real-world debt instruments (USDap), and other
                 components:
               </>
             }

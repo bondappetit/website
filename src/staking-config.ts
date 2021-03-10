@@ -10,7 +10,7 @@ export type StakingConfig = {
 
 const Gov = 'BAG';
 
-const Stable = 'USDp';
+const Stable = 'USDap';
 
 const USDC = 'USDC';
 

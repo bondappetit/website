@@ -19,7 +19,7 @@ export const useInvestStakingBalance = () => {
         decimals: networkConfig.assets.Governance.decimals
       },
       {
-        name: 'Staking USDp',
+        name: 'Staking USDap',
         decimals: networkConfig.assets.Stable.decimals
       }
     ];
