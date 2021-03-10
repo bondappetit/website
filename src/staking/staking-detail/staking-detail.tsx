@@ -8,7 +8,6 @@ import { useToggle, useAsyncFn, useAsyncRetry } from 'react-use';
 
 import { MainLayout } from 'src/layouts';
 import {
-  Button,
   Plate,
   Typography,
   PageWrapper,
@@ -24,6 +23,7 @@ import {
   useCanUnStaking
 } from 'src/staking/common';
 import { useStakingConfig } from 'src/staking-config';
+import { WalletButtonWithFallback } from 'src/wallets';
 import { StakingLockForm } from '../staking-lock-form';
 import { useStakingDetailStyles } from './staking-detail.styles';
 
@@ -149,7 +149,10 @@ export const StakingDetail: React.FC = () => {
                     You staked {loading ? '...' : tokenName}
                   </Typography>
                   <Typography variant="h2" align="center">
-                    {humanizeNumeral(stakingBalancesWithApy?.amount)}
+                    {stakingBalancesWithApy?.amount.isNaN() ||
+                    !stakingBalancesWithApy?.amount.isFinite()
+                      ? '0'
+                      : stakingBalancesWithApy?.amount.toString(10)}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -175,35 +178,36 @@ export const StakingDetail: React.FC = () => {
                       </>
                     )}
                   </Typography>
-                  <Tippy
-                    visible={canUnstake}
-                    content="Unstaking not started"
-                    maxWidth={200}
-                    offset={[0, 25]}
-                    className={classes.tooltip}
-                    animation={false}
-                  >
-                    <Button
-                      onClick={handleUnstake}
-                      className={classes.unlock}
-                      loading={unstakeState.loading}
-                      disabled={unstakeState.loading}
-                    >
-                      Unstake
-                    </Button>
-                  </Tippy>
                   {unstake.value?.unstakingStartBlock.isGreaterThan(0) &&
-                    stakingBalancesWithApy?.lockable && (
-                      <Typography
-                        variant="body2"
-                        align="center"
-                        className={classes.attention}
+                  stakingBalancesWithApy?.lockable ? (
+                    <Typography
+                      variant="body2"
+                      align="center"
+                      className={classes.attention}
+                    >
+                      Unstaking will start at {unstake.value?.date}
+                      <br /> after{' '}
+                      {unstake.value?.unstakingStartBlock.toString(10)} block
+                    </Typography>
+                  ) : (
+                    <Tippy
+                      visible={canUnstake}
+                      content="Unstaking not started"
+                      maxWidth={200}
+                      offset={[0, 25]}
+                      className={classes.tooltip}
+                      animation={false}
+                    >
+                      <WalletButtonWithFallback
+                        onClick={handleUnstake}
+                        className={classes.unlock}
+                        loading={unstakeState.loading}
+                        disabled={unstakeState.loading}
                       >
-                        Unstaking will start at {unstake.value?.date}
-                        <br /> after{' '}
-                        {unstake.value?.unstakingStartBlock.toString(10)} block
-                      </Typography>
-                    )}
+                        Unstake
+                      </WalletButtonWithFallback>
+                    </Tippy>
+                  )}
                 </div>
                 <div className={classes.unstakeAndClaim}>
                   <Typography
@@ -231,21 +235,14 @@ export const StakingDetail: React.FC = () => {
                       </>
                     )}
                   </Typography>
-                  <Button
+                  <WalletButtonWithFallback
                     onClick={handleClaim}
                     className={classes.unlock}
                     loading={claimState.loading}
                     disabled={claimState.loading}
                   >
                     Claim
-                  </Button>
-                  <Typography
-                    variant="body2"
-                    align="center"
-                    className={classes.attention}
-                  >
-                    Claim your rewards anytime
-                  </Typography>
+                  </WalletButtonWithFallback>
                 </div>
               </div>
             </Plate>

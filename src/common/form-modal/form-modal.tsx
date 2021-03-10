@@ -1,13 +1,11 @@
 import { useFormikContext } from 'formik';
 import React, { useMemo, useCallback, useRef } from 'react';
 import { useToggle, useHover, useUpdateEffect } from 'react-use';
-import { useWeb3React } from '@web3-react/core';
 import Tippy from '@tippyjs/react';
 
 import { ReactComponent as HelpIcon } from 'src/assets/icons/help.svg';
 import { ButtonBase } from '../button-base';
 import { Typography } from '../typography';
-import { Button } from '../button';
 import { Input } from '../input';
 import { SmallModal } from '../small-modal';
 import { Modal } from '../modal';
@@ -35,15 +33,13 @@ export type FormModalProps = {
     rewardGov: BN;
     rewardPercent: BN;
   };
-  onOpenWallet: () => void;
+  button: React.ReactNode;
   onPaymentChange?: () => void;
   onYouGetChange?: () => void;
 };
 
-export const FormModal: React.FC<FormModalProps> = (props) => {
+export const FormModal: React.VFC<FormModalProps> = (props) => {
   const classes = useFormModalStyles();
-
-  const { account } = useWeb3React();
 
   const [select, toggleSelect] = useToggle(false);
 
@@ -52,15 +48,6 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
   const currentToken = useMemo(() => {
     return props.tokens.find(({ symbol }) => symbol === formik.values.currency);
   }, [formik.values.currency, props.tokens]);
-
-  const handleOpenWalletList = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-
-      props.onOpenWallet();
-    },
-    [props]
-  );
 
   const youGetRef = useRef(false);
   const paymentRef = useRef(false);
@@ -153,10 +140,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
             />
           )}
           {!select && (
-            <form
-              onSubmit={!account ? handleOpenWalletList : formik.handleSubmit}
-              className={classes.root}
-            >
+            <form onSubmit={formik.handleSubmit} className={classes.root}>
               <div className={classes.inputs}>
                 <div className={classes.row}>
                   <Input
@@ -234,29 +218,19 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                   </div>
                 </div>
               </div>
-              {currentToken?.symbol !== 'USDC' && (
-                <Typography
-                  variant="body1"
-                  align="center"
-                  className={classes.hint}
-                >
-                  {humanizeNumeral(props.tokenCost)} {formik.values.currency}{' '}
-                  per {props.tokenName}, estimated price
-                  {helpHoverable}
-                </Typography>
-              )}
-              <Button
-                type="submit"
-                disabled={
-                  Boolean(formik.errors.payment || formik.errors.currency) ||
-                  formik.isSubmitting
-                }
-                loading={formik.isSubmitting}
-              >
-                {!account
-                  ? 'Connect Wallet'
-                  : formik.errors.payment || formik.errors.currency || 'Buy'}
-              </Button>
+              {currentToken?.symbol !== 'USDC' &&
+                !new BN(props.tokenCost).eq(1) && (
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.hint}
+                  >
+                    {humanizeNumeral(props.tokenCost)} {formik.values.currency}{' '}
+                    per {props.tokenName}, estimated price
+                    {helpHoverable}
+                  </Typography>
+                )}
+              {props.button}
             </form>
           )}
         </SmallModal>

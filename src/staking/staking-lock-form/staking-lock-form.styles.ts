@@ -51,12 +51,6 @@ export const useStakingLockFormStyles = createUseStyles(
         fontSize: 40,
         lineHeight: '48px'
       }
-    },
-
-    attention: {
-      opacity: 0.4,
-      marginTop: 16,
-      minHeight: 40
     }
   }),
   {

@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useToggle } from 'react-use';
 
 import { Head, LinkModal, PageWrapper, useNetworkConfig } from 'src/common';
@@ -11,13 +11,15 @@ import {
   VotingInfoDecision,
   VotingInfoHowTo
 } from '../common';
-import { VotingInvesting } from '../voting-investing';
+import { VotingInvesting, useInvestingTotal } from '../voting-investing';
+import { VotingInvestingForm } from '../voting-investing-form';
 import { useVotingInfoStyles } from './voting-info.styles';
 
 export const VotingInfo: React.FC = () => {
   const classes = useVotingInfoStyles();
 
   const [linkModalOpen, togglelinkModal] = useToggle(false);
+  const [investFormIsOpen, toggleInvestForm] = useToggle(false);
 
   const { proposals, pages } = useVotingProposalList(3);
 
@@ -28,12 +30,24 @@ export const VotingInfo: React.FC = () => {
     [pages.length, proposals.value]
   );
 
+  const investingTotal = useInvestingTotal();
+
+  const handleOpenBuyModal = useCallback(() => {
+    togglelinkModal(false);
+    toggleInvestForm(true);
+  }, [togglelinkModal, toggleInvestForm]);
+
   return (
     <>
       <Head title="Shape the future of the protocol using BondAppétit Governance (BAG)" />
       <MainLayout>
         <PageWrapper className={classes.root}>
-          <VotingInvesting />
+          <VotingInvesting
+            percent={investingTotal.value?.percent?.toString(10)}
+            loading={investingTotal.loading}
+            totalTokens={investingTotal.value?.totalTokens.toFormat(0)}
+            balance={investingTotal.value?.balance.toFormat(0)}
+          />
           <VotingInfoProposalList
             loading={proposals.loading}
             proposals={proposals.value}
@@ -45,11 +59,15 @@ export const VotingInfo: React.FC = () => {
           <VotingInfoHowTo onBuy={togglelinkModal} />
         </PageWrapper>
       </MainLayout>
+      <VotingInvestingForm open={investFormIsOpen} onClose={toggleInvestForm} />
       <LinkModal
         open={linkModalOpen}
         onClose={togglelinkModal}
-        withBuyCollateralMarket={false}
+        withBuyCollateralMarket={
+          investingTotal.value?.balance.isGreaterThan(0) ?? false
+        }
         withBuyMarket={false}
+        onBuyCollateralMarket={handleOpenBuyModal}
         tokenName={networkConfig.assets.Governance.symbol}
         tokenAddress={networkConfig.assets.Governance.address}
       />

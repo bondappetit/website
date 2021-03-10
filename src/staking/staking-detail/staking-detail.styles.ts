@@ -93,7 +93,6 @@ export const useStakingDetailStyles = createUseStyles(
     },
 
     attention: {
-      opacity: 0.4,
       marginTop: 16,
       minHeight: 40
     },

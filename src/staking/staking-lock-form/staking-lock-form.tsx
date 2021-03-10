@@ -9,7 +9,6 @@ import type { Ierc20 } from 'src/generate/IERC20';
 import {
   Input,
   useNetworkConfig,
-  Button,
   BN,
   useDynamicContract,
   estimateGas,
@@ -19,6 +18,7 @@ import {
   Link
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
+import { WalletButtonWithFallback } from 'src/wallets';
 import {
   StakingAcquireModal,
   StakingAttentionModal,
@@ -66,6 +66,10 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
+
+      if (!account) {
+        error.amount = 'Connect your wallet';
+      }
 
       if (Number(formValues.amount) <= 0) {
         error.amount = 'Required';
@@ -184,7 +188,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             </ButtonBase>
           </Typography>
         </div>
-        <Button
+        <WalletButtonWithFallback
           type={
             Number(formik.values.amount) > 0 &&
             formik.isValid &&
@@ -203,22 +207,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
           }
         >
           Stake
-        </Button>
-        {staking.value?.stakingEndBlock.isGreaterThan(0) && (
-          <Typography
-            variant="body2"
-            component="div"
-            align="center"
-            className={classes.attention}
-          >
-            Staking will end at {props.loading ? '...' : staking.value.date}
-            <br /> after{' '}
-            {props.loading
-              ? '...'
-              : staking.value?.stakingEndBlock.toString(10)}{' '}
-            block
-          </Typography>
-        )}
+        </WalletButtonWithFallback>
       </form>
       <StakingAcquireModal
         open={aquireOpen}

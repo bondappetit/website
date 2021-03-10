@@ -4,7 +4,7 @@ export const PROTOCOL_ASSETS: TableData = {
   head: [
     'Borrower',
     '%',
-    'ConfigIssuer',
+    'Issuer',
     'Total value',
     'Amount',
     'Coupon',

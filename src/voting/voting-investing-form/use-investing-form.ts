@@ -2,6 +2,7 @@ import { useWeb3React } from '@web3-react/core';
 import { useFormik } from 'formik';
 import Web3 from 'web3';
 import { useToggle } from 'react-use';
+import { useEffect, useRef } from 'react';
 
 import {
   autoApprove,
@@ -16,9 +17,15 @@ import {
 } from 'src/common';
 import type { Ierc20 } from 'src/generate/IERC20';
 
-export const useInvestingForm = () => {
+export const useInvestingForm = (onSubmit: () => void) => {
   const network = useNetworkConfig();
   const getBalance = useBalance();
+
+  const ref = useRef(onSubmit);
+
+  useEffect(() => {
+    ref.current = onSubmit;
+  }, [onSubmit]);
 
   const tokenContracts: Record<string, Ierc20 | null> = {
     USDT: useUSDTContract(),
@@ -30,7 +37,6 @@ export const useInvestingForm = () => {
 
   const [successOpen, successToggle] = useToggle(false);
   const [failureOpen, failureToggle] = useToggle(false);
-  const [walletsOpen, walletsToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
 
   const { account } = useWeb3React<Web3>();
@@ -125,6 +131,7 @@ export const useInvestingForm = () => {
 
         failureToggle(false);
         successToggle(true);
+        ref.current();
       } catch {
         failureToggle(true);
       } finally {
@@ -140,8 +147,6 @@ export const useInvestingForm = () => {
     successToggle,
     failureOpen,
     failureToggle,
-    walletsOpen,
-    walletsToggle,
     transactionOpen,
     transactionToggle
   };

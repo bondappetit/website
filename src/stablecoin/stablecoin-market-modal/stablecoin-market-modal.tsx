@@ -7,7 +7,7 @@ import type { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { WalletModal } from 'src/wallets';
+import { WalletButtonWithFallback } from 'src/wallets';
 import {
   useNetworkConfig,
   useBalance,
@@ -50,7 +50,6 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
 
   const [successOpen, successToggle] = useToggle(false);
   const [failureOpen, failureToggle] = useToggle(false);
-  const [walletsOpen, walletsToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
 
   const { governanceInUSDC } = useGovernanceCost();
@@ -145,6 +144,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
 
         failureToggle(false);
         successToggle(true);
+        tokens.retry();
       } catch {
         failureToggle(true);
       } finally {
@@ -258,9 +258,19 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           tokens={tokens.value ?? []}
           balance={balance}
           tokenCost={tokenCost}
-          onOpenWallet={walletsToggle}
           onPaymentChange={handlePaymentChange}
           onYouGetChange={handleYouGetChange}
+          button={
+            <WalletButtonWithFallback
+              disabled={
+                Boolean(formik.errors.payment || formik.errors.currency) ||
+                formik.isSubmitting
+              }
+              loading={formik.isSubmitting}
+            >
+              {formik.errors.payment || formik.errors.currency || 'Buy'}
+            </WalletButtonWithFallback>
+          }
         />
       </FormikContext.Provider>
       <Modal open={successOpen} onClose={handleSuccessClose}>
@@ -282,7 +292,6 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           <InfoCardLoader />
         </SmallModal>
       </Modal>
-      <WalletModal open={walletsOpen} onClose={walletsToggle} />
     </>
   );
 };
