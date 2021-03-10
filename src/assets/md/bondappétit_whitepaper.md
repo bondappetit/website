@@ -509,7 +509,7 @@ In order to ensure the fast deployment of the protocol, the protocol will be lau
 
 ### Phase 1. Deployment of The Protocol
 
-The first phase of the protocol is initiated in order to attract enough liquidity for USDp on Uniswap. This step is vital to ease up listing processes for assets of the protocol. During this phase, users will be able to invest USDC/USDN in the protocol by locking up their funds for a 6-month period. As a reward for this action, the protocol will distribute 10% of initial BAG offering to all participants of the first phase.
+The first phase of the protocol is initiated in order to attract enough liquidity for USDp on Uniswap. This step is vital to ease up listing processes for assets of the protocol. During this phase, users will be able to invest USDC/USDN in the protocol by locking up their funds for a 6-month period. As a reward for this action, the protocol will distribute 5% of initial BAG offering to all participants of the first phase.
 
 ### Phase 2. Investment Stage
 
