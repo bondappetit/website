@@ -15,7 +15,7 @@ import {
   useNetworkConfig,
   useTimeoutInterval
 } from 'src/common';
-import { WalletModal } from 'src/wallets';
+import { WalletButtonWithFallback } from 'src/wallets';
 import { useInvestingTokens } from './use-investing-tokens';
 import { useInvestingForm } from './use-investing-form';
 
@@ -27,16 +27,17 @@ export type VotingInvestingFormProps = {
 export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
   props
 ) => {
+  const tokens = useInvestingTokens();
+
   const {
     formik,
-    walletsToggle,
     successOpen,
-    walletsOpen,
     failureToggle,
     failureOpen,
     transactionOpen,
     successToggle
-  } = useInvestingForm();
+  } = useInvestingForm(tokens.retry);
+
   const network = useNetworkConfig();
 
   const investmentContract = useInvestmentContract();
@@ -44,8 +45,6 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
   const [balance, setBalance] = useState('');
 
   const getBalance = useBalance();
-
-  const tokens = useInvestingTokens();
 
   useTimeoutInterval(
     async () => {
@@ -64,8 +63,10 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
     getBalance
   );
 
-  const price = useAsyncRetry(async () => {
-    const currentToken = network.assets[formik.values.currency];
+  const tokenPrices = useAsyncRetry(async () => {
+    const currentToken = Object.values(network.assets).find(
+      ({ symbol }) => symbol === formik.values.currency
+    );
 
     if (!currentToken || !investmentContract) return;
 
@@ -76,9 +77,14 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
       )
       .call();
 
-    return new BN(priceOfToken)
-      .div(new BN(10).pow(network.assets.Governance.decimals))
-      .toString(10);
+    const priceBN = new BN(priceOfToken);
+
+    return {
+      price: priceBN
+        .div(new BN(10).pow(network.assets.Governance.decimals))
+        .toString(10),
+      converPrice: priceBN.toString(10)
+    };
   }, [formik.values.currency]);
 
   const handleSuccessClose = useCallback(() => {
@@ -90,17 +96,19 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
 
   const handlePaymentChange = useCallback(() => {
     const youGet = new BN(formik.values.payment).multipliedBy(
-      price.value ?? ''
+      tokenPrices.value?.price ?? ''
     );
 
     setFieldValue('youGet', !youGet.isFinite() ? '0' : youGet.toString(10));
-  }, [formik.values.payment, price.value, setFieldValue]);
+  }, [formik.values.payment, tokenPrices.value, setFieldValue]);
 
   const handleYouGetChange = useCallback(() => {
-    const payment = new BN(formik.values.youGet).div(price.value ?? '');
+    const payment = new BN(formik.values.youGet).div(
+      tokenPrices.value?.price ?? ''
+    );
 
     setFieldValue('payment', !payment.isFinite() ? '0' : payment.toString(10));
-  }, [formik.values.youGet, price.value, setFieldValue]);
+  }, [formik.values.youGet, tokenPrices.value, setFieldValue]);
 
   const handleClose = () => {
     props.onClose();
@@ -115,11 +123,26 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
           onClose={handleClose}
           tokenName="BAG"
           balance={balance}
-          tokenCost={price.value ?? '0'}
+          tokenCost={
+            new BN(10)
+              .pow(network.assets.Governance.decimals)
+              .div(new BN(tokenPrices.value?.converPrice ?? ''))
+              .toString(10) ?? '0'
+          }
           tokens={tokens.value ?? []}
-          onOpenWallet={walletsToggle}
           onPaymentChange={handlePaymentChange}
           onYouGetChange={handleYouGetChange}
+          button={
+            <WalletButtonWithFallback
+              disabled={
+                Boolean(formik.errors.payment || formik.errors.currency) ||
+                formik.isSubmitting
+              }
+              loading={formik.isSubmitting}
+            >
+              {formik.errors.payment || formik.errors.currency || 'Buy'}
+            </WalletButtonWithFallback>
+          }
         />
       </FormikProvider>
       <Modal open={successOpen} onClose={handleSuccessClose}>
@@ -141,7 +164,6 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
           <InfoCardLoader />
         </SmallModal>
       </Modal>
-      <WalletModal open={walletsOpen} onClose={walletsToggle} />
     </>
   );
 };

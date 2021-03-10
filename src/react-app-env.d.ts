@@ -93,10 +93,23 @@ declare module 'react-jazzicon' {
   export default Jazzicon;
 }
 
+type EthereumEventMap = {
+  connect: unknown;
+  chainChanged: string | number;
+  accountsChanged: string[];
+  networkChanged: string | number;
+};
+
 interface Window {
   ethereum?: {
     isMetaMask?: true;
-    on?: (...args: any[]) => void;
-    removeListener?: (...args: any[]) => void;
+    on?: <K extends keyof EthereumEventMap>(
+      type: K,
+      listener: (ev: EthereumEventMap[K]) => void
+    ) => void;
+    removeListener?: <K extends keyof EthereumEventMap>(
+      type: K,
+      listener: (ev: EthereumEventMap[K]) => void
+    ) => void;
   };
 }

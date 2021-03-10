@@ -7,7 +7,7 @@ import type { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { WalletModal } from 'src/wallets';
+import { WalletButtonWithFallback } from 'src/wallets';
 import {
   useCollateralMarketContract,
   useNetworkConfig,
@@ -47,7 +47,6 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
 
   const [successOpen, successToggle] = useToggle(false);
   const [failureOpen, failureToggle] = useToggle(false);
-  const [walletsOpen, walletsToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
 
   const formik = useFormik({
@@ -125,6 +124,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
 
         failureToggle(false);
         successToggle(true);
+        tokens.retry();
       } catch {
         failureToggle(true);
       } finally {
@@ -182,10 +182,20 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
           onClose={handleClose}
           open={props.open}
           tokenName="USDp"
-          tokens={tokens}
+          tokens={tokens.value ?? []}
           balance={balance}
           tokenCost="1"
-          onOpenWallet={walletsToggle}
+          button={
+            <WalletButtonWithFallback
+              disabled={
+                Boolean(formik.errors.payment || formik.errors.currency) ||
+                formik.isSubmitting
+              }
+              loading={formik.isSubmitting}
+            >
+              {formik.errors.payment || formik.errors.currency || 'Buy'}
+            </WalletButtonWithFallback>
+          }
         />
       </FormikContext.Provider>
       <Modal open={successOpen} onClose={handleSuccessClose}>
@@ -207,7 +217,6 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
           <InfoCardLoader />
         </SmallModal>
       </Modal>
-      <WalletModal open={walletsOpen} onClose={walletsToggle} />
     </>
   );
 };

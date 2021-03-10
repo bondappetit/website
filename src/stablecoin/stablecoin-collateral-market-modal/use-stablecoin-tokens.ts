@@ -1,25 +1,22 @@
-import { useState, useCallback } from 'react';
 import { development } from '@bondappetit/networks';
+import { useAsyncRetry, useInterval } from 'react-use';
 
 import {
   useCollateralMarketContract,
   useNetworkConfig,
   useBalance,
-  BN,
-  useTimeoutInterval
+  BN
 } from 'src/common';
 
 export type Asset = typeof development.assets[number] & { balance: string };
 
 export const useStablecoinTokens = () => {
-  const [state, setState] = useState<Asset[]>([]);
-
   const getBalance = useBalance();
 
   const network = useNetworkConfig();
   const collateralMarketContract = useCollateralMarketContract();
 
-  const handleGetTokens = useCallback(async () => {
+  const state = useAsyncRetry<Asset[] | undefined>(async () => {
     if (!collateralMarketContract) return;
 
     const tokenAddresses = await collateralMarketContract.methods
@@ -42,10 +39,10 @@ export const useStablecoinTokens = () => {
         };
       });
 
-    setState(await Promise.all(tokens));
+    return Promise.all(tokens);
   }, [collateralMarketContract, network, getBalance]);
 
-  useTimeoutInterval(handleGetTokens, 15000, handleGetTokens);
+  useInterval(state.retry, 15000);
 
   return state;
 };
