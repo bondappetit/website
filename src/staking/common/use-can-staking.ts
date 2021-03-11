@@ -1,6 +1,6 @@
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
-import { useAsyncRetry, useInterval } from 'react-use';
+import { useAsyncFn, useInterval } from 'react-use';
 
 import type { Staking } from 'src/generate/Staking';
 import { dateUtils, BN } from 'src/common';
@@ -10,7 +10,7 @@ export const useCanStaking = (stakingContract?: Staking) => {
   const { library } = useWeb3React<Web3>();
   const stakingContractRef = useRef(stakingContract);
 
-  const state = useAsyncRetry(async () => {
+  const [state, getState] = useAsyncFn(async () => {
     if (!stakingContractRef.current) return;
 
     const result = await stakingContractRef.current.methods
@@ -45,10 +45,12 @@ export const useCanStaking = (stakingContract?: Staking) => {
   }, [library]);
 
   useEffect(() => {
-    stakingContractRef.current = stakingContract;
-  }, [stakingContract]);
+    if (stakingContract) {
+      getState();
+    }
+  }, [stakingContract, getState]);
 
-  useInterval(state.retry, 15000);
+  useInterval(getState, 15000);
 
   return state;
 };

@@ -104,7 +104,7 @@ export const VotingProposalList: React.FC = () => {
             {!proposals.loading && (
               <>
                 <Typography variant="h2" align="center">
-                  {new BN(currentVotes).isGreaterThan(0) &&
+                  {new BN(currentGovCoin).isGreaterThan(0) &&
                     delegateTo !== DELEGATE_TO_DEFAULT && (
                       <>
                         deligated to{' '}
@@ -150,7 +150,7 @@ export const VotingProposalList: React.FC = () => {
               align="center"
               className={classes.createProposalMargin}
             >
-              You need to have more then 1 000 000 BAG tokens to create proposal
+              You need to have more than 1 000 000 BAG tokens to create proposal
             </Typography>
           )}
           <VotingProposals

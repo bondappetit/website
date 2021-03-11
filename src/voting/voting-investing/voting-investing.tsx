@@ -4,7 +4,9 @@ import { useToggle } from 'react-use';
 import {
   Button,
   LinkModal,
+  Modal,
   Skeleton,
+  SmallModal,
   Typography,
   useNetworkConfig
 } from 'src/common';
@@ -22,10 +24,16 @@ export const VotingInvesting: React.VFC<VotingInvestingProps> = (props) => {
   const networkConfig = useNetworkConfig();
   const [linkModalIsOpen, toggleLinkModal] = useToggle(false);
   const [investFormIsOpen, toggleInvestForm] = useToggle(false);
+  const [attentionIsOpen, toggleAttention] = useToggle(false);
 
   const classes = useVotingInvestingStyles();
 
-  const handleOpenBuyModal = useCallback(() => {
+  const handleOpenLinkModal = useCallback(() => {
+    toggleAttention(false);
+    toggleLinkModal(true);
+  }, [toggleAttention, toggleLinkModal]);
+
+  const handleOpenInvestForm = useCallback(() => {
     toggleLinkModal(false);
     toggleInvestForm(true);
   }, [toggleLinkModal, toggleInvestForm]);
@@ -46,12 +54,18 @@ export const VotingInvesting: React.VFC<VotingInvestingProps> = (props) => {
             value={props.percent}
           />
         </div>
-        <Button onClick={toggleLinkModal}>Buy</Button>
+        <Button onClick={toggleAttention}>Buy</Button>
       </div>
       <VotingInvestingForm open={investFormIsOpen} onClose={toggleInvestForm} />
+      <Modal open={attentionIsOpen} onClose={toggleAttention}>
+        <SmallModal>
+          attention
+          <Button onClick={handleOpenLinkModal}>Ok</Button>
+        </SmallModal>
+      </Modal>
       <LinkModal
         withBuyCollateralMarket
-        onBuyCollateralMarket={handleOpenBuyModal}
+        onBuyCollateralMarket={handleOpenInvestForm}
         open={linkModalIsOpen}
         onClose={toggleLinkModal}
         tokenName={networkConfig.assets.Governance.symbol}
