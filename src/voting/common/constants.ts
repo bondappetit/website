@@ -46,7 +46,7 @@ export const DECISION_MAKING = [
       '– Add a new asset type to the Price Oracle;',
       '– Whitelist a new Depository smart contract;',
       '– Start the emergency shutdown procedure;',
-      '– Add new markets for the automatic exchange of USDp.'
+      '– Add new markets for the automatic exchange of USDap.'
     ]
   },
   {
@@ -54,7 +54,7 @@ export const DECISION_MAKING = [
     text: [
       '– Change in the reward rates for participation in liquidity pools;',
       '– Choose the profit distribution of the protocol;',
-      '– Changing the list of assets available in exchange for USDp.'
+      '– Changing the list of assets available in exchange for USDap.'
     ]
   },
   {

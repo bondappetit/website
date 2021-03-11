@@ -94,7 +94,7 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
           content={
             <>
               <Typography variant="body2">
-                Buying USDP during sale you will get extra{' '}
+                Buying USDap during sale you will get extra{' '}
                 {props.reward?.rewardPercent.toFormat(1) || '0'}% of you
                 investment in BAG as a reward.
               </Typography>

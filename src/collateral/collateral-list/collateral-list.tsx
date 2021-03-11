@@ -71,17 +71,17 @@ export const CollateralList: React.FC = () => {
           <Plate className={clsx(classes.list, classes.ussued)}>
             <CollateralCard
               className={classes.card}
-              title={<>USDp Issued</>}
+              title={<>USDap Issued</>}
               body={
                 <>
                   {stableCoinBalance.loading && !stableCoinBalance ? (
                     <Skeleton />
                   ) : (
-                    <>{humanizeNumeral(stableCoinBalance.value)} USDp</>
+                    <>{humanizeNumeral(stableCoinBalance.value)} USDap</>
                   )}
                 </>
               }
-              subtitle={<>1 USDp = $1 USD</>}
+              subtitle={<>1 USDap = $1 USD</>}
             />
             <CollateralProtocolState
               stableCoinBalanceValue={stableCoinBalance.value}
@@ -134,6 +134,10 @@ export const CollateralList: React.FC = () => {
       </MainLayout>
       <Modal open={open} onClose={toggleOpen}>
         <SmallModal>
+          <Typography variant="h5">
+            To make sure that the collateral is actual and signed, you can click
+            on the valid label in the table above.
+          </Typography>
           <Button onClick={handleClose}>Ok</Button>
         </SmallModal>
       </Modal>

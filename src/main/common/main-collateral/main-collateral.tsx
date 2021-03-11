@@ -18,7 +18,7 @@ export const MainCollateral: React.FC<MainCollateralProps> = (props) => {
     <div className={clsx(props.className)}>
       <div className={classes.cards}>
         <MainCollateralCard id="3">
-          The price of USDp{' '}
+          The price of USDap{' '}
           <Typography variant="inherit" weight="bold">
             equals $1 at all times
           </Typography>{' '}

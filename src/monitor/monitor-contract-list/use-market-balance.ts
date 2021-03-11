@@ -23,7 +23,7 @@ export const useMarketBalance = (): Balance[] | null => {
 
     const balanceConfig = [
       {
-        name: 'Market USDp balance',
+        name: 'Market USDap balance',
         decimals: networkConfig.assets.Stable.decimals,
         balanceOf: stableCoinContract.methods.balanceOf(
           marketContract.options.address
