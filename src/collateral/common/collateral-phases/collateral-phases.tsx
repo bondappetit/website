@@ -28,7 +28,7 @@ export const CollateralPhases: React.FC<CollateralPhasesProps> = (props) => {
             Accumulation of liquidity for BondAppétit’s stablecoin (USDap) in
             forms of USDc/USDap and USDN/USDap staking pools. Staking during
             Phase 1 allows investors to earn bigger staking rewards during the
-            first 6 months.
+            first 3 months.
           </Typography>
           <Typography variant="h5">
             <Link

@@ -110,7 +110,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
             '...'
           ) : (
             <Typography variant="inherit" weight="bold">
-              6 month
+              3 month
             </Typography>
           )}
         </Typography>

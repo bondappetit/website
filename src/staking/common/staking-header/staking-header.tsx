@@ -99,7 +99,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
             <Typography variant="body1" component="span">
               Locking:{' '}
               <Typography variant="inherit" component="span" weight="bold">
-                {props.loading ? '...' : '6 month'}
+                {props.loading ? '...' : '3 month'}
               </Typography>
             </Typography>
           )}

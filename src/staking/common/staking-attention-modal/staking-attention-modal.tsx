@@ -29,7 +29,7 @@ export const StakingAttentionModal: React.FC<StakingAttentionModalProps> = (
               6-month locking
             </Typography>
             <Typography variant="h5">
-              Your LP tokens will be locked for 6 months. You can get your
+              Your LP tokens will be locked for 3 months. You can get your
               tokens at {props.date} after the {props.blockNumber} block
             </Typography>{' '}
             <Typography variant="h5">
