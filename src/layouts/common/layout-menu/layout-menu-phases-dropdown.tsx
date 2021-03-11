@@ -21,7 +21,7 @@ const PHASES = [
     title: 'Phase 3: Direct Investment',
     body:
       'Protocol’s capitalization - $100M. No more BAG tokens will be issued to the open market',
-    date: '1 Day after P2'
+    date: '1 Day after P2, unlimited'
   }
 ];
 
