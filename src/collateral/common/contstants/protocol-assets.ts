@@ -10,7 +10,7 @@ export const PROTOCOL_ASSETS: TableData = {
     'Coupon',
     'Maturity',
     'ISIN code',
-    'Valid',
+    'Verified',
     'Last update'
   ],
 

@@ -123,30 +123,30 @@ export const useCollateralRealAssets = () => {
       return [acc, totalValueAcc.plus(totalValue)];
     }, Promise.resolve([new Map<string, RealAsset>(), new BN(0)]));
 
-    const protocolAssets: TableData['body'] = [...tableDataMap.entries()].map(
-      ([id, asset]) => {
-        const hardcodeAsset = ASSETS_MAP.get(id);
+    const getTableCell = (cell: ConfigAsset) => {
+      return Object.values(cell).map((title) =>
+        typeof title === 'object'
+          ? title
+          : {
+              title
+            }
+      );
+    };
 
-        const getTableCell = (cell: ConfigAsset) => {
-          return Object.values(cell).map((title) =>
-            typeof title === 'object'
-              ? title
-              : {
-                  title
-                }
-          );
-        };
+    const protocolAssets: TableData['body'] = [...tableDataMap.entries()]
+      .map(([id, asset]) => {
+        const hardcodeAsset = ASSETS_MAP.get(id);
 
         const newAsset = hardcodeAsset
           ? { ...hardcodeAsset }
           : { ...defaultAsset };
 
         if (asset) {
-          newAsset.percent = `${asset.totalValue
+          newAsset.percent = asset.totalValue
             .div(sumTotalValue)
             .multipliedBy(100)
             .integerValue()
-            .toString(10)}%`;
+            .toString(10);
 
           newAsset.totalValue = `$ ${humanizeNumeral(asset.totalValue)}`;
           newAsset.updatedAt = asset.updatedAt;
@@ -154,18 +154,23 @@ export const useCollateralRealAssets = () => {
           newAsset.isValid = asset.isValid;
           newAsset.isinCode = asset.id;
 
-          return getTableCell(newAsset);
+          return newAsset;
         }
 
+        return newAsset;
+      })
+      .sort((a, b) => Number(b.percent) - Number(a.percent))
+      .map((asset) => {
+        const newAsset = { ...asset, percent: `${asset.percent}%` };
+
         return getTableCell(newAsset);
-      }
-    );
+      });
 
     const firstColumn: TableData['body'][number] = [
       {
         title: 'DigiRepresent Services OÜ',
         cellType: TableCellTypes.borrower,
-        value: '$0',
+        value: `$${humanizeNumeral(sumTotalValue)}`,
         rowSpan: 100
       }
     ];

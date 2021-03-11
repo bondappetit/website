@@ -134,6 +134,10 @@ export const CollateralList: React.FC = () => {
       </MainLayout>
       <Modal open={open} onClose={toggleOpen}>
         <SmallModal>
+          <Typography variant="h5">
+            To make sure that the collateral is actual and signed, you can click
+            on the valid label in the table above.
+          </Typography>
           <Button onClick={handleClose}>Ok</Button>
         </SmallModal>
       </Modal>
