@@ -5,7 +5,8 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 import { Typography, Link } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useCollateralBorrowInfoStyles } from './collateral-borrow-info.styles';
-import { CollateralTable, TableData } from '../collateral-table';
+import { CollateralTable } from '../collateral-table';
+import { TableData } from '../collateral.types';
 
 export const CollateralBorrowInfo: React.VFC<{
   tableData?: TableData;

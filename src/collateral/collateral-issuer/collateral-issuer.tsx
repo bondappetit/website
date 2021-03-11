@@ -10,7 +10,7 @@ import { CollateralDescription, ISSUERS } from '../common';
 
 const ISSUERS_MAP = ISSUERS.reduce<Record<string, typeof ISSUERS[number]>>(
   (acc, issuer) => {
-    acc[issuer.id] = issuer;
+    acc[issuer.id.toLowerCase()] = issuer;
 
     return acc;
   },

@@ -17,23 +17,7 @@ import {
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useCollateralTableStyles } from './collateral-table.styles';
-
-export enum TableCellTypes {
-  issuer = 'issuer',
-  borrower = 'borrower'
-}
-
-export type TableData = {
-  head: string[];
-  body: Array<
-    Array<{
-      title: string | boolean;
-      rowSpan?: number;
-      value?: string;
-      cellType?: TableCellTypes;
-    }>
-  >;
-};
+import { ConfigIsinCode, TableCellTypes, TableData } from '../collateral.types';
 
 export type CollateralTableProps = {
   data?: TableData;
@@ -45,6 +29,15 @@ const isBoolean = (booleanLike: unknown): booleanLike is boolean =>
   typeof booleanLike === 'boolean';
 
 const isPercentValue = (str: string) => str.includes('%');
+
+const isIsinCode = (isincode: unknown): isincode is ConfigIsinCode => {
+  return (
+    typeof isincode === 'object' &&
+    isincode !== null &&
+    isincode !== undefined &&
+    'contractAddress' in isincode
+  );
+};
 
 export const CollateralTable: React.FC<CollateralTableProps> = (props) => {
   const classes = useCollateralTableStyles();
@@ -89,6 +82,8 @@ export const CollateralTable: React.FC<CollateralTableProps> = (props) => {
                 <TableRow key={rowId}>
                   {row.map((cell, cellIndex) => {
                     const cellId = String(cellIndex);
+
+                    const isIncode = row[cellIndex - 1];
 
                     return (
                       <TableCell
@@ -138,11 +133,12 @@ export const CollateralTable: React.FC<CollateralTableProps> = (props) => {
                               {cell.value}
                             </>
                           )}
-                          {isBoolean(cell.title) && (
+                          {isBoolean(cell.title) && isIsinCode(isIncode) && (
                             <Link
                               component={ReactRouterLink}
                               to={URLS.collateral.check(
-                                String(row[cellIndex - 1].title)
+                                isIncode.contractAddress,
+                                isIncode.title
                               )}
                               className={cell.title ? classes.yes : classes.no}
                             >
