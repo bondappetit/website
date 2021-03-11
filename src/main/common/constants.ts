@@ -2,32 +2,22 @@ import { config } from 'src/config';
 
 export const STEPS = [
   {
-    title: 'Protocol launch',
-    body:
-      'Stake stablecoins in early stage and earn more BAG as staking rewards',
-    startDate: 'March 15',
-    duration: 'Up to 2 months',
-    mobileDate: 'From March 16, up to 2 months duration',
-    active: !config.IS_COLLATERAL
-  },
-
-  {
     title: 'Invest in BondAppétit',
     body:
-      'Offering of BAG on the open market to purchase RWA assets in collateral',
-    startDate: '1 Day after P1',
-    duration: '1 month',
-    mobileDate: '1 Day after P1, 1 month duration',
-    active: false
+      'Stake in early stage or invest in protocol to purchase RWA assets in collateral',
+    startDate: 'March 15',
+    duration: 'Up to 2 months',
+    mobileDate: 'From March 15, up to 3 months duration',
+    active: !config.IS_COLLATERAL
   },
 
   {
     title: 'RWA-collateral',
     body:
       'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
-    startDate: '1 Day after P2',
-    duration: '1 month',
-    mobileDate: '1 Day after P2, 1 month duration',
+    startDate: '1 Day after P1',
+    duration: '2 years',
+    mobileDate: '1 Day after P1, 2 years duration',
     active: config.IS_COLLATERAL
   },
 
@@ -35,9 +25,9 @@ export const STEPS = [
     title: 'Direct Investment',
     body:
       'Protocol’s capitalization - $100M. No more BAG tokens will be issued to the open market',
-    startDate: '1 Day after P3',
-    duration: '2 years',
-    mobileDate: '1 Day after P3, 2 years',
+    startDate: '1 Day after P2',
+    duration: '',
+    mobileDate: '1 Day after P2',
     active: false
   }
 ];

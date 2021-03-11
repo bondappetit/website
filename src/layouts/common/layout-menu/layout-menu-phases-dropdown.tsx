@@ -6,27 +6,22 @@ import { useLayoutMenuStyles } from './layout-menu.styles';
 
 const PHASES = [
   {
-    title: 'Phase 1: Protocol launch',
+    title: 'Phase 1: Invest in BondAppétit',
     body:
-      'Stake stablecoins in early stage and earn more BAG as staking rewards',
-    date: 'Up to 2 months, Started February 15'
+      'Stake in early stage or invest in protocol to purchase RWA assets in collateral',
+    date: 'Up to 3 months, Started March 15'
   },
   {
-    title: 'Phase 2: Invest in BondAppétit',
-    body: 'Offering of BAG on the open market to purchase RWA assets',
-    date: '1 month, starts in a day after P1'
-  },
-  {
-    title: 'Phase 3: RWA-collateral',
+    title: 'Phase 2: RWA-collateral',
     body:
       'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
-    date: '1 month, starts in a day after P2'
+    date: '1 Day after P1, 2 years'
   },
   {
-    title: 'Phase 4: Direct Investment',
+    title: 'Phase 3: Direct Investment',
     body:
       'Protocol’s capitalization - $100M. No more BAG tokens will be issued to the open market',
-    date: 'in 2 years'
+    date: '1 Day after P2'
   }
 ];
 
