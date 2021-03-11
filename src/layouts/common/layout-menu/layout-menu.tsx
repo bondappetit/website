@@ -129,7 +129,7 @@ export const LayoutMenu: React.FC<LayoutMenuProps> = ({
           ref={phasesRef}
           className={clsx(classes.navLink, classes.phaseLink)}
         >
-          Phase {config.IS_COLLATERAL ? '3' : '1'}
+          Phase {config.IS_COLLATERAL ? '2' : '1'}
         </ButtonBase>
         {phasesHovered && <LayoutMenuPhasesDropdown />}
       </li>
