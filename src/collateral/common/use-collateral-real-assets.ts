@@ -8,8 +8,8 @@ import {
   useNetworkConfig,
   useRealAssetDepositaryBalanceView
 } from 'src/common';
-import { ASSETS_MAP, PROTOCOL_ASSETS, ConfigAsset } from './contstants';
-import { TableCellTypes, TableData } from './collateral-table';
+import { ASSETS_MAP, PROTOCOL_ASSETS } from './contstants';
+import { ConfigAsset, TableCellTypes, TableData } from './collateral.types';
 
 type Asset = {
   id: string;
@@ -152,7 +152,11 @@ export const useCollateralRealAssets = () => {
           newAsset.updatedAt = asset.updatedAt;
           newAsset.amount = humanizeNumeral(asset.amount);
           newAsset.isValid = asset.isValid;
-          newAsset.isinCode = asset.id;
+          newAsset.isinCode = {
+            title: asset.id,
+            contractAddress:
+              realAssetDepositaryBalanceViewContract.options.address
+          };
 
           return newAsset;
         }

@@ -1,4 +1,4 @@
-import { TableData } from '../collateral-table';
+import { TableData } from '../collateral.types';
 
 export const REPAYMENT: TableData = {
   head: ['№', 'Transaction', 'Amount', 'From', 'To', 'Date', 'Status'],

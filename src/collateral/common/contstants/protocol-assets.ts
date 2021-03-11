@@ -1,4 +1,4 @@
-import { TableCellTypes, TableData } from '../collateral-table';
+import { ConfigAsset, TableCellTypes, TableData } from '../collateral.types';
 
 export const PROTOCOL_ASSETS: TableData = {
   head: [
@@ -15,23 +15,6 @@ export const PROTOCOL_ASSETS: TableData = {
   ],
 
   body: []
-};
-
-export type ConfigIssuer = {
-  cellType: TableCellTypes;
-  title: string;
-};
-
-export type ConfigAsset = {
-  percent: string;
-  issuer: string | ConfigIssuer;
-  totalValue: string;
-  amount: string;
-  coupon: string;
-  maturity: string;
-  isinCode: string;
-  updatedAt: string;
-  isValid: boolean | string;
 };
 
 export const ASSETS_MAP = new Map<string, ConfigAsset>([
@@ -53,11 +36,14 @@ export const ASSETS_MAP = new Map<string, ConfigAsset>([
     'XS1533921299',
     {
       percent: '-',
-      issuer: '-',
+      issuer: {
+        cellType: TableCellTypes.issuer,
+        title: 'Rusal'
+      },
       totalValue: '-',
       amount: '-',
-      coupon: '-',
-      maturity: '-',
+      coupon: '5.125',
+      maturity: '02.02.2022',
       isinCode: '-',
       isValid: false,
       updatedAt: '-'
@@ -67,11 +53,14 @@ export const ASSETS_MAP = new Map<string, ConfigAsset>([
     'US247361ZZ42',
     {
       percent: '-',
-      issuer: '-',
+      issuer: {
+        cellType: TableCellTypes.issuer,
+        title: 'Delta Air Lines Inc'
+      },
       totalValue: '-',
       amount: '-',
-      coupon: '-',
-      maturity: '-',
+      coupon: '7.375',
+      maturity: '15.01.2026',
       isinCode: '-',
       isValid: false,
       updatedAt: '-'
