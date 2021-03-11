@@ -14,7 +14,9 @@ import {
   ButtonBase,
   Modal,
   SmallModal,
-  useScrollIntoView
+  useScrollIntoView,
+  LinkIfAccount,
+  useNetworkConfig
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
@@ -32,6 +34,8 @@ import {
 
 export const CollateralList: React.FC = () => {
   const classes = useCollateralListStyles();
+
+  const networkConfig = useNetworkConfig();
 
   const [open, toggleOpen] = useToggle(false);
 
@@ -100,9 +104,21 @@ export const CollateralList: React.FC = () => {
                 </>
               }
               subtitle={
-                <ButtonBase className={classes.checkHere} onClick={toggleOpen}>
-                  check here
-                </ButtonBase>
+                config.IS_COLLATERAL ? (
+                  <ButtonBase
+                    className={classes.checkHere}
+                    onClick={toggleOpen}
+                  >
+                    check here
+                  </ButtonBase>
+                ) : (
+                  <LinkIfAccount title="check here">
+                    {
+                      networkConfig.contracts.StableTokenDepositaryBalanceView
+                        .address
+                    }
+                  </LinkIfAccount>
+                )
               }
             />
           </Plate>
