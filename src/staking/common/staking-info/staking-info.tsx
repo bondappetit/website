@@ -6,7 +6,8 @@ import { useStakingInfoStyles } from './staking-info.styles';
 const STAKING_CARDS = [
   {
     title: 'All',
-    body: 'BondAppétit governance tokens will be distributed in 2 years.',
+    body:
+      'BondAppétit governance tokens reserved for protocol’s usage will be distributed in 2 years.',
     date: '2021 — 2023'
   },
   {
@@ -16,7 +17,7 @@ const STAKING_CARDS = [
   },
   {
     title: '95%',
-    body: `of all governance tokens reserved for protocol usage will be distributed as staking rewards during Phases 2 and 3.`,
+    body: `of all governance tokens reserved for protocol usage will be distributed as staking rewards during Phase 2.`,
     date: '2 years after launch of RWA phase'
   }
 ];
