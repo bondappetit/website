@@ -104,7 +104,7 @@ export const VotingProposalList: React.FC = () => {
             {!proposals.loading && (
               <>
                 <Typography variant="h2" align="center">
-                  {new BN(currentVotes).isGreaterThan(0) &&
+                  {new BN(currentGovCoin).isGreaterThan(0) &&
                     delegateTo !== DELEGATE_TO_DEFAULT && (
                       <>
                         deligated to{' '}
