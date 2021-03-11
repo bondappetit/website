@@ -11,7 +11,7 @@ const STAKING_CARDS = [
   },
   {
     title: '5%',
-    body: `of all governance tokens reserved for protocol’s usage will be distributed as staking reward in the first 6 months for Phase 1 investors only.`,
+    body: `of all governance tokens reserved for protocol’s usage will be distributed as staking reward in the first 3 months for Phase 1 investors only.`,
     date: '15 March 2021 — 15 June 2021'
   },
   {
