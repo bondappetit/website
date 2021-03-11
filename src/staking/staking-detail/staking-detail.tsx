@@ -14,7 +14,8 @@ import {
   useBalance,
   Head,
   BN,
-  humanizeNumeral
+  humanizeNumeral,
+  Skeleton
 } from 'src/common';
 import {
   StakingHeader,
@@ -105,7 +106,12 @@ export const StakingDetail: React.FC = () => {
     .div(stakingBalancesWithApy?.totalSupply ?? '1')
     .multipliedBy(100);
 
-  const loading = !stakingBalances.value || !stakingBalancesWithApy;
+  const loading =
+    !stakingBalances.value || !stakingBalancesWithApy || !unstake.value;
+
+  const depositToken = useMemo(() => stakingBalancesWithApy?.token?.join('_'), [
+    stakingBalancesWithApy
+  ]);
 
   return (
     <>
@@ -113,6 +119,7 @@ export const StakingDetail: React.FC = () => {
       <MainLayout>
         <PageWrapper className={classes.staking}>
           <StakingHeader
+            depositToken={depositToken}
             lockable={stakingBalancesWithApy?.lockable}
             tokenKey={params.tokenId}
             token={stakingBalancesWithApy?.token}
@@ -133,9 +140,12 @@ export const StakingDetail: React.FC = () => {
                 stakingContract={stakingBalancesWithApy?.stakingContract}
                 tokenDecimals={stakingBalancesWithApy?.decimals}
                 unstakeStart={unstake.value?.date}
+                unstakingStartBlock={unstake.value?.unstakingStartBlock}
+                lockable={stakingBalancesWithApy?.lockable}
                 onSubmit={stakingBalances.retry}
                 balanceOfToken={balanceOfToken.value ?? ''}
                 loading={loading}
+                depositToken={depositToken}
               />
             </Plate>
             <Plate className={clsx(classes.card, classes.cardFlex)}>
@@ -178,36 +188,38 @@ export const StakingDetail: React.FC = () => {
                       </>
                     )}
                   </Typography>
-                  {unstake.value?.unstakingStartBlock.isGreaterThan(0) &&
-                  stakingBalancesWithApy?.lockable ? (
-                    <Typography
-                      variant="body2"
-                      align="center"
-                      className={classes.attention}
-                    >
-                      Unstaking will start at {unstake.value?.date}
-                      <br /> after{' '}
-                      {unstake.value?.unstakingStartBlock.toString(10)} block
-                    </Typography>
-                  ) : (
-                    <Tippy
-                      visible={canUnstake}
-                      content="Unstaking not started"
-                      maxWidth={200}
-                      offset={[0, 25]}
-                      className={classes.tooltip}
-                      animation={false}
-                    >
-                      <WalletButtonWithFallback
-                        onClick={handleUnstake}
-                        className={classes.unlock}
-                        loading={unstakeState.loading}
-                        disabled={unstakeState.loading}
+                  {loading && <Skeleton className={classes.attention} />}
+                  {!loading &&
+                    (unstake.value?.unstakingStartBlock.isGreaterThan(0) &&
+                    stakingBalancesWithApy?.lockable ? (
+                      <Typography
+                        variant="body2"
+                        align="center"
+                        className={classes.attention}
                       >
-                        Unstake
-                      </WalletButtonWithFallback>
-                    </Tippy>
-                  )}
+                        Unstaking will start at {unstake.value?.date}
+                        <br /> after{' '}
+                        {unstake.value?.unstakingStartBlock.toString(10)} block
+                      </Typography>
+                    ) : (
+                      <Tippy
+                        visible={canUnstake}
+                        content="Unstaking not started"
+                        maxWidth={200}
+                        offset={[0, 25]}
+                        className={classes.tooltip}
+                        animation={false}
+                      >
+                        <WalletButtonWithFallback
+                          onClick={handleUnstake}
+                          className={classes.unlock}
+                          loading={unstakeState.loading}
+                          disabled={unstakeState.loading}
+                        >
+                          Unstake
+                        </WalletButtonWithFallback>
+                      </Tippy>
+                    ))}
                 </div>
                 <div className={classes.unstakeAndClaim}>
                   <Typography
@@ -235,14 +247,18 @@ export const StakingDetail: React.FC = () => {
                       </>
                     )}
                   </Typography>
-                  <WalletButtonWithFallback
-                    onClick={handleClaim}
-                    className={classes.unlock}
-                    loading={claimState.loading}
-                    disabled={claimState.loading}
-                  >
-                    Claim
-                  </WalletButtonWithFallback>
+                  {loading ? (
+                    <Skeleton className={classes.attention} />
+                  ) : (
+                    <WalletButtonWithFallback
+                      onClick={handleClaim}
+                      className={classes.unlock}
+                      loading={claimState.loading}
+                      disabled={claimState.loading}
+                    >
+                      Claim
+                    </WalletButtonWithFallback>
+                  )}
                 </div>
               </div>
             </Plate>

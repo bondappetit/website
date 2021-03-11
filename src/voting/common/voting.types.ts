@@ -1,3 +1,5 @@
+import { BN } from 'src/common';
+
 export type Proposal = {
   id: string;
   proposer: string;
@@ -25,9 +27,9 @@ export type FormattedProposal = {
   description: string;
   proposer: string | undefined;
   status: string | undefined;
-  forCount: number;
+  forCount: BN;
   eta?: string;
-  againstCount: number;
+  againstCount: BN;
   startBlock: number;
   endBlock: number;
   details: EventDetail[];
