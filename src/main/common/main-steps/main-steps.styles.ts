@@ -47,13 +47,13 @@ export const useMainStepsStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         margin: '0 auto',
         gridGap: 50,
-        gridTemplateColumns: '1fr 1fr 1fr 1fr',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(228px, 1fr))',
         padding: '0 64px'
       },
 
       [theme.breakpoints.lg()]: {
         padding: 0,
-        gridGap: 80
+        gridGap: 128
       }
     },
 
