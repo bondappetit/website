@@ -79,7 +79,7 @@ export const useVoteInfo = () => {
 
     const currentVotesIsGreaterThanProposalThreshold = new BN(
       currentVotes
-    ).isGreaterThanOrEqualTo(proposalThresholdBN);
+    ).isGreaterThan(proposalThresholdBN);
 
     setCanCreateProposal(
       currentVotesIsGreaterThanProposalThreshold &&

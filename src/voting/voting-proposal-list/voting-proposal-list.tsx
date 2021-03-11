@@ -150,7 +150,7 @@ export const VotingProposalList: React.FC = () => {
               align="center"
               className={classes.createProposalMargin}
             >
-              You need to have at list 1 000 000 BAG tokens to create proposal
+              You need to have more then 1 000 000 BAG tokens to create proposal
             </Typography>
           )}
           <VotingProposals
