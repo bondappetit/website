@@ -26,8 +26,8 @@ export const STEPS = [
     body:
       'Protocol’s capitalization - $100M. No more BAG tokens will be issued to the open market',
     startDate: '1 Day after P2',
-    duration: '',
-    mobileDate: '1 Day after P2',
+    duration: 'unlimited',
+    mobileDate: '1 Day after P2, unlimited',
     active: false
   }
 ];
