@@ -94,13 +94,6 @@ const config = [
     tokenName: LP,
     token: [Stable, USDN],
     liquidityPool: true
-  },
-
-  {
-    contractName: 'UsdcStableLPLockStakingTest',
-    tokenName: LP,
-    token: [Stable, USDC],
-    liquidityPool: true
   }
 ];
 
