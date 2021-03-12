@@ -25,6 +25,7 @@ export const VotingInfoProposalList: React.FC<VotingInfoProposalListProps> = (
         Active proposals
       </Typography>
       <VotingProposals
+        transparent
         loading={props.loading}
         proposals={props.proposals}
         className={classes.proposals}

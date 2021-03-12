@@ -1,15 +1,18 @@
 import clsx from 'clsx';
 import React, { useMemo } from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Head, PageWrapper, Typography } from 'src/common';
+import { Head, Link, PageWrapper, Typography } from 'src/common';
 import { MainLayout } from 'src/layouts';
+import { URLS } from 'src/router/urls';
 import {
   useVotingProposalList,
   VotingInfoFactoid,
   VotingInfoProposalList,
   VotingInfoDecision
 } from '../common';
-import { VotingInvesting, useInvestingTotal } from '../voting-investing';
+import { VotingInvesting } from '../voting-investing';
+import { VotingStaking } from '../voting-staking/voting-staking';
 import { useVotingInfoStyles } from './voting-info.styles';
 
 export const VotingInfo: React.FC = () => {
@@ -22,26 +25,30 @@ export const VotingInfo: React.FC = () => {
     [pages.length, proposals.value]
   );
 
-  const investingTotal = useInvestingTotal();
-
   return (
     <>
       <Head title="Shape the future of the protocol using BondAppétit Governance (BAG)" />
       <MainLayout>
         <PageWrapper className={classes.root}>
-          <Typography
-            variant="h1"
-            align="center"
-            className={clsx(classes.title, classes.block)}
-          >
-            Shape the future of the protocol using BondAppétit Governance (BAG)
-          </Typography>
-          <VotingInvesting
-            percent={investingTotal.value?.percent?.toString(10)}
-            loading={investingTotal.loading}
-            totalTokens={investingTotal.value?.totalTokens.toFormat(0)}
-            balance={investingTotal.value?.balance.toFormat(0)}
-          />
+          <div className={clsx(classes.block, classes.titleWrap)}>
+            <Typography variant="h1" align="center" className={classes.title}>
+              Shape the future of the protocol using BondAppétit Governance
+              (BAG)
+            </Typography>
+            <Typography variant="h4" align="center" className={classes.link}>
+              <Link
+                component={ReactRouterLink}
+                to={URLS.whitepaper}
+                color="blue"
+              >
+                Learn more on how governance works →
+              </Link>
+            </Typography>
+          </div>
+          <div className={clsx(classes.block, classes.investing)}>
+            <VotingInvesting />
+            <VotingStaking />
+          </div>
           <VotingInfoFactoid className={clsx(classes.factoid, classes.block)} />
           <VotingInfoProposalList
             loading={proposals.loading}

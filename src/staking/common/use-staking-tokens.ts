@@ -93,6 +93,8 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
 
         const stakingContract = getStakingContract(contractName);
 
+        if (!stakingContract) return acc;
+
         const stakingTokenAddress = await stakingContract.methods
           .stakingToken()
           .call();

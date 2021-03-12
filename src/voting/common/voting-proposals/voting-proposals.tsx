@@ -12,6 +12,7 @@ export type VotingProposalsProps = {
   className?: string;
   loading: boolean;
   proposals?: FormattedProposal[];
+  transparent?: boolean;
 };
 
 export const VotingProposals: React.FC<VotingProposalsProps> = (props) => {
@@ -29,7 +30,10 @@ export const VotingProposals: React.FC<VotingProposalsProps> = (props) => {
             <Link
               component={ReactRouterLink}
               to={URLS.voting.detail(proposal.id)}
-              className={classes.proposal}
+              className={clsx(
+                classes.proposal,
+                props.transparent && classes.proposalTransparent
+              )}
             >
               <Typography variant="inherit" className={classes.proposalTitle}>
                 {proposal.title}
