@@ -15,7 +15,8 @@ import {
   autoApprove,
   Typography,
   ButtonBase,
-  Link
+  Link,
+  Skeleton
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { WalletButtonWithFallback } from 'src/wallets';
@@ -38,6 +39,9 @@ export type StakingLockFormProps = {
   unstakeStart?: string;
   balanceOfToken: string;
   loading: boolean;
+  unstakingStartBlock?: BN;
+  lockable?: boolean;
+  depositToken?: string;
 };
 
 const UNISWAP_URL = 'https://app.uniswap.org/#/add/';
@@ -49,7 +53,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const [stakingAttentionOpen, toggleStakingAttention] = useToggle(false);
 
   const networkConfig = useNetworkConfig();
-  const staking = useCanStaking();
+  const staking = useCanStaking(props.stakingContract);
 
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
@@ -188,31 +192,36 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             </ButtonBase>
           </Typography>
         </div>
-        <WalletButtonWithFallback
-          type={
-            Number(formik.values.amount) > 0 &&
-            formik.isValid &&
-            staking.value?.stakingEndBlock.isGreaterThan(0)
-              ? 'button'
-              : 'submit'
-          }
-          disabled={formik.isSubmitting}
-          loading={formik.isSubmitting}
-          onClick={
-            Number(formik.values.amount) > 0 &&
-            formik.isValid &&
-            staking.value?.stakingEndBlock.isGreaterThan(0)
-              ? toggleStakingAttention
-              : undefined
-          }
-        >
-          Stake
-        </WalletButtonWithFallback>
+        {props.loading ? (
+          <Skeleton className={classes.skeleton} />
+        ) : (
+          <WalletButtonWithFallback
+            type={
+              Number(formik.values.amount) > 0 &&
+              formik.isValid &&
+              staking.value?.stakingEndBlock.isGreaterThan(0)
+                ? 'button'
+                : 'submit'
+            }
+            disabled={formik.isSubmitting}
+            loading={formik.isSubmitting}
+            onClick={
+              Number(formik.values.amount) > 0 &&
+              formik.isValid &&
+              props.unstakingStartBlock?.isGreaterThan(0)
+                ? toggleStakingAttention
+                : undefined
+            }
+          >
+            Stake
+          </WalletButtonWithFallback>
+        )}
       </form>
       <StakingAcquireModal
         open={aquireOpen}
         onClose={aquireToggle}
         tokenName={props.tokenName}
+        depositToken={props.depositToken}
         tokenAddresses={tokenAddresses}
       />
       <StakingAttentionModal

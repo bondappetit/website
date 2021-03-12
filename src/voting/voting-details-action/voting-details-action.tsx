@@ -3,15 +3,21 @@ import { useAsyncFn, useAsyncRetry } from 'react-use';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { Skeleton, useGovernorContract, Button, estimateGas } from 'src/common';
+import {
+  Skeleton,
+  useGovernorContract,
+  Button,
+  estimateGas,
+  BN
+} from 'src/common';
 import { ProposalState, VotingButton, VotingDetailInfo } from '../common';
 import { useVotingDetailsActionStyles } from './voting-details-action.styles';
 
 export type VotingDetailsActionProps = {
   loading: boolean;
   proposalId: string;
-  forCount?: number;
-  againstCount?: number;
+  forCount?: BN;
+  againstCount?: BN;
   onUpdate?: () => void;
   status?: string;
 };
@@ -122,7 +128,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
                 <VotingDetailInfo
                   active={receiptState.value.support === true}
                   variant="voteFor"
-                  total={(props.forCount ?? 0) + (props.againstCount ?? 0)}
+                  total={props.forCount?.plus(props.againstCount ?? 0)}
                   count={props.forCount}
                 >
                   voted for
@@ -130,7 +136,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
                 <VotingDetailInfo
                   active={receiptState.value.support === false}
                   variant="voteAgainst"
-                  total={(props.forCount ?? 0) + (props.againstCount ?? 0)}
+                  total={props.forCount?.plus(props.againstCount ?? 0)}
                   count={props.againstCount}
                 >
                   voted against

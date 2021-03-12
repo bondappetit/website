@@ -7,6 +7,7 @@ export type StakingAcquireModalProps = {
   open: boolean;
   onClose: () => void;
   tokenName?: string;
+  depositToken?: string;
   tokenAddresses?: string;
 };
 
@@ -24,7 +25,7 @@ export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
               To acquire {props.tokenName}.
             </Typography>
             <Typography variant="h5">
-              1. Stake your BAG to{' '}
+              1. Stake your {props.depositToken} to{' '}
               <Link href={props.tokenAddresses} target="_blank" color="blue">
                 uniswap liquidity pool
               </Link>

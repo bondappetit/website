@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 
@@ -22,16 +22,11 @@ export type StakingHeaderProps = {
   poolRate?: BN;
   lockable?: boolean;
   loading: boolean;
+  depositToken?: string;
 };
 
 export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
-  const tokenName = useMemo(() => {
-    return props.token?.join('_');
-  }, [props.token]);
-
-  const classes = useStakingHeaderStyles({
-    tokenName
-  });
+  const classes = useStakingHeaderStyles();
 
   return (
     <div className={clsx(classes.root, props.className)}>
@@ -66,7 +61,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
           <Typography variant="body1" component="span">
             Deposit:{' '}
             <Typography variant="inherit" component="span" weight="bold">
-              {props.loading ? '...' : tokenName}
+              {props.loading ? '...' : props.depositToken}
             </Typography>
           </Typography>
           <Typography variant="body1" component="span">

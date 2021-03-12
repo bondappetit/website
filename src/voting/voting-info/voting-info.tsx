@@ -2,7 +2,15 @@ import clsx from 'clsx';
 import React, { useCallback, useMemo } from 'react';
 import { useToggle } from 'react-use';
 
-import { Head, LinkModal, PageWrapper, useNetworkConfig } from 'src/common';
+import {
+  Button,
+  Head,
+  LinkModal,
+  Modal,
+  PageWrapper,
+  SmallModal,
+  useNetworkConfig
+} from 'src/common';
 import { MainLayout } from 'src/layouts';
 import {
   useVotingProposalList,
@@ -20,6 +28,7 @@ export const VotingInfo: React.FC = () => {
 
   const [linkModalOpen, togglelinkModal] = useToggle(false);
   const [investFormIsOpen, toggleInvestForm] = useToggle(false);
+  const [attentionIsOpen, toggleAttention] = useToggle(false);
 
   const { proposals, pages } = useVotingProposalList(3);
 
@@ -32,7 +41,12 @@ export const VotingInfo: React.FC = () => {
 
   const investingTotal = useInvestingTotal();
 
-  const handleOpenBuyModal = useCallback(() => {
+  const handleOpenLinkModal = useCallback(() => {
+    toggleAttention(false);
+    togglelinkModal(true);
+  }, [toggleAttention, togglelinkModal]);
+
+  const handleOpenInvestForm = useCallback(() => {
     togglelinkModal(false);
     toggleInvestForm(true);
   }, [togglelinkModal, toggleInvestForm]);
@@ -56,9 +70,15 @@ export const VotingInfo: React.FC = () => {
           />
           <VotingInfoFactoid className={clsx(classes.factoid, classes.block)} />
           <VotingInfoDecision className={classes.decision} />
-          <VotingInfoHowTo onBuy={togglelinkModal} />
+          <VotingInfoHowTo onBuy={toggleAttention} />
         </PageWrapper>
       </MainLayout>
+      <Modal open={attentionIsOpen} onClose={toggleAttention}>
+        <SmallModal>
+          attention
+          <Button onClick={handleOpenLinkModal}>Ok</Button>
+        </SmallModal>
+      </Modal>
       <VotingInvestingForm open={investFormIsOpen} onClose={toggleInvestForm} />
       <LinkModal
         open={linkModalOpen}
@@ -67,7 +87,7 @@ export const VotingInfo: React.FC = () => {
           investingTotal.value?.balance.isGreaterThan(0) ?? false
         }
         withBuyMarket={false}
-        onBuyCollateralMarket={handleOpenBuyModal}
+        onBuyCollateralMarket={handleOpenInvestForm}
         tokenName={networkConfig.assets.Governance.symbol}
         tokenAddress={networkConfig.assets.Governance.address}
       />
