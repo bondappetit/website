@@ -113,6 +113,12 @@ export const StakingDetail: React.FC = () => {
     stakingBalancesWithApy
   ]);
 
+  const showUnstakeButton =
+    unstake.value?.unstakingStartBlock.eq(0) ||
+    unstake.value?.currentBlockNumber.isGreaterThan(
+      unstake.value?.unstakingStartBlock
+    );
+
   return (
     <>
       <Head title={`Staking ${tokenName}`} />
@@ -189,37 +195,36 @@ export const StakingDetail: React.FC = () => {
                     )}
                   </Typography>
                   {loading && <Skeleton className={classes.attention} />}
-                  {!loading &&
-                    (unstake.value?.unstakingStartBlock.isGreaterThan(0) &&
-                    stakingBalancesWithApy?.lockable ? (
-                      <Typography
-                        variant="body2"
-                        align="center"
-                        className={classes.attention}
+                  {!loading && !showUnstakeButton && (
+                    <Typography
+                      variant="body2"
+                      align="center"
+                      className={classes.attention}
+                    >
+                      Unstaking will start at {unstake.value?.date}
+                      <br /> after{' '}
+                      {unstake.value?.unstakingStartBlock.toString(10)} block
+                    </Typography>
+                  )}
+                  {!loading && showUnstakeButton && (
+                    <Tippy
+                      visible={canUnstake}
+                      content="Unstaking not started"
+                      maxWidth={200}
+                      offset={[0, 25]}
+                      className={classes.tooltip}
+                      animation={false}
+                    >
+                      <WalletButtonWithFallback
+                        onClick={handleUnstake}
+                        className={classes.unlock}
+                        loading={unstakeState.loading}
+                        disabled={unstakeState.loading}
                       >
-                        Unstaking will start at {unstake.value?.date}
-                        <br /> after{' '}
-                        {unstake.value?.unstakingStartBlock.toString(10)} block
-                      </Typography>
-                    ) : (
-                      <Tippy
-                        visible={canUnstake}
-                        content="Unstaking not started"
-                        maxWidth={200}
-                        offset={[0, 25]}
-                        className={classes.tooltip}
-                        animation={false}
-                      >
-                        <WalletButtonWithFallback
-                          onClick={handleUnstake}
-                          className={classes.unlock}
-                          loading={unstakeState.loading}
-                          disabled={unstakeState.loading}
-                        >
-                          Unstake
-                        </WalletButtonWithFallback>
-                      </Tippy>
-                    ))}
+                        Unstake
+                      </WalletButtonWithFallback>
+                    </Tippy>
+                  )}
                 </div>
                 <div className={classes.unstakeAndClaim}>
                   <Typography

@@ -4,31 +4,13 @@ import { Theme } from 'src/common';
 
 export const useVotingInfoFactoidStyles = createUseStyles(
   (theme: Theme) => ({
-    title: {
-      maxWidth: 960,
-      margin: '0 auto 40px',
-
-      [theme.breakpoints.md()]: {
-        margin: '0 auto 80px'
-      }
-    },
-
     plate: {
       padding: '48px 16px',
       marginBottom: 40,
 
       [theme.breakpoints.md()]: {
-        padding: 72,
+        padding: '120px 72px',
         marginBottom: 80
-      }
-    },
-
-    chart: {
-      display: 'none',
-
-      [theme.breakpoints.md()]: {
-        display: 'flex',
-        marginBottom: 48
       }
     },
 
@@ -45,7 +27,8 @@ export const useVotingInfoFactoidStyles = createUseStyles(
       gridGap: 40,
 
       [theme.breakpoints.md()]: {
-        gridTemplateColumns: '1fr 260px'
+        gridTemplateColumns: '1fr 260px',
+        gridGap: 106
       },
 
       [theme.breakpoints.lg()]: {

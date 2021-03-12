@@ -21,18 +21,8 @@ export const VotingInfoProposalList: React.FC<VotingInfoProposalListProps> = (
 
   return (
     <div className={props.className}>
-      <Typography variant="h1" align="center" className={classes.title}>
-        Shape the future of the protocol using BondAppétit Governance (BAG)
-      </Typography>
-      <Typography
-        variant="h4"
-        component="p"
-        align="center"
-        className={classes.subtitle}
-      >
-        BAG holders are entitled to influence the future and features of
-        BondAppétite. In order to enforce certain actions, a simple majority of
-        tokenholders must vote for a certain proposal.
+      <Typography variant="h2" align="center" className={classes.title}>
+        Active proposals
       </Typography>
       <VotingProposals
         loading={props.loading}

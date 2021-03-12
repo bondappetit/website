@@ -42,28 +42,28 @@ export const DECISION_MAKING = [
   {
     title: 'Protocol’s Management',
     text: [
-      '– Add a new asset type (collateral) to the basket;',
-      '– Add a new asset type to the Price Oracle;',
-      '– Whitelist a new Depository smart contract;',
-      '– Start the emergency shutdown procedure;',
-      '– Add new markets for the automatic exchange of USDap.'
+      'Add a new asset type (collateral) to the basket;',
+      'Add a new asset type to the Price Oracle;',
+      'Whitelist a new Depository smart contract;',
+      'Start the emergency shutdown procedure;',
+      'Add new markets for the automatic exchange of USDap.'
     ]
   },
   {
-    title: 'Liquidity',
+    title: 'Protocol’s assets liquidity',
     text: [
-      '– Change in the reward rates for participation in liquidity pools;',
-      '– Choose the profit distribution of the protocol;',
-      '– Changing the list of assets available in exchange for USDap.'
+      'Change in the reward rates for participation in liquidity pools;',
+      'Choose the profit distribution of the protocol;',
+      'Changing the list of assets available in exchange for USDap.'
     ]
   },
   {
     title: 'Development of the protocol',
     text: [
-      '– Proposal and voting on new features of the protocol;',
-      '– Change the rate of technical costs for the maintenance of the protocol;',
-      '– Initiate additional capitalization of the protocol;',
-      '– Apply changes to current smart contracts.'
+      'Proposal and voting on new features of the protocol;',
+      'Change the rate of technical costs for the maintenance of the protocol;',
+      'Initiate additional capitalization of the protocol;',
+      'Apply changes to current smart contracts.'
     ]
   }
 ];

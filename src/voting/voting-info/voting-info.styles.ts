@@ -12,8 +12,17 @@ export const useVotingInfoStyles = createUseStyles(
       }
     },
 
+    title: {
+      margin: '0 auto 64px',
+
+      [theme.breakpoints.md()]: {
+        margin: '0 auto 104px'
+      }
+    },
+
     block: {
-      maxWidth: 1200
+      maxWidth: 1280,
+      margin: 'auto'
     },
 
     proposals: {
@@ -36,7 +45,7 @@ export const useVotingInfoStyles = createUseStyles(
       marginBottom: 14,
 
       [theme.breakpoints.md()]: {
-        marginBottom: 160
+        margin: 'auto'
       }
     }
   }),
