@@ -118,7 +118,7 @@ export const StakingList: React.FC = () => {
                     stacked={Boolean(Number(stakingBalance.amount))}
                     token={stakingBalance.token}
                     reward={stakingBalance.reward}
-                    totalSupply={stakingBalance.totalSupply}
+                    totalSupply={stakingBalance.totalSupplyUSDC}
                     poolRate={stakingBalance.poolRate}
                     lockable={stakingBalance.lockable}
                     stakingContractAddress={

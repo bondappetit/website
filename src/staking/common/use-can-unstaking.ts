@@ -37,6 +37,7 @@ export const useCanUnStaking = (stakingContract?: Staking) => {
     return {
       can,
       date,
+      currentBlockNumber,
       unstakingStartBlock
     };
   }, [library, stakingContract]);

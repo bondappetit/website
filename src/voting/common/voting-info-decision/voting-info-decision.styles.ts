@@ -4,40 +4,48 @@ import { Theme } from 'src/common';
 
 export const useVotingInfoDecisionStyles = createUseStyles(
   (theme: Theme) => ({
-    title: {
-      marginBottom: 32,
-
-      [theme.breakpoints.md()]: {
-        marginBottom: 48
-      }
-    },
-
     decision: {
       display: 'grid',
-      gridGap: 24,
+      padding: '48px 16px',
+      gridGap: 48,
 
-      [theme.breakpoints.md()]: {
-        gridGap: 32,
-        gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))'
+      [theme.breakpoints.lg()]: {
+        gridGap: 130,
+        padding: '64px 80px',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))'
       }
     },
 
     decisionCard: {
-      border: 'none',
+      border: 'none'
+    },
 
-      [theme.breakpoints.md()]: {
-        minHeight: 400,
-        padding: 20,
-        border: `1px solid ${theme.colors.primary}`
-      },
+    decisionCardList: {
+      margin: 0,
+      listStyleType: 'none',
+      padding: 0
+    },
 
-      [theme.breakpoints.lg()]: {
-        padding: 40
+    decisionCardListItem: {
+      display: 'flex',
+
+      '&:before': {
+        content: '"- "',
+        marginRight: 8,
+
+        [theme.breakpoints.lg()]: {
+          marginRight: 4,
+          marginLeft: -12
+        }
       }
     },
 
     decisionCardTitle: {
-      marginBottom: 16
+      marginBottom: 8,
+
+      [theme.breakpoints.lg()]: {
+        marginBottom: 24
+      }
     }
   }),
   {
