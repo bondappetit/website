@@ -4,11 +4,13 @@ import Web3 from 'web3';
 
 import { useStakingConfig } from 'src/staking-config';
 import { useStakingContracts } from 'src/staking';
-import { BN } from 'src/common';
+import { BN, useNetworkConfig } from 'src/common';
 
 export const useStakingTotal = () => {
   const stakingConfig = useStakingConfig();
   const getStakingContract = useStakingContracts();
+
+  const networkConfig = useNetworkConfig();
 
   const { library } = useWeb3React<Web3>();
 
@@ -42,8 +44,8 @@ export const useStakingTotal = () => {
 
         const currentBlockNumber = (await library?.eth.getBlockNumber()) ?? 0;
 
-        const distributed = new BN(stakingPeriodFinish)
-          .minus(currentBlockNumber)
+        const distributed = new BN(currentBlockNumber)
+          .minus(stakingLastUpdateBlock)
           .multipliedBy(stakingRewardRate);
 
         return {
@@ -71,13 +73,13 @@ export const useStakingTotal = () => {
           lastUpdateBlock.eq(0) ||
           currentBlockNumber.isGreaterThan(periodFinish)
         ) {
-          return {
-            distributedSum: acc.distributedSum.plus(distributed),
-            totalSupplySum: acc.totalSupplySum.plus(totalSupply)
-          };
+          return acc;
         }
 
-        return acc;
+        return {
+          distributedSum: acc.distributedSum.plus(distributed),
+          totalSupplySum: acc.totalSupplySum.plus(totalSupply)
+        };
       },
       {
         distributedSum: new BN(0),
@@ -90,8 +92,13 @@ export const useStakingTotal = () => {
       .multipliedBy(100);
 
     return {
-      ...info,
+      distributedSum: info.distributedSum.div(
+        new BN(10).pow(networkConfig.assets.Governance.decimals)
+      ),
+      totalSupplySum: info.totalSupplySum.div(
+        new BN(10).pow(networkConfig.assets.Governance.decimals)
+      ),
       percent: percent.isFinite() ? percent : new BN(0)
     };
-  }, [stakingConfig, library]);
+  }, [stakingConfig, library, networkConfig]);
 };
