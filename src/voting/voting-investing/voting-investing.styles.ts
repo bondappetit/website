@@ -1,4 +1,5 @@
 import { createUseStyles } from 'react-jss';
+
 import { Theme } from 'src/common';
 
 export const useVotingInvestingStyles = createUseStyles(
@@ -7,24 +8,33 @@ export const useVotingInvestingStyles = createUseStyles(
       width: '100%'
     },
 
-    progress: {
-      '&[value]': {
-        WebkitAppearance: 'none',
-        appearance: 'none',
-        width: 400,
-        height: 4,
-        borderRadius: 8,
+    attention: {
+      display: 'flex',
+      flexDirection: 'column',
+      minHeight: '100%'
+    },
 
-        '&::-webkit-progress-bar': {
-          backgroundColor: theme.colors.pink,
-          borderRadius: 8
-        },
+    attentionContent: {
+      margin: '0 0 auto',
 
-        '&::-webkit-progress-value': {
-          backgroundColor: theme.colors.primary,
-          borderRadius: 8
-        }
+      '& > *:not(:last-child)': {
+        marginBottom: 16
       }
+    },
+
+    attentionButton: {
+      marginTop: 'auto',
+      fontSize: 24,
+      lineHeight: '32px',
+
+      [theme.breakpoints.md()]: {
+        fontSize: 32,
+        lineHeight: '40px'
+      }
+    },
+
+    attentionRed: {
+      color: theme.colors.red
     }
   }),
   {

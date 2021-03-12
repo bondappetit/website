@@ -21,11 +21,13 @@ export const useInvestingTotal = () => {
       .balanceOf(investmentContract.options.address)
       .call();
 
-    const totalTokens = new BN(TOTAL_TOKENS);
+    let totalTokens = new BN(TOTAL_TOKENS);
 
     const balance = new BN(balanceOfGovernance).div(
       new BN(10).pow(networkConfig.assets.Governance.decimals)
     );
+
+    totalTokens = totalTokens.isGreaterThan(balance) ? totalTokens : balance;
 
     return {
       balance,

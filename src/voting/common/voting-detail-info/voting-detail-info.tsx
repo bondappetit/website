@@ -16,7 +16,9 @@ export type VotingDetailInfoProps = {
 export const VotingDetailInfo: React.FC<VotingDetailInfoProps> = (props) => {
   const percentageBN = props.count?.div(props.total ?? 0).multipliedBy(100);
 
-  const percentage = percentageBN?.isFinite() ? percentageBN.toNumber() : 0;
+  const percentage = percentageBN?.isFinite()
+    ? percentageBN.integerValue().toNumber()
+    : 0;
   const classes = useVotingDetailInfoStyles({
     percentage
   });

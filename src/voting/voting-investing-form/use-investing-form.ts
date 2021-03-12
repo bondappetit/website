@@ -17,15 +17,15 @@ import {
 } from 'src/common';
 import type { Ierc20 } from 'src/generate/IERC20';
 
-export const useInvestingForm = (onSubmit: () => void) => {
+export const useInvestingForm = (onSuccess: () => void) => {
   const network = useNetworkConfig();
   const getBalance = useBalance();
 
-  const ref = useRef(onSubmit);
+  const ref = useRef(onSuccess);
 
   useEffect(() => {
-    ref.current = onSubmit;
-  }, [onSubmit]);
+    ref.current = onSuccess;
+  }, [onSuccess]);
 
   const tokenContracts: Record<string, Ierc20 | null> = {
     USDT: useUSDTContract(),

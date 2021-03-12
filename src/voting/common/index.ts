@@ -24,3 +24,4 @@ export * from './voting-info-proposal-list';
 export * from './voting-info-factoid';
 export * from './voting-info-decision';
 export * from './use-can-buy';
+export * from './voting-info-card';

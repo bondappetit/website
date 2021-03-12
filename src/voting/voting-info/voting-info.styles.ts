@@ -12,7 +12,12 @@ export const useVotingInfoStyles = createUseStyles(
       }
     },
 
-    title: {
+    block: {
+      maxWidth: 1280,
+      margin: 'auto'
+    },
+
+    titleWrap: {
       margin: '0 auto 64px',
 
       [theme.breakpoints.md()]: {
@@ -20,24 +25,38 @@ export const useVotingInfoStyles = createUseStyles(
       }
     },
 
-    block: {
-      maxWidth: 1280,
-      margin: 'auto'
+    title: {
+      marginBottom: 24
     },
 
-    proposals: {
-      margin: '0 auto 104px',
+    link: {
+      display: 'none',
 
       [theme.breakpoints.md()]: {
-        margin: '0 auto 160px'
+        display: 'block'
       }
     },
 
+    investing: {
+      marginBottom: 48,
+      display: 'grid',
+      gridGap: 32,
+      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
+    },
+
     factoid: {
-      margin: '0 auto 104px',
+      margin: '0 auto 160px',
 
       [theme.breakpoints.md()]: {
-        margin: '0 auto 160px'
+        margin: '0 auto 200px'
+      }
+    },
+
+    proposals: {
+      margin: '0 auto 64px',
+
+      [theme.breakpoints.md()]: {
+        margin: '0 auto 48px'
       }
     },
 
