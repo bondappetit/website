@@ -26,7 +26,7 @@ export const StakingAttentionModal: React.FC<StakingAttentionModalProps> = (
               <Typography variant="inherit" className={classes.attention}>
                 Attention!
               </Typography>{' '}
-              6-month locking
+              3-month locking
             </Typography>
             <Typography variant="h5">
               Your LP tokens will be locked for 3 months. You can get your

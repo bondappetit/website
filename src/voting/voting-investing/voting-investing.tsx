@@ -6,6 +6,7 @@ import {
   LinkModal,
   Modal,
   SmallModal,
+  Typography,
   useNetworkConfig
 } from 'src/common';
 import { VotingInfoCard } from '../common';
@@ -58,8 +59,28 @@ export const VotingInvesting: React.VFC = () => {
       />
       <Modal open={attentionIsOpen} onClose={toggleAttention}>
         <SmallModal>
-          attention
-          <Button onClick={handleOpenLinkModal}>Ok</Button>
+          <div className={classes.attention}>
+            <div className={classes.attentionContent}>
+              <Typography variant="h5" weight="bold">
+                <Typography variant="inherit" className={classes.attentionRed}>
+                  Attention!
+                </Typography>{' '}
+                3-month locking
+              </Typography>
+              <Typography variant="h5">
+                Your BAG tokens will be locked for 3 months.
+              </Typography>{' '}
+              <Typography variant="h5">
+                You will be able to claim the staking reward anytime.
+              </Typography>
+            </div>
+            <Button
+              className={classes.attentionButton}
+              onClick={handleOpenLinkModal}
+            >
+              Buy
+            </Button>
+          </div>
         </SmallModal>
       </Modal>
       <LinkModal

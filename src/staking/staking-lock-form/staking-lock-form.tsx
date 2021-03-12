@@ -199,7 +199,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             type={
               Number(formik.values.amount) > 0 &&
               formik.isValid &&
-              staking.value?.stakingEndBlock.isGreaterThan(0)
+              props.unstakingStartBlock?.isGreaterThan(0)
                 ? 'button'
                 : 'submit'
             }
