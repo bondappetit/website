@@ -1,12 +1,11 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
-import Web3 from 'web3';
+import { useCallback, useMemo, useRef } from 'react';
 import type { AbiItem } from 'web3-utils';
 import type { ContractOptions } from 'web3-eth-contract';
 import networks from '@bondappetit/networks';
-import { useWeb3React } from '@web3-react/core';
 
 import { useNetworkConfig } from './use-network-config';
 import { EthereumNetworkError } from './ethereum-network-error';
+import { useLibrary } from './use-library';
 
 type ContractParameters = {
   abi: AbiItem[] | AbiItem;
@@ -17,18 +16,6 @@ type ContractParameters = {
 type Callback = (network: Network) => ContractParameters;
 
 export type Network = typeof networks[keyof typeof networks];
-
-const useLibrary = () => {
-  const { library } = useWeb3React<Web3>();
-  const networkConfig = useNetworkConfig();
-  const providerRef = useRef(new Web3(networkConfig.networkUrl));
-
-  useEffect(() => {
-    providerRef.current = new Web3(networkConfig.networkUrl);
-  }, [networkConfig.networkUrl]);
-
-  return useMemo(() => library ?? providerRef.current, [library]);
-};
 
 export const createUseContract = <T>(cb: Callback) => () => {
   const library = useLibrary();

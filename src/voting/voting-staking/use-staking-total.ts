@@ -1,10 +1,8 @@
 import { useAsyncRetry } from 'react-use';
-import { useWeb3React } from '@web3-react/core';
-import Web3 from 'web3';
 
 import { useStakingConfig } from 'src/staking-config';
 import { useStakingContracts } from 'src/staking';
-import { BN, useNetworkConfig } from 'src/common';
+import { BN, useLibrary, useNetworkConfig } from 'src/common';
 
 export const useStakingTotal = () => {
   const stakingConfig = useStakingConfig();
@@ -12,7 +10,7 @@ export const useStakingTotal = () => {
 
   const networkConfig = useNetworkConfig();
 
-  const { library } = useWeb3React<Web3>();
+  const library = useLibrary();
 
   return useAsyncRetry(async () => {
     const staking = Object.values(stakingConfig)

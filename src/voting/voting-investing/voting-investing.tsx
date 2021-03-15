@@ -34,9 +34,9 @@ export const VotingInvesting: React.VFC = () => {
 
   const investingTotal = useInvestingTotal();
 
-  const totalTokens = investingTotal.value?.totalTokens.toFormat(0);
+  const totalTokens = investingTotal.value?.totalTokens.toFormat(0) ?? '0';
 
-  const balance = investingTotal.value?.balance.toFormat(0);
+  const balance = investingTotal.value?.balance.toFormat(0) ?? '0';
 
   return (
     <>
