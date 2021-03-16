@@ -57,7 +57,7 @@ export const useInvestingForm = (onSuccess: () => void) => {
       }
 
       if (Number(formValues.payment) <= 0) {
-        error.payment = 'Payment of currency is required';
+        error.payment = `${formValues.currency} is required`;
         return error;
       }
 

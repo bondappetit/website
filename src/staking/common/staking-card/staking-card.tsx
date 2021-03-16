@@ -6,7 +6,7 @@ import {
   Typography,
   Link,
   Status,
-  STAKING_ICONS,
+  COIN_ICONS,
   BN,
   humanizeNumeral
 } from 'src/common';
@@ -52,7 +52,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
         {props.loading
           ? 'Loading pool...'
           : props.token?.map((title, index) => {
-              const Icon = STAKING_ICONS[title];
+              const Icon = COIN_ICONS.get(title);
 
               return (
                 <React.Fragment key={title}>
