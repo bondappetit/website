@@ -3,13 +3,7 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 
 import { ReactComponent as ArrowLeftIcon } from 'src/assets/icons/arrow-left-bold.svg';
-import {
-  Link,
-  Typography,
-  STAKING_ICONS,
-  BN,
-  humanizeNumeral
-} from 'src/common';
+import { Link, Typography, COIN_ICONS, BN, humanizeNumeral } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useStakingHeaderStyles } from './staking-header.styles';
 
@@ -43,7 +37,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
             {props.loading
               ? 'Loading pool...'
               : props.token?.map((title, index) => {
-                  const Icon = STAKING_ICONS[title];
+                  const Icon = COIN_ICONS.get(title);
 
                   return (
                     <React.Fragment key={title}>

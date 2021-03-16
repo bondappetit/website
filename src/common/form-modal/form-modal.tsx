@@ -13,6 +13,7 @@ import { FormModalSelect } from './form-modal-select';
 import { Asset } from '../types';
 import { useFormModalStyles } from './form-modal.styles';
 import { BN, humanizeNumeral } from '../bignumber';
+import { COIN_ICONS } from '../constants';
 
 export type FormModalValues = {
   currency: string;
@@ -120,6 +121,10 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
 
   const [rewardHoverable] = useHover(reward);
 
+  const TokenIcon = COIN_ICONS.get(props.tokenName);
+
+  const CurrencyIcon = COIN_ICONS.get(formik.values.currency);
+
   return (
     <>
       <Modal
@@ -184,7 +189,10 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                       className={classes.selectButton}
                       onClick={toggleSelect}
                     >
-                      {formik.values.currency}↓
+                      {CurrencyIcon && <CurrencyIcon />}
+                      <span className={classes.currency}>
+                        {formik.values.currency}↓
+                      </span>
                     </ButtonBase>
                   </div>
                 </div>
@@ -212,8 +220,15 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                     <Typography variant="body1" component="div">
                       Balance: {humanizeNumeral(props.balance)}
                     </Typography>
-                    <Typography variant="inherit" component="div">
-                      {props.tokenName}
+                    <Typography
+                      variant="inherit"
+                      component="div"
+                      className={classes.tokenWrap}
+                    >
+                      {TokenIcon && <TokenIcon />}
+                      <span className={classes.currency}>
+                        {props.tokenName}
+                      </span>
                     </Typography>
                   </div>
                 </div>

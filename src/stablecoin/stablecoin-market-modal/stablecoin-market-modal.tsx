@@ -70,7 +70,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
       }
 
       if (Number(formValues.payment) <= 0) {
-        error.payment = 'Payment of currency is required';
+        error.payment = `${formValues.currency} is required`;
         return error;
       }
 

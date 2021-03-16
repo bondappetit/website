@@ -112,6 +112,17 @@ export const useFormModalStyles = createUseStyles(
       padding: 16,
       borderRadius: 16,
       transition: 'none'
+    },
+
+    currency: {
+      lineHeight: '38px',
+      display: 'block',
+      height: 32,
+      marginLeft: 6
+    },
+
+    tokenWrap: {
+      display: 'flex'
     }
   }),
   {

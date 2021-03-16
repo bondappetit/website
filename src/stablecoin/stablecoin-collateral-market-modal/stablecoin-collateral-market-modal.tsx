@@ -65,7 +65,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
       }
 
       if (Number(formValues.payment) <= 0) {
-        error.payment = 'Payment of currency is required';
+        error.payment = `${formValues.currency} is required`;
         return error;
       }
 
