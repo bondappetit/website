@@ -15,8 +15,8 @@ export const MainSteps: React.FC<MainStepsProps> = (props) => {
   return (
     <div className={clsx(props.className)}>
       <Typography variant="h4" align="center" className={classes.title}>
-        Skyrocket the future of BondAppétit. Become a part of the protocol in
-        the early stages, earn more governance tokens and shape the future of
+        Skyrocket the future of BondAppétit. Become part of the protocol in the
+        early stages, earn more governance tokens, and shape the future of
         BondAppétit
       </Typography>
       <div className={classes.segment} />

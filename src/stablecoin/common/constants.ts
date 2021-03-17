@@ -2,11 +2,11 @@ export const FAQ = [
   {
     title: 'What is the price stability mechanism?',
     body: [
-      `The price of USDap equals $1 at all times, while the token is issued
-      only if the protocol has sufficient collateral. Information
-      regarding the collateral can be checked through blockchain at all times.`,
+      `The price of USDap equals $1 at all times, while the token is issued only
+      if the protocol has sufficient collateral. Information regarding
+      the collateral can be checked through blockchain at any time.`,
       `Price stability is connected to the protocol’s assets,
-      the price of which should always be close to the value of the USDap in circulation.`
+      the price of which should always be close to the value of USDap in circulation.`
     ]
   },
 
@@ -29,9 +29,8 @@ export const FAQ = [
   {
     title: 'What is the legal classification of USDap?',
     body: [
-      `USDap represents the mean of transferring value and it is defined as
-      such exclusively by market participants. The token itself does not imply any
-      obligations of the protocol, any of its participants, or third parties.`
+      `USDap represents a means of transferring value and it is defined as such exclusively by market participants.
+      The token itself does not imply any obligations of the protocol, any of its participants, or third-parties.`
     ]
   }
 ];
