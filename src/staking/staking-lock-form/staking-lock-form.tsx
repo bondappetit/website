@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useFormik } from 'formik';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
@@ -116,9 +116,9 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     }
   });
 
-  const handleCloseTooltip = useCallback(() => {
+  const handleCloseTooltip = () => {
     formik.setFieldError('amount', '');
-  }, [formik]);
+  };
 
   const tokenAddresses = useMemo(() => {
     const addresses = Object.values(networkConfig.assets)

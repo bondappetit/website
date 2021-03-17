@@ -1,7 +1,9 @@
 import { useFormik } from 'formik';
 
-import { isEmail, unisenderQueryString } from 'src/common';
-import { config } from 'src/config';
+import { isEmail } from 'src/common';
+import { subscribeApi } from './subscribe-api';
+
+const LIST_ID = '38';
 
 export const useSubscribeNews = (toggle: (value: boolean) => void) => {
   const formik = useFormik({
@@ -27,17 +29,8 @@ export const useSubscribeNews = (toggle: (value: boolean) => void) => {
     },
 
     onSubmit: async (formValues) => {
-      const query = unisenderQueryString(formValues);
-
       try {
-        await fetch(
-          `${config.UNISENDER_API}&list_ids=38&${query}&double_optin=3`,
-          {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'content-type': 'text/plain' }
-          }
-        );
+        await subscribeApi.subscribe(LIST_ID, formValues);
 
         toggle(true);
       } catch (error) {

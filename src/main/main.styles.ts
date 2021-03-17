@@ -54,6 +54,33 @@ export const useMainStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 240
       }
+    },
+
+    voting: {
+      marginBottom: 160,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 204
+      }
+    },
+
+    newsTitle: {
+      maxWidth: 800,
+      margin: '0 auto 40px',
+
+      [theme.breakpoints.md()]: {
+        margin: '0 auto 48px'
+      }
+    },
+
+    articles: {
+      display: 'grid',
+      gridGap: 16,
+
+      [theme.breakpoints.md()]: {
+        gridGap: 48,
+        gridTemplateColumns: '1fr 1fr'
+      }
     }
   }),
   {
