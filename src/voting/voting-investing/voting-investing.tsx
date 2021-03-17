@@ -34,7 +34,7 @@ export const VotingInvesting: React.VFC = () => {
         percent={investingTotal.value?.percent?.toString(10)}
         buttonTitle="Buy BAG"
         onClick={toggleAttention}
-        description={`The initial issue of ${totalTokens} BAG) is
+        description={`The initial issue of ${totalTokens} BAG is
         offered to early investors during the first phase of protocol
         for 2,5$ per token (50% discount to initial issue price),
         subject to a 6-month moratorium on the sale.`}
