@@ -8,16 +8,16 @@ import {
   Input,
   Button,
   Typography,
-  isEmail,
-  unisenderQueryString
+  isEmail
 } from 'src/common';
-import { config } from 'src/config';
-import { SubscribeSuccess, useSubscribeStyles } from '../common';
+import { subscribeApi, SubscribeSuccess, useSubscribeStyles } from '../common';
 
 export type SubscribeAnnounceProps = {
   open: boolean;
   onClose: () => void;
 };
+
+const LIST_ID = '2';
 
 export const SubscribeAnnounce: React.FC<SubscribeAnnounceProps> = (props) => {
   const classes = useSubscribeStyles();
@@ -52,17 +52,8 @@ export const SubscribeAnnounce: React.FC<SubscribeAnnounceProps> = (props) => {
     },
 
     onSubmit: async (formValues) => {
-      const query = unisenderQueryString(formValues);
-
       try {
-        await fetch(
-          `${config.UNISENDER_API}&list_ids=2&${query}&double_optin=3`,
-          {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { 'content-type': 'text/plain' }
-          }
-        );
+        await subscribeApi.subscribe(LIST_ID, formValues);
 
         toggle(true);
       } catch (error) {

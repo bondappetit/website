@@ -77,7 +77,7 @@ export const useFormModalStyles = createUseStyles(
     selectOption: {
       fontSize: 24,
       lineHeight: '32px',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
       padding: [8, 16],
       margin: [0, -16],
       borderRadius: 8,
@@ -119,6 +119,10 @@ export const useFormModalStyles = createUseStyles(
       display: 'block',
       height: 32,
       marginLeft: 6
+    },
+
+    selectBalance: {
+      marginLeft: 'auto'
     },
 
     tokenWrap: {

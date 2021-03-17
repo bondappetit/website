@@ -7,3 +7,4 @@ export * from './main-editor';
 export * from './main-audit';
 export * from './main-how-it-works';
 export * from './main-how-it-works-modal';
+export * from './main-medium-articles';

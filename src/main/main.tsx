@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 
-import { Head, humanizeNumeral, PageWrapper } from 'src/common';
+import { Head, humanizeNumeral, PageWrapper, Typography } from 'src/common';
 import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
 import { MainLayout } from 'src/layouts';
 import {
@@ -18,9 +18,12 @@ import {
   MainVoting,
   MainSteps,
   MainEditor,
-  MainAudit
+  MainAudit,
+  MainMediumArticles
 } from './common';
 import { useMainStyles } from './main.styles';
+import { useMediumArticles } from './common/use-medium-articles';
+import { MainCointelegraph } from './common/main-cointelegraph';
 
 export const Main: React.FC = () => {
   const classes = useMainStyles();
@@ -48,6 +51,8 @@ export const Main: React.FC = () => {
     collateralMarketModalOpen,
     toggleCollateralMarketModal
   } = useStablecoinModals();
+
+  const mediumArticles = useMediumArticles();
 
   return (
     <>
@@ -83,7 +88,24 @@ export const Main: React.FC = () => {
           )}
           <MainSteps className={classes.steps} />
           <MainEditor className={classes.editor} />
-          <MainVoting />
+          <MainVoting className={classes.voting} />
+          <div>
+            <Typography
+              variant="h4"
+              align="center"
+              className={classes.newsTitle}
+            >
+              Learn more about BondAppetit, explore our partnerships, media and
+              artilces.
+            </Typography>
+            <div className={classes.articles}>
+              <MainMediumArticles
+                loading={mediumArticles.loading}
+                articles={mediumArticles.value}
+              />
+              <MainCointelegraph />
+            </div>
+          </div>
         </PageWrapper>
       </MainLayout>
       <StablecoinModals

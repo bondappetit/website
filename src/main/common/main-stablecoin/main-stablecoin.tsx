@@ -32,8 +32,8 @@ export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
           </Button>
         </div>
         <Typography variant="h4" align="center" className={classes.title}>
-          In the foundation of the protocol lies USDap — the first-ever
-          decentralized stablecoin based on real-world assets.
+          USDap — the first-ever decentralized stablecoin based on real-world
+          assets (bonds), lies at the heart of the protocol
         </Typography>
         <Typography variant="h4" align="center">
           <Link component={ReactRouterLink} to={URLS.stablecoin} color="blue">

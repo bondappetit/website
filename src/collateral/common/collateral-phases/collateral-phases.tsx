@@ -47,10 +47,10 @@ export const CollateralPhases: React.FC<CollateralPhasesProps> = (props) => {
         </Typography>
         <div>
           <Typography variant="h5" className={classes.phaseCardBody}>
-            Protocol’s assets are formed by outstanding debt of the borrowers,
-            which is secured by real-world collateral in a form of bonds stored
-            on special custody accounts. All crypto assets accumulated during
-            Phase 1 will be converted to RWA.
+            The protocol’s assets are formed by the outstanding debt of the
+            borrowers, which is secured by real-world collateral in the form of
+            bonds stored on special custody accounts. All crypto assets
+            accumulated during Phase 1 will be converted to RWA.
           </Typography>
           <Typography variant="h5">
             <Link

@@ -33,15 +33,15 @@ export const STEPS = [
 ];
 
 export const VOTING_TEXT = [
-  'Add new markets for the automatic exchange',
+  'Add new markets for automatic exchange of USDap',
   'Add a new asset type (collateral) to the basket',
   'Add a new asset type to the Price Oracle',
   'Whitelist a new Depository smart contract',
-  'Start the emergency shutdown procedure',
+  'Start emergency shutdown procedure',
   'Add new markets for the automatic exchange of USDap',
   'Change in the reward rates for participation in liquidity pools',
   'Choose the profit distribution of the protocol',
-  'Changing the list of assets available in exchange for USDap',
+  'Change of the list of assets available for exchange for USDap',
   'Proposal and voting on new features of the protocol',
   'Change the rate of technical costs for the maintenance of the protocol',
   'Initiate additional capitalization of the protocol',

@@ -1,10 +1,12 @@
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
 import { useAsyncFn, useInterval } from 'react-use';
+import { useEffect } from 'react';
 
 import type { Staking } from 'src/generate/Staking';
 import { dateUtils, BN } from 'src/common';
-import { useEffect } from 'react';
+
+const DATE_FORMAT = 'HH:mm:ss on MMMM DD';
 
 export const useCanUnStaking = (stakingContract?: Staking) => {
   const { library } = useWeb3React<Web3>();
@@ -25,10 +27,7 @@ export const useCanUnStaking = (stakingContract?: Staking) => {
       .multipliedBy(15)
       .toNumber();
 
-    const date = dateUtils.format(
-      dateUtils.addSeconds(seconds),
-      'HH:mm:ss on MMMM DD'
-    );
+    const date = dateUtils.format(dateUtils.addSeconds(seconds), DATE_FORMAT);
 
     const can =
       currentBlockNumber.isGreaterThan(unstakingStartBlock) &&

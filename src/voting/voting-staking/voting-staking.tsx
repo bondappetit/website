@@ -25,14 +25,13 @@ export const VotingStaking: React.VFC = () => {
   return (
     <VotingInfoCard
       title="Earn BAG by Staking"
-      subtitle={`${distributedSum} of ${totalSupplySum} BAG remained to earn`}
+      subtitle={`${distributedSum} of ${totalSupplySum} BAG left to earn`}
       loading={stakingTotal.loading}
       onClick={() => history.push(URLS.staking.list)}
       buttonTitle="Earn BAG"
       percent={stakingTotal.value?.percent.toString(10)}
-      description={`You can earn governance token as reward for
-        supporting protocol activities.
-        Buy USDap, stake your assets in liquidity pools and earn BAG as reward.`}
+      description={`You can earn governance token as reward for supporting protocol activities.
+      Buy USDap, stake your assets in liquidity pools with 3-month lock periods and earn BAG as rewards.`}
     />
   );
 };
