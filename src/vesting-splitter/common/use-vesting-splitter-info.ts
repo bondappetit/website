@@ -40,12 +40,11 @@ export const useVestingSplitterInfo = () => {
 
   const handleWithDraw = useCallback(
     async (periodId: string) => {
-      if (!account || !vestingSplitterContract || !vestingContract) return;
+      if (!account || !vestingSplitterContract) return;
 
       toggleLoading(true);
 
       const vestingWithdraw = vestingSplitterContract.methods.vestingWithdraw(
-        vestingContract.options.address,
         periodId
       );
 
@@ -62,7 +61,7 @@ export const useVestingSplitterInfo = () => {
         toggleLoading(false);
       }
     },
-    [vestingSplitterContract, vestingContract, state, account, toggleLoading]
+    [vestingSplitterContract, state, account, toggleLoading]
   );
 
   return [state, handleWithDraw, loading] as const;
