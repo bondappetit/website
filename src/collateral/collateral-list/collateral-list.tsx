@@ -1,6 +1,6 @@
 import { useToggle } from 'react-use';
 import clsx from 'clsx';
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 
 import {
   PageWrapper,
@@ -31,13 +31,16 @@ import {
   useIssuerRebalance,
   useCollateralRealAssets
 } from '../common';
+import { CollateralCheck } from '../collateral-check';
 
 export const CollateralList: React.FC = () => {
   const classes = useCollateralListStyles();
 
   const networkConfig = useNetworkConfig();
 
-  const [open, toggleOpen] = useToggle(false);
+  const [attentionIsOpen, toggleAttention] = useToggle(false);
+
+  const [isinCode, setIsinCode] = useState('');
 
   const [devMode] = useDevMode();
 
@@ -57,11 +60,15 @@ export const CollateralList: React.FC = () => {
 
   const scrollIntoView = useScrollIntoView('#borrower-check');
 
-  const handleClose = useCallback(() => {
-    toggleOpen(false);
+  const handleCloseAttention = useCallback(() => {
+    toggleAttention(false);
 
     scrollIntoView();
-  }, [toggleOpen, scrollIntoView]);
+  }, [toggleAttention, scrollIntoView]);
+
+  const handleCloseIsInCode = useCallback(() => {
+    setIsinCode('');
+  }, []);
 
   return (
     <>
@@ -107,7 +114,7 @@ export const CollateralList: React.FC = () => {
                 config.IS_COLLATERAL ? (
                   <ButtonBase
                     className={classes.checkHere}
-                    onClick={toggleOpen}
+                    onClick={toggleAttention}
                   >
                     check here
                   </ButtonBase>
@@ -142,19 +149,29 @@ export const CollateralList: React.FC = () => {
             <CollateralBorrowInfo
               id="borrower-check"
               tableData={tableData.value?.assets}
+              onValid={setIsinCode}
             />
           ) : (
             <CollateralPhases />
           )}
         </PageWrapper>
       </MainLayout>
-      <Modal open={open} onClose={toggleOpen}>
+      <Modal open={attentionIsOpen} onClose={toggleAttention}>
         <SmallModal>
           <Typography variant="h5">
             To make sure that the collateral is actual and signed, you can click
             on the valid label in the table above.
           </Typography>
-          <Button onClick={handleClose}>Ok</Button>
+          <Button onClick={handleCloseAttention}>Ok</Button>
+        </SmallModal>
+      </Modal>
+      <Modal
+        open={Boolean(isinCode)}
+        className={classes.checkModal}
+        onClose={handleCloseIsInCode}
+      >
+        <SmallModal className={clsx(classes.checkModal, classes.overflow)}>
+          <CollateralCheck isinCode={isinCode} />
         </SmallModal>
       </Modal>
     </>

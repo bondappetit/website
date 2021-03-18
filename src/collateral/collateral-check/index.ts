@@ -1,1 +1,1 @@
-export { CollateralCheck as default } from './collateral-check';
+export * from './collateral-check';

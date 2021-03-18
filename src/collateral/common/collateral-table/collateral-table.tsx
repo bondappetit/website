@@ -13,7 +13,8 @@ import {
   Typography,
   Link,
   numberArray,
-  Skeleton
+  Skeleton,
+  ButtonBase
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useCollateralTableStyles } from './collateral-table.styles';
@@ -23,6 +24,7 @@ export type CollateralTableProps = {
   data?: TableData;
   emptyFirstCol?: boolean;
   id?: string;
+  onValid?: (isinCode: string) => void;
 };
 
 const isBoolean = (booleanLike: unknown): booleanLike is boolean =>
@@ -134,16 +136,12 @@ export const CollateralTable: React.FC<CollateralTableProps> = (props) => {
                             </>
                           )}
                           {isBoolean(cell.title) && isIsinCode(isIncode) && (
-                            <Link
-                              component={ReactRouterLink}
-                              to={URLS.collateral.check(
-                                isIncode.contractAddress,
-                                isIncode.title
-                              )}
+                            <ButtonBase
                               className={cell.title ? classes.yes : classes.no}
+                              onClick={() => props.onValid?.(isIncode.title)}
                             >
                               {cell.title ? '✓ Yes' : '✕ No'}
-                            </Link>
+                            </ButtonBase>
                           )}
                         </Typography>
                       </TableCell>

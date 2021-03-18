@@ -1,58 +1,93 @@
+import clsx from 'clsx';
 import React from 'react';
-import { useParams } from 'react-router-dom';
 
-import { Link, PageWrapper, Typography } from 'src/common';
-import { MainLayout } from 'src/layouts';
-import { useCollateralRealAssets } from '../common';
+import { Link, Typography } from 'src/common';
+import { CollateralPublicKey, useCollateralRealAssets } from '../common';
 import { useCollateralCheckStyles } from './collateral-check.styles';
 
-export const CollateralCheck: React.VFC = () => {
+const VERIFICATION_SERVICE = 'https://8gwifi.org/rsasignverifyfunctions.jsp';
+
+export type CollateralCheckProps = {
+  isinCode: string;
+};
+
+export const CollateralCheck: React.VFC<CollateralCheckProps> = (props) => {
   const tableData = useCollateralRealAssets();
-  const params = useParams<{ isinCode: string }>();
 
   const classes = useCollateralCheckStyles();
 
+  const company = tableData.value?.tableDataMap.get(props.isinCode);
+
   return (
-    <MainLayout>
-      <PageWrapper>
-        <Typography variant="body1" component="div">
-          <Typography variant="inherit" component="div">
-            public key:
-          </Typography>
-          <Typography variant="inherit" className={classes.publicKey}>
-            {`-----BEGIN PUBLIC KEY-----
-MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIY/1CNmMbKN7JJiorkpxz2RnX
-3sClnDZ/zDFm0Zmh+0lU4xfEkjfp05sQzxrbgXztL0HzJkTB8v5HMICuv2WY4nPa
-s8SgE8wCt19IAS/uiHkPVqOLdnfBN5iKMjOaS7GEkODlnd8KRvyeUQLP3t/a6aQt
-DSvBPnFsJAs1dKhWwwIDAQAB
------END PUBLIC KEY-----`}
-          </Typography>
+    <div className={classes.root}>
+      <Typography variant="body1" className={classes.description}>
+        To insure transparency of collateral all our data signed by regulated
+        entity.{' '}
+        <Link color="blue" href="/#">
+          Learn more
+        </Link>
+      </Typography>
+      <div className={classes.card}>
+        <Typography variant="body2" className={classes.cardTitle}>
+          Status:
         </Typography>
-        <Typography variant="body1">
-          data:{' '}
-          {tableData.loading
-            ? '...'
-            : tableData.value?.tableDataMap.get(params.isinCode)?.data}
+        <Typography
+          variant="body1"
+          className={clsx({
+            [classes.valid]: company?.isValid && !tableData.loading,
+            [classes.invalid]: !company?.isValid && !tableData.loading
+          })}
+        >
+          {tableData.loading ? (
+            '...'
+          ) : (
+            <>{company?.isValid ? '✓ Valid' : '✕ Invalid'}</>
+          )}
         </Typography>
-        <Typography variant="body1">
-          signature:{' '}
-          {tableData.loading
-            ? '...'
-            : tableData.value?.tableDataMap.get(params.isinCode)?.signature}
+      </div>
+      <div className={classes.card}>
+        <Typography variant="body2" className={classes.cardTitle}>
+          Data:
         </Typography>
-        <Typography variant="body1">algorithm: sha512WithRSA</Typography>
-        <Typography variant="body1">key size: 1024 bit</Typography>
-        <Typography variant="body1">
-          verification service:
-          <Link
-            href="https://8gwifi.org/rsasignverifyfunctions.jsp"
-            target="_blank"
-            color="blue"
-          >
-            https://8gwifi.org/rsasignverifyfunctions.jsp
+        <Typography variant="body1" className={classes.cardText}>
+          {tableData.loading ? '...' : company?.data}
+        </Typography>
+      </div>
+      <CollateralPublicKey className={classes.card} />
+      <div className={classes.card}>
+        <Typography variant="body2" className={classes.cardTitle}>
+          Signature:
+        </Typography>
+        <Typography variant="body1" className={classes.cardText}>
+          {tableData.loading ? '...' : company?.signature}
+        </Typography>
+      </div>
+      <div className={classes.card}>
+        <Typography variant="body2" className={classes.cardTitle}>
+          Algorithm:
+        </Typography>
+        <Typography variant="body1" className={classes.cardText}>
+          sha512WithRSA
+        </Typography>
+      </div>
+      <div className={classes.card}>
+        <Typography variant="body2" className={classes.cardTitle}>
+          Key size:
+        </Typography>
+        <Typography variant="body1" className={classes.cardText}>
+          1024 bit
+        </Typography>
+      </div>
+      <div className={classes.card}>
+        <Typography variant="body2" className={classes.cardTitle}>
+          Verification service:
+        </Typography>
+        <Typography variant="body1" className={classes.cardText}>
+          <Link href={VERIFICATION_SERVICE} target="_blank" color="blue">
+            {VERIFICATION_SERVICE}
           </Link>
         </Typography>
-      </PageWrapper>
-    </MainLayout>
+      </div>
+    </div>
   );
 };
