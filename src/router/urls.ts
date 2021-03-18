@@ -28,8 +28,6 @@ export const URLS = {
       `/collateral/issuers/${companyName}`,
     detail: (companyName = ':companyName') =>
       `/collateral/borrowers/${companyName}`,
-    borrow: '/collateral/borrow',
-    check: (contractAddress = ':contractAddress', isinCode = ':isinCode') =>
-      `/collateral/${contractAddress}/${isinCode}`
+    borrow: '/collateral/borrow'
   }
 } as const;

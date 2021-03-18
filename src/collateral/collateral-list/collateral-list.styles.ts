@@ -34,6 +34,16 @@ export const useCollateralListStyles = createUseStyles(
 
     checkHere: {
       color: theme.colors.darkBlue
+    },
+
+    overflow: {
+      overflowX: 'hidden',
+      overflowY: 'scroll'
+    },
+
+    checkModal: {
+      height: '100%',
+      maxHeight: 850
     }
   }),
   {

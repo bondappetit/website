@@ -8,10 +8,15 @@ import { useCollateralBorrowInfoStyles } from './collateral-borrow-info.styles';
 import { CollateralTable } from '../collateral-table';
 import { TableData } from '../collateral.types';
 
-export const CollateralBorrowInfo: React.VFC<{
+export type ColateralBorrowInfoProps = {
   tableData?: TableData;
   id?: string;
-}> = (props) => {
+  onValid?: (isinCode: string) => void;
+};
+
+export const CollateralBorrowInfo: React.VFC<ColateralBorrowInfoProps> = (
+  props
+) => {
   const classes = useCollateralBorrowInfoStyles();
 
   return (
@@ -22,7 +27,12 @@ export const CollateralBorrowInfo: React.VFC<{
           borrowers, which in turn is secured by real world collateral in form
           of bonds kept on special security accounts.
         </Typography>
-        <CollateralTable id={props.id} data={props.tableData} emptyFirstCol />
+        <CollateralTable
+          onValid={props.onValid}
+          id={props.id}
+          data={props.tableData}
+          emptyFirstCol
+        />
       </div>
       <div className={classes.section}>
         <Typography
