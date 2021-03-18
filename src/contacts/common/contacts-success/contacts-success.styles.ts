@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-export const useSubscribeSuccessStyles = createUseStyles(
+export const useContactsSuccessStyles = createUseStyles(
   {
     root: {
       display: 'flex',
@@ -19,6 +19,6 @@ export const useSubscribeSuccessStyles = createUseStyles(
     }
   },
   {
-    name: 'SubscribeSuccess'
+    name: 'ContactsSuccess'
   }
 );

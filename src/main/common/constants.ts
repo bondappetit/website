@@ -1,4 +1,6 @@
 import { config } from 'src/config';
+import { ReactComponent as WavesIcon } from 'src/assets/icons/waves.svg';
+import { ReactComponent as PlaceholderIcon } from 'src/assets/icons/placeholder.svg';
 
 export const STEPS = [
   {
@@ -46,4 +48,26 @@ export const VOTING_TEXT = [
   'Change the rate of technical costs for the maintenance of the protocol',
   'Initiate additional capitalization of the protocol',
   'Apply changes to current smart contracts'
+];
+
+export const WAVES_CARDS = [
+  {
+    title: 'Waves Enterprise',
+    text: `BondAppetit creates ecosystem with EAST,
+    the first enterprise-grade DeFi protocol / stablecoin that
+    combines Real-World Assets with crypto`,
+    link: 'https://wavesenterprise.com',
+    onClick: false,
+    linkLabel: 'wavesenterprise.com',
+    icon: WavesIcon
+  },
+  {
+    title: 'Become a partner',
+    text: `BondAppetit always looking for great projects to collaborate with.
+    If you have one, feel free to contact.`,
+    link: '',
+    onClick: true,
+    linkLabel: 'Fill in the form',
+    icon: PlaceholderIcon
+  }
 ];

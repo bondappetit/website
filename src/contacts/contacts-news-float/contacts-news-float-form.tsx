@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { Button, Input, Typography } from 'src/common';
-import { useSubscribeNews } from '../common';
-import { useSubscribeNewsFloatStyles } from './subscribe-news-float.styles';
+import { useContactsNews } from '../common';
+import { useContactsNewsFloatStyles } from './contacts-news-float.styles';
 
-export const SubscribeNewsFloatForm: React.FC<{ onSuccess: () => void }> = (
+export const ContactsNewsFloatForm: React.FC<{ onSuccess: () => void }> = (
   props
 ) => {
-  const classes = useSubscribeNewsFloatStyles();
+  const classes = useContactsNewsFloatStyles();
 
-  const formik = useSubscribeNews(props.onSuccess);
+  const formik = useContactsNews(props.onSuccess);
 
   return (
     <form className={classes.form} onSubmit={formik.handleSubmit}>
@@ -23,6 +23,7 @@ export const SubscribeNewsFloatForm: React.FC<{ onSuccess: () => void }> = (
         onChange={formik.handleChange}
         className={classes.input}
         variant="small"
+        value={formik.values.email}
         error={Boolean(formik.errors.email)}
       />
       <Button className={classes.button} type="submit">

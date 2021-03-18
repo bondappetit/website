@@ -2,23 +2,19 @@ import React, { useCallback } from 'react';
 import { useToggle } from 'react-use';
 
 import { Modal, SmallModal, Input, Button, Typography } from 'src/common';
-import {
-  SubscribeSuccess,
-  useSubscribeNews,
-  useSubscribeStyles
-} from '../common';
+import { ContactsSuccess, useContactsNews, useContactsStyles } from '../common';
 
-export type SubscribeNewsProps = {
+export type ContactsNewsProps = {
   open: boolean;
   onClose: () => void;
 };
 
-export const SubscribeNews: React.FC<SubscribeNewsProps> = (props) => {
-  const classes = useSubscribeStyles();
+export const ContactsNews: React.FC<ContactsNewsProps> = (props) => {
+  const classes = useContactsStyles();
 
   const [open, toggle] = useToggle(false);
 
-  const formik = useSubscribeNews(toggle);
+  const formik = useContactsNews(toggle);
 
   const handleClose = useCallback(() => {
     props.onClose();
@@ -37,6 +33,7 @@ export const SubscribeNews: React.FC<SubscribeNewsProps> = (props) => {
                 disabled={formik.isSubmitting}
                 onChange={formik.handleChange}
                 className={classes.input}
+                value={formik.values.email}
                 error={Boolean(formik.errors.email)}
               />
             </div>
@@ -51,7 +48,7 @@ export const SubscribeNews: React.FC<SubscribeNewsProps> = (props) => {
           </form>
         </SmallModal>
       </Modal>
-      <SubscribeSuccess open={open} onClose={handleClose}>
+      <ContactsSuccess open={open} onClose={handleClose}>
         <Typography
           variant="inherit"
           weight="bold"
@@ -62,7 +59,7 @@ export const SubscribeNews: React.FC<SubscribeNewsProps> = (props) => {
         </Typography>
         We will share with you the hotest news and latest updates of
         BondAppétit.
-      </SubscribeSuccess>
+      </ContactsSuccess>
     </>
   );
 };

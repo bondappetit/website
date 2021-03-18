@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import WhitepaperMd from 'src/assets/md/bondappétit_whitepaper.md';
 import WhitepaperPdf from 'src/assets/pdf/bondappetit_whitepaper.pdf';
 import OnepagerPdf from 'src/assets/pdf/bondappetit_litepaper.pdf';
-import { SubscribeNewsFloat } from 'src/subscribe/subscribe-news-float';
+import { ContactsNewsFloat } from 'src/contacts/contacts-news-float';
 import {
   Typography,
   Link,
@@ -68,7 +68,7 @@ export const WhitePaper: React.FC = () => {
           UP
         </ButtonBase>
       </Portal>
-      {open && <SubscribeNewsFloat onClose={toggle} />}
+      {open && <ContactsNewsFloat onClose={toggle} />}
     </>
   );
 };

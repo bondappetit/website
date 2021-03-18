@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { Button, Typography } from 'src/common';
-import { useSubscribeNewsFloatStyles } from './subscribe-news-float.styles';
+import { useContactsNewsFloatStyles } from './contacts-news-float.styles';
 
-export const SubscribeNewsFloatSuccess: React.FC<{ onClose: () => void }> = (
+export const ContactsNewsFloatSuccess: React.FC<{ onClose: () => void }> = (
   props
 ) => {
-  const classes = useSubscribeNewsFloatStyles();
+  const classes = useContactsNewsFloatStyles();
 
   return (
     <div className={classes.form}>

@@ -10,24 +10,24 @@ import {
   Typography,
   isEmail
 } from 'src/common';
-import { subscribeApi, SubscribeSuccess, useSubscribeStyles } from '../common';
+import { contactsApi, ContactsSuccess, useContactsStyles } from '../common';
 
-export type SubscribeAnnounceProps = {
+export type ContactsAnnounceProps = {
   open: boolean;
   onClose: () => void;
 };
 
 const LIST_ID = '2';
 
-export const SubscribeAnnounce: React.FC<SubscribeAnnounceProps> = (props) => {
-  const classes = useSubscribeStyles();
+export const ContactsAnnounce: React.FC<ContactsAnnounceProps> = (props) => {
+  const classes = useContactsStyles();
 
   const [open, toggle] = useToggle(false);
 
   const formik = useFormik({
     initialValues: {
       email: '',
-      Name: ''
+      name: ''
     },
 
     validateOnBlur: false,
@@ -40,8 +40,8 @@ export const SubscribeAnnounce: React.FC<SubscribeAnnounceProps> = (props) => {
         errors.email = 'Required';
       }
 
-      if (!formValues.Name) {
-        errors.Name = 'Required';
+      if (!formValues.name) {
+        errors.name = 'Required';
       }
 
       if (!isEmail(formValues.email)) {
@@ -53,7 +53,7 @@ export const SubscribeAnnounce: React.FC<SubscribeAnnounceProps> = (props) => {
 
     onSubmit: async (formValues) => {
       try {
-        await subscribeApi.subscribe(LIST_ID, formValues);
+        await contactsApi.sendForm(LIST_ID, formValues);
 
         toggle(true);
       } catch (error) {
@@ -88,7 +88,7 @@ export const SubscribeAnnounce: React.FC<SubscribeAnnounceProps> = (props) => {
                 disabled={formik.isSubmitting}
                 onChange={formik.handleChange}
                 className={classes.input}
-                error={Boolean(formik.errors.Name)}
+                error={Boolean(formik.errors.name)}
               />
             </div>
             <Button
@@ -102,10 +102,10 @@ export const SubscribeAnnounce: React.FC<SubscribeAnnounceProps> = (props) => {
           </form>
         </SmallModal>
       </Modal>
-      <SubscribeSuccess open={open} onClose={handleClose}>
-        Thank you, {formik.values.Name}!<br />
+      <ContactsSuccess open={open} onClose={handleClose}>
+        Thank you, {formik.values.name}!<br />
         We will notify you as soon as or pre-sale round starts.
-      </SubscribeSuccess>
+      </ContactsSuccess>
     </>
   );
 };

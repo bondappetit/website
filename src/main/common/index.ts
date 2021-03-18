@@ -8,3 +8,4 @@ export * from './main-audit';
 export * from './main-how-it-works';
 export * from './main-how-it-works-modal';
 export * from './main-medium-articles';
+export * from './main-waves';

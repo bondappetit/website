@@ -6,7 +6,7 @@ import { Typography, PageWrapper, DocumentList, Head } from 'src/common';
 import { config } from 'src/config';
 import Litepaper from 'src/assets/pdf/bondappetit_litepaper.pdf';
 import { URLS } from 'src/router/urls';
-import { SubscribeAnnounce } from 'src/subscribe/subscribe-announce';
+import { ContactsAnnounce } from 'src/contacts/contacts-announce';
 import { InvestingForm } from './investing-form';
 import { useInvestingStyles } from './investing.styles';
 import { InvestingAnnouncement, InvestingStatistic } from './common';
@@ -59,7 +59,7 @@ export const Investing: React.FC = () => {
               </>
             }
           />
-          <SubscribeAnnounce onClose={toggleModal} open={open} />
+          <ContactsAnnounce onClose={toggleModal} open={open} />
         </PageWrapper>
       </MainLayout>
     </>

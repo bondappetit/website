@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
+import { useToggle } from 'react-use';
 
 import { Head, humanizeNumeral, PageWrapper, Typography } from 'src/common';
 import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
@@ -10,6 +11,7 @@ import {
   useStablecoinModals
 } from 'src/stablecoin';
 import { useStakingTokens, useTotalValueLocked } from 'src/staking';
+import { ContactsBecomePartner } from 'src/contacts/contacts-become-partner';
 import { useStakingConfig } from 'src/staking-config';
 import {
   MainStaking,
@@ -19,7 +21,8 @@ import {
   MainSteps,
   MainEditor,
   MainAudit,
-  MainMediumArticles
+  MainMediumArticles,
+  MainWaves
 } from './common';
 import { useMainStyles } from './main.styles';
 import { useMediumArticles } from './common/use-medium-articles';
@@ -53,6 +56,8 @@ export const Main: React.FC = () => {
   } = useStablecoinModals();
 
   const mediumArticles = useMediumArticles();
+
+  const [becomeAPartnerIsOpen, toggleBecomeAPartner] = useToggle(false);
 
   return (
     <>
@@ -89,6 +94,10 @@ export const Main: React.FC = () => {
           <MainSteps className={classes.steps} />
           <MainEditor className={classes.editor} />
           <MainVoting className={classes.voting} />
+          <MainWaves
+            className={classes.editor}
+            onBecomePartner={toggleBecomeAPartner}
+          />
           <div>
             <Typography
               variant="h4"
@@ -108,6 +117,10 @@ export const Main: React.FC = () => {
           </div>
         </PageWrapper>
       </MainLayout>
+      <ContactsBecomePartner
+        open={becomeAPartnerIsOpen}
+        onClose={toggleBecomeAPartner}
+      />
       <StablecoinModals
         marketModalOpen={marketModalOpen}
         toggleMarketModal={toggleMarketModal}

@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useSubscribeNewsFloatStyles = createUseStyles(
+export const useContactsNewsFloatStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       position: 'fixed',
@@ -58,6 +58,6 @@ export const useSubscribeNewsFloatStyles = createUseStyles(
     }
   }),
   {
-    name: 'SubscribeNewsFloat'
+    name: 'ContactsNewsFloat'
   }
 );

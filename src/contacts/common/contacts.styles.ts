@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-export const useSubscribeStyles = createUseStyles(
+export const useContactsStyles = createUseStyles(
   {
     root: {
       display: 'flex',
@@ -22,10 +22,14 @@ export const useSubscribeStyles = createUseStyles(
       margin: 0,
       fontSize: 20,
       lineHeight: '28px',
-      height: 28
+      height: 28,
+
+      '&:not(:last-child)': {
+        marginBottom: 16
+      }
     }
   },
   {
-    name: 'Subscribe'
+    name: 'Contacts'
   }
 );

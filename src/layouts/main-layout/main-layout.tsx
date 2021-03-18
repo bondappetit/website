@@ -3,7 +3,7 @@ import React from 'react';
 
 import { ToggleThemeButton } from 'src/common';
 import { WalletButton } from 'src/wallets';
-import { SubscribeNews } from 'src/subscribe/subscribe-news';
+import { ContactsNews } from 'src/contacts/contacts-news';
 import {
   LayoutHeader,
   LayoutContainer,
@@ -32,7 +32,7 @@ export const MainLayout: React.FC = (props) => {
         <LayoutContainer>{props.children}</LayoutContainer>
         <LayoutFooter onSubscribe={toggle} />
       </LayoutWrapper>
-      <SubscribeNews open={open} onClose={toggle} />
+      <ContactsNews open={open} onClose={toggle} />
     </>
   );
 };
