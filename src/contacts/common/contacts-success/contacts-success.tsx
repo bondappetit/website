@@ -1,15 +1,15 @@
 import React from 'react';
 
 import { Modal, SmallModal, Typography, Button } from 'src/common';
-import { useSubscribeSuccessStyles } from './subscribe-success.styles';
+import { useContactsSuccessStyles } from './contacts-success.styles';
 
-export type SubscribeSuccessProps = {
+export type ContactsSuccessProps = {
   onClose: () => void;
   open: boolean;
 };
 
-export const SubscribeSuccess: React.FC<SubscribeSuccessProps> = (props) => {
-  const classes = useSubscribeSuccessStyles();
+export const ContactsSuccess: React.FC<ContactsSuccessProps> = (props) => {
+  const classes = useContactsSuccessStyles();
 
   return (
     <Modal open={props.open} onClose={props.onClose}>

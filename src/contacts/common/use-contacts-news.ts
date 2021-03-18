@@ -1,11 +1,11 @@
 import { useFormik } from 'formik';
 
 import { isEmail } from 'src/common';
-import { subscribeApi } from './subscribe-api';
+import { contactsApi } from './contacts-api';
 
 const LIST_ID = '38';
 
-export const useSubscribeNews = (toggle: (value: boolean) => void) => {
+export const useContactsNews = (toggle: (value: boolean) => void) => {
   const formik = useFormik({
     initialValues: {
       email: ''
@@ -30,7 +30,7 @@ export const useSubscribeNews = (toggle: (value: boolean) => void) => {
 
     onSubmit: async (formValues) => {
       try {
-        await subscribeApi.subscribe(LIST_ID, formValues);
+        await contactsApi.sendForm(LIST_ID, formValues);
 
         toggle(true);
       } catch (error) {

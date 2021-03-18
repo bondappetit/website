@@ -1,8 +1,8 @@
 import { unisenderQueryString } from 'src/common';
 import { config } from 'src/config';
 
-export const subscribeApi = {
-  subscribe: <T>(listId: string, formValues: T) => {
+export const contactsApi = {
+  sendForm: <T>(listId: string, formValues: T) => {
     const query = unisenderQueryString(formValues);
 
     return fetch(
@@ -10,7 +10,9 @@ export const subscribeApi = {
       {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'content-type': 'text/plain' }
+        headers: {
+          'content-type': 'text/plain'
+        }
       }
     );
   }
