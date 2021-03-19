@@ -1,6 +1,6 @@
-import { useToggle } from 'react-use';
 import clsx from 'clsx';
 import React, { useCallback, useState } from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 import {
   PageWrapper,
@@ -11,15 +11,15 @@ import {
   humanizeNumeral,
   Button,
   useDevMode,
-  ButtonBase,
   Modal,
   SmallModal,
-  useScrollIntoView,
   LinkIfAccount,
-  useNetworkConfig
+  useNetworkConfig,
+  Link
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
+import { URLS } from 'src/router/urls';
 import { config } from 'src/config';
 import { useCollateralListStyles } from './collateral-list.styles';
 import {
@@ -38,8 +38,6 @@ export const CollateralList: React.FC = () => {
 
   const networkConfig = useNetworkConfig();
 
-  const [attentionIsOpen, toggleAttention] = useToggle(false);
-
   const [isinCode, setIsinCode] = useState('');
 
   const [devMode] = useDevMode();
@@ -57,14 +55,6 @@ export const CollateralList: React.FC = () => {
   };
 
   const tableData = useCollateralRealAssets();
-
-  const scrollIntoView = useScrollIntoView('#borrower-check');
-
-  const handleCloseAttention = useCallback(() => {
-    toggleAttention(false);
-
-    scrollIntoView();
-  }, [toggleAttention, scrollIntoView]);
 
   const handleCloseIsInCode = useCallback(() => {
     setIsinCode('');
@@ -112,12 +102,13 @@ export const CollateralList: React.FC = () => {
               }
               subtitle={
                 config.IS_COLLATERAL ? (
-                  <ButtonBase
-                    className={classes.checkHere}
-                    onClick={toggleAttention}
+                  <Link
+                    component={ReactRouterLink}
+                    to={URLS.whitepaper}
+                    color="blue"
                   >
                     check here
-                  </ButtonBase>
+                  </Link>
                 ) : (
                   <LinkIfAccount title="check here">
                     {
@@ -156,15 +147,6 @@ export const CollateralList: React.FC = () => {
           )}
         </PageWrapper>
       </MainLayout>
-      <Modal open={attentionIsOpen} onClose={toggleAttention}>
-        <SmallModal>
-          <Typography variant="h5">
-            To make sure that the collateral is actual and signed, you can click
-            on the valid label in the table above.
-          </Typography>
-          <Button onClick={handleCloseAttention}>Ok</Button>
-        </SmallModal>
-      </Modal>
       <Modal
         open={Boolean(isinCode)}
         className={classes.checkModal}
