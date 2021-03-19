@@ -32,10 +32,6 @@ export const useCollateralListStyles = createUseStyles(
       }
     },
 
-    checkHere: {
-      color: theme.colors.darkBlue
-    },
-
     overflow: {
       overflowX: 'hidden',
       overflowY: 'scroll'
