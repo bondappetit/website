@@ -61,7 +61,7 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
             align="center"
             className={classes.cardTitle}
           >
-            Crypto-Liquidity backed by real cash-flows
+            Crypto-liquidity backed by real cash flows
           </Typography>
           <Typography variant="h4" align="center">
             USDap has its own crypto liquidity pools, which are partially

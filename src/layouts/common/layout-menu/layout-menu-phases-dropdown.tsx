@@ -6,10 +6,9 @@ import { useLayoutMenuStyles } from './layout-menu.styles';
 
 const PHASES = [
   {
-    title: 'Phase 1: Invest in BondAppétit',
-    body:
-      'Stake in early stage or invest in protocol to purchase RWA assets in collateral',
-    date: 'Up to 3 months, Started March 15'
+    title: 'Phase 1: Investment Stage',
+    body: 'Stake your crypto or invest in the protocol with a 50% discount',
+    date: 'Up to 2 months, Started March 15'
   },
   {
     title: 'Phase 2: RWA-collateral',
@@ -20,7 +19,7 @@ const PHASES = [
   {
     title: 'Phase 3: Direct Investment',
     body:
-      'Protocol’s capitalization - $100M. No more BAG tokens will be issued to the open market',
+      'The capitalization of the protocol reaches $100m. The issuance of governance tokens stops.',
     date: '1 Day after P2, unlimited'
   }
 ];

@@ -36,10 +36,10 @@ export const MainCollateral: React.FC<MainCollateralProps> = (props) => {
         <MainCollateralCard id="7">
           Real-world collateral{' '}
           <Typography variant="inherit" weight="bold">
-            allows the protocol to earn fixed periodical income
+            allows the protocol to earn fixed periodic income
           </Typography>
-          , which can be distributed to holders of protocol tokens under
-          incentivization mechanisms established by the community.
+          , which can be distributed to the token holders under incentivization
+          mechanisms established by the community
         </MainCollateralCard>
       </div>
       <Typography variant="h4" align="center">

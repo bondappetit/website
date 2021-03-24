@@ -4,9 +4,8 @@ import { ReactComponent as PlaceholderIcon } from 'src/assets/icons/placeholder.
 
 export const STEPS = [
   {
-    title: 'Invest in BondAppétit',
-    body:
-      'Stake in early stage or invest in protocol to purchase RWA assets in collateral',
+    title: 'Investment Stage',
+    body: 'Stake your crypto or invest in the protocol with a 50% discount',
     startDate: 'March 15',
     duration: 'Up to 2 months',
     mobileDate: 'From March 15, up to 3 months duration',
@@ -26,7 +25,7 @@ export const STEPS = [
   {
     title: 'Direct Investment',
     body:
-      'Protocol’s capitalization - $100M. No more BAG tokens will be issued to the open market',
+      'The capitalization of the protocol reaches $100m. The issuance of governance tokens stops.',
     startDate: '1 Day after P2',
     duration: 'unlimited',
     mobileDate: '1 Day after P2, unlimited',
