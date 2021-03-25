@@ -20,11 +20,14 @@ export const Playground: React.FC<PlaygroundProps> = () => {
     toggleLoading(true);
 
     try {
-      await library.eth.sign('test', account, (error) =>
-        setErrorMessage(error?.message)
-      );
-    } catch {
-      setErrorMessage('error');
+      await library.eth.sign('test', account, (error) => {
+        setErrorMessage(error?.message);
+        console.error(error);
+      });
+    } catch (error) {
+      console.error(error);
+
+      setErrorMessage(error.message);
     } finally {
       toggleLoading(false);
     }
