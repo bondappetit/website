@@ -1,5 +1,6 @@
 export const URLS = {
   main: '/',
+  playground: '/playground',
   voting: {
     info: '/governance',
     list: '/governance/proposals',
