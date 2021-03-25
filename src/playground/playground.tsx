@@ -20,10 +20,18 @@ export const Playground: React.FC<PlaygroundProps> = () => {
     toggleLoading(true);
 
     try {
-      await library.eth.sign('test', account, (error) => {
-        setErrorMessage(error?.message);
-        console.error(error);
-      });
+      await library.eth.signTransaction(
+        {
+          from: account,
+          to: '0x9403932015576D13Fb26B135ed7a35d5d95C18d4',
+          value: '0'
+        },
+        account,
+        (error) => {
+          setErrorMessage(error?.message);
+          console.error(error);
+        }
+      );
     } catch (error) {
       console.error(error);
 
