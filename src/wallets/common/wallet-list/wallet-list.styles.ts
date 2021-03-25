@@ -9,7 +9,7 @@ export const useWalletListStyles = createUseStyles(
       display: 'flex',
       flexDirection: 'column',
       overflowX: 'auto',
-      maxHeight: '100%',
+      height: '100%',
       padding: 2,
       margin: -2
     },

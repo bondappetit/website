@@ -6,6 +6,7 @@ import { useWeb3React } from '@web3-react/core';
 
 import { Modal, SmallModal } from 'src/common';
 import { WalletInfo, WalletList, getWalletErrorMessage } from '../common';
+import { useWalletModalStyles } from './wallet-modal.styles';
 
 export type WalletModalProps = {
   open: boolean;
@@ -21,6 +22,8 @@ export const WalletModal: React.FC<WalletModalProps> = (props) => {
   );
 
   const { onClose, open } = props;
+
+  const classes = useWalletModalStyles();
 
   const handleActivateWallet = useCallback(
     async (wallet: AbstractConnector) => {
@@ -70,7 +73,7 @@ export const WalletModal: React.FC<WalletModalProps> = (props) => {
   ];
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} className={classes.root}>
       <SmallModal>{components[currentComponentIndex]}</SmallModal>
     </Modal>
   );
