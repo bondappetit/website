@@ -86,7 +86,7 @@ export const Main: React.FC = () => {
           <MainCollateral className={classes.section} />
           <MainAudit
             className={clsx(classes.section, classes.audit)}
-            auditLink="https://github.com/mixbytes/audits_public"
+            auditLink="https://github.com/mixbytes/audits_public/tree/master/BondAppetit"
             companyLogo={<MixBytesLogo />}
           />
           <MainSteps className={classes.steps} />
