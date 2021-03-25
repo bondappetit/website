@@ -9,7 +9,7 @@ const BLOG_URL = 'https://medium.com/bondappetit';
 
 type Article = {
   title: string;
-  date: Date;
+  date: string;
   id: string;
   link: string;
 };

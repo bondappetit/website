@@ -5,7 +5,7 @@ import { useMainMediumArticlesCardStyles } from './main-medium-articles-card.sty
 
 export type MainMediumArticlesCardProps = {
   link?: string;
-  date?: Date;
+  date?: string;
   title?: string;
   loading?: boolean;
 };
