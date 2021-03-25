@@ -33,6 +33,9 @@ export const ContactsBecomePartner: React.VFC<ContactsBecomePartnerProps> = (
       companyName: ''
     },
 
+    validateOnBlur: false,
+    validateOnChange: false,
+
     validate: (formValues) => {
       const errors: Partial<typeof formValues> = {};
 

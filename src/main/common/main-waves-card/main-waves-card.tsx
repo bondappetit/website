@@ -15,16 +15,10 @@ export type MainWavesCardProps = {
 export const MainWavesCard: React.VFC<MainWavesCardProps> = (props) => {
   const classes = useMainWavesCardStyles();
 
-  const LinkComponent = props.link ? Link : 'div';
+  const LinkComponent = props.link ? Link : ButtonBase;
 
   return (
-    <Plate
-      onClick={props.onClick}
-      component={props.onClick ? ButtonBase : undefined}
-      withoutBorder
-      color="grey"
-      className={classes.root}
-    >
+    <Plate withoutBorder color="grey" className={classes.root}>
       <props.icon className={classes.icon} />
       <Typography variant="h4" weight="bold">
         {props.title}
@@ -36,6 +30,7 @@ export const MainWavesCard: React.VFC<MainWavesCardProps> = (props) => {
         <LinkComponent
           href={props.link ? props.link : undefined}
           className={classes.linkContent}
+          onClick={props.onClick}
           target={props.link ? '_blank' : undefined}
         >
           {props.linkLabel}

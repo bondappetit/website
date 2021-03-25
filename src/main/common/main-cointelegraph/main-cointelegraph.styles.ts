@@ -20,10 +20,10 @@ export const useMainCointelegraphStyles = createUseStyles(
     },
 
     cardContent: {
-      padding: 24,
+      padding: '24px 24px 68px',
 
       [theme.breakpoints.md()]: {
-        padding: 48
+        padding: '32px 48px 56px'
       }
     },
 

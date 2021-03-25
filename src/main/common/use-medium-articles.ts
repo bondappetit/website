@@ -9,7 +9,7 @@ export const useMediumArticles = () => {
     return articles.items?.map((article) => ({
       ...article,
       id: article.guid,
-      date: new Date(article.pubDate)
+      date: article.pubDate
     }));
   }, []);
 };

@@ -3,7 +3,7 @@ import React from 'react';
 import { Typography } from 'src/common';
 import { useMainWavesStyles } from './main-waves.styles';
 import { WAVES_CARDS } from '../constants';
-import { MainWavesCard } from '../main-waves-card/main-waves-card';
+import { MainWavesCard } from '../main-waves-card';
 
 export type MainWavesProps = {
   className?: string;
