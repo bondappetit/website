@@ -80,7 +80,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
 
       const currentToken = tokens[formValues.currency];
 
-      if (!currentToken) return;
+      if (!currentToken || !governanceContract || !investmentContract) return;
 
       const balanceOfToken = await getBalance({
         tokenAddress: currentToken.address,
@@ -122,6 +122,8 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
         .toString(10);
 
       const currentContract = tokenContracts[currentToken.name];
+
+      if (!investmentContract) return;
 
       try {
         if (currentToken.name === 'ETH') {
@@ -182,8 +184,8 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
             <SmallModal mobile>
               <FormikProvider value={formik}>
                 <BuyTokenForm
-                  setResult={setResult}
-                  openWalletListModal={walletsToggle}
+                  onAmountChange={setResult}
+                  onWalletOpen={walletsToggle}
                   className={props.className}
                   account={account}
                   tokens={tokens}
@@ -208,8 +210,8 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
       {!isMobile && (
         <FormikProvider value={formik}>
           <BuyTokenForm
-            setResult={setResult}
-            openWalletListModal={walletsToggle}
+            onAmountChange={setResult}
+            onWalletOpen={walletsToggle}
             className={props.className}
             account={account}
             tokens={tokens}

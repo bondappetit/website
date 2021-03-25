@@ -1,17 +1,25 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { useCallback, useState } from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 import {
   PageWrapper,
   Typography,
-  Link,
   Skeleton,
   Plate,
   Head,
-  humanizeNumeral
+  humanizeNumeral,
+  Button,
+  useDevMode,
+  Modal,
+  SmallModal,
+  LinkIfAccount,
+  useNetworkConfig,
+  Link
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
+import { URLS } from 'src/router/urls';
 import { config } from 'src/config';
 import { useCollateralListStyles } from './collateral-list.styles';
 import {
@@ -19,14 +27,38 @@ import {
   useIssuerBalance,
   CollateralProtocolState,
   CollateralPhases,
-  CollateralBorrowInfo
+  CollateralBorrowInfo,
+  useIssuerRebalance,
+  useCollateralRealAssets
 } from '../common';
+import { CollateralCheck } from '../collateral-check';
 
 export const CollateralList: React.FC = () => {
   const classes = useCollateralListStyles();
 
-  const issuerBalance = useIssuerBalance();
+  const networkConfig = useNetworkConfig();
+
+  const [isinCode, setIsinCode] = useState('');
+
+  const [devMode] = useDevMode();
+
   const stableCoinBalance = useStableCoinBalance();
+  const issuerBalance = useIssuerBalance();
+
+  const [result, rebalance] = useIssuerRebalance();
+
+  const handleRebalance = () => {
+    rebalance().then(() => {
+      issuerBalance.retry();
+      stableCoinBalance.retry();
+    });
+  };
+
+  const tableData = useCollateralRealAssets();
+
+  const handleCloseIsInCode = useCallback(() => {
+    setIsinCode('');
+  }, []);
 
   return (
     <>
@@ -40,41 +72,90 @@ export const CollateralList: React.FC = () => {
           <Plate className={clsx(classes.list, classes.ussued)}>
             <CollateralCard
               className={classes.card}
-              title={<>USDp Issued</>}
+              title={<>USDap Issued</>}
               body={
                 <>
-                  {!stableCoinBalance && <Skeleton />}
-                  {stableCoinBalance && (
-                    <>{humanizeNumeral(stableCoinBalance)} USDp</>
+                  {stableCoinBalance.loading && !stableCoinBalance ? (
+                    <Skeleton />
+                  ) : (
+                    <>{humanizeNumeral(stableCoinBalance.value)} USDap</>
                   )}
                 </>
               }
-              subtitle={<>1 USDp = $1 USD</>}
+              subtitle={<>1 USDap = $1 USD</>}
             />
-            <CollateralProtocolState />
+            <CollateralProtocolState
+              stableCoinBalanceValue={stableCoinBalance.value}
+              issuerBalanceValue={issuerBalance.value}
+            />
             <CollateralCard
               className={classes.card}
               title={<>Value of Protocol&apos;s assets</>}
               body={
                 <>
-                  {!issuerBalance && <Skeleton />}
-                  {issuerBalance && <>{humanizeNumeral(issuerBalance)} USDC</>}
+                  {issuerBalance.loading && !issuerBalance.value ? (
+                    <Skeleton />
+                  ) : (
+                    <>${humanizeNumeral(issuerBalance.value)}</>
+                  )}
                 </>
               }
               subtitle={
-                <Link href="/#" color="blue">
-                  check here
-                </Link>
+                config.IS_COLLATERAL ? (
+                  <Link
+                    component={ReactRouterLink}
+                    to={URLS.whitepaper}
+                    color="blue"
+                  >
+                    check here
+                  </Link>
+                ) : (
+                  <LinkIfAccount title="check here">
+                    {
+                      networkConfig.contracts.StableTokenDepositaryBalanceView
+                        .address
+                    }
+                  </LinkIfAccount>
+                )
               }
             />
           </Plate>
+          {devMode && (
+            <Typography
+              variant="inherit"
+              component="div"
+              className={classes.ussued}
+              align="center"
+            >
+              <Button
+                loading={result.loading}
+                disabled={result.loading}
+                onClick={handleRebalance}
+              >
+                Rebalance
+              </Button>
+            </Typography>
+          )}
           {config.IS_COLLATERAL ? (
-            <CollateralBorrowInfo />
+            <CollateralBorrowInfo
+              id="borrower-check"
+              tableData={tableData.value?.assets}
+              onValid={setIsinCode}
+            />
           ) : (
             <CollateralPhases />
           )}
         </PageWrapper>
       </MainLayout>
+      <Modal
+        open={Boolean(isinCode)}
+        className={classes.checkModal}
+        onClose={handleCloseIsInCode}
+      >
+        <SmallModal className={clsx(classes.checkModal, classes.overflow)}>
+          <CollateralCheck isinCode={isinCode} />
+        </SmallModal>
+      </Modal>
     </>
   );
 };

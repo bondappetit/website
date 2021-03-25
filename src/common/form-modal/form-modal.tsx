@@ -1,13 +1,11 @@
 import { useFormikContext } from 'formik';
-import React, { useMemo, useCallback } from 'react';
-import { useToggle, useHover } from 'react-use';
-import { useWeb3React } from '@web3-react/core';
+import React, { useMemo, useCallback, useRef } from 'react';
+import { useToggle, useHover, useUpdateEffect } from 'react-use';
 import Tippy from '@tippyjs/react';
 
 import { ReactComponent as HelpIcon } from 'src/assets/icons/help.svg';
 import { ButtonBase } from '../button-base';
 import { Typography } from '../typography';
-import { Button } from '../button';
 import { Input } from '../input';
 import { SmallModal } from '../small-modal';
 import { Modal } from '../modal';
@@ -15,10 +13,12 @@ import { FormModalSelect } from './form-modal-select';
 import { Asset } from '../types';
 import { useFormModalStyles } from './form-modal.styles';
 import { BN, humanizeNumeral } from '../bignumber';
+import { COIN_ICONS } from '../constants';
 
 export type FormModalValues = {
   currency: string;
   payment: string;
+  youGet: string;
 };
 
 export type FormModalProps = {
@@ -26,7 +26,6 @@ export type FormModalProps = {
   onClose: () => void;
   tokenName: string;
   tokens: Asset[];
-  result: string;
   balance: string;
   tokenCost: string;
   withReward?: boolean;
@@ -35,13 +34,13 @@ export type FormModalProps = {
     rewardGov: BN;
     rewardPercent: BN;
   };
-  openWalletListModal: () => void;
+  button: React.ReactNode;
+  onPaymentChange?: () => void;
+  onYouGetChange?: () => void;
 };
 
-export const FormModal: React.FC<FormModalProps> = (props) => {
+export const FormModal: React.VFC<FormModalProps> = (props) => {
   const classes = useFormModalStyles();
-
-  const { account } = useWeb3React();
 
   const [select, toggleSelect] = useToggle(false);
 
@@ -51,23 +50,30 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
     return props.tokens.find(({ symbol }) => symbol === formik.values.currency);
   }, [formik.values.currency, props.tokens]);
 
-  const handleOpenWalletList = useCallback(
-    (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
+  const youGetRef = useRef(false);
+  const paymentRef = useRef(false);
 
-      props.openWalletListModal();
-    },
-    [props]
-  );
+  useUpdateEffect(() => {
+    if (props.tokenCost === '0' || paymentRef.current || select) return;
+
+    props.onPaymentChange?.();
+  }, [formik.values.payment, props.tokenCost, props.onPaymentChange]);
+
+  useUpdateEffect(() => {
+    if (props.tokenCost === '0' || youGetRef.current || select) return;
+
+    props.onYouGetChange?.();
+  }, [formik.values.youGet, props.tokenCost, props.onYouGetChange]);
 
   const help = useCallback(
     (isHovering: boolean) => (
       <span>
         <Tippy
           visible={isHovering}
-          content={`The given price is not exact, as the final price will be calculated based on the current ${props.tokenName} conversion rate on Uniswap`}
+          content={`The given price is not exact, as the final price will be calculated based on the current ${props.tokenName} conversion rate on exchange`}
           maxWidth={280}
           offset={[140, 8]}
+          animation={false}
           className={classes.tippy}
         >
           <ButtonBase className={classes.hintButton}>
@@ -89,7 +95,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
           content={
             <>
               <Typography variant="body2">
-                Buying USDP during Phase1 you will get extra{' '}
+                Buying USDap during sale you will get extra{' '}
                 {props.reward?.rewardPercent.toFormat(1) || '0'}% of you
                 investment in BAG as a reward.
               </Typography>
@@ -99,6 +105,7 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
               </Typography>
             </>
           }
+          animation={false}
           maxWidth={280}
           offset={[140, 8]}
           className={classes.tippy}
@@ -114,6 +121,10 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
 
   const [rewardHoverable] = useHover(reward);
 
+  const TokenIcon = COIN_ICONS.get(props.tokenName);
+
+  const CurrencyIcon = COIN_ICONS.get(formik.values.currency);
+
   return (
     <>
       <Modal
@@ -127,16 +138,14 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
               value={formik.values.currency}
               options={props.tokens}
               onChange={(value: string) => {
+                formik.resetForm();
                 formik.setFieldValue('currency', value);
                 toggleSelect();
               }}
             />
           )}
           {!select && (
-            <form
-              onSubmit={!account ? handleOpenWalletList : formik.handleSubmit}
-              className={classes.root}
-            >
+            <form onSubmit={formik.handleSubmit} className={classes.root}>
               <div className={classes.inputs}>
                 <div className={classes.row}>
                   <Input
@@ -148,10 +157,31 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                     value={formik.values.payment}
                     className={classes.input}
                     onChange={formik.handleChange}
+                    onFocus={() => {
+                      youGetRef.current = true;
+                    }}
+                    onBlur={() => {
+                      youGetRef.current = false;
+                    }}
                   />
                   <div className={classes.input}>
                     <Typography variant="body1" component="div">
-                      Balance: {humanizeNumeral(currentToken?.balance)}
+                      Balance:{' '}
+                      <ButtonBase
+                        type="button"
+                        className={classes.balanceButton}
+                        onClick={
+                          currentToken?.balance
+                            ? () =>
+                                formik.setFieldValue(
+                                  'payment',
+                                  currentToken?.balance
+                                )
+                            : undefined
+                        }
+                      >
+                        {humanizeNumeral(currentToken?.balance ?? '0')}
+                      </ButtonBase>
                     </Typography>
                     <ButtonBase
                       type="button"
@@ -159,53 +189,63 @@ export const FormModal: React.FC<FormModalProps> = (props) => {
                       className={classes.selectButton}
                       onClick={toggleSelect}
                     >
-                      {formik.values.currency}↓
+                      {CurrencyIcon && <CurrencyIcon />}
+                      <span className={classes.currency}>
+                        {formik.values.currency}↓
+                      </span>
                     </ButtonBase>
                   </div>
                 </div>
                 <div className={classes.row}>
                   <div className={classes.input}>
-                    <Typography variant="body1" component="div">
-                      You will get
-                    </Typography>
-                    <Typography variant="inherit" component="div">
-                      {props.result || '0.0'}
-                    </Typography>
+                    <Input
+                      name="youGet"
+                      label="You will get"
+                      placeholder="0.0"
+                      type="number"
+                      disabled={formik.isSubmitting}
+                      value={formik.values.youGet}
+                      className={classes.input}
+                      onChange={formik.handleChange}
+                      onFocus={() => {
+                        paymentRef.current = true;
+                      }}
+                      onBlur={() => {
+                        paymentRef.current = false;
+                      }}
+                    />
                   </div>
                   {props.withReward && rewardHoverable}
                   <div className={classes.input}>
                     <Typography variant="body1" component="div">
                       Balance: {humanizeNumeral(props.balance)}
                     </Typography>
-                    <Typography variant="inherit" component="div">
-                      {props.tokenName}
+                    <Typography
+                      variant="inherit"
+                      component="div"
+                      className={classes.tokenWrap}
+                    >
+                      {TokenIcon && <TokenIcon />}
+                      <span className={classes.currency}>
+                        {props.tokenName}
+                      </span>
                     </Typography>
                   </div>
                 </div>
               </div>
-              {currentToken?.symbol !== 'USDC' && (
-                <Typography
-                  variant="body1"
-                  align="center"
-                  className={classes.hint}
-                >
-                  {humanizeNumeral(props.tokenCost)} {formik.values.currency}{' '}
-                  per {props.tokenName}, estimated price
-                  {helpHoverable}
-                </Typography>
-              )}
-              <Button
-                type="submit"
-                disabled={
-                  Boolean(formik.errors.payment || formik.errors.currency) ||
-                  formik.isSubmitting
-                }
-                loading={formik.isSubmitting}
-              >
-                {!account
-                  ? 'Connect Wallet'
-                  : formik.errors.payment || formik.errors.currency || 'Buy'}
-              </Button>
+              {currentToken?.symbol !== 'USDC' &&
+                !new BN(props.tokenCost).eq(1) && (
+                  <Typography
+                    variant="body1"
+                    align="center"
+                    className={classes.hint}
+                  >
+                    {humanizeNumeral(props.tokenCost)} {formik.values.currency}{' '}
+                    per {props.tokenName}, estimated price
+                    {helpHoverable}
+                  </Typography>
+                )}
+              {props.button}
             </form>
           )}
         </SmallModal>

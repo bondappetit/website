@@ -61,3 +61,6 @@ export * from './typewriter-effect';
 export * from './use-body-scroll-lock';
 export * from './unisender-query-string';
 export * from './is-empty';
+export * from './use-dev-mode';
+export * from './number-array';
+export * from './use-library';

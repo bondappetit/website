@@ -18,9 +18,9 @@ export type BuyTokenFormProps = {
   account?: string | null;
   tokens: Record<string, Token>;
   network?: Network;
-  openWalletListModal: () => void;
+  onWalletOpen: () => void;
   tokenName?: string;
-  setResult: React.Dispatch<React.SetStateAction<BN>>;
+  onAmountChange: (value: BN) => void;
   result: BN;
   disabled?: boolean;
   amountLabel?: string;
@@ -39,9 +39,9 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
 
   const {
     tokens,
-    openWalletListModal,
+    onWalletOpen,
     tokenName = 'BAG',
-    setResult,
+    onAmountChange,
     result,
     amountLabel = 'You invest'
   } = props;
@@ -50,7 +50,7 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
     () => {
       if (!tokens[formik.values.currency]?.price) return;
 
-      setResult(
+      onAmountChange(
         new BN(formik.values.amount).multipliedBy(
           tokens[formik.values.currency].price
         )
@@ -71,9 +71,9 @@ export const BuyTokenForm: React.FC<BuyTokenFormProps> = (props) => {
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      openWalletListModal();
+      onWalletOpen();
     },
-    [openWalletListModal]
+    [onWalletOpen]
   );
 
   return (

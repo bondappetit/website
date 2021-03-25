@@ -10,7 +10,7 @@ export const usePay = (ethBalance?: string, updateBalances?: () => void) => {
   const budgetContract = useBudgetContract();
 
   const handlePay = useCallback(async () => {
-    if (!account) return;
+    if (!account || !budgetContract) return;
 
     if (Number(ethBalance) <= 0) return;
 

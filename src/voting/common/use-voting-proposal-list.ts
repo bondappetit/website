@@ -1,65 +1,43 @@
-import { useCallback, useEffect, useState } from 'react';
 import Web3 from 'web3';
+import { useAsyncRetry } from 'react-use';
 import { useWeb3React } from '@web3-react/core';
+import { useMemo } from 'react';
 
-import { useNetworkConfig, useGovernorContract, useUpdate } from 'src/common';
+import { useNetworkConfig, useGovernorContract } from 'src/common';
 import { useVotingEvents } from './use-voting-events';
 import { usePagination } from './use-pagination';
-import { FormattedProposal } from './voting.types';
 import { getProposal } from './get-proposal';
 
 export const useVotingProposalList = (limit?: number) => {
-  const [loading, setLoading] = useState(false);
-  const {
-    page,
-    setCountItems,
-    nextPage,
-    countItems,
-    currentPage,
-    pages
-  } = usePagination(limit);
-  const [proposals, setProposals] = useState<FormattedProposal[]>([]);
+  const { nextPage, getPages, pages, currentPage } = usePagination(limit);
   const governorContract = useGovernorContract();
   const { chainId } = useWeb3React<Web3>();
   const eventData = useVotingEvents();
   const networkConfig = useNetworkConfig();
-  const [update, handleUpdateProposalList] = useUpdate();
 
-  const loadCountProposals = useCallback(async () => {
+  const proposals = useAsyncRetry(async () => {
+    if (!governorContract) return;
+
     const proposalCount = await governorContract.methods.proposalCount().call();
 
-    setCountItems(Number(proposalCount));
-  }, [setCountItems, governorContract]);
+    const proposalPages = getPages(Number(proposalCount));
 
-  const loadExistingProposals = useCallback(async () => {
-    if (!page.length) return;
-
-    setLoading(true);
-
-    const existingProposals = page.map((proposalId) => {
+    const existingProposals = proposalPages.map((proposalId) => {
       return getProposal(proposalId)(governorContract)(eventData)(
         networkConfig
       );
     });
 
-    setProposals(await Promise.all(existingProposals));
+    return Promise.all(existingProposals);
+  }, [governorContract, eventData, networkConfig, chainId, getPages]);
 
-    setLoading(false);
-  }, [governorContract, eventData, networkConfig, page]);
-
-  useEffect(() => {
-    loadCountProposals();
-  }, [chainId, loadCountProposals, update]);
-
-  useEffect(() => {
-    loadExistingProposals();
-  }, [loadExistingProposals, countItems, currentPage, update]);
-
-  return {
-    loading,
-    proposals,
-    pages,
-    handleUpdateProposalList,
-    nextPage
-  };
+  return useMemo(
+    () => ({
+      currentPage,
+      proposals,
+      pages,
+      nextPage
+    }),
+    [currentPage, proposals, pages, nextPage]
+  );
 };

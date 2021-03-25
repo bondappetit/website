@@ -5,16 +5,7 @@ import { Theme } from 'src/common';
 export const useVotingInfoProposalListStyles = createUseStyles(
   (theme: Theme) => ({
     title: {
-      margin: '0 auto 64px',
-
-      [theme.breakpoints.md()]: {
-        margin: '0 auto 104px'
-      }
-    },
-
-    subtitle: {
-      maxWidth: 960,
-      margin: '0 auto 32px',
+      margin: '0 auto 24px',
 
       [theme.breakpoints.md()]: {
         margin: '0 auto 48px'

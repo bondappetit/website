@@ -14,7 +14,6 @@ export const URLS = {
     list: '/staking',
     detail: (tokenId = ':tokenId') => `/staking/${tokenId}`
   },
-  oracle: '/oracle',
   vesting: '/vesting',
   vestingSplitter: '/vesting-splitter',
   monitor: '/monitor',

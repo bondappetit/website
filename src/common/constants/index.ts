@@ -1,1 +1,1 @@
-export * from './staking-icons';
+export * from './coin-icons';

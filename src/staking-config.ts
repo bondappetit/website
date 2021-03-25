@@ -8,9 +8,9 @@ export type StakingConfig = {
   liquidityPool: boolean;
 };
 
-// const Gov = 'BAG';
+const Gov = 'BAG';
 
-const Stable = 'USDp';
+const Stable = 'USDap';
 
 const USDC = 'USDC';
 
@@ -20,82 +20,96 @@ const USDN = 'USDN';
 
 const LP = 'UNI-V2';
 
-const getStakingAddress = (networkConfig: Network, contractName: string) =>
-  networkConfig.contracts[contractName].address;
+const getStakingAddress = (
+  networkConfig: Network,
+  contractName: string
+): string | undefined => networkConfig.contracts[contractName]?.address;
 
-const getStakingConfig = (
-  networkConfig: Network
-): Record<string, StakingConfig> => ({
-  // [getStakingAddress(networkConfig, 'GovStaking')]: {
+const config = [
+  // {
   //   contractName: 'GovStaking',
   //   tokenName: Gov,
   //   token: [Gov],
   //   liquidityPool: false
   // },
 
-  // [getStakingAddress(networkConfig, 'StableStaking')]: {
+  // {
   //   contractName: 'StableStaking',
   //   tokenName: Stable,
   //   token: [Stable],
   //   liquidityPool: false
   // },
 
-  // [getStakingAddress(networkConfig, 'UsdcGovLPStaking')]: {
-  //   contractName: 'UsdcGovLPStaking',
-  //   tokenName: LP,
-  //   token: [Gov, USDC],
-  //   liquidityPool: true
-  // },
+  {
+    contractName: 'UsdcGovLPStaking',
+    tokenName: LP,
+    token: [Gov, USDC],
+    liquidityPool: true
+  },
 
-  // [getStakingAddress(networkConfig, 'UsdnGovLPStaking')]: {
-  //   contractName: 'UsdnGovLPStaking',
-  //   tokenName: LP,
-  //   token: [Gov, USDN],
-  //   liquidityPool: true
-  // },
+  {
+    contractName: 'UsdnGovLPStaking',
+    tokenName: LP,
+    token: [Gov, USDN],
+    liquidityPool: true
+  },
 
-  // [getStakingAddress(networkConfig, 'WethGovLPStaking')]: {
+  // {
   //   contractName: 'WethGovLPStaking',
   //   tokenName: LP,
   //   token: [Gov, ETH],
   //   liquidityPool: true
   // },
 
-  // [getStakingAddress(networkConfig, 'UsdcStableLPStaking')]: {
+  // {
   //   contractName: 'UsdcStableLPStaking',
   //   tokenName: LP,
   //   token: [Stable, USDC],
   //   liquidityPool: true
   // },
 
-  // [getStakingAddress(networkConfig, 'UsdnStableLPStaking')]: {
+  // {
   //   contractName: 'UsdnStableLPStaking',
   //   tokenName: LP,
   //   token: [Stable, USDN],
   //   liquidityPool: true
   // },
 
-  // [getStakingAddress(networkConfig, 'GovStableLPStaking')]: {
+  // {
   //   contractName: 'GovStableLPStaking',
   //   tokenName: LP,
   //   token: [Stable, Gov],
   //   liquidityPool: true
   // }
 
-  [getStakingAddress(networkConfig, 'UsdcStableLPLockStaking')]: {
+  {
     contractName: 'UsdcStableLPLockStaking',
     tokenName: LP,
     token: [Stable, USDC],
     liquidityPool: true
   },
 
-  [getStakingAddress(networkConfig, 'UsdnStableLPLockStaking')]: {
+  {
     contractName: 'UsdnStableLPLockStaking',
     tokenName: LP,
     token: [Stable, USDN],
     liquidityPool: true
   }
-});
+];
+
+const getStakingConfig = (
+  networkConfig: Network
+): Record<string, StakingConfig> => {
+  return config.reduce<Record<string, StakingConfig>>((acc, configItem) => {
+    const address = getStakingAddress(networkConfig, configItem.contractName);
+
+    if (address) {
+      acc[address] = configItem;
+    }
+
+    return acc;
+  }, {});
+};
 
 export const useStakingConfig = () => {
   const networkConfig = useNetworkConfig();

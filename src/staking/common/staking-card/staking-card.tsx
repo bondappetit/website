@@ -6,7 +6,7 @@ import {
   Typography,
   Link,
   Status,
-  STAKING_ICONS,
+  COIN_ICONS,
   BN,
   humanizeNumeral
 } from 'src/common';
@@ -21,6 +21,7 @@ export type StakingCardProps = {
   stakingContractAddress?: string;
   totalSupply?: BN;
   poolRate?: BN;
+  lockable?: boolean;
   loading?: boolean;
 };
 
@@ -51,7 +52,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
         {props.loading
           ? 'Loading pool...'
           : props.token?.map((title, index) => {
-              const Icon = STAKING_ICONS[title];
+              const Icon = COIN_ICONS.get(title);
 
               return (
                 <React.Fragment key={title}>
@@ -98,20 +99,22 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
           '...'
         ) : (
           <Typography variant="inherit" weight="bold">
-            {humanizeNumeral(props.poolRate)} BAG / month
+            {humanizeNumeral(props.poolRate)} BAG / day
           </Typography>
         )}
       </Typography>
-      <Typography variant="body1" align="center">
-        Locking:{' '}
-        {props.loading ? (
-          '...'
-        ) : (
-          <Typography variant="inherit" weight="bold">
-            6 month
-          </Typography>
-        )}
-      </Typography>
+      {props.lockable && (
+        <Typography variant="body1" align="center">
+          Locking:{' '}
+          {props.loading ? (
+            '...'
+          ) : (
+            <Typography variant="inherit" weight="bold">
+              3 month
+            </Typography>
+          )}
+        </Typography>
+      )}
     </Link>
   );
 };

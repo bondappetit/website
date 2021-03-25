@@ -30,6 +30,7 @@ export const useFormModalStyles = createUseStyles(
       top: '100%',
       left: 0,
       background: theme.colors.yellow,
+      color: theme.colors.black,
       padding: '4px 9px',
       borderRadius: 12
     },
@@ -48,6 +49,10 @@ export const useFormModalStyles = createUseStyles(
       '&:last-child': {
         alignItems: 'flex-end'
       }
+    },
+
+    balanceButton: {
+      color: theme.colors.darkBlue
     },
 
     selectButton: {
@@ -72,7 +77,7 @@ export const useFormModalStyles = createUseStyles(
     selectOption: {
       fontSize: 24,
       lineHeight: '32px',
-      justifyContent: 'space-between',
+      justifyContent: 'flex-start',
       padding: [8, 16],
       margin: [0, -16],
       borderRadius: 8,
@@ -107,6 +112,21 @@ export const useFormModalStyles = createUseStyles(
       padding: 16,
       borderRadius: 16,
       transition: 'none'
+    },
+
+    currency: {
+      lineHeight: '38px',
+      display: 'block',
+      height: 32,
+      marginLeft: 6
+    },
+
+    selectBalance: {
+      marginLeft: 'auto'
+    },
+
+    tokenWrap: {
+      display: 'flex'
     }
   }),
   {

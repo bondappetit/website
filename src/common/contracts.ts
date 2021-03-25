@@ -7,11 +7,8 @@ import type { Market } from 'src/generate/Market';
 import type { Ierc20 } from 'src/generate/IERC20';
 import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
 import type { GovernanceToken } from 'src/generate/GovernanceToken';
-import type { Staking } from 'src/generate/Staking';
 import type { IUniswapV2Router02 } from 'src/generate/IUniswapV2Router02';
 import type { Issuer } from 'src/generate/Issuer';
-import type { SecurityOracle } from 'src/generate/SecurityOracle';
-import type { DepositaryOracle } from 'src/generate/DepositaryOracle';
 import type { Vesting } from 'src/generate/Vesting';
 import type { Treasury } from 'src/generate/Treasury';
 import type { ProfitSplitter } from 'src/generate/ProfitSplitter';
@@ -20,6 +17,7 @@ import type { Buyback } from 'src/generate/Buyback';
 import type { UniswapMarketMaker } from 'src/generate/UniswapMarketMaker';
 import type { CollateralMarket } from 'src/generate/CollateralMarket';
 import type { VestingSplitter } from 'src/generate/VestingSplitter';
+import type { RealAssetDepositaryBalanceView } from 'src/generate/RealAssetDepositaryBalanceView';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -75,18 +73,6 @@ export const useGovernanceContract = createUseContract<GovernanceToken>(
   })
 );
 
-export const useGovStakingContract = createUseContract<Staking>((network) => ({
-  abi: network.contracts.GovStaking.abi,
-  address: network.contracts.GovStaking.address
-}));
-
-export const useStableStakingContract = createUseContract<Staking>(
-  (network) => ({
-    abi: network.contracts.StableStaking.abi,
-    address: network.contracts.StableStaking.address
-  })
-);
-
 export const useUniswapRouter = createUseContract<IUniswapV2Router02>(
   (network) => ({
     abi: network.contracts.UniswapV2Router02.abi,
@@ -98,20 +84,6 @@ export const useIssuerContract = createUseContract<Issuer>((network) => ({
   abi: network.contracts.Issuer.abi,
   address: network.contracts.Issuer.address
 }));
-
-export const useSecurityOracleContract = createUseContract<SecurityOracle>(
-  (network) => ({
-    abi: network.contracts.SecurityOracle.abi,
-    address: network.contracts.SecurityOracle.address
-  })
-);
-
-export const useDepositaryOracleContract = createUseContract<DepositaryOracle>(
-  (network) => ({
-    abi: network.contracts.DepositaryOracle.abi,
-    address: network.contracts.DepositaryOracle.address
-  })
-);
 
 export const useVestingContract = createUseContract<Vesting>((network) => ({
   abi: network.contracts.Vesting.abi,
@@ -160,3 +132,10 @@ export const useVestingSplitterContract = createUseContract<VestingSplitter>(
     address: network.contracts.VestingSplitter.address
   })
 );
+
+export const useRealAssetDepositaryBalanceView = createUseContract<
+  RealAssetDepositaryBalanceView
+>((network) => ({
+  abi: network.contracts.RealAssetDepositaryBalanceView.abi,
+  address: network.contracts.RealAssetDepositaryBalanceView.address
+}));

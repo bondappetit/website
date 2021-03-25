@@ -5,8 +5,8 @@ import { ReactComponent as HatOutlineIcon } from 'src/assets/images/hat-loader-b
 import { useLoaderStyles } from './loader.styles';
 
 export type LoaderProps = {
-  width?: number;
-  height?: number;
+  width?: number | string;
+  height?: number | string;
   className?: string;
   strokeWidth?: number;
 };

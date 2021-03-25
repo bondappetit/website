@@ -15,32 +15,26 @@ export const VotingInfoDecision: React.FC<VotingInfoDecisionProps> = (
 
   return (
     <div className={props.className}>
-      <Typography
-        variant="h1"
-        component="h2"
-        align="center"
-        className={classes.title}
-      >
-        Decision-Making
-      </Typography>
-      <div className={classes.decision}>
+      <Plate withoutBorder color="grey" className={classes.decision}>
         {DECISION_MAKING.map((decisionItem) => (
-          <Plate key={decisionItem.title} className={classes.decisionCard}>
+          <div key={decisionItem.title} className={classes.decisionCard}>
             <Typography
-              variant="h4"
-              weight="bold"
+              variant="h3"
+              weight="light"
               className={classes.decisionCardTitle}
             >
               {decisionItem.title}
             </Typography>
-            {decisionItem.text.map((text) => (
-              <Typography key={text} variant="body1">
-                {text}
-              </Typography>
-            ))}
-          </Plate>
+            <ul className={classes.decisionCardList}>
+              {decisionItem.text.map((text) => (
+                <li key={text} className={classes.decisionCardListItem}>
+                  <Typography variant="body1">{text}</Typography>
+                </li>
+              ))}
+            </ul>
+          </div>
         ))}
-      </div>
+      </Plate>
     </div>
   );
 };

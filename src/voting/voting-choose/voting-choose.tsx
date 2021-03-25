@@ -41,7 +41,7 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
 
   const handleVote = useCallback(
     async (address?: string | null) => {
-      if (!address || !account) return;
+      if (!address || !account || !governanceContract) return;
 
       const delegate = governanceContract.methods.delegate(address);
 

@@ -2,20 +2,26 @@ import clsx from 'clsx';
 import React from 'react';
 
 import { ReactComponent as CheckedIcon } from 'src/assets/icons/checked.svg';
-import { Typography } from 'src/common';
+import { BN, Typography } from 'src/common';
 import { useVotingDetailInfoStyles } from './voting-detail-info.styles';
 
 export type VotingDetailInfoProps = {
   variant: 'voteFor' | 'voteAgainst';
   active?: boolean;
   onAddresses?: () => void;
-  count?: number;
-  total?: number;
+  count?: BN;
+  total?: BN;
 };
 
 export const VotingDetailInfo: React.FC<VotingDetailInfoProps> = (props) => {
-  const percentage = ((props.count ?? 0) / (props.total ?? 0)) * 100;
-  const classes = useVotingDetailInfoStyles({ percentage });
+  const percentageBN = props.count?.div(props.total ?? 0).multipliedBy(100);
+
+  const percentage = percentageBN?.isFinite()
+    ? percentageBN.integerValue().toNumber()
+    : 0;
+  const classes = useVotingDetailInfoStyles({
+    percentage
+  });
 
   return (
     <div
@@ -34,7 +40,7 @@ export const VotingDetailInfo: React.FC<VotingDetailInfoProps> = (props) => {
       </Typography>
       <div className={clsx(classes.separator, classes[props.variant])} />
       <Typography variant="body1" component="div">
-        {props.count} votes
+        {props.count?.toString(10) ?? 0} votes
       </Typography>
     </div>
   );

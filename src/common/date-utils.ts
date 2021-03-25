@@ -17,7 +17,7 @@ export const dateUtils = {
     }
   },
 
-  format: (date: string | number | Dayjs, format = 'YYYY-MM-DD') =>
+  format: (date?: string | number | Dayjs | Date, format = 'YYYY-MM-DD') =>
     dayjs(date).format(format),
 
   formatUnix: (timestamp: number | string, format = 'hh:mm:ss') => {

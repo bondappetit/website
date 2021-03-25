@@ -1,30 +1,28 @@
 import clsx from 'clsx';
 import React, { useMemo } from 'react';
-import { useToggle } from 'react-use';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Head, LinkModal, PageWrapper, useNetworkConfig } from 'src/common';
+import { Head, Link, PageWrapper, Typography } from 'src/common';
 import { MainLayout } from 'src/layouts';
+import { URLS } from 'src/router/urls';
 import {
   useVotingProposalList,
   VotingInfoFactoid,
   VotingInfoProposalList,
-  VotingInfoDecision,
-  VotingInfoHowTo
+  VotingInfoDecision
 } from '../common';
+import { VotingInvesting } from '../voting-investing';
+import { VotingStaking } from '../voting-staking/voting-staking';
 import { useVotingInfoStyles } from './voting-info.styles';
 
 export const VotingInfo: React.FC = () => {
   const classes = useVotingInfoStyles();
 
-  const [linkModalOpen, togglelinkModal] = useToggle(false);
-
-  const { proposals = [], loading, pages } = useVotingProposalList(3);
-
-  const networkConfig = useNetworkConfig();
+  const { proposals, pages } = useVotingProposalList(3);
 
   const proposalCount = useMemo(
-    () => Math.round(pages.length * proposals.length),
-    [pages.length, proposals.length]
+    () => Math.round(pages.length * (proposals.value?.length || 0)),
+    [pages.length, proposals.value]
   );
 
   return (
@@ -32,24 +30,37 @@ export const VotingInfo: React.FC = () => {
       <Head title="Shape the future of the protocol using BondAppétit Governance (BAG)" />
       <MainLayout>
         <PageWrapper className={classes.root}>
+          <div className={clsx(classes.block, classes.titleWrap)}>
+            <Typography variant="h1" align="center" className={classes.title}>
+              Shape the future of the protocol using BondAppétit Governance
+              (BAG)
+            </Typography>
+            <Typography variant="h4" align="center" className={classes.link}>
+              <Link
+                component={ReactRouterLink}
+                to={`${URLS.whitepaper}#15`}
+                color="blue"
+              >
+                Learn more on how governance works →
+              </Link>
+            </Typography>
+          </div>
+          <div className={clsx(classes.block, classes.investing)}>
+            <VotingInvesting />
+            <VotingStaking />
+          </div>
+          <VotingInfoFactoid className={clsx(classes.factoid, classes.block)} />
           <VotingInfoProposalList
-            loading={loading}
-            proposals={proposals}
+            loading={proposals.loading}
+            proposals={proposals.value}
             proposalCount={proposalCount}
             className={clsx(classes.proposals, classes.block)}
           />
-          <VotingInfoFactoid className={clsx(classes.factoid, classes.block)} />
-          <VotingInfoDecision className={classes.decision} />
-          <VotingInfoHowTo onBuy={togglelinkModal} />
+          <VotingInfoDecision
+            className={clsx(classes.decision, classes.block)}
+          />
         </PageWrapper>
       </MainLayout>
-      <LinkModal
-        open={linkModalOpen}
-        onClose={togglelinkModal}
-        withBuyCollateralMarket={false}
-        withBuyMarket={false}
-        tokenAddress={networkConfig.assets.Governance.address}
-      />
     </>
   );
 };

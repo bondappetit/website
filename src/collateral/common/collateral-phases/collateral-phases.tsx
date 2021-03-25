@@ -25,10 +25,10 @@ export const CollateralPhases: React.FC<CollateralPhasesProps> = (props) => {
         </Typography>
         <div>
           <Typography variant="h5" className={classes.phaseCardBody}>
-            Accumulation of liquidity for BondAppétit’s stablecoin (USDp) in
-            forms of USDc/USDp and USDN/USDp staking pools. Staking during Phase
-            1 allows investors to earn bigger staking rewards during the first 6
-            months.
+            Accumulation of liquidity for BondAppétit’s stablecoin (USDap) in
+            forms of USDc/USDap and USDN/USDap staking pools. Staking during
+            Phase 1 allows investors to earn bigger staking rewards during the
+            first 3 months.
           </Typography>
           <Typography variant="h5">
             <Link
@@ -43,13 +43,14 @@ export const CollateralPhases: React.FC<CollateralPhasesProps> = (props) => {
       </div>
       <div className={classes.phaseCard}>
         <Typography variant="h5" className={classes.phaseCardTitle}>
-          Phase 3
+          Phase 2
         </Typography>
         <div>
           <Typography variant="h5" className={classes.phaseCardBody}>
-            Protocol’s assets are formed by outstanding debt of the borrowers,
-            which is secured by real-world collateral in a form of bonds stored
-            on special custody accounts.
+            The protocol’s assets are formed by the outstanding debt of the
+            borrowers, which is secured by real-world collateral in the form of
+            bonds stored on special custody accounts. All crypto assets
+            accumulated during Phase 1 will be converted to RWA.
           </Typography>
           <Typography variant="h5">
             <Link

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Typography, Link, Status, Skeleton } from 'src/common';
+import { Typography, Link, Status, Skeleton, numberArray } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { ProposalState, ProposalStateColors } from '../constants';
 import { FormattedProposal } from '../voting.types';
@@ -11,7 +11,8 @@ import { useVotingProposalsStyles } from './voting-proposals.styles';
 export type VotingProposalsProps = {
   className?: string;
   loading: boolean;
-  proposals: FormattedProposal[];
+  proposals?: FormattedProposal[];
+  transparent?: boolean;
 };
 
 export const VotingProposals: React.FC<VotingProposalsProps> = (props) => {
@@ -20,16 +21,19 @@ export const VotingProposals: React.FC<VotingProposalsProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)}>
       {props.loading &&
-        Array.from(Array(5), (_, index) => index).map((item) => (
+        numberArray(5).map((item) => (
           <Skeleton key={item} className={classes.proposalSkeleton} />
         ))}
       {!props.loading &&
-        props.proposals.map((proposal) => (
+        props.proposals?.map((proposal) => (
           <Typography key={proposal.id} variant="h5" component="div">
             <Link
               component={ReactRouterLink}
               to={URLS.voting.detail(proposal.id)}
-              className={classes.proposal}
+              className={clsx(
+                classes.proposal,
+                props.transparent && classes.proposalTransparent
+              )}
             >
               <Typography variant="inherit" className={classes.proposalTitle}>
                 {proposal.title}
@@ -42,7 +46,7 @@ export const VotingProposals: React.FC<VotingProposalsProps> = (props) => {
             </Link>
           </Typography>
         ))}
-      {!props.loading && !props.proposals.length && (
+      {!props.loading && !props.proposals?.length && (
         <Typography variant="h5" component="div">
           <div className={classes.proposal}>
             <Typography variant="inherit" className={classes.proposalTitle}>

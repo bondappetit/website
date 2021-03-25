@@ -53,8 +53,7 @@ export const useStakingLockFormStyles = createUseStyles(
       }
     },
 
-    attention: {
-      opacity: 0.4,
+    skeleton: {
       marginTop: 16,
       minHeight: 40
     }

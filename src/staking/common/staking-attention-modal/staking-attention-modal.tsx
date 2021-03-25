@@ -7,7 +7,7 @@ export type StakingAttentionModalProps = {
   className?: string;
   open: boolean;
   blockNumber: string;
-  date: string;
+  date?: string;
   onClose: () => void;
   onStake: () => void;
 };
@@ -26,10 +26,10 @@ export const StakingAttentionModal: React.FC<StakingAttentionModalProps> = (
               <Typography variant="inherit" className={classes.attention}>
                 Attention!
               </Typography>{' '}
-              6-month locking
+              3-month locking
             </Typography>
             <Typography variant="h5">
-              Your LP tokens will be locked for 6 months. You can get your
+              Your LP tokens will be locked for 3 months. You can get your
               tokens at {props.date} after the {props.blockNumber} block
             </Typography>{' '}
             <Typography variant="h5">

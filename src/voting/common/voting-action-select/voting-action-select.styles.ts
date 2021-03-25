@@ -29,8 +29,10 @@ export const useVotingActionSelectStyles = createUseStyles(
 
       [theme.mixins.hover()]: {
         '&:hover': {
+          opacity: 1,
           borderRadius: 8,
-          background: theme.colors.lightGrey
+          background: theme.colors.lightGrey,
+          color: theme.colors.black
         }
       }
     }

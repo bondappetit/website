@@ -1,6 +1,6 @@
 import { formatUnits } from 'ethers/lib.esm/utils';
 
-import { Network } from 'src/common';
+import { BN, Network } from 'src/common';
 import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
 import { FormattedEventData } from './voting.types';
 
@@ -24,15 +24,15 @@ export const getProposal = (proposalId: number) => (
       formattedEvent?.description?.replace(title, '') ?? 'No description.',
     proposer: proposal?.proposer,
     status: await governorContract.methods.state(proposalId).call(),
-    forCount: Number(
+    forCount: new BN(
       formatUnits(
-        String(proposal?.forVotes),
+        String(proposal?.forVotes ?? 0),
         networkConfig.assets.Governance.decimals
       )
     ),
-    againstCount: Number(
+    againstCount: new BN(
       formatUnits(
-        String(proposal?.againstVotes),
+        String(proposal?.againstVotes ?? 0),
         networkConfig.assets.Governance.decimals
       )
     ),

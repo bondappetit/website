@@ -1,4 +1,4 @@
-import { TableData } from '../collateral-table';
+import { TableData } from '../collateral.types';
 
 export const BORROWERS: TableData = {
   head: [

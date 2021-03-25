@@ -36,7 +36,7 @@ export const MonitorContractList: React.FC = () => {
             )}
           </ul>
           <div className={classes.investStaking}>
-            {investStakingBalance?.map(({ balance, name }) => (
+            {investStakingBalance.value?.map(({ balance, name }) => (
               <div key={name}>
                 {name}: {humanizeNumeral(balance)}
               </div>

@@ -6,9 +6,17 @@ import { Typography, Link } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { useCollateralBorrowInfoStyles } from './collateral-borrow-info.styles';
 import { CollateralTable } from '../collateral-table';
-import { PROTOCOL_ASSETS } from '../contstants';
+import { TableData } from '../collateral.types';
 
-export const CollateralBorrowInfo: React.FC = () => {
+export type ColateralBorrowInfoProps = {
+  tableData?: TableData;
+  id?: string;
+  onValid?: (isinCode: string) => void;
+};
+
+export const CollateralBorrowInfo: React.VFC<ColateralBorrowInfoProps> = (
+  props
+) => {
   const classes = useCollateralBorrowInfoStyles();
 
   return (
@@ -19,7 +27,12 @@ export const CollateralBorrowInfo: React.FC = () => {
           borrowers, which in turn is secured by real world collateral in form
           of bonds kept on special security accounts.
         </Typography>
-        <CollateralTable data={PROTOCOL_ASSETS} emptyFirstCol />
+        <CollateralTable
+          onValid={props.onValid}
+          id={props.id}
+          data={props.tableData}
+          emptyFirstCol
+        />
       </div>
       <div className={classes.section}>
         <Typography

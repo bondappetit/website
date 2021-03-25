@@ -4,8 +4,8 @@
   "private": true,
   "dependencies": {
     "@babel/core": "7.9.0",
-    "@bondappetit/docs": "^1.9.1",
-    "@bondappetit/networks": "^1.9.1-node",
+    "@bondappetit/docs": "^1.9.7",
+    "@bondappetit/networks": "1.9.7",
     "@matejmazur/react-katex": "^3.1.3",
     "@popperjs/core": "^2.5.4",
     "@svgr/webpack": "4.3.3",
@@ -21,6 +21,7 @@
     "@types/lodash.rangeright": "^4.2.6",
     "@types/medium-editor": "^5.0.3",
     "@types/node": "^12.12.68",
+    "@types/node-rsa": "^1.1.0",
     "@types/normalize-jss": "^4.0.0",
     "@types/react": "^16.9.53",
     "@types/react-beautiful-dnd": "^13.0.0",
@@ -79,6 +80,7 @@
     "medium-editor": "^5.23.3",
     "mini-css-extract-plugin": "0.9.0",
     "nanoid": "^3.1.20",
+    "node-rsa": "^1.1.1",
     "normalize-jss": "^4.0.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.6.4",
@@ -132,6 +134,7 @@
     "build-dev": "node scripts/build.js",
     "build-analyze": "cross-env ANALYZE=true node scripts/build.js",
     "test": "node scripts/test.js",
+    "typechain-remove": "rimraf ./src/generate",
     "typechain": "typechain --target web3-v1 --outDir ./src/generate ./node_modules/@bondappetit/networks/abi/**/*.json"
   },
   "browserslist": {
@@ -161,6 +164,7 @@
     "lint-staged": "^10.4.2",
     "prettier": "^2.1.2",
     "raw-loader": "^4.0.2",
+    "rimraf": "^3.0.2",
     "typechain": "^3.0.0"
   },
   "lint-staged": {

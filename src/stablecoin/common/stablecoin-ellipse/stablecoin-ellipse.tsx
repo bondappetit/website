@@ -84,9 +84,9 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
       <div className={classes.subtext}>
         <Typography variant="h4" align="center">
           <Typography variant="inherit" component="p" align="center">
-            USDp is the first-ever decentralized stablecoin that is based on a
-            basket of real-world debt obligations. USDp price equals $1 at all
-            times and asset is issued only with sufficient collateral.
+            USDap is the first-ever decentralized stablecoin based on a basket
+            of real-world debt obligations. The price of USDap equals $1 at all
+            times and the asset is issued only with sufficient collateral.
           </Typography>
           <Link
             color="blue"

@@ -13,7 +13,6 @@ export const useVotingActionListStyles = createUseStyles(
 
     action: {
       display: 'flex',
-      flexWrap: 'wrap',
 
       '&:not(:last-child)': {
         paddingBottom: 24

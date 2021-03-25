@@ -2,8 +2,10 @@ import { useCallback, useState, useEffect, useMemo } from 'react';
 
 import { useNetworkConfig, useUniswapRouter, BN } from 'src/common';
 
+const DEFAULT_GOVERNANCE_COST = '5000000';
+
 export const useGovernanceCost = () => {
-  const [state, setState] = useState('1000000');
+  const [state, setState] = useState(DEFAULT_GOVERNANCE_COST);
 
   const networkConfig = useNetworkConfig();
   const uniswapRouter = useUniswapRouter();
@@ -14,6 +16,8 @@ export const useGovernanceCost = () => {
   );
 
   const getGovernanceCost = useCallback(async () => {
+    if (!uniswapRouter) return;
+
     try {
       const [
         ,

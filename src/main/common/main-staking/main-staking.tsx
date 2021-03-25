@@ -2,7 +2,14 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useMedia } from 'react-use';
 
-import { Typography, Link, Carousel, Plate, humanizeNumeral } from 'src/common';
+import {
+  Typography,
+  Link,
+  Carousel,
+  Plate,
+  humanizeNumeral,
+  numberArray
+} from 'src/common';
 import { URLS } from 'src/router/urls';
 import type { APYWithTokenName } from 'src/staking';
 import { StakingCard } from 'src/staking';
@@ -11,8 +18,9 @@ import { MainHowItWorks } from '../main-how-it-works';
 
 export type MainStakingProps = {
   className?: string;
-  staking: APYWithTokenName[];
-  totalValueLocked: string;
+  staking?: APYWithTokenName[];
+  totalValueLocked?: string;
+  countOfCards: number;
 };
 
 const Grid: React.FC = (props) => {
@@ -47,9 +55,9 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
         </Typography>
       </Plate>
       <Grid>
-        {!props.staking.length
-          ? Array.from(Array(2), (_, key) => (
-              <StakingCard loading={!props.staking.length} key={key} />
+        {!props.staking?.length
+          ? numberArray(props.countOfCards).map((key) => (
+              <StakingCard loading={!props.staking?.length} key={key} />
             ))
           : props.staking.map((stakingItem, index) => {
               const id = String(index);
@@ -60,8 +68,9 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
                   stacked={Boolean(Number(stakingItem.amount))}
                   token={stakingItem.token}
                   reward={stakingItem.reward}
-                  totalSupply={stakingItem.totalSupply}
+                  totalSupply={stakingItem.totalSupplyUSDC}
                   poolRate={stakingItem.poolRate}
+                  lockable={stakingItem.lockable}
                   stakingContractAddress={
                     stakingItem.stakingContract.options.address
                   }

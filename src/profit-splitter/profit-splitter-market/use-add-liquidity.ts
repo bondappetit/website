@@ -14,7 +14,8 @@ export const useAddLiquidity = (
   const marketMakerContract = useUniswapMarketMakerContract();
 
   const handleAddLiquidity = useCallback(async () => {
-    if (!supportAmount || !incomingAmount || !account) return;
+    if (!supportAmount || !incomingAmount || !account || !marketMakerContract)
+      return;
 
     if (Number(incomingAmount) <= 0 || Number(supportAmount) <= 0) return;
 

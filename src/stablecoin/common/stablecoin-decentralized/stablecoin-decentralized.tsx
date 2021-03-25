@@ -18,14 +18,14 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
     <div className={props.className}>
       <div className={classes.text}>
         <Typography variant="h2" align="center" className={classes.title}>
-          Why USDp is Decentralized
+          Why USDap is Decentralized
         </Typography>
         <Typography variant="h4" align="center" component="p">
-          Behind each centralized stablecoin stands an entity that solely
-          controls collateral and issuance of the stablecoin. There are no
-          publicly available instruments to verify the collateral in real-time,
-          therefore owners of centralized stablecoins must trust the issuer.
-          With USDp everything is different
+          Each centralized stablecoin is backed by an entity that is in full
+          control of its issuance and of the collateral. There are no publicly
+          available instruments for verifying the collateral in real-time,
+          therefore, the owners of centralized stablecoins must trust the
+          issuer. With USDap, everything is different.
         </Typography>
       </div>
       <div className={classes.list}>
@@ -39,9 +39,10 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
             Decentralized and Transparent
           </Typography>
           <Typography variant="h4" align="center">
-            There is no centralized issuer behind USDp — tokens are issued
-            automatically by a smart-contract only when required collateral is
-            available, which can be checked by any user in real-time.
+            There is no centralized issuer behind USDap — the tokens are issued
+            automatically by a smart-contract only when the required collateral
+            is available. All related information can be checked by any user in
+            real-time.
           </Typography>
           <Typography variant="h4" align="center" className={classes.link}>
             <Link
@@ -60,11 +61,11 @@ export const StablecoinDecentralized: React.FC<StablecoinDecentralizedProps> = (
             align="center"
             className={classes.cardTitle}
           >
-            Crypto-Liquidity backed by real cash-flows
+            Crypto-liquidity backed by real cash flows
           </Typography>
           <Typography variant="h4" align="center">
-            USDp has its own crypto liquidity pools which are partially composed
-            of liquidity flows coming from real-world assets.
+            USDap has its own crypto liquidity pools, which are partially
+            composed of liquidity flows coming from real-world assets.
           </Typography>
           <Typography variant="h4" align="center" className={classes.link}>
             <Link

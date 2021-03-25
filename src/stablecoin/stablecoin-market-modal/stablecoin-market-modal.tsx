@@ -7,7 +7,7 @@ import type { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { WalletModal } from 'src/wallets';
+import { WalletButtonWithFallback } from 'src/wallets';
 import {
   useNetworkConfig,
   useBalance,
@@ -26,7 +26,7 @@ import {
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useGovernanceTokens } from './use-stablecoin-tokens';
-import { useRewardToken } from './use-reward-token';
+import { useRewardToken } from '../common/use-reward-token';
 
 export type StablecoinMarketModalProps = {
   open: boolean;
@@ -50,7 +50,6 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
 
   const [successOpen, successToggle] = useToggle(false);
   const [failureOpen, failureToggle] = useToggle(false);
-  const [walletsOpen, walletsToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
 
   const { governanceInUSDC } = useGovernanceCost();
@@ -58,29 +57,32 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   const formik = useFormik({
     initialValues: {
       currency: 'USDC',
-      payment: ''
+      payment: '0',
+      youGet: '0'
     },
 
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
 
       if (!formValues.currency) {
-        error.currency = 'Required';
+        error.currency = 'Choose currency';
         return error;
       }
 
       if (Number(formValues.payment) <= 0) {
-        error.payment = 'Required';
+        error.payment = `${formValues.currency} is required`;
         return error;
       }
 
-      const currentToken = network.assets[formValues.currency];
+      const currentToken = Object.values(network.assets).find(
+        ({ symbol }) => symbol === formValues.currency
+      );
 
       if (!currentToken) return;
 
       const balanceOfToken = await getBalance({
         tokenAddress: currentToken.address,
-        tokenName: currentToken.name
+        tokenName: currentToken.symbol
       });
 
       if (
@@ -95,9 +97,11 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     },
 
     onSubmit: async (formValues) => {
-      const currentToken = network.assets[formValues.currency];
+      const currentToken = Object.values(network.assets).find(
+        ({ symbol }) => symbol === formValues.currency
+      );
 
-      if (!currentToken || !account) return;
+      if (!currentToken || !account || !marketContract) return;
 
       const currentContract = getContract(currentToken.address);
 
@@ -106,7 +110,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         .toString(10);
 
       try {
-        if (currentToken.name === 'ETH') {
+        if (currentToken.symbol === 'ETH') {
           const buyFromETH = marketContract.methods.buyFromETH();
 
           await buyFromETH.send({
@@ -140,6 +144,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
 
         failureToggle(false);
         successToggle(true);
+        tokens.retry();
       } catch {
         failureToggle(true);
       } finally {
@@ -204,6 +209,43 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     [governanceInUSDC, network.assets.USDC.decimals]
   );
 
+  const { setFieldValue } = formik;
+
+  const handlePaymentChange = useCallback(() => {
+    const youGet = reward.value?.product;
+
+    setFieldValue(
+      'youGet',
+      youGet?.isNaN() || !youGet ? '0' : youGet.toString(10)
+    );
+  }, [reward.value, setFieldValue]);
+
+  const handleYouGetChange = useCallback(async () => {
+    const currentAsset = Object.values(network.assets).find(
+      ({ symbol }) => symbol === formik.values.currency
+    );
+
+    if (!currentAsset || !marketContract) return;
+
+    const currentAssetDiv = new BN(10).pow(currentAsset.decimals);
+
+    const convertReward = await marketContract.methods
+      .price(currentAsset.address, currentAssetDiv.toString(10))
+      .call();
+
+    const convertPrice = new BN(10)
+      .pow(network.assets.Stable.decimals)
+      .div(convertReward.product);
+
+    const payment = new BN(formik.values.youGet).multipliedBy(convertPrice);
+
+    setFieldValue(
+      'payment',
+      payment.isNaN() || !payment.isFinite() ? '0' : payment.toString(10)
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formik.values.youGet, formik.values.currency, network]);
+
   return (
     <>
       <FormikContext.Provider value={formik}>
@@ -216,8 +258,19 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           tokens={tokens.value ?? []}
           balance={balance}
           tokenCost={tokenCost}
-          result={result.toString(10)}
-          openWalletListModal={walletsToggle}
+          onPaymentChange={handlePaymentChange}
+          onYouGetChange={handleYouGetChange}
+          button={
+            <WalletButtonWithFallback
+              disabled={
+                Boolean(formik.errors.payment || formik.errors.currency) ||
+                formik.isSubmitting
+              }
+              loading={formik.isSubmitting}
+            >
+              {formik.errors.payment || formik.errors.currency || 'Buy'}
+            </WalletButtonWithFallback>
+          }
         />
       </FormikContext.Provider>
       <Modal open={successOpen} onClose={handleSuccessClose}>
@@ -239,7 +292,6 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           <InfoCardLoader />
         </SmallModal>
       </Modal>
-      <WalletModal open={walletsOpen} onClose={walletsToggle} />
     </>
   );
 };

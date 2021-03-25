@@ -58,6 +58,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: build-release
+          path: ./build
 
       - name: Publish beta
         if: github.event.release.prerelease == true

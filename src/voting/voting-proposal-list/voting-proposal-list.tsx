@@ -25,10 +25,10 @@ const DELEGATE_TO_DEFAULT = '0x0000000000000000000000000000000000000000';
 export const VotingProposalList: React.FC = () => {
   const classes = useVotingProposalListStyles();
   const {
-    proposals = [],
-    loading,
+    proposals,
     nextPage,
-    pages: proposalPages
+    pages: proposalPages,
+    currentPage
   } = useVotingProposalList();
   const {
     currentVotes,
@@ -73,8 +73,10 @@ export const VotingProposalList: React.FC = () => {
               </Link>
             </Typography>
             <Typography variant="h3" align="center">
-              {loading && <Skeleton className={classes.votesSkeleton} />}
-              {!loading &&
+              {proposals.loading && (
+                <Skeleton className={classes.votesSkeleton} />
+              )}
+              {!proposals.loading &&
                 (new BN(currentVotes).isGreaterThan(0) ||
                   new BN(currentGovCoin).isGreaterThan(0)) && (
                   <>
@@ -88,7 +90,7 @@ export const VotingProposalList: React.FC = () => {
                       )}
                   </>
                 )}
-              {!loading &&
+              {!proposals.loading &&
                 new BN(currentVotes).isEqualTo(0) &&
                 new BN(currentGovCoin).isEqualTo(0) && (
                   <>
@@ -96,11 +98,13 @@ export const VotingProposalList: React.FC = () => {
                   </>
                 )}
             </Typography>
-            {loading && <Skeleton className={classes.delegatesSkeleton} />}
-            {!loading && (
+            {proposals.loading && (
+              <Skeleton className={classes.delegatesSkeleton} />
+            )}
+            {!proposals.loading && (
               <>
                 <Typography variant="h2" align="center">
-                  {new BN(currentVotes).isGreaterThan(0) &&
+                  {new BN(currentGovCoin).isGreaterThan(0) &&
                     delegateTo !== DELEGATE_TO_DEFAULT && (
                       <>
                         deligated to{' '}
@@ -126,7 +130,7 @@ export const VotingProposalList: React.FC = () => {
               </>
             )}
           </div>
-          {!loading && canCreateProposal && (
+          {!proposals.loading && canCreateProposal && (
             <Button
               component={ReactRouterLink}
               variant="outlined"
@@ -139,22 +143,22 @@ export const VotingProposalList: React.FC = () => {
               + Create new proposal
             </Button>
           )}
-          {!loading && !canCreateProposal && (
+          {!proposals.loading && !canCreateProposal && (
             <Typography
               variant="h4"
               component="div"
               align="center"
               className={classes.createProposalMargin}
             >
-              You need to have at list 1 000 000 BAG tokens to create proposal
+              You need to have more than 1 000 000 BAG tokens to create proposal
             </Typography>
           )}
           <VotingProposals
-            loading={loading}
-            proposals={proposals}
+            loading={proposals.loading}
+            proposals={proposals.value}
             className={classes.list}
           />
-          {proposalPages.length > 1 && (
+          {proposalPages.length > 1 && proposalPages.length < currentPage && (
             <ButtonBase onClick={nextPage}>show more</ButtonBase>
           )}
         </div>

@@ -6,7 +6,8 @@ export const useVotingProposalsStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       display: 'grid',
-      gridGap: 16
+      gridGap: 16,
+      width: '100%'
     },
 
     proposal: {
@@ -23,8 +24,14 @@ export const useVotingProposalsStyles = createUseStyles(
       }
     },
 
+    proposalTransparent: {
+      backgroundColor: 'transparent',
+      border: `1px solid ${theme.colors.primary}`
+    },
+
     proposalSkeleton: {
-      height: 88
+      height: 88,
+      width: '100%'
     },
 
     proposalTitle: {

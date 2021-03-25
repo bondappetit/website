@@ -1,25 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useToggle } from 'react-use';
+import React from 'react';
+import { useAsyncFn, useAsyncRetry } from 'react-use';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
-import { Skeleton, useGovernorContract, Button, estimateGas } from 'src/common';
+import {
+  Skeleton,
+  useGovernorContract,
+  Button,
+  estimateGas,
+  BN
+} from 'src/common';
 import { ProposalState, VotingButton, VotingDetailInfo } from '../common';
 import { useVotingDetailsActionStyles } from './voting-details-action.styles';
 
 export type VotingDetailsActionProps = {
   loading: boolean;
   proposalId: string;
-  forCount?: number;
-  againstCount?: number;
+  forCount?: BN;
+  againstCount?: BN;
   onUpdate?: () => void;
   status?: string;
-};
-
-type Receipt = {
-  hasVoted: boolean;
-  support: boolean;
-  votes: string;
 };
 
 export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
@@ -28,15 +28,12 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   const classes = useVotingDetailsActionStyles();
   const governorContract = useGovernorContract();
   const { account } = useWeb3React<Web3>();
-  const [receipt, setReceipt] = useState<Receipt | null>(null);
-  const [queued, toggleQueue] = useToggle(false);
-  const [executed, toggleExecute] = useToggle(false);
 
   const { onUpdate } = props;
 
-  const handleVote = useCallback(
+  const [votingState, handleVote] = useAsyncFn(
     async (value: boolean) => {
-      if (!account) return;
+      if (!account || !governorContract) return;
 
       try {
         const castVote = governorContract.methods.castVote(
@@ -55,10 +52,8 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
     [governorContract, props.proposalId, account, onUpdate]
   );
 
-  const handleExecuteProposal = useCallback(async () => {
-    if (!account) return;
-
-    toggleExecute();
+  const [executingState, handleExecuteProposal] = useAsyncFn(async () => {
+    if (!account || !governorContract) return;
 
     try {
       const execute = governorContract.methods.execute(props.proposalId);
@@ -69,14 +64,11 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
       });
     } finally {
       onUpdate?.();
-
-      toggleExecute();
     }
-  }, [governorContract, props.proposalId, account, onUpdate, toggleExecute]);
+  }, [governorContract, props.proposalId, account, onUpdate]);
 
-  const handleQueueProposal = useCallback(async () => {
-    if (!account) return;
-    toggleQueue();
+  const [queueState, handleQueueProposal] = useAsyncFn(async () => {
+    if (!account || !governorContract) return;
 
     try {
       const queue = governorContract.methods.queue(props.proposalId);
@@ -87,32 +79,24 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
       });
     } finally {
       onUpdate?.();
-
-      toggleQueue();
     }
-  }, [governorContract, props.proposalId, account, onUpdate, toggleQueue]);
+  }, [governorContract, props.proposalId, account, onUpdate]);
 
-  const handleGetVotedStatus = useCallback(async () => {
-    if (!account) return;
+  const receiptState = useAsyncRetry(async () => {
+    if (!account || !governorContract) return;
 
     const result = await governorContract.methods
       .getReceipt(props.proposalId, account)
       .call();
 
-    if (!result) return;
-
     const [hasVoted, support, votes] = result;
 
-    setReceipt({
+    return {
       hasVoted,
       support,
       votes
-    });
-  }, [governorContract, account, props.proposalId]);
-
-  useEffect(() => {
-    handleGetVotedStatus();
-  }, [handleGetVotedStatus, props.status]);
+    };
+  }, [governorContract, account, props.proposalId, props.status]);
 
   return (
     <>
@@ -120,37 +104,39 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
       <div className={classes.root}>
         {!props.loading && (
           <div className={classes.row}>
-            {!receipt?.hasVoted &&
+            {!receiptState.value?.hasVoted &&
               Number(props.status) === ProposalState.Active && (
                 <>
                   <VotingButton
                     onClick={() => handleVote(true)}
                     variant="voteFor"
+                    loading={votingState.loading}
                   >
                     Vote for
                   </VotingButton>
                   <VotingButton
                     onClick={() => handleVote(false)}
                     variant="voteAgainst"
+                    loading={votingState.loading}
                   >
                     Vote against
                   </VotingButton>
                 </>
               )}
-            {receipt?.hasVoted && (
+            {receiptState.value?.hasVoted && (
               <>
                 <VotingDetailInfo
-                  active={receipt.support === true}
+                  active={receiptState.value.support === true}
                   variant="voteFor"
-                  total={(props.forCount ?? 0) + (props.againstCount ?? 0)}
+                  total={props.forCount?.plus(props.againstCount ?? 0)}
                   count={props.forCount}
                 >
                   voted for
                 </VotingDetailInfo>
                 <VotingDetailInfo
-                  active={receipt.support === false}
+                  active={receiptState.value.support === false}
                   variant="voteAgainst"
-                  total={(props.forCount ?? 0) + (props.againstCount ?? 0)}
+                  total={props.forCount?.plus(props.againstCount ?? 0)}
                   count={props.againstCount}
                 >
                   voted against
@@ -162,8 +148,8 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
         {ProposalState.Succeeded === Number(props.status) && (
           <Button
             onClick={handleQueueProposal}
-            loading={queued}
-            disabled={queued}
+            loading={queueState.loading}
+            disabled={queueState.loading}
           >
             Queue
           </Button>
@@ -171,8 +157,8 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
         {ProposalState.Queued === Number(props.status) && (
           <Button
             onClick={handleExecuteProposal}
-            loading={executed}
-            disabled={executed}
+            loading={executingState.loading}
+            disabled={executingState.loading}
           >
             Execute
           </Button>

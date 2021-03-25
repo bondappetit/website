@@ -17,6 +17,8 @@ export const useVestingPeriods = () => {
   const [update, handleUpdate] = useUpdate();
 
   const handleGetPeriods = useCallback(async () => {
+    if (!vestingContract) return;
+
     const participants = await vestingContract.methods.getParticipants().call();
     if (participants === undefined) return;
 

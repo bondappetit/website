@@ -1,8 +1,8 @@
 export {
-  useStakingBalances,
-  useStakingApy,
+  useStakingTokens,
   useGovernanceCost,
   useTotalValueLocked,
-  StakingCard
+  StakingCard,
+  useStakingContracts
 } from './common';
 export type { APYWithTokenName } from './common';

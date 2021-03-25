@@ -6,7 +6,7 @@ import { ReactComponent as TwitterIcon } from 'src/assets/icons/twitter.svg';
 
 export const SOCIAL_LINKS = [
   {
-    title: 'Blog',
+    title: 'Medium',
     link: 'https://medium.com/bondappetit',
     icon: BlogIcon
   },

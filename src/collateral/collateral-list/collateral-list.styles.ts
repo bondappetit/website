@@ -30,6 +30,16 @@ export const useCollateralListStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 48
       }
+    },
+
+    overflow: {
+      overflowX: 'hidden',
+      overflowY: 'scroll'
+    },
+
+    checkModal: {
+      height: '100%',
+      maxHeight: 850
     }
   }),
   {

@@ -7,6 +7,7 @@ export const useVotingProposalDetailStyles = createUseStyles(
     voting: {
       padding: '48px 16px 0',
       maxWidth: 800,
+      width: '100%',
       margin: '0 auto',
 
       [theme.breakpoints.md()]: {

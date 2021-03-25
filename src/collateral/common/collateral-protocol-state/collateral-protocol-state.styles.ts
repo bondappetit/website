@@ -47,6 +47,16 @@ export const useCollateralProtocolStateStyles = createUseStyles(
       backgroundColor: theme.colors.superGreen
     },
 
+    red: {
+      display: 'flex',
+      backgroundColor: theme.colors.red
+    },
+
+    yellow: {
+      display: 'flex',
+      backgroundColor: theme.colors.yellow
+    },
+
     tippy: {
       backgroundColor: theme.colors.primary,
       color: theme.colors.secondary,

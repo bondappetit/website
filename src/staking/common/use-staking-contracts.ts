@@ -11,6 +11,8 @@ export const useStakingContracts = () => {
     (contractName: string) => {
       const contractConfig = networkConfig.contracts[contractName];
 
+      if (!contractConfig) return null;
+
       return getContract(contractConfig.address, contractConfig.abi);
     },
     [getContract, networkConfig.contracts]

@@ -19,7 +19,11 @@ export type LinkModalProps = {
   withBuyMarket?: boolean;
   withBuyCollateralMarket?: boolean;
   tokenAddress: string;
+  rewardPercent?: string;
+  tokenName: string;
 };
+
+const UNISWAP_URL = 'https://info.uniswap.org/token/';
 
 export const LinkModal: React.FC<LinkModalProps> = (props) => {
   const classes = useLinkModalStyles();
@@ -34,7 +38,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                 onClick={props.onBuyCollateralMarket}
                 className={classes.button}
               >
-                Buy from protocol
+                Buy {props.tokenName}
               </Button>
             )}
             {props.withBuyMarket && (
@@ -47,10 +51,10 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                   component="span"
                   className={classes.buttonTitle}
                 >
-                  Buy from protocol
+                  Buy {props.tokenName}
                 </Typography>
                 <Typography variant="body1" component="span" align="center">
-                  Get extra +5% of your investment as
+                  Get extra +{props.rewardPercent}% of your investment as
                   <br />
                   <BAGicon
                     className={classes.bagIcon}
@@ -64,7 +68,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
             <Button
               variant="outlined"
               component={Link}
-              href={`https://info.uniswap.org/token/${props.tokenAddress}`}
+              href={`${UNISWAP_URL}${props.tokenAddress}`}
               target="_blank"
               className={classes.button}
             >
