@@ -32,7 +32,12 @@ export const MainCointelegraph: React.VFC<MainCointelegraphProps> = () => {
   return (
     <div>
       {ARTICLES.map((article) => (
-        <Link key={article.title} className={classes.card} href={article.link}>
+        <Link
+          key={article.title}
+          className={classes.card}
+          href={article.link}
+          target="_blank"
+        >
           <Plate className={classes.cardContent}>
             <CointelegraphIcon className={classes.cardIcon} />
             <Typography variant="h4" className={classes.cardTitle}>
