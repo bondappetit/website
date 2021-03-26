@@ -28,7 +28,7 @@ export const useMainVotingStyles = createUseStyles(
       width: '100%',
 
       [theme.breakpoints.lg()]: {
-        maxWidth: 706
+        width: 'calc(100% - 800px)'
       }
     },
 
