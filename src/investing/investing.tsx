@@ -7,7 +7,7 @@ import Litepaper from 'src/assets/pdf/bondappetit_litepaper.pdf';
 import { URLS } from 'src/router/urls';
 import { ContactsAnnounce } from 'src/contacts/contacts-announce';
 import { useInvestingStyles } from './investing.styles';
-import { InvestingStatistic } from './common';
+import { InvestingAnnouncement, InvestingStatistic } from './common';
 
 const DOCUMENTS = [
   {
@@ -38,6 +38,10 @@ export const Investing: React.FC = () => {
             The first DeFi protocol that connects&nbsp;real-world debt
             instruments with the Ethereum ecosystem.
           </Typography>
+          <InvestingAnnouncement
+            className={classes.announcement}
+            onClick={toggleModal}
+          />
           <InvestingStatistic id="statistic" className={classes.statistic} />
           <DocumentList
             documents={DOCUMENTS}
