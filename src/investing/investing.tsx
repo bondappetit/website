@@ -40,13 +40,6 @@ export const Investing: React.FC = () => {
             The first DeFi protocol that connects&nbsp;real-world debt
             instruments with the Ethereum ecosystem.
           </Typography>
-          {config.IS_DEV && <InvestingForm className={classes.investingForm} />}
-          {!config.IS_DEV && (
-            <InvestingAnnouncement
-              className={classes.announcement}
-              onClick={toggleModal}
-            />
-          )}
           <InvestingStatistic id="statistic" className={classes.statistic} />
           <DocumentList
             documents={DOCUMENTS}
