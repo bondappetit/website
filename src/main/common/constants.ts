@@ -1,5 +1,5 @@
 import { config } from 'src/config';
-import { ReactComponent as WavesIcon } from 'src/assets/icons/waves.svg';
+import { ReactComponent as EastIcon } from 'src/assets/icons/east.svg';
 import { ReactComponent as PlaceholderIcon } from 'src/assets/icons/placeholder.svg';
 
 export const STEPS = [
@@ -55,10 +55,10 @@ export const WAVES_CARDS = [
     text: `BondAppetit creates ecosystem with EAST,
     the first enterprise-grade DeFi protocol / stablecoin that
     combines Real-World Assets with crypto`,
-    link: 'https://wavesenterprise.com',
+    link: 'http://east.finance/',
     onClick: false,
-    linkLabel: 'wavesenterprise.com',
-    icon: WavesIcon
+    linkLabel: 'east.finance',
+    icon: EastIcon
   },
   {
     title: 'Become a partner',

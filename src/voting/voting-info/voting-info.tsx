@@ -27,13 +27,13 @@ export const VotingInfo: React.FC = () => {
 
   return (
     <>
-      <Head title="Shape the future of the protocol using BondAppétit Governance (BAG)" />
+      <Head title="Shape the future of the protocol with the BondAppétit Governance token (BAG)" />
       <MainLayout>
         <PageWrapper className={classes.root}>
           <div className={clsx(classes.block, classes.titleWrap)}>
             <Typography variant="h1" align="center" className={classes.title}>
-              Shape the future of the protocol using BondAppétit Governance
-              (BAG)
+              Shape the future of the protocol with the BondAppétit Governance
+              token (BAG)
             </Typography>
             <Typography variant="h4" align="center" className={classes.link}>
               <Link
@@ -41,7 +41,7 @@ export const VotingInfo: React.FC = () => {
                 to={`${URLS.whitepaper}#15`}
                 color="blue"
               >
-                Learn more on how governance works →
+                Learn more about how governance works →
               </Link>
             </Typography>
           </div>

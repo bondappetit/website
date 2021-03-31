@@ -24,18 +24,20 @@ export const VotingInvesting: React.VFC = () => {
 
   const balance = investingTotal.value?.balance.toFormat(0) ?? '0';
 
+  const percent = investingTotal.value?.percent?.toString(10) ?? '0';
+
   return (
     <>
       <VotingInfoCard
         loading={investingTotal.loading}
         className={classes.root}
-        title="Buy BAG at the Pre-Sale"
-        subtitle={`${balance} of ${totalTokens} BAG left to buy`}
-        percent={investingTotal.value?.percent?.toString(10)}
+        title="Buy with a 50% discount"
+        subtitle={`${balance} of ${totalTokens} BAG left`}
+        percent={percent}
         buttonTitle="Buy BAG"
         onClick={toggleAttention}
-        description={`The initial issuance of ${totalTokens} BAG is offered to early investors
-        during the first phase of the protocol, subject to a 6-month moratorium on sale.`}
+        description={`Special offer for early investors only: buy the initial emission of ${percent}% (${totalTokens} BAGs)
+        at a price of $2.5 (50% discount) per token, subject to a 1-year moratorium on sales. The offer is valid until July 2021.`}
       />
       <VotingInvestingForm
         open={investFormIsOpen}
