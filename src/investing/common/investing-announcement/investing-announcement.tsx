@@ -1,8 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { Typography, dateUtils, Button, useTimeoutInterval } from 'src/common';
-import { config } from 'src/config';
+import { Button } from 'src/common';
 import { useInvestingAnnouncementStyles } from './investing-announcement.styles';
 
 export type InvestingAnnouncementProps = {
@@ -17,7 +16,7 @@ export const InvestingAnnouncement: React.FC<InvestingAnnouncementProps> = (
 
   return (
     <div className={clsx(classes.announcement, props.className)}>
-      <Button onClick={props.onClick}>Notify me as protocol starts</Button>
+      <Button onClick={props.onClick}>Notify me</Button>
     </div>
   );
 };

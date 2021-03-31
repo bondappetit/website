@@ -3,13 +3,11 @@ import { useToggle } from 'react-use';
 
 import { MainLayout } from 'src/layouts';
 import { Typography, PageWrapper, DocumentList, Head } from 'src/common';
-import { config } from 'src/config';
 import Litepaper from 'src/assets/pdf/bondappetit_litepaper.pdf';
 import { URLS } from 'src/router/urls';
 import { ContactsAnnounce } from 'src/contacts/contacts-announce';
-import { InvestingForm } from './investing-form';
 import { useInvestingStyles } from './investing.styles';
-import { InvestingAnnouncement, InvestingStatistic } from './common';
+import { InvestingStatistic } from './common';
 
 const DOCUMENTS = [
   {
