@@ -14,8 +14,8 @@ export const ContactsNewsFloatSuccess: React.FC<{ onClose: () => void }> = (
         <Typography variant="inherit" component="div" weight="bold">
           Thanks for subscription!
         </Typography>
-        We will share with you the hotest news and latest updates of
-        BondAppétit.
+        We will share with you the hottest news and the last updates about
+        BondAppetit.
       </Typography>
       <Button className={classes.button} type="button" onClick={props.onClose}>
         Got It

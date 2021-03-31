@@ -57,8 +57,8 @@ export const ContactsNews: React.FC<ContactsNewsProps> = (props) => {
         >
           Thanks for subscription!
         </Typography>
-        We will share with you the hotest news and latest updates of
-        BondAppétit.
+        We will share with you the hottest news and the last updates about
+        BondAppetit.
       </ContactsSuccess>
     </>
   );
