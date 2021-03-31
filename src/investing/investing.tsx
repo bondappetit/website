@@ -7,7 +7,7 @@ import Litepaper from 'src/assets/pdf/bondappetit_litepaper.pdf';
 import { URLS } from 'src/router/urls';
 import { ContactsAnnounce } from 'src/contacts/contacts-announce';
 import { useInvestingStyles } from './investing.styles';
-import { InvestingAnnouncement, InvestingStatistic } from './common';
+import { InvestingAnnouncement } from './common';
 
 const DOCUMENTS = [
   {
@@ -42,7 +42,6 @@ export const Investing: React.FC = () => {
             className={classes.announcement}
             onClick={toggleModal}
           />
-          <InvestingStatistic id="statistic" className={classes.statistic} />
           <DocumentList
             documents={DOCUMENTS}
             className={classes.documents}
