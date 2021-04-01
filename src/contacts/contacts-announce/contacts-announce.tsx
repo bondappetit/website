@@ -83,7 +83,7 @@ export const ContactsAnnounce: React.FC<ContactsAnnounceProps> = (props) => {
                 error={Boolean(formik.errors.email)}
               />
               <Input
-                name="Name"
+                name="name"
                 placeholder="Name"
                 disabled={formik.isSubmitting}
                 onChange={formik.handleChange}
