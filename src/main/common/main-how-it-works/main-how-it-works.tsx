@@ -6,7 +6,7 @@ import { ButtonBase, Typography } from 'src/common';
 import { ReactComponent as PlayIcon } from 'src/assets/icons/play.svg';
 import { useMainHowItWorksStyles } from './main-how-it-works.styles';
 
-const VIDEO_UD = 'r43LhSUUGTQ';
+const VIDEO_UD = 't5SI7oy6OfI';
 
 export const MainHowItWorks: React.FC = () => {
   const classes = useMainHowItWorksStyles();
