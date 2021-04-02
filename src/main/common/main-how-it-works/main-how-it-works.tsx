@@ -31,7 +31,7 @@ export const MainHowItWorks: React.FC = () => {
           </ButtonBase>
           <img
             className={clsx(classes.video, classes.cover)}
-            src={`https://i.ytimg.com/vi/${VIDEO_UD}/maxresdefault.jpg`}
+            src={`https://img.youtube.com/vi/${VIDEO_UD}/0.jpg`}
             alt=""
           />
         </div>
