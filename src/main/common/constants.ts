@@ -51,7 +51,7 @@ export const VOTING_TEXT = [
 
 export const WAVES_CARDS = [
   {
-    title: 'Waves Enterprise',
+    title: 'EAST.Finance',
     text: `BondAppetit creates ecosystem with EAST,
     the first enterprise-grade DeFi protocol / stablecoin that
     combines Real-World Assets with crypto`,

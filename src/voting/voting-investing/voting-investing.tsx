@@ -37,7 +37,7 @@ export const VotingInvesting: React.VFC = () => {
         buttonTitle="Buy BAG"
         onClick={toggleAttention}
         description={`Special offer for early investors only: buy the initial emission of ${percent}% (${totalTokens} BAGs)
-        at a price of $2.5 (50% discount) per token, subject to a 1-year moratorium on sales. The offer is valid until July 2021.`}
+        at a price of $2.5 (50% discount) per token, subject to a 6-month moratorium on sales. The offer is valid until July 2021.`}
       />
       <VotingInvestingForm
         open={investFormIsOpen}
@@ -54,12 +54,13 @@ export const VotingInvesting: React.VFC = () => {
                 </Typography>{' '}
               </Typography>
               <Typography variant="h5">
-                We are offeting BAG tokens with the discount, but your tokens
-                will be locked for 6 months on your wallet.
+                We&apos;re offering BAG tokens with a 50-percent discount and a
+                6-month lockup period.
               </Typography>{' '}
               <Typography variant="h5">
-                You can not transfer or stake this tokens for this period, but
-                you can vote or create proposals with them.
+                That means you won&apos;t be able to transfer or stake tokens
+                for 6 months, but you will be able to vote and create proposals
+                with them.
               </Typography>
             </div>
             <Button
