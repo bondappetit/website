@@ -20,7 +20,7 @@ export const useMainHowItWorksStyles = createUseStyles(
 
       [theme.breakpoints.md()]: {
         borderRadius: 24,
-        width: '80vw',
+        width: '63vw',
         paddingTop: '38.25%'
       }
     },
