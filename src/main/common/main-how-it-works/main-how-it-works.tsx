@@ -1,6 +1,7 @@
 import React from 'react';
 import { useToggle } from 'react-use';
 import clsx from 'clsx';
+import VideoBackground from 'src/assets/images/video.png';
 
 import { ButtonBase, Typography } from 'src/common';
 import { ReactComponent as PlayIcon } from 'src/assets/icons/play.svg';
@@ -31,7 +32,7 @@ export const MainHowItWorks: React.FC = () => {
           </ButtonBase>
           <img
             className={clsx(classes.video, classes.cover)}
-            src={`https://img.youtube.com/vi/${VIDEO_UD}/0.jpg`}
+            src={VideoBackground}
             alt=""
           />
         </div>
