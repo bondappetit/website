@@ -19,12 +19,16 @@ export const useStablecoinTokens = () => {
   const state = useAsyncRetry<Asset[] | undefined>(async () => {
     if (!collateralMarketContract) return;
 
-    const tokenAddresses = await collateralMarketContract.methods
+    const allowedTokens = await collateralMarketContract.methods
       .allowedTokens()
       .call();
 
+    const tokenAddresses = allowedTokens.map((address) =>
+      address.toLowerCase()
+    );
+
     const tokens = Object.values(network.assets)
-      .filter(({ address }) => tokenAddresses.includes(address))
+      .filter(({ address }) => tokenAddresses.includes(address.toLowerCase()))
       .map(async (asset) => {
         const balanceOfToken = await getBalance({
           tokenAddress: asset.address,
