@@ -22,7 +22,10 @@ export const VotingInvesting: React.VFC = () => {
 
   const totalTokens = investingTotal.value?.totalTokens.toFormat(0) ?? '0';
 
-  const balance = investingTotal.value?.balance.toFormat(0) ?? '0';
+  const leftTokens =
+    investingTotal.value?.totalTokens
+      .minus(investingTotal.value?.balance ?? '')
+      .toFormat(0) ?? '0';
 
   const percent = investingTotal.value?.percent?.toString(10) ?? '0';
 
@@ -32,7 +35,7 @@ export const VotingInvesting: React.VFC = () => {
         loading={investingTotal.loading}
         className={classes.root}
         title="Buy with a 50% discount"
-        subtitle={`${balance} of ${totalTokens} BAG left`}
+        subtitle={`${leftTokens} of ${totalTokens} BAG left`}
         percent={percent}
         buttonTitle="Buy BAG"
         onClick={toggleAttention}
