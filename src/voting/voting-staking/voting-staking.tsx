@@ -19,13 +19,18 @@ export const VotingStaking: React.VFC = () => {
 
   const stakingTotal = useStakingTotal();
 
-  const distributedSum = getSum(stakingTotal.value?.distributedSum);
   const totalSupplySum = getSum(stakingTotal.value?.totalSupplySum);
+
+  const leftTokens = getSum(
+    stakingTotal.value?.totalSupplySum.minus(
+      stakingTotal.value?.distributedSum ?? ''
+    )
+  );
 
   return (
     <VotingInfoCard
       title="Earn by staking"
-      subtitle={`${distributedSum} of ${totalSupplySum} BAG left to earn`}
+      subtitle={`${leftTokens} of ${totalSupplySum} BAG left to earn`}
       loading={stakingTotal.loading}
       onClick={() => history.push(URLS.staking.list)}
       buttonTitle="Earn BAG"
