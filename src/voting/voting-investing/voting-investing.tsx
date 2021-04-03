@@ -22,10 +22,7 @@ export const VotingInvesting: React.VFC = () => {
 
   const totalTokens = investingTotal.value?.totalTokens.toFormat(0) ?? '0';
 
-  const leftTokens =
-    investingTotal.value?.totalTokens
-      .minus(investingTotal.value?.balance ?? '')
-      .toFormat(0) ?? '0';
+  const leftTokens = investingTotal.value?.balance.toFormat(0) ?? '0';
 
   const percent = investingTotal.value?.percent?.toString(10) ?? '0';
 
