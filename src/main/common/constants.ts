@@ -6,9 +6,9 @@ export const STEPS = [
   {
     title: 'Investment Stage',
     body: 'Stake your crypto or invest in the protocol with a 50% discount',
-    startDate: 'March 15',
-    duration: 'Up to 2 months',
-    mobileDate: 'From March 15, up to 3 months duration',
+    startDate: 'April 5',
+    duration: 'Up to 3 months',
+    mobileDate: 'From April 5, up to 3 months duration',
     active: !config.IS_COLLATERAL
   },
 
@@ -55,7 +55,7 @@ export const WAVES_CARDS = [
     text: `BondAppetit creates ecosystem with EAST,
     the first enterprise-grade DeFi protocol / stablecoin that
     combines Real-World Assets with crypto`,
-    link: 'http://east.finance/',
+    link: 'https://east.finance/',
     onClick: false,
     linkLabel: 'east.finance',
     icon: EastIcon

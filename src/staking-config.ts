@@ -40,20 +40,6 @@ const config = [
   //   liquidityPool: false
   // },
 
-  {
-    contractName: 'UsdcGovLPStaking',
-    tokenName: LP,
-    token: [Gov, USDC],
-    liquidityPool: true
-  },
-
-  {
-    contractName: 'UsdnGovLPStaking',
-    tokenName: LP,
-    token: [Gov, USDN],
-    liquidityPool: true
-  },
-
   // {
   //   contractName: 'WethGovLPStaking',
   //   tokenName: LP,
@@ -93,6 +79,20 @@ const config = [
     contractName: 'UsdnStableLPLockStaking',
     tokenName: LP,
     token: [Stable, USDN],
+    liquidityPool: true
+  },
+
+  {
+    contractName: 'UsdcGovLPStaking',
+    tokenName: LP,
+    token: [Gov, USDC],
+    liquidityPool: true
+  },
+
+  {
+    contractName: 'UsdnGovLPStaking',
+    tokenName: LP,
+    token: [Gov, USDN],
     liquidityPool: true
   }
 ];

@@ -13,11 +13,11 @@ const STAKING_CARDS = [
   {
     title: '5%',
     body: `of all governance tokens reserved for the protocol’s usage will be distributed as staking rewards in the first 3 months to Phase 1 investors only.`,
-    date: '15 March 2021 — 15 June 2021'
+    date: 'investment period: 05 April 2021 — 30 May 2021'
   },
   {
     title: '95%',
-    body: `of all governance tokens reserved for protocol usage will be distributed as staking rewards during Phase 2.`,
+    body: `of all governance tokens reserved for protocol usage will be distributed as rewards during Phase 2.`,
     date: '2 years after launch of RWA phase'
   }
 ];
