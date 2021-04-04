@@ -262,6 +262,5 @@ export const getVotingPresets = (
     ]
   },
   */
-  transferRewardToStaking(networkConfig, 'UsdcStableLPLockStaking'),
-  transferRewardToStaking(networkConfig, 'UsdnStableLPLockStaking')
+  transferRewardToStaking(networkConfig, 'UsdcStableLPLockStaking')
 ];
