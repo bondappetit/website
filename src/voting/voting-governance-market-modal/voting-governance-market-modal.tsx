@@ -60,6 +60,9 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
       payment: ''
     },
 
+    validateOnBlur: false,
+    validateOnChange: false,
+
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
 

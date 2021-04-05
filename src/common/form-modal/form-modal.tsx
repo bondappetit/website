@@ -165,7 +165,11 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                     }}
                   />
                   <div className={classes.input}>
-                    <Typography variant="body1" component="div">
+                    <Typography
+                      variant="body1"
+                      component="div"
+                      className={classes.labelWithBalance}
+                    >
                       Balance:{' '}
                       <ButtonBase
                         type="button"
@@ -216,7 +220,11 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                   </div>
                   {props.withReward && rewardHoverable}
                   <div className={classes.input}>
-                    <Typography variant="body1" component="div">
+                    <Typography
+                      variant="body1"
+                      component="div"
+                      className={classes.labelWithBalance}
+                    >
                       Balance: {humanizeNumeral(props.balance)}
                     </Typography>
                     <Typography

@@ -61,6 +61,9 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
       youGet: '0'
     },
 
+    validateOnBlur: false,
+    validateOnChange: false,
+
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
 
