@@ -5,7 +5,7 @@ import { ReactComponent as PlaceholderIcon } from 'src/assets/icons/placeholder.
 export const STEPS = [
   {
     title: 'Investment Stage',
-    body: 'Stake your crypto or invest in the protocol with a 50% discount',
+    body: 'Stake your crypto or invest in the protocol',
     startDate: 'April 5',
     duration: 'Up to 3 months',
     mobileDate: 'From April 5, up to 3 months duration',
