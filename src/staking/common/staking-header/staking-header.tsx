@@ -86,7 +86,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
           </Typography>
           {props.lockable && (
             <Typography variant="body1" component="span">
-              Locking:{' '}
+              Lockup:{' '}
               <Typography variant="inherit" component="span" weight="bold">
                 {props.loading ? '...' : '3 month'}
               </Typography>

@@ -183,7 +183,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
           tokenName={props.tokenName}
           tokens={tokens}
           balance={balance}
-          tokenCost={governanceInUSDC}
+          tokenCost={governanceInUSDC ?? '0'}
           button={
             <WalletButtonWithFallback
               disabled={

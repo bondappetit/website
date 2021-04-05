@@ -105,7 +105,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       </Typography>
       {props.lockable && (
         <Typography variant="body1" align="center">
-          Locking:{' '}
+          Lockup:{' '}
           {props.loading ? (
             '...'
           ) : (

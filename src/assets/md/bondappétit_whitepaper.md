@@ -98,10 +98,10 @@ To ensure transparency, the protocol updates the price of real world-assets on s
 The protocol constantly monitors the overall value of the collateral and issues new USDap right after collateralization of new assets, based on the following formula:
 
 $$
-\bigtriangleup{QABT} = Bondn * BondPricen
+\bigtriangleup{QBAG} = Bondn * BondPricen
 $$
 
-* $\bigtriangleup{QABT}$ — the amount of stablecoins that the protocol can issue additionally if the value of collateral provided by borrowers is sufficient;
+* $\bigtriangleup{QBAG}$ — the amount of stablecoins that the protocol can issue additionally if the value of collateral provided by borrowers is sufficient;
 * $Bondn$ — an infinite number of assets in the basket;
 * $BondPricen$ — the market value of the collateral
 
@@ -132,12 +132,12 @@ The protocol might require additional liquid assets to ensure future development
     The formula for determining the available amount of BAG for current token holders:
 
     $$
-    Quantity=SUM*(Tokenholder ART / ARTon market)
+    Quantity=SUM*(Tokenholder TokenholderBAG / BAGonmarket)
     $$
 
     * $\bigtriangleup{SUM}$ — Amount of funds required by the protocol;
     * $TokenholderBAG$ — Amount of governance tokens in token holder’s wallet;
-    * $BAG*onmarket$ — Overall amount of governance tokens on the market.
+    * $BAGonmarket$ — Overall amount of governance tokens on the market.
 
     The formula for determining the price of governance tokens for current token holders:
 
@@ -531,7 +531,7 @@ At the first phase, our goals will be:
 
 Later, at Phase 2, users will be able to convert these USDap back to USDC at the exchange rate of 0.999 USDap to 1 USDC.
 
-**Raising funds**. ****The investment process will be structured through an offering of BAGs on the open market. The protocol aims to attract \$1.2M. \$1M will be used for the purchase of RWA and \$200,000 will cover the liquidity pool support and protocol expenses for fiat/crypto conversions and technical expenses of the protocol (oracles maintenance).
+**Raising funds**. The investment process will be structured through an offering of BAGs on the open market. The protocol aims to attract \$1.2M. \$1M will be used for the purchase of RWA and \$200,000 will cover the liquidity pool support and protocol expenses for fiat/crypto conversions and technical expenses of the protocol (oracles maintenance).
 
 ### Phase 2. RWA Collateralization (July 2021 — 2023)
 
