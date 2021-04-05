@@ -4,7 +4,6 @@ import { useToggle } from 'react-use';
 
 import { ReactComponent as MenuIcon } from 'src/assets/icons/menu.svg';
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close.svg';
-import { config } from 'src/config';
 import { ButtonBase, useBodyScrollLock } from 'src/common';
 import { LayoutLogo } from '../layout-logo';
 import { LayoutMenu } from '../layout-menu';
@@ -28,27 +27,19 @@ export const LayoutHeader: React.FC<LayoutHeaderProps> = (props) => {
         <LayoutLogo className={classes.logo} />
       </div>
       <div className={clsx(classes.col, classes.center)}>
-        {!config.IS_INVEST && (
-          <>
-            <LayoutMenu
-              className={clsx(classes.menu, {
-                [classes.menuOpen]: open
-              })}
-            >
-              {props.mobileButton}
-            </LayoutMenu>
-            <ButtonBase className={classes.menuButton} onClick={toggle}>
-              {open && <CloseIcon />}
-              {!open && <MenuIcon />}
-            </ButtonBase>
-          </>
-        )}
+        <LayoutMenu
+          className={clsx(classes.menu, {
+            [classes.menuOpen]: open
+          })}
+        >
+          {props.mobileButton}
+        </LayoutMenu>
+        <ButtonBase className={classes.menuButton} onClick={toggle}>
+          {open && <CloseIcon />}
+          {!open && <MenuIcon />}
+        </ButtonBase>
       </div>
-      <div
-        className={clsx(classes.col, classes.rightButton, {
-          [classes.isInvest]: config.IS_INVEST
-        })}
-      >
+      <div className={clsx(classes.col, classes.rightButton)}>
         {props.rightButton}
       </div>
     </header>

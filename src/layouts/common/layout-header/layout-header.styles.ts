@@ -83,14 +83,6 @@ export const useLayoutHeaderStyles = createUseStyles(
       [theme.breakpoints.lg()]: {
         order: 'unset'
       }
-    },
-
-    isInvest: {
-      order: 2,
-
-      [theme.breakpoints.lg()]: {
-        order: 'unset'
-      }
     }
   }),
   {

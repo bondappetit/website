@@ -152,6 +152,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <SmallModal>
           <InfoCardSuccess
+            token="Governance"
             tokenName="BAG"
             onClick={handleSuccessClose}
             purchased={formik.values.youGet}

@@ -111,5 +111,6 @@ interface Window {
       type: K,
       listener: (ev: EthereumEventMap[K]) => void
     ) => void;
+    request?: (arg: object) => Promise<void>;
   };
 }

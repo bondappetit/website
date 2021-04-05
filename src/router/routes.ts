@@ -1,9 +1,7 @@
 import React from 'react';
 
-import { config } from 'src/config';
 import { URLS } from './urls';
 
-const Investing = React.lazy(() => import('src/investing'));
 const Stablecoin = React.lazy(() => import('src/stablecoin'));
 const StakingDetail = React.lazy(() => import('src/staking/staking-detail'));
 const StakingList = React.lazy(() => import('src/staking/staking-list'));
@@ -46,7 +44,7 @@ const Contracts = React.lazy(() => import('src/contracts'));
 export const routes = [
   {
     url: URLS.main,
-    component: !config.IS_INVEST ? Main : Investing
+    component: Main
   },
   {
     url: URLS.whitepaper,
@@ -56,82 +54,78 @@ export const routes = [
     url: URLS.playground,
     component: Playground
   },
-  ...(!config.IS_INVEST
-    ? [
-        {
-          url: URLS.voting.create,
-          component: VotingCreateProposal
-        },
-        {
-          url: URLS.stablecoin,
-          component: Stablecoin
-        },
-        {
-          url: URLS.voting.info,
-          component: VotingInfo
-        },
-        {
-          url: URLS.voting.detail(),
-          component: VotingProposalDetail
-        },
-        {
-          url: URLS.voting.list,
-          component: VotingProposalList
-        },
-        {
-          url: URLS.staking.detail(),
-          component: StakingDetail
-        },
-        {
-          url: URLS.staking.list,
-          component: StakingList
-        },
-        {
-          url: URLS.vesting,
-          component: VestingList
-        },
-        {
-          url: URLS.monitor,
-          component: MonitorContractList
-        },
-        {
-          url: URLS.profitSplitter,
-          component: ProfitSplitterForms
-        },
-        {
-          url: URLS.docs.detail(),
-          component: DocsDetail
-        },
-        {
-          url: URLS.docs.list,
-          component: DocsList
-        },
-        {
-          url: URLS.collateral.detail(),
-          component: CollateralDetail
-        },
-        {
-          url: URLS.collateral.issuer(),
-          component: CollateralIssuer
-        },
-        {
-          url: URLS.collateral.list,
-          component: CollateralList
-        },
-        {
-          url: URLS.collateral.borrow,
-          component: CollateralBorrow
-        },
-        {
-          url: URLS.vestingSplitter,
-          component: VestingSplitter
-        },
-        {
-          url: URLS.contract,
-          component: Contracts
-        }
-      ]
-    : []),
+  {
+    url: URLS.voting.create,
+    component: VotingCreateProposal
+  },
+  {
+    url: URLS.stablecoin,
+    component: Stablecoin
+  },
+  {
+    url: URLS.voting.info,
+    component: VotingInfo
+  },
+  {
+    url: URLS.voting.detail(),
+    component: VotingProposalDetail
+  },
+  {
+    url: URLS.voting.list,
+    component: VotingProposalList
+  },
+  {
+    url: URLS.staking.detail(),
+    component: StakingDetail
+  },
+  {
+    url: URLS.staking.list,
+    component: StakingList
+  },
+  {
+    url: URLS.vesting,
+    component: VestingList
+  },
+  {
+    url: URLS.monitor,
+    component: MonitorContractList
+  },
+  {
+    url: URLS.profitSplitter,
+    component: ProfitSplitterForms
+  },
+  {
+    url: URLS.docs.detail(),
+    component: DocsDetail
+  },
+  {
+    url: URLS.docs.list,
+    component: DocsList
+  },
+  {
+    url: URLS.collateral.detail(),
+    component: CollateralDetail
+  },
+  {
+    url: URLS.collateral.issuer(),
+    component: CollateralIssuer
+  },
+  {
+    url: URLS.collateral.list,
+    component: CollateralList
+  },
+  {
+    url: URLS.collateral.borrow,
+    component: CollateralBorrow
+  },
+  {
+    url: URLS.vestingSplitter,
+    component: VestingSplitter
+  },
+  {
+    url: URLS.contract,
+    component: Contracts
+  },
   {
     component: NotFound
   }
