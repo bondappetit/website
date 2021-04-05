@@ -56,6 +56,9 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
       youGet: '0'
     },
 
+    validateOnBlur: false,
+    validateOnChange: false,
+
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
 
