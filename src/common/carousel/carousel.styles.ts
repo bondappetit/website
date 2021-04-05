@@ -10,7 +10,7 @@ export const useCarouselStyles = createUseStyles(
     },
 
     slide: {
-      padding: '0 8px'
+      padding: '1px 8px'
     },
 
     dots: {
