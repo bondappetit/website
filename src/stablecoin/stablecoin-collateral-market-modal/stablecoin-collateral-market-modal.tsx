@@ -20,9 +20,9 @@ import {
   InfoCardLoader,
   InfoCardSuccess,
   estimateGas,
-  autoApprove,
   BN,
-  useTimeoutInterval
+  useTimeoutInterval,
+  useApprove
 } from 'src/common';
 import { useStablecoinTokens } from './use-stablecoin-tokens';
 
@@ -48,6 +48,8 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
   const [successOpen, successToggle] = useToggle(false);
   const [failureOpen, failureToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
+
+  const [approve, autoApprove] = useApprove();
 
   const formik = useFormik({
     initialValues: {
@@ -108,26 +110,31 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
         .toString(10);
 
       try {
-        await autoApprove(
-          currentContract,
-          account,
-          collateralMarketContract.options.address,
-          formInvest
-        );
+        if (!approve.value) {
+          await autoApprove({
+            token: currentContract,
+            owner: account,
+            spender: collateralMarketContract.options.address,
+            amount: formInvest
+          });
+        }
+
         window.onbeforeunload = () => 'wait please transaction in progress';
 
-        const buyStableToken = collateralMarketContract.methods.buy(
-          currentContract.options.address,
-          formInvest
-        );
-        await buyStableToken.send({
-          from: account,
-          gas: await estimateGas(buyStableToken, { from: account })
-        });
+        if (approve.value) {
+          const buyStableToken = collateralMarketContract.methods.buy(
+            currentContract.options.address,
+            formInvest
+          );
+          await buyStableToken.send({
+            from: account,
+            gas: await estimateGas(buyStableToken, { from: account })
+          });
 
-        failureToggle(false);
-        successToggle(true);
-        tokens.retry();
+          failureToggle(false);
+          successToggle(true);
+          tokens.retry();
+        }
       } catch {
         failureToggle(true);
       } finally {
@@ -178,6 +185,42 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
     setFieldValue('payment', youGet.isNaN() ? '0' : youGet.toString(10));
   }, [formik.values.youGet, formik.values.currency, setFieldValue]);
 
+  useEffect(() => {
+    const handle = async () => {
+      const currentToken = Object.values(network.assets).find(
+        ({ symbol }) => symbol === formik.values.currency
+      );
+
+      if (!currentToken || !account || !collateralMarketContract) return;
+
+      const currentContract = getContract(currentToken.address);
+
+      const formInvest = new BN(formik.values.payment)
+        .multipliedBy(new BN(10).pow(currentToken.decimals))
+        .toString(10);
+
+      if (!currentContract) return;
+
+      await autoApprove({
+        token: currentContract,
+        owner: account,
+        spender: collateralMarketContract.options.address,
+        amount: formInvest,
+        firstCall: true
+      });
+    };
+
+    handle();
+  }, [
+    autoApprove,
+    collateralMarketContract,
+    account,
+    formik.values.currency,
+    formik.values.payment,
+    network.assets,
+    getContract
+  ]);
+
   return (
     <>
       <FormikContext.Provider value={formik}>
@@ -196,7 +239,9 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
               }
               loading={formik.isSubmitting}
             >
-              {formik.errors.payment || formik.errors.currency || 'Buy'}
+              {approve.value
+                ? formik.errors.payment || formik.errors.currency || 'Buy'
+                : 'Approve'}
             </WalletButtonWithFallback>
           }
         />

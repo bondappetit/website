@@ -12,11 +12,11 @@ import {
   BN,
   useDynamicContract,
   estimateGas,
-  autoApprove,
   Typography,
   ButtonBase,
   Link,
-  Skeleton
+  Skeleton,
+  useApprove
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { WalletButtonWithFallback } from 'src/wallets';
@@ -54,6 +54,8 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
   const networkConfig = useNetworkConfig();
   const staking = useCanStaking(props.stakingContract);
+
+  const [approve, autoApprove] = useApprove();
 
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
@@ -99,20 +101,24 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         .multipliedBy(new BN(10).pow(tokenDecimals))
         .toString(10);
 
-      await autoApprove(
-        currentAssetContract,
-        account,
-        stakingContract.options.address,
-        formAmount
-      );
+      if (!approve.value) {
+        await autoApprove({
+          token: currentAssetContract,
+          owner: account,
+          spender: stakingContract.options.address,
+          amount: formAmount
+        });
+      }
 
-      const stake = stakingContract.methods.stake(formAmount);
-      await stake.send({
-        from: account,
-        gas: await estimateGas(stake, { from: account })
-      });
-      resetForm();
-      props.onSubmit?.();
+      if (approve.value) {
+        const stake = stakingContract.methods.stake(formAmount);
+        await stake.send({
+          from: account,
+          gas: await estimateGas(stake, { from: account })
+        });
+        resetForm();
+        props.onSubmit?.();
+      }
     }
   });
 

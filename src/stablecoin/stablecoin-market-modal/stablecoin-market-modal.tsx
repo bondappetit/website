@@ -1,5 +1,5 @@
 import { useFormik, FormikContext } from 'formik';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDebounce, useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
@@ -19,10 +19,10 @@ import {
   InfoCardLoader,
   InfoCardSuccess,
   useMarketContract,
-  autoApprove,
   estimateGas,
   BN,
-  useTimeoutInterval
+  useTimeoutInterval,
+  useApprove
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useGovernanceTokens } from './use-stablecoin-tokens';
@@ -53,6 +53,8 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   const [transactionOpen, transactionToggle] = useToggle(false);
 
   const { governanceInUSDC } = useGovernanceCost();
+
+  const [approve, autoApprove] = useApprove();
 
   const formik = useFormik({
     initialValues: {
@@ -127,27 +129,33 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         } else {
           if (!currentContract) return;
 
-          await autoApprove(
-            currentContract,
-            account,
-            marketContract.options.address,
-            formInvest
-          );
+          if (!approve.value) {
+            await autoApprove({
+              token: currentContract,
+              owner: account,
+              spender: marketContract.options.address,
+              amount: formInvest
+            });
+          }
+
           window.onbeforeunload = () => 'wait please transaction in progress';
 
           const buy = marketContract.methods.buy(
             currentContract.options.address,
             formInvest
           );
-          await buy.send({
-            from: account,
-            gas: await estimateGas(buy, { from: account })
-          });
-        }
 
-        failureToggle(false);
-        successToggle(true);
-        tokens.retry();
+          if (approve.value) {
+            await buy.send({
+              from: account,
+              gas: await estimateGas(buy, { from: account })
+            });
+
+            failureToggle(false);
+            successToggle(true);
+            tokens.retry();
+          }
+        }
       } catch {
         failureToggle(true);
       } finally {
@@ -249,6 +257,42 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.youGet, formik.values.currency, network]);
 
+  useEffect(() => {
+    const currentToken = Object.values(network.assets).find(
+      ({ symbol }) => symbol === formik.values.currency
+    );
+
+    if (!currentToken || !account || !marketContract) return;
+
+    const currentContract = getContract(currentToken.address);
+
+    const formInvest = new BN(formik.values.payment)
+      .multipliedBy(new BN(10).pow(currentToken.decimals))
+      .toString(10);
+
+    if (!currentContract) return;
+
+    const handler = async () => {
+      await autoApprove({
+        token: currentContract,
+        owner: account,
+        spender: marketContract.options.address,
+        amount: formInvest,
+        firstCall: true
+      });
+    };
+
+    handler();
+  }, [
+    account,
+    autoApprove,
+    formik.values.currency,
+    formik.values.payment,
+    marketContract,
+    getContract,
+    network.assets
+  ]);
+
   return (
     <>
       <FormikContext.Provider value={formik}>
@@ -271,7 +315,9 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
               }
               loading={formik.isSubmitting}
             >
-              {formik.errors.payment || formik.errors.currency || 'Buy'}
+              {approve.value
+                ? formik.errors.payment || formik.errors.currency || 'Buy'
+                : 'Approve'}
             </WalletButtonWithFallback>
           }
         />

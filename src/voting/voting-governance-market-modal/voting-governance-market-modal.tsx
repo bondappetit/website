@@ -1,5 +1,5 @@
 import { useFormik, FormikContext } from 'formik';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDebounce, useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
@@ -19,7 +19,7 @@ import {
   InfoCardLoader,
   InfoCardSuccess,
   useMarketContract,
-  autoApprove,
+  useApprove,
   estimateGas,
   BN,
   useTimeoutInterval
@@ -52,6 +52,8 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
   const [transactionOpen, transactionToggle] = useToggle(false);
 
   const { governanceInUSDC } = useGovernanceCost();
+
+  const [approve, autoApprove] = useApprove();
 
   const formik = useFormik({
     initialValues: {
@@ -111,26 +113,31 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
         } else {
           if (!currentContract) return;
 
-          await autoApprove(
-            currentContract,
-            account,
-            marketContract.options.address,
-            formInvest
-          );
+          if (!approve.value) {
+            await autoApprove({
+              token: currentContract,
+              owner: account,
+              spender: marketContract.options.address,
+              amount: formInvest
+            });
+          }
           window.onbeforeunload = () => 'wait please transaction in progress';
 
           const buy = marketContract.methods.buy(
             currentContract.options.address,
             formInvest
           );
-          await buy.send({
-            from: account,
-            gas: await estimateGas(buy, { from: account })
-          });
-        }
 
-        failureToggle(false);
-        successToggle(true);
+          if (approve.value) {
+            await buy.send({
+              from: account,
+              gas: await estimateGas(buy, { from: account })
+            });
+
+            failureToggle(false);
+            successToggle(true);
+          }
+        }
       } catch {
         failureToggle(true);
       } finally {
@@ -177,6 +184,40 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
     formik.resetForm();
   }, [formik, props]);
 
+  useEffect(() => {
+    const currentToken = network.assets[formik.values.currency];
+
+    if (!currentToken || !account || !marketContract) return;
+
+    const currentContract = getContract(currentToken.address);
+
+    const formInvest = new BN(formik.values.amount)
+      .multipliedBy(new BN(10).pow(currentToken.decimals))
+      .toString(10);
+
+    if (!currentContract) return;
+
+    const handler = async () => {
+      await autoApprove({
+        token: currentContract,
+        owner: account,
+        spender: marketContract.options.address,
+        amount: formInvest,
+        firstCall: true
+      });
+    };
+
+    handler();
+  }, [
+    account,
+    formik.values.amount,
+    formik.values.currency,
+    getContract,
+    autoApprove,
+    network.assets,
+    marketContract
+  ]);
+
   return (
     <>
       <FormikContext.Provider value={formik}>
@@ -195,7 +236,9 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
               }
               loading={formik.isSubmitting}
             >
-              {formik.errors.payment || formik.errors.currency || 'Buy'}
+              {approve.value
+                ? formik.errors.payment || formik.errors.currency || 'Buy'
+                : 'Approve'}
             </WalletButtonWithFallback>
           }
         />

@@ -5,9 +5,9 @@ import { useToggle } from 'react-use';
 import { useEffect, useRef } from 'react';
 
 import {
-  autoApprove,
   BN,
   estimateGas,
+  useApprove,
   useBalance,
   useDAIContract,
   useInvestmentContract,
@@ -40,6 +40,8 @@ export const useInvestingForm = (onSuccess: () => void) => {
   const [transactionOpen, transactionToggle] = useToggle(false);
 
   const { account } = useWeb3React<Web3>();
+
+  const [approve, autoApprove] = useApprove();
 
   const formik = useFormik({
     initialValues: {
@@ -114,27 +116,31 @@ export const useInvestingForm = (onSuccess: () => void) => {
         } else {
           if (!currentContract) return;
 
-          await autoApprove(
-            currentContract,
-            account,
-            investmentContract.options.address,
-            formInvest
-          );
+          if (!approve.value) {
+            await autoApprove({
+              token: currentContract,
+              owner: account,
+              spender: investmentContract.options.address,
+              amount: formInvest
+            });
+          }
           window.onbeforeunload = () => 'wait please transaction in progress';
 
           const invest = investmentContract.methods.invest(
             currentContract.options.address,
             formInvest
           );
-          await invest.send({
-            from: account,
-            gas: await estimateGas(invest, { from: account })
-          });
-        }
+          if (approve.value) {
+            await invest.send({
+              from: account,
+              gas: await estimateGas(invest, { from: account })
+            });
 
-        failureToggle(false);
-        successToggle(true);
-        ref.current();
+            failureToggle(false);
+            successToggle(true);
+            ref.current();
+          }
+        }
       } catch {
         failureToggle(true);
       } finally {
@@ -144,7 +150,44 @@ export const useInvestingForm = (onSuccess: () => void) => {
     }
   });
 
+  useEffect(() => {
+    const handler = async () => {
+      const currentToken = Object.values(network.assets).find(
+        ({ symbol }) => symbol === formik.values.currency
+      );
+
+      if (!currentToken || !account || !investmentContract) return;
+
+      const formInvest = new BN(formik.values.payment)
+        .multipliedBy(new BN(10).pow(currentToken.decimals))
+        .toString(10);
+
+      const currentContract = tokenContracts[currentToken.symbol];
+
+      if (!currentContract) return;
+
+      await autoApprove({
+        token: currentContract,
+        owner: account,
+        spender: investmentContract.options.address,
+        amount: formInvest,
+        firstCall: true
+      });
+    };
+
+    handler();
+  }, [
+    account,
+    autoApprove,
+    formik.values.currency,
+    formik.values.payment,
+    investmentContract,
+    network.assets,
+    tokenContracts
+  ]);
+
   return {
+    approved: approve.value,
     formik,
     successOpen,
     successToggle,
