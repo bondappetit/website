@@ -50,7 +50,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
         <Typography variant="h4" align="center">
           Total Value Locked:{' '}
           <Typography variant="inherit" weight="bold">
-            ${humanizeNumeral(props.totalValueLocked)}
+            ${props.totalValueLocked}
           </Typography>
         </Typography>
       </Plate>

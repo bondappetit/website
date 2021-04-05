@@ -58,7 +58,7 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
                 <>
                   Total Liquidity:{' '}
                   <Typography variant="inherit" component="span" weight="bold">
-                    ${humanizeNumeral(totalLiquidityUSD)}
+                    ${totalLiquidityUSD}
                   </Typography>
                 </>
               )}

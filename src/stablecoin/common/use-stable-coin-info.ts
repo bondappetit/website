@@ -57,7 +57,9 @@ export const useStablecoinInfo = () => {
     query: QUERY,
     variables: {
       date,
-      token: networkConfig.assets.Stable?.address ?? DEFAULT_ADDRESS
+      token: (
+        networkConfig.assets.Stable?.address ?? DEFAULT_ADDRESS
+      ).toLowerCase()
     }
   });
 
