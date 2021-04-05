@@ -1,12 +1,7 @@
 import React from 'react';
 
 import { MainLayout } from 'src/layouts';
-import {
-  useNetworkConfig,
-  Link,
-  Typography,
-  humanizeNumeral
-} from 'src/common';
+import { useNetworkConfig, Typography, humanizeNumeral } from 'src/common';
 import { useMonitorContractListStyles } from './monitor-contract-list.styles';
 import { useInvestStakingBalance } from './use-invest-staking-balance';
 import { MonitorTokenList } from '../monitor-token-list';
@@ -21,20 +16,6 @@ export const MonitorContractList: React.FC = () => {
       <div className={classes.root}>
         <h2>Contracts list</h2>
         <div>
-          <ul className={classes.list}>
-            {Object.values(networkConfig.contracts ?? {}).map(
-              ({ name, address }) => (
-                <li key={address}>
-                  <Link
-                    href={`${networkConfig.networkEtherscan}/address/${address}`}
-                    target="__blank"
-                  >
-                    {name}
-                  </Link>
-                </li>
-              )
-            )}
-          </ul>
           <div className={classes.investStaking}>
             {investStakingBalance.value?.map(({ balance, name }) => (
               <div key={name}>

@@ -1,12 +1,12 @@
-import { useCallback, useState, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
+import { useAsyncRetry } from 'react-use';
 
 import { useNetworkConfig, useUniswapRouter, BN } from 'src/common';
 
 const DEFAULT_GOVERNANCE_COST = '5000000';
+const MAINNET_NETWORK_ID = 1;
 
 export const useGovernanceCost = () => {
-  const [state, setState] = useState(DEFAULT_GOVERNANCE_COST);
-
   const networkConfig = useNetworkConfig();
   const uniswapRouter = useUniswapRouter();
 
@@ -15,34 +15,33 @@ export const useGovernanceCost = () => {
     [networkConfig.assets.Governance.decimals]
   );
 
-  const getGovernanceCost = useCallback(async () => {
+  const state = useAsyncRetry(async () => {
+    if (networkConfig.networkId !== MAINNET_NETWORK_ID)
+      return DEFAULT_GOVERNANCE_COST;
+
     if (!uniswapRouter) return;
 
-    try {
-      const [
-        ,
-        governanceInUSDC
-      ] = await uniswapRouter.methods
-        .getAmountsOut(amountInGovernance, [
-          networkConfig.assets.Governance.address,
-          networkConfig.assets.USDC.address
-        ])
-        .call();
+    const [
+      ,
+      governanceInUSDC
+    ] = await uniswapRouter.methods
+      .getAmountsOut(amountInGovernance, [
+        networkConfig.assets.Governance.address,
+        networkConfig.assets.USDC.address
+      ])
+      .call();
 
-      setState(governanceInUSDC);
-    } catch (e) {
-      console.warn(
-        `${networkConfig.assets.Governance.symbol}-USDC liquidity pool is empty`
-      );
-    }
-  }, [uniswapRouter, amountInGovernance, networkConfig]);
+    return governanceInUSDC;
+  }, [amountInGovernance, networkConfig]);
 
   useEffect(() => {
-    getGovernanceCost();
-  }, [getGovernanceCost]);
+    console.warn(
+      `${networkConfig.assets.Governance.symbol}-USDC liquidity pool is empty`
+    );
+  }, [state.error, networkConfig.assets.Governance.symbol]);
 
   return {
-    governanceInUSDC: state,
+    governanceInUSDC: state.value,
     amountInGovernance
   };
 };

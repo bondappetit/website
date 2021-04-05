@@ -200,14 +200,14 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     payment: formik.values.payment
   });
 
-  const tokenCost = useMemo(
-    () =>
-      new BN(1)
-        .multipliedBy(governanceInUSDC)
-        .div(new BN(10).pow(network.assets.USDC.decimals))
-        .toString(10),
-    [governanceInUSDC, network.assets.USDC.decimals]
-  );
+  const tokenCost = useMemo(() => {
+    if (!governanceInUSDC) return '0';
+
+    return new BN(1)
+      .multipliedBy(governanceInUSDC)
+      .div(new BN(10).pow(network.assets.USDC.decimals))
+      .toString(10);
+  }, [governanceInUSDC, network.assets.USDC.decimals]);
 
   const { setFieldValue } = formik;
 

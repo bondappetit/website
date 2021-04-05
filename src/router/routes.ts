@@ -41,6 +41,7 @@ const CollateralBorrow = React.lazy(
 const Main = React.lazy(() => import('src/main'));
 const VestingSplitter = React.lazy(() => import('src/vesting-splitter'));
 const Playground = React.lazy(() => import('src/playground'));
+const Contracts = React.lazy(() => import('src/contracts'));
 
 export const routes = [
   {
@@ -124,6 +125,10 @@ export const routes = [
         {
           url: URLS.vestingSplitter,
           component: VestingSplitter
+        },
+        {
+          url: URLS.contract,
+          component: Contracts
         }
       ]
     : []),

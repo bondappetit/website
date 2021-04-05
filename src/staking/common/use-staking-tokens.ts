@@ -188,21 +188,25 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
         const amountInUSDC = new BN(balance.amount)
           .multipliedBy(tokenInUSDC)
           .toFixed(2);
-        const rewardInUSDC = new BN(balance.reward)
-          .multipliedBy(governanceInUSDC)
-          .div(new BN(10).pow(USD.decimals))
-          .toFixed(4);
+        const rewardInUSDC = governanceInUSDC
+          ? new BN(balance.reward)
+              .multipliedBy(governanceInUSDC)
+              .div(new BN(10).pow(USD.decimals))
+              .toFixed(4)
+          : new BN(0).toFixed(1);
 
-        const APYBN = new BN(balance.rewardRate)
-          .div(
-            new BN(balance.totalSupply).gt(0)
-              ? balance.totalSupply
-              : new BN(10).pow(balance.decimals)
-          )
-          .multipliedBy(governanceInUSDC)
-          .multipliedBy(BLOCK_PER_YEAR)
-          .div(tokenInUSDC)
-          .multipliedBy(100);
+        const APYBN = governanceInUSDC
+          ? new BN(balance.rewardRate)
+              .div(
+                new BN(balance.totalSupply).gt(0)
+                  ? balance.totalSupply
+                  : new BN(10).pow(balance.decimals)
+              )
+              .multipliedBy(governanceInUSDC)
+              .multipliedBy(BLOCK_PER_YEAR)
+              .div(tokenInUSDC)
+              .multipliedBy(100)
+          : new BN(0);
 
         const APY = APYBN.integerValue();
 
