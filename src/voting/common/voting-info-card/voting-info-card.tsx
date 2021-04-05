@@ -11,7 +11,7 @@ export type VotingInfoCardProps = {
   onClick: () => void;
   buttonTitle: string;
   percent?: string;
-  description: string;
+  description?: string;
   loading: boolean;
 };
 
@@ -32,7 +32,7 @@ export const VotingInfoCard: React.VFC<VotingInfoCardProps> = (props) => {
       {props.loading ? (
         <Skeleton className={classes.progressSkeleton} />
       ) : (
-        <div className={classes.progress} />
+        props.percent && <div className={classes.progress} />
       )}
       <Typography variant="body1" className={classes.subtitle} align="center">
         {props.loading ? (

@@ -1,15 +1,26 @@
 import React, { useCallback } from 'react';
 import { useToggle } from 'react-use';
 
-import { Button, Modal, SmallModal, Typography } from 'src/common';
+import {
+  Button,
+  Modal,
+  SmallModal,
+  Typography,
+  useNetworkConfig
+} from 'src/common';
+import { config } from 'src/config';
 import { VotingInfoCard } from '../common';
 import { VotingInvestingForm } from '../voting-investing-form';
 import { useInvestingTotal } from './use-investing-total';
 import { useVotingInvestingStyles } from './voting-investing.styles';
 
+const UNISWAP_URL = 'https://uniswap.exchange/swap';
+
 export const VotingInvesting: React.VFC = () => {
   const [investFormIsOpen, toggleInvestForm] = useToggle(false);
   const [attentionIsOpen, toggleAttention] = useToggle(false);
+
+  const networkConfig = useNetworkConfig();
 
   const classes = useVotingInvestingStyles();
 
@@ -26,18 +37,34 @@ export const VotingInvesting: React.VFC = () => {
 
   const percent = investingTotal.value?.percent?.toFormat(2) ?? '0';
 
+  const handleToUniswap = useCallback(() => {
+    window.open(
+      `${UNISWAP_URL}?inputCurrency=${networkConfig.assets.WETH.address}&outputCurrency=${networkConfig.assets.Governance.address}`
+    );
+  }, [networkConfig.assets]);
+
   return (
     <>
       <VotingInfoCard
         loading={investingTotal.loading}
         className={classes.root}
-        title="Buy with a 50% discount"
-        subtitle={`${leftTokens} of ${totalTokens} BAG left`}
-        percent={percent}
+        title={
+          config.IS_INVEST ? 'Buy with a 50% discount' : 'Buy BAG on Uniswap'
+        }
+        subtitle={
+          config.IS_INVEST
+            ? `${leftTokens} of ${totalTokens} BAG left`
+            : `${leftTokens} remained to buy`
+        }
+        percent={config.IS_INVEST ? percent : undefined}
         buttonTitle="Buy BAG"
-        onClick={toggleAttention}
-        description={`Special offer for early investors only: buy the initial emission of ${percent}% (${totalTokens} BAGs)
-        at a price of $2.5 (50% discount) per token, subject to a 6 months moratorium on sales. The offer is valid until July 2021.`}
+        onClick={config.IS_INVEST ? toggleAttention : handleToUniswap}
+        description={
+          config.IS_INVEST
+            ? `Special offer for early investors only: buy the initial emission of ${percent}% (${totalTokens} BAGs)
+        at a price of $2.5 (50% discount) per token, subject to a 6 months moratorium on sales. The offer is valid until July 2021.`
+            : ''
+        }
       />
       <VotingInvestingForm
         open={investFormIsOpen}

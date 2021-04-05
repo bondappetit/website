@@ -3,7 +3,6 @@ import React, { useMemo } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { Head, Link, PageWrapper, Typography } from 'src/common';
-import { config } from 'src/config';
 import { MainLayout } from 'src/layouts';
 import { URLS } from 'src/router/urls';
 import {
@@ -47,7 +46,7 @@ export const VotingInfo: React.FC = () => {
             </Typography>
           </div>
           <div className={clsx(classes.block, classes.investing)}>
-            {config.IS_INVEST && <VotingInvesting />}
+            <VotingInvesting />
             <VotingStaking />
           </div>
           <VotingInfoFactoid className={clsx(classes.factoid, classes.block)} />

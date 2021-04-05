@@ -48,6 +48,9 @@ export const useInvestingForm = (onSuccess: () => void) => {
       youGet: '0'
     },
 
+    validateOnBlur: false,
+    validateOnChange: false,
+
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
 
