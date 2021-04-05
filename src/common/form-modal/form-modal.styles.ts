@@ -128,6 +128,10 @@ export const useFormModalStyles = createUseStyles(
 
     tokenWrap: {
       display: 'flex'
+    },
+
+    labelWithBalance: {
+      whiteSpace: 'nowrap'
     }
   }),
   {

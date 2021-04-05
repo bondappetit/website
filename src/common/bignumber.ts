@@ -18,11 +18,11 @@ function humanizeNumeral(value: string | number | undefined | null | BN) {
 
   if (result.isNaN() || !result.isFinite() || result.eq(0)) return '0';
 
-  if (result.lt(10)) return result.toFormat(8);
+  if (result.lt(10)) return result.toFormat(2);
 
-  if (result.lt(10000)) return result.toFormat(4);
+  if (result.lt(10000)) return result.toFormat(2);
 
-  if (result.lt(100000)) return result.toFormat(3);
+  if (result.lt(100000)) return result.toFormat(2);
 
   if (result.lt(1000000)) return result.toFormat(2);
 
