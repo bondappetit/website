@@ -100,7 +100,8 @@ export const useVotingInfoCardStyles = createUseStyles(
     },
 
     description: {
-      width: '100%'
+      width: '100%',
+      whiteSpace: 'pre-wrap'
     },
 
     descriptionSkeleton: {

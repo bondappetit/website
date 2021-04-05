@@ -65,7 +65,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
             })}
       </Typography>
       <Typography variant="h3" align="center" className={classes.apy}>
-        ROI {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
+        APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
       </Typography>
       <Typography variant="body1" align="center" className={classes.deposit}>
         Deposit:{' '}
