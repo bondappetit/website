@@ -18,7 +18,7 @@ jobs:
       - if: github.event.release.prerelease == true
         run: npm run build-dev
         env:
-          REACT_APP_IS_INVEST: false
+          REACT_APP_IS_INVEST: true
           REACT_APP_IS_COLLATERAL: false
           NODE_ENV: development
           REACT_APP_DEFAULT_CHAIN_ID: 3
@@ -29,7 +29,7 @@ jobs:
       - if: github.event.release.prerelease == false
         run: npm run build
         env:
-          REACT_APP_IS_INVEST: false
+          REACT_APP_IS_INVEST: true
           REACT_APP_IS_COLLATERAL: false
           REACT_APP_DEFAULT_CHAIN_ID: 1
           REACT_APP_UNISENDER_API: ${{secrets.REACT_APP_UNISENDER_API}}
