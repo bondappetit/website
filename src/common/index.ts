@@ -20,7 +20,6 @@ export * from './date-utils';
 export * from './chip';
 export * from './use-balance';
 export * from './types';
-export * from './buy-token-form';
 export * from './info-card';
 export * from './status';
 export * from './is-eth-address';
