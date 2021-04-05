@@ -1,13 +1,7 @@
 import React, { useMemo } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import {
-  Typography,
-  Link,
-  Button,
-  Skeleton,
-  BN
-} from 'src/common';
+import { Typography, Link, Button, Skeleton, BN } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { SablecoinInfo } from '../use-stable-coin-info';
 import { useStablecoinEllipseStyles } from './stablecoin-ellipse.styles';
