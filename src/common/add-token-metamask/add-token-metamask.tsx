@@ -17,6 +17,8 @@ export const AddTokenMetamask: React.VFC<AddTokenMetamaskProps> = (props) => {
 
   const classes = useAddTokenMetamaskStyles();
 
+  if (!window.ethereum?.isMetaMask) return null;
+
   return (
     <ButtonBase
       onClick={addTokenToMetaMask}
