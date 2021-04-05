@@ -37,7 +37,7 @@ export const VotingInvesting: React.VFC = () => {
         buttonTitle="Buy BAG"
         onClick={toggleAttention}
         description={`Special offer for early investors only: buy the initial emission of ${percent}% (${totalTokens} BAGs)
-        at a price of $2.5 (50% discount) per token, subject to a 6-month moratorium on sales. The offer is valid until July 2021.`}
+        at a price of $2.5 (50% discount) per token, subject to a 6 months moratorium on sales. The offer is valid until July 2021.`}
       />
       <VotingInvestingForm
         open={investFormIsOpen}
