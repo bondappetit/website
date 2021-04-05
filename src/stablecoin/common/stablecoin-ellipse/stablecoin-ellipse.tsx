@@ -6,8 +6,7 @@ import {
   Link,
   Button,
   Skeleton,
-  BN,
-  humanizeNumeral
+  BN
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { SablecoinInfo } from '../use-stable-coin-info';
