@@ -8,7 +8,6 @@ import {
   Head,
   BN,
   Plate,
-  humanizeNumeral,
   numberArray
 } from 'src/common';
 import {
@@ -34,11 +33,11 @@ export const StakingList: React.FC = () => {
   const stakingBalancesWithApy = useStakingTokens(stakingConfigValues);
   const { governanceInUSDC } = useGovernanceCost();
   const normalizeGovernanceInUSDC = useMemo(() => {
-    if (!governanceInUSDC) return '0';
+    if (!governanceInUSDC) return new BN('0');
 
-    return new BN(governanceInUSDC)
-      .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
-      .toFormat(2);
+    return new BN(governanceInUSDC).div(
+      new BN(10).pow(networkConfig.assets.USDC.decimals)
+    );
   }, [governanceInUSDC, networkConfig.assets.USDC.decimals]);
 
   const rewardSum = useMemo(
@@ -74,7 +73,7 @@ export const StakingList: React.FC = () => {
                   {!stakingBalancesWithApy.value ? (
                     '...'
                   ) : (
-                    <>${humanizeNumeral(totalValueLocked)}</>
+                    <>${totalValueLocked?.toFormat(2) ?? '0'}</>
                   )}
                 </Typography>
               </Typography>
@@ -84,7 +83,7 @@ export const StakingList: React.FC = () => {
                   {!stakingBalancesWithApy.value ? (
                     '...'
                   ) : (
-                    <>${humanizeNumeral(normalizeGovernanceInUSDC)}</>
+                    <>${normalizeGovernanceInUSDC.toFormat(2)}</>
                   )}
                 </Typography>
               </Typography>
@@ -94,12 +93,12 @@ export const StakingList: React.FC = () => {
                   {!stakingBalancesWithApy.value ? (
                     '...'
                   ) : (
-                    <>{humanizeNumeral(rewardSum?.reward)} BAG</>
+                    <>{rewardSum?.reward.toFormat(2) ?? '0'} BAG</>
                   )}
                 </Typography>
                 {rewardSum?.rewardInUSDC.isGreaterThan(0) &&
                   stakingBalancesWithApy.value && (
-                    <> (${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
+                    <> (${rewardSum?.rewardInUSDC.toFormat(2) ?? '0'})</>
                   )}
               </Typography>
             </Plate>

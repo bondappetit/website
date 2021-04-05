@@ -205,7 +205,6 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                       type="number"
                       disabled={formik.isSubmitting}
                       value={formik.values.youGet}
-                      className={classes.input}
                       onChange={formik.handleChange}
                       onFocus={() => {
                         paymentRef.current = true;

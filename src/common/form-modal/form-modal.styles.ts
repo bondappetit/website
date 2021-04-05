@@ -38,15 +38,16 @@ export const useFormModalStyles = createUseStyles(
     input: {
       fontSize: 32,
       lineHeight: '40px',
-      width: '50%',
       display: 'flex',
       flexDirection: 'column',
 
       '&:first-child': {
+        width: '65%',
         alignItems: 'flex-start'
       },
 
       '&:last-child': {
+        width: '35%',
         alignItems: 'flex-end'
       }
     },
