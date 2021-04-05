@@ -15,7 +15,6 @@ import { useGovernanceCost } from './use-governance-cost';
 import { useStakingContracts } from './use-staking-contracts';
 import { useTokenContracts } from './use-token-contract';
 
-const BLOCK_PER_YEAR = '2102400';
 const BLOCKS_PER_MINUTE = 4;
 
 export type StakingToken = {
@@ -170,7 +169,7 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
           const {
             data: { pair }
           } = await getPairInfo({
-            id: balance.address
+            id: balance.address.toLowerCase()
           });
 
           tokenInUSDC = new BN(pair?.reserveUSD || 0)
@@ -193,16 +192,17 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
           .div(new BN(10).pow(USD.decimals))
           .toFixed(4);
 
-        const APYBN = new BN(balance.rewardRate)
-          .div(
-            new BN(balance.totalSupply).gt(0)
-              ? balance.totalSupply
-              : new BN(10).pow(balance.decimals)
-          )
-          .multipliedBy(governanceInUSDC)
-          .multipliedBy(BLOCK_PER_YEAR)
-          .div(tokenInUSDC)
-          .multipliedBy(100);
+        const rewardROI = new BN(balance.rewardRate)
+          .div(new BN(10).pow(balance.decimals))
+          .multipliedBy(
+            new BN(governanceInUSDC).div(new BN(10).pow(USD.decimals))
+          );
+        const totalSupplyROI = new BN(balance.totalSupply).multipliedBy(
+          new BN(tokenInUSDC).div(new BN(10).pow(USD.decimals))
+        );
+        const APYBN = totalSupplyROI.gt(0)
+          ? rewardROI.div(totalSupplyROI).multipliedBy(100)
+          : new BN(0);
 
         const APY = APYBN.integerValue();
 

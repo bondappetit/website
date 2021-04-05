@@ -3,7 +3,7 @@ import { useLazyQuery } from './use-query';
 const url = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2';
 
 const QUERY = `
-  query Pair($id: String!) {
+  query Pair($id: ID!) {
     pair(
       id: $id
     ) {
