@@ -28,7 +28,7 @@ export const WalletButtonWithFallback = forwardRef<
     <>
       <Button
         ref={ref}
-        disabled={props.disabled}
+        disabled={!account ? undefined : props.disabled}
         loading={props.loading}
         onClick={!account ? walletsToggle : props.onClick}
         type={!account ? 'button' : type}

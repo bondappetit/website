@@ -52,6 +52,10 @@ const MENU_ITEMS: MenuItem[] = [
         title: 'Docs',
         link: URLS.docs.list
       },
+      {
+        title: 'Contracts',
+        link: URLS.contract
+      },
       ...SOCIAL_LINKS
     ]
   },

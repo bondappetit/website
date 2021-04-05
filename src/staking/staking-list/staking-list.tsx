@@ -33,13 +33,13 @@ export const StakingList: React.FC = () => {
   ]);
   const stakingBalancesWithApy = useStakingTokens(stakingConfigValues);
   const { governanceInUSDC } = useGovernanceCost();
-  const normalizeGovernanceInUSDC = useMemo(
-    () =>
-      new BN(governanceInUSDC)
-        .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
-        .toFormat(2),
-    [governanceInUSDC, networkConfig.assets.USDC.decimals]
-  );
+  const normalizeGovernanceInUSDC = useMemo(() => {
+    if (!governanceInUSDC) return '0';
+
+    return new BN(governanceInUSDC)
+      .div(new BN(10).pow(networkConfig.assets.USDC.decimals))
+      .toFormat(2);
+  }, [governanceInUSDC, networkConfig.assets.USDC.decimals]);
 
   const rewardSum = useMemo(
     () =>

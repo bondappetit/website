@@ -187,16 +187,20 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
         const amountInUSDC = new BN(balance.amount)
           .multipliedBy(tokenInUSDC)
           .toFixed(2);
-        const rewardInUSDC = new BN(balance.reward)
-          .multipliedBy(governanceInUSDC)
-          .div(new BN(10).pow(USD.decimals))
-          .toFixed(4);
+        const rewardInUSDC = governanceInUSDC
+          ? new BN(balance.reward)
+              .multipliedBy(governanceInUSDC)
+              .div(new BN(10).pow(USD.decimals))
+              .toFixed(4)
+          : new BN(0).toFixed(1);
 
-        const rewardROI = new BN(balance.rewardRate)
-          .div(new BN(10).pow(balance.decimals))
-          .multipliedBy(
-            new BN(governanceInUSDC).div(new BN(10).pow(USD.decimals))
-          );
+        const rewardROI = governanceInUSDC
+          ? new BN(balance.rewardRate)
+              .div(new BN(10).pow(balance.decimals))
+              .multipliedBy(
+                new BN(governanceInUSDC).div(new BN(10).pow(USD.decimals))
+              )
+          : new BN(0);
         const totalSupplyROI = new BN(balance.totalSupply).multipliedBy(
           new BN(tokenInUSDC).div(new BN(10).pow(USD.decimals))
         );

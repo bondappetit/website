@@ -21,7 +21,7 @@ export const MainAudit: React.VFC<MainAuditProps> = (props) => {
         {props.companyLogo}
       </Typography>
       <Typography variant="h4">
-        <Link href={props.auditLink} color="blue">
+        <Link href={props.auditLink} target="_blank" color="blue">
           Explore security report →
         </Link>
       </Typography>
