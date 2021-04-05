@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef } from 'react';
+import { DependencyList, useCallback, useEffect, useRef } from 'react';
 import { useAsyncRetry } from 'react-use';
 
 type Body = {
@@ -6,7 +6,11 @@ type Body = {
   variables?: unknown;
 };
 
-export const useQuery = <T = unknown>(url: string, body: Body) => {
+export const useQuery = <T = unknown>(
+  url: string,
+  body: Body,
+  deps: DependencyList = []
+) => {
   const state = useAsyncRetry(async () => {
     const response = await fetch(url, {
       method: 'POST',
@@ -19,7 +23,7 @@ export const useQuery = <T = unknown>(url: string, body: Body) => {
     const result = await response.json();
 
     return result as T;
-  }, [url]);
+  }, deps);
 
   return state;
 };

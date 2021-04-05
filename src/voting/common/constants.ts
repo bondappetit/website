@@ -29,12 +29,11 @@ export const FACTOID = [
   },
   {
     percent: '14%',
-    text: `to BondAppétite founders, subject to 18 months moratorium on
-    sale;`
+    text: `to BondAppétite founders, subject to 18-month moratorium on sale;`
   },
   {
     percent: '1%',
-    text: `to the pre-launch investor;`
+    text: `to the pre-launch investor.`
   }
 ];
 

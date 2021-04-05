@@ -3,7 +3,7 @@ export const FAQ = [
     title: 'What is the price stability mechanism?',
     body: [
       `The price of USDap equals $1 at all times, while the token is issued only if the protocol has sufficient collateral.
-      Information regarding the collateral can be checked through blockchain at any time.`,
+      Information regarding the collateral can be checked through the blockchain at any time.`,
       `Price stability is connected to the protocol’s assets,
       the price of which should always be close to the value of USDap in circulation.`
     ]

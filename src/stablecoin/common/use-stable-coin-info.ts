@@ -53,15 +53,19 @@ export type SablecoinInfo = {
 export const useStablecoinInfo = () => {
   const networkConfig = useNetworkConfig();
 
-  const state = useQuery<SablecoinInfo>(url, {
-    query: QUERY,
-    variables: {
-      date,
-      token: (
-        networkConfig.assets.Stable?.address ?? DEFAULT_ADDRESS
-      ).toLowerCase()
-    }
-  });
+  const state = useQuery<SablecoinInfo>(
+    url,
+    {
+      query: QUERY,
+      variables: {
+        date,
+        token: (
+          networkConfig.assets.Stable?.address ?? DEFAULT_ADDRESS
+        ).toLowerCase()
+      }
+    },
+    [networkConfig.assets]
+  );
 
   return state;
 };

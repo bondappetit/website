@@ -2,14 +2,7 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useMedia } from 'react-use';
 
-import {
-  Typography,
-  Link,
-  Carousel,
-  Plate,
-  humanizeNumeral,
-  numberArray
-} from 'src/common';
+import { Typography, Link, Carousel, Plate, numberArray } from 'src/common';
 import { URLS } from 'src/router/urls';
 import type { APYWithTokenName } from 'src/staking';
 import { StakingCard } from 'src/staking';
