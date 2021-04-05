@@ -200,6 +200,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <SmallModal>
           <InfoCardSuccess
+            token="Governance"
             tokenName={props.tokenName}
             onClick={handleSuccessClose}
             purchased={result.toString(10)}

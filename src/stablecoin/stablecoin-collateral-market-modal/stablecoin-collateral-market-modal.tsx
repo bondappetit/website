@@ -201,6 +201,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <SmallModal>
           <InfoCardSuccess
+            token="Stable"
             tokenName="USDap"
             onClick={handleSuccessClose}
             purchased={formik.values.youGet}

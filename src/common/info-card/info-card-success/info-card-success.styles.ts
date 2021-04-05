@@ -5,6 +5,10 @@ export const useInfoCardSuccessStyles = createUseStyles(
   (theme: Theme) => ({
     heading: {
       color: theme.colors.green
+    },
+
+    addToMetaMask: {
+      marginBottom: 16
     }
   }),
   {

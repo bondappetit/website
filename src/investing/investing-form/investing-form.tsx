@@ -223,6 +223,7 @@ export const InvestingForm: React.FC<InvestingFormProps> = (props) => {
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <SmallModal>
           <InfoCardSuccess
+            token="Governance"
             tokenName="BAG"
             onClick={handleSuccessClose}
             purchased={humanizeNumeral(result)}

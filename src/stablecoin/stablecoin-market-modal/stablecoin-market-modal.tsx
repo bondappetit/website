@@ -276,6 +276,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
       <Modal open={successOpen} onClose={handleSuccessClose}>
         <SmallModal>
           <InfoCardSuccess
+            token="Stable"
             tokenName={props.tokenName}
             onClick={handleSuccessClose}
             purchased={result.toString(10)}
