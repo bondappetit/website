@@ -531,7 +531,7 @@ At the first phase, our goals will be:
 
 Later, at Phase 2, users will be able to convert these USDap back to USDC at the exchange rate of 0.999 USDap to 1 USDC.
 
-**Raising funds**. ****The investment process will be structured through an offering of BAGs on the open market. The protocol aims to attract \$1.2M. \$1M will be used for the purchase of RWA and \$200,000 will cover the liquidity pool support and protocol expenses for fiat/crypto conversions and technical expenses of the protocol (oracles maintenance).
+**Raising funds**. The investment process will be structured through an offering of BAGs on the open market. The protocol aims to attract \$1.2M. \$1M will be used for the purchase of RWA and \$200,000 will cover the liquidity pool support and protocol expenses for fiat/crypto conversions and technical expenses of the protocol (oracles maintenance).
 
 ### Phase 2. RWA Collateralization (July 2021 — 2023)
 
