@@ -5,6 +5,7 @@ import { ReactComponent as DaiIcon } from 'src/assets/icons/coins/dai.svg';
 import { ReactComponent as UsdtIcon } from 'src/assets/icons/coins/usdt.svg';
 import { ReactComponent as BtcIcon } from 'src/assets/icons/coins/btc.svg';
 import { ReactComponent as EthIcon } from 'src/assets/icons/coins/eth.svg';
+import { ReactComponent as USDNIcon } from 'src/assets/icons/coins/usdn.svg';
 
 export const COIN_ICONS = new Map<string, typeof BAGicon>([
   ['BAG', BAGicon],
@@ -13,5 +14,6 @@ export const COIN_ICONS = new Map<string, typeof BAGicon>([
   ['WBTC', BtcIcon],
   ['ETH', EthIcon],
   ['USDT', UsdtIcon],
-  ['USDC', USDCicon]
+  ['USDC', USDCicon],
+  ['USDN', USDNIcon]
 ]);

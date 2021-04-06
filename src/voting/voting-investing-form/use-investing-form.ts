@@ -2,18 +2,20 @@ import { useWeb3React } from '@web3-react/core';
 import { useFormik } from 'formik';
 import Web3 from 'web3';
 import { useToggle } from 'react-use';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 import {
-  autoApprove,
   BN,
   estimateGas,
+  useApprove,
   useBalance,
   useDAIContract,
   useInvestmentContract,
   useNetworkConfig,
   useUSDCContract,
-  useUSDTContract
+  useUSDTContract,
+  approveAll,
+  reset
 } from 'src/common';
 import type { Ierc20 } from 'src/generate/IERC20';
 
@@ -27,11 +29,14 @@ export const useInvestingForm = (onSuccess: () => void) => {
     ref.current = onSuccess;
   }, [onSuccess]);
 
-  const tokenContracts: Record<string, Ierc20 | null> = {
-    USDT: useUSDTContract(),
-    DAI: useDAIContract(),
-    USDC: useUSDCContract()
-  };
+  const USDT = useUSDTContract();
+  const DAI = useDAIContract();
+  const USDC = useUSDCContract();
+
+  const tokenContracts: Record<string, Ierc20 | null> = useMemo(
+    () => ({ USDT, DAI, USDC }),
+    [USDT, DAI, USDC]
+  );
 
   const investmentContract = useInvestmentContract();
 
@@ -41,12 +46,17 @@ export const useInvestingForm = (onSuccess: () => void) => {
 
   const { account } = useWeb3React<Web3>();
 
+  const [approve, approvalNeeded] = useApprove();
+
   const formik = useFormik({
     initialValues: {
       currency: 'USDC',
       payment: '0',
       youGet: '0'
     },
+
+    validateOnBlur: false,
+    validateOnChange: false,
 
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
@@ -111,27 +121,40 @@ export const useInvestingForm = (onSuccess: () => void) => {
         } else {
           if (!currentContract) return;
 
-          await autoApprove(
-            currentContract,
-            account,
-            investmentContract.options.address,
-            formInvest
-          );
+          const options = {
+            token: currentContract,
+            owner: account,
+            spender: investmentContract.options.address,
+            amount: formInvest
+          };
+
+          const approved = await approvalNeeded(options);
+
+          if (approved.reset) {
+            await reset(options);
+          }
+          if (approved.approve) {
+            await approveAll(options);
+            await approvalNeeded(options);
+            return;
+          }
+
           window.onbeforeunload = () => 'wait please transaction in progress';
 
           const invest = investmentContract.methods.invest(
             currentContract.options.address,
             formInvest
           );
+
           await invest.send({
             from: account,
             gas: await estimateGas(invest, { from: account })
           });
-        }
 
-        failureToggle(false);
-        successToggle(true);
-        ref.current();
+          failureToggle(false);
+          successToggle(true);
+          ref.current();
+        }
       } catch {
         failureToggle(true);
       } finally {
@@ -141,7 +164,43 @@ export const useInvestingForm = (onSuccess: () => void) => {
     }
   });
 
+  useEffect(() => {
+    const handler = async () => {
+      const currentToken = Object.values(network.assets).find(
+        ({ symbol }) => symbol === formik.values.currency
+      );
+
+      if (!currentToken || !account || !investmentContract) return;
+
+      const formInvest = new BN(formik.values.payment)
+        .multipliedBy(new BN(10).pow(currentToken.decimals))
+        .toString(10);
+
+      const currentContract = tokenContracts[currentToken.symbol];
+
+      if (!currentContract) return;
+
+      await approvalNeeded({
+        token: currentContract,
+        owner: account,
+        spender: investmentContract.options.address,
+        amount: formInvest
+      });
+    };
+
+    handler();
+  }, [
+    account,
+    approvalNeeded,
+    formik.values.currency,
+    formik.values.payment,
+    investmentContract,
+    network.assets,
+    tokenContracts
+  ]);
+
   return {
+    approve: approve.value,
     formik,
     successOpen,
     successToggle,
