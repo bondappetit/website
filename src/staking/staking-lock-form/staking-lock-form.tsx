@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useFormik } from 'formik';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
@@ -16,7 +16,9 @@ import {
   ButtonBase,
   Link,
   Skeleton,
-  useApprove
+  useApprove,
+  reset,
+  approveAll
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { WalletButtonWithFallback } from 'src/wallets';
@@ -55,7 +57,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const networkConfig = useNetworkConfig();
   const staking = useCanStaking(props.stakingContract);
 
-  const [approve, autoApprove] = useApprove();
+  const [approve, approvalNeeded] = useApprove();
 
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
@@ -101,16 +103,24 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         .multipliedBy(new BN(10).pow(tokenDecimals))
         .toString(10);
 
-      if (!approve.value) {
-        await autoApprove({
-          token: currentAssetContract,
-          owner: account,
-          spender: stakingContract.options.address,
-          amount: formAmount
-        });
+      const options = {
+        token: currentAssetContract,
+        owner: account,
+        spender: stakingContract.options.address,
+        amount: formAmount
+      };
+
+      const approved = await approvalNeeded(options);
+
+      if (approved.reset) {
+        await reset(options);
+      }
+      if (approved.approve) {
+        await approveAll(options);
+        return;
       }
 
-      if (approve.value) {
+      if (!approved.reset && !approved.approve) {
         const stake = stakingContract.methods.stake(formAmount);
         await stake.send({
           from: account,
@@ -134,6 +144,37 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
     return `${UNISWAP_URL}${addresses}`;
   }, [props.token, networkConfig.assets]);
+
+  useEffect(() => {
+    const handler = async () => {
+      if (!account || !stakingContract || !tokenDecimals) return;
+
+      const currentAssetContract = getIERC20Contract(tokenAddress);
+
+      const formAmount = new BN(formik.values.amount)
+        .multipliedBy(new BN(10).pow(tokenDecimals))
+        .toString(10);
+
+      const options = {
+        token: currentAssetContract,
+        owner: account,
+        spender: stakingContract.options.address,
+        amount: formAmount
+      };
+
+      await approvalNeeded(options);
+    };
+
+    handler();
+  }, [
+    account,
+    approvalNeeded,
+    formik.values.amount,
+    getIERC20Contract,
+    stakingContract,
+    tokenAddress,
+    tokenDecimals
+  ]);
 
   return (
     <>
@@ -219,7 +260,9 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
                 : undefined
             }
           >
-            Stake
+            {!approve.value?.approve && !approve.value?.reset
+              ? 'Stake'
+              : 'Approve'}
           </WalletButtonWithFallback>
         )}
       </form>
