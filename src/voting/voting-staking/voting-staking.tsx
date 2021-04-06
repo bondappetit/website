@@ -36,7 +36,7 @@ export const VotingStaking: React.VFC = () => {
       buttonTitle="Earn BAG"
       percent={stakingTotal.value?.percent.toString(10)}
       description={`Earn governance tokens as rewards for supporting the protocol’s activities.
-      Buy USDap, stake your assets in liquidity pools with a 6-month lock period, and receive BAGs in return.`}
+      Buy USDap, stake your assets in liquidity pools with a 3-month lockup, and receive BAGs in return.`}
     />
   );
 };
