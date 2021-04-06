@@ -8,7 +8,8 @@ import {
   useNetworkConfig,
   useUniswapRouter,
   BN,
-  useUniswapPairInfo
+  useUniswapPairInfo,
+  useBatchRequest
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { useGovernanceCost } from './use-governance-cost';
@@ -75,6 +76,8 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
   const { account: web3Account } = useWeb3React<Web3>();
   const [account, setAccount] = useState(web3Account);
 
+  const makeBatchRequest = useBatchRequest();
+
   useEffect(() => {
     if (web3Account) {
       setAccount(web3Account);
@@ -98,13 +101,17 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
           .stakingToken()
           .call();
         const stakingTokenContract = getTokenContract(stakingTokenAddress);
-        const stakingTokenDecimals = await stakingTokenContract.methods
-          .decimals()
-          .call();
+        const [
+          stakingTokenDecimals,
+          rewardTokenAddress
+        ] = await makeBatchRequest(
+          [
+            stakingTokenContract.methods.decimals().call,
+            stakingContract.methods.rewardsToken().call
+          ],
+          account
+        );
 
-        const rewardTokenAddress = await stakingContract.methods
-          .rewardsToken()
-          .call();
         const rewardTokenContract = getTokenContract(rewardTokenAddress);
         const rewardTokenDecimals = await rewardTokenContract.methods
           .decimals()
@@ -112,14 +119,20 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
 
         if (!stakingContract) return acc;
 
-        const [balance, earned, totalSupply, rewardRate] = await Promise.all([
-          account ? stakingContract.methods.balanceOf(account).call() : '0',
+        const [
+          balance,
+          earned,
+          totalSupply,
+          rewardRate
+        ] = await makeBatchRequest(
+          [
+            account ? stakingContract.methods.balanceOf(account).call : '0',
+            account ? stakingContract.methods.earned(account).call : '0',
+            stakingContract.methods.totalSupply().call,
+            stakingContract.methods.rewardRate().call
+          ],
           account
-            ? stakingContract.methods.earned(account).call({ from: account })
-            : '0',
-          stakingContract.methods.totalSupply().call(),
-          stakingContract.methods.rewardRate().call()
-        ]);
+        );
 
         const amount = new BN(balance).div(
           new BN(10).pow(stakingTokenDecimals)
