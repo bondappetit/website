@@ -7,7 +7,7 @@ import { useLayoutMenuStyles } from './layout-menu.styles';
 const PHASES = [
   {
     title: 'Phase 1: Investment Stage',
-    body: 'Stake your crypto or invest in the protocol with a 50% discount',
+    body: 'Stake your crypto or invest in the protocol',
     date: 'Up to 3 months, Started April 5'
   },
   {

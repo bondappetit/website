@@ -61,8 +61,7 @@ export const VotingInvesting: React.VFC = () => {
         onClick={config.IS_INVEST ? toggleAttention : handleToUniswap}
         description={
           config.IS_INVEST
-            ? `Special offer for early investors only: buy the initial emission of ${percent}% (${totalTokens} BAGs)
-        at a price of $2.5 (50% discount) per token, subject to a 6 months moratorium on sales. The offer is valid until July 2021.`
+            ? `Special offer for early investors only: buy the initial emission of (${totalTokens} BAGs) at a fixed price of $2.5 per token, subject to a 6 months moratorium on sales. The offer is valid until July 2021.`
             : ''
         }
       />
@@ -81,8 +80,8 @@ export const VotingInvesting: React.VFC = () => {
                 </Typography>{' '}
               </Typography>
               <Typography variant="h5">
-                We&apos;re offering BAG tokens with a 50-percent discount and a
-                6-month lockup period.
+                We&apos;re offering BAG tokens with a fixed price and a 6-month
+                lockup period.
               </Typography>{' '}
               <Typography variant="h5">
                 That means you won&apos;t be able to transfer or stake tokens
