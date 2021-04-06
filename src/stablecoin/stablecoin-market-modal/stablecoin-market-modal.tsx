@@ -145,6 +145,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           }
           if (approved.approve) {
             await approveAll(options);
+            await approvalNeeded(options);
             return;
           }
 

@@ -126,6 +126,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
         }
         if (approved.approve) {
           await approveAll(options);
+          await approvalNeeded(options);
           return;
         }
 
