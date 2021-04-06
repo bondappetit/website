@@ -129,6 +129,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
           }
           if (approved.approve) {
             await approveAll(options);
+            await approvalNeeded(options);
             return;
           }
           window.onbeforeunload = () => 'wait please transaction in progress';

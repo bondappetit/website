@@ -117,6 +117,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       }
       if (approved.approve) {
         await approveAll(options);
+        await approvalNeeded(options);
         return;
       }
 
@@ -153,14 +154,12 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         .multipliedBy(new BN(10).pow(tokenDecimals))
         .toString(10);
 
-      const options = {
+      await approvalNeeded({
         token: currentAssetContract,
         owner: account,
         spender: stakingContract.options.address,
         amount: formAmount
-      };
-
-      await approvalNeeded(options);
+      });
     };
 
     handler();

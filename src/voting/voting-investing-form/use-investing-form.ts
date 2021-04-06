@@ -135,6 +135,7 @@ export const useInvestingForm = (onSuccess: () => void) => {
           }
           if (approved.approve) {
             await approveAll(options);
+            await approvalNeeded(options);
             return;
           }
 
@@ -144,16 +145,15 @@ export const useInvestingForm = (onSuccess: () => void) => {
             currentContract.options.address,
             formInvest
           );
-          if (!approved.reset || !approved.approve) {
-            await invest.send({
-              from: account,
-              gas: await estimateGas(invest, { from: account })
-            });
 
-            failureToggle(false);
-            successToggle(true);
-            ref.current();
-          }
+          await invest.send({
+            from: account,
+            gas: await estimateGas(invest, { from: account })
+          });
+
+          failureToggle(false);
+          successToggle(true);
+          ref.current();
         }
       } catch {
         failureToggle(true);
