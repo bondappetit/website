@@ -2,7 +2,7 @@ import { useWeb3React } from '@web3-react/core';
 import { useFormik } from 'formik';
 import Web3 from 'web3';
 import { useToggle } from 'react-use';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 
 import {
   BN,
@@ -27,11 +27,14 @@ export const useInvestingForm = (onSuccess: () => void) => {
     ref.current = onSuccess;
   }, [onSuccess]);
 
-  const tokenContracts: Record<string, Ierc20 | null> = {
-    USDT: useUSDTContract(),
-    DAI: useDAIContract(),
-    USDC: useUSDCContract()
-  };
+  const USDT = useUSDTContract();
+  const DAI = useDAIContract();
+  const USDC = useUSDCContract();
+
+  const tokenContracts: Record<string, Ierc20 | null> = useMemo(
+    () => ({ USDT, DAI, USDC }),
+    [USDT, DAI, USDC]
+  );
 
   const investmentContract = useInvestmentContract();
 
@@ -171,7 +174,7 @@ export const useInvestingForm = (onSuccess: () => void) => {
         owner: account,
         spender: investmentContract.options.address,
         amount: formInvest,
-        firstCall: true
+        withoutApprove: true
       });
     };
 

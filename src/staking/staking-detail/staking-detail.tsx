@@ -195,7 +195,7 @@ export const StakingDetail: React.FC = () => {
                     )}
                   </Typography>
                   {loading && <Skeleton className={classes.attention} />}
-                  {!loading && !showUnstakeButton && (
+                  {account && !loading && !showUnstakeButton && (
                     <Typography
                       variant="body2"
                       align="center"
@@ -206,7 +206,7 @@ export const StakingDetail: React.FC = () => {
                       {unstake.value?.unstakingStartBlock.toString(10)} block
                     </Typography>
                   )}
-                  {!loading && showUnstakeButton && (
+                  {!loading && (!account || showUnstakeButton) && (
                     <Tippy
                       visible={canUnstake}
                       content="Unstaking not started"

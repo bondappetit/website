@@ -203,7 +203,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
         owner: account,
         spender: marketContract.options.address,
         amount: formInvest,
-        firstCall: true
+        withoutApprove: true
       });
     };
 

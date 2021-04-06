@@ -206,7 +206,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
         owner: account,
         spender: collateralMarketContract.options.address,
         amount: formInvest,
-        firstCall: true
+        withoutApprove: true
       });
     };
 

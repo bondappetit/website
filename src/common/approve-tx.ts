@@ -7,11 +7,11 @@ type Options = {
   owner: string;
   spender: string;
   amount: string | number;
-  firstCall?: boolean;
+  withoutApprove?: boolean;
 };
 
 export async function autoApprove(options: Options) {
-  const { token, owner, spender, amount, firstCall } = options;
+  const { token, owner, spender, amount, withoutApprove } = options;
 
   const allowance = new BN(
     await token.methods.allowance(owner, spender).call()
@@ -26,7 +26,7 @@ export async function autoApprove(options: Options) {
       gas: await estimateGas(approveZero, { from: owner })
     });
   }
-  if (allowance.isEqualTo(0) && !firstCall) {
+  if (allowance.isEqualTo(0) && !withoutApprove) {
     const approveAll = token.methods.approve(
       spender,
       new BN(2).pow(256).minus(1).toFixed(0)

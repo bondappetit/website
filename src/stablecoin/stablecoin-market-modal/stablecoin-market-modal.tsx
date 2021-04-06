@@ -278,7 +278,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         owner: account,
         spender: marketContract.options.address,
         amount: formInvest,
-        firstCall: true
+        withoutApprove: true
       });
     };
 
