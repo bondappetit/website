@@ -65,3 +65,4 @@ export * from './number-array';
 export * from './use-library';
 export * from './add-token-metamask';
 export * from './use-approve';
+export * from './use-batch-request';
