@@ -37,7 +37,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
     failureOpen,
     transactionOpen,
     successToggle,
-    approved
+    approve
   } = useInvestingForm(tokens.retry);
 
   const network = useNetworkConfig();
@@ -145,7 +145,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
               }
               loading={formik.isSubmitting}
             >
-              {approved
+              {!approve?.approve && !approve?.reset
                 ? formik.errors.payment || formik.errors.currency || 'Buy'
                 : 'Approve'}
             </WalletButtonWithFallback>

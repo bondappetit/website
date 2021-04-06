@@ -7,7 +7,6 @@ type Options = {
   owner: string;
   spender: string;
   amount: string | number;
-  withoutApprove?: boolean;
 };
 
 export async function approvalNeeded({
@@ -26,29 +25,21 @@ export async function approvalNeeded({
     approve: !isAlreadyApproved
   };
 }
+export async function reset({ token, owner, spender }: Options) {
+  const tx = token.methods.approve(spender, '0');
+  await tx.send({
+    from: owner,
+    gas: await estimateGas(tx, { from: owner })
+  });
+}
 
-export async function autoApprove(options: Options) {
-  const { token, owner, spender } = options;
-
-  const { reset, approve } = await approvalNeeded(options);
-
-  if (reset) {
-    const approveZero = token.methods.approve(spender, '0');
-
-    await approveZero.send({
-      from: owner,
-      gas: await estimateGas(approveZero, { from: owner })
-    });
-  }
-  if (approve) {
-    const approveAll = token.methods.approve(
-      spender,
-      new BN(2).pow(256).minus(1).toFixed(0)
-    );
-
-    await approveAll.send({
-      from: owner,
-      gas: await estimateGas(approveAll, { from: owner })
-    });
-  }
+export async function approveAll({ token, owner, spender }: Options) {
+  const tx = token.methods.approve(
+    spender,
+    new BN(2).pow(256).minus(1).toFixed(0)
+  );
+  await tx.send({
+    from: owner,
+    gas: await estimateGas(tx, { from: owner })
+  });
 }

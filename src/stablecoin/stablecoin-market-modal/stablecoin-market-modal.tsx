@@ -22,7 +22,9 @@ import {
   estimateGas,
   BN,
   useTimeoutInterval,
-  useApprove
+  useApprove,
+  approveAll,
+  reset
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useGovernanceTokens } from './use-stablecoin-tokens';
@@ -54,7 +56,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
 
   const { governanceInUSDC } = useGovernanceCost();
 
-  const [approve, autoApprove] = useApprove();
+  const [approve, approvalNeeded] = useApprove();
 
   const formik = useFormik({
     initialValues: {
@@ -129,13 +131,21 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         } else {
           if (!currentContract) return;
 
-          if (!approve.value) {
-            await autoApprove({
-              token: currentContract,
-              owner: account,
-              spender: marketContract.options.address,
-              amount: formInvest
-            });
+          const options = {
+            token: currentContract,
+            owner: account,
+            spender: marketContract.options.address,
+            amount: formInvest
+          };
+
+          const approved = await approvalNeeded(options);
+
+          if (approved.reset) {
+            await reset(options);
+          }
+          if (approved.approve) {
+            await approveAll(options);
+            return;
           }
 
           window.onbeforeunload = () => 'wait please transaction in progress';
@@ -145,7 +155,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
             formInvest
           );
 
-          if (approve.value) {
+          if (!approved.reset && !approved.approve) {
             await buy.send({
               from: account,
               gas: await estimateGas(buy, { from: account })
@@ -273,19 +283,18 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     if (!currentContract) return;
 
     const handler = async () => {
-      await autoApprove({
+      await approvalNeeded({
         token: currentContract,
         owner: account,
         spender: marketContract.options.address,
-        amount: formInvest,
-        withoutApprove: true
+        amount: formInvest
       });
     };
 
     handler();
   }, [
     account,
-    autoApprove,
+    approvalNeeded,
     formik.values.currency,
     formik.values.payment,
     marketContract,
@@ -315,7 +324,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
               }
               loading={formik.isSubmitting}
             >
-              {approve.value
+              {!approve.value?.approve && !approve.value?.reset
                 ? formik.errors.payment || formik.errors.currency || 'Buy'
                 : 'Approve'}
             </WalletButtonWithFallback>

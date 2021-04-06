@@ -22,7 +22,9 @@ import {
   useApprove,
   estimateGas,
   BN,
-  useTimeoutInterval
+  approveAll,
+  useTimeoutInterval,
+  reset
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useGovernanceTokens } from './use-governance-tokens';
@@ -53,7 +55,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
 
   const { governanceInUSDC } = useGovernanceCost();
 
-  const [approve, autoApprove] = useApprove();
+  const [approve, approvalNeeded] = useApprove();
 
   const formik = useFormik({
     initialValues: {
@@ -113,13 +115,21 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
         } else {
           if (!currentContract) return;
 
-          if (!approve.value) {
-            await autoApprove({
-              token: currentContract,
-              owner: account,
-              spender: marketContract.options.address,
-              amount: formInvest
-            });
+          const options = {
+            token: currentContract,
+            owner: account,
+            spender: marketContract.options.address,
+            amount: formInvest
+          };
+
+          const approved = await approvalNeeded(options);
+
+          if (approved.reset) {
+            await reset(options);
+          }
+          if (approved.approve) {
+            await approveAll(options);
+            return;
           }
           window.onbeforeunload = () => 'wait please transaction in progress';
 
@@ -128,7 +138,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
             formInvest
           );
 
-          if (approve.value) {
+          if (!approved.reset && !approved.approve) {
             await buy.send({
               from: account,
               gas: await estimateGas(buy, { from: account })
@@ -198,12 +208,11 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
     if (!currentContract) return;
 
     const handler = async () => {
-      await autoApprove({
+      await approvalNeeded({
         token: currentContract,
         owner: account,
         spender: marketContract.options.address,
-        amount: formInvest,
-        withoutApprove: true
+        amount: formInvest
       });
     };
 
@@ -213,7 +222,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
     formik.values.amount,
     formik.values.currency,
     getContract,
-    autoApprove,
+    approvalNeeded,
     network.assets,
     marketContract
   ]);
@@ -236,7 +245,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
               }
               loading={formik.isSubmitting}
             >
-              {approve.value
+              {!approve.value?.approve && !approve.value?.reset
                 ? formik.errors.payment || formik.errors.currency || 'Buy'
                 : 'Approve'}
             </WalletButtonWithFallback>

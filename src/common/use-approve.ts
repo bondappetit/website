@@ -1,5 +1,5 @@
 import { useAsyncFn } from 'react-use';
 
-import { autoApprove } from './approve-tx';
+import { approvalNeeded } from './approve-tx';
 
-export const useApprove = () => useAsyncFn(autoApprove, []);
+export const useApprove = () => useAsyncFn(approvalNeeded, []);

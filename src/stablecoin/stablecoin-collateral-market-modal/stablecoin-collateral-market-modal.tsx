@@ -22,7 +22,9 @@ import {
   estimateGas,
   BN,
   useTimeoutInterval,
-  useApprove
+  useApprove,
+  approveAll,
+  reset
 } from 'src/common';
 import { useStablecoinTokens } from './use-stablecoin-tokens';
 
@@ -49,7 +51,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
   const [failureOpen, failureToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
 
-  const [approve, autoApprove] = useApprove();
+  const [approve, approvalNeeded] = useApprove();
 
   const formik = useFormik({
     initialValues: {
@@ -110,18 +112,26 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
         .toString(10);
 
       try {
-        if (!approve.value) {
-          await autoApprove({
-            token: currentContract,
-            owner: account,
-            spender: collateralMarketContract.options.address,
-            amount: formInvest
-          });
+        const options = {
+          token: currentContract,
+          owner: account,
+          spender: collateralMarketContract.options.address,
+          amount: formInvest
+        };
+
+        const approved = await approvalNeeded(options);
+
+        if (approved.reset) {
+          await reset(options);
+        }
+        if (approved.approve) {
+          await approveAll(options);
+          return;
         }
 
         window.onbeforeunload = () => 'wait please transaction in progress';
 
-        if (approve.value) {
+        if (!approved.reset && !approved.approve) {
           const buyStableToken = collateralMarketContract.methods.buy(
             currentContract.options.address,
             formInvest
@@ -201,18 +211,17 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
 
       if (!currentContract) return;
 
-      await autoApprove({
+      await approvalNeeded({
         token: currentContract,
         owner: account,
         spender: collateralMarketContract.options.address,
-        amount: formInvest,
-        withoutApprove: true
+        amount: formInvest
       });
     };
 
     handle();
   }, [
-    autoApprove,
+    approvalNeeded,
     collateralMarketContract,
     account,
     formik.values.currency,
@@ -239,7 +248,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
               }
               loading={formik.isSubmitting}
             >
-              {approve.value
+              {!approve.value?.approve && !approve.value?.reset
                 ? formik.errors.payment || formik.errors.currency || 'Buy'
                 : 'Approve'}
             </WalletButtonWithFallback>

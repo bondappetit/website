@@ -13,7 +13,9 @@ import {
   useInvestmentContract,
   useNetworkConfig,
   useUSDCContract,
-  useUSDTContract
+  useUSDTContract,
+  approveAll,
+  reset
 } from 'src/common';
 import type { Ierc20 } from 'src/generate/IERC20';
 
@@ -44,7 +46,7 @@ export const useInvestingForm = (onSuccess: () => void) => {
 
   const { account } = useWeb3React<Web3>();
 
-  const [approve, autoApprove] = useApprove();
+  const [approve, approvalNeeded] = useApprove();
 
   const formik = useFormik({
     initialValues: {
@@ -119,21 +121,30 @@ export const useInvestingForm = (onSuccess: () => void) => {
         } else {
           if (!currentContract) return;
 
-          if (!approve.value) {
-            await autoApprove({
-              token: currentContract,
-              owner: account,
-              spender: investmentContract.options.address,
-              amount: formInvest
-            });
+          const options = {
+            token: currentContract,
+            owner: account,
+            spender: investmentContract.options.address,
+            amount: formInvest
+          };
+
+          const approved = await approvalNeeded(options);
+
+          if (approved.reset) {
+            await reset(options);
           }
+          if (approved.approve) {
+            await approveAll(options);
+            return;
+          }
+
           window.onbeforeunload = () => 'wait please transaction in progress';
 
           const invest = investmentContract.methods.invest(
             currentContract.options.address,
             formInvest
           );
-          if (approve.value) {
+          if (!approved.reset || !approved.approve) {
             await invest.send({
               from: account,
               gas: await estimateGas(invest, { from: account })
@@ -169,19 +180,18 @@ export const useInvestingForm = (onSuccess: () => void) => {
 
       if (!currentContract) return;
 
-      await autoApprove({
+      await approvalNeeded({
         token: currentContract,
         owner: account,
         spender: investmentContract.options.address,
-        amount: formInvest,
-        withoutApprove: true
+        amount: formInvest
       });
     };
 
     handler();
   }, [
     account,
-    autoApprove,
+    approvalNeeded,
     formik.values.currency,
     formik.values.payment,
     investmentContract,
@@ -190,7 +200,7 @@ export const useInvestingForm = (onSuccess: () => void) => {
   ]);
 
   return {
-    approved: approve.value,
+    approve: approve.value,
     formik,
     successOpen,
     successToggle,
