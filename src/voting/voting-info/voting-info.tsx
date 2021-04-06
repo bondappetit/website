@@ -38,7 +38,7 @@ export const VotingInfo: React.FC = () => {
             <Typography variant="h4" align="center" className={classes.link}>
               <Link
                 component={ReactRouterLink}
-                to={`${URLS.whitepaper}#15`}
+                to={`${URLS.whitepaper}#19`}
                 color="blue"
               >
                 Learn more about how governance works →
