@@ -155,16 +155,14 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
             formInvest
           );
 
-          if (!approved.reset && !approved.approve) {
-            await buy.send({
-              from: account,
-              gas: await estimateGas(buy, { from: account })
-            });
+          await buy.send({
+            from: account,
+            gas: await estimateGas(buy, { from: account })
+          });
 
-            failureToggle(false);
-            successToggle(true);
-            tokens.retry();
-          }
+          failureToggle(false);
+          successToggle(true);
+          tokens.retry();
         }
       } catch {
         failureToggle(true);

@@ -131,20 +131,18 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
 
         window.onbeforeunload = () => 'wait please transaction in progress';
 
-        if (!approved.reset && !approved.approve) {
-          const buyStableToken = collateralMarketContract.methods.buy(
-            currentContract.options.address,
-            formInvest
-          );
-          await buyStableToken.send({
-            from: account,
-            gas: await estimateGas(buyStableToken, { from: account })
-          });
+        const buyStableToken = collateralMarketContract.methods.buy(
+          currentContract.options.address,
+          formInvest
+        );
+        await buyStableToken.send({
+          from: account,
+          gas: await estimateGas(buyStableToken, { from: account })
+        });
 
-          failureToggle(false);
-          successToggle(true);
-          tokens.retry();
-        }
+        failureToggle(false);
+        successToggle(true);
+        tokens.retry();
       } catch {
         failureToggle(true);
       } finally {

@@ -138,15 +138,13 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
             formInvest
           );
 
-          if (!approved.reset && !approved.approve) {
-            await buy.send({
-              from: account,
-              gas: await estimateGas(buy, { from: account })
-            });
+          await buy.send({
+            from: account,
+            gas: await estimateGas(buy, { from: account })
+          });
 
-            failureToggle(false);
-            successToggle(true);
-          }
+          failureToggle(false);
+          successToggle(true);
         }
       } catch {
         failureToggle(true);

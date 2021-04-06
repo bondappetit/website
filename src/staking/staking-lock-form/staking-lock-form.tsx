@@ -120,15 +120,13 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         return;
       }
 
-      if (!approved.reset && !approved.approve) {
-        const stake = stakingContract.methods.stake(formAmount);
-        await stake.send({
-          from: account,
-          gas: await estimateGas(stake, { from: account })
-        });
-        resetForm();
-        props.onSubmit?.();
-      }
+      const stake = stakingContract.methods.stake(formAmount);
+      await stake.send({
+        from: account,
+        gas: await estimateGas(stake, { from: account })
+      });
+      resetForm();
+      props.onSubmit?.();
     }
   });
 
