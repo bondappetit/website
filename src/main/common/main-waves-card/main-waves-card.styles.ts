@@ -18,7 +18,8 @@ export const useMainWavesCardStyles = createUseStyles(
     },
 
     icon: {
-      marginBottom: 16
+      marginBottom: 16,
+      '--color': theme.colors.secondary
     },
 
     text: {

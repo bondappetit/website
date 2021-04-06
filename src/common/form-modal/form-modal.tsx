@@ -174,6 +174,7 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                       <ButtonBase
                         type="button"
                         className={classes.balanceButton}
+                        disabled={formik.isSubmitting}
                         onClick={
                           currentToken?.balance
                             ? () =>

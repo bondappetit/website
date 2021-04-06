@@ -1,6 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-nocheck
 import { Extension } from 'web3-core';
 import { useCallback } from 'react';
 import Web3 from 'web3';
@@ -16,12 +14,14 @@ const isCallable = (
   return typeof call === 'function' && call !== null && 'request' in call;
 };
 
-type Batch<
-  T extends (tx?: NonPayableTx | undefined) => Promise<any>
-> = T extends (tx?: NonPayableTx | undefined) => Promise<infer R> ? R : T;
+type Batch<T> = T extends (tx?: NonPayableTx | undefined) => Promise<infer R>
+  ? R
+  : T;
 
-const makeBatchRequest = (library: Web3) => <T>(
-  calls: readonly (T | PromiseLike<T>)[],
+const makeBatchRequest = (library: Web3) => <
+  T extends ((tx?: NonPayableTx | undefined) => Promise<any>) | any
+>(
+  calls: T[],
   callFrom?: string | null
 ): Promise<Batch<T>[]> => {
   const batch = new library.BatchRequest();
