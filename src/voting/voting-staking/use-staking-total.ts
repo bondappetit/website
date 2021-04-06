@@ -21,40 +21,54 @@ export const useStakingTotal = () => {
 
         return {
           lastUpdateBlock: stakingContractMethods?.lastUpdateBlock().call,
+          getRewardsDuration: stakingContractMethods?.rewardsDuration().call,
           periodFinish: stakingContractMethods?.periodFinish().call,
-          rewardRate: stakingContractMethods?.rewardRate().call
+          rewardRate: stakingContractMethods?.rewardRate().call,
+          getRewardForDuration: stakingContractMethods?.getRewardForDuration()
+            .call
         };
       })
-      .map(async ({ lastUpdateBlock, periodFinish, rewardRate }) => {
-        const [
-          stakingLastUpdateBlock = '0',
-          stakingPeriodFinish = '0',
-          stakingRewardRate = '0'
-        ] = await Promise.all([
-          lastUpdateBlock?.(),
-          periodFinish?.(),
-          rewardRate?.()
-        ]);
+      .map(
+        async ({
+          lastUpdateBlock,
+          getRewardsDuration,
+          periodFinish,
+          rewardRate,
+          getRewardForDuration
+        }) => {
+          const [
+            stakingLastUpdateBlock = '0',
+            rewardsDuration = '0',
+            stakingPeriodFinish = '0',
+            stakingRewardRate = '0',
+            rewardForDuration = '0'
+          ] = await Promise.all([
+            lastUpdateBlock?.(),
+            getRewardsDuration?.(),
+            periodFinish?.(),
+            rewardRate?.(),
+            getRewardForDuration?.()
+          ]);
 
-        const totalSupply = new BN(stakingPeriodFinish)
-          .minus(stakingLastUpdateBlock)
-          .multipliedBy(stakingRewardRate);
+          const currentBlockNumber = (await library?.eth.getBlockNumber()) ?? 0;
+          const startDistributionBlock = new BN(stakingPeriodFinish).minus(
+            rewardsDuration
+          );
 
-        const currentBlockNumber = (await library?.eth.getBlockNumber()) ?? 0;
+          const distributed = new BN(currentBlockNumber)
+            .minus(startDistributionBlock)
+            .multipliedBy(stakingRewardRate);
 
-        const distributed = new BN(currentBlockNumber)
-          .minus(stakingLastUpdateBlock)
-          .multipliedBy(stakingRewardRate);
-
-        return {
-          totalSupply,
-          distributed,
-          currentBlockNumber: new BN(currentBlockNumber),
-          lastUpdateBlock: new BN(stakingLastUpdateBlock),
-          periodFinish: new BN(stakingPeriodFinish),
-          rewardRate: new BN(stakingRewardRate)
-        };
-      });
+          return {
+            totalSupply: rewardForDuration,
+            distributed,
+            currentBlockNumber: new BN(currentBlockNumber),
+            lastUpdateBlock: new BN(stakingLastUpdateBlock),
+            periodFinish: new BN(stakingPeriodFinish),
+            rewardRate: new BN(stakingRewardRate)
+          };
+        }
+      );
 
     const info = (await Promise.all(staking)).reduce(
       (
