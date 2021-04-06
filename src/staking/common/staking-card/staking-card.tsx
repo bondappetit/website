@@ -84,7 +84,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
         )}
       </Typography>
       <Typography variant="body1" align="center">
-        Total Supply:{' '}
+        Total value locked:{' '}
         {props.loading ? (
           '...'
         ) : (

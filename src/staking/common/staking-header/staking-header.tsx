@@ -65,7 +65,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
             </Typography>
           </Typography>
           <Typography variant="body1" component="span">
-            Total Supply:{' '}
+            Total value locked:{' '}
             <Typography variant="inherit" component="span" weight="bold">
               {props.loading ? (
                 '...'
