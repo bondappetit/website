@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React, { useRef } from 'react';
 import { NavLink as ReactRouterNavLink } from 'react-router-dom';
-import { useHoverDirty } from 'react-use';
+import { useHoverDirty, useToggle } from 'react-use';
 
 import { ButtonBase, Link, useDevMode } from 'src/common';
 import { URLS } from 'src/router/urls';
@@ -11,14 +11,25 @@ import { LayoutMenuDropdown } from './layout-menu-dropdown';
 import { LayoutMenuPhasesDropdown } from './layout-menu-phases-dropdown';
 import { SOCIAL_LINKS } from '../constants';
 
+enum Variants {
+  mobile,
+  devMode
+}
+
 type MenuItem = {
   title: string;
   link: string;
-  inDevMode?: boolean;
+  variant?: Variants;
   children?: MenuItem[];
 };
 
 const MENU_ITEMS: MenuItem[] = [
+  {
+    title: 'Portfolio',
+    link: '',
+    variant: Variants.mobile
+  },
+
   {
     title: 'USDap',
     link: URLS.stablecoin
@@ -63,7 +74,7 @@ const MENU_ITEMS: MenuItem[] = [
   {
     title: 'Developers',
     link: '',
-    inDevMode: true,
+    variant: Variants.devMode,
 
     children: [
       {
@@ -111,13 +122,12 @@ const LinkIfExternal: React.FC<MenuItem> = (props) => {
 export type LayoutMenuProps = {
   menuItems?: MenuItem[];
   className?: string;
+  profile?: React.ReactNode;
 };
 
-export const LayoutMenu: React.FC<LayoutMenuProps> = ({
-  menuItems = MENU_ITEMS,
-  className,
-  children
-}) => {
+export const LayoutMenu: React.FC<LayoutMenuProps> = (props) => {
+  const { menuItems = MENU_ITEMS, className, children, profile } = props;
+
   const classes = useLayoutMenuStyles();
 
   const [devMode] = useDevMode();
@@ -125,6 +135,8 @@ export const LayoutMenu: React.FC<LayoutMenuProps> = ({
   const phasesRef = useRef<HTMLButtonElement | null>(null);
 
   const phasesHovered = useHoverDirty(phasesRef);
+
+  const [open, toggle] = useToggle(false);
 
   return (
     <ul className={clsx(classes.root, classes.menu, className)}>
@@ -138,16 +150,31 @@ export const LayoutMenu: React.FC<LayoutMenuProps> = ({
         {phasesHovered && <LayoutMenuPhasesDropdown />}
       </li>
       {menuItems.map((menuItem) => {
-        if (menuItem.inDevMode && !devMode) return null;
+        if (menuItem.variant === Variants.devMode && !devMode) return null;
 
         return (
           <li className={classes.menuItem} key={menuItem.title}>
-            {menuItem.link ? (
-              <LinkIfExternal {...menuItem} />
-            ) : (
-              <LayoutMenuDropdown menuItems={menuItem.children}>
-                {menuItem.title}
-              </LayoutMenuDropdown>
+            {menuItem.variant === Variants.mobile && (
+              <>
+                <ButtonBase
+                  className={clsx(classes.navLink, classes.mobileNavLink)}
+                  onClick={toggle}
+                >
+                  {menuItem.title}
+                </ButtonBase>
+                {open && profile}
+              </>
+            )}
+            {menuItem.variant !== Variants.mobile && (
+              <>
+                {menuItem.link ? (
+                  <LinkIfExternal {...menuItem} />
+                ) : (
+                  <LayoutMenuDropdown menuItems={menuItem.children}>
+                    {menuItem.title}
+                  </LayoutMenuDropdown>
+                )}
+              </>
             )}
           </li>
         );

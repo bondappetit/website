@@ -12,7 +12,8 @@ export const useWalletProfileStyles = createUseStyles(
     dropdown: {
       position: 'absolute',
       right: 0,
-      top: 0
+      top: 'calc(100% + 16px)',
+      zIndex: 10
     },
 
     plate: {
@@ -53,6 +54,11 @@ export const useWalletProfileStyles = createUseStyles(
 
     button: {
       marginTop: 'auto'
+    },
+
+    skeleton: {
+      width: '100%',
+      minWidth: 100
     }
   }),
   {
