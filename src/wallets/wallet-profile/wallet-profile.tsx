@@ -7,6 +7,7 @@ import { ButtonBase, LinkModal, useNetworkConfig } from 'src/common';
 import { VotingInvestingForm } from 'src/voting/voting-investing-form/voting-investing-form';
 import { useWalletProfileStyles } from './wallet-profile.styles';
 import { WalletProfileDropdown } from './wallet-profile-dropdown';
+import { WalletModal } from '../wallet-modal';
 
 export type WalletProfileProps = {
   className?: string;
@@ -23,6 +24,7 @@ export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
   const [dropdownOpened, toggleDropdown] = useToggle(false);
   const [linkModalOpen, togglelinkModal] = useToggle(false);
   const [investFormIsOpen, toggleInvestForm] = useToggle(false);
+  const [walletModalOpen, toggleWalletModal] = useToggle(false);
 
   useEffect(() => {
     const onMouseOver = () => toggleDropdown(true);
@@ -51,7 +53,10 @@ export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
       </ButtonBase>
       {dropdownOpened && (
         <div ref={dropdownRef} className={classes.dropdown}>
-          <WalletProfileDropdown onBuy={togglelinkModal} />
+          <WalletProfileDropdown
+            onBuy={togglelinkModal}
+            onConnect={toggleWalletModal}
+          />
         </div>
       )}
       <LinkModal
@@ -68,6 +73,7 @@ export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
           onClose={toggleInvestForm}
         />
       )}
+      <WalletModal open={walletModalOpen} onClose={toggleWalletModal} />
     </div>
   );
 };

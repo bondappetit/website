@@ -4,6 +4,7 @@ import React, { forwardRef, useMemo } from 'react';
 
 import {
   BN,
+  Button,
   ButtonBase,
   dateUtils,
   humanizeNumeral,
@@ -13,7 +14,6 @@ import {
 } from 'src/common';
 import { useStakingTokens } from 'src/staking';
 import { useStakingConfig } from 'src/staking-config';
-import { WalletButtonWithFallback } from '../wallet-button-with-fallback';
 import { useWalletInfo } from './use-wallet-info';
 import { WalletProfileRow } from './wallet-profile-row';
 import { useWalletProfileStyles } from './wallet-profile.styles';
@@ -21,6 +21,7 @@ import { useWalletProfileStyles } from './wallet-profile.styles';
 export type WalletProfileDropdownProps = {
   className?: string;
   onBuy?: () => void;
+  onConnect?: () => void;
 };
 
 export const WalletProfileDropdown = forwardRef<
@@ -145,7 +146,9 @@ export const WalletProfileDropdown = forwardRef<
           <Typography variant="body1">
             Connect your wallet to see the stats
           </Typography>
-          <WalletButtonWithFallback className={classes.button} />
+          <Button className={classes.button} onClick={props.onConnect}>
+            Connect wallet
+          </Button>
         </>
       )}
     </Plate>
