@@ -61,7 +61,7 @@ export const VotingInvesting: React.VFC = () => {
         onClick={config.IS_INVEST ? toggleAttention : handleToUniswap}
         description={
           config.IS_INVEST
-            ? `Special offer for early investors only: buy the initial emission of (${totalTokens} BAGs) at a fixed price of $2.5 per token, subject to a 6 months moratorium on sales. The offer is valid until July 2021.`
+            ? `Special offer for early investors only: buy the initial emission of (${totalTokens} BAGs) at a fixed price of $2.5 per token, subject to a 6-months moratorium on sales. The offer is valid until July 2021.`
             : ''
         }
       />
