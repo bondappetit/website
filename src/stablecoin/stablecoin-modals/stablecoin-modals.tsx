@@ -62,16 +62,20 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
         tokenName={networkConfig.assets.Stable.symbol}
         tokenAddress={networkConfig.assets.Stable.address}
       />
-      <StablecoinMarketModal
-        open={props.marketModalOpen}
-        onClose={props.toggleMarketModal}
-        tokenName="USDap"
-      />
-      <StablecoinCollateralMarketModal
-        open={props.collateralMarketModalOpen}
-        onClose={props.toggleCollateralMarketModal}
-        tokenName="USDap"
-      />
+      {props.marketModalOpen && (
+        <StablecoinMarketModal
+          open={props.marketModalOpen}
+          onClose={props.toggleMarketModal}
+          tokenName="USDap"
+        />
+      )}
+      {props.collateralMarketModalOpen && (
+        <StablecoinCollateralMarketModal
+          open={props.collateralMarketModalOpen}
+          onClose={props.toggleCollateralMarketModal}
+          tokenName="USDap"
+        />
+      )}
     </>
   );
 };

@@ -27,15 +27,28 @@ export const useMainCointelegraphStyles = createUseStyles(
       }
     },
 
-    cardIcon: {
+    cardHeader: {
+      display: 'flex',
+      alignItems: 'center',
       marginBottom: 24,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 16
+      }
+    },
+
+    cardSite: {
+      color: rgba(theme.colors.primary, 0.4)
+    },
+
+    cardIcon: {
       width: 32,
       height: 32,
+      marginRight: 10,
 
       [theme.breakpoints.md()]: {
         width: 40,
-        height: 40,
-        marginBottom: 16
+        height: 40
       }
     },
 
