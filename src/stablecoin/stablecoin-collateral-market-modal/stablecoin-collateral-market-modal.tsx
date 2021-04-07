@@ -1,6 +1,6 @@
 import { useFormik, FormikContext } from 'formik';
 import React, { useCallback, useEffect, useState } from 'react';
-import { useToggle } from 'react-use';
+import { useDebounce, useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
@@ -190,40 +190,44 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
     setFieldValue('payment', youGet.isNaN() ? '0' : youGet.toString(10));
   }, [formik.values.youGet, formik.values.currency, setFieldValue]);
 
-  useEffect(() => {
-    const handle = async () => {
-      const currentToken = Object.values(network.assets).find(
-        ({ symbol }) => symbol === formik.values.currency
-      );
+  useDebounce(
+    () => {
+      const handle = async () => {
+        const currentToken = Object.values(network.assets).find(
+          ({ symbol }) => symbol === formik.values.currency
+        );
 
-      if (!currentToken || !account || !collateralMarketContract) return;
+        if (!currentToken || !account || !collateralMarketContract) return;
 
-      const currentContract = getContract(currentToken.address);
+        const currentContract = getContract(currentToken.address);
 
-      const formInvest = new BN(formik.values.payment)
-        .multipliedBy(new BN(10).pow(currentToken.decimals))
-        .toString(10);
+        const formInvest = new BN(formik.values.payment)
+          .multipliedBy(new BN(10).pow(currentToken.decimals))
+          .toString(10);
 
-      if (!currentContract) return;
+        if (!currentContract) return;
 
-      await approvalNeeded({
-        token: currentContract,
-        owner: account,
-        spender: collateralMarketContract.options.address,
-        amount: formInvest
-      });
-    };
+        await approvalNeeded({
+          token: currentContract,
+          owner: account,
+          spender: collateralMarketContract.options.address,
+          amount: formInvest
+        });
+      };
 
-    handle();
-  }, [
-    approvalNeeded,
-    collateralMarketContract,
-    account,
-    formik.values.currency,
-    formik.values.payment,
-    network.assets,
-    getContract
-  ]);
+      handle();
+    },
+    200,
+    [
+      approvalNeeded,
+      collateralMarketContract,
+      account,
+      formik.values.currency,
+      formik.values.payment,
+      network.assets,
+      getContract
+    ]
+  );
 
   return (
     <>
@@ -243,7 +247,8 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
               }
               loading={formik.isSubmitting}
             >
-              {!approve.value?.approve && !approve.value?.reset
+              {(!approve.value?.approve && !approve.value?.reset) ||
+              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
                 ? formik.errors.payment || formik.errors.currency || 'Buy'
                 : 'Approve'}
             </WalletButtonWithFallback>

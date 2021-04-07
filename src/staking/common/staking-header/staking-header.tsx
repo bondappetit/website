@@ -14,6 +14,7 @@ export type StakingHeaderProps = {
   totalSupply?: BN;
   className?: string;
   poolRate?: BN;
+  volumeUSD?: string;
   lockable?: boolean;
   loading: boolean;
   depositToken?: string;
@@ -92,6 +93,12 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
               </Typography>
             </Typography>
           )}
+          <Typography variant="body1" component="span">
+            Volume (24h):{' '}
+            <Typography variant="inherit" component="span" weight="bold">
+              {props.loading ? '...' : <>{humanizeNumeral(props.volumeUSD)}</>}
+            </Typography>
+          </Typography>
         </div>
       </div>
     </div>

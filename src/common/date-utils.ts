@@ -29,6 +29,7 @@ export const dateUtils = {
   startOfYesterday: dayjs(dayjs()).startOf('date').subtract(1, 'day').unix(),
 
   isBeforeNow: (date: number | string) => dayjs(date).isBefore(dayjs()),
+  isAfterNow: (date: number | string) => dayjs(date).isAfter(dayjs()),
 
   addSeconds: (seconds: number) => dayjs().add(seconds, 'second'),
 

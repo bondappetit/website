@@ -16,6 +16,7 @@ import type { Staking } from 'src/generate/Staking';
 import { useGovernanceCost } from './use-governance-cost';
 import { useStakingContracts } from './use-staking-contracts';
 import { useTokenContracts } from './use-token-contract';
+import { useVolumeInfo } from './use-volume-info';
 
 const BLOCKS_PER_MINUTE = 4;
 
@@ -68,6 +69,7 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
   const networkConfig = useNetworkConfig();
   const USD = networkConfig.assets.USDC;
   const getPairInfo = useUniswapPairInfo();
+  const getVolumeInfo = useVolumeInfo();
 
   const { governanceInUSDC } = useGovernanceCost();
 
@@ -177,6 +179,8 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
     return Promise.all(
       tokenBalances.map(async (balance) => {
         let tokenInUSDC;
+        let volumeUSD = '0';
+
         if (balance.liquidityPool) {
           tokenInUSDC = '0';
 
@@ -185,6 +189,13 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
           } = await getPairInfo({
             id: balance.address.toLowerCase()
           });
+
+          const { data } = await getVolumeInfo({
+            pairAddress: balance.address.toLowerCase()
+          });
+
+          volumeUSD =
+            data.pairDayDatas?.[0].dailyVolumeUSD?.replace(',', '') ?? '0';
 
           tokenInUSDC = new BN(pair?.reserveUSD || 0)
             .div(pair?.totalSupply || 1)
@@ -240,7 +251,8 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
           amountInUSDC,
           rewardInUSDC,
           stakingTokenUSDC: tokenInUSDC,
-          APY
+          APY,
+          volumeUSD
         };
       })
     );
@@ -250,7 +262,8 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
     USD.decimals,
     USD.address,
     getPairInfo,
-    uniswapRouter
+    uniswapRouter,
+    getVolumeInfo
   ]);
 
   useIntervalIfHasAccount(state.retry);

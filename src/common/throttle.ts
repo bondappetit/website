@@ -9,7 +9,7 @@ export function throttle<T extends (...args: unknown[]) => void>(
   return (...args: unknown[]) => {
     const callNow = immediate && initialCall;
     const next = () => {
-      callback(args);
+      callback(...args);
       timeout = null;
     };
 

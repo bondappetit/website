@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
 import { useFormik } from 'formik';
 import Web3 from 'web3';
-import { useToggle } from 'react-use';
+import { useDebounce, useToggle } from 'react-use';
 import { useEffect, useMemo, useRef } from 'react';
 
 import {
@@ -164,40 +164,44 @@ export const useInvestingForm = (onSuccess: () => void) => {
     }
   });
 
-  useEffect(() => {
-    const handler = async () => {
-      const currentToken = Object.values(network.assets).find(
-        ({ symbol }) => symbol === formik.values.currency
-      );
+  useDebounce(
+    () => {
+      const handler = async () => {
+        const currentToken = Object.values(network.assets).find(
+          ({ symbol }) => symbol === formik.values.currency
+        );
 
-      if (!currentToken || !account || !investmentContract) return;
+        if (!currentToken || !account || !investmentContract) return;
 
-      const formInvest = new BN(formik.values.payment)
-        .multipliedBy(new BN(10).pow(currentToken.decimals))
-        .toString(10);
+        const formInvest = new BN(formik.values.payment)
+          .multipliedBy(new BN(10).pow(currentToken.decimals))
+          .toString(10);
 
-      const currentContract = tokenContracts[currentToken.symbol];
+        const currentContract = tokenContracts[currentToken.symbol];
 
-      if (!currentContract) return;
+        if (!currentContract) return;
 
-      await approvalNeeded({
-        token: currentContract,
-        owner: account,
-        spender: investmentContract.options.address,
-        amount: formInvest
-      });
-    };
+        await approvalNeeded({
+          token: currentContract,
+          owner: account,
+          spender: investmentContract.options.address,
+          amount: formInvest
+        });
+      };
 
-    handler();
-  }, [
-    account,
-    approvalNeeded,
-    formik.values.currency,
-    formik.values.payment,
-    investmentContract,
-    network.assets,
-    tokenContracts
-  ]);
+      handler();
+    },
+    200,
+    [
+      account,
+      approvalNeeded,
+      formik.values.currency,
+      formik.values.payment,
+      investmentContract,
+      network.assets,
+      tokenContracts
+    ]
+  );
 
   return {
     approve: approve.value,
