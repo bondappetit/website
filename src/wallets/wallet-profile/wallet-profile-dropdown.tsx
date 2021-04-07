@@ -113,25 +113,24 @@ export const WalletProfileDropdown = forwardRef<
             valueInUSD={humanizeNumeral(walletInfo.value?.unstaked.inUSDC)}
             loading={loading}
           />
-          <WalletProfileRow
-            className={classes.row}
-            title={
-              dateUtils.isAfterNow(
-                dateUtils.formatUnix(
-                  walletInfo.value?.locked.date ?? '',
-                  'YYYY-MM-DD'
-                )
-              )
-                ? `Locked till ${dateUtils.formatUnix(
-                    walletInfo.value?.locked.date ?? '',
-                    'DD.MM.YYYY'
-                  )}`
-                : 'Locked'
-            }
-            valueInBag={humanizeNumeral(walletInfo.value?.locked.inBAG)}
-            valueInUSD={humanizeNumeral(walletInfo.value?.locked.inUSDC)}
-            loading={loading}
-          />
+          {dateUtils.isAfterNow(
+            dateUtils.formatUnix(
+              walletInfo.value?.locked.date ?? '',
+              'YYYY-MM-DD'
+            )
+          ) && (
+            <WalletProfileRow
+              className={classes.row}
+              title={`Locked till ${dateUtils.formatUnix(
+                walletInfo.value?.locked.date ?? '',
+                'DD.MM.YYYY'
+              )}`}
+              valueInBag={humanizeNumeral(walletInfo.value?.locked.inBAG)}
+              valueInUSD={humanizeNumeral(walletInfo.value?.locked.inUSDC)}
+              loading={loading}
+            />
+          )}
+
           <WalletProfileRow
             className={clsx(classes.row, classes.footer)}
             title="Total"
