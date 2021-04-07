@@ -8,7 +8,8 @@ import {
   Head,
   BN,
   Plate,
-  numberArray
+  numberArray,
+  humanizeNumeral
 } from 'src/common';
 import {
   StakingCard,
@@ -56,6 +57,15 @@ export const StakingList: React.FC = () => {
 
   const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy.value);
 
+  const volume24 = useMemo(
+    () =>
+      stakingBalancesWithApy.value?.reduce(
+        (acc, { volumeUSD }) => acc.plus(volumeUSD),
+        new BN(0)
+      ),
+    [stakingBalancesWithApy.value]
+  );
+
   return (
     <>
       <Head title="Earn Staking Rewards in BAG by providing liquidity for protocol’s assets" />
@@ -87,7 +97,7 @@ export const StakingList: React.FC = () => {
                   )}
                 </Typography>
               </Typography>
-              <Typography variant="h5" align="center">
+              <Typography variant="h5" align="center" className={classes.bag}>
                 You earned:{' '}
                 <Typography variant="inherit" component="span" weight="bold">
                   {!stakingBalancesWithApy.value ? (
@@ -100,6 +110,16 @@ export const StakingList: React.FC = () => {
                   stakingBalancesWithApy.value && (
                     <> (${rewardSum?.rewardInUSDC.toFormat(2) ?? '0'})</>
                   )}
+              </Typography>
+              <Typography variant="h5" align="center">
+                Volume (24h):{' '}
+                <Typography variant="inherit" component="span" weight="bold">
+                  {!stakingBalancesWithApy.value ? (
+                    '...'
+                  ) : (
+                    <>${humanizeNumeral(volume24)}</>
+                  )}
+                </Typography>
               </Typography>
             </Plate>
           </div>

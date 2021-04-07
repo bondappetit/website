@@ -97,7 +97,7 @@ export const StakingDetail: React.FC = () => {
       new BN(10).pow(stakingBalancesWithApy.decimals)
     );
 
-    return balance.isNaN() ? '0' : balance.toString(10);
+    return balance.isNaN() ? new BN(0) : balance;
   }, [getBalance, stakingBalancesWithApy]);
 
   const { tokenName } = currentStakingToken ?? {};
@@ -133,6 +133,7 @@ export const StakingDetail: React.FC = () => {
             totalSupply={stakingBalancesWithApy?.totalSupplyUSDC}
             className={classes.header}
             poolRate={stakingBalancesWithApy?.poolRate}
+            volumeUSD={stakingBalancesWithApy?.volumeUSD}
             loading={loading}
           />
           <div className={classes.row}>
@@ -149,7 +150,7 @@ export const StakingDetail: React.FC = () => {
                 unstakingStartBlock={unstake.value?.unstakingStartBlock}
                 lockable={stakingBalancesWithApy?.lockable}
                 onSubmit={stakingBalances.retry}
-                balanceOfToken={balanceOfToken.value ?? ''}
+                balanceOfToken={balanceOfToken.value ?? new BN(0)}
                 loading={loading}
                 depositToken={depositToken}
               />

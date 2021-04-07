@@ -1,9 +1,9 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useFormik } from 'formik';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
 import Tippy from '@tippyjs/react';
-import { useToggle } from 'react-use';
+import { useDebounce, useToggle } from 'react-use';
 
 import type { Ierc20 } from 'src/generate/IERC20';
 import {
@@ -39,7 +39,7 @@ export type StakingLockFormProps = {
   tokenDecimals?: string;
   onSubmit?: () => void;
   unstakeStart?: string;
-  balanceOfToken: string;
+  balanceOfToken: BN;
   loading: boolean;
   unstakingStartBlock?: BN;
   lockable?: boolean;
@@ -144,34 +144,42 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     return `${UNISWAP_URL}${addresses}`;
   }, [props.token, networkConfig.assets]);
 
-  useEffect(() => {
-    const handler = async () => {
-      if (!account || !stakingContract || !tokenDecimals) return;
+  useDebounce(
+    () => {
+      const handler = async () => {
+        if (!account || !stakingContract || !tokenDecimals) return;
 
-      const currentAssetContract = getIERC20Contract(tokenAddress);
+        const currentAssetContract = getIERC20Contract(tokenAddress);
 
-      const formAmount = new BN(formik.values.amount)
-        .multipliedBy(new BN(10).pow(tokenDecimals))
-        .toString(10);
+        const formAmount = new BN(formik.values.amount)
+          .multipliedBy(new BN(10).pow(tokenDecimals))
+          .toString(10);
 
-      await approvalNeeded({
-        token: currentAssetContract,
-        owner: account,
-        spender: stakingContract.options.address,
-        amount: formAmount
-      });
-    };
+        await approvalNeeded({
+          token: currentAssetContract,
+          owner: account,
+          spender: stakingContract.options.address,
+          amount: formAmount
+        });
+      };
 
-    handler();
-  }, [
-    account,
-    approvalNeeded,
-    formik.values.amount,
-    getIERC20Contract,
-    stakingContract,
-    tokenAddress,
-    tokenDecimals
-  ]);
+      handler();
+    },
+    200,
+    [
+      account,
+      approvalNeeded,
+      formik.values.amount,
+      getIERC20Contract,
+      stakingContract,
+      tokenAddress,
+      tokenDecimals
+    ]
+  );
+
+  const addLiquidity = props.balanceOfToken.isLessThanOrEqualTo(0)
+    ? aquireToggle
+    : undefined;
 
   return (
     <>
@@ -214,10 +222,13 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
               type="button"
               disabled={formik.isSubmitting}
               onClick={() =>
-                formik.setFieldValue('amount', props.balanceOfToken)
+                formik.setFieldValue(
+                  'amount',
+                  props.balanceOfToken.toString(10)
+                )
               }
             >
-              {props.loading ? '...' : props.balanceOfToken || 0} max
+              {props.loading ? '...' : props.balanceOfToken.toString(10)} max
             </ButtonBase>
           </Typography>
           <Typography
@@ -241,9 +252,10 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         ) : (
           <WalletButtonWithFallback
             type={
-              Number(formik.values.amount) > 0 &&
-              formik.isValid &&
-              props.unstakingStartBlock?.isGreaterThan(0)
+              (Number(formik.values.amount) > 0 &&
+                formik.isValid &&
+                props.unstakingStartBlock?.isGreaterThan(0)) ||
+              props.balanceOfToken.isLessThanOrEqualTo(0)
                 ? 'button'
                 : 'submit'
             }
@@ -254,12 +266,19 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
               formik.isValid &&
               props.unstakingStartBlock?.isGreaterThan(0)
                 ? toggleStakingAttention
-                : undefined
+                : addLiquidity
             }
           >
-            {!approve.value?.approve && !approve.value?.reset
-              ? 'Stake'
-              : 'Approve'}
+            {props.balanceOfToken.isGreaterThan(0) ? (
+              <>
+                {(!approve.value?.approve && !approve.value?.reset) ||
+                new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
+                  ? 'Stake'
+                  : 'Approve'}
+              </>
+            ) : (
+              'Add liquidity'
+            )}
           </WalletButtonWithFallback>
         )}
       </form>

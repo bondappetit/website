@@ -1,5 +1,5 @@
 import { useFormik, FormikContext } from 'formik';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDebounce, useToggle } from 'react-use';
 import type { Ierc20 } from 'src/generate/IERC20';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
@@ -262,40 +262,44 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formik.values.youGet, formik.values.currency, network]);
 
-  useEffect(() => {
-    const currentToken = Object.values(network.assets).find(
-      ({ symbol }) => symbol === formik.values.currency
-    );
+  useDebounce(
+    () => {
+      const currentToken = Object.values(network.assets).find(
+        ({ symbol }) => symbol === formik.values.currency
+      );
 
-    if (!currentToken || !account || !marketContract) return;
+      if (!currentToken || !account || !marketContract) return;
 
-    const currentContract = getContract(currentToken.address);
+      const currentContract = getContract(currentToken.address);
 
-    const formInvest = new BN(formik.values.payment)
-      .multipliedBy(new BN(10).pow(currentToken.decimals))
-      .toString(10);
+      const formInvest = new BN(formik.values.payment)
+        .multipliedBy(new BN(10).pow(currentToken.decimals))
+        .toString(10);
 
-    if (!currentContract) return;
+      if (!currentContract) return;
 
-    const handler = async () => {
-      await approvalNeeded({
-        token: currentContract,
-        owner: account,
-        spender: marketContract.options.address,
-        amount: formInvest
-      });
-    };
+      const handler = async () => {
+        await approvalNeeded({
+          token: currentContract,
+          owner: account,
+          spender: marketContract.options.address,
+          amount: formInvest
+        });
+      };
 
-    handler();
-  }, [
-    account,
-    approvalNeeded,
-    formik.values.currency,
-    formik.values.payment,
-    marketContract,
-    getContract,
-    network.assets
-  ]);
+      handler();
+    },
+    200,
+    [
+      account,
+      approvalNeeded,
+      formik.values.currency,
+      formik.values.payment,
+      marketContract,
+      getContract,
+      network.assets
+    ]
+  );
 
   return (
     <>
@@ -319,7 +323,8 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
               }
               loading={formik.isSubmitting}
             >
-              {!approve.value?.approve && !approve.value?.reset
+              {(!approve.value?.approve && !approve.value?.reset) ||
+              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
                 ? formik.errors.payment || formik.errors.currency || 'Buy'
                 : 'Approve'}
             </WalletButtonWithFallback>
