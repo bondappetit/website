@@ -39,7 +39,12 @@ export const MainCointelegraph: React.VFC<MainCointelegraphProps> = () => {
           target="_blank"
         >
           <Plate className={classes.cardContent}>
-            <CointelegraphIcon className={classes.cardIcon} />
+            <div className={classes.cardHeader}>
+              <CointelegraphIcon className={classes.cardIcon} />
+              <Typography variant="h4" className={classes.cardSite}>
+                Cointelegraph
+              </Typography>
+            </div>
             <Typography variant="h4" className={classes.cardTitle}>
               {article.title}
             </Typography>

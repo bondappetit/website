@@ -29,7 +29,7 @@ export const useLinkModalStyles = createUseStyles(
     fromProtocol: {
       flexDirection: 'column',
       height: 'auto',
-      padding: 40
+      padding: '40px 31px'
     },
 
     buttonTitle: {

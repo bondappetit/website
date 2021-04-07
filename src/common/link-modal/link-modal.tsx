@@ -16,8 +16,10 @@ export type LinkModalProps = {
   onClose: () => void;
   onBuyCollateralMarket?: () => void;
   onBuyMarket?: () => void;
+  onBuyInvestment?: () => void;
   withBuyMarket?: boolean;
   withBuyCollateralMarket?: boolean;
+  withBuyInvestment?: boolean;
   tokenAddress: string;
   rewardPercent?: string;
   tokenName: string;
@@ -62,6 +64,30 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                     width="1em"
                   />{' '}
                   BAG reward
+                </Typography>
+              </Button>
+            )}
+            {props.withBuyInvestment && (
+              <Button
+                onClick={props.onBuyInvestment}
+                className={clsx(classes.button, classes.fromProtocol)}
+              >
+                <Typography
+                  variant="inherit"
+                  component="span"
+                  className={classes.buttonTitle}
+                >
+                  Buy with -50% discount
+                </Typography>
+                <Typography variant="body1" component="span" align="center">
+                  Get{' '}
+                  <BAGicon
+                    className={classes.bagIcon}
+                    height="1em"
+                    width="1em"
+                  />{' '}
+                  BAG at a fixed price $2.5 and
+                  <br />a 6-month lockup period.
                 </Typography>
               </Button>
             )}

@@ -1,18 +1,16 @@
 import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
 import React, { forwardRef, useMemo } from 'react';
-import { Link as ReactRouterLink } from 'react-router-dom';
 
 import {
   BN,
+  ButtonBase,
   dateUtils,
   humanizeNumeral,
-  Link,
   Plate,
   Skeleton,
   Typography
 } from 'src/common';
-import { URLS } from 'src/router/urls';
 import { useStakingTokens } from 'src/staking';
 import { useStakingConfig } from 'src/staking-config';
 import { WalletButtonWithFallback } from '../wallet-button-with-fallback';
@@ -22,6 +20,7 @@ import { useWalletProfileStyles } from './wallet-profile.styles';
 
 export type WalletProfileDropdownProps = {
   className?: string;
+  onBuy?: () => void;
 };
 
 export const WalletProfileDropdown = forwardRef<
@@ -80,14 +79,21 @@ export const WalletProfileDropdown = forwardRef<
       ref={ref}
     >
       <div className={clsx(classes.header, classes.row)}>
-        <Typography variant="body1" weight="bold">
-          {loading ? <Skeleton className={classes.skeleton} /> : 'Portfolio'}
-        </Typography>
         <Typography variant="body1">
           {loading ? (
             <Skeleton className={classes.skeleton} />
           ) : (
             `1 BAG = $${humanizeNumeral(walletInfo.value?.governanceInUSDC)}`
+          )}
+        </Typography>
+
+        <Typography variant="body1" weight="bold">
+          {loading ? (
+            <Skeleton className={classes.skeleton} />
+          ) : (
+            <ButtonBase className={classes.buy} onClick={props.onBuy}>
+              Buy
+            </ButtonBase>
           )}
         </Typography>
       </div>
@@ -134,9 +140,6 @@ export const WalletProfileDropdown = forwardRef<
           <WalletButtonWithFallback className={classes.button} />
         </>
       )}
-      <Link to={URLS.voting.info} component={ReactRouterLink} color="blue">
-        Invest in BondAppétit protocol”
-      </Link>
     </Plate>
   );
 });

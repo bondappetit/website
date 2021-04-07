@@ -19,7 +19,7 @@ export const useWalletProfileStyles = createUseStyles(
 
     plate: {
       width: 512,
-      height: 278,
+      height: 248,
       padding: 24,
       flexDirection: 'column'
     },
@@ -29,6 +29,10 @@ export const useWalletProfileStyles = createUseStyles(
       borderBottom: `1px solid ${rgba(theme.colors.primary, 0.08)}`,
       paddingBottom: 16,
       marginBottom: 16
+    },
+
+    buy: {
+      color: theme.colors.darkBlue
     },
 
     row: {

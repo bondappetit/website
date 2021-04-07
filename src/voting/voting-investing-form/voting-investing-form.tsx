@@ -22,7 +22,7 @@ import { useInvestingForm } from './use-investing-form';
 export type VotingInvestingFormProps = {
   open: boolean;
   onClose: () => void;
-  onSuccess: () => void;
+  onSuccess?: () => void;
 };
 
 export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
@@ -90,7 +90,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
   const handleSuccessClose = useCallback(() => {
     successToggle(false);
     formik.resetForm();
-    onSuccess();
+    onSuccess?.();
   }, [successToggle, formik, onSuccess]);
 
   const { setFieldValue } = formik;

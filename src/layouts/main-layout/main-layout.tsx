@@ -1,13 +1,14 @@
 import { useToggle } from 'react-use';
 import React from 'react';
 
-import { ToggleThemeButton } from 'src/common';
+import { LinkModal, ToggleThemeButton, useNetworkConfig } from 'src/common';
+import { WalletButton } from 'src/wallets';
 import {
-  WalletButton,
   WalletProfile,
   WalletProfileDropdown
-} from 'src/wallets';
+} from 'src/wallets/wallet-profile';
 import { ContactsNews } from 'src/contacts/contacts-news';
+import { VotingInvestingForm } from 'src/voting/voting-investing-form';
 import {
   LayoutHeader,
   LayoutContainer,
@@ -19,7 +20,17 @@ import { useMainLayoutStyles } from './main-layout.styles';
 export const MainLayout: React.FC = (props) => {
   const classes = useMainLayoutStyles();
 
+  const networkConfig = useNetworkConfig();
+
   const [open, toggle] = useToggle(false);
+
+  const [linkModalOpen, togglelinkModal] = useToggle(false);
+  const [investFormIsOpen, toggleInvestForm] = useToggle(false);
+
+  const handleBuyInvestment = () => {
+    togglelinkModal(false);
+    toggleInvestForm(true);
+  };
 
   return (
     <>
@@ -33,12 +44,31 @@ export const MainLayout: React.FC = (props) => {
             </>
           }
           mobileButton={<ToggleThemeButton />}
-          profile={<WalletProfileDropdown className={classes.profile} />}
+          profile={
+            <WalletProfileDropdown
+              className={classes.profile}
+              onBuy={togglelinkModal}
+            />
+          }
         />
         <LayoutContainer>{props.children}</LayoutContainer>
         <LayoutFooter onSubscribe={toggle} />
       </LayoutWrapper>
       <ContactsNews open={open} onClose={toggle} />
+      <LinkModal
+        open={linkModalOpen}
+        onClose={togglelinkModal}
+        tokenName={networkConfig.assets.Governance.symbol}
+        tokenAddress={networkConfig.assets.Governance.address}
+        withBuyInvestment
+        onBuyInvestment={handleBuyInvestment}
+      />
+      {investFormIsOpen && (
+        <VotingInvestingForm
+          open={investFormIsOpen}
+          onClose={toggleInvestForm}
+        />
+      )}
     </>
   );
 };
