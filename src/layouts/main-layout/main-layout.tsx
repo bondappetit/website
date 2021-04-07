@@ -2,7 +2,7 @@ import { useToggle } from 'react-use';
 import React from 'react';
 
 import { LinkModal, ToggleThemeButton, useNetworkConfig } from 'src/common';
-import { WalletButton } from 'src/wallets';
+import { WalletButton, WalletModal } from 'src/wallets';
 import {
   WalletProfile,
   WalletProfileDropdown
@@ -32,6 +32,8 @@ export const MainLayout: React.FC = (props) => {
     toggleInvestForm(true);
   };
 
+  const [walletModalOpen, toggleWalletModal] = useToggle(false);
+
   return (
     <>
       <LayoutWrapper>
@@ -48,6 +50,7 @@ export const MainLayout: React.FC = (props) => {
             <WalletProfileDropdown
               className={classes.profile}
               onBuy={togglelinkModal}
+              onConnect={toggleWalletModal}
             />
           }
         />
@@ -69,6 +72,7 @@ export const MainLayout: React.FC = (props) => {
           onClose={toggleInvestForm}
         />
       )}
+      <WalletModal open={walletModalOpen} onClose={toggleWalletModal} />
     </>
   );
 };
