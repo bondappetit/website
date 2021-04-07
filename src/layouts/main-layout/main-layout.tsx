@@ -2,7 +2,7 @@ import { useToggle } from 'react-use';
 import React from 'react';
 
 import { ToggleThemeButton } from 'src/common';
-import { WalletButton } from 'src/wallets';
+import { WalletButton, WalletProfile } from 'src/wallets';
 import { ContactsNews } from 'src/contacts/contacts-news';
 import {
   LayoutHeader,
@@ -24,6 +24,7 @@ export const MainLayout: React.FC = (props) => {
           rightButton={
             <>
               <ToggleThemeButton className={classes.toggleTheme} />
+              <WalletProfile className={classes.profile} />
               <WalletButton />
             </>
           }

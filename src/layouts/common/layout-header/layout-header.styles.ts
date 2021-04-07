@@ -79,6 +79,7 @@ export const useLayoutHeaderStyles = createUseStyles(
       justifyContent: 'flex-end',
       flexBasis: '15%',
       order: 1,
+      alignItems: 'center',
 
       [theme.breakpoints.lg()]: {
         order: 'unset'

@@ -11,6 +11,10 @@ export const useMainLayoutStyles = createUseStyles(
       [theme.breakpoints.lg()]: {
         display: 'flex'
       }
+    },
+
+    profile: {
+      marginRight: 16
     }
   }),
   {
