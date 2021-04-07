@@ -1,4 +1,4 @@
-import { useAsyncRetry, useInterval } from 'react-use';
+import { useAsyncRetry } from 'react-use';
 import { useEffect, useRef, useState } from 'react';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
@@ -9,7 +9,8 @@ import {
   useUniswapRouter,
   BN,
   useUniswapPairInfo,
-  useBatchRequest
+  useBatchRequest,
+  useIntervalIfHasAccount
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { useGovernanceCost } from './use-governance-cost';
@@ -252,7 +253,7 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
     uniswapRouter
   ]);
 
-  useInterval(state.retry, 15000);
+  useIntervalIfHasAccount(state.retry);
 
   return state;
 };

@@ -6,7 +6,7 @@ import {
   useStableCoinContract,
   useMarketContract,
   BN,
-  useTimeoutInterval
+  useIntervalIfHasAccount
 } from 'src/common';
 import { Balance } from './monitor-contract-list.types';
 
@@ -50,7 +50,7 @@ export const useMarketBalance = (): Balance[] | null => {
     setMarketBalances(await Promise.all(balances));
   }, [networkConfig, stableCoinContract, governanceContract, marketContract]);
 
-  useTimeoutInterval(handleLoadMarketBalances, 15000);
+  useIntervalIfHasAccount(handleLoadMarketBalances);
 
   return marketBalances;
 };

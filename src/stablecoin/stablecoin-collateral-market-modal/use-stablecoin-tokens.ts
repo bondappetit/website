@@ -1,11 +1,12 @@
 import { development } from '@bondappetit/networks';
-import { useAsyncRetry, useInterval } from 'react-use';
+import { useAsyncRetry } from 'react-use';
 
 import {
   useCollateralMarketContract,
   useNetworkConfig,
   useBalance,
-  BN
+  BN,
+  useIntervalIfHasAccount
 } from 'src/common';
 
 export type Asset = typeof development.assets[number] & { balance: string };
@@ -46,7 +47,7 @@ export const useStablecoinTokens = () => {
     return Promise.all(tokens);
   }, [collateralMarketContract, network, getBalance]);
 
-  useInterval(state.retry, 15000);
+  useIntervalIfHasAccount(state.retry);
 
   return state;
 };

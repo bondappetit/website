@@ -1,10 +1,10 @@
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
-import { useAsyncFn, useInterval } from 'react-use';
+import { useAsyncFn } from 'react-use';
 import { useEffect, useRef } from 'react';
 
 import type { Staking } from 'src/generate/Staking';
-import { dateUtils, BN } from 'src/common';
+import { dateUtils, BN, useIntervalIfHasAccount } from 'src/common';
 
 const DATE_FORMAT = 'HH:mm:ss on MMMM DD';
 
@@ -49,7 +49,7 @@ export const useCanStaking = (stakingContract?: Staking) => {
     }
   }, [stakingContract, getState]);
 
-  useInterval(getState, 15000);
+  useIntervalIfHasAccount(getState);
 
   return state;
 };
