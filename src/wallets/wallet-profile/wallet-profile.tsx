@@ -1,6 +1,6 @@
 import clsx from 'clsx';
-import React, { useRef } from 'react';
-import { useToggle, useClickAway } from 'react-use';
+import React, { useEffect, useRef } from 'react';
+import { useToggle } from 'react-use';
 
 import { ReactComponent as BAGicon } from 'src/assets/icons/coins/bag.svg';
 import { ButtonBase } from 'src/common';
@@ -14,18 +14,36 @@ export type WalletProfileProps = {
 export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
   const classes = useWalletProfileStyles();
 
-  const [open, toggleOpen] = useToggle(false);
+  const ref = useRef<HTMLDivElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  const dropdownRef = useRef(null);
+  const [dropdownOpened, toggleDropdown] = useToggle(false);
 
-  useClickAway(dropdownRef, toggleOpen.bind(null, false));
+  useEffect(() => {
+    const onMouseOver = () => toggleDropdown(true);
+    const onMouseOut = () => toggleDropdown(false);
+
+    const { current } = ref;
+
+    current?.addEventListener('mouseenter', onMouseOver);
+    current?.addEventListener('mouseleave', onMouseOut);
+
+    return () => {
+      current?.addEventListener('mouseenter', onMouseOver);
+      current?.addEventListener('mouseleave', onMouseOut);
+    };
+  }, [ref, toggleDropdown]);
 
   return (
-    <div className={clsx(classes.root, props.className)} ref={dropdownRef}>
-      <ButtonBase onClick={toggleOpen}>
+    <div className={clsx(classes.root, props.className)} ref={ref}>
+      <ButtonBase>
         <BAGicon width="32" height="32" />
       </ButtonBase>
-      {open && <WalletProfileDropdown className={classes.dropdown} />}
+      {dropdownOpened && (
+        <div ref={dropdownRef} className={classes.dropdown}>
+          <WalletProfileDropdown />
+        </div>
+      )}
     </div>
   );
 };

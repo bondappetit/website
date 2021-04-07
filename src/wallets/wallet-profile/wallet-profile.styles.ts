@@ -12,13 +12,14 @@ export const useWalletProfileStyles = createUseStyles(
     dropdown: {
       position: 'absolute',
       right: 0,
-      top: 'calc(100% + 16px)',
+      top: '100%',
+      paddingTop: 16,
       zIndex: 10
     },
 
     plate: {
       width: 512,
-      height: 248,
+      height: 278,
       padding: 24,
       flexDirection: 'column'
     },
@@ -56,11 +57,13 @@ export const useWalletProfileStyles = createUseStyles(
     footer: {
       borderTop: `1px solid ${rgba(theme.colors.primary, 0.08)}`,
       paddingTop: 16,
-      marginTop: 16
+      marginTop: 16,
+      marginBottom: 16
     },
 
     button: {
-      marginTop: 'auto'
+      marginTop: 'auto',
+      marginBottom: 16
     },
 
     skeleton: {

@@ -1,15 +1,18 @@
 import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
-import React, { useMemo } from 'react';
+import React, { forwardRef, useMemo } from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 import {
   BN,
   dateUtils,
   humanizeNumeral,
+  Link,
   Plate,
   Skeleton,
   Typography
 } from 'src/common';
+import { URLS } from 'src/router/urls';
 import { useStakingTokens } from 'src/staking';
 import { useStakingConfig } from 'src/staking-config';
 import { WalletButtonWithFallback } from '../wallet-button-with-fallback';
@@ -21,9 +24,10 @@ export type WalletProfileDropdownProps = {
   className?: string;
 };
 
-export const WalletProfileDropdown: React.VFC<WalletProfileDropdownProps> = (
-  props
-) => {
+export const WalletProfileDropdown = forwardRef<
+  HTMLDivElement,
+  WalletProfileDropdownProps
+>((props, ref) => {
   const walletInfo = useWalletInfo();
 
   const classes = useWalletProfileStyles();
@@ -71,7 +75,10 @@ export const WalletProfileDropdown: React.VFC<WalletProfileDropdownProps> = (
   }, [claimable, walletInfo.value]);
 
   return (
-    <Plate className={clsx(classes.plate, classes.row, props.className)}>
+    <Plate
+      className={clsx(classes.plate, classes.row, props.className)}
+      ref={ref}
+    >
       <div className={clsx(classes.header, classes.row)}>
         <Typography variant="body1" weight="bold">
           {loading ? <Skeleton className={classes.skeleton} /> : 'Portfolio'}
@@ -127,6 +134,11 @@ export const WalletProfileDropdown: React.VFC<WalletProfileDropdownProps> = (
           <WalletButtonWithFallback className={classes.button} />
         </>
       )}
+      <Link to={URLS.voting.info} component={ReactRouterLink} color="blue">
+        Invest in BondAppétit protocol”
+      </Link>
     </Plate>
   );
-};
+});
+
+WalletProfileDropdown.displayName = 'WalletProfileDropdown';
