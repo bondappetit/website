@@ -195,7 +195,7 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
           });
 
           volumeUSD =
-            data.pairDayDatas?.[0].dailyVolumeUSD?.replace(',', '') ?? '0';
+            data.pairDayDatas?.[0]?.dailyVolumeUSD?.replace(',', '') ?? '0';
 
           tokenInUSDC = new BN(pair?.reserveUSD || 0)
             .div(pair?.totalSupply || 1)
