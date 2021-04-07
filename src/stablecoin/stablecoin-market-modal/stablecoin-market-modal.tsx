@@ -21,10 +21,10 @@ import {
   useMarketContract,
   estimateGas,
   BN,
-  useTimeoutInterval,
   useApprove,
   approveAll,
-  reset
+  reset,
+  useIntervalIfHasAccount
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useGovernanceTokens } from './use-stablecoin-tokens';
@@ -187,22 +187,18 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
     [formik.values.payment, formik.values.currency, tokens.value]
   );
 
-  useTimeoutInterval(
-    async () => {
-      const balanceOfToken = await getBalance({
-        tokenAddress: network.assets.Stable.address,
-        tokenName: network.assets.Stable.name
-      });
+  useIntervalIfHasAccount(async () => {
+    const balanceOfToken = await getBalance({
+      tokenAddress: network.assets.Stable.address,
+      tokenName: network.assets.Stable.name
+    });
 
-      setBalance(
-        balanceOfToken
-          .div(new BN(10).pow(network.assets.Stable.decimals))
-          .toString(10)
-      );
-    },
-    15000,
-    getBalance
-  );
+    setBalance(
+      balanceOfToken
+        .div(new BN(10).pow(network.assets.Stable.decimals))
+        .toString(10)
+    );
+  });
 
   const handleSuccessClose = useCallback(() => {
     successToggle(false);

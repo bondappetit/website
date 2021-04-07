@@ -11,9 +11,9 @@ import {
   Modal,
   SmallModal,
   useBalance,
+  useIntervalIfHasAccount,
   useInvestmentContract,
-  useNetworkConfig,
-  useTimeoutInterval
+  useNetworkConfig
 } from 'src/common';
 import { WalletButtonWithFallback } from 'src/wallets';
 import { useInvestingTokens } from './use-investing-tokens';
@@ -48,22 +48,18 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
 
   const getBalance = useBalance();
 
-  useTimeoutInterval(
-    async () => {
-      const balanceOfToken = await getBalance({
-        tokenAddress: network.assets.Governance.address,
-        tokenName: network.assets.Governance.symbol
-      });
+  useIntervalIfHasAccount(async () => {
+    const balanceOfToken = await getBalance({
+      tokenAddress: network.assets.Governance.address,
+      tokenName: network.assets.Governance.symbol
+    });
 
-      setBalance(
-        balanceOfToken
-          .div(new BN(10).pow(network.assets.Governance.decimals))
-          .toString(10)
-      );
-    },
-    15000,
-    getBalance
-  );
+    setBalance(
+      balanceOfToken
+        .div(new BN(10).pow(network.assets.Governance.decimals))
+        .toString(10)
+    );
+  });
 
   const tokenPrices = useAsyncRetry(async () => {
     const currentToken = Object.values(network.assets).find(

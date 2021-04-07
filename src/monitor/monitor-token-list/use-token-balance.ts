@@ -4,7 +4,7 @@ import {
   useBalance,
   useNetworkConfig,
   BN,
-  useTimeoutInterval
+  useIntervalIfHasAccount
 } from 'src/common';
 
 type TokenBalance = {
@@ -35,7 +35,7 @@ export const useTokensBalance = (address?: string) => {
     setTokenBalances(await Promise.all(balances));
   }, [getBalance, address, networkConfig]);
 
-  useTimeoutInterval(handleLoadTokensBalance, 15000);
+  useIntervalIfHasAccount(handleLoadTokensBalance);
 
   return tokenBalances;
 };

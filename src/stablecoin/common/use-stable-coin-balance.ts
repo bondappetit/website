@@ -1,6 +1,11 @@
-import { useAsyncRetry, useInterval } from 'react-use';
+import { useAsyncRetry } from 'react-use';
 
-import { useNetworkConfig, useStableCoinContract, BN } from 'src/common';
+import {
+  useNetworkConfig,
+  useStableCoinContract,
+  BN,
+  useIntervalIfHasAccount
+} from 'src/common';
 
 export const useStableCoinBalance = () => {
   const stableCoinContract = useStableCoinContract();
@@ -19,7 +24,7 @@ export const useStableCoinBalance = () => {
     );
   }, [stableCoinContract, networkConfig]);
 
-  useInterval(state.retry, 15000);
+  useIntervalIfHasAccount(state.retry);
 
   return state;
 };

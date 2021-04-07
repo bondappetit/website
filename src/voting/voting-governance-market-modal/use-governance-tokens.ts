@@ -6,7 +6,7 @@ import {
   useBalance,
   Asset,
   BN,
-  useTimeoutInterval
+  useIntervalIfHasAccount
 } from 'src/common';
 
 export const useGovernanceTokens = () => {
@@ -54,7 +54,7 @@ export const useGovernanceTokens = () => {
     }
   }, [network, marketContract, getBalance]);
 
-  useTimeoutInterval(handleLoadTokenPrices, 15000, handleLoadTokenPrices);
+  useIntervalIfHasAccount(handleLoadTokenPrices);
 
   return tokens;
 };

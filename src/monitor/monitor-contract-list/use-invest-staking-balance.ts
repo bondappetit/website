@@ -4,7 +4,7 @@ import {
   useNetworkConfig,
   useGovernanceContract,
   useStableCoinContract,
-  useTimeoutInterval
+  useIntervalIfHasAccount
 } from 'src/common';
 
 export const useInvestStakingBalance = () => {
@@ -34,7 +34,7 @@ export const useInvestStakingBalance = () => {
     return Promise.all(balances);
   }, [governanceContract, networkConfig, stableCoinContract]);
 
-  useTimeoutInterval(state.retry, 15000);
+  useIntervalIfHasAccount(state.retry);
 
   return state;
 };

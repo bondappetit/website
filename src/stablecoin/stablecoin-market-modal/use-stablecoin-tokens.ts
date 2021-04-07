@@ -1,11 +1,12 @@
-import { useAsyncRetry, useInterval } from 'react-use';
+import { useAsyncRetry } from 'react-use';
 
 import {
   useNetworkConfig,
   useMarketContract,
   useBalance,
   Asset,
-  BN
+  BN,
+  useIntervalIfHasAccount
 } from 'src/common';
 
 export const useGovernanceTokens = () => {
@@ -48,7 +49,7 @@ export const useGovernanceTokens = () => {
     return tokensWithPrice;
   }, [network, marketContract, getBalance]);
 
-  useInterval(state.retry, 15000);
+  useIntervalIfHasAccount(state.retry);
 
   return state;
 };

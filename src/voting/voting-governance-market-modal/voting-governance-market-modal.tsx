@@ -23,8 +23,8 @@ import {
   estimateGas,
   BN,
   approveAll,
-  useTimeoutInterval,
-  reset
+  reset,
+  useIntervalIfHasAccount
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 import { useGovernanceTokens } from './use-governance-tokens';
@@ -169,7 +169,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
     [formik.values.amount, formik.values.currency, tokens]
   );
 
-  useTimeoutInterval(async () => {
+  useIntervalIfHasAccount(async () => {
     const balanceOfToken = await getBalance({
       tokenAddress: network.assets.Governance.address,
       tokenName: network.assets.Governance.name
@@ -180,7 +180,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
         .div(new BN(10).pow(network.assets.Governance.decimals))
         .toString(10)
     );
-  }, 15000);
+  });
 
   const handleSuccessClose = useCallback(() => {
     successToggle(false);
