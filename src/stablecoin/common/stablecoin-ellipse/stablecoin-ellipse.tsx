@@ -17,22 +17,20 @@ export type StablecoinEllipseProps = {
 const round = (sum?: string | null) => {
   if (!sum) return '0';
 
-  return new BN(sum).integerValue().toFormat(2);
+  return new BN(sum.replace(',', '')).integerValue().toFormat(2);
 };
 
 export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
   const classes = useStablecoinEllipseStyles();
 
-  let dailyVolumeUSD = useMemo(
+  const dailyVolumeUSD = useMemo(
     () => round(props.tokenInfo?.data?.tokenDayDatas?.[0]?.dailyVolumeUSD),
     [props.tokenInfo]
   );
-  dailyVolumeUSD = new BN(dailyVolumeUSD.replace(',', '')).toFormat(2);
-  let totalLiquidityUSD = useMemo(
+  const totalLiquidityUSD = useMemo(
     () => round(props.tokenInfo?.data?.tokenDayDatas?.[0]?.totalLiquidityUSD),
     [props.tokenInfo]
   );
-  totalLiquidityUSD = new BN(totalLiquidityUSD.replace(',', '')).toFormat(2);
 
   return (
     <div className={props.className}>
