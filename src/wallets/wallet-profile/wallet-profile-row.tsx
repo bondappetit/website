@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 
 import { Typography, Skeleton } from 'src/common';
@@ -16,21 +17,29 @@ export const WalletProfileRow: React.VFC<WalletProfileRowProps> = (props) => {
 
   return (
     <div className={props.className}>
-      <Typography variant="body1" className={classes.col35}>
+      <Typography variant="body1" className={clsx(classes.col, classes.col35)}>
         {props.loading ? (
           <Skeleton className={classes.skeleton} />
         ) : (
           props.title
         )}
       </Typography>
-      <Typography variant="body1" align="right" className={classes.col35}>
+      <Typography
+        variant="body1"
+        align="right"
+        className={clsx(classes.col, classes.col35)}
+      >
         {props.loading ? (
           <Skeleton className={classes.skeleton} />
         ) : (
           <>{props.valueInBag} BAG</>
         )}
       </Typography>
-      <Typography variant="body1" align="right" className={classes.col30}>
+      <Typography
+        variant="body1"
+        align="right"
+        className={clsx(classes.col, classes.col30)}
+      >
         {props.loading ? (
           <Skeleton className={classes.skeleton} />
         ) : (

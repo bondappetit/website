@@ -46,6 +46,12 @@ export const useWalletProfileStyles = createUseStyles(
       }
     },
 
+    col: {
+      overflow: 'hidden',
+      whiteSpace: 'nowrap',
+      textOverflow: 'ellipsis'
+    },
+
     col35: {
       width: '35%'
     },

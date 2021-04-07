@@ -42,22 +42,25 @@ export const useWalletInfo = () => {
 
     const unstakedBAG = new BN(locking.amount);
 
-    const unstakedInBAG = unstakedBAG.minus(balance);
+    const unstakedInBAG = balance.minus(unstakedBAG);
 
     const USD = networkConfig.assets.USDC;
+    const unstakedInUSDC = unstakedInBAG
+      .multipliedBy(governanceInUSDC)
+      .div(new BN(10).pow(USD.decimals));
+
+    const lockedUSDC = unstakedBAG
+      .multipliedBy(governanceInUSDC)
+      .div(new BN(10).pow(USD.decimals));
 
     return {
       unstaked: {
-        inBAG: unstakedInBAG,
-        inUSDC: unstakedInBAG
-          .multipliedBy(governanceInUSDC)
-          .div(new BN(10).pow(USD.decimals))
+        inBAG: unstakedInBAG.isLessThan(0) ? new BN(0) : unstakedInBAG,
+        inUSDC: unstakedInUSDC.isLessThan(0) ? new BN(0) : unstakedInUSDC
       },
       locked: {
-        inBAG: unstakedBAG,
-        inUSDC: unstakedBAG
-          .multipliedBy(governanceInUSDC)
-          .div(new BN(10).pow(USD.decimals)),
+        inBAG: unstakedBAG.isLessThan(0) ? new BN(0) : unstakedBAG,
+        inUSDC: lockedUSDC.isLessThan(0) ? new BN(0) : lockedUSDC,
         date: locking.date
       },
       governanceInUSDC: normalizeGovernanceInUSDC
