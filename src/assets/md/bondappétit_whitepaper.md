@@ -529,7 +529,7 @@ In order to ensure the fast deployment of the protocol, the protocol will be lau
 At the first phase, our goals will be:
 **Attracting enough liquidity for USDap on Uniswap**. Users will be able to invest USDC in the protocol by locking up their funds for a 3-month period. As a reward for this action, the protocol will distribute 5% of the initial BAG offering to all participants of the first phase.
 
-Later, at Phase 2, users will be able to convert these USDap back to USDC at the exchange rate of 0.999 USDap to 1 USDC.
+Later, at Phase 2, users will be able to convert these USDap back to USDC at the exchange rate of 1 USDap to 1 USDC.
 
 **Raising funds**. The investment process will be structured through an offering of BAGs on the open market. The protocol aims to attract \$1.2M. \$1M will be used for the purchase of RWA and \$200,000 will cover the liquidity pool support and protocol expenses for fiat/crypto conversions and technical expenses of the protocol (oracles maintenance).
 
