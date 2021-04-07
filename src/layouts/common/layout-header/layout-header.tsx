@@ -12,6 +12,7 @@ import { useLayoutHeaderStyles } from './layout-header.styles';
 export type LayoutHeaderProps = {
   rightButton?: React.ReactNode;
   mobileButton?: React.ReactNode;
+  profile?: React.ReactNode;
 };
 
 export const LayoutHeader: React.FC<LayoutHeaderProps> = (props) => {
@@ -31,6 +32,7 @@ export const LayoutHeader: React.FC<LayoutHeaderProps> = (props) => {
           className={clsx(classes.menu, {
             [classes.menuOpen]: open
           })}
+          profile={props.profile}
         >
           {props.mobileButton}
         </LayoutMenu>

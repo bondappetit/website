@@ -96,6 +96,12 @@ export const useLayoutMenuStyles = createUseStyles(
       }
     },
 
+    mobileNavLink: {
+      [theme.breakpoints.lg()]: {
+        display: 'none'
+      }
+    },
+
     phase: {
       display: 'none',
 

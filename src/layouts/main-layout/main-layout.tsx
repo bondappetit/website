@@ -2,7 +2,11 @@ import { useToggle } from 'react-use';
 import React from 'react';
 
 import { ToggleThemeButton } from 'src/common';
-import { WalletButton } from 'src/wallets';
+import {
+  WalletButton,
+  WalletProfile,
+  WalletProfileDropdown
+} from 'src/wallets';
 import { ContactsNews } from 'src/contacts/contacts-news';
 import {
   LayoutHeader,
@@ -24,10 +28,12 @@ export const MainLayout: React.FC = (props) => {
           rightButton={
             <>
               <ToggleThemeButton className={classes.toggleTheme} />
+              <WalletProfile className={classes.profileButton} />
               <WalletButton />
             </>
           }
           mobileButton={<ToggleThemeButton />}
+          profile={<WalletProfileDropdown className={classes.profile} />}
         />
         <LayoutContainer>{props.children}</LayoutContainer>
         <LayoutFooter onSubscribe={toggle} />
