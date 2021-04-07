@@ -31,7 +31,14 @@ export const useWalletProfileStyles = createUseStyles(
     },
 
     row: {
-      display: 'flex'
+      display: 'flex',
+
+      [theme.breakpoints.down(600)]: {
+        '& p': {
+          fontSize: 14,
+          lineHeight: '20px'
+        }
+      }
     },
 
     col35: {
