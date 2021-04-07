@@ -28,7 +28,7 @@ export const WalletProfileDropdown = forwardRef<
   HTMLDivElement,
   WalletProfileDropdownProps
 >((props, ref) => {
-  const walletInfo = useWalletInfo();
+  const { state: walletInfo, governanceInUSDC } = useWalletInfo();
 
   const classes = useWalletProfileStyles();
 
@@ -84,7 +84,7 @@ export const WalletProfileDropdown = forwardRef<
           {loading ? (
             <Skeleton className={classes.skeleton} />
           ) : (
-            `1 BAG = $${humanizeNumeral(walletInfo.value?.governanceInUSDC)}`
+            `1 BAG = $${humanizeNumeral(governanceInUSDC)}`
           )}
         </Typography>
 

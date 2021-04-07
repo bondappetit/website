@@ -20,6 +20,7 @@ export const useWalletInfo = () => {
   const getBalance = useBalance();
 
   const { governanceInUSDC } = useGovernanceCost();
+
   const normalizeGovernanceInUSDC = useMemo(() => {
     if (!governanceInUSDC) return new BN('0');
 
@@ -28,7 +29,7 @@ export const useWalletInfo = () => {
     );
   }, [governanceInUSDC, networkConfig.assets.USDC.decimals]);
 
-  return useAsyncRetry(async () => {
+  const state = useAsyncRetry(async () => {
     if (!governanceContract || !account || !governanceInUSDC) return;
 
     const locking = await governanceContract.methods.locking(account).call();
@@ -62,15 +63,18 @@ export const useWalletInfo = () => {
         inBAG: unstakedBAG.isLessThan(0) ? new BN(0) : unstakedBAG,
         inUSDC: lockedUSDC.isLessThan(0) ? new BN(0) : lockedUSDC,
         date: locking.date
-      },
-      governanceInUSDC: normalizeGovernanceInUSDC
+      }
     };
   }, [
     account,
     governanceContract,
     getBalance,
     networkConfig.assets,
-    governanceInUSDC,
-    normalizeGovernanceInUSDC
+    governanceInUSDC
   ]);
+
+  return {
+    state,
+    governanceInUSDC: normalizeGovernanceInUSDC
+  };
 };
