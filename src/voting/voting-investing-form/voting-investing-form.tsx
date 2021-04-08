@@ -77,11 +77,11 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
 
     const priceBN = new BN(priceOfToken);
 
+    const div = new BN(10).pow(network.assets.Governance.decimals);
+
     return {
-      price: priceBN
-        .div(new BN(10).pow(network.assets.Governance.decimals))
-        .toString(10),
-      converPrice: priceBN.toString(10)
+      price: priceBN.div(div).toString(10),
+      convertPrice: priceBN.div(div).toString(10)
     };
   }, [formik.values.currency]);
 
@@ -124,12 +124,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
           onClose={handleClose}
           tokenName="BAG"
           balance={balance}
-          tokenCost={
-            new BN(10)
-              .pow(network.assets.Governance.decimals)
-              .div(new BN(tokenPrices.value?.converPrice ?? ''))
-              .toString(10) ?? '0'
-          }
+          tokenCost={tokenPrices.value?.convertPrice ?? '0'}
           tokens={tokens.value ?? []}
           onPaymentChange={handlePaymentChange}
           onYouGetChange={handleYouGetChange}

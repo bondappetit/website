@@ -1,15 +1,10 @@
 import React, { useCallback } from 'react';
 import { useToggle } from 'react-use';
 
-import {
-  Button,
-  Modal,
-  SmallModal,
-  Typography,
-  useNetworkConfig
-} from 'src/common';
+import { useNetworkConfig } from 'src/common';
 import { config } from 'src/config';
 import { VotingInfoCard } from '../common';
+import { VotingInvestingAttention } from '../voting-investing-attention';
 import { VotingInvestingForm } from '../voting-investing-form';
 import { useInvestingTotal } from './use-investing-total';
 import { useVotingInvestingStyles } from './voting-investing.styles';
@@ -61,7 +56,8 @@ export const VotingInvesting: React.VFC = () => {
         onClick={config.IS_INVEST ? toggleAttention : handleToUniswap}
         description={
           config.IS_INVEST
-            ? `Special offer for early investors only: buy the initial emission of (${totalTokens} BAGs) at a fixed price of $2.5 per token, subject to a 6-months moratorium on sales. The offer is valid until July 2021.`
+            ? `Special offer for early investors only: buy the initial emission of (${totalTokens} BAGs)` +
+              ' at a fixed price of $2.5 per token, subject to a 6-months moratorium on sales. The offer is valid until July 2021.'
             : ''
         }
       />
@@ -70,34 +66,11 @@ export const VotingInvesting: React.VFC = () => {
         onClose={toggleInvestForm}
         onSuccess={investingTotal.retry}
       />
-      <Modal open={attentionIsOpen} onClose={toggleAttention}>
-        <SmallModal>
-          <div className={classes.attention}>
-            <div className={classes.attentionContent}>
-              <Typography variant="h5" weight="bold">
-                <Typography variant="inherit" className={classes.attentionRed}>
-                  Attention!
-                </Typography>{' '}
-              </Typography>
-              <Typography variant="h5">
-                We&apos;re offering BAG tokens with a fixed price and a 6-month
-                lockup period.
-              </Typography>{' '}
-              <Typography variant="h5">
-                That means you won&apos;t be able to transfer or stake tokens
-                for 6 months, but you will be able to vote and create proposals
-                with them.
-              </Typography>
-            </div>
-            <Button
-              className={classes.attentionButton}
-              onClick={handleOpenInvestForm}
-            >
-              Buy
-            </Button>
-          </div>
-        </SmallModal>
-      </Modal>
+      <VotingInvestingAttention
+        open={attentionIsOpen}
+        onClose={toggleAttention}
+        onBuy={handleOpenInvestForm}
+      />
     </>
   );
 };
