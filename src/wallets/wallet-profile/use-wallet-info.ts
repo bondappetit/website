@@ -41,9 +41,13 @@ export const useWalletInfo = () => {
       tokenAddress: asset.address
     });
 
-    const unstakedBAG = new BN(locking.amount);
+    const unstakedBAG = new BN(locking.amount).div(
+      new BN(10).pow(asset.decimals)
+    );
 
-    const unstakedInBAG = balance.minus(unstakedBAG);
+    const unstakedInBAG = balance
+      .div(new BN(10).pow(asset.decimals))
+      .minus(unstakedBAG);
 
     const USD = networkConfig.assets.USDC;
     const unstakedInUSDC = unstakedInBAG
