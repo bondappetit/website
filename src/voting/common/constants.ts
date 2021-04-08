@@ -25,11 +25,11 @@ export const ProposalStateColors: Record<string, StatusProps['color']> = {
 export const FACTOID = [
   {
     percent: '20%',
-    text: `BondAppétite team & future team members, subject to 4-year vesting;`
+    text: `BondAppétit team & future team members, subject to 4-year vesting;`
   },
   {
     percent: '14%',
-    text: `to BondAppétite founders, subject to 18 - months moratorium on sale;`
+    text: `to BondAppétit founders, subject to 18 - months moratorium on sale;`
   },
   {
     percent: '1%',
