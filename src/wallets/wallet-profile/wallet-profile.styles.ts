@@ -1,4 +1,4 @@
-import { rgba } from 'polished';
+import { rgba, transitions } from 'polished';
 import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
@@ -6,13 +6,30 @@ import { Theme } from 'src/common';
 export const useWalletProfileStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
-      position: 'relative'
+      position: 'relative',
+      '--stroke-circle': theme.colors.primary,
+      '--stroke-hat': theme.colors.primary,
+      '--fill-circle': theme.colors.secondary,
+      '--fill-hat': 'none',
+      ...transitions(
+        'fill 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+        'stroke 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
+      ),
+
+      [theme.mixins.hover()]: {
+        '&:hover': {
+          '--stroke-circle': 'none',
+          '--stroke-hat': 'none',
+          '--fill-circle': theme.colors.yellow,
+          '--fill-hat': theme.colors.black
+        }
+      }
     },
 
     dropdown: {
       position: 'absolute',
       right: 0,
-      top: '100%',
+      top: '89%',
       paddingTop: 16,
       zIndex: 10
     },
@@ -74,11 +91,6 @@ export const useWalletProfileStyles = createUseStyles(
     button: {
       marginTop: 'auto',
       marginBottom: 16
-    },
-
-    skeleton: {
-      width: '100%',
-      minWidth: 100
     }
   }),
   {
