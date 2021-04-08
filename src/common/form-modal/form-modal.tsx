@@ -2,6 +2,7 @@ import { useFormikContext } from 'formik';
 import React, { useMemo, useCallback, useRef } from 'react';
 import { useToggle, useHover, useUpdateEffect } from 'react-use';
 import Tippy from '@tippyjs/react';
+import clsx from 'clsx';
 
 import { ReactComponent as HelpIcon } from 'src/assets/icons/help.svg';
 import { ButtonBase } from '../button-base';
@@ -26,7 +27,7 @@ export type FormModalProps = {
   onClose: () => void;
   tokenName: string;
   tokens: Asset[];
-  balance: string;
+  balance?: string;
   tokenCost: string;
   withReward?: boolean;
   reward?: {
@@ -155,7 +156,7 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                     type="number"
                     disabled={formik.isSubmitting}
                     value={formik.values.payment}
-                    className={classes.input}
+                    className={classes.inputSizes}
                     onChange={formik.handleChange}
                     onFocus={() => {
                       youGetRef.current = true;
@@ -164,34 +165,40 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                       youGetRef.current = false;
                     }}
                   />
-                  <div className={classes.input}>
-                    <Typography
-                      variant="body1"
-                      component="div"
-                      className={classes.labelWithBalance}
-                    >
-                      Balance:{' '}
-                      <ButtonBase
-                        type="button"
-                        className={classes.balanceButton}
-                        disabled={formik.isSubmitting}
-                        onClick={
-                          currentToken?.balance
-                            ? () =>
-                                formik.setFieldValue(
-                                  'payment',
-                                  currentToken?.balance
-                                )
-                            : undefined
-                        }
+                  <div
+                    className={clsx(classes.input, {
+                      [classes.emptyBalance]: !props.balance
+                    })}
+                  >
+                    {props.balance && (
+                      <Typography
+                        variant="body1"
+                        component="div"
+                        className={classes.labelWithBalance}
                       >
-                        {humanizeNumeral(currentToken?.balance ?? '0')}
-                      </ButtonBase>
-                    </Typography>
+                        Balance:{' '}
+                        <ButtonBase
+                          type="button"
+                          className={classes.balanceButton}
+                          disabled={formik.isSubmitting}
+                          onClick={
+                            currentToken?.balance
+                              ? () =>
+                                  formik.setFieldValue(
+                                    'payment',
+                                    currentToken?.balance
+                                  )
+                              : undefined
+                          }
+                        >
+                          {humanizeNumeral(currentToken?.balance ?? '0')}
+                        </ButtonBase>
+                      </Typography>
+                    )}
                     <ButtonBase
                       type="button"
                       disabled={formik.isSubmitting}
-                      className={classes.selectButton}
+                      className={clsx(classes.selectButton, classes.inputSizes)}
                       onClick={toggleSelect}
                     >
                       {CurrencyIcon && <CurrencyIcon />}
@@ -211,6 +218,7 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                       disabled={formik.isSubmitting}
                       value={formik.values.youGet}
                       onChange={formik.handleChange}
+                      className={classes.inputSizes}
                       onFocus={() => {
                         paymentRef.current = true;
                       }}
@@ -220,18 +228,24 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                     />
                   </div>
                   {props.withReward && rewardHoverable}
-                  <div className={classes.input}>
-                    <Typography
-                      variant="body1"
-                      component="div"
-                      className={classes.labelWithBalance}
-                    >
-                      Balance: {humanizeNumeral(props.balance)}
-                    </Typography>
+                  <div
+                    className={clsx(classes.input, {
+                      [classes.emptyBalance]: !props.balance
+                    })}
+                  >
+                    {props.balance && (
+                      <Typography
+                        variant="body1"
+                        component="div"
+                        className={classes.labelWithBalance}
+                      >
+                        Balance: {humanizeNumeral(props.balance)}
+                      </Typography>
+                    )}
                     <Typography
                       variant="inherit"
                       component="div"
-                      className={classes.tokenWrap}
+                      className={clsx(classes.tokenWrap, classes.inputSizes)}
                     >
                       {TokenIcon && <TokenIcon />}
                       <span className={classes.currency}>

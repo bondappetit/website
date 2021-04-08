@@ -311,7 +311,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
           withReward
           tokenName={props.tokenName}
           tokens={tokens.value ?? []}
-          balance={balance}
+          balance={account ? balance : undefined}
           tokenCost={tokenCost}
           onPaymentChange={handlePaymentChange}
           onYouGetChange={handleYouGetChange}

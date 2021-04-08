@@ -2,6 +2,8 @@ import EllipseArrowBlack from 'src/assets/images/ellipse-arrow-black.svg';
 import EllipseArrowWhite from 'src/assets/images/ellipse-arrow-white.svg';
 import EllipseArrowMobileWhite from 'src/assets/images/ellipse-arrow-mobile-white.svg';
 import EllipseArrowMobileBlack from 'src/assets/images/ellipse-arrow-mobile-black.svg';
+import EllipseArrowMainWhite from 'src/assets/images/ellipse-arrow-main-white.svg';
+import EllipseArrowMainBlack from 'src/assets/images/ellipse-arrow-main-black.svg';
 
 export type Colors = {
   primary: string;
@@ -66,7 +68,8 @@ export const themeModes: Record<
 
     images: {
       ellipseDesktop: EllipseArrowBlack,
-      ellipseMobile: EllipseArrowMobileBlack
+      ellipseMobile: EllipseArrowMobileBlack,
+      ellipseMain: EllipseArrowMainBlack
     }
   },
 
@@ -83,7 +86,8 @@ export const themeModes: Record<
 
     images: {
       ellipseDesktop: EllipseArrowWhite,
-      ellipseMobile: EllipseArrowMobileWhite
+      ellipseMobile: EllipseArrowMobileWhite,
+      ellipseMain: EllipseArrowMainWhite
     }
   }
 };

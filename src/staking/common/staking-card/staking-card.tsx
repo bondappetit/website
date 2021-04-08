@@ -11,6 +11,7 @@ import {
   humanizeNumeral
 } from 'src/common';
 import { URLS } from 'src/router/urls';
+import { StakingLabel } from '../staking-label';
 import { useStakingCardStyles } from './staking-card.styles';
 
 export type StakingCardProps = {
@@ -67,53 +68,38 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       <Typography variant="h3" align="center" className={classes.apy}>
         APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
       </Typography>
-      <Typography variant="body1" align="center" className={classes.deposit}>
-        Deposit:{' '}
-        <Typography variant="inherit" component="span" weight="bold">
-          {props.loading ? '...' : tokenName}
-        </Typography>
-      </Typography>
-      <Typography variant="body1" align="center">
-        Earn:{' '}
-        {props.loading ? (
-          '...'
-        ) : (
-          <Typography variant="inherit" component="span" weight="bold">
-            BAG
-          </Typography>
-        )}
-      </Typography>
-      <Typography variant="body1" align="center">
-        Total value locked:{' '}
-        {props.loading ? (
-          '...'
-        ) : (
-          <Typography variant="inherit" weight="bold">
-            ${humanizeNumeral(props.totalSupply)}
-          </Typography>
-        )}
-      </Typography>
-      <Typography variant="body1" align="center">
-        Pool rate:{' '}
-        {props.loading ? (
-          '...'
-        ) : (
-          <Typography variant="inherit" weight="bold">
-            {humanizeNumeral(props.poolRate)} BAG / day
-          </Typography>
-        )}
-      </Typography>
+      <StakingLabel
+        title="Deposit"
+        value={tokenName}
+        variant="body1"
+        loading={Boolean(props.loading)}
+        className={classes.deposit}
+      />
+      <StakingLabel
+        title="Earn"
+        value="BAG"
+        variant="body1"
+        loading={Boolean(props.loading)}
+      />
+      <StakingLabel
+        title="Total value locked"
+        value={<>${humanizeNumeral(props.totalSupply)}</>}
+        variant="body1"
+        loading={Boolean(props.loading)}
+      />
+      <StakingLabel
+        title="Pool rate"
+        value={<>{humanizeNumeral(props.poolRate)} BAG / day</>}
+        variant="body1"
+        loading={Boolean(props.loading)}
+      />
       {props.lockable && (
-        <Typography variant="body1" align="center">
-          Lockup:{' '}
-          {props.loading ? (
-            '...'
-          ) : (
-            <Typography variant="inherit" weight="bold">
-              3 month
-            </Typography>
-          )}
-        </Typography>
+        <StakingLabel
+          title="Lockup"
+          value={<>3 month</>}
+          variant="body1"
+          loading={Boolean(props.loading)}
+        />
       )}
     </Link>
   );

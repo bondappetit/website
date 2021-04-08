@@ -11,3 +11,4 @@ export * from './staking-attention-modal';
 export * from './staking-info';
 export * from './use-total-value-locked';
 export * from './use-volume-info';
+export * from './staking-label';

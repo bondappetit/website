@@ -237,7 +237,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
           open={props.open}
           tokenName="USDap"
           tokens={tokens.value ?? []}
-          balance={balance}
+          balance={account ? balance : undefined}
           tokenCost="1"
           button={
             <WalletButtonWithFallback

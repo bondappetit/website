@@ -3,6 +3,7 @@ import { useAsyncRetry } from 'react-use';
 
 import {
   BN,
+  humanizeNumeral,
   LinkModal,
   useMarketContract,
   useNetworkConfig,
@@ -54,7 +55,7 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
         withBuyCollateralMarket
         tokenName={networkConfig.assets.Stable.symbol}
         tokenAddress={networkConfig.assets.Stable.address}
-        rewardPercent={reward.value?.rewardPercent.toFormat(1)}
+        rewardPercent={humanizeNumeral(reward.value?.rewardPercent)}
       />
       <LinkModal
         open={props.sellModalOpen}

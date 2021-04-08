@@ -20,7 +20,8 @@ export const useMainVotingStyles = createUseStyles(
       [theme.breakpoints.lg()]: {
         justifyContent: 'space-between',
         marginBottom: 48,
-        padding: [40, 48]
+        padding: [40, 48],
+        height: 224
       }
     },
 

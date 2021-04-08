@@ -17,7 +17,7 @@ export type StablecoinEllipseProps = {
 const round = (sum?: string | null) => {
   if (!sum) return '0';
 
-  return new BN(sum.replace(',', '')).integerValue().toFormat(2);
+  return new BN(sum.replace(',', '')).integerValue().toFormat(0);
 };
 
 export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {

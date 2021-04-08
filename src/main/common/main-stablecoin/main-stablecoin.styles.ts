@@ -18,10 +18,10 @@ export const useMainStablecoinStyles = createUseStyles(
       padding: '0 16px',
 
       [theme.breakpoints.md()]: {
-        backgroundImage: `url(${theme.images.ellipseDesktop})`,
+        backgroundImage: `url(${theme.images.ellipseMain})`,
         backgroundPosition: 'center',
         backgroundSize: '105%',
-        minHeight: 659,
+        minHeight: 784,
         marginLeft: -64,
         marginRight: -64,
         padding: '0 64px'
@@ -30,6 +30,11 @@ export const useMainStablecoinStyles = createUseStyles(
       [theme.breakpoints.lg()]: {
         margin: 0,
         padding: 0
+      },
+
+      [theme.breakpoints.up(1920)]: {
+        backgroundSize: 'contain',
+        minHeight: '100vh'
       }
     },
 

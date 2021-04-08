@@ -196,7 +196,7 @@ export const StakingDetail: React.FC = () => {
                     )}
                   </Typography>
                   {loading && <Skeleton className={classes.attention} />}
-                  {account && !loading && !showUnstakeButton && (
+                  {!loading && !showUnstakeButton && account && (
                     <Typography
                       variant="body2"
                       align="center"
@@ -207,7 +207,7 @@ export const StakingDetail: React.FC = () => {
                       {unstake.value?.unstakingStartBlock.toString(10)} block
                     </Typography>
                   )}
-                  {!loading && (!account || showUnstakeButton) && (
+                  {!loading && showUnstakeButton && account && (
                     <Tippy
                       visible={canUnstake}
                       content="Unstaking not started"
@@ -256,14 +256,16 @@ export const StakingDetail: React.FC = () => {
                   {loading ? (
                     <Skeleton className={classes.attention} />
                   ) : (
-                    <WalletButtonWithFallback
-                      onClick={handleClaim}
-                      className={classes.unlock}
-                      loading={claimState.loading}
-                      disabled={claimState.loading}
-                    >
-                      Claim
-                    </WalletButtonWithFallback>
+                    account && (
+                      <WalletButtonWithFallback
+                        onClick={handleClaim}
+                        className={classes.unlock}
+                        loading={claimState.loading}
+                        disabled={claimState.loading}
+                      >
+                        Claim
+                      </WalletButtonWithFallback>
+                    )
                   )}
                 </div>
               </div>
