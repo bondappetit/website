@@ -10,16 +10,13 @@ export const useWalletProfileStyles = createUseStyles(
       '--stroke-circle': theme.colors.primary,
       '--stroke-hat': theme.colors.primary,
       '--fill-circle': theme.colors.secondary,
-      '--fill-hat': 'none',
-      ...transitions(
-        'fill 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
-        'stroke 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
-      ),
+      '--fill-hat': 'transparent',
+      ...transitions('fill 300ms ease-out', 'stroke 300ms ease-out'),
 
       [theme.mixins.hover()]: {
         '&:hover': {
-          '--stroke-circle': 'none',
-          '--stroke-hat': 'none',
+          '--stroke-circle': 'transparent',
+          '--stroke-hat': 'transparent',
           '--fill-circle': theme.colors.yellow,
           '--fill-hat': theme.colors.black
         }
