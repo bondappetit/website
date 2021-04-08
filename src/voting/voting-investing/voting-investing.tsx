@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useToggle } from 'react-use';
 
-import { useNetworkConfig } from 'src/common';
+import { humanizeNumeral, useNetworkConfig } from 'src/common';
 import { config } from 'src/config';
 import { VotingInfoCard } from '../common';
 import { VotingInvestingAttention } from '../voting-investing-attention';
@@ -26,11 +26,12 @@ export const VotingInvesting: React.VFC = () => {
 
   const investingTotal = useInvestingTotal();
 
-  const totalTokens = investingTotal.value?.totalTokens.toFormat(0) ?? '0';
+  const totalTokens = humanizeNumeral(investingTotal.value?.totalTokens);
 
-  const leftTokens = investingTotal.value?.balance.toFormat(0) ?? '0';
+  const leftTokens = humanizeNumeral(investingTotal.value?.balance);
 
-  const percent = investingTotal.value?.percent?.toFormat(2) ?? '0';
+  const percent =
+    investingTotal.value?.percent?.integerValue().toString(10) ?? '0';
 
   const handleToUniswap = useCallback(() => {
     window.open(

@@ -17,7 +17,7 @@ export const MainVotingTypewriter: React.VFC<MainVotingTypewriterProps> = (
   );
 
   return (
-    <Typewriter onEnd={handleEnd}>
+    <Typewriter onEnd={handleEnd} delay={100}>
       {props.children[state % props.children.length]}
     </Typewriter>
   );

@@ -1,6 +1,7 @@
 import { FormikProvider } from 'formik';
 import React, { useCallback, useState } from 'react';
 import { useAsyncRetry } from 'react-use';
+import { useWeb3React } from '@web3-react/core';
 
 import {
   BN,
@@ -29,6 +30,8 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
   props
 ) => {
   const tokens = useInvestingTokens();
+
+  const { account } = useWeb3React();
 
   const {
     formik,
@@ -123,7 +126,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
           open={props.open}
           onClose={handleClose}
           tokenName="BAG"
-          balance={balance}
+          balance={account ? balance : undefined}
           tokenCost={tokenPrices.value?.convertPrice ?? '0'}
           tokens={tokens.value ?? []}
           onPaymentChange={handlePaymentChange}

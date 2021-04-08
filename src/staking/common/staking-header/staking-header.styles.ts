@@ -22,24 +22,6 @@ export const useStakingHeaderStyles = createUseStyles(
         }
       },
 
-      link: {
-        fontSize: 40,
-        lineHeight: '20px',
-        display: 'none',
-
-        [theme.breakpoints.md()]: {
-          display: 'inline',
-          position: 'absolute',
-          top: 16,
-          left: 20
-        }
-      },
-
-      linkIcon: {
-        width: 24,
-        height: 17
-      },
-
       title: {
         marginBottom: 40,
 
@@ -52,8 +34,8 @@ export const useStakingHeaderStyles = createUseStyles(
           lineHeight: '32px',
 
           [theme.breakpoints.md()]: {
-            fontSize: 40,
-            lineHeight: '48px'
+            fontSize: 32,
+            lineHeight: '40px'
           }
         }
       },

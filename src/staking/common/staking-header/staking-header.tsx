@@ -1,11 +1,9 @@
 import React from 'react';
-import { Link as ReactRouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 
-import { ReactComponent as ArrowLeftIcon } from 'src/assets/icons/arrow-left-bold.svg';
-import { Link, Typography, COIN_ICONS, BN, humanizeNumeral } from 'src/common';
-import { URLS } from 'src/router/urls';
+import { Typography, COIN_ICONS, BN, humanizeNumeral } from 'src/common';
 import { useStakingHeaderStyles } from './staking-header.styles';
+import { StakingLabel } from '../staking-label';
 
 export type StakingHeaderProps = {
   token?: string[];
@@ -25,13 +23,6 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
 
   return (
     <div className={clsx(classes.root, props.className)}>
-      <Link
-        component={ReactRouterLink}
-        className={classes.link}
-        to={URLS.staking.list}
-      >
-        <ArrowLeftIcon className={classes.linkIcon} />
-      </Link>
       <div className={classes.content}>
         <div className={classes.title}>
           <Typography variant="h2" weight="bold" align="center">
@@ -53,52 +44,45 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
           </Typography>
         </div>
         <div className={classes.info}>
-          <Typography variant="body1" component="span">
-            Deposit:{' '}
-            <Typography variant="inherit" component="span" weight="bold">
-              {props.loading ? '...' : props.depositToken}
-            </Typography>
-          </Typography>
-          <Typography variant="body1" component="span">
-            Earn:{' '}
-            <Typography variant="inherit" component="span" weight="bold">
-              {props.loading ? '...' : 'BAG'}
-            </Typography>
-          </Typography>
-          <Typography variant="body1" component="span">
-            Total value locked:{' '}
-            <Typography variant="inherit" component="span" weight="bold">
-              {props.loading ? (
-                '...'
-              ) : (
-                <>${humanizeNumeral(props.totalSupply)}</>
-              )}
-            </Typography>
-          </Typography>
-          <Typography variant="body1" component="span">
-            Pool rate:{' '}
-            <Typography variant="inherit" component="span" weight="bold">
-              {props.loading ? (
-                '...'
-              ) : (
-                <>{humanizeNumeral(props.poolRate)} BAG / day</>
-              )}
-            </Typography>
-          </Typography>
+          <StakingLabel
+            variant="body1"
+            title="Deposit"
+            value={props.depositToken}
+            loading={props.loading}
+          />
+          <StakingLabel
+            variant="body1"
+            title="Earn"
+            value="BAG"
+            loading={props.loading}
+          />
+          <StakingLabel
+            variant="body1"
+            title="Total value locked"
+            value={<>${humanizeNumeral(props.totalSupply)}</>}
+            loading={props.loading}
+          />
+          <StakingLabel
+            variant="body1"
+            title="Pool rate"
+            value={<>{humanizeNumeral(props.poolRate)} BAG / day</>}
+            loading={props.loading}
+          />
+
           {props.lockable && (
-            <Typography variant="body1" component="span">
-              Lockup:{' '}
-              <Typography variant="inherit" component="span" weight="bold">
-                {props.loading ? '...' : '3 month'}
-              </Typography>
-            </Typography>
+            <StakingLabel
+              variant="body1"
+              title="Lockup"
+              value={<>3 month</>}
+              loading={props.loading}
+            />
           )}
-          <Typography variant="body1" component="span">
-            Volume (24h):{' '}
-            <Typography variant="inherit" component="span" weight="bold">
-              {props.loading ? '...' : <>{humanizeNumeral(props.volumeUSD)}</>}
-            </Typography>
-          </Typography>
+          <StakingLabel
+            variant="body1"
+            title="Volume (24h)"
+            value={<>${humanizeNumeral(props.volumeUSD)}</>}
+            loading={props.loading}
+          />
         </div>
       </div>
     </div>

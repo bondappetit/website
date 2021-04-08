@@ -24,14 +24,22 @@ export const Typewriter: React.VFC<TypewriterProps> = (props) => {
       if (pointer < children.length) {
         setText(text + children[pointer]);
         setPointer(pointer + 1);
-      } else {
+      }
+    },
+    delay,
+    [pointer]
+  );
+
+  useDebounce(
+    () => {
+      if (pointer >= children.length) {
         setText('');
         setPointer(0);
         props.onEnd?.();
       }
     },
-    delay,
-    [pointer]
+    3000,
+    [pointer, children.length]
   );
 
   return (

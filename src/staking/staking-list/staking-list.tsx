@@ -16,13 +16,14 @@ import {
   StakingInfo,
   useGovernanceCost,
   useStakingTokens,
-  useTotalValueLocked
+  useTotalValueLocked,
+  StakingLabel
 } from 'src/staking/common';
 import { config } from 'src/config';
 import { useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
 
-export const StakingList: React.FC = () => {
+export const StakingList: React.VFC = () => {
   const networkConfig = useNetworkConfig();
   const classes = useStakingListStyles();
 
@@ -77,50 +78,34 @@ export const StakingList: React.FC = () => {
               assets
             </Typography>
             <Plate color="grey" withoutBorder className={classes.info}>
-              <Typography variant="h5" align="center" className={classes.bag}>
-                Total value locked:{' '}
-                <Typography variant="inherit" component="span" weight="bold">
-                  {!stakingBalancesWithApy.value ? (
-                    '...'
-                  ) : (
-                    <>${totalValueLocked?.toFormat(2) ?? '0'}</>
-                  )}
-                </Typography>
-              </Typography>
-              <Typography variant="h5" align="center" className={classes.bag}>
-                BAG price:{' '}
-                <Typography variant="inherit" component="span" weight="bold">
-                  {!stakingBalancesWithApy.value ? (
-                    '...'
-                  ) : (
-                    <>${normalizeGovernanceInUSDC.toFormat(2)}</>
-                  )}
-                </Typography>
-              </Typography>
-              <Typography variant="h5" align="center" className={classes.bag}>
-                You earned:{' '}
-                <Typography variant="inherit" component="span" weight="bold">
-                  {!stakingBalancesWithApy.value ? (
-                    '...'
-                  ) : (
-                    <>{rewardSum?.reward.toFormat(2) ?? '0'} BAG</>
-                  )}
-                </Typography>
+              <StakingLabel
+                className={classes.bag}
+                title="Total value locked"
+                loading={!stakingBalancesWithApy.value || !totalValueLocked}
+                value={<>${humanizeNumeral(totalValueLocked)}</>}
+              />
+              <StakingLabel
+                className={classes.bag}
+                title="BAG price"
+                loading={!stakingBalancesWithApy.value}
+                value={<>${humanizeNumeral(normalizeGovernanceInUSDC)}</>}
+              />
+              <StakingLabel
+                className={classes.bag}
+                title="You earned"
+                loading={!stakingBalancesWithApy.value}
+                value={<>{humanizeNumeral(rewardSum?.reward)} BAG</>}
+              >
                 {rewardSum?.rewardInUSDC.isGreaterThan(0) &&
                   stakingBalancesWithApy.value && (
-                    <> (${rewardSum?.rewardInUSDC.toFormat(2) ?? '0'})</>
+                    <> (${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
                   )}
-              </Typography>
-              <Typography variant="h5" align="center">
-                Volume (24h):{' '}
-                <Typography variant="inherit" component="span" weight="bold">
-                  {!stakingBalancesWithApy.value ? (
-                    '...'
-                  ) : (
-                    <>${humanizeNumeral(volume24)}</>
-                  )}
-                </Typography>
-              </Typography>
+              </StakingLabel>
+              <StakingLabel
+                title="Volume (24h)"
+                loading={!stakingBalancesWithApy.value}
+                value={<>${humanizeNumeral(volume24)}</>}
+              />
             </Plate>
           </div>
           <div className={classes.staking}>

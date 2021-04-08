@@ -36,8 +36,6 @@ export const useFormModalStyles = createUseStyles(
     },
 
     input: {
-      fontSize: 32,
-      lineHeight: '40px',
       display: 'flex',
       flexDirection: 'column',
 
@@ -50,6 +48,11 @@ export const useFormModalStyles = createUseStyles(
         width: '35%',
         alignItems: 'flex-end'
       }
+    },
+
+    inputSizes: {
+      fontSize: 32,
+      lineHeight: '40px'
     },
 
     balanceButton: {
@@ -132,6 +135,10 @@ export const useFormModalStyles = createUseStyles(
 
     labelWithBalance: {
       whiteSpace: 'nowrap'
+    },
+
+    emptyBalance: {
+      paddingTop: 24
     }
   }),
   {

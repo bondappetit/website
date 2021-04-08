@@ -15,9 +15,7 @@ export const useStakingLockFormStyles = createUseStyles(
       }
     },
 
-    title: {
-      marginBottom: 8
-    },
+    title: {},
 
     link: {
       color: theme.colors.darkBlue

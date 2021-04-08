@@ -71,7 +71,7 @@ export const Main: React.FC = () => {
             countOfCards={fourTokens.length}
             className={classes.staking}
             staking={stakingBalancesWithApy.value}
-            totalValueLocked={totalValueLocked?.toFormat(2)}
+            totalValueLocked={humanizeNumeral(totalValueLocked)}
           />
           <MainStablecoin
             className={classes.stable}

@@ -40,7 +40,7 @@ export const ProfitSplitterBuyback: React.FC<ProfitSplitterBuybackProps> = (
     <Plate className={clsx(props.className)}>
       <Typography variant="h3">Buyback</Typography>
       <Typography variant="h5">
-        Incoming balance: {humanizeNumeral(balance)} {asset?.symbol}
+        Incoming balance: {humanizeNumeral(tokenBalance)} {asset?.symbol}
       </Typography>
       <Button onClick={handleBuy}>Buy</Button>
       {recipient && (

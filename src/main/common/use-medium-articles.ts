@@ -6,7 +6,7 @@ export const useMediumArticles = () => {
   return useAsyncRetry(async () => {
     const articles = await mainApi.getMediumArticles();
 
-    return articles.items?.map((article) => ({
+    return articles.items?.slice(0, 3)?.map((article) => ({
       ...article,
       id: article.guid,
       date: article.pubDate
