@@ -46,7 +46,7 @@ const makeBatchRequest = (library: Web3) => <
 
   batch.execute();
 
-  return (Promise.all(promises) as unknown) as Promise<Batch<T>[]>;
+  return Promise.all(promises) as Promise<Batch<T>[]>;
 };
 
 export const useBatchRequest = () => {

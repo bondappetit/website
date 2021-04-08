@@ -2,9 +2,10 @@ import clsx from 'clsx';
 import React, { useEffect, useRef } from 'react';
 import { useToggle } from 'react-use';
 
-import { ReactComponent as BAGicon } from 'src/assets/icons/coins/bag.svg';
+import { ReactComponent as BAGicon } from 'src/assets/icons/wallet-info.svg';
 import { ButtonBase, LinkModal, useNetworkConfig } from 'src/common';
-import { VotingInvestingForm } from 'src/voting/voting-investing-form/voting-investing-form';
+import { VotingInvestingForm } from 'src/voting/voting-investing-form';
+import { VotingInvestingAttention } from 'src/voting/voting-investing-attention';
 import { useWalletProfileStyles } from './wallet-profile.styles';
 import { WalletProfileDropdown } from './wallet-profile-dropdown';
 import { WalletModal } from '../wallet-modal';
@@ -25,6 +26,7 @@ export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
   const [linkModalOpen, togglelinkModal] = useToggle(false);
   const [investFormIsOpen, toggleInvestForm] = useToggle(false);
   const [walletModalOpen, toggleWalletModal] = useToggle(false);
+  const [attentionModalOpen, toggleAttentionModal] = useToggle(false);
 
   useEffect(() => {
     const onMouseOver = () => toggleDropdown(true);
@@ -41,8 +43,12 @@ export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
     };
   }, [ref, toggleDropdown]);
 
-  const handleBuyInvestment = () => {
+  const handleAttention = () => {
     togglelinkModal(false);
+    toggleAttentionModal(true);
+  };
+  const handleBuyInvestment = () => {
+    toggleAttentionModal(false);
     toggleInvestForm(true);
   };
 
@@ -65,7 +71,12 @@ export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
         tokenName={networkConfig.assets.Governance.symbol}
         tokenAddress={networkConfig.assets.Governance.address}
         withBuyInvestment
-        onBuyInvestment={handleBuyInvestment}
+        onBuyInvestment={handleAttention}
+      />
+      <VotingInvestingAttention
+        open={attentionModalOpen}
+        onClose={toggleAttentionModal}
+        onBuy={handleBuyInvestment}
       />
       {investFormIsOpen && (
         <VotingInvestingForm

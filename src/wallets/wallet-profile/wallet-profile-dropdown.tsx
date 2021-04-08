@@ -9,7 +9,6 @@ import {
   dateUtils,
   humanizeNumeral,
   Plate,
-  Skeleton,
   Typography
 } from 'src/common';
 import { useStakingTokens } from 'src/staking';
@@ -81,16 +80,12 @@ export const WalletProfileDropdown = forwardRef<
     >
       <div className={clsx(classes.header, classes.row)}>
         <Typography variant="body1">
-          {loading ? (
-            <Skeleton className={classes.skeleton} />
-          ) : (
-            `1 BAG = $${humanizeNumeral(governanceInUSDC)}`
-          )}
+          {loading ? '...' : `1 BAG = $${humanizeNumeral(governanceInUSDC)}`}
         </Typography>
 
         <Typography variant="body1" weight="bold">
           {loading ? (
-            <Skeleton className={classes.skeleton} />
+            '...'
           ) : (
             <ButtonBase className={classes.buy} onClick={props.onBuy}>
               Buy

@@ -1,4 +1,4 @@
-import { useToggle } from 'react-use';
+import { useToggle, useMedia } from 'react-use';
 import React from 'react';
 
 import { LinkModal, ToggleThemeButton, useNetworkConfig } from 'src/common';
@@ -8,6 +8,7 @@ import {
   WalletProfileDropdown
 } from 'src/wallets/wallet-profile';
 import { ContactsNews } from 'src/contacts/contacts-news';
+import { VotingInvestingAttention } from 'src/voting/voting-investing-attention';
 import { VotingInvestingForm } from 'src/voting/voting-investing-form';
 import {
   LayoutHeader,
@@ -26,13 +27,20 @@ export const MainLayout: React.FC = (props) => {
 
   const [linkModalOpen, togglelinkModal] = useToggle(false);
   const [investFormIsOpen, toggleInvestForm] = useToggle(false);
+  const [attentionModalOpen, toggleAttentionModal] = useToggle(false);
 
-  const handleBuyInvestment = () => {
+  const [walletModalOpen, toggleWalletModal] = useToggle(false);
+
+  const handleAttention = () => {
     togglelinkModal(false);
+    toggleAttentionModal(true);
+  };
+  const handleBuyInvestment = () => {
+    toggleAttentionModal(false);
     toggleInvestForm(true);
   };
 
-  const [walletModalOpen, toggleWalletModal] = useToggle(false);
+  const isMobile = useMedia('(max-width: 1279px)');
 
   return (
     <>
@@ -47,11 +55,13 @@ export const MainLayout: React.FC = (props) => {
           }
           mobileButton={<ToggleThemeButton />}
           profile={
-            <WalletProfileDropdown
-              className={classes.profile}
-              onBuy={togglelinkModal}
-              onConnect={toggleWalletModal}
-            />
+            isMobile ? (
+              <WalletProfileDropdown
+                className={classes.profile}
+                onBuy={togglelinkModal}
+                onConnect={toggleWalletModal}
+              />
+            ) : null
           }
         />
         <LayoutContainer>{props.children}</LayoutContainer>
@@ -64,7 +74,12 @@ export const MainLayout: React.FC = (props) => {
         tokenName={networkConfig.assets.Governance.symbol}
         tokenAddress={networkConfig.assets.Governance.address}
         withBuyInvestment
-        onBuyInvestment={handleBuyInvestment}
+        onBuyInvestment={handleAttention}
+      />
+      <VotingInvestingAttention
+        open={attentionModalOpen}
+        onClose={toggleAttentionModal}
+        onBuy={handleBuyInvestment}
       />
       {investFormIsOpen && (
         <VotingInvestingForm
