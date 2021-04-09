@@ -111,7 +111,7 @@ export const VestingSplitterChangeShare: React.FC<VestingSplitterChangeShareProp
   });
 
   return (
-    <form onSubmit={formik.handleSubmit} className={classes.root}>
+    <form onSubmit={formik.handleSubmit} className={classes.root} noValidate>
       {formik.values.accountsWithShares.map(([account, share], index) => {
         const id = String(index);
 

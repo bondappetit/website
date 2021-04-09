@@ -75,7 +75,11 @@ export const ContactsBecomePartner: React.VFC<ContactsBecomePartnerProps> = (
     <>
       <Modal onClose={handleClose} open={props.open}>
         <SmallModal>
-          <form className={classes.root} onSubmit={formik.handleSubmit}>
+          <form
+            className={classes.root}
+            onSubmit={formik.handleSubmit}
+            noValidate
+          >
             <div className={classes.inner}>
               <Input
                 name="email"

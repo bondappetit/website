@@ -12,7 +12,7 @@ export const ContactsNewsFloatForm: React.FC<{ onSuccess: () => void }> = (
   const formik = useContactsNews(props.onSuccess);
 
   return (
-    <form className={classes.form} onSubmit={formik.handleSubmit}>
+    <form className={classes.form} onSubmit={formik.handleSubmit} noValidate>
       <Typography variant="h5" className={classes.title}>
         Stay tuned with BondAppetit updates, subscibe for our emails
       </Typography>

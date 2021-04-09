@@ -20,7 +20,7 @@ export const VotingDelegate: React.FC<VotingDelegateProps> = (props) => {
   });
 
   return (
-    <form className={classes.root} onSubmit={formik.handleSubmit}>
+    <form className={classes.root} onSubmit={formik.handleSubmit} noValidate>
       <Input
         name="address"
         label="Deligant address"
