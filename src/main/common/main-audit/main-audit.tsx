@@ -18,9 +18,9 @@ export const MainAudit: React.VFC<MainAuditProps> = (props) => {
     <Plate className={clsx(classes.root, props.className)}>
       <Typography variant="h2" className={classes.title} component="div">
         <Typography variant="inherit">Audited and Verified by&#160;</Typography>
-        {props.companyLogo}
+        <span className={classes.logo}>{props.companyLogo}</span>
       </Typography>
-      <Typography variant="h4">
+      <Typography variant="h4" className={classes.link}>
         <Link href={props.auditLink} target="_blank" color="blue">
           Explore security report →
         </Link>
