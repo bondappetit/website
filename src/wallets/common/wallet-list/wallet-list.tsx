@@ -25,7 +25,10 @@ export const WalletList: React.FC<WalletListProps> = (props) => {
     <div className={classes.wrap}>
       {Object.entries(connectorsByName).map(
         ([name, { connector, logo: Logo }]) => {
-          if (location.pathname !== URLS.playground) {
+          if (
+            location.pathname !== URLS.playground &&
+            name === 'WalletConnect'
+          ) {
             return null;
           }
 
