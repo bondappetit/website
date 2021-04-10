@@ -71,7 +71,11 @@ export const ContactsAnnounce: React.FC<ContactsAnnounceProps> = (props) => {
     <>
       <Modal open={props.open} onClose={handleClose}>
         <SmallModal>
-          <form className={classes.root} onSubmit={formik.handleSubmit}>
+          <form
+            className={classes.root}
+            onSubmit={formik.handleSubmit}
+            noValidate
+          >
             <div className={classes.inner}>
               <Typography variant="h5">Your email address and name:</Typography>
               <Input

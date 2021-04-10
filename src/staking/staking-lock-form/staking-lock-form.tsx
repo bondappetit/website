@@ -48,6 +48,11 @@ export type StakingLockFormProps = {
 
 const UNISWAP_URL = 'https://app.uniswap.org/#/add/';
 
+const delay = (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+
 export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const classes = useStakingLockFormStyles();
 
@@ -117,6 +122,9 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       }
       if (approved.approve) {
         await approveAll(options);
+
+        await delay(1000);
+
         await approvalNeeded(options);
         return;
       }
@@ -183,7 +191,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
   return (
     <>
-      <form onSubmit={formik.handleSubmit} className={classes.root}>
+      <form onSubmit={formik.handleSubmit} className={classes.root} noValidate>
         <div>
           <Typography variant="body1" align="center" className={classes.title}>
             Stake your{' '}
@@ -206,6 +214,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
               name="amount"
               placeholder="0"
               disabled={formik.isSubmitting}
+              key={approve.value?.allowance.toString(10)}
               onChange={formik.handleChange}
               error={Boolean(formik.errors.amount)}
               className={classes.input}
@@ -221,6 +230,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
               className={classes.link}
               type="button"
               disabled={formik.isSubmitting}
+              key={approve.value?.allowance.toString(10)}
               onClick={() =>
                 formik.setFieldValue(
                   'amount',
@@ -261,6 +271,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             }
             disabled={formik.isSubmitting}
             loading={formik.isSubmitting}
+            key={approve.value?.allowance.toString(10)}
             onClick={
               Number(formik.values.amount) > 0 &&
               formik.isValid &&

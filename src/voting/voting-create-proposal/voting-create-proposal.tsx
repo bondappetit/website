@@ -156,7 +156,11 @@ export const VotingCreateProposal: React.FC = () => {
     <>
       <Head title="Create proposal" />
       <MainLayout>
-        <form className={classes.form} onSubmit={formik.handleSubmit}>
+        <form
+          className={classes.form}
+          onSubmit={formik.handleSubmit}
+          noValidate
+        >
           <div className={classes.inputs}>
             <VotingInput
               name="title"

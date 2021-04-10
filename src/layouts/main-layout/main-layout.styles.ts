@@ -24,9 +24,12 @@ export const useMainLayoutStyles = createUseStyles(
 
     profile: {
       border: 'none',
-      height: '100vh',
+      height: 'calc(100% - 138px)',
       width: 'calc(100% - 8px)',
-      position: 'absolute',
+      top: 138,
+      left: 4,
+      right: 4,
+      position: 'fixed',
       background: theme.colors.secondary,
       zIndex: 100
     }

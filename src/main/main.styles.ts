@@ -32,13 +32,7 @@ export const useMainStyles = createUseStyles(
       }
     },
 
-    audit: {
-      display: 'none',
-
-      [theme.breakpoints.md()]: {
-        display: 'block'
-      }
-    },
+    audit: {},
 
     steps: {
       margin: '0 -16px 120px',

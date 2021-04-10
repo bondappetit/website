@@ -58,7 +58,7 @@ export const VotingPreset: React.FC<VotingPresetProps> = (props) => {
   if (!props.preset) return <></>;
 
   return (
-    <form onSubmit={formik.handleSubmit} className={classes.root}>
+    <form onSubmit={formik.handleSubmit} className={classes.root} noValidate>
       <Typography variant="h3" className={classes.title}>
         {props.preset.title}
       </Typography>

@@ -146,7 +146,11 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
             />
           )}
           {!select && (
-            <form onSubmit={formik.handleSubmit} className={classes.root}>
+            <form
+              onSubmit={formik.handleSubmit}
+              className={classes.root}
+              noValidate
+            >
               <div className={classes.inputs}>
                 <div className={classes.row}>
                   <Input

@@ -22,7 +22,9 @@ export async function approvalNeeded({
 
   return {
     reset: !isAlreadyApproved && allowance.isGreaterThan(0),
-    approve: !isAlreadyApproved
+    approve: !isAlreadyApproved,
+    allowance,
+    amount
   };
 }
 export async function reset({ token, owner, spender }: Options) {
