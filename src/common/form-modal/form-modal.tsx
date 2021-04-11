@@ -102,7 +102,7 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
               </Typography>
               <br />
               <Typography variant="body2">
-                Current price: 1 BAG = ${humanizeNumeral(props.tokenCost)}
+                Current price: 1 BAG = ${props.tokenCost}
               </Typography>
             </>
           }
@@ -266,8 +266,8 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
                     align="center"
                     className={classes.hint}
                   >
-                    {humanizeNumeral(props.tokenCost)} {formik.values.currency}{' '}
-                    per {props.tokenName}, estimated price
+                    {props.tokenCost} {formik.values.currency} per{' '}
+                    {props.tokenName}, estimated price
                     {helpHoverable}
                   </Typography>
                 )}
