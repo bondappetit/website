@@ -23,10 +23,6 @@ const round = (sum?: string | null) => {
 export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
   const classes = useStablecoinEllipseStyles();
 
-  const dailyVolumeUSD = useMemo(
-    () => round(props.tokenInfo?.data?.tokenDayDatas?.[0]?.dailyVolumeUSD),
-    [props.tokenInfo]
-  );
   const totalLiquidityUSD = useMemo(
     () => round(props.tokenInfo?.data?.tokenDayDatas?.[0]?.totalLiquidityUSD),
     [props.tokenInfo]
@@ -52,17 +48,6 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
                   Total Liquidity:{' '}
                   <Typography variant="inherit" component="span" weight="bold">
                     ${totalLiquidityUSD}
-                  </Typography>
-                </>
-              )}
-            </Typography>
-            <Typography variant="inherit" component="span">
-              {props.loading && <Skeleton className={classes.skeleton} />}
-              {!props.loading && (
-                <>
-                  Volume (24h):{' '}
-                  <Typography variant="inherit" component="span" weight="bold">
-                    ${dailyVolumeUSD}
                   </Typography>
                 </>
               )}
