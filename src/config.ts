@@ -10,7 +10,6 @@ if (!defaultNetworkConfig) {
 }
 
 export const config = {
-  POLLING_INTERVAL: 12000,
   RPC_URL: 'http://127.0.0.1:8545',
   CHAIN_IDS: [1, 3, 4, 5, 42, 999],
   ENV: process.env.NODE_ENV,
@@ -21,5 +20,7 @@ export const config = {
   FORTMATIC_KEY: process.env.REACT_APP_FORTMATIC_KEY,
   IS_INVEST: process.env.REACT_APP_IS_INVEST === 'true',
   IS_COLLATERAL: process.env.REACT_APP_IS_COLLATERAL === 'true',
-  UNISENDER_API: `https://api.unisender.com/ru/api/subscribe?format=json&api_key=${process.env.REACT_APP_UNISENDER_API}`
+  UNISENDER_API: `https://api.unisender.com/ru/api/subscribe?format=json&api_key=${process.env.REACT_APP_UNISENDER_API}`,
+  API_URL: process.env.REACT_APP_API_URL,
+  POLLING_INTERVAL: 15000
 };

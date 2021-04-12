@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.3.14",
     "@babel/core": "7.9.0",
     "@bondappetit/docs": "^1.9.8",
     "@bondappetit/networks": "1.9.10",
@@ -15,6 +16,7 @@
     "@testing-library/user-event": "^7.2.1",
     "@tippyjs/react": "^4.2.0",
     "@types/bn.js": "^4.11.6",
+    "@types/graphql": "^14.5.0",
     "@types/jest": "^24.9.1",
     "@types/lodash.chunk": "^4.2.6",
     "@types/lodash.range": "^3.2.6",
@@ -67,6 +69,7 @@
     "file-loader": "4.3.0",
     "formik": "^2.2.0",
     "fs-extra": "^8.1.0",
+    "graphql": "^15.5.0",
     "html-webpack-plugin": "4.0.0-beta.11",
     "identity-obj-proxy": "3.0.0",
     "jest": "24.9.0",
@@ -79,6 +82,7 @@
     "lodash.rangeright": "^4.2.0",
     "medium-editor": "^5.23.3",
     "mini-css-extract-plugin": "0.9.0",
+    "nanoevents": "^5.1.13",
     "nanoid": "^3.1.20",
     "node-rsa": "^1.1.1",
     "normalize-jss": "^4.0.0",
@@ -135,7 +139,8 @@
     "build-analyze": "cross-env ANALYZE=true node scripts/build.js",
     "test": "node scripts/test.js",
     "typechain-remove": "rimraf ./src/generate",
-    "typechain": "typechain --target web3-v1 --outDir ./src/generate ./node_modules/@bondappetit/networks/abi/**/*.json"
+    "typechain": "typechain --target web3-v1 --outDir ./src/generate ./node_modules/@bondappetit/networks/abi/**/*.json",
+    "codegen": "graphql-codegen --config config.yml"
   },
   "browserslist": {
     "production": [
@@ -150,6 +155,12 @@
     ]
   },
   "devDependencies": {
+    "@graphql-codegen/add": "^2.0.2",
+    "@graphql-codegen/cli": "1.21.3",
+    "@graphql-codegen/fragment-matcher": "2.0.1",
+    "@graphql-codegen/typescript": "1.21.1",
+    "@graphql-codegen/typescript-operations": "1.17.15",
+    "@graphql-codegen/typescript-react-apollo": "2.2.3",
     "@typechain/web3-v1": "^1.0.0",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
@@ -165,7 +176,8 @@
     "prettier": "^2.1.2",
     "raw-loader": "^4.0.2",
     "rimraf": "^3.0.2",
-    "typechain": "^3.0.0"
+    "typechain": "^3.0.0",
+    "@graphql-codegen/introspection": "1.18.1"
   },
   "lint-staged": {
     "src/*.{ts,tsx,js}": [

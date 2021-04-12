@@ -81,7 +81,7 @@ const getStakingConfig = (
     const address = getStakingAddress(networkConfig, configItem.contractName);
 
     if (address) {
-      acc[address] = configItem;
+      acc[address.toLowerCase()] = configItem;
     }
 
     return acc;

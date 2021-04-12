@@ -15,13 +15,12 @@ import {
   StakingCard,
   StakingInfo,
   useGovernanceCost,
-  useStakingTokens,
-  useTotalValueLocked,
   StakingLabel
 } from 'src/staking/common';
 import { config } from 'src/config';
-import { useStakingConfig } from 'src/staking-config';
+import { useStakingConfig, StakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
+import { useStakingListQuery } from '../../graphql/_generated-hooks';
 
 export const StakingList: React.VFC = () => {
   const networkConfig = useNetworkConfig();
@@ -32,7 +31,7 @@ export const StakingList: React.VFC = () => {
   const stakingConfigValues = useMemo(() => Object.values(stakingConfig), [
     stakingConfig
   ]);
-  const stakingBalancesWithApy = useStakingTokens(stakingConfigValues);
+  // const stakingBalancesWithApy = useStakingTokens(stakingConfigValues);
   const { governanceInUSDC } = useGovernanceCost();
   const normalizeGovernanceInUSDC = useMemo(() => {
     if (!governanceInUSDC) return new BN('0');
@@ -42,30 +41,46 @@ export const StakingList: React.VFC = () => {
     );
   }, [governanceInUSDC, networkConfig.assets.USDC.decimals]);
 
-  const rewardSum = useMemo(
-    () =>
-      stakingBalancesWithApy.value?.reduce(
-        (sum, { reward, rewardInUSDC }) => {
-          return {
-            reward: new BN(sum.reward).plus(reward),
-            rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC)
-          };
-        },
-        { reward: new BN('0'), rewardInUSDC: new BN('0') }
-      ),
-    [stakingBalancesWithApy.value]
-  );
+  // const rewardSum = useMemo(
+  //   () =>
+  //     stakingBalancesWithApy.value?.reduce(
+  //       (sum, { reward, rewardInUSDC }) => {
+  //         return {
+  //           reward: new BN(sum.reward).plus(reward),
+  //           rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC)
+  //         };
+  //       },
+  //       { reward: new BN('0'), rewardInUSDC: new BN('0') }
+  //     ),
+  //   [stakingBalancesWithApy.value]
+  // );
 
-  const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy.value);
+  // const volume24 = useMemo(
+  //   () =>
+  //     stakingBalancesWithApy.value?.reduce(
+  //       (acc, { volumeUSD }) => acc.plus(volumeUSD),
+  //       new BN(0)
+  //     ),
+  //   [stakingBalancesWithApy.value]
+  // );
 
-  const volume24 = useMemo(
-    () =>
-      stakingBalancesWithApy.value?.reduce(
-        (acc, { volumeUSD }) => acc.plus(volumeUSD),
-        new BN(0)
-      ),
-    [stakingBalancesWithApy.value]
-  );
+  const stakingListQuery = useStakingListQuery({
+    variables: {
+      filter: {
+        address: Object.keys(stakingConfig)
+      }
+    }
+    // pollInterval: config.POLLING_INTERVAL
+  });
+
+  const totalValueLocked = useMemo(() => {
+    if (!stakingListQuery.data?.stakingList) return;
+
+    return stakingListQuery.data?.stakingList.reduce(
+      (acc, { totalSupplyFloat }) => acc.plus(totalSupplyFloat),
+      new BN(0)
+    );
+  }, [stakingListQuery.data]);
 
   return (
     <>
@@ -81,19 +96,20 @@ export const StakingList: React.VFC = () => {
               <StakingLabel
                 className={classes.bag}
                 title="Total value locked"
-                loading={!stakingBalancesWithApy.value || !totalValueLocked}
+                loading={stakingListQuery.loading}
                 value={<>${humanizeNumeral(totalValueLocked)}</>}
               />
               <StakingLabel
                 className={classes.bag}
                 title="BAG price"
-                loading={!stakingBalancesWithApy.value}
+                loading={stakingListQuery.loading || !normalizeGovernanceInUSDC}
                 value={<>${humanizeNumeral(normalizeGovernanceInUSDC)}</>}
               />
+              {/*
               <StakingLabel
                 className={classes.bag}
                 title="You earned"
-                loading={!stakingBalancesWithApy.value}
+                loading={stakingListQuery.loading}
                 value={<>{humanizeNumeral(rewardSum?.reward)} BAG</>}
               >
                 {rewardSum?.rewardInUSDC.isGreaterThan(0) &&
@@ -103,34 +119,35 @@ export const StakingList: React.VFC = () => {
               </StakingLabel>
               <StakingLabel
                 title="Volume (24h)"
-                loading={!stakingBalancesWithApy.value}
+                loading={stakingListQuery.loading}
                 value={<>${humanizeNumeral(volume24)}</>}
-              />
+              /> */}
             </Plate>
           </div>
           <div className={classes.staking}>
-            {!stakingBalancesWithApy.value
+            {stakingListQuery.loading
               ? numberArray(stakingConfigValues.length).map((key) => (
-                  <StakingCard
-                    key={key}
-                    loading={!stakingBalancesWithApy.value}
-                  />
+                  <StakingCard key={key} loading={stakingListQuery.loading} />
                 ))
-              : stakingBalancesWithApy.value?.map((stakingBalance) => (
-                  <StakingCard
-                    key={stakingBalance.key}
-                    stacked={Boolean(Number(stakingBalance.amount))}
-                    token={stakingBalance.token}
-                    reward={stakingBalance.reward}
-                    totalSupply={stakingBalance.totalSupplyUSDC}
-                    poolRate={stakingBalance.poolRate}
-                    lockable={stakingBalance.lockable}
-                    stakingContractAddress={
-                      stakingBalance.stakingContract.options.address
-                    }
-                    APY={stakingBalance.APY}
-                  />
-                ))}
+              : stakingListQuery.data?.stakingList.map((stakingBalance) => {
+                  const stakingConfigItem: StakingConfig =
+                    stakingConfig[stakingBalance.address];
+
+                  if (!stakingConfigItem) return null;
+
+                  return (
+                    <StakingCard
+                      key={stakingBalance.address}
+                      // stacked={Boolean(Number(stakingBalance.amount))}
+                      token={stakingConfigItem.token}
+                      totalSupply={stakingBalance.totalSupplyFloat}
+                      poolRate={stakingBalance.poolRate.dailyFloat}
+                      lockable={Boolean(stakingBalance.stakingEnd.block)}
+                      stakingContractAddress={stakingBalance.address}
+                      APY={stakingBalance.roi}
+                    />
+                  );
+                })}
           </div>
           {!config.IS_COLLATERAL && <StakingInfo />}
         </PageWrapper>
