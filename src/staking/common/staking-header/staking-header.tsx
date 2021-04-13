@@ -77,12 +77,6 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
               loading={props.loading}
             />
           )}
-          <StakingLabel
-            variant="body1"
-            title="Volume (24h)"
-            value={<>${humanizeNumeral(props.volumeUSD)}</>}
-            loading={props.loading}
-          />
         </div>
       </div>
     </div>
