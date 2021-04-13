@@ -33,11 +33,8 @@ export const WalletProfileDropdown = forwardRef<
 
   const { account } = useWeb3React();
 
-  const stakingConfig = useStakingConfig();
+  const { stakingConfigValues } = useStakingConfig();
 
-  const stakingConfigValues = useMemo(() => Object.values(stakingConfig), [
-    stakingConfig
-  ]);
   const stakingBalancesWithApy = useStakingTokens(stakingConfigValues);
 
   const claimable = useMemo(() => {

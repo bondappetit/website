@@ -1,11 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useLayoutEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
-import { createNanoEvents } from 'nanoevents';
+import { useApolloClient } from '@apollo/client';
 
 import { useEagerConnect, useInactiveListener } from './web3/hooks';
 import Router from './router';
-
-export const emmiter = createNanoEvents();
+import { chainIdVar } from './cache';
 
 export const App: React.FC = () => {
   const triedEager = useEagerConnect();
@@ -13,11 +12,15 @@ export const App: React.FC = () => {
 
   const { chainId } = useWeb3React();
 
-  useEffect(() => {
-    if (chainId) {
-      emmiter.emit('chainChanged', chainId);
+  const client = useApolloClient();
+
+  useLayoutEffect(() => {
+    if (chainId !== undefined) {
+      chainIdVar(chainId);
+
+      client.reFetchObservableQueries();
     }
-  }, [chainId]);
+  }, [chainId, client]);
 
   return <Router />;
 };

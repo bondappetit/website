@@ -2,15 +2,15 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useMedia } from 'react-use';
 
-import { Typography, Link, Carousel, Plate } from 'src/common';
+import { Typography, Link, Carousel, Plate, numberArray } from 'src/common';
 import { URLS } from 'src/router/urls';
-import type { APYWithTokenName } from 'src/staking';
+import { SakingItem, StakingCard } from 'src/staking';
 import { useMainStakingStyles } from './main-staking.styles';
 import { MainHowItWorks } from '../main-how-it-works';
 
 export type MainStakingProps = {
   className?: string;
-  staking?: APYWithTokenName[];
+  staking?: SakingItem[];
   totalValueLocked?: string;
   countOfCards: number;
 };
@@ -47,7 +47,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
         </Typography>
       </Plate>
       <Grid>
-        {/* {!props.staking?.length
+        {!props.staking?.length
           ? numberArray(props.countOfCards).map((key) => (
               <StakingCard loading={!props.staking?.length} key={key} />
             ))
@@ -57,19 +57,16 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
               return (
                 <StakingCard
                   key={id}
-                  stacked={Boolean(Number(stakingItem.amount))}
+                  stacked={stakingItem.stacked}
                   token={stakingItem.token}
-                  reward={stakingItem.reward}
-                  totalSupply={stakingItem.totalSupplyUSDC}
+                  totalSupply={stakingItem.totalSupply}
                   poolRate={stakingItem.poolRate}
                   lockable={stakingItem.lockable}
-                  stakingContractAddress={
-                    stakingItem.stakingContract.options.address
-                  }
-                  APY={stakingItem.APY}
+                  stakingContractAddress={stakingItem.address}
+                  APY={stakingItem.apy}
                 />
               );
-            })} */}
+            })}
       </Grid>
       <Typography variant="h4" align="center" className={classes.subtitle}>
         Earn Staking Rewards in BAG by locking your assets for a certain period

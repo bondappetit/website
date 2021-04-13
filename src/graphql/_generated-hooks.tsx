@@ -242,6 +242,26 @@ export type TokenQueryQuery = { __typename?: 'Query' } & {
   };
 };
 
+export type UniswapPairListQueryVariables = Exact<{
+  filter?: Maybe<UniswapPairListQueryFilterInputType>;
+}>;
+
+export type UniswapPairListQuery = { __typename?: 'Query' } & {
+  uniswapPairList: Array<
+    { __typename?: 'UniswapPairType' } & Pick<
+      UniswapPairType,
+      'totalSupplyFloat'
+    > & {
+        statistic?: Maybe<
+          { __typename?: 'UniswapPairStatisticType' } & Pick<
+            UniswapPairStatisticType,
+            'dailyVolumeUSD' | 'totalLiquidityUSD'
+          >
+        >;
+      }
+  >;
+};
+
 export const StakingListDocument = gql`
   query StakingList($filter: StakingListQueryFilterInputType) {
     stakingList(filter: $filter) {
@@ -381,4 +401,66 @@ export type TokenQueryLazyQueryHookResult = ReturnType<
 export type TokenQueryQueryResult = Apollo.QueryResult<
   TokenQueryQuery,
   TokenQueryQueryVariables
+>;
+export const UniswapPairListDocument = gql`
+  query UniswapPairList($filter: UniswapPairListQueryFilterInputType) {
+    uniswapPairList(filter: $filter) {
+      totalSupplyFloat
+      statistic {
+        dailyVolumeUSD
+        totalLiquidityUSD
+      }
+    }
+  }
+`;
+
+/**
+ * __useUniswapPairListQuery__
+ *
+ * To run a query within a React component, call `useUniswapPairListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUniswapPairListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUniswapPairListQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useUniswapPairListQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    UniswapPairListQuery,
+    UniswapPairListQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<
+    UniswapPairListQuery,
+    UniswapPairListQueryVariables
+  >(UniswapPairListDocument, options);
+}
+export function useUniswapPairListLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    UniswapPairListQuery,
+    UniswapPairListQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    UniswapPairListQuery,
+    UniswapPairListQueryVariables
+  >(UniswapPairListDocument, options);
+}
+export type UniswapPairListQueryHookResult = ReturnType<
+  typeof useUniswapPairListQuery
+>;
+export type UniswapPairListLazyQueryHookResult = ReturnType<
+  typeof useUniswapPairListLazyQuery
+>;
+export type UniswapPairListQueryResult = Apollo.QueryResult<
+  UniswapPairListQuery,
+  UniswapPairListQueryVariables
 >;

@@ -1,9 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { Web3ReactProvider } from '@web3-react/core';
-import Web3 from 'web3';
-import { provider as Web3Provider } from 'web3-core';
 import { jss, JssProvider } from 'react-jss';
 import normalize from 'normalize-jss';
 import 'typeface-epilogue';
@@ -16,53 +13,38 @@ import {
 import { setContext } from '@apollo/client/link/context';
 
 import { ThemeProvider, globalStyles } from './common';
-import { App, emmiter } from './app';
+import { App } from './app';
 import { ErrorBoundary } from './error-boundary';
 import { config } from './config';
+import { chainIdVar } from './cache';
+import { Web3Provider } from './web3/web3-provider';
 
 jss.createStyleSheet(normalize).attach();
 jss.createStyleSheet(globalStyles).attach();
 
-const getLibrary = (provider: Web3Provider): Web3 => {
-  const library = new Web3(provider);
+const chainIdLink = setContext((_, { headers }) => ({
+  headers: {
+    ...headers,
+    'chain-id': chainIdVar()
+  }
+}));
 
-  return library;
-};
-
-let chainId = '';
-
-const chainIdLink = setContext((_, { headers }) => {
-  return {
-    headers: {
-      ...headers,
-      'chain-id': chainId
-    }
-  };
+const httpLink = new HttpLink({
+  uri: config.API_URL
 });
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: chainIdLink.concat(
-    new HttpLink({
-      uri: config.API_URL
-    })
-  ),
-  connectToDevTools: config.IS_DEV
-});
-
-emmiter.on('chainChanged', (newChainId) => {
-  chainId = newChainId;
-
-  console.log(chainId);
-
-  client.reFetchObservableQueries(true);
+  link: chainIdLink.concat(httpLink),
+  connectToDevTools: config.IS_DEV,
+  queryDeduplication: Boolean(chainIdVar())
 });
 
 ReactDOM.render(
   <React.StrictMode>
     <HelmetProvider>
-      <ApolloProvider client={client}>
-        <Web3ReactProvider getLibrary={getLibrary}>
+      <Web3Provider>
+        <ApolloProvider client={client}>
           <JssProvider jss={jss}>
             <ThemeProvider>
               <ErrorBoundary>
@@ -70,8 +52,8 @@ ReactDOM.render(
               </ErrorBoundary>
             </ThemeProvider>
           </JssProvider>
-        </Web3ReactProvider>
-      </ApolloProvider>
+        </ApolloProvider>
+      </Web3Provider>
     </HelmetProvider>
   </React.StrictMode>,
   document.getElementById('root')

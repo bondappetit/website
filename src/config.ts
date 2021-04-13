@@ -10,7 +10,6 @@ if (!defaultNetworkConfig) {
 }
 
 export const config = {
-  RPC_URL: 'http://127.0.0.1:8545',
   CHAIN_IDS: [1, 3, 4, 5, 42, 999],
   ENV: process.env.NODE_ENV,
   IS_DEV: process.env.NODE_ENV === 'development',

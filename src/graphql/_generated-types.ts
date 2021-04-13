@@ -237,3 +237,23 @@ export type TokenQueryQuery = { __typename?: 'Query' } & {
     >;
   };
 };
+
+export type UniswapPairListQueryVariables = Exact<{
+  filter?: Maybe<UniswapPairListQueryFilterInputType>;
+}>;
+
+export type UniswapPairListQuery = { __typename?: 'Query' } & {
+  uniswapPairList: Array<
+    { __typename?: 'UniswapPairType' } & Pick<
+      UniswapPairType,
+      'totalSupplyFloat'
+    > & {
+        statistic?: Maybe<
+          { __typename?: 'UniswapPairStatisticType' } & Pick<
+            UniswapPairStatisticType,
+            'dailyVolumeUSD' | 'totalLiquidityUSD'
+          >
+        >;
+      }
+  >;
+};

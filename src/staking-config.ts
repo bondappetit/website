@@ -88,8 +88,21 @@ const getStakingConfig = (
   }, {});
 };
 
-export const useStakingConfig = () => {
+export const useStakingConfig = (length?: number) => {
   const networkConfig = useNetworkConfig();
 
-  return useMemo(() => getStakingConfig(networkConfig), [networkConfig]);
+  const stakingConfig = useMemo(() => getStakingConfig(networkConfig), [
+    networkConfig
+  ]);
+
+  const stakingConfigValues = useMemo(() => {
+    const values = Object.values(stakingConfig);
+
+    return !length ? values : values.slice(0, 4);
+  }, [stakingConfig, length]);
+
+  return useMemo(() => ({ stakingConfigValues, stakingConfig }), [
+    stakingConfigValues,
+    stakingConfig
+  ]);
 };

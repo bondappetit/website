@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { useToggle } from 'react-use';
 
@@ -10,9 +10,8 @@ import {
   StablecoinModals,
   useStablecoinModals
 } from 'src/stablecoin';
-import { useStakingTokens, useTotalValueLocked } from 'src/staking';
+import { useStakingListData } from 'src/staking';
 import { ContactsBecomePartner } from 'src/contacts/contacts-become-partner';
-import { useStakingConfig } from 'src/staking-config';
 import {
   MainStaking,
   MainStablecoin,
@@ -31,16 +30,12 @@ import { MainCointelegraph } from './common/main-cointelegraph';
 export const Main: React.FC = () => {
   const classes = useMainStyles();
 
-  const stakingConfig = useStakingConfig();
-
-  const fourTokens = useMemo(() => Object.values(stakingConfig).slice(0, 4), [
-    stakingConfig
-  ]);
-  const stakingBalancesWithApy = useStakingTokens(fourTokens);
+  const { totalValueLocked, stakingList, count } = useStakingListData(
+    undefined,
+    4
+  );
 
   const stablecoinBalance = useStableCoinBalance();
-
-  const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy.value);
 
   const {
     linkModalOpen,
@@ -68,9 +63,9 @@ export const Main: React.FC = () => {
       <MainLayout>
         <PageWrapper className={classes.root}>
           <MainStaking
-            countOfCards={fourTokens.length}
+            countOfCards={count}
             className={classes.staking}
-            staking={stakingBalancesWithApy.value}
+            staking={stakingList}
             totalValueLocked={humanizeNumeral(totalValueLocked)}
           />
           <MainStablecoin

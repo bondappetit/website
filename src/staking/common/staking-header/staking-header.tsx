@@ -8,11 +8,11 @@ import { StakingLabel } from '../staking-label';
 export type StakingHeaderProps = {
   token?: string[];
   tokenKey: string;
-  APY?: BN;
-  totalSupply?: BN;
+  APY?: string;
+  totalSupply?: string;
   className?: string;
-  poolRate?: BN;
-  volumeUSD?: string;
+  poolRate?: string;
+  volumeUSD?: BN;
   lockable?: boolean;
   loading: boolean;
   depositToken?: string;

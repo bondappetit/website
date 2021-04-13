@@ -12,3 +12,4 @@ export * from './staking-info';
 export * from './use-total-value-locked';
 export * from './use-volume-info';
 export * from './staking-label';
+export * from './use-staking-list-data';

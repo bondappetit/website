@@ -21,7 +21,8 @@ import {
   StakingHeader,
   useStakingTokens,
   useStakingUnlock,
-  useCanUnStaking
+  useCanUnStaking,
+  useStakingListData
 } from 'src/staking/common';
 import { useStakingConfig } from 'src/staking-config';
 import { WalletButtonWithFallback } from 'src/wallets';
@@ -34,9 +35,13 @@ export const StakingDetail: React.FC = () => {
   const { account } = useWeb3React<Web3>();
   const [canUnstake, toggleCanUnstake] = useToggle(false);
 
-  const stakingConfig = useStakingConfig();
+  const { stakingConfig } = useStakingConfig();
 
   const currentStakingToken = stakingConfig[params.tokenId];
+
+  const { stakingList, rewardSum, volume24 } = useStakingListData(
+    params.tokenId
+  );
 
   const stakingBalances = useStakingTokens(
     [currentStakingToken].filter(Boolean)
@@ -45,6 +50,8 @@ export const StakingDetail: React.FC = () => {
   const stakingBalancesWithApy = useMemo(() => {
     return stakingBalances.value?.[0];
   }, [stakingBalances.value]);
+
+  const stakingItem = useMemo(() => stakingList?.[0], [stakingList]);
 
   const getBalance = useBalance();
 
@@ -126,29 +133,29 @@ export const StakingDetail: React.FC = () => {
         <PageWrapper className={classes.staking}>
           <StakingHeader
             depositToken={depositToken}
-            lockable={stakingBalancesWithApy?.lockable}
+            lockable={stakingItem?.lockable}
             tokenKey={params.tokenId}
-            token={stakingBalancesWithApy?.token}
-            APY={stakingBalancesWithApy?.APY}
-            totalSupply={stakingBalancesWithApy?.totalSupplyUSDC}
+            token={stakingItem?.token}
+            APY={stakingItem?.apy}
+            totalSupply={stakingItem?.totalSupply}
             className={classes.header}
-            poolRate={stakingBalancesWithApy?.poolRate}
-            volumeUSD={stakingBalancesWithApy?.volumeUSD}
+            poolRate={stakingItem?.poolRate}
+            volumeUSD={volume24}
             loading={loading}
           />
           <div className={classes.row}>
             <Plate className={classes.card}>
               <StakingLockForm
                 account={account}
-                token={stakingBalancesWithApy?.token}
+                token={stakingItem?.token}
                 tokenName={tokenName}
                 tokenKey={params.tokenId}
-                tokenAddress={stakingBalancesWithApy?.address}
-                stakingContract={stakingBalancesWithApy?.stakingContract}
+                tokenAddress={stakingItem?.address}
+                stakingContract={stakingItem?.stakingContract}
                 tokenDecimals={stakingBalancesWithApy?.decimals}
                 unstakeStart={unstake.value?.date}
                 unstakingStartBlock={unstake.value?.unstakingStartBlock}
-                lockable={stakingBalancesWithApy?.lockable}
+                lockable={stakingItem?.lockable}
                 onSubmit={stakingBalances.retry}
                 balanceOfToken={balanceOfToken.value ?? new BN(0)}
                 loading={loading}
@@ -236,9 +243,7 @@ export const StakingDetail: React.FC = () => {
                     You earned BAG
                   </Typography>
                   <Typography variant="h2" align="center">
-                    {loading
-                      ? '...'
-                      : humanizeNumeral(stakingBalancesWithApy?.reward)}
+                    {loading ? '...' : humanizeNumeral(rewardSum?.reward)}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -248,9 +253,7 @@ export const StakingDetail: React.FC = () => {
                     {loading ? (
                       '...'
                     ) : (
-                      <>
-                        ${humanizeNumeral(stakingBalancesWithApy?.rewardInUSDC)}
-                      </>
+                      <>${humanizeNumeral(rewardSum?.rewardInUSDC)}</>
                     )}
                   </Typography>
                   {loading ? (
