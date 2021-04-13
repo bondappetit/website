@@ -21,6 +21,7 @@ type StakingToken = {
   tokenAddress: string;
   token: string[];
   rewardInUSDC: BN;
+  decimals: string;
   stakingContract: Staking;
 };
 
@@ -33,6 +34,7 @@ export type SakingItem = {
   totalSupply: string;
   stacked: boolean;
   token: string[];
+  decimals: string;
   stakingContract: Staking;
 };
 
@@ -118,6 +120,7 @@ export const useStakingListData = (address?: string, length?: number) => {
         balance,
         reward,
         stakingContract,
+        decimals: stakingTokenDecimals,
         tokenAddress: stakingTokenAddress,
         token,
         rewardInUSDC
@@ -196,6 +199,7 @@ export const useStakingListData = (address?: string, length?: number) => {
                 .multipliedBy(pairItem.totalSupplyFloat)
                 .toString(10)
             : '0',
+          decimals: stakingAddress.decimals,
           stacked: stakingAddress.amount.isGreaterThan(0),
           token: stakingAddress.token,
           stakingContract: stakingAddress.stakingContract

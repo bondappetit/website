@@ -47,17 +47,17 @@ export const StakingDetail: React.FC = () => {
     [currentStakingToken].filter(Boolean)
   );
 
+  const stakingItem = useMemo(() => stakingList?.[0], [stakingList]);
+
   const stakingBalancesWithApy = useMemo(() => {
     return stakingBalances.value?.[0];
   }, [stakingBalances.value]);
 
-  const stakingItem = useMemo(() => stakingList?.[0], [stakingList]);
-
   const getBalance = useBalance();
 
-  const unlock = useStakingUnlock(stakingBalancesWithApy?.stakingContract);
+  const unlock = useStakingUnlock(stakingItem?.stakingContract);
 
-  const unstake = useCanUnStaking(stakingBalancesWithApy?.stakingContract);
+  const unstake = useCanUnStaking(stakingItem?.stakingContract);
 
   const stakingBalanceIsEmpty = useMemo(
     () => !Number(stakingBalancesWithApy?.amount),
@@ -67,7 +67,7 @@ export const StakingDetail: React.FC = () => {
   const [unstakeState, handleUnstake] = useAsyncFn(async () => {
     if (stakingBalanceIsEmpty) return;
 
-    if (!unstake.value?.can && stakingBalancesWithApy?.lockable) {
+    if (!unstake.value?.can && stakingItem?.lockable) {
       toggleCanUnstake(true);
 
       return;
@@ -94,18 +94,18 @@ export const StakingDetail: React.FC = () => {
   }, [unlock, stakingBalances.retry, stakingBalanceIsEmpty]);
 
   const balanceOfToken = useAsyncRetry(async () => {
-    if (!stakingBalancesWithApy) return;
+    if (!stakingItem) return;
 
     const balanceOfTokenResult = await getBalance({
-      tokenAddress: stakingBalancesWithApy.address
+      tokenAddress: stakingItem.address
     });
 
     const balance = balanceOfTokenResult.div(
-      new BN(10).pow(stakingBalancesWithApy.decimals)
+      new BN(10).pow(stakingItem.decimals)
     );
 
     return balance.isNaN() ? new BN(0) : balance;
-  }, [getBalance, stakingBalancesWithApy]);
+  }, [getBalance, stakingItem]);
 
   const { tokenName } = currentStakingToken ?? {};
 
@@ -152,7 +152,7 @@ export const StakingDetail: React.FC = () => {
                 tokenKey={params.tokenId}
                 tokenAddress={stakingItem?.address}
                 stakingContract={stakingItem?.stakingContract}
-                tokenDecimals={stakingBalancesWithApy?.decimals}
+                tokenDecimals={stakingItem?.decimals}
                 unstakeStart={unstake.value?.date}
                 unstakingStartBlock={unstake.value?.unstakingStartBlock}
                 lockable={stakingItem?.lockable}

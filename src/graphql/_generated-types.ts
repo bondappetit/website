@@ -139,6 +139,8 @@ export type TokenStatisticType = {
 
 export type TokenType = {
   __typename?: 'TokenType';
+  /** Token address */
+  address: Scalars['AddressType'];
   /** Token name */
   name: Scalars['String'];
   /** Token symbol */
@@ -180,6 +182,8 @@ export type UniswapPairStatisticType = {
 
 export type UniswapPairType = {
   __typename?: 'UniswapPairType';
+  /** Pair address */
+  address: Scalars['AddressType'];
   /** Pair total supply normalize */
   totalSupplyFloat: Scalars['String'];
   statistic?: Maybe<UniswapPairStatisticType>;
