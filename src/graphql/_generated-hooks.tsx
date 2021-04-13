@@ -219,31 +219,30 @@ export type StakingListQuery = { __typename?: 'Query' } & {
   >;
 };
 
-export type TokenQueryQueryVariables = Exact<{
-  filter: TokenQueryFilterInputType;
+export type TokenListFilterQueryVariables = Exact<{
+  filter?: Maybe<TokenListQueryFilterInputType>;
 }>;
 
-export type TokenQueryQuery = { __typename?: 'Query' } & {
-  token: { __typename?: 'TokenPayload' } & {
-    data?: Maybe<
-      { __typename?: 'TokenType' } & Pick<
-        TokenType,
-        | 'name'
-        | 'symbol'
-        | 'decimals'
-        | 'totalSupply'
-        | 'totalSupplyFloat'
-        | 'priceUSD'
-      > & {
-          statistic?: Maybe<
-            { __typename?: 'TokenStatisticType' } & Pick<
-              TokenStatisticType,
-              'dailyVolumeUSD' | 'totalLiquidityUSD'
-            >
-          >;
-        }
-    >;
-  };
+export type TokenListFilterQuery = { __typename?: 'Query' } & {
+  tokenList: Array<
+    { __typename?: 'TokenType' } & Pick<
+      TokenType,
+      | 'address'
+      | 'name'
+      | 'symbol'
+      | 'decimals'
+      | 'totalSupply'
+      | 'totalSupplyFloat'
+      | 'priceUSD'
+    > & {
+        statistic?: Maybe<
+          { __typename?: 'TokenStatisticType' } & Pick<
+            TokenStatisticType,
+            'dailyVolumeUSD' | 'totalLiquidityUSD'
+          >
+        >;
+      }
+  >;
 };
 
 export type UniswapPairListQueryVariables = Exact<{
@@ -254,7 +253,7 @@ export type UniswapPairListQuery = { __typename?: 'Query' } & {
   uniswapPairList: Array<
     { __typename?: 'UniswapPairType' } & Pick<
       UniswapPairType,
-      'totalSupplyFloat'
+      'address' | 'totalSupplyFloat'
     > & {
         statistic?: Maybe<
           { __typename?: 'UniswapPairStatisticType' } & Pick<
@@ -339,76 +338,78 @@ export type StakingListQueryResult = Apollo.QueryResult<
   StakingListQuery,
   StakingListQueryVariables
 >;
-export const TokenQueryDocument = gql`
-  query TokenQuery($filter: TokenQueryFilterInputType!) {
-    token(filter: $filter) {
-      data {
-        name
-        symbol
-        decimals
-        totalSupply
-        totalSupplyFloat
-        priceUSD
-        statistic {
-          dailyVolumeUSD
-          totalLiquidityUSD
-        }
+export const TokenListFilterDocument = gql`
+  query TokenListFilter($filter: TokenListQueryFilterInputType) {
+    tokenList(filter: $filter) {
+      address
+      name
+      symbol
+      decimals
+      totalSupply
+      totalSupplyFloat
+      priceUSD
+      statistic {
+        dailyVolumeUSD
+        totalLiquidityUSD
       }
     }
   }
 `;
 
 /**
- * __useTokenQueryQuery__
+ * __useTokenListFilterQuery__
  *
- * To run a query within a React component, call `useTokenQueryQuery` and pass it any options that fit your needs.
- * When your component renders, `useTokenQueryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useTokenListFilterQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTokenListFilterQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useTokenQueryQuery({
+ * const { data, loading, error } = useTokenListFilterQuery({
  *   variables: {
  *      filter: // value for 'filter'
  *   },
  * });
  */
-export function useTokenQueryQuery(
-  baseOptions: ApolloReactHooks.QueryHookOptions<
-    TokenQueryQuery,
-    TokenQueryQueryVariables
+export function useTokenListFilterQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    TokenListFilterQuery,
+    TokenListFilterQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return ApolloReactHooks.useQuery<TokenQueryQuery, TokenQueryQueryVariables>(
-    TokenQueryDocument,
-    options
-  );
+  return ApolloReactHooks.useQuery<
+    TokenListFilterQuery,
+    TokenListFilterQueryVariables
+  >(TokenListFilterDocument, options);
 }
-export function useTokenQueryLazyQuery(
+export function useTokenListFilterLazyQuery(
   baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
-    TokenQueryQuery,
-    TokenQueryQueryVariables
+    TokenListFilterQuery,
+    TokenListFilterQueryVariables
   >
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return ApolloReactHooks.useLazyQuery<
-    TokenQueryQuery,
-    TokenQueryQueryVariables
-  >(TokenQueryDocument, options);
+    TokenListFilterQuery,
+    TokenListFilterQueryVariables
+  >(TokenListFilterDocument, options);
 }
-export type TokenQueryQueryHookResult = ReturnType<typeof useTokenQueryQuery>;
-export type TokenQueryLazyQueryHookResult = ReturnType<
-  typeof useTokenQueryLazyQuery
+export type TokenListFilterQueryHookResult = ReturnType<
+  typeof useTokenListFilterQuery
 >;
-export type TokenQueryQueryResult = Apollo.QueryResult<
-  TokenQueryQuery,
-  TokenQueryQueryVariables
+export type TokenListFilterLazyQueryHookResult = ReturnType<
+  typeof useTokenListFilterLazyQuery
+>;
+export type TokenListFilterQueryResult = Apollo.QueryResult<
+  TokenListFilterQuery,
+  TokenListFilterQueryVariables
 >;
 export const UniswapPairListDocument = gql`
   query UniswapPairList($filter: UniswapPairListQueryFilterInputType) {
     uniswapPairList(filter: $filter) {
+      address
       totalSupplyFloat
       statistic {
         dailyVolumeUSD

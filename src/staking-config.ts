@@ -6,6 +6,7 @@ export type StakingConfig = {
   tokenName: string;
   token: string[];
   liquidityPool: boolean;
+  configAddress: string;
 };
 
 const Gov = 'BAG';
@@ -81,7 +82,12 @@ const getStakingConfig = (
     const address = getStakingAddress(networkConfig, configItem.contractName);
 
     if (address) {
-      acc[address.toLowerCase()] = configItem;
+      const lowerAddress = address.toLowerCase();
+
+      acc[lowerAddress] = {
+        ...configItem,
+        configAddress: lowerAddress
+      };
     }
 
     return acc;

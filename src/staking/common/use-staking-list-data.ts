@@ -7,6 +7,7 @@ import { config } from 'src/config';
 import type { Staking } from 'src/generate/Staking';
 import {
   useStakingListQuery,
+  useTokenListFilterLazyQuery,
   useUniswapPairListLazyQuery
 } from 'src/graphql/_generated-hooks';
 import { useStakingConfig } from 'src/staking-config';
@@ -23,10 +24,12 @@ type StakingToken = {
   rewardInUSDC: BN;
   decimals: string;
   stakingContract: Staking;
+  configAddress: string;
 };
 
 export type SakingItem = {
   id: number;
+  amount: BN;
   address: string | undefined;
   apy: string;
   lockable: boolean;
@@ -69,12 +72,14 @@ export const useStakingListData = (address?: string, length?: number) => {
     pollInterval: config.POLLING_INTERVAL
   });
 
+  const [loadToken, tokenFilterQuery] = useTokenListFilterLazyQuery();
+
   const stakingAddresses = useAsyncRetry(async () => {
     const stakingItem = address ? stakingConfig[address] : null;
 
     return (stakingItem ? [stakingItem] : stakingConfigValues).reduce<
       Promise<StakingToken[]>
-    >(async (previusPromise, { contractName, token }) => {
+    >(async (previusPromise, { contractName, token, configAddress }) => {
       const acc = await previusPromise;
 
       const stakingContract = getStakingContract(contractName);
@@ -120,6 +125,7 @@ export const useStakingListData = (address?: string, length?: number) => {
         balance,
         reward,
         stakingContract,
+        configAddress,
         decimals: stakingTokenDecimals,
         tokenAddress: stakingTokenAddress,
         token,
@@ -170,23 +176,40 @@ export const useStakingListData = (address?: string, length?: number) => {
       ({ tokenAddress }) => tokenAddress
     );
 
-    loadUniswapData({
+    const options = {
       variables: {
         filter: {
           address: stakingTokenAddresses
         }
       }
-    });
+    };
+
+    loadUniswapData(options);
+
+    loadToken(options);
   }, [stakingAddresses.value]);
 
   const stakingList = useMemo(
     () =>
       stakingAddresses.value?.map((stakingAddress, index) => {
-        const stakingBalance = stakingListQuery.data?.stakingList[index];
-        const pairItem = uniswapPairListQuery.data?.uniswapPairList[index];
+        const stakingBalance = stakingListQuery.data?.stakingList.find(
+          (stakingItem) => stakingItem.address === stakingAddress.configAddress
+        );
+        const pairItem = uniswapPairListQuery.data?.uniswapPairList.find(
+          (uniswapPairItem) =>
+            stakingAddress.tokenAddress === uniswapPairItem.address
+        );
+        const tokenItem = tokenFilterQuery.data?.tokenList.find(
+          (token) => token.address === stakingAddress.tokenAddress
+        );
+
+        const amountInUSDC = new BN(stakingAddress.amount).multipliedBy(
+          tokenItem?.priceUSD ?? '1'
+        );
 
         return {
           id: index,
+          amount: stakingAddress.amount,
           address: stakingBalance?.address,
           apy: new BN(stakingBalance?.roi ?? '0')
             .multipliedBy(100)
@@ -202,10 +225,16 @@ export const useStakingListData = (address?: string, length?: number) => {
           decimals: stakingAddress.decimals,
           stacked: stakingAddress.amount.isGreaterThan(0),
           token: stakingAddress.token,
-          stakingContract: stakingAddress.stakingContract
+          stakingContract: stakingAddress.stakingContract,
+          amountInUSDC
         };
       }),
-    [stakingAddresses.value, uniswapPairListQuery.data, stakingListQuery.data]
+    [
+      stakingAddresses.value,
+      uniswapPairListQuery.data,
+      stakingListQuery.data,
+      tokenFilterQuery.data
+    ]
   );
 
   const rewardSum = useMemo(
@@ -233,6 +262,7 @@ export const useStakingListData = (address?: string, length?: number) => {
     governanceInUSDC: normalizeGovernanceInUSDC,
     stakingList,
     rewardSum,
+    stakingAddresses,
     count: stakingConfigValues.length
   };
 };

@@ -215,31 +215,30 @@ export type StakingListQuery = { __typename?: 'Query' } & {
   >;
 };
 
-export type TokenQueryQueryVariables = Exact<{
-  filter: TokenQueryFilterInputType;
+export type TokenListFilterQueryVariables = Exact<{
+  filter?: Maybe<TokenListQueryFilterInputType>;
 }>;
 
-export type TokenQueryQuery = { __typename?: 'Query' } & {
-  token: { __typename?: 'TokenPayload' } & {
-    data?: Maybe<
-      { __typename?: 'TokenType' } & Pick<
-        TokenType,
-        | 'name'
-        | 'symbol'
-        | 'decimals'
-        | 'totalSupply'
-        | 'totalSupplyFloat'
-        | 'priceUSD'
-      > & {
-          statistic?: Maybe<
-            { __typename?: 'TokenStatisticType' } & Pick<
-              TokenStatisticType,
-              'dailyVolumeUSD' | 'totalLiquidityUSD'
-            >
-          >;
-        }
-    >;
-  };
+export type TokenListFilterQuery = { __typename?: 'Query' } & {
+  tokenList: Array<
+    { __typename?: 'TokenType' } & Pick<
+      TokenType,
+      | 'address'
+      | 'name'
+      | 'symbol'
+      | 'decimals'
+      | 'totalSupply'
+      | 'totalSupplyFloat'
+      | 'priceUSD'
+    > & {
+        statistic?: Maybe<
+          { __typename?: 'TokenStatisticType' } & Pick<
+            TokenStatisticType,
+            'dailyVolumeUSD' | 'totalLiquidityUSD'
+          >
+        >;
+      }
+  >;
 };
 
 export type UniswapPairListQueryVariables = Exact<{
@@ -250,7 +249,7 @@ export type UniswapPairListQuery = { __typename?: 'Query' } & {
   uniswapPairList: Array<
     { __typename?: 'UniswapPairType' } & Pick<
       UniswapPairType,
-      'totalSupplyFloat'
+      'address' | 'totalSupplyFloat'
     > & {
         statistic?: Maybe<
           { __typename?: 'UniswapPairStatisticType' } & Pick<

@@ -1,7 +1,6 @@
 export {
   useStakingTokens,
   useGovernanceCost,
-  useTotalValueLocked,
   StakingCard,
   useStakingContracts,
   useStakingListData

@@ -19,7 +19,6 @@ import {
 } from 'src/common';
 import {
   StakingHeader,
-  useStakingTokens,
   useStakingUnlock,
   useCanUnStaking,
   useStakingListData
@@ -39,19 +38,14 @@ export const StakingDetail: React.FC = () => {
 
   const currentStakingToken = stakingConfig[params.tokenId];
 
-  const { stakingList, rewardSum, volume24 } = useStakingListData(
-    params.tokenId
-  );
-
-  const stakingBalances = useStakingTokens(
-    [currentStakingToken].filter(Boolean)
-  );
+  const {
+    stakingList,
+    rewardSum,
+    volume24,
+    stakingAddresses
+  } = useStakingListData(params.tokenId);
 
   const stakingItem = useMemo(() => stakingList?.[0], [stakingList]);
-
-  const stakingBalancesWithApy = useMemo(() => {
-    return stakingBalances.value?.[0];
-  }, [stakingBalances.value]);
 
   const getBalance = useBalance();
 
@@ -60,8 +54,8 @@ export const StakingDetail: React.FC = () => {
   const unstake = useCanUnStaking(stakingItem?.stakingContract);
 
   const stakingBalanceIsEmpty = useMemo(
-    () => !Number(stakingBalancesWithApy?.amount),
-    [stakingBalancesWithApy]
+    () => Boolean(stakingItem?.amount.isZero()),
+    [stakingItem]
   );
 
   const [unstakeState, handleUnstake] = useAsyncFn(async () => {
@@ -76,10 +70,10 @@ export const StakingDetail: React.FC = () => {
 
     await unlock();
 
-    stakingBalances.retry();
+    stakingAddresses.retry();
   }, [
     unlock,
-    stakingBalances.retry,
+    stakingAddresses.retry,
     stakingBalanceIsEmpty,
     unstake.value,
     toggleCanUnstake
@@ -90,8 +84,8 @@ export const StakingDetail: React.FC = () => {
 
     await unlock(false);
 
-    stakingBalances.retry();
-  }, [unlock, stakingBalances.retry, stakingBalanceIsEmpty]);
+    stakingAddresses.retry();
+  }, [unlock, stakingAddresses.retry, stakingBalanceIsEmpty]);
 
   const balanceOfToken = useAsyncRetry(async () => {
     if (!stakingItem) return;
@@ -109,15 +103,14 @@ export const StakingDetail: React.FC = () => {
 
   const { tokenName } = currentStakingToken ?? {};
 
-  const poolShare = new BN(stakingBalancesWithApy?.amount ?? '0')
-    .div(stakingBalancesWithApy?.totalSupply ?? '1')
+  const poolShare = new BN(stakingItem?.amount ?? '0')
+    .div(stakingItem?.totalSupply ?? '1')
     .multipliedBy(100);
 
-  const loading =
-    !stakingBalances.value || !stakingBalancesWithApy || !unstake.value;
+  const loading = !stakingItem || !unstake.value;
 
-  const depositToken = useMemo(() => stakingBalancesWithApy?.token?.join('_'), [
-    stakingBalancesWithApy
+  const depositToken = useMemo(() => stakingItem?.token?.join('_'), [
+    stakingItem
   ]);
 
   const showUnstakeButton =
@@ -156,7 +149,7 @@ export const StakingDetail: React.FC = () => {
                 unstakeStart={unstake.value?.date}
                 unstakingStartBlock={unstake.value?.unstakingStartBlock}
                 lockable={stakingItem?.lockable}
-                onSubmit={stakingBalances.retry}
+                onSubmit={stakingAddresses.retry}
                 balanceOfToken={balanceOfToken.value ?? new BN(0)}
                 loading={loading}
                 depositToken={depositToken}
@@ -173,10 +166,10 @@ export const StakingDetail: React.FC = () => {
                     You staked {loading ? '...' : tokenName}
                   </Typography>
                   <Typography variant="h2" align="center">
-                    {stakingBalancesWithApy?.amount.isNaN() ||
-                    !stakingBalancesWithApy?.amount.isFinite()
+                    {stakingItem?.amount.isNaN() ||
+                    !stakingItem?.amount.isFinite()
                       ? '0'
-                      : stakingBalancesWithApy?.amount.toString(10)}
+                      : stakingItem?.amount.toString(10)}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -197,9 +190,7 @@ export const StakingDetail: React.FC = () => {
                     {loading ? (
                       '...'
                     ) : (
-                      <>
-                        ${humanizeNumeral(stakingBalancesWithApy?.amountInUSDC)}
-                      </>
+                      <>${humanizeNumeral(stakingItem?.amountInUSDC)}</>
                     )}
                   </Typography>
                   {loading && <Skeleton className={classes.attention} />}

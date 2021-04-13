@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import React, { forwardRef, useMemo } from 'react';
 
 import {
-  BN,
   Button,
   ButtonBase,
   dateUtils,
@@ -11,8 +10,7 @@ import {
   Plate,
   Typography
 } from 'src/common';
-import { useStakingTokens } from 'src/staking';
-import { useStakingConfig } from 'src/staking-config';
+import { useStakingListData } from 'src/staking';
 import { useWalletInfo } from './use-wallet-info';
 import { WalletProfileRow } from './wallet-profile-row';
 import { useWalletProfileStyles } from './wallet-profile.styles';
@@ -33,42 +31,25 @@ export const WalletProfileDropdown = forwardRef<
 
   const { account } = useWeb3React();
 
-  const { stakingConfigValues } = useStakingConfig();
+  const { rewardSum } = useStakingListData();
 
-  const stakingBalancesWithApy = useStakingTokens(stakingConfigValues);
-
-  const claimable = useMemo(() => {
-    return stakingBalancesWithApy.value?.reduce<{
-      claimableInBag: BN;
-      claimableInUSDC: BN;
-    }>(
-      (acc, { reward, rewardInUSDC }) => {
-        return {
-          claimableInBag: acc.claimableInBag.plus(reward),
-          claimableInUSDC: acc.claimableInUSDC.plus(rewardInUSDC)
-        };
-      },
-      { claimableInBag: new BN(0), claimableInUSDC: new BN(0) }
-    );
-  }, [stakingBalancesWithApy.value]);
-
-  const loading = !claimable || walletInfo.loading;
+  const loading = !rewardSum || walletInfo.loading;
 
   const totalInBag = useMemo(() => {
-    if (!claimable?.claimableInBag || !walletInfo.value) return '0';
+    if (!rewardSum?.reward || !walletInfo.value) return '0';
 
-    return claimable.claimableInBag
+    return rewardSum.reward
       .plus(walletInfo.value.unstaked.inBAG)
       .plus(walletInfo.value.locked.inBAG);
-  }, [claimable, walletInfo.value]);
+  }, [rewardSum, walletInfo.value]);
 
   const totalInUSDC = useMemo(() => {
-    if (!claimable?.claimableInUSDC || !walletInfo.value) return '0';
+    if (!rewardSum?.rewardInUSDC || !walletInfo.value) return '0';
 
-    return claimable.claimableInUSDC
+    return rewardSum.rewardInUSDC
       .plus(walletInfo.value.unstaked.inUSDC)
       .plus(walletInfo.value.locked.inUSDC);
-  }, [claimable, walletInfo.value]);
+  }, [rewardSum, walletInfo.value]);
 
   return (
     <Plate
@@ -95,8 +76,8 @@ export const WalletProfileDropdown = forwardRef<
           <WalletProfileRow
             className={clsx(classes.row, classes.mb8)}
             title="Claimable"
-            valueInBag={humanizeNumeral(claimable?.claimableInBag)}
-            valueInUSD={humanizeNumeral(claimable?.claimableInUSDC)}
+            valueInBag={humanizeNumeral(rewardSum?.reward)}
+            valueInUSD={humanizeNumeral(rewardSum?.rewardInUSDC)}
             loading={loading}
           />
           <WalletProfileRow
