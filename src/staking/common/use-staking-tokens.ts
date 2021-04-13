@@ -107,13 +107,10 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
         const [
           stakingTokenDecimals,
           rewardTokenAddress
-        ] = await makeBatchRequest(
-          [
-            stakingTokenContract.methods.decimals().call,
-            stakingContract.methods.rewardsToken().call
-          ],
-          account
-        );
+        ] = await makeBatchRequest([
+          stakingTokenContract.methods.decimals().call,
+          stakingContract.methods.rewardsToken().call
+        ]);
 
         const rewardTokenContract = getTokenContract(rewardTokenAddress);
         const rewardTokenDecimals = await rewardTokenContract.methods
@@ -127,15 +124,12 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
           earned,
           totalSupply,
           rewardRate
-        ] = await makeBatchRequest(
-          [
-            account ? stakingContract.methods.balanceOf(account).call : '0',
-            account ? stakingContract.methods.earned(account).call : '0',
-            stakingContract.methods.totalSupply().call,
-            stakingContract.methods.rewardRate().call
-          ],
-          account
-        );
+        ] = await makeBatchRequest([
+          account ? stakingContract.methods.balanceOf(account).call : '0',
+          account ? stakingContract.methods.earned(account).call : '0',
+          stakingContract.methods.totalSupply().call,
+          stakingContract.methods.rewardRate().call
+        ]);
 
         const amount = new BN(balance).div(
           new BN(10).pow(stakingTokenDecimals)

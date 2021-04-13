@@ -9,6 +9,7 @@ import { useLibrary } from './use-library';
 const isCallable = (
   call: unknown
 ): call is {
+  (): Promise<unknown>;
   request: (...args: unknown[]) => Extension['methods'][number];
 } => {
   return typeof call === 'function' && call !== null && 'request' in call;
@@ -24,6 +25,12 @@ const makeBatchRequest = (library: Web3) => <
   calls: T[],
   callFrom?: string | null
 ): Promise<Batch<T>[]> => {
+  if (!callFrom) {
+    return Promise.all(
+      calls.map((call) => (isCallable(call) ? call() : Promise.resolve(call)))
+    ) as Promise<Batch<T>[]>;
+  }
+
   const batch = new library.BatchRequest();
 
   const promises = calls.map((call) => {
