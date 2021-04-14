@@ -58,15 +58,6 @@ export const StakingList: React.VFC = () => {
 
   const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy.value);
 
-  const volume24 = useMemo(
-    () =>
-      stakingBalancesWithApy.value?.reduce(
-        (acc, { volumeUSD }) => acc.plus(volumeUSD),
-        new BN(0)
-      ),
-    [stakingBalancesWithApy.value]
-  );
-
   return (
     <>
       <Head title="Earn Staking Rewards in BAG by providing liquidity for protocol’s assets" />
@@ -101,11 +92,6 @@ export const StakingList: React.VFC = () => {
                     <> (${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
                   )}
               </StakingLabel>
-              <StakingLabel
-                title="Volume (24h)"
-                loading={!stakingBalancesWithApy.value}
-                value={<>${humanizeNumeral(volume24)}</>}
-              />
             </Plate>
           </div>
           <div className={classes.staking}>

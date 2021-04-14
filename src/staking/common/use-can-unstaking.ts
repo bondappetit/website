@@ -4,12 +4,18 @@ import { useAsyncFn } from 'react-use';
 import { useEffect } from 'react';
 
 import type { Staking } from 'src/generate/Staking';
-import { dateUtils, BN, useIntervalIfHasAccount } from 'src/common';
+import {
+  dateUtils,
+  BN,
+  useIntervalIfHasAccount,
+  useNetworkConfig
+} from 'src/common';
 
 const DATE_FORMAT = 'HH:mm:ss on MMMM DD';
 
 export const useCanUnStaking = (stakingContract?: Staking) => {
   const { library } = useWeb3React<Web3>();
+  const networkConfig = useNetworkConfig();
 
   const [state, getState] = useAsyncFn(async () => {
     if (!stakingContract) return;
@@ -24,7 +30,7 @@ export const useCanUnStaking = (stakingContract?: Staking) => {
 
     const seconds = unstakingStartBlock
       .minus(currentBlockNumber)
-      .multipliedBy(15)
+      .multipliedBy(networkConfig.averageBlockTime)
       .toNumber();
 
     const date = dateUtils.format(dateUtils.addSeconds(seconds), DATE_FORMAT);
@@ -39,7 +45,7 @@ export const useCanUnStaking = (stakingContract?: Staking) => {
       currentBlockNumber,
       unstakingStartBlock
     };
-  }, [library, stakingContract]);
+  }, [library, stakingContract, networkConfig]);
 
   useEffect(() => {
     if (stakingContract) {

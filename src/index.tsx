@@ -10,7 +10,7 @@ import 'typeface-epilogue';
 
 import { ThemeProvider, globalStyles } from './common';
 import { App } from './app';
-import { ErrorBoundary } from './error-boundary/error-boundary';
+import { ErrorBoundary, Sentry } from './error-boundary';
 
 jss.createStyleSheet(normalize).attach();
 jss.createStyleSheet(globalStyles).attach();
@@ -20,6 +20,8 @@ const getLibrary = (provider: Web3Provider): Web3 => {
 
   return library;
 };
+
+Sentry.init();
 
 ReactDOM.render(
   <React.StrictMode>
