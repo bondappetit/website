@@ -4,6 +4,7 @@
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
 process.env.IMAGE_INLINE_SIZE_LIMIT = '0';
+process.env.REACT_APP_IS_LOCAL = 'true';
 
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will

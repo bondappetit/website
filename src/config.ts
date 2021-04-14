@@ -21,5 +21,7 @@ export const config = {
   FORTMATIC_KEY: process.env.REACT_APP_FORTMATIC_KEY,
   IS_INVEST: process.env.REACT_APP_IS_INVEST === 'true',
   IS_COLLATERAL: process.env.REACT_APP_IS_COLLATERAL === 'true',
-  UNISENDER_API: `https://api.unisender.com/ru/api/subscribe?format=json&api_key=${process.env.REACT_APP_UNISENDER_API}`
+  UNISENDER_API: `https://api.unisender.com/ru/api/subscribe?format=json&api_key=${process.env.REACT_APP_UNISENDER_API}`,
+  SENTRY: process.env.REACT_APP_SENTRY,
+  IS_LOCAL: process.env.REACT_APP_IS_LOCAL === 'true'
 };
