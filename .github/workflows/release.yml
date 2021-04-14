@@ -26,6 +26,7 @@ jobs:
           INFURA_API_KEY: ${{secrets.REACT_APP_INFURA_API_KEY}}
           REACT_APP_PORTIS_ID: ${{secrets.REACT_APP_PORTIS_ID}}
           REACT_APP_FORTMATIC_KEY: ${{secrets.REACT_APP_FORTMATIC_KEY_TEST}}
+          REACT_APP_SENTRY: ${{secrets.REACT_APP_SENTRY}}
       - if: github.event.release.prerelease == false
         run: npm run build
         env:
@@ -36,6 +37,7 @@ jobs:
           INFURA_API_KEY: ${{secrets.REACT_APP_INFURA_API_KEY}}
           REACT_APP_PORTIS_ID: ${{secrets.REACT_APP_PORTIS_ID}}
           REACT_APP_FORTMATIC_KEY: ${{secrets.REACT_APP_FORTMATIC_KEY_PRODUCTION}}
+          REACT_APP_SENTRY: ${{secrets.REACT_APP_SENTRY}}
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
