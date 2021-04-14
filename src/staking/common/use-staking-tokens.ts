@@ -18,8 +18,6 @@ import { useStakingContracts } from './use-staking-contracts';
 import { useTokenContracts } from './use-token-contract';
 import { useVolumeInfo } from './use-volume-info';
 
-const BLOCKS_PER_MINUTE = 4;
-
 export type StakingToken = {
   amount: BN;
   totalSupply: BN;
@@ -149,7 +147,7 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
 
         const poolRate = new BN(rewardRate)
           .div(new BN(10).pow(rewardTokenDecimals))
-          .multipliedBy(BLOCKS_PER_MINUTE)
+          .multipliedBy(new BN(60).div(networkConfig.averageBlockTime))
           .multipliedBy(60)
           .multipliedBy(24);
 
@@ -263,7 +261,8 @@ export const useStakingTokens = (availableTokens: StakingConfig[]) => {
     USD.address,
     getPairInfo,
     uniswapRouter,
-    getVolumeInfo
+    getVolumeInfo,
+    networkConfig
   ]);
 
   useIntervalIfHasAccount(state.retry);
