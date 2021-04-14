@@ -14,10 +14,10 @@ import { setContext } from '@apollo/client/link/context';
 
 import { ThemeProvider, globalStyles } from './common';
 import { App } from './app';
-import { ErrorBoundary } from './error-boundary';
 import { config } from './config';
 import { chainIdVar } from './cache';
 import { Web3Provider } from './web3/web3-provider';
+import { ErrorBoundary, Sentry } from './error-boundary';
 
 jss.createStyleSheet(normalize).attach();
 jss.createStyleSheet(globalStyles).attach();
@@ -39,6 +39,8 @@ const client = new ApolloClient({
   connectToDevTools: config.IS_DEV,
   queryDeduplication: Boolean(chainIdVar())
 });
+
+Sentry.init();
 
 ReactDOM.render(
   <React.StrictMode>

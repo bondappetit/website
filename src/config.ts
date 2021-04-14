@@ -21,5 +21,7 @@ export const config = {
   IS_COLLATERAL: process.env.REACT_APP_IS_COLLATERAL === 'true',
   UNISENDER_API: `https://api.unisender.com/ru/api/subscribe?format=json&api_key=${process.env.REACT_APP_UNISENDER_API}`,
   API_URL: process.env.REACT_APP_API_URL,
-  POLLING_INTERVAL: 15000
+  POLLING_INTERVAL: 15000,
+  SENTRY: process.env.REACT_APP_SENTRY,
+  IS_LOCAL: process.env.REACT_APP_IS_LOCAL === 'true'
 };
