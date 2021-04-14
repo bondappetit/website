@@ -3,6 +3,7 @@ import withStyles, { WithStylesProps } from 'react-jss';
 
 import { InfoCardFailure, EthereumNetworkError } from 'src/common';
 import { errorBoundaryStyles } from './error-boundary.styles';
+import { Sentry } from './sentry';
 
 type ErrorBoundaryState = {
   hasError: boolean;
@@ -23,6 +24,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error({ error, errorInfo });
+    Sentry.log(error, (errorInfo as unknown) as Record<string, unknown>);
   }
 
   private handleReloadPage = () => {
