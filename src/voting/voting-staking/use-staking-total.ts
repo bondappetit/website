@@ -5,7 +5,7 @@ import { useStakingContracts } from 'src/staking';
 import { BN, useLibrary, useNetworkConfig } from 'src/common';
 
 export const useStakingTotal = () => {
-  const stakingConfig = useStakingConfig();
+  const { stakingConfig } = useStakingConfig();
   const getStakingContract = useStakingContracts();
 
   const networkConfig = useNetworkConfig();

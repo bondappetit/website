@@ -6,6 +6,7 @@ export type StakingConfig = {
   tokenName: string;
   token: string[];
   liquidityPool: boolean;
+  configAddress: string;
 };
 
 const Gov = 'BAG';
@@ -81,15 +82,33 @@ const getStakingConfig = (
     const address = getStakingAddress(networkConfig, configItem.contractName);
 
     if (address) {
-      acc[address] = configItem;
+      const lowerAddress = address.toLowerCase();
+
+      acc[lowerAddress] = {
+        ...configItem,
+        configAddress: lowerAddress
+      };
     }
 
     return acc;
   }, {});
 };
 
-export const useStakingConfig = () => {
+export const useStakingConfig = (length?: number) => {
   const networkConfig = useNetworkConfig();
 
-  return useMemo(() => getStakingConfig(networkConfig), [networkConfig]);
+  const stakingConfig = useMemo(() => getStakingConfig(networkConfig), [
+    networkConfig
+  ]);
+
+  const stakingConfigValues = useMemo(() => {
+    const values = Object.values(stakingConfig);
+
+    return !length ? values : values.slice(0, 4);
+  }, [stakingConfig, length]);
+
+  return useMemo(() => ({ stakingConfigValues, stakingConfig }), [
+    stakingConfigValues,
+    stakingConfig
+  ]);
 };

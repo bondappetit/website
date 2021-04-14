@@ -1,12 +1,10 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { MainLayout } from 'src/layouts';
 import {
-  useNetworkConfig,
   PageWrapper,
   Typography,
   Head,
-  BN,
   Plate,
   numberArray,
   humanizeNumeral
@@ -14,49 +12,25 @@ import {
 import {
   StakingCard,
   StakingInfo,
-  useGovernanceCost,
-  useStakingTokens,
-  useTotalValueLocked,
-  StakingLabel
+  StakingLabel,
+  useStakingListData
 } from 'src/staking/common';
 import { config } from 'src/config';
 import { useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
 
 export const StakingList: React.VFC = () => {
-  const networkConfig = useNetworkConfig();
   const classes = useStakingListStyles();
 
-  const stakingConfig = useStakingConfig();
+  const { stakingConfigValues } = useStakingConfig();
 
-  const stakingConfigValues = useMemo(() => Object.values(stakingConfig), [
-    stakingConfig
-  ]);
-  const stakingBalancesWithApy = useStakingTokens(stakingConfigValues);
-  const { governanceInUSDC } = useGovernanceCost();
-  const normalizeGovernanceInUSDC = useMemo(() => {
-    if (!governanceInUSDC) return new BN('0');
-
-    return new BN(governanceInUSDC).div(
-      new BN(10).pow(networkConfig.assets.USDC.decimals)
-    );
-  }, [governanceInUSDC, networkConfig.assets.USDC.decimals]);
-
-  const rewardSum = useMemo(
-    () =>
-      stakingBalancesWithApy.value?.reduce(
-        (sum, { reward, rewardInUSDC }) => {
-          return {
-            reward: new BN(sum.reward).plus(reward),
-            rewardInUSDC: new BN(sum.rewardInUSDC).plus(rewardInUSDC)
-          };
-        },
-        { reward: new BN('0'), rewardInUSDC: new BN('0') }
-      ),
-    [stakingBalancesWithApy.value]
-  );
-
-  const totalValueLocked = useTotalValueLocked(stakingBalancesWithApy.value);
+  const {
+    totalValueLocked,
+    volume24,
+    governanceInUSDC,
+    stakingList,
+    rewardSum
+  } = useStakingListData();
 
   return (
     <>
@@ -72,51 +46,51 @@ export const StakingList: React.VFC = () => {
               <StakingLabel
                 className={classes.bag}
                 title="Total value locked"
-                loading={!stakingBalancesWithApy.value || !totalValueLocked}
+                loading={!stakingList}
                 value={<>${humanizeNumeral(totalValueLocked)}</>}
               />
               <StakingLabel
                 className={classes.bag}
                 title="BAG price"
-                loading={!stakingBalancesWithApy.value}
-                value={<>${humanizeNumeral(normalizeGovernanceInUSDC)}</>}
+                loading={!stakingList || !governanceInUSDC}
+                value={<>${humanizeNumeral(governanceInUSDC)}</>}
               />
               <StakingLabel
                 className={classes.bag}
                 title="You earned"
-                loading={!stakingBalancesWithApy.value}
+                loading={!stakingList}
                 value={<>{humanizeNumeral(rewardSum?.reward)} BAG</>}
               >
-                {rewardSum?.rewardInUSDC.isGreaterThan(0) &&
-                  stakingBalancesWithApy.value && (
-                    <> (${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
-                  )}
+                {rewardSum?.rewardInUSDC.isGreaterThan(0) && !stakingList && (
+                  <> (${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
+                )}
               </StakingLabel>
+              <StakingLabel
+                title="Volume (24h)"
+                loading={!stakingList}
+                value={<>${humanizeNumeral(volume24)}</>}
+              />
             </Plate>
           </div>
           <div className={classes.staking}>
-            {!stakingBalancesWithApy.value
+            {!stakingList
               ? numberArray(stakingConfigValues.length).map((key) => (
-                  <StakingCard
-                    key={key}
-                    loading={!stakingBalancesWithApy.value}
-                  />
+                  <StakingCard key={key} loading />
                 ))
-              : stakingBalancesWithApy.value?.map((stakingBalance) => (
-                  <StakingCard
-                    key={stakingBalance.key}
-                    stacked={Boolean(Number(stakingBalance.amount))}
-                    token={stakingBalance.token}
-                    reward={stakingBalance.reward}
-                    totalSupply={stakingBalance.totalSupplyUSDC}
-                    poolRate={stakingBalance.poolRate}
-                    lockable={stakingBalance.lockable}
-                    stakingContractAddress={
-                      stakingBalance.stakingContract.options.address
-                    }
-                    APY={stakingBalance.APY}
-                  />
-                ))}
+              : stakingList?.map((stakingAddress) => {
+                  return (
+                    <StakingCard
+                      key={stakingAddress.id}
+                      stacked={stakingAddress.stacked}
+                      token={stakingAddress.token}
+                      totalSupply={stakingAddress.totalSupply}
+                      poolRate={stakingAddress.poolRate}
+                      lockable={stakingAddress.lockable}
+                      stakingContractAddress={stakingAddress.address}
+                      APY={stakingAddress.apy}
+                    />
+                  );
+                })}
           </div>
           {!config.IS_COLLATERAL && <StakingInfo />}
         </PageWrapper>

@@ -1,40 +1,61 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { Web3ReactProvider } from '@web3-react/core';
-import Web3 from 'web3';
-import { provider as Web3Provider } from 'web3-core';
 import { jss, JssProvider } from 'react-jss';
 import normalize from 'normalize-jss';
 import 'typeface-epilogue';
+import {
+  ApolloClient,
+  ApolloProvider,
+  InMemoryCache,
+  HttpLink
+} from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 
 import { ThemeProvider, globalStyles } from './common';
 import { App } from './app';
+import { config } from './config';
+import { chainIdVar } from './cache';
+import { Web3Provider } from './web3/web3-provider';
 import { ErrorBoundary, Sentry } from './error-boundary';
 
 jss.createStyleSheet(normalize).attach();
 jss.createStyleSheet(globalStyles).attach();
 
-const getLibrary = (provider: Web3Provider): Web3 => {
-  const library = new Web3(provider);
+const chainIdLink = setContext((_, { headers }) => ({
+  headers: {
+    ...headers,
+    'chain-id': chainIdVar()
+  }
+}));
 
-  return library;
-};
+const httpLink = new HttpLink({
+  uri: config.API_URL
+});
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: chainIdLink.concat(httpLink),
+  connectToDevTools: config.IS_DEV,
+  queryDeduplication: Boolean(chainIdVar())
+});
 
 Sentry.init();
 
 ReactDOM.render(
   <React.StrictMode>
     <HelmetProvider>
-      <Web3ReactProvider getLibrary={getLibrary}>
-        <JssProvider jss={jss}>
-          <ThemeProvider>
-            <ErrorBoundary>
-              <App />
-            </ErrorBoundary>
-          </ThemeProvider>
-        </JssProvider>
-      </Web3ReactProvider>
+      <Web3Provider>
+        <ApolloProvider client={client}>
+          <JssProvider jss={jss}>
+            <ThemeProvider>
+              <ErrorBoundary>
+                <App />
+              </ErrorBoundary>
+            </ThemeProvider>
+          </JssProvider>
+        </ApolloProvider>
+      </Web3Provider>
     </HelmetProvider>
   </React.StrictMode>,
   document.getElementById('root')

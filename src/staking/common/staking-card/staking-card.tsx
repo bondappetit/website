@@ -7,21 +7,20 @@ import {
   Link,
   Status,
   COIN_ICONS,
-  BN,
   humanizeNumeral
 } from 'src/common';
+import { Maybe } from 'src/graphql/_generated-hooks';
 import { URLS } from 'src/router/urls';
 import { StakingLabel } from '../staking-label';
 import { useStakingCardStyles } from './staking-card.styles';
 
 export type StakingCardProps = {
   stacked?: boolean;
-  reward?: BN;
-  APY?: BN;
+  APY?: Maybe<string>;
   token?: string[];
   stakingContractAddress?: string;
-  totalSupply?: BN;
-  poolRate?: BN;
+  totalSupply?: string;
+  poolRate?: string;
   lockable?: boolean;
   loading?: boolean;
 };
@@ -66,7 +65,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
             })}
       </Typography>
       <Typography variant="h3" align="center" className={classes.apy}>
-        APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
+        APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} % (year)</>}
       </Typography>
       <StakingLabel
         title="Deposit"

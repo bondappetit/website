@@ -11,7 +11,7 @@ export const useStakingHeaderStyles = createUseStyles(
         backgroundSize: '884px',
         backgroundPosition: 'center 40%',
         borderRadius: 24,
-        padding: [72, 56],
+        padding: [72, 29],
         display: 'flex',
         flexDirection: 'column',
         position: 'relative',
@@ -24,6 +24,7 @@ export const useStakingHeaderStyles = createUseStyles(
 
       title: {
         marginBottom: 40,
+        whiteSpace: 'nowrap',
 
         [theme.breakpoints.md()]: {
           marginBottom: 24
@@ -60,6 +61,17 @@ export const useStakingHeaderStyles = createUseStyles(
           '& > *:not(:last-child)': {
             marginRight: 32
           }
+        }
+      },
+
+      icon: {
+        marginBottom: -4,
+        width: 27,
+        height: 27,
+
+        [theme.breakpoints.md()]: {
+          width: 32,
+          height: 32
         }
       }
     };
