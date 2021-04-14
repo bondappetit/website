@@ -211,7 +211,7 @@ export const useStakingListData = (address?: string, length?: number) => {
           id: index,
           amount: stakingAddress.amount,
           address: stakingBalance?.address,
-          apy: new BN(stakingBalance?.roi ?? '0')
+          apy: new BN(stakingBalance?.apr.year ?? '0')
             .multipliedBy(100)
             .toString(10),
           lockable: Boolean(stakingBalance?.stakingEnd.block),

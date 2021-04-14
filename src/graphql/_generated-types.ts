@@ -54,6 +54,20 @@ export type QueryStakingListArgs = {
   filter?: Maybe<StakingListQueryFilterInputType>;
 };
 
+export type StakingAprType = {
+  __typename?: 'StakingAprType';
+  /** APR per block */
+  block: Scalars['String'];
+  /** APR per day */
+  day: Scalars['String'];
+  /** APR per week */
+  week: Scalars['String'];
+  /** APR per month */
+  month: Scalars['String'];
+  /** APR per year */
+  year: Scalars['String'];
+};
+
 export type StakingListQueryFilterInputType = {
   /** List of target staking contract addresses */
   address?: Maybe<Array<Scalars['AddressType']>>;
@@ -101,8 +115,7 @@ export type StakingType = {
   poolRate: StakingPoolRateType;
   stakingEnd: StakingStakingEndType;
   unstakingStart: StakingUnstakingStartType;
-  /** Return on investment */
-  roi?: Maybe<Scalars['String']>;
+  apr: StakingAprType;
 };
 
 export type StakingUnstakingStartType = {
@@ -197,7 +210,7 @@ export type StakingListQuery = { __typename?: 'Query' } & {
   stakingList: Array<
     { __typename?: 'StakingType' } & Pick<
       StakingType,
-      'address' | 'totalSupply' | 'totalSupplyFloat' | 'roi'
+      'address' | 'totalSupply' | 'totalSupplyFloat'
     > & {
         poolRate: { __typename?: 'StakingPoolRateType' } & Pick<
           StakingPoolRateType,
@@ -210,6 +223,10 @@ export type StakingListQuery = { __typename?: 'Query' } & {
         unstakingStart: { __typename?: 'StakingUnstakingStartType' } & Pick<
           StakingUnstakingStartType,
           'block' | 'date'
+        >;
+        apr: { __typename?: 'StakingAprType' } & Pick<
+          StakingAprType,
+          'block' | 'day' | 'week' | 'month' | 'year'
         >;
       }
   >;

@@ -20,7 +20,13 @@ export const STAKING_LIST_QUERY = gql`
         block
         date
       }
-      roi
+      apr {
+        block
+        day
+        week
+        month
+        year
+      }
     }
   }
 `;

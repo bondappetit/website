@@ -33,14 +33,15 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
 
                   return (
                     <React.Fragment key={title}>
-                      {Icon && <Icon />} {title}{' '}
+                      {Icon && <Icon className={classes.icon} />} {title}{' '}
                       {index === 0 && props.token?.length === 2 ? ' + ' : null}
                     </React.Fragment>
                   );
                 })}
           </Typography>
           <Typography variant="h2" align="center">
-            APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
+            APY{' '}
+            {props.loading ? '...' : <>{humanizeNumeral(props.APY)} % (year)</>}
           </Typography>
         </div>
         <div className={classes.info}>

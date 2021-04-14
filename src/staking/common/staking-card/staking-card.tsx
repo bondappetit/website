@@ -65,7 +65,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
             })}
       </Typography>
       <Typography variant="h3" align="center" className={classes.apy}>
-        APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
+        APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} % (year)</>}
       </Typography>
       <StakingLabel
         title="Deposit"
