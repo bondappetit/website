@@ -104,7 +104,7 @@ export const StakingDetail: React.FC = () => {
   const { tokenName } = currentStakingToken ?? {};
 
   const poolShare = new BN(stakingItem?.amount ?? '0')
-    .div(stakingItem?.totalSupply ?? '1')
+    .div(stakingItem?.totalSupplyFloat ?? '1')
     .multipliedBy(100);
 
   const loading = !stakingItem || !unstake.value;

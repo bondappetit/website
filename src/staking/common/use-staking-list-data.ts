@@ -193,18 +193,17 @@ export const useStakingListData = (address?: string, length?: number) => {
     () =>
       stakingAddresses.value?.map((stakingAddress, index) => {
         const stakingBalance = stakingListQuery.data?.stakingList.find(
-          (stakingItem) => stakingItem.address === stakingAddress.configAddress
+          (stakingItem) =>
+            stakingItem.address.toLowerCase() ===
+            stakingAddress.configAddress.toLowerCase()
         );
         const pairItem = uniswapPairListQuery.data?.uniswapPairList.find(
           (uniswapPairItem) =>
-            stakingAddress.tokenAddress === uniswapPairItem.address
+            stakingAddress.tokenAddress.toLowerCase() ===
+            uniswapPairItem.address
         );
         const tokenItem = tokenFilterQuery.data?.tokenList.find(
-          (token) => token.address === stakingAddress.tokenAddress
-        );
-
-        const amountInUSDC = new BN(stakingAddress.amount).multipliedBy(
-          tokenItem?.priceUSD ?? '1'
+          (token) => token.address === stakingAddress.tokenAddress.toLowerCase()
         );
 
         return {
@@ -222,11 +221,14 @@ export const useStakingListData = (address?: string, length?: number) => {
                 .multipliedBy(pairItem.totalSupplyFloat)
                 .toString(10)
             : '0',
+          totalSupplyFloat: pairItem?.totalSupplyFloat,
           decimals: stakingAddress.decimals,
           stacked: stakingAddress.amount.isGreaterThan(0),
           token: stakingAddress.token,
           stakingContract: stakingAddress.stakingContract,
-          amountInUSDC
+          amountInUSDC: new BN(stakingAddress.amount).multipliedBy(
+            tokenItem?.priceUSD ?? '1'
+          )
         };
       }),
     [
