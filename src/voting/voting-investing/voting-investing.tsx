@@ -45,7 +45,7 @@ export const VotingInvesting: React.VFC = () => {
         loading={investingTotal.loading}
         className={classes.root}
         title={
-          config.IS_INVEST ? 'Buy with a 50% discount' : 'Buy BAG on Uniswap'
+          config.IS_INVEST ? 'Buy with a fixed price' : 'Buy BAG on Uniswap'
         }
         subtitle={
           config.IS_INVEST
@@ -58,7 +58,7 @@ export const VotingInvesting: React.VFC = () => {
         description={
           config.IS_INVEST
             ? `Special offer for early investors only: buy the initial emission of (${totalTokens} BAGs)` +
-              ' at a fixed price of $2.5 per token, subject to a 6-months moratorium on sales. The offer is valid until July 2021.'
+              ' at a fixed price of $2.5 per token, subject to moratorium on sales until 01 October 2021.'
             : ''
         }
       />

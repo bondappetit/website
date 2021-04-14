@@ -77,7 +77,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                   component="span"
                   className={classes.buttonTitle}
                 >
-                  Buy with -50% discount
+                  Buy with a fixed price
                 </Typography>
                 <Typography variant="body1" component="span" align="center">
                   Get{' '}

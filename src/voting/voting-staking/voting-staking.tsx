@@ -37,7 +37,7 @@ export const VotingStaking: React.VFC = () => {
       percent={stakingTotal.value?.percent.toString(10)}
       description={
         'Earn governance tokens as rewards for supporting the protocol’s activities. ' +
-        'Buy USDap, stake your assets in liquidity pools with a 3-month lockup, and receive BAGs in return.'
+        'Buy USDap, stake your assets in liquidity pools and receive BAGs in return.'
       }
     />
   );
