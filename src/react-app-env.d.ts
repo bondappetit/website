@@ -103,6 +103,7 @@ type EthereumEventMap = {
 interface Window {
   ethereum?: {
     isMetaMask?: true;
+    isTrust?: true;
     on?: <K extends keyof EthereumEventMap>(
       type: K,
       listener: (ev: EthereumEventMap[K]) => void
