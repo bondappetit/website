@@ -5,6 +5,7 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 import { FortmaticConnector } from '@web3-react/fortmatic-connector';
 import { PortisConnector } from '@web3-react/portis-connector';
+import { TrezorConnector } from '@web3-react/trezor-connector';
 import React from 'react';
 
 import { ReactComponent as MetaMaskIcon } from 'src/assets/icons/metamask.svg';
@@ -13,6 +14,7 @@ import { ReactComponent as CoinBaseIcon } from 'src/assets/icons/coinbase-wallet
 import { ReactComponent as WalletConnectIcon } from 'src/assets/icons/wallet-connect.svg';
 import { ReactComponent as FortmaticIcon } from 'src/assets/icons/fortmatic-wallet.svg';
 import { ReactComponent as PortisIcon } from 'src/assets/icons/portis-wallet.svg';
+import { ReactComponent as TrustIcon } from 'src/assets/icons/trustwallet.svg';
 import { config } from 'src/config';
 
 export const injected = new InjectedConnector({
@@ -25,6 +27,14 @@ export const ledger = new LedgerConnector({
   pollingInterval: config.POLLING_INTERVAL
 });
 
+export const trezor = new TrezorConnector({
+  chainId: config.CHAIN_IDS[0],
+  url: config.DEFAULT_NETWORK_CONFIG.networkUrl,
+  pollingInterval: config.POLLING_INTERVAL,
+  manifestEmail: 'dummy@abc.xyz',
+  manifestAppUrl: 'http://localhost:1234'
+});
+
 export const walletlink = new WalletLinkConnector({
   url: config.DEFAULT_NETWORK_CONFIG.networkUrl,
   appName: 'Bondappetit'
@@ -34,7 +44,7 @@ export const walletconnect = new WalletConnectConnector({
   rpc: { 1: config.DEFAULT_NETWORK_CONFIG.networkUrl },
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
-  pollingInterval: 15000
+  pollingInterval: config.POLLING_INTERVAL
 });
 
 export const fortmatic = new FortmaticConnector({
@@ -48,7 +58,8 @@ export const portis = new PortisConnector({
 });
 
 enum ConnectorNames {
-  Injected = 'MetaMask',
+  MetaMask = 'MetaMask',
+  TrustWallet = 'TrustWallet',
   Ledger = 'Ledger',
   CoinBase = 'Coinbase',
   WalletConnect = 'WalletConnect',
@@ -60,9 +71,13 @@ export const connectorsByName: Record<
   ConnectorNames,
   { connector: AbstractConnector; logo: React.FC }
 > = {
-  [ConnectorNames.Injected]: {
+  [ConnectorNames.MetaMask]: {
     connector: injected,
     logo: MetaMaskIcon
+  },
+  [ConnectorNames.TrustWallet]: {
+    connector: injected,
+    logo: TrustIcon
   },
   [ConnectorNames.Ledger]: {
     connector: ledger,
