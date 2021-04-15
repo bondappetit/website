@@ -3,6 +3,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { useUpdateEffect } from 'react-use';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
+import clsx from 'clsx';
 
 import { Modal, SmallModal } from 'src/common';
 import { WalletInfo, WalletList, getWalletErrorMessage } from '../common';
@@ -73,8 +74,20 @@ export const WalletModal: React.FC<WalletModalProps> = (props) => {
   ];
 
   return (
-    <Modal open={open} onClose={onClose} className={classes.root}>
-      <SmallModal>{components[currentComponentIndex]}</SmallModal>
+    <Modal
+      open={open}
+      onClose={onClose}
+      className={clsx(classes.root, {
+        [classes.innerConnected]: currentComponentIndex
+      })}
+    >
+      <SmallModal
+        className={clsx(classes.inner, {
+          [classes.innerConnected]: currentComponentIndex
+        })}
+      >
+        {components[currentComponentIndex]}
+      </SmallModal>
     </Modal>
   );
 };

@@ -15,6 +15,7 @@ import { ReactComponent as WalletConnectIcon } from 'src/assets/icons/wallet-con
 import { ReactComponent as FortmaticIcon } from 'src/assets/icons/fortmatic-wallet.svg';
 import { ReactComponent as PortisIcon } from 'src/assets/icons/portis-wallet.svg';
 import { ReactComponent as TrustIcon } from 'src/assets/icons/trustwallet.svg';
+import { ReactComponent as TrezorIcon } from 'src/assets/icons/trezor-wallet.svg';
 import { config } from 'src/config';
 
 export const injected = new InjectedConnector({
@@ -31,8 +32,8 @@ export const trezor = new TrezorConnector({
   chainId: config.CHAIN_IDS[0],
   url: config.DEFAULT_NETWORK_CONFIG.networkUrl,
   pollingInterval: config.POLLING_INTERVAL,
-  manifestEmail: 'dummy@abc.xyz',
-  manifestAppUrl: 'http://localhost:1234'
+  manifestEmail: config.TREZOR_EMAIL,
+  manifestAppUrl: config.TREZOR_URL
 });
 
 export const walletlink = new WalletLinkConnector({
@@ -64,7 +65,8 @@ enum ConnectorNames {
   CoinBase = 'Coinbase',
   WalletConnect = 'WalletConnect',
   Fortmatic = 'Fortmatic',
-  Portis = 'Portis'
+  Portis = 'Portis',
+  Trezor = 'Trezor'
 }
 
 export const connectorsByName: Record<
@@ -98,5 +100,9 @@ export const connectorsByName: Record<
   [ConnectorNames.Portis]: {
     connector: portis,
     logo: PortisIcon
+  },
+  [ConnectorNames.Trezor]: {
+    connector: trezor,
+    logo: TrezorIcon
   }
 };

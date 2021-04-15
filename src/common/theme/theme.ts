@@ -110,7 +110,9 @@ export const theme = {
     up: (width: number) =>
       `@media (min-width: ${width}px)` as '@media (min-width: {width}px)',
     down: (width: number) =>
-      `@media (max-width: ${width}px)` as '@media (max-width: {width}px)'
+      `@media (max-width: ${width}px)` as '@media (max-width: {width}px)',
+    downHeight: (height: number) =>
+      `@media (max-height: ${height}px)` as '@media (max-height: {width}px)'
   },
 
   images: themeModes.light.images

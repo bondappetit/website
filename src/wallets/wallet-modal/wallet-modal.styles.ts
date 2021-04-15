@@ -6,7 +6,32 @@ export const useWalletModalStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       [theme.breakpoints.md()]: {
-        height: 558
+        height: 720
+      },
+
+      [theme.breakpoints.downHeight(750)]: {
+        height: 340,
+        top: 'auto',
+        bottom: 0,
+        transform: 'translate(-50%, 0)'
+      }
+    },
+
+    inner: {
+      [theme.breakpoints.md()]: {
+        maxHeight: 720
+      }
+    },
+
+    rootConnected: {
+      [theme.breakpoints.md()]: {
+        height: 560
+      }
+    },
+
+    innerConnected: {
+      [theme.breakpoints.md()]: {
+        maxHeight: 560
       }
     }
   }),
