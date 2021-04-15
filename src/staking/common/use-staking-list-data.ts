@@ -2,7 +2,12 @@ import { useWeb3React } from '@web3-react/core';
 import { useEffect, useMemo, useState } from 'react';
 import { useAsyncRetry, useUpdateEffect } from 'react-use';
 
-import { BN, useBatchRequest, useNetworkConfig } from 'src/common';
+import {
+  BN,
+  useBatchRequest,
+  useIntervalIfHasAccount,
+  useNetworkConfig
+} from 'src/common';
 import { config } from 'src/config';
 import type { Staking } from 'src/generate/Staking';
 import {
@@ -245,6 +250,8 @@ export const useStakingListData = (address?: string, length?: number) => {
       ),
     [stakingAddresses.value]
   );
+
+  useIntervalIfHasAccount(stakingAddresses.retry);
 
   return {
     stakingListQuery,
