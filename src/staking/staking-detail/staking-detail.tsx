@@ -91,7 +91,7 @@ export const StakingDetail: React.FC = () => {
     if (!stakingItem) return;
 
     const balanceOfTokenResult = await getBalance({
-      tokenAddress: stakingItem.address
+      tokenAddress: stakingItem.tokenAddress
     });
 
     const balance = balanceOfTokenResult.div(
@@ -104,7 +104,7 @@ export const StakingDetail: React.FC = () => {
   const { tokenName } = currentStakingToken ?? {};
 
   const poolShare = new BN(stakingItem?.amount ?? '0')
-    .div(stakingItem?.totalSupply ?? '1')
+    .div(stakingItem?.totalSupplyFloat ?? '1')
     .multipliedBy(100);
 
   const loading = !stakingItem || !unstake.value;
@@ -143,7 +143,7 @@ export const StakingDetail: React.FC = () => {
                 token={stakingItem?.token}
                 tokenName={tokenName}
                 tokenKey={params.tokenId}
-                tokenAddress={stakingItem?.address}
+                tokenAddress={stakingItem?.tokenAddress}
                 stakingContract={stakingItem?.stakingContract}
                 tokenDecimals={stakingItem?.decimals}
                 unstakeStart={unstake.value?.date}
