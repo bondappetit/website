@@ -27,6 +27,7 @@ jobs:
           REACT_APP_PORTIS_ID: ${{secrets.REACT_APP_PORTIS_ID}}
           REACT_APP_FORTMATIC_KEY: ${{secrets.REACT_APP_FORTMATIC_KEY_TEST}}
           REACT_APP_SENTRY: ${{secrets.REACT_APP_SENTRY}}
+          REACT_APP_API_URL: ${{secrets.REACT_APP_API_URL}}
       - if: github.event.release.prerelease == false
         run: npm run build
         env:
@@ -38,6 +39,7 @@ jobs:
           REACT_APP_PORTIS_ID: ${{secrets.REACT_APP_PORTIS_ID}}
           REACT_APP_FORTMATIC_KEY: ${{secrets.REACT_APP_FORTMATIC_KEY_PRODUCTION}}
           REACT_APP_SENTRY: ${{secrets.REACT_APP_SENTRY}}
+          REACT_APP_API_URL: ${{secrets.REACT_APP_API_URL}}
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
