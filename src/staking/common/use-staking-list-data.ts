@@ -7,7 +7,6 @@ import { config } from 'src/config';
 import type { Staking } from 'src/generate/Staking';
 import {
   useStakingListQuery,
-  useTokenListFilterLazyQuery,
   useUniswapPairListLazyQuery
 } from 'src/graphql/_generated-hooks';
 import { useStakingConfig } from 'src/staking-config';
@@ -72,8 +71,6 @@ export const useStakingListData = (address?: string, length?: number) => {
     pollInterval: config.POLLING_INTERVAL
   });
 
-  const [loadToken, tokenFilterQuery] = useTokenListFilterLazyQuery();
-
   const stakingAddresses = useAsyncRetry(async () => {
     const stakingItem = address ? stakingConfig[address] : null;
 
@@ -134,7 +131,7 @@ export const useStakingListData = (address?: string, length?: number) => {
 
       return acc;
     }, Promise.resolve([]));
-  }, [address, stakingConfig]);
+  }, [address, stakingConfig, USD.decimals, governanceInUSDC]);
 
   const [loadUniswapData, uniswapPairListQuery] = useUniswapPairListLazyQuery();
 
@@ -185,8 +182,6 @@ export const useStakingListData = (address?: string, length?: number) => {
     };
 
     loadUniswapData(options);
-
-    loadToken(options);
   }, [stakingAddresses.value]);
 
   const stakingList = useMemo(
@@ -202,14 +197,16 @@ export const useStakingListData = (address?: string, length?: number) => {
             stakingAddress.tokenAddress.toLowerCase() ===
             uniswapPairItem.address
         );
-        const tokenItem = tokenFilterQuery.data?.tokenList.find(
-          (token) => token.address === stakingAddress.tokenAddress.toLowerCase()
-        );
+
+        const priceUSD = new BN(
+          pairItem?.statistic?.totalLiquidityUSD ?? '0'
+        ).div(pairItem?.totalSupplyFloat ?? '1');
 
         return {
           id: index,
           amount: stakingAddress.amount,
           address: stakingBalance?.address,
+          tokenAddress: stakingAddress.tokenAddress,
           apy: new BN(stakingBalance?.apr.year ?? '0')
             .multipliedBy(100)
             .toString(10),
@@ -226,17 +223,10 @@ export const useStakingListData = (address?: string, length?: number) => {
           stacked: stakingAddress.amount.isGreaterThan(0),
           token: stakingAddress.token,
           stakingContract: stakingAddress.stakingContract,
-          amountInUSDC: new BN(stakingAddress.amount).multipliedBy(
-            tokenItem?.priceUSD ?? '1'
-          )
+          amountInUSDC: new BN(stakingAddress.amount).multipliedBy(priceUSD)
         };
       }),
-    [
-      stakingAddresses.value,
-      uniswapPairListQuery.data,
-      stakingListQuery.data,
-      tokenFilterQuery.data
-    ]
+    [stakingAddresses.value, uniswapPairListQuery.data, stakingListQuery.data]
   );
 
   const rewardSum = useMemo(

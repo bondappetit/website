@@ -91,7 +91,7 @@ export const StakingDetail: React.FC = () => {
     if (!stakingItem) return;
 
     const balanceOfTokenResult = await getBalance({
-      tokenAddress: stakingItem.address
+      tokenAddress: stakingItem.tokenAddress
     });
 
     const balance = balanceOfTokenResult.div(
@@ -143,7 +143,7 @@ export const StakingDetail: React.FC = () => {
                 token={stakingItem?.token}
                 tokenName={tokenName}
                 tokenKey={params.tokenId}
-                tokenAddress={stakingItem?.address}
+                tokenAddress={stakingItem?.tokenAddress}
                 stakingContract={stakingItem?.stakingContract}
                 tokenDecimals={stakingItem?.decimals}
                 unstakeStart={unstake.value?.date}
