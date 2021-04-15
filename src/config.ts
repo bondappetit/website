@@ -23,5 +23,7 @@ export const config = {
   API_URL: process.env.REACT_APP_API_URL,
   POLLING_INTERVAL: 15000,
   SENTRY: process.env.REACT_APP_SENTRY,
-  IS_LOCAL: process.env.REACT_APP_IS_LOCAL === 'true'
+  IS_LOCAL: process.env.REACT_APP_IS_LOCAL === 'true',
+  TREZOR_URL: process.env.REACT_APP_TREZOR_URL ?? '',
+  TREZOR_EMAIL: process.env.REACT_APP_TREZOR_EMAIL ?? ''
 };

@@ -5,6 +5,7 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 import { FortmaticConnector } from '@web3-react/fortmatic-connector';
 import { PortisConnector } from '@web3-react/portis-connector';
+import { TrezorConnector } from '@web3-react/trezor-connector';
 import React from 'react';
 
 import { ReactComponent as MetaMaskIcon } from 'src/assets/icons/metamask.svg';
@@ -14,6 +15,7 @@ import { ReactComponent as WalletConnectIcon } from 'src/assets/icons/wallet-con
 import { ReactComponent as FortmaticIcon } from 'src/assets/icons/fortmatic-wallet.svg';
 import { ReactComponent as PortisIcon } from 'src/assets/icons/portis-wallet.svg';
 import { ReactComponent as TrustIcon } from 'src/assets/icons/trustwallet.svg';
+import { ReactComponent as TrezorIcon } from 'src/assets/icons/trezor-wallet.svg';
 import { config } from 'src/config';
 
 export const injected = new InjectedConnector({
@@ -26,6 +28,14 @@ export const ledger = new LedgerConnector({
   pollingInterval: config.POLLING_INTERVAL
 });
 
+export const trezor = new TrezorConnector({
+  chainId: config.CHAIN_IDS[0],
+  url: config.DEFAULT_NETWORK_CONFIG.networkUrl,
+  pollingInterval: config.POLLING_INTERVAL,
+  manifestEmail: config.TREZOR_EMAIL,
+  manifestAppUrl: config.TREZOR_URL
+});
+
 export const walletlink = new WalletLinkConnector({
   url: config.DEFAULT_NETWORK_CONFIG.networkUrl,
   appName: 'Bondappetit'
@@ -35,7 +45,7 @@ export const walletconnect = new WalletConnectConnector({
   rpc: { 1: config.DEFAULT_NETWORK_CONFIG.networkUrl },
   bridge: 'https://bridge.walletconnect.org',
   qrcode: true,
-  pollingInterval: 15000
+  pollingInterval: config.POLLING_INTERVAL
 });
 
 export const fortmatic = new FortmaticConnector({
@@ -55,7 +65,8 @@ enum ConnectorNames {
   CoinBase = 'Coinbase',
   WalletConnect = 'WalletConnect',
   Fortmatic = 'Fortmatic',
-  Portis = 'Portis'
+  Portis = 'Portis',
+  Trezor = 'Trezor'
 }
 
 export const connectorsByName: Record<
@@ -89,5 +100,9 @@ export const connectorsByName: Record<
   [ConnectorNames.Portis]: {
     connector: portis,
     logo: PortisIcon
+  },
+  [ConnectorNames.Trezor]: {
+    connector: trezor,
+    logo: TrezorIcon
   }
 };
