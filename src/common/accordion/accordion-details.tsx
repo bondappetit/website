@@ -1,4 +1,4 @@
-import React, { useRef, useContext, useCallback } from 'react';
+import React, { useRef, useContext, useMemo } from 'react';
 import clsx from 'clsx';
 import { useMount, useUnmount } from 'react-use';
 
@@ -16,13 +16,14 @@ export const AccordionDetails: React.FC<AccordionDetailsProps> = (props) => {
   const ref = useRef<HTMLDivElement>(null);
   const accordionContext = useContext(AccordionContext);
 
-  const handleSetDetailHeight = useCallback(
-    throttle(() => {
-      if (ref.current?.clientHeight) {
-        accordionContext?.handleDetailHeight(ref.current.clientHeight);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, 300),
+  const handleSetDetailHeight = useMemo(
+    () =>
+      throttle(() => {
+        if (ref.current?.clientHeight) {
+          accordionContext?.handleDetailHeight(ref.current.clientHeight);
+        }
+      }, 300),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 

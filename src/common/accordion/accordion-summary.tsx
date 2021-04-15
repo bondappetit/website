@@ -4,7 +4,7 @@ import React, {
   cloneElement,
   useContext,
   useRef,
-  useCallback
+  useMemo
 } from 'react';
 import { useMount, useUnmount } from 'react-use';
 
@@ -24,13 +24,14 @@ export const AccordionSummary: React.FC<AccordionSummaryProps> = (props) => {
 
   const accordionContext = useContext(AccordionContext);
 
-  const handleSetSummaryHeight = useCallback(
-    throttle(() => {
-      if (ref.current?.clientHeight) {
-        accordionContext?.handleSummaryHeight(ref.current.clientHeight);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, 300),
+  const handleSetSummaryHeight = useMemo(
+    () =>
+      throttle(() => {
+        if (ref.current?.clientHeight) {
+          accordionContext?.handleSummaryHeight(ref.current.clientHeight);
+        }
+      }, 300),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -52,6 +53,8 @@ export const AccordionSummary: React.FC<AccordionSummaryProps> = (props) => {
       className={clsx(classes.summary, props.className)}
       onClick={accordionContext?.handleExpand}
       onKeyPress={accordionContext?.handleExpand}
+      role="button"
+      tabIndex={0}
       ref={ref}
     >
       {props.children}{' '}
