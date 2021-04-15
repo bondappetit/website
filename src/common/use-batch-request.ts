@@ -1,5 +1,5 @@
 import { Extension } from 'web3-core';
-import { useCallback } from 'react';
+import { useMemo } from 'react';
 import Web3 from 'web3';
 
 import { NonPayableTx } from 'src/generate/types';
@@ -58,5 +58,5 @@ const makeBatchRequest = (library: Web3) => <
 export const useBatchRequest = () => {
   const library = useLibrary();
 
-  return useCallback(makeBatchRequest(library), [library]);
+  return useMemo(() => makeBatchRequest(library), [library]);
 };
