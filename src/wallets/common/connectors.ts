@@ -13,6 +13,7 @@ import { ReactComponent as CoinBaseIcon } from 'src/assets/icons/coinbase-wallet
 import { ReactComponent as WalletConnectIcon } from 'src/assets/icons/wallet-connect.svg';
 import { ReactComponent as FortmaticIcon } from 'src/assets/icons/fortmatic-wallet.svg';
 import { ReactComponent as PortisIcon } from 'src/assets/icons/portis-wallet.svg';
+import { ReactComponent as TrustIcon } from 'src/assets/icons/trustwallet.svg';
 import { config } from 'src/config';
 
 export const injected = new InjectedConnector({
@@ -48,7 +49,8 @@ export const portis = new PortisConnector({
 });
 
 enum ConnectorNames {
-  Injected = 'MetaMask',
+  MetaMask = 'MetaMask',
+  TrustWallet = 'TrustWallet',
   Ledger = 'Ledger',
   CoinBase = 'Coinbase',
   WalletConnect = 'WalletConnect',
@@ -60,9 +62,13 @@ export const connectorsByName: Record<
   ConnectorNames,
   { connector: AbstractConnector; logo: React.FC }
 > = {
-  [ConnectorNames.Injected]: {
+  [ConnectorNames.MetaMask]: {
     connector: injected,
     logo: MetaMaskIcon
+  },
+  [ConnectorNames.TrustWallet]: {
+    connector: injected,
+    logo: TrustIcon
   },
   [ConnectorNames.Ledger]: {
     connector: ledger,
