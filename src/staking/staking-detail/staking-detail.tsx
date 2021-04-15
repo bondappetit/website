@@ -200,9 +200,9 @@ export const StakingDetail: React.FC = () => {
                       align="center"
                       className={classes.attention}
                     >
-                      Unstaking will start at {unstake.value?.date}
-                      <br /> after{' '}
+                      Unstaking will start at{' '}
                       {unstake.value?.unstakingStartBlock.toString(10)} block
+                      <br />({unstake.value?.date})
                     </Typography>
                   )}
                   {!loading && showUnstakeButton && account && (

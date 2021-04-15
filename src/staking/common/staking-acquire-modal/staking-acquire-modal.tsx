@@ -31,11 +31,11 @@ export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
               </Link>
             </Typography>
             <Typography variant="h5">
-              2. You will get LP tokens from UNISWAP automatically right after
+              2. You will get LP tokens from uniswap automatically right after
               stake
             </Typography>
             <Typography variant="h5">
-              3.Then stake LP tokens and earn BAG
+              3. Then stake LP tokens and earn BAG
             </Typography>
           </div>
           <Button

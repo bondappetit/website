@@ -40,8 +40,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
                 })}
           </Typography>
           <Typography variant="h2" align="center">
-            APY{' '}
-            {props.loading ? '...' : <>{humanizeNumeral(props.APY)} % (year)</>}
+            APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
           </Typography>
         </div>
         <div className={classes.info}>
