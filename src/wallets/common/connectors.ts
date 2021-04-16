@@ -7,6 +7,7 @@ import { FortmaticConnector } from '@web3-react/fortmatic-connector';
 import { PortisConnector } from '@web3-react/portis-connector';
 import { TrezorConnector } from '@web3-react/trezor-connector';
 import React from 'react';
+import { BscConnector } from '@binance-chain/bsc-connector';
 
 import { ReactComponent as MetaMaskIcon } from 'src/assets/icons/metamask.svg';
 import { ReactComponent as LedgerIcon } from 'src/assets/icons/ledger.svg';
@@ -16,6 +17,7 @@ import { ReactComponent as FortmaticIcon } from 'src/assets/icons/fortmatic-wall
 import { ReactComponent as PortisIcon } from 'src/assets/icons/portis-wallet.svg';
 import { ReactComponent as TrustIcon } from 'src/assets/icons/trustwallet.svg';
 import { ReactComponent as TrezorIcon } from 'src/assets/icons/trezor-wallet.svg';
+import { ReactComponent as BinanceIcon } from 'src/assets/icons/binance-wallet.svg';
 import { config } from 'src/config';
 
 export const injected = new InjectedConnector({
@@ -58,6 +60,10 @@ export const portis = new PortisConnector({
   networks: [config.CHAIN_IDS[0]]
 });
 
+export const binance = new BscConnector({
+  supportedChainIds: config.CHAIN_IDS
+});
+
 enum ConnectorNames {
   MetaMask = 'MetaMask',
   TrustWallet = 'TrustWallet',
@@ -66,7 +72,8 @@ enum ConnectorNames {
   WalletConnect = 'WalletConnect',
   Fortmatic = 'Fortmatic',
   Portis = 'Portis',
-  Trezor = 'Trezor'
+  Trezor = 'Trezor',
+  Binance = 'Binance'
 }
 
 export const connectorsByName: Record<
@@ -92,6 +99,10 @@ export const connectorsByName: Record<
   [ConnectorNames.WalletConnect]: {
     connector: walletconnect,
     logo: WalletConnectIcon
+  },
+  [ConnectorNames.Binance]: {
+    connector: binance,
+    logo: BinanceIcon
   },
   [ConnectorNames.Fortmatic]: {
     connector: fortmatic,

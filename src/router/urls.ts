@@ -31,5 +31,6 @@ export const URLS = {
       `/collateral/borrowers/${companyName}`,
     borrow: '/collateral/borrow'
   },
-  contract: '/contracts'
+  contract: '/contracts',
+  binance: '/binance'
 } as const;
