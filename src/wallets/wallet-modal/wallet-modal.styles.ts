@@ -9,11 +9,15 @@ export const useWalletModalStyles = createUseStyles(
         height: 720
       },
 
-      [theme.breakpoints.downHeight(750)]: {
+      [theme.breakpoints.down(750, 'height')]: {
         height: 340,
         top: 'auto',
         bottom: 0,
         transform: 'translate(-50%, 0)'
+      },
+
+      [theme.breakpoints.down(959)]: {
+        transform: 'none'
       }
     },
 

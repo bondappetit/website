@@ -107,12 +107,10 @@ export const theme = {
     md: () => '@media (min-width: 960px)' as const,
     lg: () => '@media (min-width: 1280px)' as const,
     xl: () => '@media (min-width: 1920px)' as const,
-    up: (width: number) =>
-      `@media (min-width: ${width}px)` as '@media (min-width: {width}px)',
-    down: (width: number) =>
-      `@media (max-width: ${width}px)` as '@media (max-width: {width}px)',
-    downHeight: (height: number) =>
-      `@media (max-height: ${height}px)` as '@media (max-height: {width}px)'
+    up: (size: number, dir = 'width') =>
+      `@media (min-${dir}: ${size}px)` as '@media (min-{dir}: {size}px)',
+    down: (size: number, dir = 'width') =>
+      `@media (max-${dir}: ${size}px)` as '@media (max-{dir}: {size}px)'
   },
 
   images: themeModes.light.images
