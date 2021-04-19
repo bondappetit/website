@@ -10,19 +10,19 @@ export type MainCointelegraphProps = {
 
 const ARTICLES = [
   {
+    title:
+      'A nightmare on Stable Street: Centralized stablecoins may be doomed',
+    date: 'Apr 18, 2021',
+    author: 'Artem Tolkachev',
+    link:
+      'https://cointelegraph.com/news/a-nightmare-on-stable-street-centralized-stablecoins-may-be-doomed'
+  },
+  {
     title: 'Why DeFi plus asset tokenization will take crypto to new heights',
     date: 'Jan 17, 2021',
     author: 'Artem Tolkachev',
     link:
       'https://cointelegraph.com/news/why-defi-plus-asset-tokenization-will-take-crypto-to-new-heights'
-  },
-  {
-    title:
-      'The DeFi market desperately needs to connect with real-world assets',
-    date: 'Nov 14, 2020',
-    author: 'Artem Tolkachev',
-    link:
-      'https://cointelegraph.com/news/the-defi-market-desperately-needs-to-connect-with-real-world-assets'
   }
 ];
 
