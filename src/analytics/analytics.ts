@@ -1,3 +1,5 @@
+import { config } from 'src/config';
+
 type EventEnum =
   | 'connect_wallet'
   | 'invest_click'
@@ -9,11 +11,9 @@ type EventEnum =
 
 window.dataLayer = window.dataLayer ?? [];
 
-const ymId = 75624769;
-
 export const analytics = {
   send: (event: EventEnum) => {
     window.dataLayer?.push(event);
-    window.ym?.(ymId, 'reachGoal', event);
+    window.ym?.(config.YM_ID, 'reachGoal', event);
   }
 };
