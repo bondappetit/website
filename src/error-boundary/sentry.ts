@@ -11,7 +11,7 @@ export const Sentry = {
     tracesSampleRate: 1.0,
 
     beforeSend(event) {
-      if (!config.IS_LOCAL) {
+      if (config.IS_LOCAL) {
         return null;
       }
 
