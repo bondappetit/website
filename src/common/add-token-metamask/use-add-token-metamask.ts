@@ -1,6 +1,13 @@
 import { useCallback } from 'react';
 
 import { useNetworkConfig } from 'src/common/use-network-config';
+import BAGIcon from 'src/assets/icons/coins/bag.svg';
+import USDAPIcon from 'src/assets/icons/coins/usdap.svg';
+
+const ICONS = new Map([
+  ['Stable', USDAPIcon],
+  ['Governance', BAGIcon]
+]);
 
 export const useAddTokenMetamask = (type: 'Governance' | 'Stable') => {
   const networkConfig = useNetworkConfig();
@@ -21,7 +28,8 @@ export const useAddTokenMetamask = (type: 'Governance' | 'Stable') => {
         options: {
           address: tokenAddress,
           symbol: tokenSymbol,
-          decimals: tokenDecimals
+          decimals: tokenDecimals,
+          image: ICONS.get(type)
         }
       }
     });

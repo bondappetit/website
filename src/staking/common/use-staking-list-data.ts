@@ -136,7 +136,7 @@ export const useStakingListData = (address?: string, length?: number) => {
 
       return acc;
     }, Promise.resolve([]));
-  }, [address, stakingConfig, USD.decimals, governanceInUSDC]);
+  }, [address, account, stakingConfig, USD.decimals, governanceInUSDC]);
 
   const [loadUniswapData, uniswapPairListQuery] = useUniswapPairListLazyQuery();
 
