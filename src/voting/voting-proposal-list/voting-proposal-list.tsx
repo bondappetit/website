@@ -36,7 +36,8 @@ export const VotingProposalList: React.FC = () => {
     canDelegate,
     handleUpdateVoteInfo,
     delegateTo,
-    currentGovCoin
+    currentGovCoin,
+    votesGreaterThanProposalThreshold
   } = useVoteInfo();
   const [votingChooseOpen, setVotingChooseOpen] = useState(false);
   const networkConfig = useNetworkConfig();
@@ -143,7 +144,7 @@ export const VotingProposalList: React.FC = () => {
               + Create new proposal
             </Button>
           )}
-          {!proposals.loading && !canCreateProposal && (
+          {!proposals.loading && !votesGreaterThanProposalThreshold && (
             <Typography
               variant="h4"
               component="div"

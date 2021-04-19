@@ -24,6 +24,10 @@ export const useVoteInfo = () => {
   const { account } = useWeb3React<Web3>();
   const getBalance = useBalance();
   const [update, handleUpdateVoteInfo] = useUpdate();
+  const [
+    votesGreaterThanProposalThreshold,
+    setVotesGreaterThanProposalThreshold
+  ] = useState(false);
 
   const handleGetVotes = useCallback(async () => {
     if (!account || !governanceContract) return;
@@ -85,6 +89,10 @@ export const useVoteInfo = () => {
       currentVotesIsGreaterThanProposalThreshold &&
         latestProposalNotIncludePendingOrActive
     );
+
+    setVotesGreaterThanProposalThreshold(
+      currentVotesIsGreaterThanProposalThreshold
+    );
   }, [governorContract, account, currentVotes, networkConfig]);
 
   const handleGetDelegates = useCallback(async () => {
@@ -116,7 +124,8 @@ export const useVoteInfo = () => {
       canCreateProposal,
       delegateTo,
       currentVotes: new BN(currentVotes).toFixed(2),
-      handleUpdateVoteInfo
+      handleUpdateVoteInfo,
+      votesGreaterThanProposalThreshold
     }),
     [
       currentGovCoin,
@@ -124,7 +133,8 @@ export const useVoteInfo = () => {
       currentVotes,
       handleUpdateVoteInfo,
       delegateTo,
-      canDelegate
+      canDelegate,
+      votesGreaterThanProposalThreshold
     ]
   );
 };
