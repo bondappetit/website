@@ -80,7 +80,7 @@ export const useStakingListData = (address?: string, length?: number) => {
   const [loadUniswapData, uniswapPairListQuery] = useUniswapPairListLazyQuery();
 
   const stakingAddresses = useAsyncRetry(async () => {
-    const stakingItem = address ? stakingConfig[address] : null;
+    const stakingItem = address ? stakingConfig[address.toLowerCase()] : null;
 
     return (stakingItem ? [stakingItem] : stakingConfigValues).reduce<
       Promise<StakingToken[]>
