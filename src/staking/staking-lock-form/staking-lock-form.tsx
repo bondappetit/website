@@ -22,6 +22,7 @@ import {
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { WalletButtonWithFallback } from 'src/wallets';
+import { analytics } from 'src/analytics';
 import {
   StakingAcquireModal,
   StakingAttentionModal,
@@ -102,6 +103,8 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     onSubmit: async (formValues, { resetForm }) => {
       if (!account || !stakingContract || !tokenDecimals) return;
 
+      analytics.send('staking_click');
+
       const currentAssetContract = getIERC20Contract(tokenAddress);
 
       const formAmount = new BN(formValues.amount)
@@ -135,6 +138,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         gas: await estimateGas(stake, { from: account })
       });
       resetForm();
+      analytics.send('staking_success');
       props.onSubmit?.();
     }
   });
