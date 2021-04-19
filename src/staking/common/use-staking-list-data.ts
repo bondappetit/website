@@ -43,6 +43,7 @@ export type SakingItem = {
   token: string[];
   decimals: string;
   stakingContract: Staking;
+  date?: string | null;
 };
 
 export const useStakingListData = (address?: string, length?: number) => {
@@ -228,7 +229,8 @@ export const useStakingListData = (address?: string, length?: number) => {
           stacked: stakingAddress.amount.isGreaterThan(0),
           token: stakingAddress.token,
           stakingContract: stakingAddress.stakingContract,
-          amountInUSDC: new BN(stakingAddress.amount).multipliedBy(priceUSD)
+          amountInUSDC: new BN(stakingAddress.amount).multipliedBy(priceUSD),
+          date: stakingBalance?.stakingEnd.date
         };
       }),
     [stakingAddresses.value, uniswapPairListQuery.data, stakingListQuery.data]

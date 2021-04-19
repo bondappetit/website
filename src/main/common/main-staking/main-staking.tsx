@@ -62,6 +62,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
                   totalSupply={stakingItem.totalSupply}
                   poolRate={stakingItem.poolRate}
                   lockable={stakingItem.lockable}
+                  date={stakingItem.date}
                   stakingContractAddress={
                     stakingItem.stakingContract.options.address
                   }
