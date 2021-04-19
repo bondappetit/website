@@ -86,7 +86,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
       price: priceBN.div(div).toString(10),
       convertPrice: div.div(priceBN).toFormat(5)
     };
-  }, [formik.values.currency]);
+  }, [formik.values.currency, network.assets]);
 
   const { onSuccess } = props;
 

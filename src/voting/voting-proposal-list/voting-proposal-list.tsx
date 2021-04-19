@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import BN from 'bignumber.js';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import clsx from 'clsx';
+import { useWeb3React } from '@web3-react/core';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -24,6 +25,7 @@ const DELEGATE_TO_DEFAULT = '0x0000000000000000000000000000000000000000';
 
 export const VotingProposalList: React.FC = () => {
   const classes = useVotingProposalListStyles();
+  const { account } = useWeb3React();
   const {
     proposals,
     nextPage,
@@ -36,7 +38,8 @@ export const VotingProposalList: React.FC = () => {
     canDelegate,
     handleUpdateVoteInfo,
     delegateTo,
-    currentGovCoin
+    currentGovCoin,
+    votesGreaterThanProposalThreshold
   } = useVoteInfo();
   const [votingChooseOpen, setVotingChooseOpen] = useState(false);
   const networkConfig = useNetworkConfig();
@@ -143,7 +146,7 @@ export const VotingProposalList: React.FC = () => {
               + Create new proposal
             </Button>
           )}
-          {!proposals.loading && !canCreateProposal && (
+          {!proposals.loading && !votesGreaterThanProposalThreshold && account && (
             <Typography
               variant="h4"
               component="div"
