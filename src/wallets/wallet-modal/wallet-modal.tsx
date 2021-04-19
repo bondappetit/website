@@ -6,6 +6,7 @@ import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
 
 import { Modal, SmallModal } from 'src/common';
+import { analytics } from 'src/analytics';
 import { WalletInfo, WalletList, getWalletErrorMessage } from '../common';
 import { useWalletModalStyles } from './wallet-modal.styles';
 
@@ -35,6 +36,8 @@ export const WalletModal: React.FC<WalletModalProps> = (props) => {
           onClose();
           setCurrentComponentIndex(1);
         }
+
+        analytics.send('connect_wallet');
       } catch (e) {
         setError(e);
         console.error(e.message);

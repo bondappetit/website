@@ -8,6 +8,7 @@ import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 
 import { WalletButtonWithFallback } from 'src/wallets';
+import { analytics } from 'src/analytics';
 import {
   useCollateralMarketContract,
   useNetworkConfig,
@@ -110,6 +111,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
       const formInvest = new BN(formValues.payment)
         .multipliedBy(new BN(10).pow(currentToken.decimals))
         .toString(10);
+      analytics.send('buy_usdap_click');
 
       try {
         const options = {
@@ -141,6 +143,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
           gas: await estimateGas(buyStableToken, { from: account })
         });
 
+        analytics.send('buy_usdap_success');
         failureToggle(false);
         successToggle(true);
         tokens.retry();

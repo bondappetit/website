@@ -18,6 +18,7 @@ import {
   reset
 } from 'src/common';
 import type { Ierc20 } from 'src/generate/IERC20';
+import { analytics } from 'src/analytics';
 
 export const useInvestingForm = (onSuccess: () => void) => {
   const network = useNetworkConfig();
@@ -153,6 +154,7 @@ export const useInvestingForm = (onSuccess: () => void) => {
 
           failureToggle(false);
           successToggle(true);
+          analytics.send('invest_success');
           ref.current();
         }
       } catch {
