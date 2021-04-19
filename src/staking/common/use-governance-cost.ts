@@ -35,9 +35,11 @@ export const useGovernanceCost = () => {
   }, [amountInGovernance, networkConfig]);
 
   useEffect(() => {
-    console.warn(
-      `${networkConfig.assets.Governance.symbol}-USDC liquidity pool is empty`
-    );
+    if (state.error) {
+      console.warn(
+        `${networkConfig.assets.Governance.symbol}-USDC liquidity pool is empty`
+      );
+    }
   }, [state.error, networkConfig.assets.Governance.symbol]);
 
   return {
