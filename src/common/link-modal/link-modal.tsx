@@ -9,6 +9,7 @@ import { SmallModal } from '../small-modal';
 import { Typography } from '../typography';
 import { Link } from '../link';
 import { useLinkModalStyles } from './link-modal.styles';
+import { useNetworkConfig } from '../use-network-config';
 
 export type LinkModalProps = {
   className?: string;
@@ -25,10 +26,12 @@ export type LinkModalProps = {
   tokenName: string;
 };
 
-const UNISWAP_URL = 'https://info.uniswap.org/token/';
+const UNISWAP_URL = 'https://app.uniswap.org/#/swap';
 
 export const LinkModal: React.FC<LinkModalProps> = (props) => {
   const classes = useLinkModalStyles();
+
+  const networkConfig = useNetworkConfig();
 
   return (
     <Modal open={props.open} onClose={props.onClose}>
@@ -94,7 +97,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
             <Button
               variant="outlined"
               component={Link}
-              href={`${UNISWAP_URL}${props.tokenAddress}`}
+              href={`${UNISWAP_URL}?inputCurrency=${networkConfig.assets.USDC.address}&outputCurrency=${props.tokenAddress}`}
               target="_blank"
               className={classes.button}
             >
