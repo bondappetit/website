@@ -171,7 +171,13 @@ export const useInvestingForm = (onSuccess: () => void) => {
           ({ symbol }) => symbol === formik.values.currency
         );
 
-        if (!currentToken || !account || !investmentContract) return;
+        if (
+          !currentToken ||
+          !account ||
+          !investmentContract ||
+          currentToken.symbol === 'ETH'
+        )
+          return;
 
         const formInvest = new BN(formik.values.payment)
           .multipliedBy(new BN(10).pow(currentToken.decimals))
