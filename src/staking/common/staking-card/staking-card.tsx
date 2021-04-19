@@ -7,7 +7,8 @@ import {
   Link,
   Status,
   COIN_ICONS,
-  humanizeNumeral
+  humanizeNumeral,
+  dateUtils
 } from 'src/common';
 import { Maybe } from 'src/graphql/_generated-hooks';
 import { URLS } from 'src/router/urls';
@@ -23,6 +24,7 @@ export type StakingCardProps = {
   poolRate?: string;
   lockable?: boolean;
   loading?: boolean;
+  date?: string | null;
 };
 
 export const StakingCard: React.FC<StakingCardProps> = (props) => {
@@ -94,8 +96,8 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       />
       {props.lockable && (
         <StakingLabel
-          title="Lockup"
-          value={<>3 month</>}
+          title="Unstaking on"
+          value={dateUtils.format(props.date ?? '')}
           variant="body1"
           loading={Boolean(props.loading)}
         />
