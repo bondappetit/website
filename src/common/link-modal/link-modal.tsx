@@ -97,7 +97,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
             <Button
               variant="outlined"
               component={Link}
-              href={`${UNISWAP_URL}?inputCurrency=${props.tokenAddress}&outputCurrency=${networkConfig.assets.USDC.address}`}
+              href={`${UNISWAP_URL}?inputCurrency=${networkConfig.assets.USDC.address}&outputCurrency=${props.tokenAddress}`}
               target="_blank"
               className={classes.button}
             >
