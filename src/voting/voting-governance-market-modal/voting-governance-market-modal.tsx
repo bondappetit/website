@@ -197,7 +197,13 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
     () => {
       const currentToken = network.assets[formik.values.currency];
 
-      if (!currentToken || !account || !marketContract) return;
+      if (
+        !currentToken ||
+        !account ||
+        !marketContract ||
+        currentToken.symbol === 'ETH'
+      )
+        return;
 
       const currentContract = getContract(currentToken.address);
 
@@ -249,7 +255,8 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
               loading={formik.isSubmitting}
             >
               {(!approve.value?.approve && !approve.value?.reset) ||
-              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
+              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0) ||
+              formik.values.currency === 'ETH'
                 ? formik.errors.payment || formik.errors.currency || 'Buy'
                 : 'Approve'}
             </WalletButtonWithFallback>

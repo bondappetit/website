@@ -268,7 +268,13 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
         ({ symbol }) => symbol === formik.values.currency
       );
 
-      if (!currentToken || !account || !marketContract) return;
+      if (
+        !currentToken ||
+        !account ||
+        !marketContract ||
+        currentToken.symbol === 'ETH'
+      )
+        return;
 
       const currentContract = getContract(currentToken.address);
 
@@ -324,7 +330,8 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
               loading={formik.isSubmitting}
             >
               {(!approve.value?.approve && !approve.value?.reset) ||
-              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
+              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0) ||
+              formik.values.currency === 'ETH'
                 ? formik.errors.payment || formik.errors.currency || 'Buy'
                 : 'Approve'}
             </WalletButtonWithFallback>
