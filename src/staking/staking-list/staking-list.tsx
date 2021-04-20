@@ -83,7 +83,7 @@ export const StakingList: React.VFC = () => {
                       key={stakingAddress.id}
                       stacked={stakingAddress.stacked}
                       token={stakingAddress.token}
-                      totalSupply={stakingAddress.totalSupply}
+                      totalValueLocked={stakingAddress.totalValueLocked}
                       poolRate={stakingAddress.poolRate}
                       lockable={stakingAddress.lockable}
                       stakingContractAddress={
