@@ -218,12 +218,13 @@ export const useStakingListData = (address?: string, length?: number) => {
             .toString(10),
           lockable: Boolean(stakingBalance?.stakingEnd.block),
           poolRate: stakingBalance?.poolRate.dailyFloat,
-          totalSupply: pairItem
-            ? new BN(pairItem.statistic?.totalLiquidityUSD ?? '0')
-                .div(pairItem.totalSupplyFloat)
-                .multipliedBy(pairItem.totalSupplyFloat)
-                .toString(10)
-            : '0',
+          totalSupply:
+            pairItem && stakingBalance
+              ? new BN(pairItem.statistic?.totalLiquidityUSD ?? '0')
+                  .div(pairItem.totalSupplyFloat)
+                  .multipliedBy(stakingBalance.totalSupplyFloat)
+                  .toString(10)
+              : '0',
           totalSupplyFloat: pairItem?.totalSupplyFloat,
           decimals: stakingAddress.decimals,
           stacked: stakingAddress.amount.isGreaterThan(0),
