@@ -20,7 +20,7 @@ export type StakingCardProps = {
   APY?: Maybe<string>;
   token?: string[];
   stakingContractAddress?: string;
-  totalSupply?: string;
+  totalValueLocked?: string;
   poolRate?: string;
   lockable?: boolean;
   loading?: boolean;
@@ -84,7 +84,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       />
       <StakingLabel
         title="Total value locked"
-        value={<>${humanizeNumeral(props.totalSupply)}</>}
+        value={<>${humanizeNumeral(props.totalValueLocked)}</>}
         variant="body1"
         loading={Boolean(props.loading)}
       />

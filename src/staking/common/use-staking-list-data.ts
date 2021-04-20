@@ -38,7 +38,7 @@ export type SakingItem = {
   apy: string;
   lockable: boolean;
   poolRate: string | undefined;
-  totalSupply: string;
+  totalValueLocked: string;
   stacked: boolean;
   token: string[];
   decimals: string;
@@ -204,7 +204,7 @@ export const useStakingListData = (address?: string, length?: number) => {
             .toString(10),
           lockable: Boolean(stakingBalance?.stakingEnd.block),
           poolRate: stakingBalance?.poolRate.dailyFloat,
-          totalSupply:
+          totalValueLocked:
             pairItem && stakingBalance
               ? new BN(pairItem.statistic?.totalLiquidityUSD ?? '0')
                   .div(pairItem.totalSupplyFloat)
@@ -227,7 +227,7 @@ export const useStakingListData = (address?: string, length?: number) => {
     if (!stakingList) return new BN(0);
 
     return stakingList.reduce(
-      (acc, stakingItem) => acc.plus(stakingItem.totalSupply),
+      (acc, stakingItem) => acc.plus(stakingItem.totalValueLocked),
       new BN(0)
     );
   }, [stakingList]);
