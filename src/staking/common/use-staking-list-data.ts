@@ -141,20 +141,6 @@ export const useStakingListData = (address?: string, length?: number) => {
     }, Promise.resolve([]));
   }, [address, account, stakingConfig, USD.decimals, governanceInUSDC]);
 
-  const totalValueLocked = useMemo(
-    () =>
-      uniswapPairListQuery.data?.uniswapPairList?.reduce(
-        (acc, pairItem) =>
-          acc.plus(
-            new BN(pairItem.statistic?.totalLiquidityUSD ?? '0')
-              .div(pairItem.totalSupplyFloat)
-              .multipliedBy(pairItem.totalSupplyFloat)
-          ),
-        new BN(0)
-      ),
-    [uniswapPairListQuery.data]
-  );
-
   const volume24 = useMemo(
     () =>
       uniswapPairListQuery.data?.uniswapPairList?.reduce(
@@ -236,6 +222,15 @@ export const useStakingListData = (address?: string, length?: number) => {
       }),
     [stakingAddresses.value, uniswapPairListQuery.data, stakingListQuery.data]
   );
+
+  const totalValueLocked = useMemo(() => {
+    if (!stakingList) return new BN(0);
+
+    return stakingList.reduce(
+      (acc, stakingItem) => acc.plus(stakingItem.totalSupply),
+      new BN(0)
+    );
+  }, [stakingList]);
 
   const rewardSum = useMemo(
     () =>
