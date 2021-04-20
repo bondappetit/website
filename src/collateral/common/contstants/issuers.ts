@@ -1,14 +1,13 @@
 export const ISSUERS = [
   {
-    id: 'rusal',
-    title: 'Rusal Group',
+    id: 'Company 1',
+    title: 'Company 1',
     type: 'Issuer',
-    url: 'rusal.ru',
-    description: `RUSAL is a leading company in the global aluminium industry, producing
+    description: `Company 1 is a leading company in the global aluminium industry, producing
     metal with a low carbon footprint. 90% of the Company&apos;s aluminium
     is produced from renewable electricity, and by implementing innovative
-    and energy-saving technologies RUSAL is able to reduce greenhouse gas
-    emissions at all production stages. This has enabled RUSAL to become
+    and energy-saving technologies Company 1 is able to reduce greenhouse gas
+    emissions at all production stages. This has enabled Company 1 to become
     one of the first in the world to master the production of
     &apos;green&apos; metal under the ALLOW brand.`,
     list: [
@@ -18,7 +17,7 @@ export const ISSUERS = [
       },
       {
         title: 'Country',
-        value: 'Russia'
+        value: 'Europe'
       },
       {
         title: 'Industry',
@@ -47,15 +46,14 @@ export const ISSUERS = [
     ]
   },
   {
-    id: 'gazprom',
-    title: 'PJSC Gazprom',
+    id: 'Company 2',
+    title: 'Company 2',
     type: 'Issuer',
-    url: 'gazprom.com',
-    description: `Gazprom is vertically integrated and is active in every area of the gas industry,
+    description: `Company 2 is vertically integrated and is active in every area of the gas industry,
     including exploration and production, refining, transport, distribution and marketing,
-    and power generation. In 2018, Gazprom produced twelve percent of the global output of natural gas,
+    and power generation. In 2018, Company 2 produced twelve percent of the global output of natural gas,
     producing 497.6 billion cubic meters of natural and associated gas and 15.9 million tonnes of gas condensate.
-    Gazprom then exports the gas through pipelines that the company builds and owns across Russia and abroad such
+    Company 2 then exports the gas through pipelines that the company builds and owns across Russia and abroad such
     as Nord Stream and TurkStream.`,
     list: [
       {
@@ -64,7 +62,7 @@ export const ISSUERS = [
       },
       {
         title: 'Country',
-        value: 'Russia'
+        value: 'Europe'
       },
       {
         title: 'Industry',
@@ -93,15 +91,14 @@ export const ISSUERS = [
     ]
   },
   {
-    id: 'Delta Air Lines Inc',
-    title: 'Delta Air Lines Inc',
+    id: 'Company 3',
+    title: 'Company 3',
     type: 'Issuer',
-    url: 'gazprom.com',
-    description: `Gazprom is vertically integrated and is active in every area of the gas industry,
+    description: `Company 3 is vertically integrated and is active in every area of the gas industry,
     including exploration and production, refining, transport, distribution and marketing,
-    and power generation. In 2018, Gazprom produced twelve percent of the global output of natural gas,
+    and power generation. In 2018, Company 3 produced twelve percent of the global output of natural gas,
     producing 497.6 billion cubic meters of natural and associated gas and 15.9 million tonnes of gas condensate.
-    Gazprom then exports the gas through pipelines that the company builds and owns across Russia and abroad such
+    Company 3 then exports the gas through pipelines that the company builds and owns across Russia and abroad such
     as Nord Stream and TurkStream.`,
     list: [
       {
@@ -110,7 +107,7 @@ export const ISSUERS = [
       },
       {
         title: 'Country',
-        value: 'Russia'
+        value: 'Europe'
       },
       {
         title: 'Industry',

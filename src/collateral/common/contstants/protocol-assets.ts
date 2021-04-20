@@ -38,7 +38,7 @@ export const ASSETS_MAP = new Map<string, ConfigAsset>([
       percent: '-',
       issuer: {
         cellType: TableCellTypes.issuer,
-        title: 'Rusal'
+        title: 'Company 1'
       },
       totalValue: '-',
       amount: '-',
@@ -55,7 +55,7 @@ export const ASSETS_MAP = new Map<string, ConfigAsset>([
       percent: '-',
       issuer: {
         cellType: TableCellTypes.issuer,
-        title: 'Delta Air Lines Inc'
+        title: 'Company 3'
       },
       totalValue: '-',
       amount: '-',
