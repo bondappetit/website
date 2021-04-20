@@ -139,7 +139,9 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "cross-env GENERATE_SOURCEMAP=false node scripts/build.js",
-    "build-dev": "node scripts/build.js",
+    "postbuild": "rimraf ./build/index_dev.html",
+    "build-dev": "cross-env NODE_ENV=development node scripts/build.js",
+    "postbuild-dev": "rimraf ./build/index_prod.html",
     "build-analyze": "cross-env ANALYZE=true node scripts/build.js",
     "test": "node scripts/test.js",
     "typechain-remove": "rimraf ./src/generate",

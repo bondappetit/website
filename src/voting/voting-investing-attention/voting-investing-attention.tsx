@@ -1,4 +1,5 @@
 import React from 'react';
+import { analytics } from 'src/analytics';
 
 import { Button, Modal, SmallModal, Typography } from 'src/common';
 import { useVotingInvestingAttentionStyles } from './voting-investing-attention.styles';
@@ -13,6 +14,12 @@ export const VotingInvestingAttention: React.VFC<VotingInvestingAttentionProps> 
   props
 ) => {
   const classes = useVotingInvestingAttentionStyles();
+
+  const handleBuy = () => {
+    props.onBuy();
+
+    analytics.send('invest_click');
+  };
 
   return (
     <Modal open={props.open} onClose={props.onClose}>
@@ -34,7 +41,7 @@ export const VotingInvestingAttention: React.VFC<VotingInvestingAttentionProps> 
               them.
             </Typography>
           </div>
-          <Button className={classes.button} onClick={props.onBuy}>
+          <Button className={classes.button} onClick={handleBuy}>
             Buy
           </Button>
         </div>

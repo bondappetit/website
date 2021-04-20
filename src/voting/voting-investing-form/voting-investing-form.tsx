@@ -86,7 +86,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
       price: priceBN.div(div).toString(10),
       convertPrice: div.div(priceBN).toFormat(5)
     };
-  }, [formik.values.currency]);
+  }, [formik.values.currency, network.assets]);
 
   const { onSuccess } = props;
 
@@ -140,7 +140,8 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
               loading={formik.isSubmitting}
             >
               {(!approve?.approve && !approve?.reset) ||
-              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
+              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0) ||
+              formik.values.currency === 'ETH'
                 ? formik.errors.payment || formik.errors.currency || 'Buy'
                 : 'Approve'}
             </WalletButtonWithFallback>

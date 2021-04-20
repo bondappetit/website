@@ -36,7 +36,7 @@ export const StakingDetail: React.FC = () => {
 
   const { stakingConfig } = useStakingConfig();
 
-  const currentStakingToken = stakingConfig[params.tokenId];
+  const currentStakingToken = stakingConfig[params.tokenId.toLowerCase()];
 
   const {
     stakingList,

@@ -25,5 +25,6 @@ export const config = {
   SENTRY: process.env.REACT_APP_SENTRY,
   IS_LOCAL: process.env.REACT_APP_IS_LOCAL === 'true',
   TREZOR_URL: process.env.REACT_APP_TREZOR_URL ?? '',
-  TREZOR_EMAIL: process.env.REACT_APP_TREZOR_EMAIL ?? ''
+  TREZOR_EMAIL: process.env.REACT_APP_TREZOR_EMAIL ?? '',
+  YM_ID: 75624769
 };

@@ -99,7 +99,6 @@ type EthereumEventMap = {
   accountsChanged: string[];
   networkChanged: string | number;
 };
-
 interface Window {
   ethereum?: {
     isMetaMask?: true;
@@ -114,4 +113,6 @@ interface Window {
     ) => void;
     request?: (arg: object) => Promise<void>;
   };
+  dataLayer?: string[];
+  ym?: (id: number, type: string, event: string) => void;
 }

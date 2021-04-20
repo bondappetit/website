@@ -15,7 +15,8 @@ export const useVotingActionParametersStyles = createUseStyles(
     inputs: {
       overflowY: 'auto',
       marginBottom: 10,
-      maxHeight: 392
+      maxHeight: 392,
+      height: '100%'
     },
 
     inputWrap: {
@@ -27,13 +28,15 @@ export const useVotingActionParametersStyles = createUseStyles(
     },
 
     input: {
-      display: 'block'
+      display: 'block',
+      height: 'auto'
     },
 
     addPow: {
       position: 'absolute',
       right: 0,
-      top: -26,
+      top: 0,
+      bottom: 0,
       fontSize: 29,
       zIndex: 100
     },
@@ -54,8 +57,7 @@ export const useVotingActionParametersStyles = createUseStyles(
     },
 
     customInput: {
-      marginTop: 26,
-      height: 24
+      marginTop: 26
     }
   }),
   {

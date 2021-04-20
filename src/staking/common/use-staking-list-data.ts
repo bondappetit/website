@@ -43,6 +43,7 @@ export type SakingItem = {
   token: string[];
   decimals: string;
   stakingContract: Staking;
+  date?: string | null;
 };
 
 export const useStakingListData = (address?: string, length?: number) => {
@@ -76,8 +77,10 @@ export const useStakingListData = (address?: string, length?: number) => {
     pollInterval: config.POLLING_INTERVAL
   });
 
+  const [loadUniswapData, uniswapPairListQuery] = useUniswapPairListLazyQuery();
+
   const stakingAddresses = useAsyncRetry(async () => {
-    const stakingItem = address ? stakingConfig[address] : null;
+    const stakingItem = address ? stakingConfig[address.toLowerCase()] : null;
 
     return (stakingItem ? [stakingItem] : stakingConfigValues).reduce<
       Promise<StakingToken[]>
@@ -136,9 +139,7 @@ export const useStakingListData = (address?: string, length?: number) => {
 
       return acc;
     }, Promise.resolve([]));
-  }, [address, stakingConfig, USD.decimals, governanceInUSDC]);
-
-  const [loadUniswapData, uniswapPairListQuery] = useUniswapPairListLazyQuery();
+  }, [address, account, stakingConfig, USD.decimals, governanceInUSDC]);
 
   const totalValueLocked = useMemo(
     () =>
@@ -187,7 +188,7 @@ export const useStakingListData = (address?: string, length?: number) => {
     };
 
     loadUniswapData(options);
-  }, [stakingAddresses.value]);
+  }, [stakingAddresses.value, account]);
 
   const stakingList = useMemo(
     () =>
@@ -228,7 +229,8 @@ export const useStakingListData = (address?: string, length?: number) => {
           stacked: stakingAddress.amount.isGreaterThan(0),
           token: stakingAddress.token,
           stakingContract: stakingAddress.stakingContract,
-          amountInUSDC: new BN(stakingAddress.amount).multipliedBy(priceUSD)
+          amountInUSDC: new BN(stakingAddress.amount).multipliedBy(priceUSD),
+          date: stakingBalance?.stakingEnd.date
         };
       }),
     [stakingAddresses.value, uniswapPairListQuery.data, stakingListQuery.data]

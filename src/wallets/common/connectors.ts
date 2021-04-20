@@ -92,6 +92,10 @@ export const connectorsByName: Record<
     connector: ledger,
     logo: LedgerIcon
   },
+  [ConnectorNames.Trezor]: {
+    connector: trezor,
+    logo: TrezorIcon
+  },
   [ConnectorNames.CoinBase]: {
     connector: walletlink,
     logo: CoinBaseIcon
@@ -111,9 +115,5 @@ export const connectorsByName: Record<
   [ConnectorNames.Portis]: {
     connector: portis,
     logo: PortisIcon
-  },
-  [ConnectorNames.Trezor]: {
-    connector: trezor,
-    logo: TrezorIcon
   }
 };

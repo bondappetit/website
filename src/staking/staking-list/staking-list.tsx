@@ -86,7 +86,10 @@ export const StakingList: React.VFC = () => {
                       totalSupply={stakingAddress.totalSupply}
                       poolRate={stakingAddress.poolRate}
                       lockable={stakingAddress.lockable}
-                      stakingContractAddress={stakingAddress.address}
+                      stakingContractAddress={
+                        stakingAddress.stakingContract.options.address
+                      }
+                      date={stakingAddress.date}
                       APY={stakingAddress.apy}
                     />
                   );
