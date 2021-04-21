@@ -2,7 +2,7 @@ import { useWeb3React } from '@web3-react/core';
 import React, { useState } from 'react';
 import { useAsyncRetry } from 'react-use';
 
-import { Button, estimateGas, useIntervalIfHasAccount } from 'src/common';
+import { Button, useIntervalIfHasAccount } from 'src/common';
 import { burgerSwapApi, BurgerSwapTransit } from './burger-swap-api';
 import { useTransitContract } from './burger-transit-contract';
 
@@ -40,8 +40,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
 
     try {
       const resp = await withdrawTransitToken.send({
-        from: account,
-        gas: await estimateGas(withdrawTransitToken, { from: account })
+        from: account
       });
 
       await burgerSwapApi.bscWithdraw(resp.transactionHash);
