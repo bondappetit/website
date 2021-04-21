@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import { useToggle } from 'react-use';
 
@@ -19,8 +19,9 @@ export const LayoutHeader: React.FC<LayoutHeaderProps> = (props) => {
   const classes = useLayoutHeaderStyles();
 
   const [open, toggle] = useToggle(false);
+  const [menuElement, setMenuElement] = useState<HTMLUListElement | null>(null);
 
-  useBodyScrollLock(open);
+  useBodyScrollLock(open, menuElement);
 
   return (
     <header className={classes.root}>
@@ -33,6 +34,7 @@ export const LayoutHeader: React.FC<LayoutHeaderProps> = (props) => {
             [classes.menuOpen]: open
           })}
           profile={props.profile}
+          ref={setMenuElement}
         >
           {props.mobileButton}
         </LayoutMenu>

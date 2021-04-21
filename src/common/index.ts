@@ -23,7 +23,6 @@ export * from './types';
 export * from './info-card';
 export * from './status';
 export * from './is-eth-address';
-export * from './small-modal';
 export * from './loader';
 export * from './page-wrapper';
 export * from './link-if-account';

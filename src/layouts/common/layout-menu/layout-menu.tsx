@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useRef } from 'react';
+import React, { forwardRef, useRef } from 'react';
 import { NavLink as ReactRouterNavLink } from 'react-router-dom';
 import { useHoverDirty, useToggle } from 'react-use';
 
@@ -123,65 +123,70 @@ export type LayoutMenuProps = {
   menuItems?: MenuItem[];
   className?: string;
   profile?: React.ReactNode;
+  children?: React.ReactNode;
 };
 
-export const LayoutMenu: React.FC<LayoutMenuProps> = (props) => {
-  const { menuItems = MENU_ITEMS, className, children, profile } = props;
+export const LayoutMenu = forwardRef<HTMLUListElement, LayoutMenuProps>(
+  (props, ref) => {
+    const { menuItems = MENU_ITEMS, className, children, profile } = props;
 
-  const classes = useLayoutMenuStyles();
+    const classes = useLayoutMenuStyles();
 
-  const [devMode] = useDevMode();
+    const [devMode] = useDevMode();
 
-  const phasesRef = useRef<HTMLButtonElement | null>(null);
+    const phasesRef = useRef<HTMLButtonElement | null>(null);
 
-  const phasesHovered = useHoverDirty(phasesRef);
+    const phasesHovered = useHoverDirty(phasesRef);
 
-  const [open, toggle] = useToggle(false);
+    const [open, toggle] = useToggle(false);
 
-  return (
-    <ul className={clsx(classes.root, classes.menu, className)}>
-      <li className={clsx(classes.menuItem, classes.phase)}>
-        <ButtonBase
-          ref={phasesRef}
-          className={clsx(classes.navLink, classes.phaseLink)}
-        >
-          Phase {config.IS_COLLATERAL ? '2' : '1'}
-        </ButtonBase>
-        {phasesHovered && <LayoutMenuPhasesDropdown />}
-      </li>
-      {menuItems.map((menuItem) => {
-        if (menuItem.variant === Variants.devMode && !devMode) return null;
+    return (
+      <ul className={clsx(classes.root, classes.menu, className)} ref={ref}>
+        <li className={clsx(classes.menuItem, classes.phase)}>
+          <ButtonBase
+            ref={phasesRef}
+            className={clsx(classes.navLink, classes.phaseLink)}
+          >
+            Phase {config.IS_COLLATERAL ? '2' : '1'}
+          </ButtonBase>
+          {phasesHovered && <LayoutMenuPhasesDropdown />}
+        </li>
+        {menuItems.map((menuItem) => {
+          if (menuItem.variant === Variants.devMode && !devMode) return null;
 
-        return (
-          <li className={classes.menuItem} key={menuItem.title}>
-            {menuItem.variant === Variants.mobile && (
-              <>
-                <ButtonBase
-                  className={clsx(classes.navLink, classes.mobileNavLink)}
-                  onClick={toggle}
-                >
-                  {menuItem.title}
-                </ButtonBase>
-                {open && profile}
-              </>
-            )}
-            {menuItem.variant !== Variants.mobile && (
-              <>
-                {menuItem.link ? (
-                  <LinkIfExternal {...menuItem} />
-                ) : (
-                  <LayoutMenuDropdown menuItems={menuItem.children}>
+          return (
+            <li className={classes.menuItem} key={menuItem.title}>
+              {menuItem.variant === Variants.mobile && (
+                <>
+                  <ButtonBase
+                    className={clsx(classes.navLink, classes.mobileNavLink)}
+                    onClick={toggle}
+                  >
                     {menuItem.title}
-                  </LayoutMenuDropdown>
-                )}
-              </>
-            )}
-          </li>
-        );
-      })}
-      <li className={clsx(classes.menuItem, classes.toggleTheme)}>
-        {children}
-      </li>
-    </ul>
-  );
-};
+                  </ButtonBase>
+                  {open && profile}
+                </>
+              )}
+              {menuItem.variant !== Variants.mobile && (
+                <>
+                  {menuItem.link ? (
+                    <LinkIfExternal {...menuItem} />
+                  ) : (
+                    <LayoutMenuDropdown menuItems={menuItem.children}>
+                      {menuItem.title}
+                    </LayoutMenuDropdown>
+                  )}
+                </>
+              )}
+            </li>
+          );
+        })}
+        <li className={clsx(classes.menuItem, classes.toggleTheme)}>
+          {children}
+        </li>
+      </ul>
+    );
+  }
+);
+
+LayoutMenu.displayName = 'LayoutMenu';

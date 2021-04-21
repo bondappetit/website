@@ -3,8 +3,9 @@ import clsx from 'clsx';
 
 import { ReactComponent as CloseIcon } from 'src/assets/icons/close-24.svg';
 import { ReactComponent as ArrowLeft } from 'src/assets/icons/arrow-left.svg';
+import { ButtonBase } from 'src/common/button-base';
 import { useSmallModalStyles } from './small-modal.styles';
-import { ButtonBase } from '../button-base';
+import { useModalContext } from '../modal-context';
 
 export type SmallModalProps = {
   onClose?: () => void;
@@ -18,6 +19,8 @@ export type SmallModalProps = {
 export const SmallModal = React.forwardRef<HTMLDivElement, SmallModalProps>(
   (props, ref) => {
     const classes = useSmallModalStyles();
+
+    const modalContext = useModalContext();
 
     return (
       <div
@@ -40,7 +43,9 @@ export const SmallModal = React.forwardRef<HTMLDivElement, SmallModalProps>(
             </ButtonBase>
           )}
         </div>
-        <div className={classes.content}>{props.children}</div>
+        <div className={classes.content} ref={modalContext.contentRef}>
+          {props.children}
+        </div>
       </div>
     );
   }
