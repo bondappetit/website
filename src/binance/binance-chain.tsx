@@ -1,4 +1,5 @@
 import { useWeb3React } from '@web3-react/core';
+import { useFormik } from 'formik';
 import React, { useState } from 'react';
 import { useAsyncRetry } from 'react-use';
 
@@ -6,6 +7,8 @@ import {
   BN,
   Button,
   humanizeNumeral,
+  Input,
+  Typography,
   useIntervalIfHasAccount
 } from 'src/common';
 import { burgerSwapApi, BurgerSwapTransit } from './burger-swap-api';
@@ -56,8 +59,29 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
     }
   };
 
+  const formik = useFormik({
+    initialValues: {
+      amount: ''
+    },
+
+    onSubmit: () => {}
+  });
+
   return (
     <div>
+      <Typography variant="body1">Binance chain</Typography>
+      <form noValidate onSubmit={formik.handleSubmit}>
+        <div>
+          <Input
+            placeholder="Amount"
+            name="amount"
+            type="number"
+            value={formik.values.amount}
+            onChange={formik.handleChange}
+          />
+        </div>
+        <Button type="submit">Approve</Button>
+      </form>
       {errorMessage && <>Error: {errorMessage}</>}
       {!state.value ? (
         'loading...'
@@ -85,7 +109,9 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
               <div>version: {transit.version}</div>
               <div>createTime: {transit.createTime}</div>
               <div>updateTime: {transit.updateTime}</div>
-              <Button onClick={() => handleWithDraw(transit)}>Approve</Button>
+              {!transit.status && (
+                <Button onClick={() => handleWithDraw(transit)}>Claim</Button>
+              )}
             </div>
           ))}
         </div>

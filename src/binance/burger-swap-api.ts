@@ -18,11 +18,11 @@ export type BurgerSwapTransit = {
   updateTime: string;
 };
 
-const fetchWrap = (
-  url: string,
+const createFetch = (url: string) => (
+  path: string,
   init?: (Omit<RequestInit, 'body'> & { body: unknown }) | undefined
 ) =>
-  fetch(url, {
+  fetch(`${url}${path}`, {
     ...(init ?? {}),
     body: JSON.stringify(init?.body),
     headers: {
@@ -30,20 +30,42 @@ const fetchWrap = (
     }
   });
 
+const fetchWrap = createFetch(BURGER_SWAP_API_URL);
+
 export const burgerSwapApi = {
   getTransitList: (address: string) =>
-    fetchWrap(`${BURGER_SWAP_API_URL}/api/getTransitList`, {
+    fetchWrap('/api/getTransitList', {
       method: 'POST',
       body: { address }
     }).then((res) => res.json()) as Promise<BurgerSwapTransit[]>,
+
   ethTransit: (tx: string) =>
-    fetchWrap(`${BURGER_SWAP_API_URL}/transitapi/ethTransit`, {
+    fetchWrap('/transitapi/ethTransit', {
       method: 'POST',
       body: { tx }
-    }).then((res) => res.json()) as Promise<BurgerSwapTransit[]>,
+    }).then((res) => res.json()),
+
   bscWithdraw: (tx: string) =>
-    fetchWrap(`${BURGER_SWAP_API_URL}/transitapi/bscWithdraw`, {
+    fetchWrap('/transitapi/bscWithdraw', {
       method: 'POST',
       body: { tx }
-    }).then((res) => res.json()) as Promise<BurgerSwapTransit[]>
+    }).then((res) => res.json()),
+
+  ethWithdraw: (tx: string) =>
+    fetchWrap('/transitapi/ethWithdraw', {
+      method: 'POST',
+      body: { tx }
+    }).then((res) => res.json()),
+
+  getPaybackList: (address: string) =>
+    fetchWrap('/api/getPaybackList', {
+      method: 'POST',
+      body: { address }
+    }).then((res) => res.json()),
+
+  bscPayback: (tx: string) =>
+    fetchWrap('/api/bscPayback', {
+      method: 'POST',
+      body: { tx }
+    }).then((res) => res.json())
 };
