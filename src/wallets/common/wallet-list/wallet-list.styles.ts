@@ -8,8 +8,6 @@ export const useWalletListStyles = createUseStyles(
     wrap: {
       display: 'flex',
       flexDirection: 'column',
-      overflowX: 'auto',
-      height: '100%',
       padding: 2,
       margin: -2
     },

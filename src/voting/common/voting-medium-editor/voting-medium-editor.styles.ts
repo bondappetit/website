@@ -6,7 +6,6 @@ import { Theme } from 'src/common';
 export const useVotingMediumEditorStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
-      height: '100%',
       width: '100%',
       overflowY: 'auto',
       border: `1px solid ${rgba(theme.colors.primary, 0.16)}`,
