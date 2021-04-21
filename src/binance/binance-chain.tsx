@@ -39,10 +39,12 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
     );
 
     try {
-      await withdrawTransitToken.send({
+      const resp = await withdrawTransitToken.send({
         from: account,
         gas: await estimateGas(withdrawTransitToken, { from: account })
       });
+
+      await burgerSwapApi.bscWithdraw(resp.transactionHash);
     } catch (error) {
       setErrorMessage(error.message);
     }

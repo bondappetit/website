@@ -19,6 +19,7 @@ import { MainLayout } from 'src/layouts';
 import { useBinanceStyles } from './binance.styles';
 import { useBridgeContract } from './bridge-contract';
 import { BinanceChain } from './binance-chain';
+import { burgerSwapApi } from './burger-swap-api';
 
 export type BinanceProps = unknown;
 
@@ -73,11 +74,12 @@ export const Binance: React.VFC<BinanceProps> = () => {
       );
 
       try {
-        await transitForBSC.send({
+        const resp = await transitForBSC.send({
           from: account,
           gas: await estimateGas(transitForBSC, { from: account })
         });
 
+        await burgerSwapApi.ethTransit(resp.transactionHash);
         setState('change chain to binance');
         resetForm();
       } catch (error) {
