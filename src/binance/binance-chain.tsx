@@ -59,9 +59,21 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
         <div>
           {state.value.map((transit) => (
             <div key={transit.id}>
-              <div>
-                {transit.token} {transit.symbol} {transit.sign}
-              </div>
+              <div>id: {transit.id}</div>
+              <div>transit_id: {transit.transit_id}</div>
+              <div>status: {transit.status}</div>
+              <div>createBlock: {transit.createBlock}</div>
+              <div>amount: {transit.amount}</div>
+              <div>symbol: {transit.symbol}</div>
+              <div>decimals: {transit.decimals}</div>
+              <div>name: {transit.name}</div>
+              <div>from: {transit.from}</div>
+              <div>token: {transit.token}</div>
+              <div>sign: {transit.sign}</div>
+              <div>withdrawBlock: {transit.withdrawBlock}</div>
+              <div>version: {transit.version}</div>
+              <div>createTime: {transit.createTime}</div>
+              <div>updateTime: {transit.updateTime}</div>
               <Button onClick={() => handleWithDraw(transit)}>Approve</Button>
             </div>
           ))}
