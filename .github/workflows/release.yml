@@ -21,7 +21,7 @@ jobs:
           REACT_APP_IS_INVEST: true
           REACT_APP_IS_COLLATERAL: true
           NODE_ENV: development
-          REACT_APP_DEFAULT_CHAIN_ID: 3
+          REACT_APP_DEFAULT_CHAIN_ID: 97
           REACT_APP_UNISENDER_API: ${{secrets.REACT_APP_UNISENDER_API}}
           INFURA_API_KEY: ${{secrets.REACT_APP_INFURA_API_KEY}}
           REACT_APP_PORTIS_ID: ${{secrets.REACT_APP_PORTIS_ID}}
