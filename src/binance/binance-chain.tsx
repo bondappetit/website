@@ -2,7 +2,12 @@ import { useWeb3React } from '@web3-react/core';
 import React, { useState } from 'react';
 import { useAsyncRetry } from 'react-use';
 
-import { Button, useIntervalIfHasAccount } from 'src/common';
+import {
+  BN,
+  Button,
+  humanizeNumeral,
+  useIntervalIfHasAccount
+} from 'src/common';
 import { burgerSwapApi, BurgerSwapTransit } from './burger-swap-api';
 import { useTransitContract } from './burger-transit-contract';
 
@@ -40,7 +45,9 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
 
     try {
       const resp = await withdrawTransitToken.send({
-        from: account
+        from: account,
+        gas: 90000,
+        value: `5${'0'.repeat(16)}`
       });
 
       await burgerSwapApi.bscWithdraw(resp.transactionHash);
@@ -62,7 +69,12 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
               <div>transit_id: {transit.transit_id}</div>
               <div>status: {transit.status}</div>
               <div>createBlock: {transit.createBlock}</div>
-              <div>amount: {transit.amount}</div>
+              <div>
+                amount:{' '}
+                {humanizeNumeral(
+                  new BN(transit.amount).div(new BN(10).pow(transit.decimals))
+                )}
+              </div>
               <div>symbol: {transit.symbol}</div>
               <div>decimals: {transit.decimals}</div>
               <div>name: {transit.name}</div>
