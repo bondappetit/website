@@ -130,7 +130,7 @@ export const StakingDetail: React.FC = () => {
             tokenKey={params.tokenId}
             token={stakingItem?.token}
             APY={stakingItem?.apy}
-            totalSupply={stakingItem?.totalSupply}
+            totalValueLocked={stakingItem?.totalValueLocked}
             className={classes.header}
             poolRate={stakingItem?.poolRate}
             volumeUSD={volume24}

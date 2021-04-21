@@ -4,6 +4,7 @@ export const ModalContext = createContext<{
   onOpen: (node: React.ReactNode, key?: string) => void;
   onClose: () => void;
   closeOnOverlay: (value: boolean) => void;
+  contentRef?: (instance: HTMLDivElement | null) => void;
 } | null>(null);
 
 const ERROR_MESSAGE = 'ModalContext is null';

@@ -40,29 +40,34 @@ export const CollateralIssuer: React.FC = () => {
             backLink={{ to: URLS.collateral.list, title: 'Collateral' }}
             title={company.title}
             type={company.type}
-            url={company.url}
             className={classes.description}
           >
             {company.description}
           </CollateralDescription>
-          <ul className={classes.list}>
-            {company.list.map(({ title, value }) => {
-              const Icon = ICONS[value.toLowerCase()];
+          <div>
+            <ul className={classes.list}>
+              {company.list.map(({ title, value }) => {
+                const Icon = ICONS[value.toLowerCase()];
 
-              return (
-                <li className={classes.listItem} key={title + value}>
-                  <Typography variant="h4" component="div">
-                    {title}
-                  </Typography>
-                  <span className={classes.spacer} />
-                  <Typography variant="h4" component="div">
-                    {Icon && <Icon className={classes.flag} />}
-                    {value}
-                  </Typography>
-                </li>
-              );
-            })}
-          </ul>
+                return (
+                  <li className={classes.listItem} key={title + value}>
+                    <div>
+                      <Typography variant="h4" component="div">
+                        {title}
+                      </Typography>
+                    </div>
+                    <span className={classes.spacer} />
+                    <div>
+                      <Typography variant="h4" component="div">
+                        {Icon && <Icon className={classes.flag} />}
+                        {value}
+                      </Typography>
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </PageWrapper>
       </MainLayout>
     </>

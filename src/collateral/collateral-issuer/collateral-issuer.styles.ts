@@ -16,21 +16,28 @@ export const useCollateralIssuerStyles = createUseStyles(
     list: {
       padding: 0,
       margin: 0,
-      listStyle: 'none'
+      listStyle: 'none',
+      width: '100%'
     },
 
     listItem: {
-      display: 'flex',
+      display: 'grid',
+      gridTemplateColumns: 'auto 1fr auto',
 
       '&:not(:last-child)': {
         marginBottom: 24
       },
 
-      '& *': {
-        maxWidth: '100%',
+      '& > *': {
+        minWidth: 0
+      },
+
+      '& > div > *:first-child': {
         textOverflow: 'ellipsis',
         overflow: 'hidden',
-        whiteSpace: 'nowrap'
+        whiteSpace: 'nowrap',
+        display: 'inline-block',
+        maxWidth: '100%'
       }
     },
 

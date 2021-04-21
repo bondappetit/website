@@ -9,7 +9,7 @@ export type StakingHeaderProps = {
   token?: string[];
   tokenKey: string;
   APY?: string;
-  totalSupply?: string;
+  totalValueLocked?: string;
   className?: string;
   poolRate?: string;
   volumeUSD?: BN;
@@ -59,7 +59,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
           <StakingLabel
             variant="body1"
             title="Total value locked"
-            value={<>${humanizeNumeral(props.totalSupply)}</>}
+            value={<>${humanizeNumeral(props.totalValueLocked)}</>}
             loading={props.loading}
           />
           <StakingLabel

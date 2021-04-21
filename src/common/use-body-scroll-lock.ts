@@ -1,41 +1,19 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 
-export const useBodyScrollLock = (locked: boolean) => {
-  const ref = useRef<number>();
-
+export const useBodyScrollLock = (
+  locked: boolean,
+  targetElement: HTMLElement | Element | null
+) => {
   useEffect(() => {
-    ref.current = window.pageYOffset;
-  });
-
-  useEffect(() => {
-    const bodyElement = document.body;
-
-    const lock = () => {
-      bodyElement.style.overflow = 'hidden';
-      bodyElement.style.position = 'fixed';
-      bodyElement.style.top = `-${ref.current}px`;
-      bodyElement.style.width = '100%';
-      bodyElement.style.height = '100%';
-    };
-
-    const unlock = () => {
-      bodyElement.style.removeProperty('overflow');
-      bodyElement.style.removeProperty('position');
-      bodyElement.style.removeProperty('top');
-      bodyElement.style.removeProperty('width');
-      bodyElement.style.removeProperty('height');
-
-      if (ref.current !== undefined) {
-        window.scrollTo(0, ref.current);
-      }
-    };
+    if (!targetElement) return;
 
     if (locked) {
-      lock();
+      disableBodyScroll(targetElement);
     } else {
-      unlock();
+      enableBodyScroll(targetElement);
     }
 
-    return unlock;
-  }, [locked]);
+    return () => enableBodyScroll(targetElement);
+  }, [locked, targetElement]);
 };

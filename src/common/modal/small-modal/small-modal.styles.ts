@@ -52,6 +52,7 @@ export const useSmallModalStyles = createUseStyles(
     content: {
       height: 'calc(100% - 48px)',
       padding: `8px 24px 32px`,
+      overflowX: 'auto',
 
       [theme.breakpoints.md()]: {
         padding: `8px 40px 40px`
