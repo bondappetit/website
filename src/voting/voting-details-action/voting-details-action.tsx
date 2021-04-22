@@ -111,10 +111,10 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
             {!account && Number(props.status) === ProposalState.Active && (
               <div className={classes.row}>
                 <VotingButton onClick={toggleWalletModal} variant="voteFor">
-                  Connect wallet
+                  Vote for
                 </VotingButton>
                 <VotingButton onClick={toggleWalletModal} variant="voteAgainst">
-                  Connect wallet
+                  Vote against
                 </VotingButton>
               </div>
             )}
