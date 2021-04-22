@@ -68,13 +68,13 @@ jobs:
           name: build-release
           path: ./build
 
-      - name: Publish beta
+      - name: Publish dev
         if: github.event.release.prerelease == true
         run: |
-          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY-beta.new
-          mv ~/$GITHUB_REPOSITORY-beta ~/$GITHUB_REPOSITORY-beta.old
-          mv ~/$GITHUB_REPOSITORY-beta.new ~/$GITHUB_REPOSITORY-beta
-          rm -rf ~/$GITHUB_REPOSITORY-beta.old
+          cp -rf $GITHUB_WORKSPACE ~/$GITHUB_REPOSITORY-dev.new
+          mv ~/$GITHUB_REPOSITORY-dev ~/$GITHUB_REPOSITORY-dev.old
+          mv ~/$GITHUB_REPOSITORY-dev.new ~/$GITHUB_REPOSITORY-dev
+          rm -rf ~/$GITHUB_REPOSITORY-dev.old
 
       - name: Publish stable
         if: github.event.release.prerelease == false
