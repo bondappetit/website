@@ -105,18 +105,20 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
         amount
       );
 
-      try {
-        const resp = await paybackTransit.send({
+      paybackTransit
+        .send({
           from: account,
           gas: 90000,
           value: `5${'0'.repeat(16)}`
-        });
-
-        await burgerSwapApi.bscPayback(resp.transactionHash);
-        setState('change chain to ethereum');
-      } catch (error) {
-        setErrorMessage(error.message);
-      }
+        })
+        .on('transactionHash', async (transactionHash) => {
+          localStorage.setItem('bnb', transactionHash);
+        })
+        .on('receipt', async (receipt) => {
+          await burgerSwapApi.bscPayback(receipt.transactionHash);
+        })
+        .catch((error) => setErrorMessage(error.message));
+      setState('change chain to ethereum');
     }
   });
 
