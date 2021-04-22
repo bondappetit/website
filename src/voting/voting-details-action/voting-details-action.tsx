@@ -107,21 +107,21 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
       {props.loading && <Skeleton height={116} />}
       <div className={classes.root}>
         {!props.loading && (
-          <div className={classes.row}>
+          <>
             {!account && Number(props.status) === ProposalState.Active && (
-              <>
+              <div className={classes.row}>
                 <VotingButton onClick={toggleWalletModal} variant="voteFor">
                   Connect wallet
                 </VotingButton>
                 <VotingButton onClick={toggleWalletModal} variant="voteAgainst">
                   Connect wallet
                 </VotingButton>
-              </>
+              </div>
             )}
             {!receiptState.value?.hasVoted &&
               props.currentVotes?.isGreaterThan(0) &&
               Number(props.status) === ProposalState.Active && (
-                <>
+                <div className={classes.row}>
                   <VotingButton
                     onClick={() => handleVote(true)}
                     variant="voteFor"
@@ -136,10 +136,10 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
                   >
                     Vote against
                   </VotingButton>
-                </>
+                </div>
               )}
             {receiptState.value?.hasVoted && (
-              <>
+              <div className={classes.row}>
                 <VotingDetailInfo
                   active={receiptState.value.support === true}
                   variant="voteFor"
@@ -156,9 +156,9 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
                 >
                   voted against
                 </VotingDetailInfo>
-              </>
+              </div>
             )}
-          </div>
+          </>
         )}
         {ProposalState.Succeeded === Number(props.status) && (
           <Button

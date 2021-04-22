@@ -5,7 +5,11 @@ export const useVotingDetailsActionStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       margin: '38px 0 86px',
-      textAlign: 'center'
+      textAlign: 'center',
+
+      '&:empty': {
+        margin: '0 0 86px'
+      }
     },
 
     row: {
