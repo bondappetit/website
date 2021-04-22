@@ -1,7 +1,8 @@
 import React from 'react';
-import { useAsyncFn, useAsyncRetry } from 'react-use';
+import { useAsyncFn, useAsyncRetry, useToggle } from 'react-use';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
+import { WalletModal } from 'src/wallets';
 
 import {
   Skeleton,
@@ -20,6 +21,7 @@ export type VotingDetailsActionProps = {
   againstCount?: BN;
   onUpdate?: () => void;
   status?: string;
+  currentVotes?: BN;
 };
 
 export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
@@ -29,11 +31,13 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   const governorContract = useGovernorContract();
   const { account } = useWeb3React<Web3>();
 
+  const [open, toggleWalletModal] = useToggle(false);
+
   const { onUpdate } = props;
 
   const [votingState, handleVote] = useAsyncFn(
     async (value: boolean) => {
-      if (!account || !governorContract) return;
+      if (!account || !governorContract || props.currentVotes?.eq(0)) return;
 
       try {
         const castVote = governorContract.methods.castVote(
@@ -49,7 +53,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
         onUpdate?.();
       }
     },
-    [governorContract, props.proposalId, account, onUpdate]
+    [governorContract, props.proposalId, account, onUpdate, props.currentVotes]
   );
 
   const [executingState, handleExecuteProposal] = useAsyncFn(async () => {
@@ -103,10 +107,21 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
       {props.loading && <Skeleton height={116} />}
       <div className={classes.root}>
         {!props.loading && (
-          <div className={classes.row}>
+          <>
+            {!account && Number(props.status) === ProposalState.Active && (
+              <div className={classes.row}>
+                <VotingButton onClick={toggleWalletModal} variant="voteFor">
+                  Vote for
+                </VotingButton>
+                <VotingButton onClick={toggleWalletModal} variant="voteAgainst">
+                  Vote against
+                </VotingButton>
+              </div>
+            )}
             {!receiptState.value?.hasVoted &&
+              props.currentVotes?.isGreaterThan(0) &&
               Number(props.status) === ProposalState.Active && (
-                <>
+                <div className={classes.row}>
                   <VotingButton
                     onClick={() => handleVote(true)}
                     variant="voteFor"
@@ -121,12 +136,19 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
                   >
                     Vote against
                   </VotingButton>
-                </>
+                </div>
               )}
-            {receiptState.value?.hasVoted && (
-              <>
+            {(Number(props.status) === ProposalState.Defeated ||
+              Number(props.status) === ProposalState.Executed ||
+              Number(props.status) === ProposalState.Expired ||
+              Number(props.status) === ProposalState.Succeeded) && (
+              <div className={classes.row}>
                 <VotingDetailInfo
-                  active={receiptState.value.support === true}
+                  active={
+                    receiptState.value?.hasVoted
+                      ? receiptState.value.support === true
+                      : undefined
+                  }
                   variant="voteFor"
                   total={props.forCount?.plus(props.againstCount ?? 0)}
                   count={props.forCount}
@@ -134,16 +156,20 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
                   voted for
                 </VotingDetailInfo>
                 <VotingDetailInfo
-                  active={receiptState.value.support === false}
+                  active={
+                    receiptState.value?.hasVoted
+                      ? receiptState.value.support === false
+                      : undefined
+                  }
                   variant="voteAgainst"
                   total={props.forCount?.plus(props.againstCount ?? 0)}
                   count={props.againstCount}
                 >
                   voted against
                 </VotingDetailInfo>
-              </>
+              </div>
             )}
-          </div>
+          </>
         )}
         {ProposalState.Succeeded === Number(props.status) && (
           <Button
@@ -164,6 +190,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
           </Button>
         )}
       </div>
+      <WalletModal open={open} onClose={toggleWalletModal} />
     </>
   );
 };

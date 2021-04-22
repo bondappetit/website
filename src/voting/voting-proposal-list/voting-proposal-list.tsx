@@ -161,9 +161,10 @@ export const VotingProposalList: React.FC = () => {
             proposals={proposals.value}
             className={classes.list}
           />
-          {proposalPages.length > 1 && proposalPages.length < currentPage && (
-            <ButtonBase onClick={nextPage}>show more</ButtonBase>
-          )}
+          {proposalPages.length > 1 &&
+            currentPage < proposalPages.length - 1 && (
+              <ButtonBase onClick={nextPage}>show more</ButtonBase>
+            )}
         </div>
         <VotingChoose
           votes={Number(currentVotes) > 0 ? currentVotes : currentGovCoin}
