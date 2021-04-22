@@ -29,7 +29,7 @@ export const useAddTokenMetamask = (type: 'Governance' | 'Stable') => {
           address: tokenAddress,
           symbol: tokenSymbol,
           decimals: tokenDecimals,
-          image: ICONS.get(type)
+          image: `${window.location.origin}${ICONS.get(type)}`
         }
       }
     });

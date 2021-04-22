@@ -69,14 +69,6 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
             loading={props.loading}
           />
 
-          {props.lockable && (
-            <StakingLabel
-              variant="body1"
-              title="Lockup"
-              value={<>3 month</>}
-              loading={props.loading}
-            />
-          )}
           <StakingLabel
             variant="body1"
             title="Volume (24h)"

@@ -217,7 +217,7 @@ export const useStakingListData = (address?: string, length?: number) => {
           token: stakingAddress.token,
           stakingContract: stakingAddress.stakingContract,
           amountInUSDC: new BN(stakingAddress.amount).multipliedBy(priceUSD),
-          date: stakingBalance?.stakingEnd.date
+          date: stakingBalance?.unstakingStart.date
         };
       }),
     [stakingAddresses.value, uniswapPairListQuery.data, stakingListQuery.data]
