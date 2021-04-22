@@ -9,8 +9,13 @@ import {
   humanizeNumeral,
   Input,
   Typography,
-  useIntervalIfHasAccount
+  useApprove,
+  reset,
+  approveAll,
+  useIntervalIfHasAccount,
+  dateUtils
 } from 'src/common';
+import { useBBagContract } from './bbag-contract';
 import { burgerSwapApi, BurgerSwapTransit } from './burger-swap-api';
 import { useTransitContract } from './burger-transit-contract';
 
@@ -22,16 +27,20 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
   const { account } = useWeb3React();
 
   const transitContract = useTransitContract();
+  const bbagContract = useBBagContract();
 
+  const [, approvalNeeded] = useApprove();
+
+  const [state, setState] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const state = useAsyncRetry(async () => {
+  const transitList = useAsyncRetry(async () => {
     if (!account) return;
 
     return burgerSwapApi.getTransitList(account);
   }, [account]);
 
-  useIntervalIfHasAccount(state.retry);
+  useIntervalIfHasAccount(transitList.retry);
 
   const handleWithDraw = async (transit: BurgerSwapTransit) => {
     if (!account) return;
@@ -64,7 +73,51 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
       amount: ''
     },
 
-    onSubmit: () => {}
+    onSubmit: async (formValues) => {
+      const decimals = await bbagContract.methods.decimals().call();
+
+      const amount = new BN(formValues.amount)
+        .multipliedBy(new BN(10).pow(decimals))
+        .toString(10);
+
+      if (!account) return;
+
+      const options = {
+        token: bbagContract,
+        owner: account,
+        spender: bbagContract.options.address,
+        amount
+      };
+
+      const approved = await approvalNeeded(options);
+
+      if (approved.reset) {
+        await reset(options);
+      }
+      if (approved.approve) {
+        await approveAll(options);
+        await approvalNeeded(options);
+        return;
+      }
+
+      const paybackTransit = transitContract.methods.paybackTransit(
+        bbagContract.options.address,
+        amount
+      );
+
+      try {
+        const resp = await paybackTransit.send({
+          from: account,
+          gas: 90000,
+          value: `5${'0'.repeat(16)}`
+        });
+
+        await burgerSwapApi.bscPayback(resp.transactionHash);
+        setState('change chain to ethereum');
+      } catch (error) {
+        setErrorMessage(error.message);
+      }
+    }
   });
 
   return (
@@ -82,12 +135,13 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
         </div>
         <Button type="submit">Approve</Button>
       </form>
+      {state && <>{state}</>}
       {errorMessage && <>Error: {errorMessage}</>}
-      {!state.value ? (
+      {!transitList.value ? (
         'loading...'
       ) : (
         <div>
-          {state.value.map((transit) => (
+          {transitList.value.map((transit) => (
             <div key={transit.id}>
               <div>id: {transit.id}</div>
               <div>transit_id: {transit.transit_id}</div>
@@ -107,8 +161,8 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
               <div>sign: {transit.sign}</div>
               <div>withdrawBlock: {transit.withdrawBlock}</div>
               <div>version: {transit.version}</div>
-              <div>createTime: {transit.createTime}</div>
-              <div>updateTime: {transit.updateTime}</div>
+              <div>createTime: {dateUtils.format(transit.createTime)}</div>
+              <div>updateTime: {dateUtils.format(transit.updateTime)}</div>
               {!transit.status && (
                 <Button onClick={() => handleWithDraw(transit)}>Claim</Button>
               )}

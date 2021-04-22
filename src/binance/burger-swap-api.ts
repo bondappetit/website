@@ -18,6 +18,21 @@ export type BurgerSwapTransit = {
   updateTime: string;
 };
 
+export type BurgerSwapPayback = {
+  id: number;
+  payback_id: string;
+  status: number;
+  createBlock: number;
+  amount: string;
+  from: string;
+  token: string;
+  sign: string;
+  withdrawBlock: number;
+  version: number;
+  createTime: string;
+  updateTime: string;
+};
+
 const createFetch = (url: string) => (
   path: string,
   init?: (Omit<RequestInit, 'body'> & { body: unknown }) | undefined
@@ -61,7 +76,7 @@ export const burgerSwapApi = {
     fetchWrap('/api/getPaybackList', {
       method: 'POST',
       body: { address }
-    }).then((res) => res.json()),
+    }).then((res) => res.json()) as Promise<BurgerSwapPayback[]>,
 
   bscPayback: (tx: string) =>
     fetchWrap('/api/bscPayback', {
