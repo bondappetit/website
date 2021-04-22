@@ -31,7 +31,7 @@ type FormValues = {
 
 const joinAction = ({ input, ...action }: VotingAddActionFormValues) => {
   const joinedInput = input
-    .map(({ type, name, value }) => [type, name, value].join(''))
+    .map(({ type, name }) => [type, name].join(''))
     .join('');
 
   return [Object.values(action).join(''), joinedInput].join('');
