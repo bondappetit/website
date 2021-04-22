@@ -1,7 +1,8 @@
 import React from 'react';
-import { useAsyncFn, useAsyncRetry } from 'react-use';
+import { useAsyncFn, useAsyncRetry, useToggle } from 'react-use';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
+import { WalletModal } from 'src/wallets';
 
 import {
   Skeleton,
@@ -20,6 +21,7 @@ export type VotingDetailsActionProps = {
   againstCount?: BN;
   onUpdate?: () => void;
   status?: string;
+  currentVotes?: BN;
 };
 
 export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
@@ -29,11 +31,13 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
   const governorContract = useGovernorContract();
   const { account } = useWeb3React<Web3>();
 
+  const [open, toggleWalletModal] = useToggle(false);
+
   const { onUpdate } = props;
 
   const [votingState, handleVote] = useAsyncFn(
     async (value: boolean) => {
-      if (!account || !governorContract) return;
+      if (!account || !governorContract || props.currentVotes?.eq(0)) return;
 
       try {
         const castVote = governorContract.methods.castVote(
@@ -49,7 +53,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
         onUpdate?.();
       }
     },
-    [governorContract, props.proposalId, account, onUpdate]
+    [governorContract, props.proposalId, account, onUpdate, props.currentVotes]
   );
 
   const [executingState, handleExecuteProposal] = useAsyncFn(async () => {
@@ -104,7 +108,18 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
       <div className={classes.root}>
         {!props.loading && (
           <div className={classes.row}>
+            {!account && Number(props.status) === ProposalState.Active && (
+              <>
+                <VotingButton onClick={toggleWalletModal} variant="voteFor">
+                  Connect wallet
+                </VotingButton>
+                <VotingButton onClick={toggleWalletModal} variant="voteAgainst">
+                  Connect wallet
+                </VotingButton>
+              </>
+            )}
             {!receiptState.value?.hasVoted &&
+              props.currentVotes?.isGreaterThan(0) &&
               Number(props.status) === ProposalState.Active && (
                 <>
                   <VotingButton
@@ -164,6 +179,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
           </Button>
         )}
       </div>
+      <WalletModal open={open} onClose={toggleWalletModal} />
     </>
   );
 };

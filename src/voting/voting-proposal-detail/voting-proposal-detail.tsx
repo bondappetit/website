@@ -108,16 +108,15 @@ export const VotingProposalDetail: React.FC = () => {
           >
             In order to be applied, the quorum of 4% must be reached
           </Typography>
-          {currentVotes.value?.isGreaterThan(0) && (
-            <VotingDetailsAction
-              proposalId={proposalId}
-              loading={votingProposalState.loading}
-              onUpdate={votingProposalState.retry}
-              forCount={votingProposalState.value?.forCount}
-              status={votingProposalState.value?.status}
-              againstCount={votingProposalState.value?.againstCount}
-            />
-          )}
+          <VotingDetailsAction
+            proposalId={proposalId}
+            loading={votingProposalState.loading}
+            onUpdate={votingProposalState.retry}
+            forCount={votingProposalState.value?.forCount}
+            status={votingProposalState.value?.status}
+            againstCount={votingProposalState.value?.againstCount}
+            currentVotes={currentVotes.value}
+          />
           {currentVotes.value?.isEqualTo(0) && (
             <Typography
               variant="body1"
