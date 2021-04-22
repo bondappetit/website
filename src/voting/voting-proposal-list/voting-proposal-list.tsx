@@ -167,7 +167,7 @@ export const VotingProposalList: React.FC = () => {
             )}
         </div>
         <VotingChoose
-          votes={Number(currentVotes) > 0 ? currentVotes : currentGovCoin}
+          votes={currentGovCoin}
           open={votingChooseOpen}
           onClose={handleToggleVotingChoose}
         />
