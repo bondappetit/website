@@ -138,10 +138,17 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
                   </VotingButton>
                 </div>
               )}
-            {receiptState.value?.hasVoted && (
+            {(Number(props.status) === ProposalState.Defeated ||
+              Number(props.status) === ProposalState.Executed ||
+              Number(props.status) === ProposalState.Expired ||
+              Number(props.status) === ProposalState.Succeeded) && (
               <div className={classes.row}>
                 <VotingDetailInfo
-                  active={receiptState.value.support === true}
+                  active={
+                    receiptState.value?.hasVoted
+                      ? receiptState.value.support === true
+                      : undefined
+                  }
                   variant="voteFor"
                   total={props.forCount?.plus(props.againstCount ?? 0)}
                   count={props.forCount}
@@ -149,7 +156,11 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
                   voted for
                 </VotingDetailInfo>
                 <VotingDetailInfo
-                  active={receiptState.value.support === false}
+                  active={
+                    receiptState.value?.hasVoted
+                      ? receiptState.value.support === false
+                      : undefined
+                  }
                   variant="voteAgainst"
                   total={props.forCount?.plus(props.againstCount ?? 0)}
                   count={props.againstCount}
