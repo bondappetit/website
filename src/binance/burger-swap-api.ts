@@ -79,7 +79,7 @@ export const burgerSwapApi = {
     }).then((res) => res.json()) as Promise<BurgerSwapPayback[]>,
 
   bscPayback: (tx: string) =>
-    fetchWrap('/api/bscPayback', {
+    fetchWrap('/transitapi/bscPayback', {
       method: 'POST',
       body: { tx }
     }).then((res) => res.json())
