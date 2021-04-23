@@ -84,6 +84,10 @@ jobs:
           mv ~/$GITHUB_REPOSITORY.new ~/$GITHUB_REPOSITORY
           rm -rf ~/$GITHUB_REPOSITORY.old
 
+  cloudflare-purge:
+    needs: publish
+    runs-on: ubuntu-latest
+    steps:
       - name: Purge cloudflare cache
         uses: jakejarvis/cloudflare-purge-action@master
         env:
