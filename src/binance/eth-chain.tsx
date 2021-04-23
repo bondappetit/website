@@ -111,7 +111,7 @@ export const EthChain: React.VFC<EthChainProps> = () => {
 
     const withdrawFromBSC = bridgeContract.methods.withdrawFromBSC(
       payback.sign,
-      String(payback.id),
+      payback.payback_id,
       payback.token,
       payback.amount
     );
