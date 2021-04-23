@@ -138,7 +138,8 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
                   </VotingButton>
                 </div>
               )}
-            {(Number(props.status) === ProposalState.Defeated ||
+            {(receiptState.value?.hasVoted ||
+              Number(props.status) === ProposalState.Defeated ||
               Number(props.status) === ProposalState.Executed ||
               Number(props.status) === ProposalState.Expired ||
               Number(props.status) === ProposalState.Succeeded) && (

@@ -83,3 +83,9 @@ jobs:
           mv ~/$GITHUB_REPOSITORY ~/$GITHUB_REPOSITORY.old
           mv ~/$GITHUB_REPOSITORY.new ~/$GITHUB_REPOSITORY
           rm -rf ~/$GITHUB_REPOSITORY.old
+
+      - name: Purge cloudflare cache
+        uses: jakejarvis/cloudflare-purge-action@master
+        env:
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE }}
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_TOKEN }}
