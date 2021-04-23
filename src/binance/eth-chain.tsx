@@ -116,22 +116,30 @@ export const EthChain: React.VFC<EthChainProps> = () => {
       payback.amount
     );
 
-    try {
-      const resp = await withdrawFromBSC.send({
+    withdrawFromBSC
+      .send({
         from: account,
-        gas: 90000
+        gas: await estimateGas(withdrawFromBSC, { from: account })
+      })
+      .on('transactionHash', async (transactionHash) => {
+        setTx(transactionHash);
+      })
+      .on('receipt', async (receipt) => {
+        await burgerSwapApi.ethWithdraw(receipt.transactionHash);
+      })
+      .on('error', (error) => {
+        setState(error.message);
       });
-
-      await burgerSwapApi.ethWithdraw(resp.transactionHash);
-    } catch (error) {
-      setState(error.message);
-    }
   };
 
   const latestReceipt = useAsyncRetry(async () => {
     if (!tx) return;
 
     const receipt = await library.eth.getTransactionReceipt(tx);
+
+    if (receipt.status) {
+      await burgerSwapApi.ethWithdraw(tx);
+    }
 
     return receipt;
   }, [tx, library]);
@@ -154,7 +162,7 @@ export const EthChain: React.VFC<EthChainProps> = () => {
         </div>
         <Button type="submit">Approve</Button>
       </form>
-      {tx && (
+      {tx && latestReceipt.value && (
         <>
           transaction: {tx} = {latestReceipt.value?.status ? 'true' : 'false'}
         </>

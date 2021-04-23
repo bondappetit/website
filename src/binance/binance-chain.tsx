@@ -60,17 +60,21 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
       transit.decimals
     );
 
-    try {
-      const resp = await withdrawTransitToken.send({
+    withdrawTransitToken
+      .send({
         from: account,
         gas: 90000,
         value: `5${'0'.repeat(16)}`
+      })
+      .on('transactionHash', async (transactionHash) => {
+        setTx(transactionHash);
+      })
+      .on('receipt', async (receipt) => {
+        await burgerSwapApi.bscWithdraw(receipt.transactionHash);
+      })
+      .on('error', (error) => {
+        setErrorMessage(error.message);
       });
-
-      await burgerSwapApi.bscWithdraw(resp.transactionHash);
-    } catch (error) {
-      setErrorMessage(error.message);
-    }
   };
 
   const formik = useFormik({
@@ -136,6 +140,10 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
 
     const receipt = await library.eth.getTransactionReceipt(tx);
 
+    if (receipt.status) {
+      await burgerSwapApi.bscPayback(tx);
+    }
+
     return receipt;
   }, [tx, library]);
 
@@ -156,7 +164,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
         </div>
         <Button type="submit">Approve</Button>
       </form>
-      {tx && (
+      {tx && latestReceipt.value && (
         <>
           transaction: {tx} = {latestReceipt.value?.status ? 'true' : 'false'}
         </>
