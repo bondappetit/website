@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
-import { useAsyncRetry } from 'react-use';
+import { useAsyncRetry, useLocalStorage } from 'react-use';
 
 import {
   BN,
@@ -13,7 +13,8 @@ import {
   reset,
   approveAll,
   useIntervalIfHasAccount,
-  dateUtils
+  dateUtils,
+  useLibrary
 } from 'src/common';
 import { useBBagContract } from './bbag-contract';
 import { burgerSwapApi, BurgerSwapTransit } from './burger-swap-api';
@@ -26,6 +27,8 @@ export type BinanceChainProps = {
 export const BinanceChain: React.VFC<BinanceChainProps> = () => {
   const { account } = useWeb3React();
 
+  const library = useLibrary();
+
   const transitContract = useTransitContract();
   const bbagContract = useBBagContract();
 
@@ -33,6 +36,8 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
 
   const [state, setState] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+
+  const [tx, setTx] = useLocalStorage<string | null>('bnb-txid', null);
 
   const transitList = useAsyncRetry(async () => {
     if (!account) return;
@@ -73,7 +78,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
       amount: ''
     },
 
-    onSubmit: async (formValues) => {
+    onSubmit: async (formValues, { resetForm }) => {
       const decimals = await bbagContract.methods.decimals().call();
 
       const amount = new BN(formValues.amount)
@@ -112,15 +117,29 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
           value: `5${'0'.repeat(16)}`
         })
         .on('transactionHash', async (transactionHash) => {
-          localStorage.setItem('bnb', transactionHash);
+          setTx(transactionHash);
         })
         .on('receipt', async (receipt) => {
           await burgerSwapApi.bscPayback(receipt.transactionHash);
+
+          setState('change chain to ethereum');
+          resetForm();
         })
-        .catch((error) => setErrorMessage(error.message));
-      setState('change chain to ethereum');
+        .on('error', (error) => {
+          setErrorMessage(error.message);
+        });
     }
   });
+
+  const latestReceipt = useAsyncRetry(async () => {
+    if (!tx) return;
+
+    const receipt = await library.eth.getTransactionReceipt(tx);
+
+    return receipt;
+  }, [tx, library]);
+
+  useIntervalIfHasAccount(tx ? latestReceipt.retry : () => {});
 
   return (
     <div>
@@ -137,6 +156,11 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
         </div>
         <Button type="submit">Approve</Button>
       </form>
+      {tx && (
+        <>
+          transaction: {tx} = {latestReceipt.value?.status ? 'true' : 'false'}
+        </>
+      )}
       {state && <>{state}</>}
       {errorMessage && <>Error: {errorMessage}</>}
       {!transitList.value ? (

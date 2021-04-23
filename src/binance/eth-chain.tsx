@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
 import { useFormik } from 'formik';
 import React, { useState } from 'react';
-import { useAsyncRetry } from 'react-use';
+import { useAsyncRetry, useLocalStorage } from 'react-use';
 
 import {
   approveAll,
@@ -15,7 +15,8 @@ import {
   Typography,
   useApprove,
   useGovernanceTokenContract,
-  useIntervalIfHasAccount
+  useIntervalIfHasAccount,
+  useLibrary
 } from 'src/common';
 import { useBinanceStyles } from './binance.styles';
 import { useBridgeContract } from './bridge-contract';
@@ -26,6 +27,8 @@ export type EthChainProps = unknown;
 export const EthChain: React.VFC<EthChainProps> = () => {
   const classes = useBinanceStyles();
 
+  const library = useLibrary();
+
   const [state, setState] = useState('');
 
   const { account } = useWeb3React();
@@ -34,6 +37,8 @@ export const EthChain: React.VFC<EthChainProps> = () => {
 
   const bridgeContract = useBridgeContract();
   const governanceContract = useGovernanceTokenContract();
+
+  const [tx, setTx] = useLocalStorage<string | null>('eth-txid', null);
 
   const formik = useFormik({
     initialValues: {
@@ -73,18 +78,23 @@ export const EthChain: React.VFC<EthChainProps> = () => {
         amount
       );
 
-      try {
-        const resp = await transitForBSC.send({
+      transitForBSC
+        .send({
           from: account,
           gas: await estimateGas(transitForBSC, { from: account })
-        });
+        })
+        .on('transactionHash', async (transactionHash) => {
+          setTx(transactionHash);
+        })
+        .on('receipt', async (receipt) => {
+          await burgerSwapApi.ethTransit(receipt.transactionHash);
 
-        await burgerSwapApi.ethTransit(resp.transactionHash);
-        setState('change chain to binance');
-        resetForm();
-      } catch (error) {
-        setState(error.message);
-      }
+          setState('change chain to binance');
+          resetForm();
+        })
+        .on('error', (error) => {
+          setState(error.message);
+        });
     }
   });
 
@@ -119,6 +129,16 @@ export const EthChain: React.VFC<EthChainProps> = () => {
     }
   };
 
+  const latestReceipt = useAsyncRetry(async () => {
+    if (!tx) return;
+
+    const receipt = await library.eth.getTransactionReceipt(tx);
+
+    return receipt;
+  }, [tx, library]);
+
+  useIntervalIfHasAccount(tx ? latestReceipt.retry : () => {});
+
   return (
     <div>
       <Typography variant="body1">Ethereum chain</Typography>
@@ -135,6 +155,11 @@ export const EthChain: React.VFC<EthChainProps> = () => {
         </div>
         <Button type="submit">Approve</Button>
       </form>
+      {tx && (
+        <>
+          transaction: {tx} = {latestReceipt.value?.status ? 'true' : 'false'}
+        </>
+      )}
       {!paybackList.value
         ? 'Loading...'
         : paybackList.value.map((payback) => (
