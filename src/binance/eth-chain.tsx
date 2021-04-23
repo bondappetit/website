@@ -119,8 +119,7 @@ export const EthChain: React.VFC<EthChainProps> = () => {
     try {
       const resp = await withdrawFromBSC.send({
         from: account,
-        gas: 90000,
-        value: `5${'0'.repeat(16)}`
+        gas: 90000
       });
 
       await burgerSwapApi.ethWithdraw(resp.transactionHash);
