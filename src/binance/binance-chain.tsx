@@ -37,7 +37,14 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
   const [state, setState] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
-  const [tx, setTx] = useLocalStorage<string | null>('bnb-txid', null);
+  const [bscWithdraw, setBscWithdraw] = useLocalStorage<string | null>(
+    'bscWithdraw',
+    null
+  );
+  const [bscPayback, setBscPayback] = useLocalStorage<string | null>(
+    'bscPayback',
+    null
+  );
 
   const transitList = useAsyncRetry(async () => {
     if (!account) return;
@@ -67,7 +74,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
         value: `5${'0'.repeat(16)}`
       })
       .on('transactionHash', async (transactionHash) => {
-        setTx(transactionHash);
+        setBscWithdraw(transactionHash);
       })
       .on('receipt', async (receipt) => {
         await burgerSwapApi.bscWithdraw(receipt.transactionHash);
@@ -121,7 +128,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
           value: `5${'0'.repeat(16)}`
         })
         .on('transactionHash', async (transactionHash) => {
-          setTx(transactionHash);
+          setBscPayback(transactionHash);
         })
         .on('receipt', async (receipt) => {
           await burgerSwapApi.bscPayback(receipt.transactionHash);
@@ -135,19 +142,32 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
     }
   });
 
-  const latestReceipt = useAsyncRetry(async () => {
-    if (!tx) return;
+  const latestBscPayback = useAsyncRetry(async () => {
+    if (!bscPayback) return;
 
-    const receipt = await library.eth.getTransactionReceipt(tx);
+    const receipt = await library.eth.getTransactionReceipt(bscPayback);
 
     if (receipt.status) {
-      await burgerSwapApi.bscPayback(tx);
+      await burgerSwapApi.bscPayback(bscPayback);
     }
 
     return receipt;
-  }, [tx, library]);
+  }, [bscPayback, library]);
 
-  useIntervalIfHasAccount(tx ? latestReceipt.retry : () => {});
+  const latestBscWithdraw = useAsyncRetry(async () => {
+    if (!bscWithdraw) return;
+
+    const receipt = await library.eth.getTransactionReceipt(bscWithdraw);
+
+    if (receipt.status) {
+      await burgerSwapApi.bscWithdraw(bscWithdraw);
+    }
+
+    return receipt;
+  }, [bscWithdraw, library]);
+
+  useIntervalIfHasAccount(bscPayback ? latestBscPayback.retry : () => {});
+  useIntervalIfHasAccount(bscWithdraw ? latestBscWithdraw.retry : () => {});
 
   return (
     <div>
@@ -164,9 +184,16 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
         </div>
         <Button type="submit">Approve</Button>
       </form>
-      {tx && latestReceipt.value && (
+      {bscPayback && latestBscPayback.value && (
         <>
-          transaction: {tx} = {latestReceipt.value?.status ? 'true' : 'false'}
+          transaction payback: {bscPayback} ={' '}
+          {latestBscPayback.value?.status ? 'true' : 'false'}
+        </>
+      )}
+      {bscWithdraw && latestBscWithdraw.value && (
+        <>
+          transaction with draw: {bscWithdraw} ={' '}
+          {latestBscWithdraw.value?.status ? 'true' : 'false'}
         </>
       )}
       {state && <>{state}</>}

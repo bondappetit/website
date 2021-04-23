@@ -38,7 +38,14 @@ export const EthChain: React.VFC<EthChainProps> = () => {
   const bridgeContract = useBridgeContract();
   const governanceContract = useGovernanceTokenContract();
 
-  const [tx, setTx] = useLocalStorage<string | null>('eth-txid', null);
+  const [ethTransit, setEthTransit] = useLocalStorage<string | null>(
+    'ethTransit',
+    null
+  );
+  const [ethWithdraw, setEthWithdraw] = useLocalStorage<string | null>(
+    'ethWithdraw',
+    null
+  );
 
   const formik = useFormik({
     initialValues: {
@@ -84,7 +91,7 @@ export const EthChain: React.VFC<EthChainProps> = () => {
           gas: await estimateGas(transitForBSC, { from: account })
         })
         .on('transactionHash', async (transactionHash) => {
-          setTx(transactionHash);
+          setEthTransit(transactionHash);
         })
         .on('receipt', async (receipt) => {
           await burgerSwapApi.ethTransit(receipt.transactionHash);
@@ -122,7 +129,7 @@ export const EthChain: React.VFC<EthChainProps> = () => {
         gas: await estimateGas(withdrawFromBSC, { from: account })
       })
       .on('transactionHash', async (transactionHash) => {
-        setTx(transactionHash);
+        setEthWithdraw(transactionHash);
       })
       .on('receipt', async (receipt) => {
         await burgerSwapApi.ethWithdraw(receipt.transactionHash);
@@ -132,19 +139,32 @@ export const EthChain: React.VFC<EthChainProps> = () => {
       });
   };
 
-  const latestReceipt = useAsyncRetry(async () => {
-    if (!tx) return;
+  const latestEthTransit = useAsyncRetry(async () => {
+    if (!ethTransit) return;
 
-    const receipt = await library.eth.getTransactionReceipt(tx);
+    const receipt = await library.eth.getTransactionReceipt(ethTransit);
 
     if (receipt.status) {
-      await burgerSwapApi.ethWithdraw(tx);
+      await burgerSwapApi.ethTransit(ethTransit);
     }
 
     return receipt;
-  }, [tx, library]);
+  }, [ethTransit, library]);
 
-  useIntervalIfHasAccount(tx ? latestReceipt.retry : () => {});
+  const latestEthWithdraw = useAsyncRetry(async () => {
+    if (!ethWithdraw) return;
+
+    const receipt = await library.eth.getTransactionReceipt(ethWithdraw);
+
+    if (receipt.status) {
+      await burgerSwapApi.ethWithdraw(ethWithdraw);
+    }
+
+    return receipt;
+  }, [ethWithdraw, library]);
+
+  useIntervalIfHasAccount(ethTransit ? latestEthTransit.retry : () => {});
+  useIntervalIfHasAccount(ethWithdraw ? latestEthWithdraw.retry : () => {});
 
   return (
     <div>
@@ -162,9 +182,16 @@ export const EthChain: React.VFC<EthChainProps> = () => {
         </div>
         <Button type="submit">Approve</Button>
       </form>
-      {tx && latestReceipt.value && (
+      {ethTransit && latestEthTransit.value && (
         <>
-          transaction: {tx} = {latestReceipt.value?.status ? 'true' : 'false'}
+          transaction eth transit: {ethTransit} ={' '}
+          {latestEthTransit.value?.status ? 'true' : 'false'}
+        </>
+      )}
+      {ethWithdraw && latestEthWithdraw.value && (
+        <>
+          transaction eth withdraw: {ethWithdraw} ={' '}
+          {latestEthWithdraw.value?.status ? 'true' : 'false'}
         </>
       )}
       {!paybackList.value
