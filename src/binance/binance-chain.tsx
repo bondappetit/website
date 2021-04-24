@@ -70,7 +70,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
     withdrawTransitToken
       .send({
         from: account,
-        gas: 90000,
+        gas: 60000,
         value: `5${'0'.repeat(16)}`
       })
       .on('transactionHash', async (transactionHash) => {
@@ -124,7 +124,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
       paybackTransit
         .send({
           from: account,
-          gas: 90000,
+          gas: 60000,
           value: `5${'0'.repeat(16)}`
         })
         .on('transactionHash', async (transactionHash) => {
