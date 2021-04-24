@@ -87,7 +87,7 @@ export const VotingProposalDetail: React.FC = () => {
                     {ProposalState[Number(votingProposalState.value.status)]}
                   </Status>
                 )}
-                {ProposalState.Succeeded ===
+                {ProposalState.Queued ===
                   Number(votingProposalState.value?.status) &&
                   votingProposalState.value?.eta && (
                     <span className={classes.date}>
