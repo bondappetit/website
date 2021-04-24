@@ -20,6 +20,8 @@ import { useBBagContract } from './bbag-contract';
 import { burgerSwapApi, BurgerSwapTransit } from './burger-swap-api';
 import { useTransitContract } from './burger-transit-contract';
 
+const GAS = 120000;
+
 export type BinanceChainProps = {
   className?: string;
 };
@@ -70,7 +72,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
     withdrawTransitToken
       .send({
         from: account,
-        gas: 60000,
+        gas: GAS,
         value: `5${'0'.repeat(16)}`
       })
       .on('transactionHash', async (transactionHash) => {
@@ -124,7 +126,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = () => {
       paybackTransit
         .send({
           from: account,
-          gas: 60000,
+          gas: GAS,
           value: `5${'0'.repeat(16)}`
         })
         .on('transactionHash', async (transactionHash) => {
