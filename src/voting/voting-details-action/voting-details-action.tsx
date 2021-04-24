@@ -174,16 +174,16 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
         )}
         {ProposalState.Succeeded === Number(props.status) && (
           <Button
-            onClick={handleQueueProposal}
+            onClick={!account ? toggleWalletModal : handleQueueProposal}
             loading={queueState.loading}
             disabled={queueState.loading}
           >
             Queue
           </Button>
         )}
-        {ProposalState.Queued === Number(props.status) && (
+        {false && ProposalState.Queued === Number(props.status) && (
           <Button
-            onClick={handleExecuteProposal}
+            onClick={!account ? toggleWalletModal : handleExecuteProposal}
             loading={executingState.loading}
             disabled={executingState.loading}
           >
