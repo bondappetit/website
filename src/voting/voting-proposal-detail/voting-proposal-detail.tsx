@@ -116,6 +116,7 @@ export const VotingProposalDetail: React.FC = () => {
             status={votingProposalState.value?.status}
             againstCount={votingProposalState.value?.againstCount}
             currentVotes={currentVotes.value}
+            eta={votingProposalState.value?.eta}
           />
           {currentVotes.value?.isEqualTo(0) && (
             <Typography
