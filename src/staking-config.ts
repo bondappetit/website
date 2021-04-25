@@ -15,6 +15,8 @@ const Stable = 'USDap';
 
 const USDC = 'USDC';
 
+const USDN = 'USDN';
+
 // const ETH = 'ETH';
 
 const LP = 'UNI-V2';
@@ -71,6 +73,13 @@ const config = [
     contractName: 'UsdcGovLPStaking',
     tokenName: LP,
     token: [Gov, USDC],
+    liquidityPool: true
+  },
+
+  {
+    contractName: 'UsdnGovLPStaking',
+    tokenName: LP,
+    token: [Gov, USDN],
     liquidityPool: true
   }
 ];
