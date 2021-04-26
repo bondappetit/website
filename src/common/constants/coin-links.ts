@@ -9,5 +9,5 @@ export const COIN_LINKS = new Map<string, string>([
   ['ETH', 'https://coinmarketcap.com/currencies/ethereum/'],
   ['USDT', 'https://coinmarketcap.com/currencies/tether/'],
   ['USDC', 'https://coinmarketcap.com/currencies/usd-coin/'],
-  ['USDN', 'https://coinmarketcap.com/currencies/neutrino-usd/']
+  ['USDN', 'https://curve.fi/usdn']
 ]);
