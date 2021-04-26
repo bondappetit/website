@@ -6,7 +6,8 @@ import {
   SmallModal,
   Typography,
   Modal,
-  COIN_ICONS
+  COIN_ICONS,
+  COIN_LINKS
 } from 'src/common';
 import { useStakingAcquireModalStyles } from './staking-acquire-modal.styles';
 
@@ -19,7 +20,7 @@ export type StakingAcquireModalProps = {
   tokenAddresses?: string;
 };
 
-export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
+export const StakingAcquireModal: React.VFC<StakingAcquireModalProps> = (
   props
 ) => {
   const classes = useStakingAcquireModalStyles();
@@ -37,7 +38,14 @@ export const StakingAcquireModal: React.FC<StakingAcquireModalProps> = (
 
               return (
                 <Typography variant="h5">
-                  {index + 1}. Buy Token{' '}
+                  {index + 1}.{' '}
+                  <Link
+                    href={COIN_LINKS.get(token)}
+                    target="_blank"
+                    color="blue"
+                  >
+                    Buy
+                  </Link>{' '}
                   {Icon && <Icon width="1em" height="1em" />} {token}
                 </Typography>
               );
