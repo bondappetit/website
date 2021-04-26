@@ -9,7 +9,8 @@ import {
   useGovernorContract,
   Button,
   estimateGas,
-  BN
+  BN,
+  dateUtils
 } from 'src/common';
 import { ProposalState, VotingButton, VotingDetailInfo } from '../common';
 import { useVotingDetailsActionStyles } from './voting-details-action.styles';
@@ -22,6 +23,7 @@ export type VotingDetailsActionProps = {
   onUpdate?: () => void;
   status?: string;
   currentVotes?: BN;
+  eta?: string;
 };
 
 export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
@@ -174,22 +176,26 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
         )}
         {ProposalState.Succeeded === Number(props.status) && (
           <Button
-            onClick={handleQueueProposal}
+            onClick={!account ? toggleWalletModal : handleQueueProposal}
             loading={queueState.loading}
             disabled={queueState.loading}
           >
             Queue
           </Button>
         )}
-        {ProposalState.Queued === Number(props.status) && (
-          <Button
-            onClick={handleExecuteProposal}
-            loading={executingState.loading}
-            disabled={executingState.loading}
-          >
-            Execute
-          </Button>
-        )}
+        {dateUtils.after(
+          new Date(),
+          dateUtils.formatUnix(Number(props.eta), 'YYYY-MM-DD HH:mm:ss')
+        ) &&
+          ProposalState.Queued === Number(props.status) && (
+            <Button
+              onClick={!account ? toggleWalletModal : handleExecuteProposal}
+              loading={executingState.loading}
+              disabled={executingState.loading}
+            >
+              Execute
+            </Button>
+          )}
       </div>
       <WalletModal open={open} onClose={toggleWalletModal} />
     </>
