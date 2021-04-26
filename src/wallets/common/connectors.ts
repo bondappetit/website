@@ -21,7 +21,7 @@ import { ReactComponent as BinanceIcon } from 'src/assets/icons/binance-wallet.s
 import { config } from 'src/config';
 
 export const injected = new InjectedConnector({
-  supportedChainIds: config.CHAIN_IDS
+  supportedChainIds: [...config.CHAIN_IDS, ...config.CHAIN_BINANCE_IDS]
 });
 
 export const ledger = new LedgerConnector({
@@ -61,7 +61,7 @@ export const portis = new PortisConnector({
 });
 
 export const binance = new BscConnector({
-  supportedChainIds: config.CHAIN_IDS
+  supportedChainIds: [...config.CHAIN_IDS, ...config.CHAIN_BINANCE_IDS]
 });
 
 enum ConnectorNames {

@@ -16,7 +16,7 @@ export type StatusProps = {
     | 'pink'
     | 'purple'
     | 'black'
-    | 'superGreen';
+    | 'green1';
   variant?: 'contained' | 'outlined';
 };
 

@@ -16,18 +16,19 @@ export type Colors = {
   red: string;
   orange: string;
   beige: string;
-  darkGreen: string;
+  green2: string;
   yellow: string;
   green: string;
   pink: string;
   purple: string;
   darkBlue: string;
   chetwodeBlue: string;
-  lightGrey: string;
-  superGreen: string;
+  grey1: string;
+  green1: string;
   docsParagraph: string;
   white: string;
   black: string;
+  grey2: string;
 };
 
 export type ThemeModes = 'light' | 'dark';
@@ -42,13 +43,14 @@ const mainColors = {
   yellow: '#FBFF43',
   beige: '#E7D7BE',
   green: '#09DE78',
-  superGreen: '#1B9861',
-  darkGreen: '#8DC581',
+  green1: '#1B9861',
+  green2: '#8DC581',
   pink: '#E9D6EA',
   purple: '#FF35EB',
   darkBlue: '#3280BB',
   chetwodeBlue: '#8AA0DF',
-  lightGrey: '#EEEEEE'
+  grey1: '#EEEEEE',
+  grey2: '#EBEEEF'
 };
 
 export const themeModes: Record<

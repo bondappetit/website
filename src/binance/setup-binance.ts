@@ -4,7 +4,8 @@ export const setupNetwork = async () => {
   const provider = window.ethereum;
 
   if (provider) {
-    const chainId = config.CHAIN_IDS[config.CHAIN_IDS.length - 1];
+    const chainId =
+      config.CHAIN_BINANCE_IDS[config.CHAIN_BINANCE_IDS.length - 1];
 
     try {
       await provider.request?.({
