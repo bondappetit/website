@@ -190,9 +190,23 @@ export const useStakingListData = (address?: string, length?: number) => {
             uniswapPairItem.address
         );
 
+        const priceItemtotalSupplyFloatBN = new BN(
+          pairItem?.totalSupplyFloat ?? '1'
+        );
+        const priceItemtotalSupply = priceItemtotalSupplyFloatBN.isZero()
+          ? '1'
+          : priceItemtotalSupplyFloatBN;
+
+        const stakingBalanceTotalSupplyBN = new BN(
+          stakingBalance?.totalSupplyFloat ?? '1'
+        );
+        const stakingBalanceTotalSupply = stakingBalanceTotalSupplyBN.isZero()
+          ? '1'
+          : stakingBalanceTotalSupplyBN;
+
         const priceUSD = new BN(
           pairItem?.statistic?.totalLiquidityUSD ?? '0'
-        ).div(pairItem?.totalSupplyFloat ?? '1');
+        ).div(priceItemtotalSupply);
 
         return {
           id: index,
@@ -207,8 +221,8 @@ export const useStakingListData = (address?: string, length?: number) => {
           totalValueLocked:
             pairItem && stakingBalance
               ? new BN(pairItem.statistic?.totalLiquidityUSD ?? '0')
-                  .div(pairItem.totalSupplyFloat)
-                  .multipliedBy(stakingBalance.totalSupplyFloat)
+                  .div(priceItemtotalSupply)
+                  .multipliedBy(stakingBalanceTotalSupply)
                   .toString(10)
               : '0',
           totalSupplyFloat: pairItem?.totalSupplyFloat,
