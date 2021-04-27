@@ -2,12 +2,12 @@ import { useMemo } from 'react';
 import type { AbiItem } from 'web3-utils';
 
 import { useLibrary } from 'src/common';
-import type { BurgerTransit } from './burger-transit.d';
-import abi from './burger-transit.json';
+import type { BbagAbi } from '../types/bbag-abi';
+import abi from '../abi/bbag-abi.json';
 
-const ADDRESS = '0x3f621973a1363c2ecc8b256e9c0a1c3e62d2cefe';
+const ADDRESS = '0x1AD0132D8B5Ef3cEBDA1A9692f36AC30be871b6b';
 
-export const useTransitContract = () => {
+export const useBBagContract = () => {
   const library = useLibrary();
 
   return useMemo(
@@ -15,7 +15,7 @@ export const useTransitContract = () => {
       (new library.eth.Contract(
         abi as AbiItem[],
         ADDRESS
-      ) as unknown) as BurgerTransit,
+      ) as unknown) as BbagAbi,
     [library]
   );
 };

@@ -36,6 +36,11 @@ const MENU_ITEMS: MenuItem[] = [
   },
 
   {
+    title: 'Bridge',
+    link: URLS.bridge
+  },
+
+  {
     title: 'Staking',
     link: URLS.staking.list
   },

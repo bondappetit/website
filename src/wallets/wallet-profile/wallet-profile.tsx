@@ -68,8 +68,8 @@ export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
       <LinkModal
         open={linkModalOpen}
         onClose={togglelinkModal}
-        tokenName={networkConfig.assets.Governance.symbol}
-        tokenAddress={networkConfig.assets.Governance.address}
+        tokenName={networkConfig.assets.Governance?.symbol}
+        tokenAddress={networkConfig.assets.Governance?.address}
         withBuyInvestment
         onBuyInvestment={handleAttention}
       />

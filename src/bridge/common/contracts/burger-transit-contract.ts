@@ -2,12 +2,12 @@ import { useMemo } from 'react';
 import type { AbiItem } from 'web3-utils';
 
 import { useLibrary } from 'src/common';
-import type { BridgeAbi } from './bridge-abi.d';
-import abi from './bridge-abi.json';
+import type { BurgerTransit } from '../types/burger-transit';
+import abi from '../abi/burger-transit.json';
 
-const ADDRESS = '0xc8c1b41713761281a520b7ad81544197bc85a4ce';
+const ADDRESS = '0x3f621973a1363c2ecc8b256e9c0a1c3e62d2cefe';
 
-export const useBridgeContract = () => {
+export const useTransitContract = () => {
   const library = useLibrary();
 
   return useMemo(
@@ -15,7 +15,7 @@ export const useBridgeContract = () => {
       (new library.eth.Contract(
         abi as AbiItem[],
         ADDRESS
-      ) as unknown) as BridgeAbi,
+      ) as unknown) as BurgerTransit,
     [library]
   );
 };

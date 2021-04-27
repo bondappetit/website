@@ -40,7 +40,7 @@ const Main = React.lazy(() => import('src/main'));
 const VestingSplitter = React.lazy(() => import('src/vesting-splitter'));
 const Playground = React.lazy(() => import('src/playground'));
 const Contracts = React.lazy(() => import('src/contracts'));
-const Binance = React.lazy(() => import('src/binance'));
+const Bridge = React.lazy(() => import('src/bridge'));
 
 export const routes = [
   {
@@ -128,8 +128,8 @@ export const routes = [
     component: Contracts
   },
   {
-    url: URLS.binance,
-    component: Binance
+    url: URLS.bridge,
+    component: Bridge
   },
   {
     component: NotFound
