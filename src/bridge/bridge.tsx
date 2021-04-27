@@ -247,6 +247,10 @@ export const Bridge: React.VFC = () => {
     }
   });
 
+  const loading =
+    ((paybackList.loading || transitList.loading) && !paybackList.value) ||
+    !transitList.value;
+
   return (
     <MainLayout>
       <PageWrapper>
@@ -284,7 +288,7 @@ export const Bridge: React.VFC = () => {
               <WalletButtonWithFallback />
             ) : (
               <>
-                {paybackList.loading || transitList.loading ? (
+                {loading ? (
                   <Typography variant="body1">Loading...</Typography>
                 ) : (
                   <>
@@ -300,7 +304,7 @@ export const Bridge: React.VFC = () => {
             )}
           </Plate>
           <div>
-            {(paybackList.loading || transitList.loading) && (
+            {loading && (
               <Plate color="grey" withoutBorder className={classes.emptyCard}>
                 <Typography
                   variant="h3"
@@ -311,18 +315,17 @@ export const Bridge: React.VFC = () => {
                 </Typography>
               </Plate>
             )}
-            {!transactions.length &&
-              !(paybackList.loading || transitList.loading) && (
-                <Plate color="grey" withoutBorder className={classes.emptyCard}>
-                  <Typography
-                    variant="h3"
-                    className={clsx(classes.emptyCardTitle, classes.typography)}
-                  >
-                    No transactions yet...
-                  </Typography>
-                </Plate>
-              )}
-            {!(paybackList.loading || transitList.loading) &&
+            {!transactions.length && !loading && (
+              <Plate color="grey" withoutBorder className={classes.emptyCard}>
+                <Typography
+                  variant="h3"
+                  className={clsx(classes.emptyCardTitle, classes.typography)}
+                >
+                  No transactions yet...
+                </Typography>
+              </Plate>
+            )}
+            {!loading &&
               transactions.map((transaction, index) => {
                 const key = `${transaction.id}-${index}`;
 
