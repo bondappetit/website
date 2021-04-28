@@ -216,7 +216,6 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
           balance={balance.value}
           approve={approve.value?.approve}
           reset={approve.value?.reset}
-          hint="BurgerSwap fee: 0.05 BNB + Gas fee"
         />
       </FormikProvider>
     </div>

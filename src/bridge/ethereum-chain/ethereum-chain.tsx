@@ -223,7 +223,6 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
           balance={balance.value}
           approve={approve.value?.approve}
           reset={approve.value?.reset}
-          hint="Total fee: 0.05 BNB + ETH GAS"
         />
       </FormikProvider>
     </div>

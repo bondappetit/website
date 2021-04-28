@@ -10,7 +10,6 @@ export type BridgeFormProps = {
   balance?: BN;
   approve?: boolean;
   reset?: boolean;
-  hint?: string;
 };
 
 export const BridgeForm: React.VFC<BridgeFormProps> = (props) => {
@@ -41,7 +40,7 @@ export const BridgeForm: React.VFC<BridgeFormProps> = (props) => {
       </ButtonBase>
       <div className={classes.feeWrap}>
         <Typography variant="body1" className={classes.fee}>
-          {props.hint}
+          BurgerSwap fee: 0.05 BNB + Gas fee
         </Typography>
         <Tippy
           content={
