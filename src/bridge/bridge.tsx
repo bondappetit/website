@@ -409,7 +409,7 @@ export const Bridge: React.VFC = () => {
                       {humanizeNumeral(
                         new BN(transaction.amount).div(new BN(10).pow(18))
                       )}{' '}
-                      {transaction.token}
+                      {isPayback(transaction) ? 'BAG' : 'bBAG'}
                     </Typography>
                     <div className={classes.cardStatus}>
                       {!transaction.status && (
