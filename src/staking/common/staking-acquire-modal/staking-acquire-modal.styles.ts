@@ -5,7 +5,7 @@ import { Theme } from 'src/common';
 export const useStakingAcquireModalStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
-      height: 400
+      height: 500
     },
 
     inner: {

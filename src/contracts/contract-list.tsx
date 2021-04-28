@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import {
   MarkdownCode,
@@ -16,20 +16,28 @@ export const ContractList: React.VFC<ContractListProps> = () => {
 
   const classes = useContractListStyles();
 
+  const contracts = useMemo(
+    () => [
+      ...Object.values(networkConfig.contracts ?? {}).filter(
+        ({ voting }) => voting
+      ),
+      networkConfig.contracts.GovernorAlpha
+    ],
+    [networkConfig.contracts]
+  );
+
   return (
     <MainLayout>
       <PageWrapper>
         <ul className={classes.root}>
-          {Object.values(networkConfig.contracts ?? {}).map(
-            ({ name, address }) => (
-              <li key={address}>
-                <div>
-                  <Typography variant="h5">{name}</Typography>
-                  <MarkdownCode value={address} />
-                </div>
-              </li>
-            )
-          )}
+          {contracts.map(({ name, address }) => (
+            <li key={address}>
+              <div>
+                <Typography variant="h5">{name}</Typography>
+                <MarkdownCode value={address} />
+              </div>
+            </li>
+          ))}
         </ul>
       </PageWrapper>
     </MainLayout>
