@@ -25,10 +25,10 @@ export const useMainStakingStyles = createUseStyles(
         marginBottom: 48,
         display: 'grid',
         gridGap: 48,
-        gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))'
+        gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))'
       },
 
-      [theme.breakpoints.up(1400)]: {
+      [theme.breakpoints.up(1550)]: {
         gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))'
       }
     },
