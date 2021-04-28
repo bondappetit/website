@@ -15,10 +15,39 @@ import {
   useIntervalIfHasAccount,
   useNetworkConfig
 } from 'src/common';
-import { BridgeForm, useBridgeContract, burgerSwapApi } from '../common';
+import {
+  BurgerSwapBridgeTransitTypeEnum,
+  useAddBurgerSwapBridgeTransitMutation
+} from 'src/graphql/_generated-hooks';
+import {
+  BridgeForm,
+  useBridgeContract,
+  burgerSwapApi,
+  BurgerSwapTransit
+} from '../common';
 
 export type EthChainProps = {
   onEthTransit?: (transactionHash: string) => void;
+  ethTransit?: string | null;
+  onConfirm?: (transit: BurgerSwapTransit) => void;
+};
+
+const transit: BurgerSwapTransit = {
+  id: 0,
+  transit_id: '',
+  status: 3,
+  createBlock: 0,
+  amount: 'string',
+  symbol: 'string',
+  decimals: 18,
+  name: 'string',
+  from: 'string',
+  token: 'BAG',
+  sign: 'string',
+  withdrawBlock: 0,
+  version: 0,
+  createTime: new Date().toISOString(),
+  updateTime: new Date().toISOString()
 };
 
 export const EthChain: React.VFC<EthChainProps> = (props) => {
@@ -27,6 +56,8 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
   const { account } = useWeb3React();
 
   const [approve, approvalNeeded] = useApprove();
+
+  const [addBurgerSwapTransit] = useAddBurgerSwapBridgeTransitMutation();
 
   const bridgeContract = useBridgeContract();
   const governanceContract = useGovernanceTokenContract();
@@ -38,11 +69,25 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
       amount: ''
     },
 
-    validate: (formValues) => {
+    validate: async (formValues) => {
       const errors: Partial<typeof formValues> = {};
 
       if (!formValues.amount) {
         errors.amount = 'BAG is required';
+      }
+
+      const balanceOfGovToken = governanceContract
+        ? await getBalance({
+            tokenAddress: governanceContract.options.address
+          })
+        : null;
+
+      if (
+        balanceOfGovToken
+          ?.div(new BN(10).pow(networkConfig.assets.Governance.decimals))
+          .isLessThan(formValues.amount)
+      ) {
+        errors.amount = 'Not enough BAG';
       }
 
       return errors;
@@ -81,7 +126,11 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
         amount
       );
 
-      transitForBSC
+      const newtransit = {
+        ...transit
+      };
+
+      await transitForBSC
         .send({
           from: account,
           gas: await estimateGas(transitForBSC, { from: account })
@@ -89,9 +138,28 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
         .on('transactionHash', async (transactionHash) => {
           props.onEthTransit?.(transactionHash);
 
-          await burgerSwapApi.ethTransit(transactionHash);
+          await addBurgerSwapTransit({
+            variables: {
+              input: {
+                tx: transactionHash,
+                owner: account,
+                type: BurgerSwapBridgeTransitTypeEnum.EthTransit
+              }
+            }
+          });
         })
-        .on('receipt', () => {
+        .on('confirmation', (_, receipt) => {
+          newtransit.id = receipt.transactionIndex;
+          newtransit.transit_id = receipt.transactionHash;
+          newtransit.amount = amount;
+
+          props.onConfirm?.(newtransit);
+        })
+        .on('receipt', async () => {
+          if (props.ethTransit) {
+            await burgerSwapApi.ethTransit(props.ethTransit);
+          }
+
           resetForm();
 
           return Promise.resolve();
@@ -155,6 +223,7 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
           balance={balance.value}
           approve={approve.value?.approve}
           reset={approve.value?.reset}
+          hint="Total fee: 0.05 BNB + ETH GAS"
         />
       </FormikProvider>
     </div>

@@ -54,8 +54,22 @@ export const burgerSwapApi = {
       body: { address }
     }).then((res) => res.json()) as Promise<BurgerSwapTransit[]>,
 
+  getPaybackList: (address: string) =>
+    fetchWrap('/api/getPaybackList', {
+      method: 'POST',
+      body: { address }
+    }).then((res) => res.json()) as Promise<BurgerSwapPayback[]>,
+
+  // transit from ethereum to binance
   ethTransit: (tx: string) =>
     fetchWrap('/transitapi/ethTransit', {
+      method: 'POST',
+      body: { tx }
+    }).then((res) => res.json()),
+
+  // transit from binance to ethereum
+  bscPayback: (tx: string) =>
+    fetchWrap('/transitapi/bscPayback', {
       method: 'POST',
       body: { tx }
     }).then((res) => res.json()),
@@ -68,18 +82,6 @@ export const burgerSwapApi = {
 
   ethWithdraw: (tx: string) =>
     fetchWrap('/transitapi/ethWithdraw', {
-      method: 'POST',
-      body: { tx }
-    }).then((res) => res.json()),
-
-  getPaybackList: (address: string) =>
-    fetchWrap('/api/getPaybackList', {
-      method: 'POST',
-      body: { address }
-    }).then((res) => res.json()) as Promise<BurgerSwapPayback[]>,
-
-  bscPayback: (tx: string) =>
-    fetchWrap('/transitapi/bscPayback', {
       method: 'POST',
       body: { tx }
     }).then((res) => res.json())

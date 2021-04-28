@@ -1,14 +1,16 @@
 import { useFormikContext } from 'formik';
 import React from 'react';
+import Tippy from '@tippyjs/react';
 
 import { BN, Button, ButtonBase, Input, Typography } from 'src/common';
 import { ReactComponent as QuestionIcon } from 'src/assets/icons/question.svg';
-import { useBridgeFormStyles } from './binance-form.styles';
+import { useBridgeFormStyles } from './bridge-form.styles';
 
 export type BridgeFormProps = {
   balance?: BN;
   approve?: boolean;
   reset?: boolean;
+  hint?: string;
 };
 
 export const BridgeForm: React.VFC<BridgeFormProps> = (props) => {
@@ -39,25 +41,29 @@ export const BridgeForm: React.VFC<BridgeFormProps> = (props) => {
       </ButtonBase>
       <div className={classes.feeWrap}>
         <Typography variant="body1" className={classes.fee}>
-          Total fee: 0.05 BNB + ETH GAS
+          {props.hint}
         </Typography>
-        <QuestionIcon />
+        <Tippy
+          content={
+            <>
+              Gas refers to the fee, or pricing value, required to successfully
+              conduct a transaction or execute a contract on the blockchain
+            </>
+          }
+          className={classes.tippy}
+          animation={false}
+        >
+          <div>
+            <QuestionIcon />
+          </div>
+        </Tippy>
       </div>
       <div>
-        {(props.approve || props.reset) && (
-          <Button
-            disabled={formik.isSubmitting}
-            loading={formik.isSubmitting}
-            className={classes.approve}
-          >
-            {formik.errors.amount || 'Approve'}
-          </Button>
-        )}
-        <Button
-          disabled={formik.isSubmitting || props.approve || props.reset}
-          loading={formik.isSubmitting}
-        >
-          {formik.errors.amount || 'Transfer'}
+        <Button disabled={formik.isSubmitting} loading={formik.isSubmitting}>
+          {(!props.approve && !props.reset) ||
+          new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
+            ? formik.errors.amount || 'Transfer'
+            : 'Approve'}
         </Button>
       </div>
     </form>

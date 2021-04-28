@@ -31,6 +31,14 @@ export const useBridgeFormStyles = createUseStyles(
 
     approve: {
       marginRight: 16
+    },
+
+    tippy: {
+      backgroundColor: theme.colors.primary,
+      color: theme.colors.secondary,
+      padding: 16,
+      borderRadius: 16,
+      maxWidth: 200
     }
   }),
   {

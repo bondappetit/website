@@ -13,16 +13,38 @@ import {
   useIntervalIfHasAccount
 } from 'src/common';
 import {
+  BurgerSwapBridgeTransitTypeEnum,
+  useAddBurgerSwapBridgeTransitMutation
+} from 'src/graphql/_generated-hooks';
+import {
   BridgeForm,
   useTransitContract,
   useBBagContract,
-  burgerSwapApi
+  burgerSwapApi,
+  BurgerSwapPayback
 } from '../common';
 
 const GAS = 120000;
 
 export type BinanceChainProps = {
   onBscPayback?: (transactionHash: string) => void;
+  bscPayback?: null | string;
+  onConfirm?: (payback: BurgerSwapPayback) => void;
+};
+
+const payback: BurgerSwapPayback = {
+  id: 0,
+  payback_id: '',
+  status: 3,
+  createBlock: 0,
+  amount: '',
+  from: '',
+  token: 'bBAG',
+  sign: '',
+  withdrawBlock: 0,
+  version: 0,
+  createTime: new Date().toISOString(),
+  updateTime: new Date().toISOString()
 };
 
 export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
@@ -30,6 +52,8 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
 
   const transitContract = useTransitContract();
   const bbagContract = useBBagContract();
+
+  const [addBurgerSwapTransit] = useAddBurgerSwapBridgeTransitMutation();
 
   const getBalance = useBalance();
 
@@ -44,11 +68,24 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
       amount: ''
     },
 
-    validate: (formValues) => {
+    validate: async (formValues) => {
       const errors: Partial<typeof formValues> = {};
 
       if (!formValues.amount) {
         errors.amount = 'bBAG is required';
+      }
+
+      const balanceOfGovToken = await getBalance({
+        tokenAddress: bbagContract.options.address
+      });
+
+      if (
+        decimals.value &&
+        balanceOfGovToken
+          .div(new BN(10).pow(decimals.value))
+          .isLessThan(formValues.amount)
+      ) {
+        errors.amount = 'Not enough bBAG';
       }
 
       return errors;
@@ -89,7 +126,11 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
         amount
       );
 
-      paybackTransit
+      const newPayback = {
+        ...payback
+      };
+
+      await paybackTransit
         .send({
           from: account,
           gas: GAS,
@@ -98,9 +139,28 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
         .on('transactionHash', async (transactionHash) => {
           props.onBscPayback?.(transactionHash);
 
-          await burgerSwapApi.bscPayback(transactionHash);
+          await addBurgerSwapTransit({
+            variables: {
+              input: {
+                tx: transactionHash,
+                owner: account,
+                type: BurgerSwapBridgeTransitTypeEnum.BscWithdraw
+              }
+            }
+          });
         })
-        .on('receipt', () => {
+        .on('confirmation', (_, receipt) => {
+          newPayback.id = receipt.transactionIndex;
+          newPayback.payback_id = receipt.transactionHash;
+          newPayback.amount = amount;
+
+          props.onConfirm?.(newPayback);
+        })
+        .on('receipt', async () => {
+          if (props.bscPayback) {
+            await burgerSwapApi.bscPayback(props.bscPayback);
+          }
+
           resetForm();
 
           return Promise.resolve();
@@ -156,6 +216,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
           balance={balance.value}
           approve={approve.value?.approve}
           reset={approve.value?.reset}
+          hint="BurgerSwap fee: 0.05 BNB + Gas fee"
         />
       </FormikProvider>
     </div>

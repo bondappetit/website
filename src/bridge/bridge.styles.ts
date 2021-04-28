@@ -38,7 +38,7 @@ export const useBridgeStyles = createUseStyles(
     },
 
     tabPaneActive: {
-      backgroundColor: theme.colors.grey2,
+      backgroundColor: theme.colors.proposalPlate,
 
       '& h3': {
         opacity: 1
@@ -83,6 +83,14 @@ export const useBridgeStyles = createUseStyles(
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center'
+    },
+
+    transactions: {
+      marginBottom: 64,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 40
+      }
     },
 
     emptyCard: {
@@ -168,6 +176,13 @@ export const useBridgeStyles = createUseStyles(
         fontSize: 20,
         lineHeight: '28px'
       }
+    },
+
+    footer: {},
+
+    footerIcon: {
+      '--burger': theme.colors.secondary,
+      marginBottom: '-4px'
     }
   }),
   {
