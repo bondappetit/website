@@ -84,5 +84,17 @@ export const burgerSwapApi = {
     fetchWrap('/transitapi/ethWithdraw', {
       method: 'POST',
       body: { tx }
+    }).then((res) => res.json()),
+
+  ethTx: (tx: string) =>
+    fetchWrap('/transitapi/ethTx', {
+      method: 'POST',
+      body: { tx }
+    }).then((res) => res.json()),
+
+  bscTx: (tx: string) =>
+    fetchWrap('/transitapi/bscTx', {
+      method: 'POST',
+      body: { tx }
     }).then((res) => res.json())
 };
