@@ -21,8 +21,8 @@ export const VotingInfo: React.FC = () => {
   const { proposals, pages } = useVotingProposalList(3);
 
   const proposalCount = useMemo(
-    () => Math.round(pages.length * (proposals.value?.length || 0)),
-    [pages.length, proposals.value]
+    () => pages.reduce((sum, { length }) => sum + length, 0),
+    [pages]
   );
 
   return (
