@@ -1,18 +1,12 @@
 import React from 'react';
 
 import { Link, numberArray, Plate, Typography } from 'src/common';
+import { Article } from 'src/common/use-medium-article-list';
 import { ReactComponent as BlogIcon } from 'src/assets/icons/blog.svg';
 import { useMainMediumArticlesStyles } from './main-medium-articles.styles';
 import { MainMediumArticlesCard } from '../main-medium-articles-card/main-medium-articles-card';
 
 const BLOG_URL = 'https://medium.com/bondappetit';
-
-type Article = {
-  title: string;
-  date: string;
-  id: string;
-  link: string;
-};
 
 export type MainMediumArticlesProps = {
   articles?: Article[];
@@ -39,7 +33,7 @@ export const MainMediumArticles: React.VFC<MainMediumArticlesProps> = (
             <MainMediumArticlesCard key={num} loading={props.loading} />
           ))
         : props.articles?.map((article) => (
-            <MainMediumArticlesCard key={article.id} {...article} />
+            <MainMediumArticlesCard key={article.guid} {...article} />
           ))}
     </Plate>
   );

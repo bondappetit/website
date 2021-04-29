@@ -5,7 +5,7 @@ import { useMainMediumArticlesCardStyles } from './main-medium-articles-card.sty
 
 export type MainMediumArticlesCardProps = {
   link?: string;
-  date?: string;
+  pubDate?: string;
   title?: string;
   loading?: boolean;
 };
@@ -26,7 +26,7 @@ export const MainMediumArticlesCard: React.VFC<MainMediumArticlesCardProps> = (
         {props.loading ? (
           <Skeleton />
         ) : (
-          dateUtils.format(props.date, DATE_FORMAT)
+          dateUtils.format(props.pubDate, DATE_FORMAT)
         )}
       </Typography>
     </Link>
