@@ -183,6 +183,10 @@ export const useBridgeStyles = createUseStyles(
     footerIcon: {
       '--burger': theme.colors.secondary,
       marginBottom: '-4px'
+    },
+
+    lostTransaction: {
+      color: theme.colors.darkBlue
     }
   }),
   {

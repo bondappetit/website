@@ -1,13 +1,16 @@
 import { useWeb3React } from '@web3-react/core';
 import { FormikProvider, useFormik } from 'formik';
 import React from 'react';
-import { useAsyncRetry, useDebounce } from 'react-use';
+import { useAsyncRetry, useDebounce, useToggle } from 'react-use';
 
 import {
   approveAll,
   BN,
   estimateGas,
+  InfoCardSuccess,
+  Modal,
   reset,
+  SmallModal,
   Typography,
   useApprove,
   useBalance,
@@ -52,6 +55,8 @@ const transit: BurgerSwapTransit = {
 
 export const EthChain: React.VFC<EthChainProps> = (props) => {
   const networkConfig = useNetworkConfig();
+
+  const [successOpen, toggleSuccess] = useToggle(false);
 
   const { account } = useWeb3React();
 
@@ -160,6 +165,8 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
             await burgerSwapApi.ethTransit(props.ethTransit);
           }
 
+          toggleSuccess(true);
+
           resetForm();
 
           return Promise.resolve();
@@ -225,6 +232,16 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
           reset={approve.value?.reset}
         />
       </FormikProvider>
+      <Modal open={successOpen} onClose={toggleSuccess}>
+        <SmallModal>
+          <InfoCardSuccess
+            token="Governance"
+            tokenName="BAG"
+            onClick={toggleSuccess}
+            purchased={formik.values.amount}
+          />
+        </SmallModal>
+      </Modal>
     </div>
   );
 };

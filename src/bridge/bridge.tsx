@@ -11,6 +11,7 @@ import {
 import {
   BN,
   Button,
+  ButtonBase,
   dateUtils,
   estimateGas,
   humanizeNumeral,
@@ -34,6 +35,7 @@ import { BinanceChain } from './binance-chain';
 import { useBridgeStyles } from './bridge.styles';
 import { EthChain } from './ethereum-chain';
 import {
+  BridgeLostTransaction,
   burgerSwapApi,
   BurgerSwapPayback,
   BurgerSwapTransit,
@@ -71,7 +73,8 @@ export const Bridge: React.VFC = () => {
 
   const classes = useBridgeStyles();
 
-  const [open, toggle] = useToggle(false);
+  const [changeNetworkOpen, toggleChangeNetwork] = useToggle(false);
+  const [lostTransactionOpen, toggleLostTransaction] = useToggle(false);
 
   const [
     ethereumTransit,
@@ -288,7 +291,7 @@ export const Bridge: React.VFC = () => {
 
   const handleRecieve = useCallback(
     (transaction: BurgerSwapTransit | BurgerSwapPayback) => {
-      if (!config.CHAIN_IDS.includes(currentChainId)) toggle();
+      if (!config.CHAIN_IDS.includes(currentChainId)) toggleChangeNetwork();
       else if (isPayback(transaction)) handleWithdrawFromBSC(transaction);
       else if (!config.CHAIN_BINANCE_IDS.includes(currentChainId))
         setupBinance();
@@ -296,8 +299,20 @@ export const Bridge: React.VFC = () => {
 
       setTransactionToRecieve(transaction.sign);
     },
-    [currentChainId, handleWithDraw, handleWithdrawFromBSC, toggle]
+    [currentChainId, handleWithDraw, handleWithdrawFromBSC, toggleChangeNetwork]
   );
+
+  const handleLostTransaction = async (formValues: { tx: string }) => {
+    const sendTx = config.CHAIN_BINANCE_IDS.includes(currentChainId)
+      ? burgerSwapApi.ethTx
+      : burgerSwapApi.bscTx;
+
+    await sendTx(formValues.tx);
+
+    paybackList.retry();
+    transitList.retry();
+    toggleLostTransaction(false);
+  };
 
   return (
     <MainLayout>
@@ -474,13 +489,28 @@ export const Bridge: React.VFC = () => {
               </Link>
             </Typography>
             <Typography variant="body2" align="center">
-              <Link color="blue" href="/#">
+              <ButtonBase
+                className={classes.lostTransaction}
+                onClick={toggleLostTransaction}
+              >
                 Lost transaction?
-              </Link>
+              </ButtonBase>
             </Typography>
           </div>
         </div>
-        <Modal open={open} onClose={toggle}>
+        <Modal open={lostTransactionOpen} onClose={toggleLostTransaction}>
+          <SmallModal>
+            <BridgeLostTransaction
+              placeholder={
+                config.CHAIN_BINANCE_IDS.includes(currentChainId)
+                  ? 'eth'
+                  : 'bsc'
+              }
+              onSubmit={handleLostTransaction}
+            />
+          </SmallModal>
+        </Modal>
+        <Modal open={changeNetworkOpen} onClose={toggleChangeNetwork}>
           <SmallModal>
             <Typography variant="h4">Change network to mainnet</Typography>
           </SmallModal>
