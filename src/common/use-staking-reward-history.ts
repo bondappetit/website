@@ -1,6 +1,6 @@
 import { useLazyQuery } from './use-query';
 
-const url = 'http://localhost:8080/api';
+const url = 'https://cache.bondappetit.io/api';
 
 const QUERY = `
   query($addresses:[AddressType!]!) {
