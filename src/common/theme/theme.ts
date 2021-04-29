@@ -79,7 +79,7 @@ export const themeModes: Record<
     colors: {
       primary: '#fff',
       secondary: '#121314',
-      tokenTitleLine: '#243aff',
+      tokenTitleLine: '#F3BA2F',
       error: '#eb5757',
       proposalPlate: '#222324',
       docsParagraph: '#D2D3D4',
