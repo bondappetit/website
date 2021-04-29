@@ -330,6 +330,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         onClose={aquireToggle}
         tokenName={props.tokenName}
         depositToken={props.depositToken}
+        token={props.token}
         tokenAddresses={tokenAddresses}
       />
       <StakingAttentionModal

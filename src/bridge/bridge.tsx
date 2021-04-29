@@ -484,7 +484,12 @@ export const Bridge: React.VFC = () => {
             <Typography variant="body2" align="center">
               We use <BurgerSwapLogoIcon className={classes.footerIcon} />{' '}
               BurgerSwap.{' '}
-              <Link color="blue" href="/#">
+              <Link
+                target="_blank"
+                color="blue"
+                href="https://burgerswap.org/transit"
+              >
+                {' '}
                 Learn more
               </Link>
             </Typography>
