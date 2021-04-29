@@ -66,3 +66,4 @@ export * from './add-token-metamask';
 export * from './use-approve';
 export * from './use-batch-request';
 export * from './use-interval-if-has-account';
+export * from './use-staking-reward-history';
