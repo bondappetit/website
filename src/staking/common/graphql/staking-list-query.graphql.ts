@@ -1,7 +1,10 @@
 import { gql } from '@apollo/client';
 
 export const STAKING_LIST_QUERY = gql`
-  query StakingList($filter: StakingListQueryFilterInputType) {
+  query StakingList(
+    $filter: StakingListQueryFilterInputType
+    $userFilter: StakingUserListFilterInputType
+  ) {
     stakingList(filter: $filter) {
       address
       totalSupply
@@ -26,6 +29,15 @@ export const STAKING_LIST_QUERY = gql`
         week
         month
         year
+      }
+      userList(filter: $userFilter) {
+        staking
+        address
+        balance
+        balanceFloat
+        staked
+        earned
+        earnedFloat
       }
     }
   }

@@ -21,12 +21,8 @@ import { useStakingContracts } from './use-staking-contracts';
 import { useTokenContracts } from './use-token-contract';
 
 type StakingToken = {
-  amount: BN;
-  balance: string;
-  reward: BN;
   tokenAddress: string;
   token: string[];
-  rewardInUSDC: BN;
   decimals: string;
   stakingContract: Staking;
   configAddress: string;
@@ -64,20 +60,26 @@ export const useStakingListData = (address?: string, length?: number) => {
 
   const USD = networkConfig.assets.USDC;
 
+  const stakingListQuery = useStakingListQuery({
+    variables: {
+      filter: {
+        address: Object.keys(stakingConfig)
+      },
+      userFilter: account
+        ? {
+            address: [account]
+          }
+        : undefined
+    },
+    pollInterval: config.POLLING_INTERVAL,
+    fetchPolicy: 'no-cache'
+  });
+
   useEffect(() => {
     if (web3Account) {
       setAccount(web3Account);
     }
   }, [web3Account]);
-
-  const stakingListQuery = useStakingListQuery({
-    variables: {
-      filter: {
-        address: Object.keys(stakingConfig)
-      }
-    },
-    pollInterval: config.POLLING_INTERVAL
-  });
 
   const [loadUniswapData, uniswapPairListQuery] = useUniswapPairListLazyQuery();
 
@@ -98,53 +100,26 @@ export const useStakingListData = (address?: string, length?: number) => {
         .call();
       const stakingTokenContract = getTokenContract(stakingTokenAddress);
 
-      const [
-        stakingTokenDecimals,
-        rewardTokenAddress,
-        periodFinish,
-        balance,
-        earned
-      ] = await makeBatchRequest(
+      const [stakingTokenDecimals, periodFinish] = await makeBatchRequest(
         [
           stakingTokenContract.methods.decimals().call,
-          stakingContract.methods.rewardsToken().call,
-          stakingContract.methods.periodFinish().call,
-          account ? stakingContract.methods.balanceOf(account).call : '0',
-          account ? stakingContract.methods.earned(account).call : '0'
+          stakingContract.methods.periodFinish().call
         ],
         account
       );
 
-      const rewardTokenContract = getTokenContract(rewardTokenAddress);
-      const rewardTokenDecimals = await rewardTokenContract.methods
-        .decimals()
-        .call();
-
-      const reward = new BN(earned).div(new BN(10).pow(rewardTokenDecimals));
-      const rewardInUSDC = governanceInUSDC
-        ? new BN(reward)
-            .multipliedBy(governanceInUSDC)
-            .div(new BN(10).pow(USD.decimals))
-        : new BN(0);
-
-      const amount = new BN(balance).div(new BN(10).pow(stakingTokenDecimals));
-
       acc.push({
-        amount,
-        balance,
-        reward,
         periodFinish,
         stakingContract,
         configAddress,
         decimals: stakingTokenDecimals,
         tokenAddress: stakingTokenAddress,
-        token,
-        rewardInUSDC
+        token
       });
 
       return acc;
     }, Promise.resolve([]));
-  }, [address, account, stakingConfig, USD.decimals, governanceInUSDC]);
+  }, [address, account, stakingConfig, USD.decimals]);
 
   const currentBlockNumber = useAsyncRetry(
     async () => library?.eth.getBlockNumber(),
@@ -220,9 +195,13 @@ export const useStakingListData = (address?: string, length?: number) => {
 
         const blockNumber = new BN(currentBlockNumber.value ?? '0');
 
+        const [reward = undefined] = stakingBalance?.userList ?? [];
+
+        const balanceFloat = new BN(reward?.balanceFloat ?? '0');
+
         return {
           id: index,
-          amount: stakingAddress.amount,
+          amount: balanceFloat,
           address: stakingBalance?.address,
           tokenAddress: stakingAddress.tokenAddress,
           apy: new BN(stakingBalance?.apr.year ?? '0')
@@ -243,10 +222,10 @@ export const useStakingListData = (address?: string, length?: number) => {
               : '0',
           totalSupplyFloat: pairItem?.totalSupplyFloat,
           decimals: stakingAddress.decimals,
-          stacked: stakingAddress.amount.isGreaterThan(0),
+          stacked: balanceFloat.isGreaterThan(0),
           token: stakingAddress.token,
           stakingContract: stakingAddress.stakingContract,
-          amountInUSDC: new BN(stakingAddress.amount).multipliedBy(priceUSD),
+          amountInUSDC: new BN(balanceFloat).multipliedBy(priceUSD),
           date: stakingBalance?.unstakingStart.date
         };
       }),
@@ -269,11 +248,17 @@ export const useStakingListData = (address?: string, length?: number) => {
 
   const rewardSum = useMemo(
     () =>
-      stakingAddresses.value?.reduce(
-        (sum, { reward, rewardInUSDC }) => {
+      stakingListQuery.data?.stakingList?.reduce(
+        (sum, { userList }) => {
+          const [reward] = userList;
+
           return {
-            reward: sum.reward.plus(reward),
-            rewardInUSDC: sum.rewardInUSDC.plus(rewardInUSDC)
+            reward: sum.reward.plus(reward?.earnedFloat ?? '0'),
+            rewardInUSDC: sum.rewardInUSDC.plus(
+              new BN(reward?.earnedFloat ?? '0')
+                .multipliedBy(governanceInUSDC ?? '0')
+                .div(new BN(10).pow(USD.decimals))
+            )
           };
         },
         {
@@ -281,7 +266,7 @@ export const useStakingListData = (address?: string, length?: number) => {
           rewardInUSDC: new BN('0')
         }
       ),
-    [stakingAddresses.value]
+    [stakingListQuery.data, governanceInUSDC, USD.decimals]
   );
 
   useIntervalIfHasAccount(stakingAddresses.retry);
