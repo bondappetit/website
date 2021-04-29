@@ -1,40 +1,58 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { BN } from 'src/common';
+import { BN, StakingRewardHistory } from 'src/common';
 
 import { URLS } from 'src/router/urls';
 import { VotingInfoCard } from '../common';
 import { useStakingTotal } from './use-staking-total';
 
-const getSum = (sum?: BN) => {
-  if (!sum) return '0';
-
-  return sum.isLessThan(0) || !sum.isFinite() || sum.isNaN()
-    ? '0'
-    : sum.toFormat(0);
+const getRewardHistorySum = (
+  [sumReward, sumEarned]: [BN, BN],
+  { totalReward, totalEarned }: StakingRewardHistory
+): [BN, BN] => {
+  return [sumReward.plus(totalReward), sumEarned.plus(totalEarned)];
 };
 
 export const VotingStaking: React.VFC = () => {
   const history = useHistory();
+  const stakingRewardHistory = useStakingTotal();
+  let sum = { leftTokens: new BN(0), totalSupplySum: new BN(0) };
+  if (stakingRewardHistory.value) {
+    sum = stakingRewardHistory.value.reduce(
+      (
+        { leftTokens, totalSupplySum },
+        { rewardForDurationFloat, earnedFloat, rewardHistory }
+      ) => {
+        const [
+          totalEarnedSum,
+          totalRewardSum
+        ] = rewardHistory.reduce(getRewardHistorySum, [new BN(0), new BN(0)]);
 
-  const stakingTotal = useStakingTotal();
-
-  const totalSupplySum = getSum(stakingTotal.value?.totalSupplySum);
-
-  const leftTokens = getSum(
-    stakingTotal.value?.totalSupplySum.minus(
-      stakingTotal.value?.distributedSum ?? ''
-    )
-  );
+        return {
+          leftTokens: leftTokens.plus(earnedFloat).plus(totalEarnedSum),
+          totalSupplySum: totalSupplySum
+            .plus(rewardForDurationFloat)
+            .plus(totalRewardSum)
+        };
+      },
+      sum
+    );
+  }
+  const totalSupplySum = sum.totalSupplySum.toFormat(0);
+  const leftTokens = sum.leftTokens.toFormat(0);
+  let percent = new BN(0);
+  if (sum.totalSupplySum.gt(0)) {
+    percent = sum.leftTokens.div(sum.totalSupplySum).multipliedBy(100);
+  }
 
   return (
     <VotingInfoCard
       title="Earn by staking"
       subtitle={`${leftTokens} of ${totalSupplySum} BAG left to earn`}
-      loading={stakingTotal.loading}
+      loading={stakingRewardHistory.loading}
       onClick={() => history.push(URLS.staking.list)}
       buttonTitle="Earn BAG"
-      percent={stakingTotal.value?.percent.toString(10)}
+      percent={percent.toString(10)}
       description={
         'Earn governance tokens as rewards for supporting the protocol’s activities. ' +
         'Buy USDap, stake your assets in liquidity pools and receive BAGs in return.'
