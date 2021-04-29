@@ -1,6 +1,5 @@
+import { config } from 'src/config';
 import { useLazyQuery } from './use-query';
-
-const url = 'https://cache.bondappetit.io/api';
 
 const QUERY = `
   query($addresses:[AddressType!]!) {
@@ -35,6 +34,6 @@ export type StakingRewardPayload = {
 };
 
 export const useStakingRewardHistory = () =>
-  useLazyQuery<StakingRewardPayload>(url, {
+  useLazyQuery<StakingRewardPayload>(config.API_URL ?? '', {
     query: QUERY
   });

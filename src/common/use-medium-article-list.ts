@@ -1,6 +1,5 @@
+import { config } from 'src/config';
 import { useLazyQuery } from './use-query';
-
-const url = 'https://cache.bondappetit.io/api';
 
 const QUERY = `
   query {
@@ -27,6 +26,6 @@ export type ArticlePayload = {
 };
 
 export const useMediumArticleList = () =>
-  useLazyQuery<ArticlePayload>(url, {
+  useLazyQuery<ArticlePayload>(config.API_URL ?? '', {
     query: QUERY
   });
