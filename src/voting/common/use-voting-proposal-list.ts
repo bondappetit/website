@@ -16,7 +16,7 @@ export const useVotingProposalList = (limit?: number) => {
   const networkConfig = useNetworkConfig();
 
   const proposals = useAsyncRetry(async () => {
-    if (!governorContract) return;
+    if (!governorContract || !eventData) return;
 
     const proposalCount = await governorContract.methods.proposalCount().call();
 

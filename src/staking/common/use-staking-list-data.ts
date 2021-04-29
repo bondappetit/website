@@ -1,6 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
 import { useEffect, useMemo, useState } from 'react';
 import { useAsyncRetry, useUpdateEffect } from 'react-use';
+import Web3 from 'web3';
 
 import {
   BN,
@@ -29,6 +30,7 @@ type StakingToken = {
   decimals: string;
   stakingContract: Staking;
   configAddress: string;
+  periodFinish: string;
 };
 
 export type SakingItem = {
@@ -50,7 +52,7 @@ export const useStakingListData = (address?: string, length?: number) => {
   const networkConfig = useNetworkConfig();
   const { stakingConfig, stakingConfigValues } = useStakingConfig(length);
 
-  const { account: web3Account } = useWeb3React();
+  const { account: web3Account, library } = useWeb3React<Web3>();
   const [account, setAccount] = useState(web3Account);
 
   const makeBatchRequest = useBatchRequest();
@@ -99,12 +101,14 @@ export const useStakingListData = (address?: string, length?: number) => {
       const [
         stakingTokenDecimals,
         rewardTokenAddress,
+        periodFinish,
         balance,
         earned
       ] = await makeBatchRequest(
         [
           stakingTokenContract.methods.decimals().call,
           stakingContract.methods.rewardsToken().call,
+          stakingContract.methods.periodFinish().call,
           account ? stakingContract.methods.balanceOf(account).call : '0',
           account ? stakingContract.methods.earned(account).call : '0'
         ],
@@ -129,6 +133,7 @@ export const useStakingListData = (address?: string, length?: number) => {
         amount,
         balance,
         reward,
+        periodFinish,
         stakingContract,
         configAddress,
         decimals: stakingTokenDecimals,
@@ -140,6 +145,11 @@ export const useStakingListData = (address?: string, length?: number) => {
       return acc;
     }, Promise.resolve([]));
   }, [address, account, stakingConfig, USD.decimals, governanceInUSDC]);
+
+  const currentBlockNumber = useAsyncRetry(
+    async () => library?.eth.getBlockNumber(),
+    [library]
+  );
 
   const volume24 = useMemo(
     () =>
@@ -208,6 +218,8 @@ export const useStakingListData = (address?: string, length?: number) => {
           pairItem?.statistic?.totalLiquidityUSD ?? '0'
         ).div(priceItemtotalSupply);
 
+        const blockNumber = new BN(currentBlockNumber.value ?? '0');
+
         return {
           id: index,
           amount: stakingAddress.amount,
@@ -217,7 +229,11 @@ export const useStakingListData = (address?: string, length?: number) => {
             .multipliedBy(100)
             .toString(10),
           lockable: Boolean(stakingBalance?.stakingEnd.block),
-          poolRate: stakingBalance?.poolRate.dailyFloat,
+          poolRate: blockNumber.isGreaterThanOrEqualTo(
+            stakingAddress.periodFinish
+          )
+            ? '0'
+            : stakingBalance?.poolRate.dailyFloat,
           totalValueLocked:
             pairItem && stakingBalance
               ? new BN(pairItem.statistic?.totalLiquidityUSD ?? '0')
@@ -234,7 +250,12 @@ export const useStakingListData = (address?: string, length?: number) => {
           date: stakingBalance?.unstakingStart.date
         };
       }),
-    [stakingAddresses.value, uniswapPairListQuery.data, stakingListQuery.data]
+    [
+      stakingAddresses.value,
+      uniswapPairListQuery.data,
+      stakingListQuery.data,
+      currentBlockNumber.value
+    ]
   );
 
   const totalValueLocked = useMemo(() => {
