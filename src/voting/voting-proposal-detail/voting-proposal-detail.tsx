@@ -91,12 +91,10 @@ export const VotingProposalDetail: React.FC = () => {
                   Number(votingProposalState.value?.status) &&
                   votingProposalState.value?.eta && (
                     <span className={classes.date}>
-                      Queue period{' '}
-                      {dateUtils.countdown(
-                        dateUtils.formatUnix(
-                          Number(votingProposalState.value.eta),
-                          'YYYY-MM-DD HH:mm'
-                        )
+                      Can be executed on{' '}
+                      {dateUtils.formatUnix(
+                        Number(votingProposalState.value.eta),
+                        'DD MMMM YYYY HH:mm'
                       )}
                     </span>
                   )}

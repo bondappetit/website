@@ -204,6 +204,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             </Link>
           </Typography>
           <Tippy
+            key={String(formik.isSubmitting)}
             visible={Boolean(formik.errors.amount)}
             content={formik.errors.amount}
             className={classes.tooltip}
