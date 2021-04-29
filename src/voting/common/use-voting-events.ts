@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { ethers, utils } from 'ethers';
 import { abi as GOV_ABI } from '@bondappetit/networks/abi/GovernorAlpha.json';
+import { useAsyncRetry } from 'react-use';
+import { useWeb3React } from '@web3-react/core';
 
 import { useGovernorContract } from 'src/common';
 import { FormattedEventData } from './voting.types';
@@ -8,12 +10,10 @@ import { FormattedEventData } from './voting.types';
 const eventParser = new ethers.utils.Interface(GOV_ABI);
 
 export const useVotingEvents = () => {
-  const [formattedEvents, setFormattedEvents] = useState<FormattedEventData[]>(
-    []
-  );
   const governorContract = useGovernorContract();
+  const { chainId } = useWeb3React();
 
-  const loadEvents = useCallback(async () => {
+  const events = useAsyncRetry(async () => {
     if (!governorContract) return;
 
     const proposal = await governorContract.methods.proposals('1').call();
@@ -52,23 +52,17 @@ export const useVotingEvents = () => {
       };
     });
 
-    setFormattedEvents(formattedEventData ?? []);
-  }, [governorContract]);
+    return formattedEventData ?? [];
+  }, [governorContract, chainId]);
 
-  useEffect(() => {
-    loadEvents();
-  }, [loadEvents]);
+  return useMemo(() => {
+    return events.value?.reduce<Record<string, FormattedEventData>>(
+      (acc, formattedEvent) => {
+        acc[formattedEvent.proposalId] = formattedEvent;
 
-  return useMemo(
-    () =>
-      formattedEvents.reduce<Record<string, FormattedEventData>>(
-        (acc, formattedEvent) => {
-          acc[formattedEvent.proposalId] = formattedEvent;
-
-          return acc;
-        },
-        {}
-      ),
-    [formattedEvents]
-  );
+        return acc;
+      },
+      {}
+    );
+  }, [events.value]);
 };

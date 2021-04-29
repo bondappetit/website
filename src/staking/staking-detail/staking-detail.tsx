@@ -208,6 +208,7 @@ export const StakingDetail: React.FC = () => {
                   {!loading && showUnstakeButton && account && (
                     <Tippy
                       visible={canUnstake}
+                      key={String(canUnstake)}
                       content="Unstaking not started"
                       maxWidth={200}
                       offset={[0, 25]}

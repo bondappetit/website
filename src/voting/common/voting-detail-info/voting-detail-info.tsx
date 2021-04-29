@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import React from 'react';
 
 import { ReactComponent as CheckedIcon } from 'src/assets/icons/checked.svg';
-import { BN, Typography } from 'src/common';
+import { BN, humanizeNumeral, Typography } from 'src/common';
 import { useVotingDetailInfoStyles } from './voting-detail-info.styles';
 
 export type VotingDetailInfoProps = {
@@ -40,7 +40,7 @@ export const VotingDetailInfo: React.FC<VotingDetailInfoProps> = (props) => {
       </Typography>
       <div className={clsx(classes.separator, classes[props.variant])} />
       <Typography variant="body1" component="div">
-        {props.count?.toString(10) ?? 0} votes
+        {humanizeNumeral(props.count)} votes
       </Typography>
     </div>
   );
