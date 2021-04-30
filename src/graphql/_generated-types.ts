@@ -291,6 +291,16 @@ export type UniswapPairType = {
   statistic?: Maybe<UniswapPairStatisticType>;
 };
 
+export type AddBurgerSwapBridgeTransitMutationVariables = Exact<{
+  input: BurgerSwapBridgeTransitInput;
+}>;
+
+export type AddBurgerSwapBridgeTransitMutation = { __typename?: 'Mutation' } & {
+  addBurgerSwapBridgeTransit: {
+    __typename?: 'BurgerSwapBridgeTransitType';
+  } & Pick<BurgerSwapBridgeTransitType, 'tx' | 'type' | 'owner' | 'createdAt'>;
+};
+
 export type StakingListQueryVariables = Exact<{
   filter?: Maybe<StakingListQueryFilterInputType>;
   userFilter?: Maybe<StakingUserListFilterInputType>;

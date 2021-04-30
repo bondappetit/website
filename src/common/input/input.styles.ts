@@ -37,6 +37,7 @@ export const useInputStyles = createUseStyles(
       lineHeight: 'inherit',
       textAlign: 'inherit',
       height: 'inherit',
+      MozAppearance: 'textfield',
 
       '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
         '-webkit-appearance': 'none',

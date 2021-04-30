@@ -31,7 +31,7 @@ export const useVotingActionSelectStyles = createUseStyles(
         '&:hover': {
           opacity: 1,
           borderRadius: 8,
-          background: theme.colors.lightGrey,
+          background: theme.colors.grey1,
           color: theme.colors.black
         }
       }

@@ -295,6 +295,16 @@ export type UniswapPairType = {
   statistic?: Maybe<UniswapPairStatisticType>;
 };
 
+export type AddBurgerSwapBridgeTransitMutationVariables = Exact<{
+  input: BurgerSwapBridgeTransitInput;
+}>;
+
+export type AddBurgerSwapBridgeTransitMutation = { __typename?: 'Mutation' } & {
+  addBurgerSwapBridgeTransit: {
+    __typename?: 'BurgerSwapBridgeTransitType';
+  } & Pick<BurgerSwapBridgeTransitType, 'tx' | 'type' | 'owner' | 'createdAt'>;
+};
+
 export type StakingListQueryVariables = Exact<{
   filter?: Maybe<StakingListQueryFilterInputType>;
   userFilter?: Maybe<StakingUserListFilterInputType>;
@@ -384,6 +394,60 @@ export type UniswapPairListQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export const AddBurgerSwapBridgeTransitDocument = gql`
+  mutation AddBurgerSwapBridgeTransit($input: BurgerSwapBridgeTransitInput!) {
+    addBurgerSwapBridgeTransit(input: $input) {
+      tx
+      type
+      owner
+      createdAt
+    }
+  }
+`;
+export type AddBurgerSwapBridgeTransitMutationFn = Apollo.MutationFunction<
+  AddBurgerSwapBridgeTransitMutation,
+  AddBurgerSwapBridgeTransitMutationVariables
+>;
+
+/**
+ * __useAddBurgerSwapBridgeTransitMutation__
+ *
+ * To run a mutation, you first call `useAddBurgerSwapBridgeTransitMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddBurgerSwapBridgeTransitMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addBurgerSwapBridgeTransitMutation, { data, loading, error }] = useAddBurgerSwapBridgeTransitMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddBurgerSwapBridgeTransitMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    AddBurgerSwapBridgeTransitMutation,
+    AddBurgerSwapBridgeTransitMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    AddBurgerSwapBridgeTransitMutation,
+    AddBurgerSwapBridgeTransitMutationVariables
+  >(AddBurgerSwapBridgeTransitDocument, options);
+}
+export type AddBurgerSwapBridgeTransitMutationHookResult = ReturnType<
+  typeof useAddBurgerSwapBridgeTransitMutation
+>;
+export type AddBurgerSwapBridgeTransitMutationResult = Apollo.MutationResult<
+  AddBurgerSwapBridgeTransitMutation
+>;
+export type AddBurgerSwapBridgeTransitMutationOptions = Apollo.BaseMutationOptions<
+  AddBurgerSwapBridgeTransitMutation,
+  AddBurgerSwapBridgeTransitMutationVariables
+>;
 export const StakingListDocument = gql`
   query StakingList(
     $filter: StakingListQueryFilterInputType

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useMedia } from 'react-use';
-import { AddTokenMetamask } from 'src/common/add-token-metamask';
 
+import { AddTokenMetamask } from 'src/common/add-token-metamask';
 import { InfoCardWrapper } from '../info-card-wrapper';
 import { useInfoCardSuccessStyles } from './info-card-success.styles';
 

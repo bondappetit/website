@@ -8,7 +8,8 @@ export const useLoaderStyles = createUseStyles(
       justifyContent: 'center',
       position: 'relative',
       width: (props: { width: number }) => props.width,
-      height: (props: { height: number }) => props.height
+      height: (props: { height: number }) => props.height,
+      color: 'inherit'
     }
   },
   {
