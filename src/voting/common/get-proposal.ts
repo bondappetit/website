@@ -13,6 +13,7 @@ export const getProposal = (proposalId: number) => (
 ) => {
   const proposal = await governorContract.methods.proposals(proposalId).call();
   const formattedEvent = eventData[proposalId];
+  const quorumVotes = await governorContract.methods.quorumVotes().call();
 
   const [title] = formattedEvent?.description?.split(TITLE_REGEX) ?? [];
 
@@ -38,6 +39,8 @@ export const getProposal = (proposalId: number) => (
     ),
     startBlock: parseInt(proposal?.startBlock?.toString() ?? '', 10),
     endBlock: parseInt(proposal?.endBlock?.toString() ?? '', 10),
-    details: formattedEvent?.details
+    details: formattedEvent?.details,
+    forVotes: proposal.forVotes,
+    quorumVotes
   };
 };

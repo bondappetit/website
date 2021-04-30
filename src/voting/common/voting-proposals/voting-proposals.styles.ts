@@ -20,7 +20,8 @@ export const useVotingProposalsStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         padding: 32,
         justifyContent: 'space-between',
-        borderRadius: 24
+        borderRadius: 24,
+        alignItems: 'center'
       }
     },
 

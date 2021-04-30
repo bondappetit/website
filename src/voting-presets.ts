@@ -54,7 +54,7 @@ function transferRewardToStaking(
           {
             variable: false,
             type: 'address',
-            value: networkConfig.contracts[stakingContract].address
+            value: networkConfig.contracts[stakingContract]?.address
           },
           {
             variable: true,

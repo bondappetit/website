@@ -102,7 +102,14 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
       support,
       votes
     };
-  }, [governorContract, account, props.proposalId, props.status]);
+  }, [
+    governorContract,
+    account,
+    props.proposalId,
+    props.status,
+    props.againstCount,
+    props.forCount
+  ]);
 
   return (
     <>

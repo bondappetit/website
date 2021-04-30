@@ -91,26 +91,28 @@ export const VotingProposalDetail: React.FC = () => {
                   Number(votingProposalState.value?.status) &&
                   votingProposalState.value?.eta && (
                     <span className={classes.date}>
-                      Queue period{' '}
-                      {dateUtils.countdown(
-                        dateUtils.formatUnix(
-                          Number(votingProposalState.value.eta),
-                          'YYYY-MM-DD HH:mm'
-                        )
+                      Can be executed on{' '}
+                      {dateUtils.formatUnix(
+                        Number(votingProposalState.value.eta),
+                        'DD MMMM YYYY HH:mm'
                       )}
                     </span>
                   )}
               </>
             )}
           </Typography>
-          <Typography
-            variant="subtitle1"
-            weight="light"
-            align="center"
-            component="div"
-          >
-            In order to be applied, the quorum of 4% must be reached
-          </Typography>
+          {!votingProposalState.value?.forCount.isGreaterThanOrEqualTo(
+            votingProposalState.value.quorumVotes ?? '0'
+          ) && (
+            <Typography
+              variant="subtitle1"
+              weight="light"
+              align="center"
+              component="div"
+            >
+              In order to be applied, the quorum of 4% must be reached
+            </Typography>
+          )}
           <VotingDetailsAction
             proposalId={proposalId}
             loading={votingProposalState.loading}
@@ -118,7 +120,7 @@ export const VotingProposalDetail: React.FC = () => {
             forCount={votingProposalState.value?.forCount}
             status={votingProposalState.value?.status}
             againstCount={votingProposalState.value?.againstCount}
-            currentVotes={currentVotes.value}
+            currentVotes={votingProposalState.value?.priorVotes}
             eta={votingProposalState.value?.eta}
           />
           {currentVotes.value?.isEqualTo(0) && (
