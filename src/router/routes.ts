@@ -40,6 +40,7 @@ const Main = React.lazy(() => import('src/main'));
 const VestingSplitter = React.lazy(() => import('src/vesting-splitter'));
 const Playground = React.lazy(() => import('src/playground'));
 const Contracts = React.lazy(() => import('src/contracts'));
+const Bridge = React.lazy(() => import('src/bridge'));
 
 export const routes = [
   {
@@ -125,6 +126,10 @@ export const routes = [
   {
     url: URLS.contract,
     component: Contracts
+  },
+  {
+    url: URLS.bridge,
+    component: Bridge
   },
   {
     component: NotFound

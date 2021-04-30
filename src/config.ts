@@ -11,6 +11,7 @@ if (!defaultNetworkConfig) {
 
 export const config = {
   CHAIN_IDS: [1, 3, 4, 5, 42, 999],
+  CHAIN_BINANCE_IDS: [56],
   ENV: process.env.NODE_ENV,
   IS_DEV: process.env.NODE_ENV === 'development',
   DEFAULT_CHAIN_ID: process.env.REACT_APP_DEFAULT_CHAIN_ID,

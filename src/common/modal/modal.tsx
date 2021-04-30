@@ -5,7 +5,7 @@ import { useUpdateEffect, useKeyPress } from 'react-use';
 import { Portal } from '../portal';
 import { useModalStyles } from './modal.styles';
 import { useBodyScrollLock } from '../use-body-scroll-lock';
-import { ModalContext } from './modal-context';
+import { ModalContext2 } from './modal-context';
 
 export type ModalProps = {
   open: boolean;
@@ -47,12 +47,12 @@ export const Modal: React.VFC<ModalProps> = (props) => {
       <div className={classes.root}>
         <div className={classes.overlay} ref={setOverlayElement} />
         <div className={clsx(classes.child, props.className)}>
-          <ModalContext.Provider value={{ contentRef: setRootElement }}>
+          <ModalContext2.Provider value={{ contentRef: setRootElement }}>
             {React.cloneElement(child, {
               onClose,
               onBack
             })}
-          </ModalContext.Provider>
+          </ModalContext2.Provider>
         </div>
       </div>
     </Portal>

@@ -23,10 +23,10 @@ export const useContactsNewsFloatStyles = createUseStyles(
     },
 
     success: {
-      backgroundColor: theme.colors.superGreen,
+      backgroundColor: theme.colors.green1,
 
       '& $button': {
-        color: theme.colors.superGreen
+        color: theme.colors.green1
       }
     },
 

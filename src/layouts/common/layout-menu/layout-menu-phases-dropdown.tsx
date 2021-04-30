@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
-import { Typography } from 'src/common';
 
+import { Typography } from 'src/common';
 import { useLayoutMenuStyles } from './layout-menu.styles';
 
 const PHASES = [

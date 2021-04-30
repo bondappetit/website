@@ -22,16 +22,77 @@ export type Scalars = {
   AddressType: string;
   /** Дата и время */
   DateTimeType: string;
+  /** Ethereum transaction hash */
+  TxHashType: any;
+};
+
+export type BurgerSwapBridgeTransitInput = {
+  /** Transaction hash */
+  tx: Scalars['TxHashType'];
+  /** Wallet address of transaction owner */
+  owner: Scalars['AddressType'];
+  /** Transit type */
+  type: BurgerSwapBridgeTransitTypeEnum;
+};
+
+export type BurgerSwapBridgeTransitType = {
+  __typename?: 'BurgerSwapBridgeTransitType';
+  /** Transaction hash */
+  tx: Scalars['TxHashType'];
+  /** Transit type */
+  type: BurgerSwapBridgeTransitTypeEnum;
+  /** Wallet address of transaction owner */
+  owner: Scalars['AddressType'];
+  /** Created at date */
+  createdAt: Scalars['DateTimeType'];
+};
+
+export enum BurgerSwapBridgeTransitTypeEnum {
+  /** Withdraw BEP20 on Binance */
+  BscWithdraw = 'bscWithdraw',
+  /** Withdraw ERC20 on Ethereum */
+  EthTransit = 'ethTransit'
+}
+
+export type MediumPostType = {
+  __typename?: 'MediumPostType';
+  /** Global unique id */
+  guid: Scalars['String'];
+  /** Title */
+  title: Scalars['String'];
+  /** Publication date */
+  pubDate: Scalars['DateTimeType'];
+  /** Link */
+  link: Scalars['String'];
+  /** Author */
+  author: Scalars['String'];
+  /** Thumbnail */
+  thumbnail: Scalars['String'];
+  /** Description */
+  description: Scalars['String'];
+  /** Content */
+  content: Scalars['String'];
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  addBurgerSwapBridgeTransit: BurgerSwapBridgeTransitType;
+};
+
+export type MutationAddBurgerSwapBridgeTransitArgs = {
+  input: BurgerSwapBridgeTransitInput;
 };
 
 export type Query = {
   __typename?: 'Query';
+  getTVL: Scalars['String'];
   token: TokenPayload;
   tokenList: Array<TokenType>;
   uniswapPair: UniswapPairPayload;
   uniswapPairList: Array<UniswapPairType>;
   staking: StakingPayload;
   stakingList: Array<StakingType>;
+  mediumPostList: Array<MediumPostType>;
 };
 
 export type QueryTokenArgs = {
@@ -120,6 +181,11 @@ export type StakingType = {
   stakingEnd: StakingStakingEndType;
   unstakingStart: StakingUnstakingStartType;
   apr: StakingAprType;
+  userList: Array<StakingUserType>;
+};
+
+export type StakingTypeUserListArgs = {
+  filter?: Maybe<StakingUserListFilterInputType>;
 };
 
 export type StakingUnstakingStartType = {
@@ -128,6 +194,29 @@ export type StakingUnstakingStartType = {
   block?: Maybe<Scalars['String']>;
   /** Date of start unstaking */
   date?: Maybe<Scalars['DateTimeType']>;
+};
+
+export type StakingUserListFilterInputType = {
+  /** List of target wallets */
+  address?: Maybe<Array<Scalars['AddressType']>>;
+};
+
+export type StakingUserType = {
+  __typename?: 'StakingUserType';
+  /** Staking contract address */
+  staking: Scalars['AddressType'];
+  /** User wallet address */
+  address: Scalars['AddressType'];
+  /** Staking balance */
+  balance: Scalars['String'];
+  /** Staking balance normalize */
+  balanceFloat: Scalars['String'];
+  /** Is staked */
+  staked: Scalars['Boolean'];
+  /** Earned balance */
+  earned: Scalars['String'];
+  /** Earned balance normalize */
+  earnedFloat: Scalars['String'];
 };
 
 export type TokenListQueryFilterInputType = {
@@ -206,6 +295,16 @@ export type UniswapPairType = {
   statistic?: Maybe<UniswapPairStatisticType>;
 };
 
+export type AddBurgerSwapBridgeTransitMutationVariables = Exact<{
+  input: BurgerSwapBridgeTransitInput;
+}>;
+
+export type AddBurgerSwapBridgeTransitMutation = { __typename?: 'Mutation' } & {
+  addBurgerSwapBridgeTransit: {
+    __typename?: 'BurgerSwapBridgeTransitType';
+  } & Pick<BurgerSwapBridgeTransitType, 'tx' | 'type' | 'owner' | 'createdAt'>;
+};
+
 export type StakingListQueryVariables = Exact<{
   filter?: Maybe<StakingListQueryFilterInputType>;
 }>;
@@ -282,6 +381,60 @@ export type UniswapPairListQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export const AddBurgerSwapBridgeTransitDocument = gql`
+  mutation AddBurgerSwapBridgeTransit($input: BurgerSwapBridgeTransitInput!) {
+    addBurgerSwapBridgeTransit(input: $input) {
+      tx
+      type
+      owner
+      createdAt
+    }
+  }
+`;
+export type AddBurgerSwapBridgeTransitMutationFn = Apollo.MutationFunction<
+  AddBurgerSwapBridgeTransitMutation,
+  AddBurgerSwapBridgeTransitMutationVariables
+>;
+
+/**
+ * __useAddBurgerSwapBridgeTransitMutation__
+ *
+ * To run a mutation, you first call `useAddBurgerSwapBridgeTransitMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useAddBurgerSwapBridgeTransitMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [addBurgerSwapBridgeTransitMutation, { data, loading, error }] = useAddBurgerSwapBridgeTransitMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useAddBurgerSwapBridgeTransitMutation(
+  baseOptions?: ApolloReactHooks.MutationHookOptions<
+    AddBurgerSwapBridgeTransitMutation,
+    AddBurgerSwapBridgeTransitMutationVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useMutation<
+    AddBurgerSwapBridgeTransitMutation,
+    AddBurgerSwapBridgeTransitMutationVariables
+  >(AddBurgerSwapBridgeTransitDocument, options);
+}
+export type AddBurgerSwapBridgeTransitMutationHookResult = ReturnType<
+  typeof useAddBurgerSwapBridgeTransitMutation
+>;
+export type AddBurgerSwapBridgeTransitMutationResult = Apollo.MutationResult<
+  AddBurgerSwapBridgeTransitMutation
+>;
+export type AddBurgerSwapBridgeTransitMutationOptions = Apollo.BaseMutationOptions<
+  AddBurgerSwapBridgeTransitMutation,
+  AddBurgerSwapBridgeTransitMutationVariables
+>;
 export const StakingListDocument = gql`
   query StakingList($filter: StakingListQueryFilterInputType) {
     stakingList(filter: $filter) {

@@ -12,7 +12,7 @@ import {
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 
-import { ThemeProvider, globalStyles } from './common';
+import { ThemeProvider, globalStyles, ModalProvider } from './common';
 import { App } from './app';
 import { config } from './config';
 import { chainIdVar } from './cache';
@@ -50,7 +50,9 @@ ReactDOM.render(
           <JssProvider jss={jss}>
             <ThemeProvider>
               <ErrorBoundary>
-                <App />
+                <ModalProvider>
+                  <App />
+                </ModalProvider>
               </ErrorBoundary>
             </ThemeProvider>
           </JssProvider>
