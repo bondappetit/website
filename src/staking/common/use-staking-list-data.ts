@@ -3,12 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAsyncRetry, useUpdateEffect } from 'react-use';
 import Web3 from 'web3';
 
-import {
-  BN,
-  useBatchRequest,
-  useIntervalIfHasAccount,
-  useNetworkConfig
-} from 'src/common';
+import { BN, useIntervalIfHasAccount, useNetworkConfig } from 'src/common';
 import { config } from 'src/config';
 import type { Staking } from 'src/generate/Staking';
 import {
@@ -18,7 +13,6 @@ import {
 import { useStakingConfig } from 'src/staking-config';
 import { useGovernanceCost } from './use-governance-cost';
 import { useStakingContracts } from './use-staking-contracts';
-import { useTokenContracts } from './use-token-contract';
 
 type StakingToken = {
   tokenAddress: string;
@@ -26,7 +20,6 @@ type StakingToken = {
   decimals: string;
   stakingContract: Staking;
   configAddress: string;
-  periodFinish: string;
 };
 
 export type SakingItem = {
@@ -48,13 +41,10 @@ export const useStakingListData = (address?: string, length?: number) => {
   const networkConfig = useNetworkConfig();
   const { stakingConfig, stakingConfigValues } = useStakingConfig(length);
 
-  const { account: web3Account, library } = useWeb3React<Web3>();
+  const { account: web3Account } = useWeb3React<Web3>();
   const [account, setAccount] = useState(web3Account);
 
-  const makeBatchRequest = useBatchRequest();
-
   const getStakingContract = useStakingContracts();
-  const getTokenContract = useTokenContracts();
 
   const { governanceInUSDC } = useGovernanceCost();
 
@@ -63,7 +53,7 @@ export const useStakingListData = (address?: string, length?: number) => {
   const stakingListQuery = useStakingListQuery({
     variables: {
       filter: {
-        address: Object.keys(stakingConfig)
+        address: address ? [address] : Object.keys(stakingConfig)
       },
       userFilter: account
         ? {
@@ -98,18 +88,12 @@ export const useStakingListData = (address?: string, length?: number) => {
       const stakingTokenAddress = await stakingContract.methods
         .stakingToken()
         .call();
-      const stakingTokenContract = getTokenContract(stakingTokenAddress);
 
-      const [stakingTokenDecimals, periodFinish] = await makeBatchRequest(
-        [
-          stakingTokenContract.methods.decimals().call,
-          stakingContract.methods.periodFinish().call
-        ],
-        account
-      );
+      const stakingTokenDecimals = await stakingContract.methods
+        .periodFinish()
+        .call();
 
       acc.push({
-        periodFinish,
         stakingContract,
         configAddress,
         decimals: stakingTokenDecimals,
@@ -120,11 +104,6 @@ export const useStakingListData = (address?: string, length?: number) => {
       return acc;
     }, Promise.resolve([]));
   }, [address, account, stakingConfig, USD.decimals]);
-
-  const currentBlockNumber = useAsyncRetry(
-    async () => library?.eth.getBlockNumber(),
-    [library]
-  );
 
   const volume24 = useMemo(
     () =>
@@ -193,8 +172,6 @@ export const useStakingListData = (address?: string, length?: number) => {
           pairItem?.statistic?.totalLiquidityUSD ?? '0'
         ).div(priceItemtotalSupply);
 
-        const blockNumber = new BN(currentBlockNumber.value ?? '0');
-
         const [reward = undefined] = stakingBalance?.userList ?? [];
 
         const balanceFloat = new BN(reward?.balanceFloat ?? '0');
@@ -208,11 +185,7 @@ export const useStakingListData = (address?: string, length?: number) => {
             .multipliedBy(100)
             .toString(10),
           lockable: Boolean(stakingBalance?.stakingEnd.block),
-          poolRate: blockNumber.isGreaterThanOrEqualTo(
-            stakingAddress.periodFinish
-          )
-            ? '0'
-            : stakingBalance?.poolRate.dailyFloat,
+          poolRate: stakingBalance?.poolRate.dailyFloat,
           totalValueLocked:
             pairItem && stakingBalance
               ? new BN(pairItem.statistic?.totalLiquidityUSD ?? '0')
@@ -222,19 +195,14 @@ export const useStakingListData = (address?: string, length?: number) => {
               : '0',
           totalSupplyFloat: pairItem?.totalSupplyFloat,
           decimals: stakingAddress.decimals,
-          stacked: balanceFloat.isGreaterThan(0),
+          stacked: Boolean(reward?.staked),
           token: stakingAddress.token,
           stakingContract: stakingAddress.stakingContract,
           amountInUSDC: new BN(balanceFloat).multipliedBy(priceUSD),
           date: stakingBalance?.unstakingStart.date
         };
       }),
-    [
-      stakingAddresses.value,
-      uniswapPairListQuery.data,
-      stakingListQuery.data,
-      currentBlockNumber.value
-    ]
+    [stakingAddresses.value, uniswapPairListQuery.data, stakingListQuery.data]
   );
 
   const totalValueLocked = useMemo(() => {
