@@ -7,6 +7,7 @@ import { FortmaticConnector } from '@web3-react/fortmatic-connector';
 import { PortisConnector } from '@web3-react/portis-connector';
 import { TrezorConnector } from '@web3-react/trezor-connector';
 import React from 'react';
+import { BscConnector } from '@binance-chain/bsc-connector';
 
 import { ReactComponent as MetaMaskIcon } from 'src/assets/icons/metamask.svg';
 import { ReactComponent as LedgerIcon } from 'src/assets/icons/ledger.svg';
@@ -16,20 +17,21 @@ import { ReactComponent as FortmaticIcon } from 'src/assets/icons/fortmatic-wall
 import { ReactComponent as PortisIcon } from 'src/assets/icons/portis-wallet.svg';
 import { ReactComponent as TrustIcon } from 'src/assets/icons/trustwallet.svg';
 import { ReactComponent as TrezorIcon } from 'src/assets/icons/trezor-wallet.svg';
+import { ReactComponent as BinanceIcon } from 'src/assets/icons/binance-wallet.svg';
 import { config } from 'src/config';
 
 export const injected = new InjectedConnector({
-  supportedChainIds: config.CHAIN_IDS
+  supportedChainIds: [...config.CHAIN_IDS, ...config.CHAIN_BINANCE_IDS]
 });
 
 export const ledger = new LedgerConnector({
-  chainId: config.CHAIN_IDS[0],
+  chainId: config.DEFAULT_NETWORK_CONFIG.networkId,
   url: config.DEFAULT_NETWORK_CONFIG.networkUrl,
   pollingInterval: config.POLLING_INTERVAL
 });
 
 export const trezor = new TrezorConnector({
-  chainId: config.CHAIN_IDS[0],
+  chainId: config.DEFAULT_NETWORK_CONFIG.networkId,
   url: config.DEFAULT_NETWORK_CONFIG.networkUrl,
   pollingInterval: config.POLLING_INTERVAL,
   manifestEmail: config.TREZOR_EMAIL,
@@ -50,12 +52,16 @@ export const walletconnect = new WalletConnectConnector({
 
 export const fortmatic = new FortmaticConnector({
   apiKey: config.FORTMATIC_KEY ?? '',
-  chainId: config.CHAIN_IDS[0]
+  chainId: config.DEFAULT_NETWORK_CONFIG.networkId
 });
 
 export const portis = new PortisConnector({
   dAppId: config.PORTIS_ID ?? '',
-  networks: [config.CHAIN_IDS[0]]
+  networks: [config.DEFAULT_NETWORK_CONFIG.networkId]
+});
+
+export const binance = new BscConnector({
+  supportedChainIds: [...config.CHAIN_IDS, ...config.CHAIN_BINANCE_IDS]
 });
 
 enum ConnectorNames {
@@ -66,7 +72,8 @@ enum ConnectorNames {
   WalletConnect = 'WalletConnect',
   Fortmatic = 'Fortmatic',
   Portis = 'Portis',
-  Trezor = 'Trezor'
+  Trezor = 'Trezor',
+  Binance = 'Binance'
 }
 
 export const connectorsByName: Record<
@@ -96,6 +103,10 @@ export const connectorsByName: Record<
   [ConnectorNames.WalletConnect]: {
     connector: walletconnect,
     logo: WalletConnectIcon
+  },
+  [ConnectorNames.Binance]: {
+    connector: binance,
+    logo: BinanceIcon
   },
   [ConnectorNames.Fortmatic]: {
     connector: fortmatic,

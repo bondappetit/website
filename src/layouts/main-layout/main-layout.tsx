@@ -71,8 +71,8 @@ export const MainLayout: React.FC = (props) => {
       <LinkModal
         open={linkModalOpen}
         onClose={togglelinkModal}
-        tokenName={networkConfig.assets.Governance.symbol}
-        tokenAddress={networkConfig.assets.Governance.address}
+        tokenName={networkConfig.assets.Governance?.symbol}
+        tokenAddress={networkConfig.assets.Governance?.address}
         withBuyInvestment
         onBuyInvestment={handleAttention}
       />

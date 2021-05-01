@@ -14,7 +14,7 @@ export const useCollateralCheckStyles = createUseStyles(
     },
 
     valid: {
-      color: theme.colors.superGreen
+      color: theme.colors.green1
     },
 
     description: {

@@ -5,7 +5,7 @@ import { ReactComponent as CloseIcon } from 'src/assets/icons/close-24.svg';
 import { ReactComponent as ArrowLeft } from 'src/assets/icons/arrow-left.svg';
 import { ButtonBase } from 'src/common/button-base';
 import { useSmallModalStyles } from './small-modal.styles';
-import { useModalContext } from '../modal-context';
+import { useModalContext2 } from '../modal-context';
 
 export type SmallModalProps = {
   onClose?: () => void;
@@ -20,7 +20,7 @@ export const SmallModal = React.forwardRef<HTMLDivElement, SmallModalProps>(
   (props, ref) => {
     const classes = useSmallModalStyles();
 
-    const modalContext = useModalContext();
+    const modalContext = useModalContext2();
 
     return (
       <div

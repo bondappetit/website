@@ -36,7 +36,7 @@ export const useCollateralPublicKeyStyles = createUseStyles(
     },
 
     green: {
-      color: theme.colors.superGreen
+      color: theme.colors.green1
     },
 
     text: {
