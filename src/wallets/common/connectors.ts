@@ -17,7 +17,7 @@ import { ReactComponent as FortmaticIcon } from 'src/assets/icons/fortmatic-wall
 import { ReactComponent as PortisIcon } from 'src/assets/icons/portis-wallet.svg';
 import { ReactComponent as TrustIcon } from 'src/assets/icons/trustwallet.svg';
 import { ReactComponent as TrezorIcon } from 'src/assets/icons/trezor-wallet.svg';
-import { ReactComponent as BinanceIcon } from 'src/assets/icons/binance-wallet.svg';
+// import { ReactComponent as BinanceIcon } from 'src/assets/icons/binance-wallet.svg';
 import { config } from 'src/config';
 
 export const injected = new InjectedConnector({
@@ -72,8 +72,8 @@ enum ConnectorNames {
   WalletConnect = 'WalletConnect',
   Fortmatic = 'Fortmatic',
   Portis = 'Portis',
-  Trezor = 'Trezor',
-  Binance = 'Binance'
+  Trezor = 'Trezor'
+  // Binance = 'Binance'
 }
 
 export const connectorsByName: Record<
@@ -104,10 +104,10 @@ export const connectorsByName: Record<
     connector: walletconnect,
     logo: WalletConnectIcon
   },
-  [ConnectorNames.Binance]: {
-    connector: binance,
-    logo: BinanceIcon
-  },
+  // [ConnectorNames.Binance]: {
+  //   connector: binance,
+  //   logo: BinanceIcon
+  // },
   [ConnectorNames.Fortmatic]: {
     connector: fortmatic,
     logo: FortmaticIcon
