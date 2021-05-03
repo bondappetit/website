@@ -39,7 +39,7 @@ export const VotingStaking: React.VFC = () => {
     );
   }
   const totalSupplySum = sum.totalSupplySum.toFormat(0);
-  const leftTokens = sum.leftTokens.toFormat(0);
+  const leftTokens = sum.totalSupplySum.minus(sum.leftTokens).toFormat(0);
   let percent = new BN(0);
   if (sum.totalSupplySum.gt(0)) {
     percent = sum.leftTokens.div(sum.totalSupplySum).multipliedBy(100);

@@ -25,7 +25,7 @@ export type LinkModalProps = {
   tokenName: string;
 };
 
-const UNISWAP_URL = 'https://app.uniswap.org/#/swap';
+const INCH_URL = 'https://app.1inch.io/#/1/swap';
 
 export const LinkModal: React.FC<LinkModalProps> = (props) => {
   const classes = useLinkModalStyles();
@@ -96,7 +96,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
             <Button
               variant="outlined"
               component={Link}
-              href={`${UNISWAP_URL}?inputCurrency=${networkConfig.assets.USDC.address}&outputCurrency=${props.tokenAddress}`}
+              href={`${INCH_URL}/${networkConfig.assets.USDT.symbol}/${props.tokenName}`}
               target="_blank"
               className={classes.button}
             >
