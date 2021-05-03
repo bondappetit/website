@@ -75,6 +75,8 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
   const [approve, approvalNeeded] = useApprove();
 
+  const currentChainId = Number(chainId ?? config.DEFAULT_CHAIN_ID);
+
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
   });
@@ -203,17 +205,19 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     ? aquireToggle
     : undefined;
 
-  const currentChainId = Number(chainId ?? config.DEFAULT_CHAIN_ID);
-
   return (
     <>
       <form onSubmit={formik.handleSubmit} className={classes.root} noValidate>
         <div>
           <Typography variant="body1" align="center" className={classes.title}>
             Stake your{' '}
-            <Link href={tokenAddresses} target="_blank" color="blue">
-              {props.loading ? '...' : props.tokenName}
-            </Link>
+            {config.CHAIN_IDS.includes(Number(props.chainId)) ? (
+              <Link href={tokenAddresses} target="_blank" color="blue">
+                {props.loading ? '...' : props.tokenName}
+              </Link>
+            ) : (
+              props.token?.join('_')
+            )}
           </Typography>
           <Tippy
             key={String(formik.isSubmitting)}

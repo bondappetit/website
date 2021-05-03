@@ -26,6 +26,7 @@ import {
 } from 'src/staking/common';
 import { useStakingConfig } from 'src/staking-config';
 import { WalletButtonWithFallback } from 'src/wallets';
+import { config } from 'src/config';
 import { StakingLockForm } from '../staking-lock-form';
 import { useStakingDetailStyles } from './staking-detail.styles';
 
@@ -165,7 +166,20 @@ export const StakingDetail: React.FC = () => {
                     align="center"
                     className={classes.cardTitle}
                   >
-                    You staked {loading ? '...' : tokenName}
+                    You staked{' '}
+                    {loading ? (
+                      '...'
+                    ) : (
+                      <>
+                        {config.CHAIN_IDS.includes(
+                          Number(
+                            stakingItem?.chaindId ?? config.DEFAULT_CHAIN_ID
+                          )
+                        )
+                          ? tokenName
+                          : stakingItem?.token.join('_')}
+                      </>
+                    )}
                   </Typography>
                   <Typography variant="h2" align="center">
                     {stakingItem?.amount.isNaN() ||
