@@ -460,6 +460,34 @@ export type TokenListFilterQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type TokenPriceQueryVariables = Exact<{
+  filter: TokenQueryFilterInputType;
+}>;
+
+export type TokenPriceQuery = { __typename?: 'Query' } & {
+  token: { __typename?: 'TokenPayload' } & {
+    data?: Maybe<
+      { __typename?: 'TokenType' } & Pick<
+        TokenType,
+        | 'address'
+        | 'name'
+        | 'symbol'
+        | 'decimals'
+        | 'totalSupply'
+        | 'totalSupplyFloat'
+        | 'priceUSD'
+      > & {
+          statistic?: Maybe<
+            { __typename?: 'TokenStatisticType' } & Pick<
+              TokenStatisticType,
+              'dailyVolumeUSD' | 'totalLiquidityUSD'
+            >
+          >;
+        }
+    >;
+  };
+};
+
 export type UniswapPairListQueryVariables = Exact<{
   filter?: Maybe<UniswapPairListQueryFilterInputType>;
 }>;
@@ -811,6 +839,74 @@ export type TokenListFilterLazyQueryHookResult = ReturnType<
 export type TokenListFilterQueryResult = Apollo.QueryResult<
   TokenListFilterQuery,
   TokenListFilterQueryVariables
+>;
+export const TokenPriceDocument = gql`
+  query TokenPrice($filter: TokenQueryFilterInputType!) {
+    token(filter: $filter) {
+      data {
+        address
+        name
+        symbol
+        decimals
+        totalSupply
+        totalSupplyFloat
+        priceUSD
+        statistic {
+          dailyVolumeUSD
+          totalLiquidityUSD
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useTokenPriceQuery__
+ *
+ * To run a query within a React component, call `useTokenPriceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTokenPriceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTokenPriceQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useTokenPriceQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    TokenPriceQuery,
+    TokenPriceQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<TokenPriceQuery, TokenPriceQueryVariables>(
+    TokenPriceDocument,
+    options
+  );
+}
+export function useTokenPriceLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    TokenPriceQuery,
+    TokenPriceQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    TokenPriceQuery,
+    TokenPriceQueryVariables
+  >(TokenPriceDocument, options);
+}
+export type TokenPriceQueryHookResult = ReturnType<typeof useTokenPriceQuery>;
+export type TokenPriceLazyQueryHookResult = ReturnType<
+  typeof useTokenPriceLazyQuery
+>;
+export type TokenPriceQueryResult = Apollo.QueryResult<
+  TokenPriceQuery,
+  TokenPriceQueryVariables
 >;
 export const UniswapPairListDocument = gql`
   query UniswapPairList($filter: UniswapPairListQueryFilterInputType) {

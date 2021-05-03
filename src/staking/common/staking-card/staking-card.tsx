@@ -25,12 +25,24 @@ export type StakingCardProps = {
   lockable?: boolean;
   loading?: boolean;
   date?: string | null;
+  chainId?: number;
 };
 
 export const StakingCard: React.FC<StakingCardProps> = (props) => {
   const tokenName = useMemo(() => props.token?.join('_'), [props.token]);
 
   const classes = useStakingCardStyles();
+
+  const networkName = useMemo(() => {
+    const chains: Record<number, string> = {
+      1: 'Ethereum',
+      56: 'Binance Smart Chain'
+    };
+
+    if (!props.chainId) return;
+
+    return chains[props.chainId];
+  }, [props.chainId]);
 
   return (
     <Link
@@ -98,6 +110,14 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
         <StakingLabel
           title="Unstaking on"
           value={dateUtils.format(props.date ?? '')}
+          variant="body1"
+          loading={Boolean(props.loading)}
+        />
+      )}
+      {networkName && (
+        <StakingLabel
+          title="Network"
+          value={networkName}
           variant="body1"
           loading={Boolean(props.loading)}
         />

@@ -53,7 +53,7 @@ export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalPr
   const [failureOpen, failureToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
 
-  const { governanceInUSDC } = useGovernanceCost();
+  const governanceInUSDC = useGovernanceCost();
 
   const [approve, approvalNeeded] = useApprove();
 

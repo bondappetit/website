@@ -11,3 +11,4 @@ export * from './staking-info';
 export * from './use-volume-info';
 export * from './staking-label';
 export * from './use-staking-list-data';
+export * from './staking-empty';

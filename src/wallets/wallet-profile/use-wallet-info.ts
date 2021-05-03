@@ -1,5 +1,4 @@
 import { useWeb3React } from '@web3-react/core';
-import { useMemo } from 'react';
 import { useAsyncRetry } from 'react-use';
 
 import {
@@ -19,15 +18,7 @@ export const useWalletInfo = () => {
 
   const getBalance = useBalance();
 
-  const { governanceInUSDC } = useGovernanceCost();
-
-  const normalizeGovernanceInUSDC = useMemo(() => {
-    if (!governanceInUSDC) return new BN('0');
-
-    return new BN(governanceInUSDC).div(
-      new BN(10).pow(networkConfig.assets.USDC.decimals)
-    );
-  }, [governanceInUSDC, networkConfig.assets.USDC.decimals]);
+  const governanceInUSDC = useGovernanceCost();
 
   const state = useAsyncRetry(async () => {
     if (!governanceContract || !account || !governanceInUSDC) return;
@@ -49,14 +40,9 @@ export const useWalletInfo = () => {
       .div(new BN(10).pow(asset.decimals))
       .minus(unstakedBAG);
 
-    const USD = networkConfig.assets.USDC;
-    const unstakedInUSDC = unstakedInBAG
-      .multipliedBy(governanceInUSDC)
-      .div(new BN(10).pow(USD.decimals));
+    const unstakedInUSDC = unstakedInBAG.multipliedBy(governanceInUSDC);
 
-    const lockedUSDC = unstakedBAG
-      .multipliedBy(governanceInUSDC)
-      .div(new BN(10).pow(USD.decimals));
+    const lockedUSDC = unstakedBAG.multipliedBy(governanceInUSDC);
 
     return {
       unstaked: {
@@ -79,6 +65,6 @@ export const useWalletInfo = () => {
 
   return {
     state,
-    governanceInUSDC: normalizeGovernanceInUSDC
+    governanceInUSDC
   };
 };

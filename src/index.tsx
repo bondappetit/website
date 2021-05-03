@@ -24,7 +24,7 @@ jss.createStyleSheet(globalStyles).attach();
 
 const chainIdLink = setContext((_, { headers }) => ({
   headers: {
-    'chain-id': chainIdVar(),
+    'chain-id': config.DEFAULT_NETWORK_CONFIG.networkId,
     ...headers
   }
 }));

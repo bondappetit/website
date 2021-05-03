@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useFormik } from 'formik';
+import { useWeb3React } from '@web3-react/core';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
 import Tippy from '@tippyjs/react';
@@ -18,11 +19,15 @@ import {
   Skeleton,
   useApprove,
   reset,
-  approveAll
+  approveAll,
+  Button,
+  useChangeNetworkModal,
+  setupBinance
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { WalletButtonWithFallback } from 'src/wallets';
 import { analytics } from 'src/analytics';
+import { config } from 'src/config';
 import {
   StakingAcquireModal,
   StakingAttentionModal,
@@ -45,6 +50,7 @@ export type StakingLockFormProps = {
   unstakingStartBlock?: BN;
   lockable?: boolean;
   depositToken?: string;
+  chainId?: number;
 };
 
 const UNISWAP_URL = 'https://app.uniswap.org/#/add/';
@@ -56,6 +62,10 @@ const delay = (ms: number) =>
 
 export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const classes = useStakingLockFormStyles();
+
+  const { chainId } = useWeb3React();
+
+  const [openChangeNetwork] = useChangeNetworkModal();
 
   const [aquireOpen, aquireToggle] = useToggle(false);
   const [stakingAttentionOpen, toggleStakingAttention] = useToggle(false);
@@ -193,6 +203,8 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     ? aquireToggle
     : undefined;
 
+  const currentChainId = Number(chainId ?? config.DEFAULT_CHAIN_ID);
+
   return (
     <>
       <form onSubmit={formik.handleSubmit} className={classes.root} noValidate>
@@ -268,61 +280,76 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
           <Skeleton className={classes.skeleton} />
         ) : (
           <>
-            {props.unstakingStartBlock?.isGreaterThan(0) && (
-              <WalletButtonWithFallback
+            {account && props.chainId !== currentChainId && (
+              <Button
                 type="button"
-                disabled={formik.isSubmitting}
-                loading={formik.isSubmitting}
-                key={approve.value?.allowance.toString(10)}
                 onClick={
-                  new BN(formik.values.amount || '0').isGreaterThan(0) &&
-                  props.balanceOfToken.isGreaterThan(0)
-                    ? toggleStakingAttention
-                    : addLiquidity
+                  chainId && config.CHAIN_IDS.includes(currentChainId)
+                    ? setupBinance
+                    : openChangeNetwork
                 }
+                className={classes.changeNetwork}
               >
-                {props.balanceOfToken.isGreaterThan(0) ? (
-                  <>
-                    {(!approve.value?.approve && !approve.value?.reset) ||
-                    new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
-                      ? 'Stake'
-                      : 'Approve'}
-                  </>
-                ) : (
-                  'Add liquidity'
-                )}
-              </WalletButtonWithFallback>
+                Change Network
+              </Button>
             )}
-            {props.unstakingStartBlock?.isLessThanOrEqualTo(0) && (
-              <WalletButtonWithFallback
-                type={
-                  new BN(formik.values.amount || '0').isGreaterThan(0) &&
-                  props.balanceOfToken.isGreaterThan(0)
-                    ? 'submit'
-                    : 'button'
-                }
-                disabled={formik.isSubmitting}
-                loading={formik.isSubmitting}
-                key={approve.value?.allowance.toString(10)}
-                onClick={
-                  new BN(formik.values.amount || '0').isGreaterThan(0) &&
-                  props.balanceOfToken.isGreaterThan(0)
-                    ? undefined
-                    : addLiquidity
-                }
-              >
-                {props.balanceOfToken.isGreaterThan(0) ? (
-                  <>
-                    {(!approve.value?.approve && !approve.value?.reset) ||
-                    new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
-                      ? 'Stake'
-                      : 'Approve'}
-                  </>
-                ) : (
-                  'Add liquidity'
-                )}
-              </WalletButtonWithFallback>
-            )}
+            {props.unstakingStartBlock?.isGreaterThan(0) &&
+              props.chainId === currentChainId && (
+                <WalletButtonWithFallback
+                  type="button"
+                  disabled={formik.isSubmitting}
+                  loading={formik.isSubmitting}
+                  key={approve.value?.allowance.toString(10)}
+                  onClick={
+                    new BN(formik.values.amount || '0').isGreaterThan(0) &&
+                    props.balanceOfToken.isGreaterThan(0)
+                      ? toggleStakingAttention
+                      : addLiquidity
+                  }
+                >
+                  {props.balanceOfToken.isGreaterThan(0) ? (
+                    <>
+                      {(!approve.value?.approve && !approve.value?.reset) ||
+                      new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
+                        ? 'Stake'
+                        : 'Approve'}
+                    </>
+                  ) : (
+                    'Add liquidity'
+                  )}
+                </WalletButtonWithFallback>
+              )}
+            {props.unstakingStartBlock?.isLessThanOrEqualTo(0) &&
+              props.chainId === currentChainId && (
+                <WalletButtonWithFallback
+                  type={
+                    new BN(formik.values.amount || '0').isGreaterThan(0) &&
+                    props.balanceOfToken.isGreaterThan(0)
+                      ? 'submit'
+                      : 'button'
+                  }
+                  disabled={formik.isSubmitting}
+                  loading={formik.isSubmitting}
+                  key={approve.value?.allowance.toString(10)}
+                  onClick={
+                    new BN(formik.values.amount || '0').isGreaterThan(0) &&
+                    props.balanceOfToken.isGreaterThan(0)
+                      ? undefined
+                      : addLiquidity
+                  }
+                >
+                  {props.balanceOfToken.isGreaterThan(0) ? (
+                    <>
+                      {(!approve.value?.approve && !approve.value?.reset) ||
+                      new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
+                        ? 'Stake'
+                        : 'Approve'}
+                    </>
+                  ) : (
+                    'Add liquidity'
+                  )}
+                </WalletButtonWithFallback>
+              )}
           </>
         )}
       </form>

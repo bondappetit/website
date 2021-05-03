@@ -21,8 +21,10 @@ import {
   Plate,
   SmallModal,
   Typography,
+  useChangeNetworkModal,
   useIntervalIfHasAccount,
-  useLibrary
+  useLibrary,
+  setupBinance
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { ReactComponent as EthIcon } from 'src/assets/icons/chains/ethereum.svg';
@@ -39,7 +41,6 @@ import {
   burgerSwapApi,
   BurgerSwapPayback,
   BurgerSwapTransit,
-  setupBinance,
   useBridgeContract,
   useTransitContract
 } from './common';
@@ -73,7 +74,7 @@ export const Bridge: React.VFC = () => {
 
   const classes = useBridgeStyles();
 
-  const [changeNetworkOpen, toggleChangeNetwork] = useToggle(false);
+  const [openChangeNetwork] = useChangeNetworkModal();
   const [lostTransactionOpen, toggleLostTransaction] = useToggle(false);
 
   const [
@@ -291,7 +292,7 @@ export const Bridge: React.VFC = () => {
 
   const handleRecieve = useCallback(
     (transaction: BurgerSwapTransit | BurgerSwapPayback) => {
-      if (!config.CHAIN_IDS.includes(currentChainId)) toggleChangeNetwork();
+      if (!config.CHAIN_IDS.includes(currentChainId)) openChangeNetwork();
       else if (isPayback(transaction)) handleWithdrawFromBSC(transaction);
       else if (!config.CHAIN_BINANCE_IDS.includes(currentChainId))
         setupBinance();
@@ -299,7 +300,7 @@ export const Bridge: React.VFC = () => {
 
       setTransactionToRecieve(transaction.sign);
     },
-    [currentChainId, handleWithDraw, handleWithdrawFromBSC, toggleChangeNetwork]
+    [currentChainId, handleWithDraw, handleWithdrawFromBSC, openChangeNetwork]
   );
 
   const handleLostTransaction = async (formValues: { tx: string }) => {
@@ -513,11 +514,6 @@ export const Bridge: React.VFC = () => {
               }
               onSubmit={handleLostTransaction}
             />
-          </SmallModal>
-        </Modal>
-        <Modal open={changeNetworkOpen} onClose={toggleChangeNetwork}>
-          <SmallModal>
-            <Typography variant="h4">Change network to mainnet</Typography>
           </SmallModal>
         </Modal>
       </PageWrapper>

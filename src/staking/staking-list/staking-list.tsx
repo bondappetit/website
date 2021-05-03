@@ -89,6 +89,7 @@ export const StakingList: React.VFC = () => {
                       stakingContractAddress={stakingAddress.configAddress}
                       date={stakingAddress.date}
                       APY={stakingAddress.apy}
+                      chainId={stakingAddress.chaindId}
                     />
                   );
                 })}

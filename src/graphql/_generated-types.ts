@@ -456,6 +456,34 @@ export type TokenListFilterQuery = { __typename?: 'Query' } & {
   >;
 };
 
+export type TokenPriceQueryVariables = Exact<{
+  filter: TokenQueryFilterInputType;
+}>;
+
+export type TokenPriceQuery = { __typename?: 'Query' } & {
+  token: { __typename?: 'TokenPayload' } & {
+    data?: Maybe<
+      { __typename?: 'TokenType' } & Pick<
+        TokenType,
+        | 'address'
+        | 'name'
+        | 'symbol'
+        | 'decimals'
+        | 'totalSupply'
+        | 'totalSupplyFloat'
+        | 'priceUSD'
+      > & {
+          statistic?: Maybe<
+            { __typename?: 'TokenStatisticType' } & Pick<
+              TokenStatisticType,
+              'dailyVolumeUSD' | 'totalLiquidityUSD'
+            >
+          >;
+        }
+    >;
+  };
+};
+
 export type UniswapPairListQueryVariables = Exact<{
   filter?: Maybe<UniswapPairListQueryFilterInputType>;
 }>;
