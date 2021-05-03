@@ -1,25 +1,24 @@
 import { useWeb3React } from '@web3-react/core';
 import { useEffect, useMemo, useState } from 'react';
-import { useAsyncRetry, useUpdateEffect } from 'react-use';
+import { useAsyncRetry } from 'react-use';
 import Web3 from 'web3';
 
-import { BN, useIntervalIfHasAccount, useNetworkConfig } from 'src/common';
+import { BN, useLazyQuery, useNetworkConfig } from 'src/common';
 import { config } from 'src/config';
 import type { Staking } from 'src/generate/Staking';
-import {
-  useStakingListQuery,
-  useUniswapPairListLazyQuery
-} from 'src/graphql/_generated-hooks';
+import { StakingQuery, UniswapPairPayload } from 'src/graphql/_generated-hooks';
 import { useStakingConfig } from 'src/staking-config';
 import { useGovernanceCost } from './use-governance-cost';
 import { useStakingContracts } from './use-staking-contracts';
+import { STAKING_QUERY_STRING } from './graphql/staking-query.graphql';
+import { UNISWAP_PAIR_QUERY_STRING } from './graphql/uniswap-pair-query.graphql';
 
 type StakingToken = {
-  tokenAddress: string;
   token: string[];
-  decimals: string;
-  stakingContract: Staking;
+  stakingContract: Staking | null;
   configAddress: string;
+  pair?: UniswapPairPayload['data'];
+  staking?: StakingQuery['staking']['data'];
 };
 
 export type SakingItem = {
@@ -32,10 +31,20 @@ export type SakingItem = {
   totalValueLocked: string;
   stacked: boolean;
   token: string[];
-  decimals: string;
-  stakingContract: Staking;
+  decimals: number;
+  stakingContract: Staking | null;
+  configAddress: string;
   date?: string | null;
 };
+
+const useStakingQuery = () =>
+  useLazyQuery<{ data?: StakingQuery }>(config.API_URL ?? '', {
+    query: STAKING_QUERY_STRING
+  });
+const useUniswapQuery = () =>
+  useLazyQuery<{ data?: UniswapPairPayload }>(config.API_URL ?? '', {
+    query: UNISWAP_PAIR_QUERY_STRING
+  });
 
 export const useStakingListData = (address?: string, length?: number) => {
   const networkConfig = useNetworkConfig();
@@ -50,20 +59,8 @@ export const useStakingListData = (address?: string, length?: number) => {
 
   const USD = networkConfig.assets.USDC;
 
-  const stakingListQuery = useStakingListQuery({
-    variables: {
-      filter: {
-        address: address ? [address] : Object.keys(stakingConfig)
-      },
-      userFilter: account
-        ? {
-            address: [account]
-          }
-        : undefined
-    },
-    pollInterval: config.POLLING_INTERVAL,
-    fetchPolicy: 'no-cache'
-  });
+  const stakingQuery = useStakingQuery();
+  const uniswapQuery = useUniswapQuery();
 
   useEffect(() => {
     if (web3Account) {
@@ -71,47 +68,68 @@ export const useStakingListData = (address?: string, length?: number) => {
     }
   }, [web3Account]);
 
-  const [loadUniswapData, uniswapPairListQuery] = useUniswapPairListLazyQuery();
-
   const stakingAddresses = useAsyncRetry(async () => {
     const stakingItem = address ? stakingConfig[address.toLowerCase()] : null;
 
     return (stakingItem ? [stakingItem] : stakingConfigValues).reduce<
       Promise<StakingToken[]>
-    >(async (previusPromise, { contractName, token, configAddress }) => {
-      const acc = await previusPromise;
+    >(
+      async (
+        previousPromise,
+        { contractName, token, configAddress, chainId }
+      ) => {
+        const acc = await previousPromise;
 
-      const stakingContract = getStakingContract(contractName);
+        const stakingContract = getStakingContract(contractName);
 
-      if (!stakingContract) return acc;
+        const options = {
+          init: {
+            headers: {
+              'chain-id': chainId
+            }
+          }
+        };
 
-      const stakingTokenAddress = await stakingContract.methods
-        .stakingToken()
-        .call();
+        const staking = await stakingQuery(
+          {
+            filter: { address: configAddress },
+            userFilter: account ? { address: [account] } : undefined
+          },
+          options
+        );
 
-      const stakingTokenDecimals = await stakingContract.methods
-        .periodFinish()
-        .call();
+        const uniswapPair = await uniswapQuery(
+          {
+            filter: {
+              address: staking.data?.staking.data?.stakingToken
+            }
+          },
+          options
+        );
 
-      acc.push({
-        stakingContract,
-        configAddress,
-        decimals: stakingTokenDecimals,
-        tokenAddress: stakingTokenAddress,
-        token
-      });
-
-      return acc;
-    }, Promise.resolve([]));
-  }, [address, account, stakingConfig, USD.decimals]);
+        return [
+          ...acc,
+          {
+            stakingBalance: staking.data?.staking,
+            pair: uniswapPair.data?.data,
+            staking: staking.data?.staking.data,
+            stakingContract,
+            configAddress,
+            token
+          }
+        ];
+      },
+      Promise.resolve([])
+    );
+  }, [address, stakingConfigValues, getStakingContract, account]);
 
   const volume24 = useMemo(
     () =>
-      uniswapPairListQuery.data?.uniswapPairList?.reduce(
-        (acc, { statistic }) => acc.plus(statistic?.dailyVolumeUSD ?? '0'),
+      stakingAddresses.value?.reduce(
+        (acc, { pair }) => acc.plus(pair?.statistic?.dailyVolumeUSD ?? '0'),
         new BN(0)
       ),
-    [uniswapPairListQuery.data]
+    [stakingAddresses.value]
   );
 
   const normalizeGovernanceInUSDC = useMemo(() => {
@@ -122,37 +140,11 @@ export const useStakingListData = (address?: string, length?: number) => {
     );
   }, [governanceInUSDC, networkConfig.assets.USDC.decimals]);
 
-  useUpdateEffect(() => {
-    if (!stakingAddresses.value) return;
-
-    const stakingTokenAddresses = stakingAddresses.value.map(
-      ({ tokenAddress }) => tokenAddress
-    );
-
-    const options = {
-      variables: {
-        filter: {
-          address: stakingTokenAddresses
-        }
-      }
-    };
-
-    loadUniswapData(options);
-  }, [stakingAddresses.value, account]);
-
   const stakingList = useMemo(
     () =>
       stakingAddresses.value?.map((stakingAddress, index) => {
-        const stakingBalance = stakingListQuery.data?.stakingList.find(
-          (stakingItem) =>
-            stakingItem.address.toLowerCase() ===
-            stakingAddress.configAddress.toLowerCase()
-        );
-        const pairItem = uniswapPairListQuery.data?.uniswapPairList.find(
-          (uniswapPairItem) =>
-            stakingAddress.tokenAddress.toLowerCase() ===
-            uniswapPairItem.address
-        );
+        const stakingBalance = stakingAddress.staking;
+        const pairItem = stakingAddress.pair;
 
         const priceItemtotalSupplyFloatBN = new BN(
           pairItem?.totalSupplyFloat ?? '1'
@@ -178,9 +170,10 @@ export const useStakingListData = (address?: string, length?: number) => {
 
         return {
           id: index,
+          configAddress: stakingAddress.configAddress,
           amount: balanceFloat,
           address: stakingBalance?.address,
-          tokenAddress: stakingAddress.tokenAddress,
+          tokenAddress: stakingBalance?.stakingToken,
           apy: new BN(stakingBalance?.apr.year ?? '0')
             .multipliedBy(100)
             .toString(10),
@@ -194,7 +187,7 @@ export const useStakingListData = (address?: string, length?: number) => {
                   .toString(10)
               : '0',
           totalSupplyFloat: pairItem?.totalSupplyFloat,
-          decimals: stakingAddress.decimals,
+          decimals: stakingBalance?.stakingTokenDecimals ?? 1,
           stacked: Boolean(reward?.staked),
           token: stakingAddress.token,
           stakingContract: stakingAddress.stakingContract,
@@ -202,7 +195,7 @@ export const useStakingListData = (address?: string, length?: number) => {
           date: stakingBalance?.unstakingStart.date
         };
       }),
-    [stakingAddresses.value, uniswapPairListQuery.data, stakingListQuery.data]
+    [stakingAddresses.value]
   );
 
   const totalValueLocked = useMemo(() => {
@@ -216,9 +209,9 @@ export const useStakingListData = (address?: string, length?: number) => {
 
   const rewardSum = useMemo(
     () =>
-      stakingListQuery.data?.stakingList?.reduce(
-        (sum, { userList }) => {
-          const [reward] = userList;
+      stakingAddresses.value?.reduce(
+        (sum, { staking }) => {
+          const [reward = undefined] = staking?.userList ?? [];
 
           return {
             reward: sum.reward.plus(reward?.earnedFloat ?? '0'),
@@ -234,14 +227,12 @@ export const useStakingListData = (address?: string, length?: number) => {
           rewardInUSDC: new BN('0')
         }
       ),
-    [stakingListQuery.data, governanceInUSDC, USD.decimals]
+    [stakingAddresses.value, governanceInUSDC, USD.decimals]
   );
 
-  useIntervalIfHasAccount(stakingAddresses.retry);
+  // useIntervalIfHasAccount(stakingAddresses.retry);
 
   return {
-    stakingListQuery,
-    uniswapPairListQuery,
     totalValueLocked,
     volume24,
     governanceInUSDC: normalizeGovernanceInUSDC,

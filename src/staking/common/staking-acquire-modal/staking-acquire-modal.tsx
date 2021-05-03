@@ -37,7 +37,7 @@ export const StakingAcquireModal: React.VFC<StakingAcquireModalProps> = (
               const Icon = COIN_ICONS.get(token);
 
               return (
-                <Typography variant="h5">
+                <Typography variant="h5" key={token}>
                   {index + 1}.{' '}
                   <Link
                     href={COIN_LINKS.get(token)}

@@ -36,8 +36,8 @@ export type StakingLockFormProps = {
   tokenName?: string;
   tokenAddress?: string;
   token?: string[];
-  stakingContract?: Staking;
-  tokenDecimals?: string;
+  stakingContract?: Staking | null;
+  tokenDecimals?: number;
   onSubmit?: () => void;
   unstakeStart?: string;
   balanceOfToken: BN;

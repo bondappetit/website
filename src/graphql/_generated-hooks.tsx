@@ -161,6 +161,16 @@ export type StakingQueryFilterInputType = {
   address: Scalars['AddressType'];
 };
 
+export type StakingRewardHistoryType = {
+  __typename?: 'StakingRewardHistoryType';
+  /** History block number */
+  blockNumber: Scalars['String'];
+  /** Distributable reward */
+  totalReward: Scalars['String'];
+  /** Distributed reward */
+  totalEarned: Scalars['String'];
+};
+
 export type StakingStakingEndType = {
   __typename?: 'StakingStakingEndType';
   /** Block number of end staking */
@@ -173,15 +183,38 @@ export type StakingType = {
   __typename?: 'StakingType';
   /** Staking contract address */
   address: Scalars['AddressType'];
+  /** Staking token address */
+  stakingToken: Scalars['AddressType'];
+  /** Staking token decimals */
+  stakingTokenDecimals: Scalars['Int'];
+  /** Reward token address */
+  rewardToken: Scalars['AddressType'];
+  /** Reward token decimals */
+  rewardTokenDecimals: Scalars['Int'];
   /** Staking total supply */
   totalSupply: Scalars['String'];
   /** Staking total supply normalize */
   totalSupplyFloat: Scalars['String'];
+  /** Block number of staking period start */
+  periodStart: Scalars['String'];
+  /** Block number of staking period finish */
+  periodFinish: Scalars['String'];
+  /** Rewards duration */
+  rewardsDuration: Scalars['String'];
+  /** Reward for duration */
+  rewardForDuration: Scalars['String'];
+  /** Reward for duration normalize */
+  rewardForDurationFloat: Scalars['String'];
+  /** Already earned */
+  earned: Scalars['String'];
+  /** Already earned normalize */
+  earnedFloat: Scalars['String'];
   poolRate: StakingPoolRateType;
   stakingEnd: StakingStakingEndType;
   unstakingStart: StakingUnstakingStartType;
   apr: StakingAprType;
   userList: Array<StakingUserType>;
+  rewardHistory: Array<StakingRewardHistoryType>;
 };
 
 export type StakingTypeUserListArgs = {
@@ -314,7 +347,11 @@ export type StakingListQuery = { __typename?: 'Query' } & {
   stakingList: Array<
     { __typename?: 'StakingType' } & Pick<
       StakingType,
-      'address' | 'totalSupply' | 'totalSupplyFloat'
+      | 'address'
+      | 'totalSupply'
+      | 'totalSupplyFloat'
+      | 'stakingTokenDecimals'
+      | 'stakingToken'
     > & {
         poolRate: { __typename?: 'StakingPoolRateType' } & Pick<
           StakingPoolRateType,
@@ -346,6 +383,55 @@ export type StakingListQuery = { __typename?: 'Query' } & {
         >;
       }
   >;
+};
+
+export type StakingQueryVariables = Exact<{
+  filter: StakingQueryFilterInputType;
+  userFilter?: Maybe<StakingUserListFilterInputType>;
+}>;
+
+export type StakingQuery = { __typename?: 'Query' } & {
+  staking: { __typename?: 'StakingPayload' } & {
+    data?: Maybe<
+      { __typename?: 'StakingType' } & Pick<
+        StakingType,
+        | 'address'
+        | 'totalSupply'
+        | 'totalSupplyFloat'
+        | 'stakingTokenDecimals'
+        | 'stakingToken'
+      > & {
+          poolRate: { __typename?: 'StakingPoolRateType' } & Pick<
+            StakingPoolRateType,
+            'block' | 'blockFloat' | 'daily' | 'dailyFloat'
+          >;
+          stakingEnd: { __typename?: 'StakingStakingEndType' } & Pick<
+            StakingStakingEndType,
+            'block' | 'date'
+          >;
+          unstakingStart: { __typename?: 'StakingUnstakingStartType' } & Pick<
+            StakingUnstakingStartType,
+            'block' | 'date'
+          >;
+          apr: { __typename?: 'StakingAprType' } & Pick<
+            StakingAprType,
+            'block' | 'day' | 'week' | 'month' | 'year'
+          >;
+          userList: Array<
+            { __typename?: 'StakingUserType' } & Pick<
+              StakingUserType,
+              | 'staking'
+              | 'address'
+              | 'balance'
+              | 'balanceFloat'
+              | 'staked'
+              | 'earned'
+              | 'earnedFloat'
+            >
+          >;
+        }
+    >;
+  };
 };
 
 export type TokenListFilterQueryVariables = Exact<{
@@ -392,6 +478,28 @@ export type UniswapPairListQuery = { __typename?: 'Query' } & {
         >;
       }
   >;
+};
+
+export type UniswapPairQueryVariables = Exact<{
+  filter: UniswapPairQueryFilterInputType;
+}>;
+
+export type UniswapPairQuery = { __typename?: 'Query' } & {
+  uniswapPair: { __typename?: 'UniswapPairPayload' } & {
+    data?: Maybe<
+      { __typename?: 'UniswapPairType' } & Pick<
+        UniswapPairType,
+        'address' | 'totalSupplyFloat'
+      > & {
+          statistic?: Maybe<
+            { __typename?: 'UniswapPairStatisticType' } & Pick<
+              UniswapPairStatisticType,
+              'dailyVolumeUSD' | 'totalLiquidityUSD'
+            >
+          >;
+        }
+    >;
+  };
 };
 
 export const AddBurgerSwapBridgeTransitDocument = gql`
@@ -457,6 +565,8 @@ export const StakingListDocument = gql`
       address
       totalSupply
       totalSupplyFloat
+      stakingTokenDecimals
+      stakingToken
       poolRate {
         block
         blockFloat
@@ -539,6 +649,100 @@ export type StakingListLazyQueryHookResult = ReturnType<
 export type StakingListQueryResult = Apollo.QueryResult<
   StakingListQuery,
   StakingListQueryVariables
+>;
+export const StakingDocument = gql`
+  query Staking(
+    $filter: StakingQueryFilterInputType!
+    $userFilter: StakingUserListFilterInputType
+  ) {
+    staking(filter: $filter) {
+      data {
+        address
+        totalSupply
+        totalSupplyFloat
+        stakingTokenDecimals
+        stakingToken
+        poolRate {
+          block
+          blockFloat
+          daily
+          dailyFloat
+        }
+        stakingEnd {
+          block
+          date
+        }
+        unstakingStart {
+          block
+          date
+        }
+        apr {
+          block
+          day
+          week
+          month
+          year
+        }
+        userList(filter: $userFilter) {
+          staking
+          address
+          balance
+          balanceFloat
+          staked
+          earned
+          earnedFloat
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useStakingQuery__
+ *
+ * To run a query within a React component, call `useStakingQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStakingQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStakingQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *      userFilter: // value for 'userFilter'
+ *   },
+ * });
+ */
+export function useStakingQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    StakingQuery,
+    StakingQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<StakingQuery, StakingQueryVariables>(
+    StakingDocument,
+    options
+  );
+}
+export function useStakingLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    StakingQuery,
+    StakingQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<StakingQuery, StakingQueryVariables>(
+    StakingDocument,
+    options
+  );
+}
+export type StakingQueryHookResult = ReturnType<typeof useStakingQuery>;
+export type StakingLazyQueryHookResult = ReturnType<typeof useStakingLazyQuery>;
+export type StakingQueryResult = Apollo.QueryResult<
+  StakingQuery,
+  StakingQueryVariables
 >;
 export const TokenListFilterDocument = gql`
   query TokenListFilter($filter: TokenListQueryFilterInputType) {
@@ -670,4 +874,67 @@ export type UniswapPairListLazyQueryHookResult = ReturnType<
 export type UniswapPairListQueryResult = Apollo.QueryResult<
   UniswapPairListQuery,
   UniswapPairListQueryVariables
+>;
+export const UniswapPairDocument = gql`
+  query UniswapPair($filter: UniswapPairQueryFilterInputType!) {
+    uniswapPair(filter: $filter) {
+      data {
+        address
+        totalSupplyFloat
+        statistic {
+          dailyVolumeUSD
+          totalLiquidityUSD
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useUniswapPairQuery__
+ *
+ * To run a query within a React component, call `useUniswapPairQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUniswapPairQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUniswapPairQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useUniswapPairQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    UniswapPairQuery,
+    UniswapPairQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<UniswapPairQuery, UniswapPairQueryVariables>(
+    UniswapPairDocument,
+    options
+  );
+}
+export function useUniswapPairLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    UniswapPairQuery,
+    UniswapPairQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    UniswapPairQuery,
+    UniswapPairQueryVariables
+  >(UniswapPairDocument, options);
+}
+export type UniswapPairQueryHookResult = ReturnType<typeof useUniswapPairQuery>;
+export type UniswapPairLazyQueryHookResult = ReturnType<
+  typeof useUniswapPairLazyQuery
+>;
+export type UniswapPairQueryResult = Apollo.QueryResult<
+  UniswapPairQuery,
+  UniswapPairQueryVariables
 >;

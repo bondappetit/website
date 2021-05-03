@@ -24,8 +24,8 @@ jss.createStyleSheet(globalStyles).attach();
 
 const chainIdLink = setContext((_, { headers }) => ({
   headers: {
-    ...headers,
-    'chain-id': chainIdVar()
+    'chain-id': chainIdVar(),
+    ...headers
   }
 }));
 

@@ -9,6 +9,8 @@ export const STAKING_LIST_QUERY = gql`
       address
       totalSupply
       totalSupplyFloat
+      stakingTokenDecimals
+      stakingToken
       poolRate {
         block
         blockFloat

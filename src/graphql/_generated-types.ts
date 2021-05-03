@@ -157,6 +157,16 @@ export type StakingQueryFilterInputType = {
   address: Scalars['AddressType'];
 };
 
+export type StakingRewardHistoryType = {
+  __typename?: 'StakingRewardHistoryType';
+  /** History block number */
+  blockNumber: Scalars['String'];
+  /** Distributable reward */
+  totalReward: Scalars['String'];
+  /** Distributed reward */
+  totalEarned: Scalars['String'];
+};
+
 export type StakingStakingEndType = {
   __typename?: 'StakingStakingEndType';
   /** Block number of end staking */
@@ -169,15 +179,38 @@ export type StakingType = {
   __typename?: 'StakingType';
   /** Staking contract address */
   address: Scalars['AddressType'];
+  /** Staking token address */
+  stakingToken: Scalars['AddressType'];
+  /** Staking token decimals */
+  stakingTokenDecimals: Scalars['Int'];
+  /** Reward token address */
+  rewardToken: Scalars['AddressType'];
+  /** Reward token decimals */
+  rewardTokenDecimals: Scalars['Int'];
   /** Staking total supply */
   totalSupply: Scalars['String'];
   /** Staking total supply normalize */
   totalSupplyFloat: Scalars['String'];
+  /** Block number of staking period start */
+  periodStart: Scalars['String'];
+  /** Block number of staking period finish */
+  periodFinish: Scalars['String'];
+  /** Rewards duration */
+  rewardsDuration: Scalars['String'];
+  /** Reward for duration */
+  rewardForDuration: Scalars['String'];
+  /** Reward for duration normalize */
+  rewardForDurationFloat: Scalars['String'];
+  /** Already earned */
+  earned: Scalars['String'];
+  /** Already earned normalize */
+  earnedFloat: Scalars['String'];
   poolRate: StakingPoolRateType;
   stakingEnd: StakingStakingEndType;
   unstakingStart: StakingUnstakingStartType;
   apr: StakingAprType;
   userList: Array<StakingUserType>;
+  rewardHistory: Array<StakingRewardHistoryType>;
 };
 
 export type StakingTypeUserListArgs = {
@@ -310,7 +343,11 @@ export type StakingListQuery = { __typename?: 'Query' } & {
   stakingList: Array<
     { __typename?: 'StakingType' } & Pick<
       StakingType,
-      'address' | 'totalSupply' | 'totalSupplyFloat'
+      | 'address'
+      | 'totalSupply'
+      | 'totalSupplyFloat'
+      | 'stakingTokenDecimals'
+      | 'stakingToken'
     > & {
         poolRate: { __typename?: 'StakingPoolRateType' } & Pick<
           StakingPoolRateType,
@@ -342,6 +379,55 @@ export type StakingListQuery = { __typename?: 'Query' } & {
         >;
       }
   >;
+};
+
+export type StakingQueryVariables = Exact<{
+  filter: StakingQueryFilterInputType;
+  userFilter?: Maybe<StakingUserListFilterInputType>;
+}>;
+
+export type StakingQuery = { __typename?: 'Query' } & {
+  staking: { __typename?: 'StakingPayload' } & {
+    data?: Maybe<
+      { __typename?: 'StakingType' } & Pick<
+        StakingType,
+        | 'address'
+        | 'totalSupply'
+        | 'totalSupplyFloat'
+        | 'stakingTokenDecimals'
+        | 'stakingToken'
+      > & {
+          poolRate: { __typename?: 'StakingPoolRateType' } & Pick<
+            StakingPoolRateType,
+            'block' | 'blockFloat' | 'daily' | 'dailyFloat'
+          >;
+          stakingEnd: { __typename?: 'StakingStakingEndType' } & Pick<
+            StakingStakingEndType,
+            'block' | 'date'
+          >;
+          unstakingStart: { __typename?: 'StakingUnstakingStartType' } & Pick<
+            StakingUnstakingStartType,
+            'block' | 'date'
+          >;
+          apr: { __typename?: 'StakingAprType' } & Pick<
+            StakingAprType,
+            'block' | 'day' | 'week' | 'month' | 'year'
+          >;
+          userList: Array<
+            { __typename?: 'StakingUserType' } & Pick<
+              StakingUserType,
+              | 'staking'
+              | 'address'
+              | 'balance'
+              | 'balanceFloat'
+              | 'staked'
+              | 'earned'
+              | 'earnedFloat'
+            >
+          >;
+        }
+    >;
+  };
 };
 
 export type TokenListFilterQueryVariables = Exact<{
@@ -388,4 +474,26 @@ export type UniswapPairListQuery = { __typename?: 'Query' } & {
         >;
       }
   >;
+};
+
+export type UniswapPairQueryVariables = Exact<{
+  filter: UniswapPairQueryFilterInputType;
+}>;
+
+export type UniswapPairQuery = { __typename?: 'Query' } & {
+  uniswapPair: { __typename?: 'UniswapPairPayload' } & {
+    data?: Maybe<
+      { __typename?: 'UniswapPairType' } & Pick<
+        UniswapPairType,
+        'address' | 'totalSupplyFloat'
+      > & {
+          statistic?: Maybe<
+            { __typename?: 'UniswapPairStatisticType' } & Pick<
+              UniswapPairStatisticType,
+              'dailyVolumeUSD' | 'totalLiquidityUSD'
+            >
+          >;
+        }
+    >;
+  };
 };

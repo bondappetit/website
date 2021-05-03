@@ -26,7 +26,7 @@ import {
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { ReactComponent as EthIcon } from 'src/assets/icons/chains/ethereum.svg';
-import { ReactComponent as BnbIcon } from 'src/assets/icons/chains/bnb.svg';
+import { ReactComponent as BnbIcon } from 'src/assets/icons/chains/bsc.svg';
 import { ReactComponent as BridgeArrowIcon } from 'src/assets/icons/bridge-arrow.svg';
 import { ReactComponent as BurgerSwapLogoIcon } from 'src/assets/icons/burgerswap-logo.svg';
 import { config } from 'src/config';

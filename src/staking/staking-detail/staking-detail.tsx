@@ -85,7 +85,7 @@ export const StakingDetail: React.FC = () => {
     await unlock(false);
 
     stakingAddresses.retry();
-  }, [unlock, stakingAddresses.retry, stakingBalanceIsEmpty]);
+  }, [unlock, stakingBalanceIsEmpty]);
 
   const balanceOfToken = useAsyncRetry(async () => {
     if (!stakingItem) return;
