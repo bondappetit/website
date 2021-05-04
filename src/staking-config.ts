@@ -134,14 +134,14 @@ const getStakingConfig = (): Record<string, StakingConfig> => {
   );
 };
 
-export const useStakingConfig = (length?: number) => {
+export const useStakingConfig = () => {
   const stakingConfigMemo = useMemo(() => getStakingConfig(), []);
 
   const stakingConfigValues = useMemo(() => {
     const values = Object.values(stakingConfigMemo);
 
-    return !length ? values : values.slice(0, length);
-  }, [stakingConfigMemo, length]);
+    return values;
+  }, [stakingConfigMemo]);
 
   return useMemo(
     () => ({ stakingConfigValues, stakingConfig: stakingConfigMemo }),

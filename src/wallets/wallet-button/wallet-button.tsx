@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import { useToggle } from 'react-use';
+import networks from '@bondappetit/networks';
 
 import {
   ButtonBase,
@@ -13,22 +14,28 @@ import {
   useNetworkConfig
 } from 'src/common';
 import { ReactComponent as WalletIcon } from 'src/assets/icons/wallet.svg';
+import { config } from 'src/config';
 import { useWalletButtonStyles } from './wallet-button.styles';
 import { WalletModal } from '../wallet-modal';
 
 export const WalletButton: React.FC = () => {
   const classes = useWalletButtonStyles();
-  const { account } = useWeb3React<Web3>();
+  const { account, chainId } = useWeb3React<Web3>();
   const [open, toggleOpen] = useToggle(false);
   const networkConfig = useNetworkConfig();
 
   return (
     <div className={classes.wrap}>
-      {account &&
+      {(account &&
         networkConfig.networkName &&
-        networkConfig.networkName !== 'mainnet' && (
-          <Chip className={classes.chip}>{networkConfig.networkName}</Chip>
-        )}
+        networkConfig.networkName !== 'mainnet') ||
+        (chainId && config.CHAIN_BINANCE_IDS.includes(chainId) && (
+          <Chip className={classes.chip}>
+            {config.CHAIN_BINANCE_IDS.includes(chainId)
+              ? networks.mainBSC.networkName
+              : networkConfig.networkName}
+          </Chip>
+        ))}
       <ButtonBase onClick={toggleOpen} className={clsx(classes.connected)}>
         <Typography
           variant="body1"

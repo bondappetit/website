@@ -3,12 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAsyncRetry } from 'react-use';
 import Web3 from 'web3';
 
-import {
-  BN,
-  useIntervalIfHasAccount,
-  useLazyQuery,
-  useNetworkConfig
-} from 'src/common';
+import { BN, useIntervalIfHasAccount, useLazyQuery } from 'src/common';
 import { config } from 'src/config';
 import type { Staking } from 'src/generate/Staking';
 import { StakingQuery, UniswapPairPayload } from 'src/graphql/_generated-hooks';
@@ -56,18 +51,15 @@ const useUniswapQuery = () =>
     }
   );
 
-export const useStakingListData = (address?: string, length?: number) => {
-  const networkConfig = useNetworkConfig();
-  const { stakingConfig, stakingConfigValues } = useStakingConfig(length);
+export const useStakingListData = (address?: string) => {
+  const { stakingConfig, stakingConfigValues } = useStakingConfig();
 
-  const { account: web3Account } = useWeb3React<Web3>();
+  const { account: web3Account = null } = useWeb3React<Web3>();
   const [account, setAccount] = useState(web3Account);
 
   const getStakingContract = useStakingContracts();
 
   const governanceInUSDC = useGovernanceCost();
-
-  const USD = networkConfig.assets.USDC;
 
   const stakingQuery = useStakingQuery();
   const uniswapQuery = useUniswapQuery();
@@ -90,7 +82,7 @@ export const useStakingListData = (address?: string, length?: number) => {
       ) => {
         const acc = await previousPromise;
 
-        const stakingContract = getStakingContract(contractName);
+        const stakingContract = getStakingContract(contractName, chainId);
 
         const options = {
           init: {
@@ -132,7 +124,7 @@ export const useStakingListData = (address?: string, length?: number) => {
       },
       Promise.resolve([])
     );
-  }, [address, stakingConfigValues, getStakingContract, account]);
+  }, [address, stakingConfigValues, account]);
 
   const volume24 = useMemo(
     () =>
@@ -219,9 +211,9 @@ export const useStakingListData = (address?: string, length?: number) => {
           return {
             reward: sum.reward.plus(reward?.earnedFloat ?? '0'),
             rewardInUSDC: sum.rewardInUSDC.plus(
-              new BN(reward?.earnedFloat ?? '0')
-                .multipliedBy(governanceInUSDC ?? '0')
-                .div(new BN(10).pow(USD.decimals))
+              new BN(reward?.earnedFloat ?? '0').multipliedBy(
+                governanceInUSDC ?? '0'
+              )
             )
           };
         },
@@ -230,7 +222,7 @@ export const useStakingListData = (address?: string, length?: number) => {
           rewardInUSDC: new BN('0')
         }
       ),
-    [stakingAddresses.value, governanceInUSDC, USD.decimals]
+    [stakingAddresses.value, governanceInUSDC]
   );
 
   useIntervalIfHasAccount(stakingAddresses.retry);
@@ -241,7 +233,6 @@ export const useStakingListData = (address?: string, length?: number) => {
     governanceInUSDC,
     stakingList,
     rewardSum,
-    stakingAddresses,
-    count: stakingConfigValues.length
+    stakingAddresses
   };
 };

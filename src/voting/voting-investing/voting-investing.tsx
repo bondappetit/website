@@ -1,7 +1,12 @@
+import { useWeb3React } from '@web3-react/core';
 import React, { useCallback } from 'react';
 import { useToggle } from 'react-use';
 
-import { humanizeNumeral, useNetworkConfig } from 'src/common';
+import {
+  humanizeNumeral,
+  useChangeNetworkModal,
+  useNetworkConfig
+} from 'src/common';
 import { config } from 'src/config';
 import { VotingInfoCard } from '../common';
 import { VotingInvestingAttention } from '../voting-investing-attention';
@@ -39,6 +44,12 @@ export const VotingInvesting: React.VFC = () => {
     );
   }, [networkConfig.assets]);
 
+  const { chainId } = useWeb3React();
+
+  const [openChangeNetwork] = useChangeNetworkModal();
+
+  const handleInvest = config.IS_INVEST ? toggleAttention : handleToUniswap;
+
   return (
     <>
       <VotingInfoCard
@@ -54,7 +65,11 @@ export const VotingInvesting: React.VFC = () => {
         }
         percent={config.IS_INVEST ? percent : undefined}
         buttonTitle="Buy BAG"
-        onClick={config.IS_INVEST ? toggleAttention : handleToUniswap}
+        onClick={
+          config.CHAIN_BINANCE_IDS.includes(Number(chainId))
+            ? openChangeNetwork
+            : handleInvest
+        }
         description={
           config.IS_INVEST
             ? `Special offer for early investors only: buy the initial emission of (${totalTokens} BAGs)` +
@@ -62,11 +77,13 @@ export const VotingInvesting: React.VFC = () => {
             : ''
         }
       />
-      <VotingInvestingForm
-        open={investFormIsOpen}
-        onClose={toggleInvestForm}
-        onSuccess={investingTotal.retry}
-      />
+      {investFormIsOpen && (
+        <VotingInvestingForm
+          open={investFormIsOpen}
+          onClose={toggleInvestForm}
+          onSuccess={investingTotal.retry}
+        />
+      )}
       <VotingInvestingAttention
         open={attentionIsOpen}
         onClose={toggleAttention}

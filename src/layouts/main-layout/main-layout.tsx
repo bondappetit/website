@@ -1,7 +1,13 @@
 import { useToggle, useMedia } from 'react-use';
+import { useWeb3React } from '@web3-react/core';
 import React from 'react';
 
-import { LinkModal, ToggleThemeButton, useNetworkConfig } from 'src/common';
+import {
+  LinkModal,
+  ToggleThemeButton,
+  useChangeNetworkModal,
+  useNetworkConfig
+} from 'src/common';
 import { WalletButton, WalletModal } from 'src/wallets';
 import {
   WalletProfile,
@@ -10,6 +16,7 @@ import {
 import { ContactsNews } from 'src/contacts/contacts-news';
 import { VotingInvestingAttention } from 'src/voting/voting-investing-attention';
 import { VotingInvestingForm } from 'src/voting/voting-investing-form';
+import { config } from 'src/config';
 import {
   LayoutHeader,
   LayoutContainer,
@@ -20,6 +27,10 @@ import { useMainLayoutStyles } from './main-layout.styles';
 
 export const MainLayout: React.FC = (props) => {
   const classes = useMainLayoutStyles();
+
+  const { chainId } = useWeb3React();
+
+  const [openChangeNetwork] = useChangeNetworkModal();
 
   const networkConfig = useNetworkConfig();
 
@@ -58,7 +69,11 @@ export const MainLayout: React.FC = (props) => {
             isMobile ? (
               <WalletProfileDropdown
                 className={classes.profile}
-                onBuy={togglelinkModal}
+                onBuy={
+                  config.CHAIN_BINANCE_IDS.includes(Number(chainId))
+                    ? openChangeNetwork
+                    : togglelinkModal
+                }
                 onConnect={toggleWalletModal}
               />
             ) : null

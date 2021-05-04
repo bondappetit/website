@@ -215,7 +215,8 @@ export const StakingDetail: React.FC = () => {
                     <>
                       {!showUnstakeButton &&
                         account &&
-                        stakingItem?.chaindId === chainId && (
+                        stakingItem?.chaindId === chainId &&
+                        unstake.value && (
                           <Typography
                             variant="body2"
                             align="center"

@@ -2,7 +2,9 @@ import { useCallback, useMemo, useRef } from 'react';
 import type { AbiItem } from 'web3-utils';
 import type { ContractOptions } from 'web3-eth-contract';
 import networks from '@bondappetit/networks';
+import Web3 from 'web3';
 
+import { config } from 'src/config';
 import { useNetworkConfig } from './use-network-config';
 import { EthereumNetworkError } from './ethereum-network-error';
 import { useLibrary } from './use-library';
@@ -43,7 +45,7 @@ export const useDynamicContract = <T>(
   const contract = useRef<T | null>(null);
 
   const handleGetContract = useCallback(
-    (address?: string, abi?: AbiItem[] | AbiItem) => {
+    (address?: string, abi?: AbiItem[] | AbiItem, chainId?: number) => {
       const currentAbi = contractParameters?.abi ?? abi;
 
       try {
@@ -51,10 +53,19 @@ export const useDynamicContract = <T>(
           throw new Error('Abi is required');
         }
 
-        contract.current = (new library.eth.Contract(
-          currentAbi,
-          address
-        ) as unknown) as T;
+        if (chainId && config.CHAIN_BINANCE_IDS.includes(chainId)) {
+          const web3 = new Web3(networks.mainBSC.networkUrl);
+
+          contract.current = (new web3.eth.Contract(
+            currentAbi,
+            address
+          ) as unknown) as T;
+        } else {
+          contract.current = (new library.eth.Contract(
+            currentAbi,
+            address
+          ) as unknown) as T;
+        }
       } catch {
         throw new EthereumNetworkError();
       }
