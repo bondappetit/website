@@ -25,6 +25,10 @@ export const StakingAcquireModal: React.VFC<StakingAcquireModalProps> = (
 ) => {
   const classes = useStakingAcquireModalStyles();
 
+  const poolName = props.tokenAddresses?.includes('uniswap')
+    ? 'uniswap'
+    : 'pancakeswap';
+
   return (
     <Modal open={props.open} onClose={props.onClose} className={classes.root}>
       <SmallModal>
@@ -53,12 +57,12 @@ export const StakingAcquireModal: React.VFC<StakingAcquireModalProps> = (
             <Typography variant="h5">
               3. Stake your {props.depositToken} to{' '}
               <Link href={props.tokenAddresses} target="_blank" color="blue">
-                uniswap liquidity pool
+                {poolName} liquidity pool
               </Link>
             </Typography>
             <Typography variant="h5">
-              4. You will get LP tokens from uniswap automatically right after
-              stake
+              4. You will get LP tokens from {poolName} automatically right
+              after stake
             </Typography>
             <Typography variant="h5">
               5. Then stake LP tokens and earn BAG

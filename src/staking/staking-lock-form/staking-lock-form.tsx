@@ -54,6 +54,7 @@ export type StakingLockFormProps = {
 };
 
 const UNISWAP_URL = 'https://app.uniswap.org/#/add/';
+const PANCAKESWAP_URL = 'https://exchange.pancakeswap.finance/#/add/';
 
 const delay = (ms: number) =>
   new Promise((resolve) => {
@@ -165,8 +166,12 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       .map(({ address }) => address)
       .join('/');
 
-    return `${UNISWAP_URL}${addresses}`;
-  }, [props.token, networkConfig.assets]);
+    return `${
+      config.CHAIN_BINANCE_IDS.includes(Number(chainId))
+        ? PANCAKESWAP_URL
+        : UNISWAP_URL
+    }${addresses}`;
+  }, [props.token, chainId, networkConfig.assets]);
 
   useDebounce(
     () => {
