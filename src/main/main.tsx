@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { useToggle } from 'react-use';
 import { useWeb3React } from '@web3-react/core';
@@ -61,7 +61,13 @@ export const Main: React.FC = () => {
 
   const [becomeAPartnerIsOpen, toggleBecomeAPartner] = useToggle(false);
 
-  const [openChangeNetwork] = useChangeNetworkModal();
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
+
+  useEffect(() => {
+    if (config.CHAIN_IDS.includes(Number(chainId))) {
+      closeChangeNetwork();
+    }
+  }, [chainId, closeChangeNetwork]);
 
   return (
     <>

@@ -1,5 +1,5 @@
 import { useWeb3React } from '@web3-react/core';
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useToggle } from 'react-use';
 
 import {
@@ -46,7 +46,13 @@ export const VotingInvesting: React.VFC = () => {
 
   const { chainId } = useWeb3React();
 
-  const [openChangeNetwork] = useChangeNetworkModal();
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
+
+  useEffect(() => {
+    if (config.CHAIN_IDS.includes(Number(chainId))) {
+      closeChangeNetwork();
+    }
+  }, [chainId, closeChangeNetwork]);
 
   const handleInvest = config.IS_INVEST ? toggleAttention : handleToUniswap;
 

@@ -10,7 +10,7 @@ import {
 import { useGovernanceCost } from 'src/staking';
 
 export const useWalletInfo = () => {
-  const { account } = useWeb3React();
+  const { account = null } = useWeb3React();
 
   const governanceContract = useGovernanceContract();
 

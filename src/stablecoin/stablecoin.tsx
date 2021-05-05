@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useWeb3React } from '@web3-react/core';
 
 import { Head, PageWrapper, useChangeNetworkModal } from 'src/common';
@@ -34,7 +34,13 @@ export const Stablecoin: React.FC = () => {
     toggleCollateralMarketModal
   } = useStablecoinModals();
 
-  const [openChangeNetwork] = useChangeNetworkModal();
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
+
+  useEffect(() => {
+    if (config.CHAIN_IDS.includes(Number(chainId))) {
+      closeChangeNetwork();
+    }
+  }, [chainId, closeChangeNetwork]);
 
   return (
     <>

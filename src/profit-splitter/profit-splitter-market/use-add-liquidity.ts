@@ -9,7 +9,7 @@ export const useAddLiquidity = (
   supportAmount?: string,
   updateBalances?: () => void
 ) => {
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   const marketMakerContract = useUniswapMarketMakerContract();
 

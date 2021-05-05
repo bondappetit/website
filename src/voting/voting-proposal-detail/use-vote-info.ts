@@ -8,7 +8,7 @@ import { useAsyncRetry } from 'react-use';
 export const useVoteInfo = () => {
   const governanceContract = useGovernanceContract();
   const networkConfig = useNetworkConfig();
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   const state = useAsyncRetry(async () => {
     if (!account || !governanceContract) return;

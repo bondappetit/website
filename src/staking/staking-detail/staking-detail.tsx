@@ -33,7 +33,7 @@ import { useStakingDetailStyles } from './staking-detail.styles';
 export const StakingDetail: React.FC = () => {
   const classes = useStakingDetailStyles();
   const params = useParams<{ tokenId: string }>();
-  const { account, chainId } = useWeb3React<Web3>();
+  const { account = null, chainId } = useWeb3React<Web3>();
   const [canUnstake, toggleCanUnstake] = useToggle(false);
 
   const { stakingConfig } = useStakingConfig();

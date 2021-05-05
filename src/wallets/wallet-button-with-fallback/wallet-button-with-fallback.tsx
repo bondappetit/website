@@ -18,7 +18,7 @@ export const WalletButtonWithFallback = forwardRef<
   HTMLButtonElement,
   WalletButtonWithFallbackProps
 >((props, ref) => {
-  const { account } = useWeb3React();
+  const { account = null } = useWeb3React();
 
   const [walletsOpen, walletsToggle] = useToggle(false);
 

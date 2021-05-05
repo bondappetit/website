@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import { useProfitSplitterContract, estimateGas } from 'src/common';
 
 export const useSplit = (balance?: string, updateBalances?: () => void) => {
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   const profitSplitterContract = useProfitSplitterContract();
 

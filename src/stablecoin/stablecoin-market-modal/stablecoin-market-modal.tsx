@@ -42,7 +42,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   const [balance, setBalance] = useState('0');
   const [result, setResult] = useState<BN>(new BN(0));
   const tokens = useGovernanceTokens();
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
   const marketContract = useMarketContract();
   const network = useNetworkConfig();
   const getBalance = useBalance();

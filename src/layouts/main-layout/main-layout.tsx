@@ -1,6 +1,6 @@
 import { useToggle, useMedia } from 'react-use';
 import { useWeb3React } from '@web3-react/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import {
   LinkModal,
@@ -30,7 +30,7 @@ export const MainLayout: React.FC = (props) => {
 
   const { chainId } = useWeb3React();
 
-  const [openChangeNetwork] = useChangeNetworkModal();
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
 
   const networkConfig = useNetworkConfig();
 
@@ -52,6 +52,12 @@ export const MainLayout: React.FC = (props) => {
   };
 
   const isMobile = useMedia('(max-width: 1279px)');
+
+  useEffect(() => {
+    if (config.CHAIN_IDS.includes(Number(chainId))) {
+      closeChangeNetwork();
+    }
+  }, [chainId, closeChangeNetwork]);
 
   return (
     <>

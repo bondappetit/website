@@ -58,7 +58,7 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
 
   const [successOpen, toggleSuccess] = useToggle(false);
 
-  const { account } = useWeb3React();
+  const { account = null } = useWeb3React();
 
   const [approve, approvalNeeded] = useApprove();
 

@@ -27,7 +27,13 @@ export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
   const networkConfig = useNetworkConfig();
 
   const { chainId } = useWeb3React();
-  const [openChangeNetwork] = useChangeNetworkModal();
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
+
+  useEffect(() => {
+    if (config.CHAIN_IDS.includes(Number(chainId))) {
+      closeChangeNetwork();
+    }
+  }, [chainId, closeChangeNetwork]);
 
   const ref = useRef<HTMLDivElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);

@@ -29,7 +29,7 @@ export const VotingChoose: React.FC<VotingChooseProps> = (props) => {
   );
   const classes = useVotingChooseStyles();
   const governanceContract = useGovernanceContract();
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   const { onClose } = props;
 

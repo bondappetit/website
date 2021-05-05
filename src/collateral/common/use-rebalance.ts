@@ -6,7 +6,7 @@ import { useAsyncFn } from 'react-use';
 
 export const useIssuerRebalance = () => {
   const issuerContract = useIssuerContract();
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   return useAsyncFn(async () => {
     if (!account || !issuerContract) return;

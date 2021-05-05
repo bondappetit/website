@@ -20,22 +20,21 @@ import { WalletModal } from '../wallet-modal';
 
 export const WalletButton: React.FC = () => {
   const classes = useWalletButtonStyles();
-  const { account, chainId } = useWeb3React<Web3>();
+  const { account = null, chainId } = useWeb3React<Web3>();
   const [open, toggleOpen] = useToggle(false);
   const networkConfig = useNetworkConfig();
 
+  const currentChainId = Number(chainId ?? config.DEFAULT_CHAIN_ID);
+
+  const networkName = config.CHAIN_BINANCE_IDS.includes(currentChainId)
+    ? networks.mainBSC.networkName
+    : networkConfig.networkName;
+
   return (
     <div className={classes.wrap}>
-      {(account &&
-        networkConfig.networkName &&
-        networkConfig.networkName !== 'mainnet') ||
-        (chainId && config.CHAIN_BINANCE_IDS.includes(chainId) && (
-          <Chip className={classes.chip}>
-            {config.CHAIN_BINANCE_IDS.includes(chainId)
-              ? networks.mainBSC.networkName
-              : networkConfig.networkName}
-          </Chip>
-        ))}
+      {account && networkName !== networks.main.networkName && (
+        <Chip className={classes.chip}>{networkName}</Chip>
+      )}
       <ButtonBase onClick={toggleOpen} className={clsx(classes.connected)}>
         <Typography
           variant="body1"

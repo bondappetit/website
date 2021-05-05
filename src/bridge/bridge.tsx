@@ -1,6 +1,6 @@
 import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   useAsyncFn,
   useAsyncRetry,
@@ -73,8 +73,6 @@ export const Bridge: React.VFC = () => {
   const library = useLibrary();
 
   const classes = useBridgeStyles();
-
-  const [openChangeNetwork] = useChangeNetworkModal();
   const [lostTransactionOpen, toggleLostTransaction] = useToggle(false);
 
   const [
@@ -290,6 +288,8 @@ export const Bridge: React.VFC = () => {
     ((paybackList.loading || transitList.loading) && !paybackList.value) ||
     !transitList.value;
 
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
+
   const handleRecieve = useCallback(
     (transaction: BurgerSwapTransit | BurgerSwapPayback) => {
       if (!config.CHAIN_IDS.includes(currentChainId)) openChangeNetwork();
@@ -314,6 +314,12 @@ export const Bridge: React.VFC = () => {
     transitList.retry();
     toggleLostTransaction(false);
   };
+
+  useEffect(() => {
+    if (config.CHAIN_IDS.includes(currentChainId)) {
+      closeChangeNetwork();
+    }
+  }, [currentChainId, closeChangeNetwork]);
 
   return (
     <MainLayout>

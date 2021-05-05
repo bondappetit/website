@@ -7,7 +7,7 @@ import { useBuybackContract, estimateGas } from 'src/common';
 export const useBuybackBuy = (balance: string, updateBalances?: () => void) => {
   const buybackContract = useBuybackContract();
 
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   const handleBuy = useCallback(async () => {
     if (!buybackContract) return;

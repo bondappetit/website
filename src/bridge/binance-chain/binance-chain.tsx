@@ -48,7 +48,7 @@ const payback: BurgerSwapPayback = {
 };
 
 export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
-  const { account, chainId } = useWeb3React();
+  const { account = null, chainId } = useWeb3React();
 
   const transitContract = useTransitContract();
   const bbagContract = useBBagContract();

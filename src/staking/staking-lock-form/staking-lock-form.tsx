@@ -1,10 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useFormik } from 'formik';
 import { useWeb3React } from '@web3-react/core';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
 import Tippy from '@tippyjs/react';
 import { useDebounce, useToggle } from 'react-use';
+import networks from '@bondappetit/networks';
 
 import type { Ierc20 } from 'src/generate/IERC20';
 import {
@@ -66,7 +67,13 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
   const { chainId } = useWeb3React();
 
-  const [openChangeNetwork] = useChangeNetworkModal();
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
+
+  useEffect(() => {
+    if (config.CHAIN_IDS.includes(Number(chainId))) {
+      closeChangeNetwork();
+    }
+  }, [chainId, closeChangeNetwork]);
 
   const [aquireOpen, aquireToggle] = useToggle(false);
   const [stakingAttentionOpen, toggleStakingAttention] = useToggle(false);
@@ -82,7 +89,12 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     abi: IERC20.abi as AbiItem[]
   });
 
-  const { account, tokenAddress, stakingContract, tokenDecimals } = props;
+  const {
+    account = null,
+    tokenAddress,
+    stakingContract,
+    tokenDecimals
+  } = props;
 
   const formik = useFormik({
     initialValues: {
@@ -161,17 +173,20 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   };
 
   const tokenAddresses = useMemo(() => {
-    const addresses = Object.values(networkConfig.assets)
+    const addresses = Object.values({
+      ...networkConfig.assets,
+      ...networks.mainBSC.assets
+    })
       .filter((asset) => props.token?.includes(asset.symbol))
       .map(({ address }) => address)
       .join('/');
 
     return `${
-      config.CHAIN_BINANCE_IDS.includes(Number(chainId))
+      config.CHAIN_BINANCE_IDS.includes(Number(props.chainId))
         ? PANCAKESWAP_URL
         : UNISWAP_URL
     }${addresses}`;
-  }, [props.token, chainId, networkConfig.assets]);
+  }, [props.token, props.chainId, networkConfig.assets]);
 
   useDebounce(
     () => {
