@@ -1,4 +1,3 @@
-import networks from '@bondappetit/networks';
 import { config } from 'src/config';
 
 import { useTokenPriceQuery } from 'src/graphql/_generated-hooks';
@@ -7,7 +6,7 @@ export const useGovernanceCost = () => {
   const query = useTokenPriceQuery({
     variables: {
       filter: {
-        address: networks.main.assets.Governance.address
+        address: config.DEFAULT_NETWORK_CONFIG.assets.Governance.address
       }
     },
 
