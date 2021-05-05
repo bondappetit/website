@@ -47,7 +47,7 @@ export type StakingLockFormProps = {
   depositToken?: string;
 };
 
-const UNISWAP_URL = 'https://app.uniswap.org/#/add/';
+const UNISWAP_URL = 'https://app.uniswap.org/#/add/v2/';
 
 const delay = (ms: number) =>
   new Promise((resolve) => {
