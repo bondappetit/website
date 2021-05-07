@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React from 'react';
 
 import { Typography } from '../typography';
@@ -17,9 +18,9 @@ export const DocumentCard: React.FC<DocumentCardProps> = (props) => {
         href={props.link}
         target="_blank"
         rel="noreferrer"
-        className={classes.card}
+        className={clsx(classes.card, props.className)}
       >
-        <Typography variant="h3">{props.children} ↗</Typography>
+        <Typography variant="h3">{props.children} ↓</Typography>
       </a>
     </div>
   );
