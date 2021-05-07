@@ -15,7 +15,6 @@ import { setContext } from '@apollo/client/link/context';
 import { ThemeProvider, globalStyles, ModalProvider } from './common';
 import { App } from './app';
 import { config } from './config';
-import { chainIdVar } from './cache';
 import { Web3Provider } from './web3/web3-provider';
 import { ErrorBoundary, Sentry } from './error-boundary';
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
@@ -25,8 +24,8 @@ jss.createStyleSheet(globalStyles).attach();
 
 const chainIdLink = setContext((_, { headers }) => ({
   headers: {
-    ...headers,
-    'chain-id': chainIdVar()
+    'chain-id': config.CHAIN_IDS[0],
+    ...headers
   }
 }));
 
@@ -37,8 +36,7 @@ const httpLink = new HttpLink({
 const client = new ApolloClient({
   cache: new InMemoryCache(),
   link: chainIdLink.concat(httpLink),
-  connectToDevTools: config.IS_DEV,
-  queryDeduplication: Boolean(chainIdVar())
+  connectToDevTools: config.IS_DEV
 });
 
 Sentry.init();

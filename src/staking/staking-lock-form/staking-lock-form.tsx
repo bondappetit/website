@@ -1,9 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useFormik } from 'formik';
+import { useWeb3React } from '@web3-react/core';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
 import Tippy from '@tippyjs/react';
 import { useDebounce, useToggle } from 'react-use';
+import networks from '@bondappetit/networks';
 
 import type { Ierc20 } from 'src/generate/IERC20';
 import {
@@ -18,11 +20,15 @@ import {
   Skeleton,
   useApprove,
   reset,
-  approveAll
+  approveAll,
+  Button,
+  useChangeNetworkModal,
+  setupBinance
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { WalletButtonWithFallback } from 'src/wallets';
 import { analytics } from 'src/analytics';
+import { config } from 'src/config';
 import {
   StakingAcquireModal,
   StakingAttentionModal,
@@ -36,8 +42,8 @@ export type StakingLockFormProps = {
   tokenName?: string;
   tokenAddress?: string;
   token?: string[];
-  stakingContract?: Staking;
-  tokenDecimals?: string;
+  stakingContract?: Staking | null;
+  tokenDecimals?: number;
   onSubmit?: () => void;
   unstakeStart?: string;
   balanceOfToken: BN;
@@ -45,9 +51,11 @@ export type StakingLockFormProps = {
   unstakingStartBlock?: BN;
   lockable?: boolean;
   depositToken?: string;
+  chainId?: number;
 };
 
 const UNISWAP_URL = 'https://app.uniswap.org/#/add/v2/';
+const PANCAKESWAP_URL = 'https://exchange.pancakeswap.finance/#/add/';
 
 const delay = (ms: number) =>
   new Promise((resolve) => {
@@ -57,6 +65,16 @@ const delay = (ms: number) =>
 export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const classes = useStakingLockFormStyles();
 
+  const { chainId } = useWeb3React();
+
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
+
+  useEffect(() => {
+    if (config.CHAIN_IDS.includes(Number(chainId))) {
+      closeChangeNetwork();
+    }
+  }, [chainId, closeChangeNetwork]);
+
   const [aquireOpen, aquireToggle] = useToggle(false);
   const [stakingAttentionOpen, toggleStakingAttention] = useToggle(false);
 
@@ -65,11 +83,18 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
   const [approve, approvalNeeded] = useApprove();
 
+  const currentChainId = Number(chainId ?? config.DEFAULT_CHAIN_ID);
+
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]
   });
 
-  const { account, tokenAddress, stakingContract, tokenDecimals } = props;
+  const {
+    account = null,
+    tokenAddress,
+    stakingContract,
+    tokenDecimals
+  } = props;
 
   const formik = useFormik({
     initialValues: {
@@ -148,13 +173,24 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   };
 
   const tokenAddresses = useMemo(() => {
-    const addresses = Object.values(networkConfig.assets)
-      .filter((asset) => props.token?.includes(asset.symbol))
+    const addresses = Object.values({
+      ...networkConfig.assets,
+      ...networks.mainBSC.assets
+    })
+      .filter(
+        (asset) =>
+          props.token?.includes(asset.symbol) ||
+          asset.symbol === networks.mainBSC.assets.BNB.symbol
+      )
       .map(({ address }) => address)
       .join('/');
 
-    return `${UNISWAP_URL}${addresses}`;
-  }, [props.token, networkConfig.assets]);
+    return `${
+      config.CHAIN_BINANCE_IDS.includes(Number(props.chainId))
+        ? PANCAKESWAP_URL
+        : UNISWAP_URL
+    }${addresses}`;
+  }, [props.token, props.chainId, networkConfig.assets]);
 
   useDebounce(
     () => {
@@ -199,9 +235,13 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         <div>
           <Typography variant="body1" align="center" className={classes.title}>
             Stake your{' '}
-            <Link href={tokenAddresses} target="_blank" color="blue">
-              {props.loading ? '...' : props.tokenName}
-            </Link>
+            {config.CHAIN_IDS.includes(Number(props.chainId)) ? (
+              <Link href={tokenAddresses} target="_blank" color="blue">
+                {props.loading ? '...' : props.tokenName}
+              </Link>
+            ) : (
+              props.token?.join('_')
+            )}
           </Typography>
           <Tippy
             key={String(formik.isSubmitting)}
@@ -268,32 +308,48 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
           <Skeleton className={classes.skeleton} />
         ) : (
           <>
-            {props.unstakingStartBlock?.isGreaterThan(0) && (
-              <WalletButtonWithFallback
+            {account && props.chainId !== currentChainId && (
+              <Button
                 type="button"
-                disabled={formik.isSubmitting}
-                loading={formik.isSubmitting}
-                key={approve.value?.allowance.toString(10)}
                 onClick={
-                  new BN(formik.values.amount || '0').isGreaterThan(0) &&
-                  props.balanceOfToken.isGreaterThan(0)
-                    ? toggleStakingAttention
-                    : addLiquidity
+                  chainId && config.CHAIN_IDS.includes(currentChainId)
+                    ? setupBinance
+                    : openChangeNetwork
                 }
+                className={classes.changeNetwork}
               >
-                {props.balanceOfToken.isGreaterThan(0) ? (
-                  <>
-                    {(!approve.value?.approve && !approve.value?.reset) ||
-                    new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
-                      ? 'Stake'
-                      : 'Approve'}
-                  </>
-                ) : (
-                  'Add liquidity'
-                )}
-              </WalletButtonWithFallback>
+                Change Network
+              </Button>
             )}
-            {props.unstakingStartBlock?.isLessThanOrEqualTo(0) && (
+            {props.unstakingStartBlock?.isGreaterThan(0) &&
+              props.chainId === currentChainId && (
+                <WalletButtonWithFallback
+                  type="button"
+                  disabled={formik.isSubmitting}
+                  loading={formik.isSubmitting}
+                  key={approve.value?.allowance.toString(10)}
+                  onClick={
+                    new BN(formik.values.amount || '0').isGreaterThan(0) &&
+                    props.balanceOfToken.isGreaterThan(0)
+                      ? toggleStakingAttention
+                      : addLiquidity
+                  }
+                >
+                  {props.balanceOfToken.isGreaterThan(0) ? (
+                    <>
+                      {(!approve.value?.approve && !approve.value?.reset) ||
+                      new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
+                        ? 'Stake'
+                        : 'Approve'}
+                    </>
+                  ) : (
+                    'Add liquidity'
+                  )}
+                </WalletButtonWithFallback>
+              )}
+            {((props.unstakingStartBlock?.isLessThanOrEqualTo(0) &&
+              props.chainId === currentChainId) ||
+              !account) && (
               <WalletButtonWithFallback
                 type={
                   new BN(formik.values.amount || '0').isGreaterThan(0) &&
@@ -329,7 +385,11 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       <StakingAcquireModal
         open={aquireOpen}
         onClose={aquireToggle}
-        tokenName={props.tokenName}
+        tokenName={
+          config.CHAIN_BINANCE_IDS.includes(Number(props.chainId))
+            ? 'Cake-LP'
+            : props.tokenName
+        }
         depositToken={props.depositToken}
         token={props.token}
         tokenAddresses={tokenAddresses}

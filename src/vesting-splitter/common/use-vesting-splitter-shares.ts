@@ -16,7 +16,7 @@ export const useVestingsplitterShares = () => {
 
   const networkConfig = useNetworkConfig();
 
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   const state = useAsyncRetry(async () => {
     if (!vestingSplitterContract) return;

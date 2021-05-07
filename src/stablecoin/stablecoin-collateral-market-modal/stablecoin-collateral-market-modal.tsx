@@ -40,7 +40,7 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
 ) => {
   const [balance, setBalance] = useState('0');
   const tokens = useStablecoinTokens();
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
   const collateralMarketContract = useCollateralMarketContract();
   const network = useNetworkConfig();
   const getBalance = useBalance();

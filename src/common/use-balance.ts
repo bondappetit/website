@@ -15,7 +15,7 @@ type GetBalanceOptions = {
 };
 
 export const useBalance = () => {
-  const { account: web3Account, library } = useWeb3React<Web3>();
+  const { account: web3Account = null, library } = useWeb3React<Web3>();
   const balanceRef = useRef('');
   const getIERC20Contract = useDynamicContract<Ierc20>({
     abi: IERC20.abi as AbiItem[]

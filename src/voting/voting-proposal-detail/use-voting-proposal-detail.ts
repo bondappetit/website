@@ -15,7 +15,7 @@ export const useVotingProposalDetail = (proposalId?: number) => {
   const networkConfig = useNetworkConfig();
   const governanceToken = useGovernanceContract();
 
-  const { account } = useWeb3React();
+  const { account = null } = useWeb3React();
 
   const state = useAsyncRetry(async () => {
     if (!proposalId || !governorContract || !eventData || !governanceToken)

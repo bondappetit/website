@@ -111,6 +111,12 @@ export const useStakingDetailStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 88
       }
+    },
+
+    empty: {
+      maxWidth: 300,
+      width: '100%',
+      margin: '0 auto'
     }
   }),
   {

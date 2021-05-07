@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Plate, Typography } from 'src/common';
-import { DECISION_MAKING } from '../constants';
 import { useVotingInfoDecisionStyles } from './voting-info-decision.styles';
+import { DECISION_MAKING } from '../constants';
 
 export type VotingInfoDecisionProps = {
   className?: string;

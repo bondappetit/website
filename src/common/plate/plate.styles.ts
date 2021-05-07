@@ -14,7 +14,8 @@ export const usePlateStyles = createUseStyles(
     },
 
     grey: {
-      backgroundColor: theme.colors.proposalPlate
+      backgroundColor: theme.colors.proposalPlate,
+      '--plate': theme.colors.proposalPlate
     },
 
     transparent: {

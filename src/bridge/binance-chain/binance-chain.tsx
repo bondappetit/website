@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
 import { FormikProvider, useFormik } from 'formik';
 import React from 'react';
-import { useAsyncRetry, useDebounce } from 'react-use';
+import { useAsyncRetry, useDebounce, useToggle } from 'react-use';
 
 import {
   BN,
@@ -10,7 +10,10 @@ import {
   reset,
   approveAll,
   useBalance,
-  useIntervalIfHasAccount
+  useIntervalIfHasAccount,
+  InfoCardSuccess,
+  SmallModal,
+  Modal
 } from 'src/common';
 import {
   BurgerSwapBridgeTransitTypeEnum,
@@ -29,7 +32,7 @@ const GAS = 120000;
 export type BinanceChainProps = {
   onBscPayback?: (transactionHash: string) => void;
   bscPayback?: null | string;
-  onConfirm?: (payback: BurgerSwapPayback) => void;
+  onConfirm?: (payback: BurgerSwapPayback | null) => void;
 };
 
 const payback: BurgerSwapPayback = {
@@ -48,12 +51,14 @@ const payback: BurgerSwapPayback = {
 };
 
 export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
-  const { account, chainId } = useWeb3React();
+  const { account = null, chainId } = useWeb3React();
 
   const transitContract = useTransitContract();
   const bbagContract = useBBagContract();
 
   const [addBurgerSwapTransit] = useAddBurgerSwapBridgeTransitMutation();
+
+  const [successOpen, toggleSuccess] = useToggle(false);
 
   const getBalance = useBalance();
 
@@ -161,6 +166,10 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
             await burgerSwapApi.bscPayback(props.bscPayback);
           }
 
+          props.onConfirm?.(null);
+
+          toggleSuccess(true);
+
           resetForm();
 
           return Promise.resolve();
@@ -218,6 +227,21 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
           reset={approve.value?.reset}
         />
       </FormikProvider>
+      <Modal open={successOpen} onClose={toggleSuccess}>
+        <SmallModal>
+          <InfoCardSuccess
+            token="Governance"
+            tokenName="bBAG"
+            onClick={toggleSuccess}
+            purchased={formik.values.amount}
+          >
+            You have successfully
+            <br />
+            sended&nbsp;
+            {formik.values.amount}&nbsp;bBAG
+          </InfoCardSuccess>
+        </SmallModal>
+      </Modal>
     </div>
   );
 };

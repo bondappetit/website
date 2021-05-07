@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ReactComponent as ExpandIcon } from 'src/assets/icons/expand-icon.svg';
+import { ReactComponent as ExpandIcon } from 'src/assets/icons/plus.svg';
 import {
   Accordion,
   AccordionDetails,
@@ -24,7 +24,7 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
       </Typography>
       {FAQ.map((faqItem) => (
         <Accordion key={faqItem.title}>
-          <AccordionSummary expandIcon={<ExpandIcon />}>
+          <AccordionSummary expandIcon={<ExpandIcon width="32" height="32" />}>
             <Typography variant="h5">{faqItem.title}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.detail}>

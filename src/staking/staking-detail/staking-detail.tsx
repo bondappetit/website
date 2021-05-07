@@ -21,17 +21,19 @@ import {
   StakingHeader,
   useStakingUnlock,
   useCanUnStaking,
-  useStakingListData
+  useStakingListData,
+  StakingEmpty
 } from 'src/staking/common';
 import { useStakingConfig } from 'src/staking-config';
 import { WalletButtonWithFallback } from 'src/wallets';
+import { config } from 'src/config';
 import { StakingLockForm } from '../staking-lock-form';
 import { useStakingDetailStyles } from './staking-detail.styles';
 
 export const StakingDetail: React.FC = () => {
   const classes = useStakingDetailStyles();
   const params = useParams<{ tokenId: string }>();
-  const { account } = useWeb3React<Web3>();
+  const { account = null, chainId } = useWeb3React<Web3>();
   const [canUnstake, toggleCanUnstake] = useToggle(false);
 
   const { stakingConfig } = useStakingConfig();
@@ -85,7 +87,7 @@ export const StakingDetail: React.FC = () => {
     await unlock(false);
 
     stakingAddresses.retry();
-  }, [unlock, stakingAddresses.retry, stakingBalanceIsEmpty]);
+  }, [unlock, stakingBalanceIsEmpty]);
 
   const balanceOfToken = useAsyncRetry(async () => {
     if (!stakingItem) return;
@@ -107,7 +109,7 @@ export const StakingDetail: React.FC = () => {
     .div(stakingItem?.totalSupplyFloat ?? '1')
     .multipliedBy(100);
 
-  const loading = !stakingItem || !unstake.value;
+  const loading = !stakingItem;
 
   const depositToken = useMemo(() => stakingItem?.token?.join('_'), [
     stakingItem
@@ -153,6 +155,7 @@ export const StakingDetail: React.FC = () => {
                 balanceOfToken={balanceOfToken.value ?? new BN(0)}
                 loading={loading}
                 depositToken={depositToken}
+                chainId={stakingItem?.chaindId}
               />
             </Plate>
             <Plate className={clsx(classes.card, classes.cardFlex)}>
@@ -163,7 +166,20 @@ export const StakingDetail: React.FC = () => {
                     align="center"
                     className={classes.cardTitle}
                   >
-                    You staked {loading ? '...' : tokenName}
+                    You staked{' '}
+                    {loading ? (
+                      '...'
+                    ) : (
+                      <>
+                        {config.CHAIN_IDS.includes(
+                          Number(
+                            stakingItem?.chaindId ?? config.DEFAULT_CHAIN_ID
+                          )
+                        )
+                          ? tokenName
+                          : stakingItem?.token.join('_')}
+                      </>
+                    )}
                   </Typography>
                   <Typography variant="h2" align="center">
                     {stakingItem?.amount.isNaN() ||
@@ -193,37 +209,50 @@ export const StakingDetail: React.FC = () => {
                       <>${humanizeNumeral(stakingItem?.amountInUSDC)}</>
                     )}
                   </Typography>
-                  {loading && <Skeleton className={classes.attention} />}
-                  {!loading && !showUnstakeButton && account && (
-                    <Typography
-                      variant="body2"
-                      align="center"
-                      className={classes.attention}
-                    >
-                      Unstaking will start at{' '}
-                      {unstake.value?.unstakingStartBlock.toString(10)} block
-                      <br />({unstake.value?.date})
-                    </Typography>
-                  )}
-                  {!loading && showUnstakeButton && account && (
-                    <Tippy
-                      visible={canUnstake}
-                      key={String(canUnstake)}
-                      content="Unstaking not started"
-                      maxWidth={200}
-                      offset={[0, 25]}
-                      className={classes.tooltip}
-                      animation={false}
-                    >
-                      <WalletButtonWithFallback
-                        onClick={handleUnstake}
-                        className={classes.unlock}
-                        loading={unstakeState.loading}
-                        disabled={unstakeState.loading}
-                      >
-                        Unstake
-                      </WalletButtonWithFallback>
-                    </Tippy>
+                  {loading ? (
+                    <Skeleton className={classes.attention} />
+                  ) : (
+                    <>
+                      {!showUnstakeButton &&
+                        account &&
+                        stakingItem?.chaindId === chainId &&
+                        unstake.value && (
+                          <Typography
+                            variant="body2"
+                            align="center"
+                            className={classes.attention}
+                          >
+                            Unstaking will start at{' '}
+                            {unstake.value?.unstakingStartBlock.toString(10)}{' '}
+                            block
+                            <br />({unstake.value?.date})
+                          </Typography>
+                        )}
+                      {showUnstakeButton &&
+                      account &&
+                      stakingItem?.chaindId === chainId ? (
+                        <Tippy
+                          visible={canUnstake}
+                          key={String(canUnstake)}
+                          content="Unstaking not started"
+                          maxWidth={200}
+                          offset={[0, 25]}
+                          className={classes.tooltip}
+                          animation={false}
+                        >
+                          <WalletButtonWithFallback
+                            onClick={handleUnstake}
+                            className={classes.unlock}
+                            loading={unstakeState.loading}
+                            disabled={unstakeState.loading}
+                          >
+                            Unstake
+                          </WalletButtonWithFallback>
+                        </Tippy>
+                      ) : (
+                        <StakingEmpty className={classes.empty} />
+                      )}
+                    </>
                   )}
                 </div>
                 <div className={classes.unstakeAndClaim}>
@@ -251,16 +280,20 @@ export const StakingDetail: React.FC = () => {
                   {loading ? (
                     <Skeleton className={classes.attention} />
                   ) : (
-                    account && (
-                      <WalletButtonWithFallback
-                        onClick={handleClaim}
-                        className={classes.unlock}
-                        loading={claimState.loading}
-                        disabled={claimState.loading}
-                      >
-                        Claim
-                      </WalletButtonWithFallback>
-                    )
+                    <>
+                      {account && stakingItem?.chaindId === chainId ? (
+                        <WalletButtonWithFallback
+                          onClick={handleClaim}
+                          className={classes.unlock}
+                          loading={claimState.loading}
+                          disabled={claimState.loading}
+                        >
+                          Claim
+                        </WalletButtonWithFallback>
+                      ) : (
+                        <StakingEmpty className={classes.empty} />
+                      )}
+                    </>
                   )}
                 </div>
               </div>

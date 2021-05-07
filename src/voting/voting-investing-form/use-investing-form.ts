@@ -45,7 +45,7 @@ export const useInvestingForm = (onSuccess: () => void) => {
   const [failureOpen, failureToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
 
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   const [approve, approvalNeeded] = useApprove();
 

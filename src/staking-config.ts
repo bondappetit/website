@@ -1,5 +1,8 @@
 import { useMemo } from 'react';
-import { Network, useNetworkConfig } from './common';
+import networks from '@bondappetit/networks';
+
+import { Network } from './common';
+import { config } from './config';
 
 export type StakingConfig = {
   contractName: string;
@@ -7,28 +10,21 @@ export type StakingConfig = {
   token: string[];
   liquidityPool: boolean;
   configAddress: string;
+  networkName: string;
+  chainId: number;
 };
 
 const Gov = 'BAG';
-
+const GovBNB = 'bBAG';
 const Stable = 'USDap';
-
 const USDC = 'USDC';
-
 const USDN = 'USDN';
-
 const USDT = 'USDT';
-
 // const ETH = 'ETH';
-
 const LP = 'UNI-V2';
+const BNB = 'BNB';
 
-const getStakingAddress = (
-  networkConfig: Network,
-  contractName: string
-): string | undefined => networkConfig.contracts[contractName]?.address;
-
-const config = [
+const stakingConfig = [
   // {
   //   contractName: 'GovStaking',
   //   tokenName: Gov,
@@ -62,11 +58,20 @@ const config = [
   //   tokenName: LP,
   //   token: [Stable, Gov],
   //   liquidityPool: true
-  // }
+  // },
+
+  {
+    contractName: 'BnbGovLPStaking',
+    tokenName: LP,
+    chainId: config.CHAIN_BINANCE_IDS[0],
+    token: [GovBNB, BNB],
+    liquidityPool: true
+  },
 
   {
     contractName: 'UsdcStableLPLockStaking',
     tokenName: LP,
+    chainId: config.CHAIN_IDS[0],
     token: [Stable, USDC],
     liquidityPool: true
   },
@@ -74,6 +79,7 @@ const config = [
   {
     contractName: 'UsdtGovLPStaking',
     tokenName: LP,
+    chainId: config.CHAIN_IDS[0],
     token: [Gov, USDT],
     liquidityPool: true
   },
@@ -81,6 +87,7 @@ const config = [
   {
     contractName: 'UsdnGovLPStaking',
     tokenName: LP,
+    chainId: config.CHAIN_IDS[0],
     token: [Gov, USDN],
     liquidityPool: true
   },
@@ -88,45 +95,56 @@ const config = [
   {
     contractName: 'UsdcGovLPStaking',
     tokenName: LP,
+    chainId: config.CHAIN_IDS[0],
     token: [Gov, USDC],
     liquidityPool: true
   }
 ];
 
-const getStakingConfig = (
-  networkConfig: Network
-): Record<string, StakingConfig> => {
-  return config.reduce<Record<string, StakingConfig>>((acc, configItem) => {
-    const address = getStakingAddress(networkConfig, configItem.contractName);
-
-    if (address) {
-      const lowerAddress = address.toLowerCase();
-
-      acc[lowerAddress] = {
-        ...configItem,
-        configAddress: lowerAddress
-      };
-    }
-
-    return acc;
-  }, {});
+const chainContracts: Record<number, Network['contracts']> = {
+  [config.CHAIN_IDS[0]]: networks.main.contracts,
+  [config.CHAIN_BINANCE_IDS[0]]: networks.mainBSC.contracts
 };
 
-export const useStakingConfig = (length?: number) => {
-  const networkConfig = useNetworkConfig();
+const getStakingAddress = (
+  contracts: Network['contracts'],
+  contractName: string
+): string | undefined => contracts[contractName]?.address;
 
-  const stakingConfig = useMemo(() => getStakingConfig(networkConfig), [
-    networkConfig
-  ]);
+const getStakingConfig = (): Record<string, StakingConfig> => {
+  return stakingConfig.reduce<Record<string, StakingConfig>>(
+    (acc, configItem) => {
+      const contracts = chainContracts[configItem.chainId];
+
+      const address = getStakingAddress(contracts, configItem.contractName);
+
+      if (address) {
+        const lowerAddress = address.toLowerCase();
+
+        acc[lowerAddress] = {
+          ...configItem,
+          configAddress: lowerAddress,
+          networkName: 'networkConfig.networkName'
+        };
+      }
+
+      return acc;
+    },
+    {}
+  );
+};
+
+export const useStakingConfig = () => {
+  const stakingConfigMemo = useMemo(() => getStakingConfig(), []);
 
   const stakingConfigValues = useMemo(() => {
-    const values = Object.values(stakingConfig);
+    const values = Object.values(stakingConfigMemo);
 
-    return !length ? values : values.slice(0, 4);
-  }, [stakingConfig, length]);
+    return values;
+  }, [stakingConfigMemo]);
 
-  return useMemo(() => ({ stakingConfigValues, stakingConfig }), [
-    stakingConfigValues,
-    stakingConfig
-  ]);
+  return useMemo(
+    () => ({ stakingConfigValues, stakingConfig: stakingConfigMemo }),
+    [stakingConfigValues, stakingConfigMemo]
+  );
 };

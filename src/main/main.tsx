@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import clsx from 'clsx';
 import { useToggle } from 'react-use';
+import { useWeb3React } from '@web3-react/core';
 
-import { Head, humanizeNumeral, PageWrapper, Typography } from 'src/common';
+import {
+  Head,
+  humanizeNumeral,
+  PageWrapper,
+  Typography,
+  useChangeNetworkModal
+} from 'src/common';
 import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
 import { MainLayout } from 'src/layouts';
 import {
@@ -12,6 +19,7 @@ import {
 } from 'src/stablecoin';
 import { useStakingListData } from 'src/staking';
 import { ContactsBecomePartner } from 'src/contacts/contacts-become-partner';
+import { config } from 'src/config';
 import {
   MainStaking,
   MainStablecoin,
@@ -30,10 +38,9 @@ import { MainCointelegraph } from './common/main-cointelegraph';
 export const Main: React.FC = () => {
   const classes = useMainStyles();
 
-  const { totalValueLocked, stakingList, count } = useStakingListData(
-    undefined,
-    4
-  );
+  const { chainId } = useWeb3React();
+
+  const { totalValueLocked, stakingList } = useStakingListData();
 
   const stablecoinBalance = useStableCoinBalance();
 
@@ -54,6 +61,14 @@ export const Main: React.FC = () => {
 
   const [becomeAPartnerIsOpen, toggleBecomeAPartner] = useToggle(false);
 
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
+
+  useEffect(() => {
+    if (config.CHAIN_IDS.includes(Number(chainId))) {
+      closeChangeNetwork();
+    }
+  }, [chainId, closeChangeNetwork]);
+
   return (
     <>
       <Head
@@ -63,9 +78,9 @@ export const Main: React.FC = () => {
       <MainLayout>
         <PageWrapper className={classes.root}>
           <MainStaking
-            countOfCards={count}
+            countOfCards={4}
             className={classes.staking}
-            staking={stakingList}
+            staking={stakingList?.slice(0, 4)}
             totalValueLocked={humanizeNumeral(totalValueLocked)}
           />
           <MainStablecoin
@@ -75,7 +90,11 @@ export const Main: React.FC = () => {
                 ? humanizeNumeral(stablecoinBalance.value)
                 : ''
             }
-            onBuy={togglelinkModal}
+            onBuy={
+              config.CHAIN_BINANCE_IDS.includes(Number(chainId))
+                ? openChangeNetwork
+                : togglelinkModal
+            }
             onSell={toggleSellModal}
           />
           <MainCollateral className={classes.section} />
