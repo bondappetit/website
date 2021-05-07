@@ -54,7 +54,7 @@ export type StakingLockFormProps = {
   chainId?: number;
 };
 
-const UNISWAP_URL = 'https://app.uniswap.org/#/add/';
+const UNISWAP_URL = 'https://app.uniswap.org/#/add/v2/';
 const PANCAKESWAP_URL = 'https://exchange.pancakeswap.finance/#/add/';
 
 const delay = (ms: number) =>
