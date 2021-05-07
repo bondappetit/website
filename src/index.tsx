@@ -17,6 +17,7 @@ import { App } from './app';
 import { config } from './config';
 import { Web3Provider } from './web3/web3-provider';
 import { ErrorBoundary, Sentry } from './error-boundary';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 jss.createStyleSheet(normalize).attach();
 jss.createStyleSheet(globalStyles).attach();
@@ -60,3 +61,10 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+// If you want your app to work offline and load faster, you can change
+// unregister() to register() below. Note this comes with some pitfalls.
+// Learn more about service workers: https://cra.link/PWA
+if (!config.IS_DEV) {
+  serviceWorkerRegistration.register();
+}
