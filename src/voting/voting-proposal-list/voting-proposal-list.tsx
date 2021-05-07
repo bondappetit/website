@@ -25,7 +25,7 @@ const DELEGATE_TO_DEFAULT = '0x0000000000000000000000000000000000000000';
 
 export const VotingProposalList: React.FC = () => {
   const classes = useVotingProposalListStyles();
-  const { account } = useWeb3React();
+  const { account = null } = useWeb3React();
   const {
     proposals,
     nextPage,

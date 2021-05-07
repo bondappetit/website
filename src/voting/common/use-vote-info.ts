@@ -21,7 +21,7 @@ export const useVoteInfo = () => {
   const governorContract = useGovernorContract();
   const governanceContract = useGovernanceContract();
   const networkConfig = useNetworkConfig();
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
   const getBalance = useBalance();
   const [update, handleUpdateVoteInfo] = useUpdate();
   const [

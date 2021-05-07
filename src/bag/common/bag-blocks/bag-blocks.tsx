@@ -37,7 +37,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
         title="Buy on the market"
         subtitle={
           <Typography variant="h2">
-            BAG = ${humanizeNumeral(govTokenCost.governanceInUSDC)}
+            BAG = ${humanizeNumeral(govTokenCost)}
           </Typography>
         }
         icons={

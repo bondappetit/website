@@ -33,7 +33,7 @@ export const ProfitSplitterDeposit: React.FC<ProfitSplitterDepositProps> = (
 
   const getBalance = useBalance();
 
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   const profitSplitterContract = useProfitSplitterContract();
 

@@ -20,13 +20,15 @@ export const InfoCardSuccess: React.FC<InfoCardSuccessProps> = (props) => {
     <InfoCardWrapper
       title={<span className={classes.heading}>Congratulations!</span>}
       subtitle={
-        <>
-          You have successfully
-          <br />
-          purchased
-          {!isBiggerThanMediumDesktop ? <>&nbsp;</> : ' '}
-          {props.purchased}&nbsp;{props.tokenName}
-        </>
+        props.children ?? (
+          <>
+            You have successfully
+            <br />
+            purchased
+            {!isBiggerThanMediumDesktop ? <>&nbsp;</> : ' '}
+            {props.purchased}&nbsp;{props.tokenName}
+          </>
+        )
       }
       onClick={props.onClick}
       button="Finish!"

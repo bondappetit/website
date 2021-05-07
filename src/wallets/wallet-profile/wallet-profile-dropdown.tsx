@@ -29,7 +29,7 @@ export const WalletProfileDropdown = forwardRef<
 
   const classes = useWalletProfileStyles();
 
-  const { account } = useWeb3React();
+  const { account = null } = useWeb3React();
 
   const { rewardSum } = useStakingListData();
 

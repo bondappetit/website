@@ -32,7 +32,7 @@ import {
 export type EthChainProps = {
   onEthTransit?: (transactionHash: string) => void;
   ethTransit?: string | null;
-  onConfirm?: (transit: BurgerSwapTransit) => void;
+  onConfirm?: (transit: BurgerSwapTransit | null) => void;
 };
 
 const transit: BurgerSwapTransit = {
@@ -58,7 +58,7 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
 
   const [successOpen, toggleSuccess] = useToggle(false);
 
-  const { account } = useWeb3React();
+  const { account = null } = useWeb3React();
 
   const [approve, approvalNeeded] = useApprove();
 
@@ -165,6 +165,8 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
             await burgerSwapApi.ethTransit(props.ethTransit);
           }
 
+          props.onConfirm?.(null);
+
           toggleSuccess(true);
 
           resetForm();
@@ -239,7 +241,12 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
             tokenName="BAG"
             onClick={toggleSuccess}
             purchased={formik.values.amount}
-          />
+          >
+            You have successfully
+            <br />
+            sended&nbsp;
+            {formik.values.amount}&nbsp;BAG
+          </InfoCardSuccess>
         </SmallModal>
       </Modal>
     </div>

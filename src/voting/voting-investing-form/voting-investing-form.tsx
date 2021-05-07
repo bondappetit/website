@@ -31,7 +31,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
 ) => {
   const tokens = useInvestingTokens();
 
-  const { account } = useWeb3React();
+  const { account = null } = useWeb3React();
 
   const {
     formik,

@@ -42,7 +42,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   const [balance, setBalance] = useState('0');
   const [result, setResult] = useState<BN>(new BN(0));
   const tokens = useGovernanceTokens();
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
   const marketContract = useMarketContract();
   const network = useNetworkConfig();
   const getBalance = useBalance();
@@ -54,7 +54,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   const [failureOpen, failureToggle] = useToggle(false);
   const [transactionOpen, transactionToggle] = useToggle(false);
 
-  const { governanceInUSDC } = useGovernanceCost();
+  const governanceInUSDC = useGovernanceCost();
 
   const [approve, approvalNeeded] = useApprove();
 
@@ -219,11 +219,8 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
   const tokenCost = useMemo(() => {
     if (!governanceInUSDC) return '0';
 
-    return new BN(1)
-      .multipliedBy(governanceInUSDC)
-      .div(new BN(10).pow(network.assets.USDC.decimals))
-      .toString(10);
-  }, [governanceInUSDC, network.assets.USDC.decimals]);
+    return new BN(1).multipliedBy(governanceInUSDC).toString(10);
+  }, [governanceInUSDC]);
 
   const { setFieldValue } = formik;
 

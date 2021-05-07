@@ -31,7 +31,7 @@ export const VotingDetailsAction: React.FC<VotingDetailsActionProps> = (
 ) => {
   const classes = useVotingDetailsActionStyles();
   const governorContract = useGovernorContract();
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   const [open, toggleWalletModal] = useToggle(false);
 

@@ -13,7 +13,7 @@ import {
 
 const DATE_FORMAT = 'HH:mm:ss on MMMM DD';
 
-export const useCanStaking = (stakingContract?: Staking) => {
+export const useCanStaking = (stakingContract?: Staking | null) => {
   const { library } = useWeb3React<Web3>();
   const stakingContractRef = useRef(stakingContract);
   const networkConfig = useNetworkConfig();

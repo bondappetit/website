@@ -1,10 +1,17 @@
 import clsx from 'clsx';
 import React, { useEffect, useRef } from 'react';
 import { useToggle } from 'react-use';
+import { useWeb3React } from '@web3-react/core';
 
 import { ReactComponent as BAGicon } from 'src/assets/icons/wallet-info.svg';
-import { ButtonBase, LinkModal, useNetworkConfig } from 'src/common';
+import {
+  ButtonBase,
+  LinkModal,
+  useChangeNetworkModal,
+  useNetworkConfig
+} from 'src/common';
 import { VotingInvestingForm } from 'src/voting/voting-investing-form';
+import { config } from 'src/config';
 import { VotingInvestingAttention } from 'src/voting/voting-investing-attention';
 import { useWalletProfileStyles } from './wallet-profile.styles';
 import { WalletProfileDropdown } from './wallet-profile-dropdown';
@@ -18,6 +25,15 @@ export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
   const classes = useWalletProfileStyles();
 
   const networkConfig = useNetworkConfig();
+
+  const { chainId } = useWeb3React();
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
+
+  useEffect(() => {
+    if (config.CHAIN_IDS.includes(Number(chainId))) {
+      closeChangeNetwork();
+    }
+  }, [chainId, closeChangeNetwork]);
 
   const ref = useRef<HTMLDivElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -60,7 +76,11 @@ export const WalletProfile: React.VFC<WalletProfileProps> = (props) => {
       {dropdownOpened && (
         <div ref={dropdownRef} className={classes.dropdown}>
           <WalletProfileDropdown
-            onBuy={togglelinkModal}
+            onBuy={
+              config.CHAIN_BINANCE_IDS.includes(Number(chainId))
+                ? openChangeNetwork
+                : togglelinkModal
+            }
             onConnect={toggleWalletModal}
           />
         </div>

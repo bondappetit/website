@@ -5,8 +5,8 @@ import { useCallback } from 'react';
 import { estimateGas } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 
-export const useStakingUnlock = (stakingContract?: Staking) => {
-  const { account } = useWeb3React<Web3>();
+export const useStakingUnlock = (stakingContract?: Staking | null) => {
+  const { account = null } = useWeb3React<Web3>();
 
   const handleUnstakeOrClaim = useCallback(
     async (unstake = true) => {

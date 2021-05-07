@@ -18,7 +18,7 @@ export const useVestingSplitterInfo = () => {
 
   const [loading, toggleLoading] = useToggle(false);
 
-  const { account } = useWeb3React<Web3>();
+  const { account = null } = useWeb3React<Web3>();
 
   const state = useAsyncRetry(async () => {
     if (!vestingContract || !vestingSplitterContract) return;

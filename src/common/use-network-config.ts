@@ -13,6 +13,10 @@ export const useNetworkConfig = () => {
       (network) => network.networkId === chainId
     );
 
+    if (config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
+      return config.DEFAULT_NETWORK_CONFIG;
+    }
+
     return networkConfig ?? config.DEFAULT_NETWORK_CONFIG;
   }, [chainId]);
 };
