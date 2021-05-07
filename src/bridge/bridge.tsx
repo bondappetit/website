@@ -292,15 +292,12 @@ export const Bridge: React.VFC = () => {
 
   const handleRecieve = useCallback(
     (transaction: BurgerSwapTransit | BurgerSwapPayback) => {
-      if (!config.CHAIN_IDS.includes(currentChainId)) openChangeNetwork();
-      else if (isPayback(transaction)) handleWithdrawFromBSC(transaction);
-      else if (!config.CHAIN_BINANCE_IDS.includes(currentChainId))
-        setupBinance();
+      if (isPayback(transaction)) handleWithdrawFromBSC(transaction);
       else handleWithDraw(transaction);
 
       setTransactionToRecieve(transaction.sign);
     },
-    [currentChainId, handleWithDraw, handleWithdrawFromBSC, openChangeNetwork]
+    [handleWithDraw, handleWithdrawFromBSC]
   );
 
   const handleLostTransaction = async (formValues: { tx: string }) => {
@@ -320,6 +317,24 @@ export const Bridge: React.VFC = () => {
       closeChangeNetwork();
     }
   }, [currentChainId, closeChangeNetwork]);
+
+  const handleSetEthereumTransit = (transit: BurgerSwapTransit | null) => {
+    setEthereumTransit(transit);
+
+    if (transit === null) {
+      transitList.retry();
+      paybackList.retry();
+    }
+  };
+
+  const handlesetBinancePayback = (payback: BurgerSwapPayback | null) => {
+    setBinancePayback(payback);
+
+    if (payback === null) {
+      paybackList.retry();
+      transitList.retry();
+    }
+  };
 
   return (
     <MainLayout>
@@ -366,14 +381,14 @@ export const Bridge: React.VFC = () => {
                       <BinanceChain
                         onBscPayback={setBscPayback}
                         bscPayback={bscPayback}
-                        onConfirm={setBinancePayback}
+                        onConfirm={handlesetBinancePayback}
                       />
                     )}
                     {chainId && config.CHAIN_IDS.includes(chainId) && (
                       <EthChain
                         onEthTransit={setEthTransit}
                         ethTransit={ethTransit}
-                        onConfirm={setEthereumTransit}
+                        onConfirm={handleSetEthereumTransit}
                       />
                     )}
                   </>
@@ -435,52 +450,75 @@ export const Bridge: React.VFC = () => {
                     </Typography>
                     <div className={classes.cardStatus}>
                       {!transaction.status && (
-                        <Button
-                          variant="outlined"
-                          className={classes.cardButton}
-                          disabled={
-                            withdrawfromBscState.loading ||
-                            withDrawState.loading
-                          }
-                          loading={
-                            (withdrawfromBscState.loading ||
-                              withDrawState.loading) &&
-                            transactionToRecieve === transaction.sign
-                          }
-                          onClick={() => handleRecieve(transaction)}
-                        >
+                        <>
                           {isPayback(transaction) ? (
-                            <>
+                            <Button
+                              variant="outlined"
+                              className={classes.cardButton}
+                              disabled={
+                                withdrawfromBscState.loading ||
+                                withDrawState.loading
+                              }
+                              loading={
+                                (withdrawfromBscState.loading ||
+                                  withDrawState.loading) &&
+                                transactionToRecieve === transaction.sign
+                              }
+                              onClick={() =>
+                                !config.CHAIN_IDS.includes(currentChainId)
+                                  ? openChangeNetwork()
+                                  : handleRecieve(transaction)
+                              }
+                            >
                               {!config.CHAIN_IDS.includes(currentChainId)
                                 ? 'Change Network'
                                 : 'Recieve'}
-                            </>
+                            </Button>
                           ) : (
-                            <>
+                            <Button
+                              variant="outlined"
+                              className={classes.cardButton}
+                              disabled={
+                                withdrawfromBscState.loading ||
+                                withDrawState.loading
+                              }
+                              loading={
+                                (withdrawfromBscState.loading ||
+                                  withDrawState.loading) &&
+                                transactionToRecieve === transaction.sign
+                              }
+                              onClick={() =>
+                                !config.CHAIN_BINANCE_IDS.includes(
+                                  currentChainId
+                                )
+                                  ? setupBinance()
+                                  : handleRecieve(transaction)
+                              }
+                            >
                               {!config.CHAIN_BINANCE_IDS.includes(
                                 currentChainId
                               )
                                 ? 'Change Network'
                                 : 'Recieve'}
-                            </>
+                            </Button>
                           )}
-                        </Button>
-                      )}
-                      {transaction.status === 1 && (
-                        <Typography
-                          variant="body1"
-                          className={classes.cardStatusTitle}
-                        >
-                          Recieved
-                        </Typography>
-                      )}
-                      {transaction.status === 3 && (
-                        <Typography
-                          variant="body1"
-                          className={classes.cardStatusTitle}
-                        >
-                          Pending
-                        </Typography>
+                          {transaction.status === 1 && (
+                            <Typography
+                              variant="body1"
+                              className={classes.cardStatusTitle}
+                            >
+                              Recieved
+                            </Typography>
+                          )}
+                          {transaction.status === 3 && (
+                            <Typography
+                              variant="body1"
+                              className={classes.cardStatusTitle}
+                            >
+                              Pending
+                            </Typography>
+                          )}
+                        </>
                       )}
                     </div>
                   </Plate>

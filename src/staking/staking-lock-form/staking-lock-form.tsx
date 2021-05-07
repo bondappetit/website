@@ -177,7 +177,11 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       ...networkConfig.assets,
       ...networks.mainBSC.assets
     })
-      .filter((asset) => props.token?.includes(asset.symbol))
+      .filter(
+        (asset) =>
+          props.token?.includes(asset.symbol) ||
+          asset.symbol === networks.mainBSC.assets.BNB.symbol
+      )
       .map(({ address }) => address)
       .join('/');
 
@@ -381,7 +385,11 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       <StakingAcquireModal
         open={aquireOpen}
         onClose={aquireToggle}
-        tokenName={props.tokenName}
+        tokenName={
+          config.CHAIN_BINANCE_IDS.includes(Number(props.chainId))
+            ? 'Cake-LP'
+            : props.tokenName
+        }
         depositToken={props.depositToken}
         token={props.token}
         tokenAddresses={tokenAddresses}
