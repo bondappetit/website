@@ -1,18 +1,57 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
-import { humanizeNumeral, Plate, Typography } from 'src/common';
+import { BN, humanizeNumeral, Plate, Typography } from 'src/common';
 import { BagTitle } from '../bag-title';
 import { useBagCalculatorStyles } from './bag-calculator.styles';
 
 export type BagCalculatorProps = {
   className?: string;
+  bagCost?: string;
 };
 
 export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
   const classes = useBagCalculatorStyles();
+
+  const [totalValueOfCollateral, setTotalValueOfCollateral] = useState(50);
+  const [totalBAGStaked, setTotalBAGStaked] = useState(50);
+  const [yourBAGsStaked, setYourBAGsStaked] = useState(50);
+
+  const totalValueOfCollateralBN = useMemo(
+    () => new BN('1000000').multipliedBy(totalValueOfCollateral),
+    [totalValueOfCollateral]
+  );
+
+  const totalBAGStakedBN = useMemo(
+    () => new BN('1000000').multipliedBy(totalBAGStaked),
+    [totalBAGStaked]
+  );
+  const yourBAGsStakedBN = useMemo(
+    () => new BN('1000').multipliedBy(yourBAGsStaked),
+    [yourBAGsStaked]
+  );
+
+  const yearlyValueInterestIncome = useMemo(
+    () => totalValueOfCollateralBN.multipliedBy('0.05'),
+    [totalValueOfCollateralBN]
+  );
+
+  const poolShare = useMemo(() => new BN(totalBAGStaked).div(yourBAGsStaked), [
+    totalBAGStaked,
+    yourBAGsStaked
+  ]);
+
+  const reward = useMemo(
+    () => poolShare.multipliedBy(yearlyValueInterestIncome),
+    [poolShare, yearlyValueInterestIncome]
+  );
+
+  const APY = useMemo(
+    () => yourBAGsStakedBN.multipliedBy(props.bagCost ?? '1').div(reward),
+    [reward, yourBAGsStakedBN, props.bagCost]
+  );
 
   return (
     <div className={clsx(classes.root, props.className)}>
@@ -48,9 +87,15 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                 Total value of USDap collateral
               </Typography>
               <Typography variant="h3">
-                ${humanizeNumeral('10000000')}
+                ${humanizeNumeral(totalValueOfCollateralBN)}
               </Typography>
-              <Slider className={classes.slider} />
+              <Slider
+                className={classes.slider}
+                value={totalValueOfCollateral}
+                onChange={setTotalValueOfCollateral}
+                max={100}
+                min={0}
+              />
             </div>
           </li>
           <li className={classes.row}>
@@ -66,7 +111,9 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
               >
                 Yearly value of interest income, avg.
               </Typography>
-              <Typography variant="h3">${humanizeNumeral('500000')}</Typography>
+              <Typography variant="h3">
+                ${humanizeNumeral(yearlyValueInterestIncome)}
+              </Typography>
             </div>
           </li>
           <li className={classes.row}>
@@ -83,9 +130,15 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                 Total BAG staked in a pool
               </Typography>
               <Typography variant="h3">
-                {humanizeNumeral('10000000')}
+                {humanizeNumeral(totalBAGStakedBN)}
               </Typography>
-              <Slider className={classes.slider} />
+              <Slider
+                className={classes.slider}
+                max={100}
+                min={0}
+                value={totalBAGStaked}
+                onChange={setTotalBAGStaked}
+              />
             </div>
           </li>
           <li className={classes.row}>
@@ -103,8 +156,16 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                 >
                   Your BAGs staked
                 </Typography>
-                <Typography variant="h3">{humanizeNumeral('1000')}</Typography>
-                <Slider className={classes.slider} />
+                <Typography variant="h3">
+                  {humanizeNumeral(yourBAGsStakedBN)}
+                </Typography>
+                <Slider
+                  className={classes.slider}
+                  max={100}
+                  min={0}
+                  value={yourBAGsStaked}
+                  onChange={setYourBAGsStaked}
+                />
               </div>
               <div>
                 <Typography
@@ -114,7 +175,9 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                 >
                   Pool share
                 </Typography>
-                <Typography variant="h3">{humanizeNumeral('001')}%</Typography>
+                <Typography variant="h3">
+                  {humanizeNumeral(poolShare)}%
+                </Typography>
               </div>
               <div>
                 <Typography
@@ -124,7 +187,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                 >
                   Your annual reward
                 </Typography>
-                <Typography variant="h3">${humanizeNumeral('5000')}</Typography>
+                <Typography variant="h3">${humanizeNumeral(reward)}</Typography>
               </div>
               <div>
                 <Typography
@@ -132,9 +195,9 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                   component="div"
                   className={classes.title}
                 >
-                  APY (1 BAG = $0.41)
+                  APY (1 BAG = ${humanizeNumeral(props.bagCost)})
                 </Typography>
-                <Typography variant="h3">{humanizeNumeral('2432')}%</Typography>
+                <Typography variant="h3">{humanizeNumeral(APY)}%</Typography>
               </div>
             </div>
           </li>
