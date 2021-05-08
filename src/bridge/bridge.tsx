@@ -69,7 +69,7 @@ const isPayback = (
 };
 
 export const Bridge: React.VFC = () => {
-  const { chainId, account } = useWeb3React();
+  const { chainId, account = null } = useWeb3React();
   const library = useLibrary();
 
   const classes = useBridgeStyles();
@@ -142,6 +142,8 @@ export const Bridge: React.VFC = () => {
             await burgerSwapApi.ethWithdraw(ethWithdraw);
           }
 
+          setTransactionToRecieve(null);
+
           return Promise.resolve();
         })
         .on('error', (error) => {
@@ -178,6 +180,8 @@ export const Bridge: React.VFC = () => {
           if (bscWithdraw) {
             await burgerSwapApi.bscWithdraw(bscWithdraw);
           }
+
+          setTransactionToRecieve(null);
 
           return Promise.resolve();
         })

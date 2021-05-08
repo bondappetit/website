@@ -8,7 +8,7 @@ import abi from '../abi/burger-transit.json';
 const ADDRESS = '0x3f621973a1363c2ecc8b256e9c0a1c3e62d2cefe';
 
 export const useTransitContract = () => {
-  const library = useLibrary();
+  const library = useLibrary(true);
 
   return useMemo(
     () =>
