@@ -5,7 +5,7 @@ import { useWeb3React } from '@web3-react/core';
 import { config } from 'src/config';
 import { useNetworkConfig } from './use-network-config';
 
-export const useLibrary = () => {
+export const useLibrary = (bsc = false) => {
   const { library, chainId } = useWeb3React<Web3>();
   const networkConfig = useNetworkConfig();
   const providerRef = useRef(
@@ -19,10 +19,10 @@ export const useLibrary = () => {
   }, [networkConfig.networkUrl]);
 
   return useMemo(() => {
-    if (chainId && config.CHAIN_BINANCE_IDS.includes(chainId)) {
+    if (chainId && config.CHAIN_BINANCE_IDS.includes(chainId) && !bsc) {
       return new Web3(config.DEFAULT_NETWORK_CONFIG.networkUrl);
     }
 
     return library ?? providerRef.current;
-  }, [library, chainId]);
+  }, [library, chainId, bsc]);
 };
