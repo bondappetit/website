@@ -7,20 +7,20 @@ import {
   AccordionSummary,
   Typography
 } from 'src/common';
-import { useStablecoinFaqStyles } from './stablecoin-faq.styles';
+import { useBagFaqStyles } from './bag-faq.styles';
 import { FAQ } from '../constants';
 
-export type StablecoinFaqProps = {
+export type BagFaqProps = {
   className?: string;
 };
 
-export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
-  const classes = useStablecoinFaqStyles();
+export const BagFaq: React.FC<BagFaqProps> = (props) => {
+  const classes = useBagFaqStyles();
 
   return (
     <div className={props.className}>
-      <Typography variant="h2" align="center" className={classes.title}>
-        FAQ
+      <Typography variant="h3" weight="bold" className={classes.title}>
+        Learn more about BAG
       </Typography>
       {FAQ.map((faqItem) => (
         <Accordion key={faqItem.title}>

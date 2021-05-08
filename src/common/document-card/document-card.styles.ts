@@ -24,7 +24,6 @@ export const useDocumentCardStyles = createUseStyles(
       textDecoration: 'none',
 
       [theme.breakpoints.md()]: {
-        border: `2px solid ${theme.colors.primary}`,
         padding: 48,
         height: 440
       },
@@ -39,7 +38,7 @@ export const useDocumentCardStyles = createUseStyles(
         backgroundColor: 'inherit',
 
         [theme.breakpoints.md()]: {
-          left: -2
+          left: -1
         }
       },
 

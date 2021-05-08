@@ -46,12 +46,12 @@ export const useInputStyles = createUseStyles(
 
       '&::placeholder': {
         color: 'inherit',
-        opacity: 0.4
+        opacity: 0.24
       },
 
       '&::-ms-input-placeholder': {
         color: 'inherit',
-        opacity: 0.4
+        opacity: 0.24
       },
 
       [theme.mixins.hover()]: {
