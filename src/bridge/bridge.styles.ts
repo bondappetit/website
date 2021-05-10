@@ -39,6 +39,7 @@ export const useBridgeStyles = createUseStyles(
 
     tabPaneActive: {
       backgroundColor: theme.colors.proposalPlate,
+      pointerEvents: 'none',
 
       '& h3': {
         opacity: 1
@@ -61,7 +62,11 @@ export const useBridgeStyles = createUseStyles(
       }
     },
 
-    contractName: {
+    activeNetwork: {
+      color: theme.colors.green1
+    },
+
+    inactiveNetwork: {
       opacity: 0.4
     },
 

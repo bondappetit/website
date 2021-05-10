@@ -18,7 +18,7 @@ export const BagFaq: React.FC<BagFaqProps> = (props) => {
   const classes = useBagFaqStyles();
 
   return (
-    <div className={props.className}>
+    <div className={props.className} id="faq">
       <Typography variant="h3" weight="bold" className={classes.title}>
         Learn more about BAG
       </Typography>
