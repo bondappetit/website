@@ -22,6 +22,7 @@ export type BagBlocksProps = {
   leftTokens: string;
   totalSupplySum: string;
   percent: BN;
+  onBuyBag: () => void;
 };
 
 export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
@@ -46,7 +47,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
           </>
         }
         button="Buy"
-        onClick={() => history.push(URLS.voting.info)}
+        onClick={props.onBuyBag}
       />
       <BagBlocksCard
         title="Transfer BAG between Ethereum Network and Binance Smart Chain"
@@ -66,6 +67,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
         percent={props.percent.toString(10)}
         icons={
           <>
+            <BinanceIcon className={classes.coinIcon} />
             <USDCIcon className={classes.coinIcon} />
             <USDTIcon className={classes.coinIcon} />
             <USDNIcon className={classes.coinIcon} />
