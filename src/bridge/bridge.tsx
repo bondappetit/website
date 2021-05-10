@@ -118,20 +118,20 @@ export const Bridge: React.VFC = () => {
   const handleLoadTransactions = useCallback(async () => {
     if (!account) return;
 
-    dispatch(BridgeReducer.setLoading(true));
-
     dispatch(
       BridgeReducer.setPaybackList(await burgerSwapApi.getPaybackList(account))
     );
     dispatch(
       BridgeReducer.setTransitList(await burgerSwapApi.getTransitList(account))
     );
-
-    dispatch(BridgeReducer.setLoading(false));
   }, [account]);
 
   useEffect(() => {
-    handleLoadTransactions();
+    dispatch(BridgeReducer.setLoading(true));
+
+    handleLoadTransactions().then(() =>
+      dispatch(BridgeReducer.setLoading(false))
+    );
   }, [handleLoadTransactions]);
 
   const bridgeContract = useBridgeContract();
