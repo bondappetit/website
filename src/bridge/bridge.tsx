@@ -1,6 +1,12 @@
 import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useState
+} from 'react';
 import {
   useAsyncFn,
   useAsyncRetry,
@@ -36,6 +42,7 @@ import { WalletButtonWithFallback } from 'src/wallets';
 import { BinanceChain } from './binance-chain';
 import { useBridgeStyles } from './bridge.styles';
 import { EthChain } from './ethereum-chain';
+import * as BridgeReducer from './bridge.reducer';
 import {
   BridgeLostTransaction,
   burgerSwapApi,
@@ -50,13 +57,11 @@ const GAS = 120000;
 const chains = [
   {
     title: 'Ethereum',
-    contractName: 'ERC20',
     icon: EthIcon,
     chainIds: config.CHAIN_IDS
   },
   {
     title: 'Binance',
-    contractName: 'BEP20',
     icon: BnbIcon,
     chainIds: config.CHAIN_BINANCE_IDS
   }
@@ -69,6 +74,11 @@ const isPayback = (
 };
 
 export const Bridge: React.VFC = () => {
+  const [state, dispatch] = useReducer(
+    BridgeReducer.bridgeReducer,
+    BridgeReducer.initialState
+  );
+
   const { chainId, account = null } = useWeb3React();
   const library = useLibrary();
 
@@ -105,17 +115,24 @@ export const Bridge: React.VFC = () => {
     null
   );
 
-  const paybackList = useAsyncRetry(async () => {
+  const handleLoadTransactions = useCallback(async () => {
     if (!account) return;
 
-    return burgerSwapApi.getPaybackList(account);
+    dispatch(BridgeReducer.setLoading(true));
+
+    dispatch(
+      BridgeReducer.setPaybackList(await burgerSwapApi.getPaybackList(account))
+    );
+    dispatch(
+      BridgeReducer.setTransitList(await burgerSwapApi.getTransitList(account))
+    );
+
+    dispatch(BridgeReducer.setLoading(false));
   }, [account]);
 
-  const transitList = useAsyncRetry(async () => {
-    if (!account) return;
-
-    return burgerSwapApi.getTransitList(account);
-  }, [account]);
+  useEffect(() => {
+    handleLoadTransactions();
+  }, [handleLoadTransactions]);
 
   const bridgeContract = useBridgeContract();
   const transitContract = useTransitContract();
@@ -143,6 +160,7 @@ export const Bridge: React.VFC = () => {
           }
 
           setTransactionToRecieve(null);
+          handleLoadTransactions();
 
           return Promise.resolve();
         })
@@ -152,7 +170,7 @@ export const Bridge: React.VFC = () => {
           return Promise.reject(error.message);
         });
     },
-    [account, setEthWithdraw]
+    [account, setEthWithdraw, ethWithdraw]
   );
 
   const [withDrawState, handleWithDraw] = useAsyncFn(
@@ -182,6 +200,7 @@ export const Bridge: React.VFC = () => {
           }
 
           setTransactionToRecieve(null);
+          handleLoadTransactions();
 
           return Promise.resolve();
         })
@@ -242,11 +261,7 @@ export const Bridge: React.VFC = () => {
         transaction !== null
     );
 
-    return [
-      ...pendingTransactions,
-      ...(paybackList.value ?? []),
-      ...(transitList.value ?? [])
-    ]
+    return [...pendingTransactions, ...state.paybackList, ...state.transitList]
       .filter((transaction) => {
         const duplicate = isPayback(transaction)
           ? seen.has(transaction.payback_id)
@@ -261,13 +276,12 @@ export const Bridge: React.VFC = () => {
         return !duplicate;
       })
       .sort((a, b) => (dateUtils.after(a.updateTime, b.updateTime) ? -1 : 1));
-  }, [transitList.value, paybackList.value, ethereumTransit, binancePayback]);
+  }, [state.paybackList, state.transitList, ethereumTransit, binancePayback]);
 
   const currentChainId = Number(chainId ?? config.DEFAULT_CHAIN_ID);
 
   useIntervalIfHasAccount(() => {
-    paybackList.retry();
-    transitList.retry();
+    handleLoadTransactions();
 
     if (
       config.CHAIN_IDS.includes(currentChainId) &&
@@ -288,9 +302,7 @@ export const Bridge: React.VFC = () => {
     }
   });
 
-  const loading =
-    ((paybackList.loading || transitList.loading) && !paybackList.value) ||
-    !transitList.value;
+  const { loading } = state;
 
   const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
 
@@ -311,8 +323,7 @@ export const Bridge: React.VFC = () => {
 
     await sendTx(formValues.tx);
 
-    paybackList.retry();
-    transitList.retry();
+    handleLoadTransactions();
     toggleLostTransaction(false);
   };
 
@@ -326,8 +337,7 @@ export const Bridge: React.VFC = () => {
     setEthereumTransit(transit);
 
     if (transit === null) {
-      transitList.retry();
-      paybackList.retry();
+      handleLoadTransactions();
     }
   };
 
@@ -335,8 +345,7 @@ export const Bridge: React.VFC = () => {
     setBinancePayback(payback);
 
     if (payback === null) {
-      paybackList.retry();
-      transitList.retry();
+      handleLoadTransactions();
     }
   };
 
@@ -345,30 +354,39 @@ export const Bridge: React.VFC = () => {
       <PageWrapper>
         <div className={classes.root}>
           <div>
-            <Typography variant="body1" align="center">
-              Active Network
-            </Typography>
             <div className={clsx(classes.tabs, classes.mb)}>
               {chains.map((chain) => (
-                <div
+                <ButtonBase
                   key={chain.title}
                   className={clsx(classes.tabPane, {
                     [classes.tabPaneActive]: chain.chainIds.includes(
                       currentChainId
                     )
                   })}
+                  onClick={
+                    chains[0] === chain ? openChangeNetwork : setupBinance
+                  }
                 >
                   <chain.icon className={classes.tabIcon} />
                   <div>
-                    <Typography variant="h3">{chain.title}</Typography>
                     <Typography
                       variant="body1"
-                      className={classes.contractName}
+                      className={clsx({
+                        [classes.activeNetwork]: chain.chainIds.includes(
+                          currentChainId
+                        ),
+                        [classes.inactiveNetwork]: !chain.chainIds.includes(
+                          currentChainId
+                        )
+                      })}
                     >
-                      {chain.contractName}
+                      {chain.chainIds.includes(currentChainId)
+                        ? 'Active Network'
+                        : 'Transfer to'}
                     </Typography>
+                    <Typography variant="h3">{chain.title}</Typography>
                   </div>
-                </div>
+                </ButtonBase>
               ))}
             </div>
           </div>
@@ -453,7 +471,7 @@ export const Bridge: React.VFC = () => {
                       {isPayback(transaction) ? 'BAG' : 'bBAG'}
                     </Typography>
                     <div className={classes.cardStatus}>
-                      {!transaction.status && (
+                      {transaction.status === 0 && (
                         <>
                           {isPayback(transaction) ? (
                             <Button
@@ -506,23 +524,23 @@ export const Bridge: React.VFC = () => {
                                 : 'Recieve'}
                             </Button>
                           )}
-                          {transaction.status === 1 && (
-                            <Typography
-                              variant="body1"
-                              className={classes.cardStatusTitle}
-                            >
-                              Recieved
-                            </Typography>
-                          )}
-                          {transaction.status === 3 && (
-                            <Typography
-                              variant="body1"
-                              className={classes.cardStatusTitle}
-                            >
-                              Pending
-                            </Typography>
-                          )}
                         </>
+                      )}
+                      {transaction.status === 1 && (
+                        <Typography
+                          variant="body1"
+                          className={classes.cardStatusTitle}
+                        >
+                          Recieved
+                        </Typography>
+                      )}
+                      {transaction.status === 3 && (
+                        <Typography
+                          variant="body1"
+                          className={classes.cardStatusTitle}
+                        >
+                          Pending
+                        </Typography>
                       )}
                     </div>
                   </Plate>

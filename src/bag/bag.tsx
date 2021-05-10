@@ -33,6 +33,7 @@ export const Bag: React.VFC<BagProps> = () => {
           leftTokens={leftTokens}
           totalSupplySum={totalSupplySum}
           percent={percent}
+          govTokenCost={govTokenCost}
         />
         <BagCalculator className={classes.blocks} bagCost={govTokenCost} />
         <BagInstruction className={classes.blocks} />
