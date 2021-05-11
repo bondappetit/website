@@ -11,6 +11,7 @@ import {
   HttpLink
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
+import smoothscroll from 'smoothscroll-polyfill';
 
 import { ThemeProvider, globalStyles, ModalProvider } from './common';
 import { App } from './app';
@@ -21,6 +22,7 @@ import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
 jss.createStyleSheet(normalize).attach();
 jss.createStyleSheet(globalStyles).attach();
+smoothscroll.polyfill();
 
 const chainIdLink = setContext((_, { headers }) => ({
   headers: {

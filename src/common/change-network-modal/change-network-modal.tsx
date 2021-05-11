@@ -17,7 +17,7 @@ const ChangeNetworkModal: React.VFC<ChangeNetworkModalProps> = (props) => {
       <SmallModal className={classes.modal}>
         <div className={classes.root}>
           <Typography variant="h4" className={classes.title}>
-            Change Binance Smart Chain to Ethereum Mainnet manualy in your
+            Switch from Binance Smart Chain to Ethereum Mainnet manually in your
             MetaMask
           </Typography>
           <img src={MetamaskScreen} alt="" className={classes.img} />

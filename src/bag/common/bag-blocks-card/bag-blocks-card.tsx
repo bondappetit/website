@@ -11,6 +11,7 @@ export type BagBlocksCardProps = {
   percent?: string;
   button?: string;
   onClick?: () => void;
+  account?: string | null;
 };
 
 export const BagBlocksCard: React.VFC<BagBlocksCardProps> = (props) => {

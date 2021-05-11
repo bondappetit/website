@@ -35,6 +35,7 @@ export const useAccordionStyles = createUseStyles(
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
+      outline: 'none',
 
       '& *:first-child': {
         flexBasis: '95%'

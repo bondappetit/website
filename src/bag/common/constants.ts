@@ -13,14 +13,14 @@ export const GOVERNANCE = [
     title: 'Protocol’s assets liquidity',
     text: [
       'Change in the reward rates for participation in liquidity pools;',
-      'Choose the profit distribution of the protocol; ',
-      'Changing the list of assets available in exchange for BAG.'
+      'Choose the profit distribution of the protocol;',
+      'Change the list of assets available in exchange for BAG.'
     ]
   },
   {
     title: 'Development of the protocol',
     text: [
-      'Proposal and voting on new features of the protocol;',
+      'Propose and vote on new features of the protocol;',
       'Change the rate of technical costs for the maintenance of the protocol;',
       'Initiate additional capitalization of the protocol;',
       'Apply changes to current smart contracts.'
