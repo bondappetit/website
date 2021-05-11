@@ -43,7 +43,7 @@ export const BagHeader: React.VFC<BagHeaderProps> = (props) => {
     <div className={clsx(classes.root, props.className)}>
       <div className={classes.titleWrap}>
         <Typography variant="h1" className={classes.title}>
-          Governance token of the BondAppétit protocol
+          BondAppétit Governance Token
         </Typography>
         <ul className={classes.links}>
           {LINKS.map((link) => (

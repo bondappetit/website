@@ -19,9 +19,10 @@ export const BagDistribution: React.VFC<BagDistributionProps> = (props) => {
         bold="Distribution"
         text={
           <>
-            BAG is also the main reward and incentive tool for participants of
-            the protocol and the community. Distribution of BAG is fully
-            transparent and moderated by protocol’s community driven governance
+            BAG is also the main reward and the incentive tool for participants
+            of the protocol and the community. Distribution of BAG is fully
+            transparent and moderated by protocol&apos;s community-driven
+            governance.
           </>
         }
       />

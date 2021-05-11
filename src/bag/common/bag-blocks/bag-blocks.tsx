@@ -24,6 +24,7 @@ export type BagBlocksProps = {
   totalSupplySum: string;
   percent: BN;
   onBuyBag: () => void;
+  account?: string | null;
 };
 
 export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
@@ -47,11 +48,11 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
             <WavesIcon className={classes.swapIcon} />
           </>
         }
-        button="Buy"
+        button={props.account ? 'Buy' : 'Connect wallet'}
         onClick={props.onBuyBag}
       />
       <BagBlocksCard
-        title="Transfer BAG between Ethereum Network and Binance Smart Chain"
+        title="Transfer BAG between the Ethereum network and the Binance Smart Chain"
         icons={
           <>
             <EthIcon className={classes.swapIcon} />
@@ -63,7 +64,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
         onClick={() => history.push(URLS.bridge)}
       />
       <BagBlocksCard
-        title="Earn as reward by staking"
+        title="Earn as staking rewards"
         subtitle={`${props.leftTokens} of ${props.totalSupplySum} BAG remained`}
         percent={props.percent.toString(10)}
         icons={

@@ -16,7 +16,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
   const classes = useBagCalculatorStyles();
 
   const [totalValueOfCollateral, setTotalValueOfCollateral] = useState(1);
-  const [totalBAGStaked, setTotalBAGStaked] = useState(1);
+  const [totalBAGStaked, setTotalBAGStaked] = useState(5);
   const [yourBAGsStaked, setYourBAGsStaked] = useState(1);
 
   const totalValueOfCollateralBN = useMemo(
@@ -25,12 +25,12 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
   );
 
   const totalBAGStakedBN = useMemo(
-    () => new BN('10000').multipliedBy(totalBAGStaked),
+    () => new BN('1000000').multipliedBy(totalBAGStaked),
     [totalBAGStaked]
   );
   const yourBAGsStakedBN = useMemo(
-    () => new BN('10000').multipliedBy(yourBAGsStaked),
-    [yourBAGsStaked]
+    () => new BN(totalBAGStakedBN.div(100)).multipliedBy(yourBAGsStaked),
+    [yourBAGsStaked, totalBAGStakedBN]
   );
 
   const yearlyValueInterestIncome = useMemo(
@@ -59,11 +59,11 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)} id="coupon">
       <BagTitle
-        bold="Coupon Rewards BAG"
-        text={`is a unique token due to BondAppétit collateral. BAG holders have an
-        option to earn rewards from real-world assets which lays behind the
-        USDap. Stable income in USD distributed between holders as staking
-        reward`}
+        bold="Coupon Rewards"
+        text={`
+        BAG is made unique as a token thanks to the collateral of BondAppétit.
+        BAG holders have the option to earn rewards from real-world assets, which back the USDap.
+        Stable income in USD distributed between holders as staking rewards.`}
       />
       <Plate color="grey" withoutBorder className={classes.table}>
         <div className={classes.head}>
@@ -96,8 +96,8 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                 className={classes.slider}
                 value={totalValueOfCollateral}
                 onChange={setTotalValueOfCollateral}
-                max={100}
-                min={0}
+                max={10}
+                min={1}
               />
             </div>
           </li>
@@ -137,8 +137,8 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
               </Typography>
               <Slider
                 className={classes.slider}
-                max={100}
-                min={0}
+                max={10}
+                min={1}
                 value={totalBAGStaked}
                 onChange={setTotalBAGStaked}
               />
@@ -165,7 +165,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                 <Slider
                   className={classes.slider}
                   max={totalBAGStaked}
-                  min={0}
+                  min={1}
                   value={yourBAGsStaked}
                   onChange={setYourBAGsStaked}
                 />
@@ -206,11 +206,11 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
           </li>
         </ul>
         <Typography variant="h5" component="div" className={classes.hint}>
-          This example based on BondAppétit plans and expectations and average
-          historical data. Numbers can be different in real case, depends on the
-          BAG price and total value of protocol collateral to the date of Phase
-          2 launch. But the main formula still the same: Your profit = (Coupon
-          income / Total BAGs) * Your pool share
+          This example is based on BondAppétit plans and expectations, and on
+          average historical data. Numbers may differ, depending on the BAG
+          price and total value of protocol collateral at the date of Phase 2
+          launch. However, the main formula remains the same: Your profit =
+          (Coupon income / Total BAGs) * Your pool share
         </Typography>
       </Plate>
     </div>
