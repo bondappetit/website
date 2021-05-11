@@ -14,12 +14,15 @@ type GetBalanceOptions = {
   accountAddress?: string | null;
 };
 
-export const useBalance = () => {
+export const useBalance = (chainId?: number) => {
   const { account: web3Account = null, library } = useWeb3React<Web3>();
   const balanceRef = useRef('');
-  const getIERC20Contract = useDynamicContract<Ierc20>({
-    abi: IERC20.abi as AbiItem[]
-  });
+  const getIERC20Contract = useDynamicContract<Ierc20>(
+    {
+      abi: IERC20.abi as AbiItem[]
+    },
+    chainId
+  );
 
   const [account, setAccout] = useState(web3Account);
 
@@ -36,7 +39,7 @@ export const useBalance = () => {
     (address?: string, accountAddress = account) => {
       if (!accountAddress) return '';
 
-      const contract = getIERC20Contract(address);
+      const contract = getIERC20Contract(address, undefined);
 
       return contract.methods.balanceOf(accountAddress).call();
     },

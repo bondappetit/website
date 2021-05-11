@@ -5,17 +5,15 @@ import Web3 from 'web3';
 
 import { BN, useIntervalIfHasAccount, useLazyQuery } from 'src/common';
 import { config } from 'src/config';
-import type { Staking } from 'src/generate/Staking';
 import { StakingQuery, UniswapPairPayload } from 'src/graphql/_generated-hooks';
 import { useStakingConfig } from 'src/staking-config';
 import { useGovernanceCost } from './use-governance-cost';
-import { useStakingContracts } from './use-staking-contracts';
 import { STAKING_QUERY_STRING } from './graphql/staking-query.graphql';
 import { UNISWAP_PAIR_QUERY_STRING } from './graphql/uniswap-pair-query.graphql';
 
 type StakingToken = {
   token: string[];
-  stakingContract: Staking | null;
+  contractName: string;
   configAddress: string;
   pair?: UniswapPairPayload['data'];
   staking?: StakingQuery['staking']['data'];
@@ -33,7 +31,7 @@ export type SakingItem = {
   stacked: boolean;
   token: string[];
   decimals: number;
-  stakingContract: Staking | null;
+  contractName: string;
   configAddress: string;
   date?: string | null;
   chainId?: number;
@@ -57,8 +55,6 @@ export const useStakingListData = (address?: string) => {
   const { account: web3Account = null } = useWeb3React<Web3>();
   const [account, setAccount] = useState(web3Account);
 
-  const getStakingContract = useStakingContracts();
-
   const governanceInUSDC = useGovernanceCost();
 
   const stakingQuery = useStakingQuery();
@@ -81,8 +77,6 @@ export const useStakingListData = (address?: string) => {
         { contractName, token, configAddress, chainId }
       ) => {
         const acc = await previousPromise;
-
-        const stakingContract = getStakingContract(contractName, chainId);
 
         const options = {
           init: {
@@ -115,7 +109,7 @@ export const useStakingListData = (address?: string) => {
             stakingBalance: staking.data?.staking,
             pair: uniswapPair.data?.uniswapPair?.data,
             staking: staking.data?.staking.data,
-            stakingContract,
+            contractName,
             configAddress,
             token,
             chainId
@@ -184,7 +178,7 @@ export const useStakingListData = (address?: string) => {
           decimals: stakingBalance?.stakingTokenDecimals ?? 1,
           stacked: Boolean(reward?.staked),
           token: stakingAddress.token,
-          stakingContract: stakingAddress.stakingContract,
+          contractName: stakingAddress.contractName,
           amountInUSDC: new BN(balanceFloat).multipliedBy(priceUSD),
           date: stakingBalance?.unstakingStart.date,
           chaindId: stakingAddress.chainId

@@ -7,7 +7,9 @@ import { useNetworkConfig } from './use-network-config';
 
 export const useLibrary = (bsc = false) => {
   const { library, chainId } = useWeb3React<Web3>();
+
   const networkConfig = useNetworkConfig();
+
   const providerRef = useRef(
     chainId && config.CHAIN_BINANCE_IDS.includes(chainId)
       ? new Web3(config.DEFAULT_NETWORK_CONFIG.networkUrl)
