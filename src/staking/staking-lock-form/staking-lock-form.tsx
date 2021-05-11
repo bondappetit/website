@@ -57,11 +57,6 @@ export type StakingLockFormProps = {
 const UNISWAP_URL = 'https://app.uniswap.org/#/add/v2/';
 const PANCAKESWAP_URL = 'https://exchange.pancakeswap.finance/#/add/';
 
-const delay = (ms: number) =>
-  new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
-
 export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const classes = useStakingLockFormStyles();
 
@@ -130,7 +125,11 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
       analytics.send('staking_click');
 
-      const currentAssetContract = getIERC20Contract(tokenAddress);
+      const currentAssetContract = getIERC20Contract(
+        tokenAddress,
+        undefined,
+        props.chainId
+      );
 
       const formAmount = new BN(formValues.amount)
         .multipliedBy(new BN(10).pow(tokenDecimals))
@@ -150,8 +149,6 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       }
       if (approved.approve) {
         await approveAll(options);
-
-        await delay(1000);
 
         await approvalNeeded(options);
         return;
@@ -197,7 +194,11 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       const handler = async () => {
         if (!account || !stakingContract || !tokenDecimals) return;
 
-        const currentAssetContract = getIERC20Contract(tokenAddress);
+        const currentAssetContract = getIERC20Contract(
+          tokenAddress,
+          undefined,
+          props.chainId
+        );
 
         const formAmount = new BN(formik.values.amount)
           .multipliedBy(new BN(10).pow(tokenDecimals))
@@ -221,7 +222,8 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       getIERC20Contract,
       stakingContract,
       tokenAddress,
-      tokenDecimals
+      tokenDecimals,
+      props.chainId
     ]
   );
 

@@ -22,7 +22,8 @@ import {
   useStakingUnlock,
   useCanUnStaking,
   useStakingListData,
-  StakingEmpty
+  StakingEmpty,
+  useStakingContracts
 } from 'src/staking/common';
 import { useStakingConfig } from 'src/staking-config';
 import { WalletButtonWithFallback } from 'src/wallets';
@@ -49,11 +50,21 @@ export const StakingDetail: React.FC = () => {
 
   const stakingItem = useMemo(() => stakingList?.[0], [stakingList]);
 
-  const getBalance = useBalance();
+  const getBalance = useBalance(stakingItem?.chaindId);
 
-  const unlock = useStakingUnlock(stakingItem?.stakingContract);
+  const getStakingContract = useStakingContracts(stakingItem?.chaindId);
 
-  const unstake = useCanUnStaking(stakingItem?.stakingContract);
+  const stakingContract = useMemo(
+    () =>
+      stakingItem?.chaindId
+        ? getStakingContract(stakingItem.contractName, stakingItem.chaindId)
+        : null,
+    [getStakingContract, stakingItem]
+  );
+
+  const unlock = useStakingUnlock(stakingContract);
+
+  const unstake = useCanUnStaking(stakingContract);
 
   const stakingBalanceIsEmpty = useMemo(
     () => Boolean(stakingItem?.amount.isZero()),
@@ -146,7 +157,7 @@ export const StakingDetail: React.FC = () => {
                 tokenName={tokenName}
                 tokenKey={params.tokenId}
                 tokenAddress={stakingItem?.tokenAddress}
-                stakingContract={stakingItem?.stakingContract}
+                stakingContract={stakingContract}
                 tokenDecimals={stakingItem?.decimals}
                 unstakeStart={unstake.value?.date}
                 unstakingStartBlock={unstake.value?.unstakingStartBlock}
@@ -228,27 +239,29 @@ export const StakingDetail: React.FC = () => {
                             <br />({unstake.value?.date})
                           </Typography>
                         )}
-                      {showUnstakeButton &&
-                      account &&
-                      stakingItem?.chaindId === chainId ? (
-                        <Tippy
-                          visible={canUnstake}
-                          key={String(canUnstake)}
-                          content="Unstaking not started"
-                          maxWidth={200}
-                          offset={[0, 25]}
-                          className={classes.tooltip}
-                          animation={false}
-                        >
-                          <WalletButtonWithFallback
-                            onClick={handleUnstake}
-                            className={classes.unlock}
-                            loading={unstakeState.loading}
-                            disabled={unstakeState.loading}
-                          >
-                            Unstake
-                          </WalletButtonWithFallback>
-                        </Tippy>
+                      {stakingItem?.chaindId === chainId ? (
+                        <>
+                          {showUnstakeButton && account && (
+                            <Tippy
+                              visible={canUnstake}
+                              key={String(canUnstake)}
+                              content="Unstaking not started"
+                              maxWidth={200}
+                              offset={[0, 25]}
+                              className={classes.tooltip}
+                              animation={false}
+                            >
+                              <WalletButtonWithFallback
+                                onClick={handleUnstake}
+                                className={classes.unlock}
+                                loading={unstakeState.loading}
+                                disabled={unstakeState.loading}
+                              >
+                                Unstake
+                              </WalletButtonWithFallback>
+                            </Tippy>
+                          )}
+                        </>
                       ) : (
                         <StakingEmpty className={classes.empty} />
                       )}

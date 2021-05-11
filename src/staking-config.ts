@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { useWeb3React } from '@web3-react/core';
 import networks from '@bondappetit/networks';
 
 import { Network } from './common';
@@ -69,6 +70,14 @@ const stakingConfig = [
   },
 
   {
+    contractName: 'BnbGovLPStaking',
+    tokenName: LP,
+    chainId: config.CHAIN_BINANCE_IDS[1],
+    token: [GovBNB, BNB],
+    liquidityPool: true
+  },
+
+  {
     contractName: 'UsdcStableLPLockStaking',
     tokenName: LP,
     chainId: config.CHAIN_IDS[0],
@@ -103,7 +112,8 @@ const stakingConfig = [
 
 const chainContracts: Record<number, Network['contracts']> = {
   [config.CHAIN_IDS[0]]: networks.main.contracts,
-  [config.CHAIN_BINANCE_IDS[0]]: networks.mainBSC.contracts
+  [config.CHAIN_BINANCE_IDS[0]]: networks.mainBSC.contracts,
+  [config.CHAIN_BINANCE_IDS[1]]: networks.testnetBSC.contracts
 };
 
 const getStakingAddress = (
@@ -111,10 +121,29 @@ const getStakingAddress = (
   contractName: string
 ): string | undefined => contracts[contractName]?.address;
 
-const getStakingConfig = (): Record<string, StakingConfig> => {
+const getStakingConfig = (chainId?: number): Record<string, StakingConfig> => {
+  const currentChainId = Number(chainId);
+
+  const currentChainContracts = {
+    ...chainContracts
+  };
+
+  if (currentChainId === config.CHAIN_BINANCE_IDS[0]) {
+    delete currentChainContracts[config.CHAIN_BINANCE_IDS[1]];
+  }
+
+  if (
+    currentChainId === config.CHAIN_BINANCE_IDS[1] ||
+    config.CHAIN_IDS.includes(currentChainId)
+  ) {
+    delete currentChainContracts[config.CHAIN_BINANCE_IDS[0]];
+  }
+
   return stakingConfig.reduce<Record<string, StakingConfig>>(
     (acc, configItem) => {
-      const contracts = chainContracts[configItem.chainId];
+      const contracts = currentChainContracts[configItem.chainId];
+
+      if (!contracts) return acc;
 
       const address = getStakingAddress(contracts, configItem.contractName);
 
@@ -135,7 +164,9 @@ const getStakingConfig = (): Record<string, StakingConfig> => {
 };
 
 export const useStakingConfig = () => {
-  const stakingConfigMemo = useMemo(() => getStakingConfig(), []);
+  const { chainId } = useWeb3React();
+
+  const stakingConfigMemo = useMemo(() => getStakingConfig(chainId), [chainId]);
 
   const stakingConfigValues = useMemo(() => {
     const values = Object.values(stakingConfigMemo);

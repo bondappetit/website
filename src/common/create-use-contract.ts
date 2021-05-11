@@ -39,9 +39,12 @@ export const createUseContract = <T>(cb: Callback) => () => {
 };
 
 export const useDynamicContract = <T>(
-  contractParameters?: ContractParameters
+  contractParameters?: ContractParameters,
+  currentChainId?: number
 ) => {
-  const library = useLibrary();
+  const library = useLibrary(
+    config.CHAIN_BINANCE_IDS.includes(Number(currentChainId))
+  );
   const contract = useRef<T | null>(null);
 
   const handleGetContract = useCallback(
@@ -53,8 +56,16 @@ export const useDynamicContract = <T>(
           throw new Error('Abi is required');
         }
 
-        if (chainId && config.CHAIN_BINANCE_IDS.includes(chainId)) {
-          const web3 = new Web3(networks.mainBSC.networkUrl);
+        if (
+          chainId &&
+          config.CHAIN_BINANCE_IDS.includes(chainId) &&
+          !currentChainId
+        ) {
+          const web3 = new Web3(
+            config.CHAIN_BINANCE_IDS[0] === chainId
+              ? networks.mainBSC.networkUrl
+              : networks.testnetBSC.networkUrl
+          );
 
           contract.current = (new web3.eth.Contract(
             currentAbi,
@@ -73,7 +84,7 @@ export const useDynamicContract = <T>(
       return contract.current;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [library]
+    [library, currentChainId]
   );
 
   return handleGetContract;
