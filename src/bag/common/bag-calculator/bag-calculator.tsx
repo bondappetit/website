@@ -104,7 +104,8 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
           <li className={classes.row}>
             <Typography variant="h5" component="div">
               Every quarter, the bonds generate interest income at 3-6% APY.
-              Coupon payments are distributed among BAG token holders.
+              Coupon payments minus technical costs of the protocol are
+              distributed among BAG token holders.
             </Typography>
             <div className={classes.col}>
               <Typography
@@ -112,7 +113,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                 component="div"
                 className={classes.title}
               >
-                Yearly value of interest income, avg.
+                Yearly value of interest income, avg. (5%)
               </Typography>
               <Typography variant="h3">
                 ${humanizeNumeral(yearlyValueInterestIncome)}
@@ -130,7 +131,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                 component="div"
                 className={classes.title}
               >
-                Total BAG staked in a pool
+                Total BAG staked in a contract
               </Typography>
               <Typography variant="h3">
                 {humanizeNumeral(totalBAGStakedBN)}
@@ -148,7 +149,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
             <Typography variant="h5" component="div">
               As long as the BAG tokens remain staked, their holders will
               receive rewards in accordance with their share of the pool. The
-              rewards are distributed every 15 seconds.
+              rewards are distributed every block (15 seconds).
             </Typography>
             <div className={clsx(classes.col, classes.colGrid)}>
               <div>
