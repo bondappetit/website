@@ -22,7 +22,7 @@ export const BagInstruction: React.FC<BagInstructionProps> = (props) => {
   const classes = useBagInstructionStyles();
 
   return (
-    <div className={props.className}>
+    <div className={props.className} id="governance">
       <BagTitle
         bold="Governance"
         text={

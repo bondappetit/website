@@ -17,7 +17,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
 
   const [totalValueOfCollateral, setTotalValueOfCollateral] = useState(1);
   const [totalBAGStaked, setTotalBAGStaked] = useState(1);
-  const [yourBAGsStaked, setYourBAGsStaked] = useState(50);
+  const [yourBAGsStaked, setYourBAGsStaked] = useState(1);
 
   const totalValueOfCollateralBN = useMemo(
     () => new BN('100000000').multipliedBy(totalValueOfCollateral),
@@ -25,7 +25,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
   );
 
   const totalBAGStakedBN = useMemo(
-    () => new BN('6000000').multipliedBy(totalBAGStaked),
+    () => new BN('10000').multipliedBy(totalBAGStaked),
     [totalBAGStaked]
   );
   const yourBAGsStakedBN = useMemo(
@@ -34,7 +34,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
   );
 
   const yearlyValueInterestIncome = useMemo(
-    () => totalValueOfCollateralBN.multipliedBy('0.0015'),
+    () => totalValueOfCollateralBN.multipliedBy('0.05'),
     [totalValueOfCollateralBN]
   );
 
@@ -57,7 +57,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
   );
 
   return (
-    <div className={clsx(classes.root, props.className)}>
+    <div className={clsx(classes.root, props.className)} id="coupon">
       <BagTitle
         bold="Coupon Rewards BAG"
         text={`is a unique token due to BondAppétit collateral. BAG holders have an
@@ -164,7 +164,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                 </Typography>
                 <Slider
                   className={classes.slider}
-                  max={100}
+                  max={totalBAGStaked}
                   min={0}
                   value={yourBAGsStaked}
                   onChange={setYourBAGsStaked}

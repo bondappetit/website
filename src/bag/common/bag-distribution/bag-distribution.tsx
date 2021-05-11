@@ -14,7 +14,7 @@ export const BagDistribution: React.VFC<BagDistributionProps> = (props) => {
   const classes = useBagDistributionStyles();
 
   return (
-    <div className={clsx(props.className)}>
+    <div className={clsx(props.className)} id="distribution">
       <BagTitle
         bold="Distribution"
         text={
