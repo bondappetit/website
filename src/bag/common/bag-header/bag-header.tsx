@@ -2,34 +2,36 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import clsx from 'clsx';
 
-import { Link, Typography } from 'src/common';
+import { Link, ScrollIntoView, Typography } from 'src/common';
 import { ReactComponent as CoinIcon } from 'src/assets/images/coin.svg';
+import { URLS } from 'src/router/urls';
 import { useBagHeaderStyles } from './bag-header.styles';
 
 const LINKS = [
   {
     title: 'Get BAG',
-    url: '#'
+    url: URLS.staking.list
   },
   {
     title: 'Coupon Rewards',
-    url: '#'
+    url: `${URLS.whitepaper}`
   },
   {
     title: 'Governance',
-    url: '#'
+    url: URLS.voting.info
   },
   {
     title: 'Distribution',
-    url: '#'
+    url: `${URLS.whitepaper}`
   },
   {
     title: 'Invest',
-    url: '#'
+    url: URLS.voting.info
   },
   {
     title: 'FAQ',
-    url: '#'
+    url: '#faq',
+    scroll: true
   }
 ];
 
@@ -50,9 +52,15 @@ export const BagHeader: React.VFC<BagHeaderProps> = (props) => {
           {LINKS.map((link) => (
             <li key={link.title} className={classes.linksItem}>
               <Typography variant="h5">
-                <Link component={ReactRouterLink} to={link.url}>
-                  {link.title}
-                </Link>
+                {link.scroll ? (
+                  <ScrollIntoView target={link.url}>
+                    {link.title}
+                  </ScrollIntoView>
+                ) : (
+                  <Link component={ReactRouterLink} to={link.url}>
+                    {link.title}
+                  </Link>
+                )}
               </Typography>
             </li>
           ))}

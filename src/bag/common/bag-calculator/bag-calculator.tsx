@@ -9,39 +9,39 @@ import { useBagCalculatorStyles } from './bag-calculator.styles';
 
 export type BagCalculatorProps = {
   className?: string;
-  bagCost?: string;
+  bagPrice?: string;
 };
 
 export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
   const classes = useBagCalculatorStyles();
 
-  const [totalValueOfCollateral, setTotalValueOfCollateral] = useState(50);
-  const [totalBAGStaked, setTotalBAGStaked] = useState(50);
+  const [totalValueOfCollateral, setTotalValueOfCollateral] = useState(1);
+  const [totalBAGStaked, setTotalBAGStaked] = useState(1);
   const [yourBAGsStaked, setYourBAGsStaked] = useState(50);
 
   const totalValueOfCollateralBN = useMemo(
-    () => new BN('1000000').multipliedBy(totalValueOfCollateral),
+    () => new BN('100000000').multipliedBy(totalValueOfCollateral),
     [totalValueOfCollateral]
   );
 
   const totalBAGStakedBN = useMemo(
-    () => new BN('1000000').multipliedBy(totalBAGStaked),
+    () => new BN('6000000').multipliedBy(totalBAGStaked),
     [totalBAGStaked]
   );
   const yourBAGsStakedBN = useMemo(
-    () => new BN('1000').multipliedBy(yourBAGsStaked),
+    () => new BN('10000').multipliedBy(yourBAGsStaked),
     [yourBAGsStaked]
   );
 
   const yearlyValueInterestIncome = useMemo(
-    () => totalValueOfCollateralBN.multipliedBy('0.05'),
+    () => totalValueOfCollateralBN.multipliedBy('0.0015'),
     [totalValueOfCollateralBN]
   );
 
-  const poolShare = useMemo(() => new BN(totalBAGStaked).div(yourBAGsStaked), [
-    totalBAGStaked,
-    yourBAGsStaked
-  ]);
+  const poolShare = useMemo(
+    () => new BN(yourBAGsStakedBN).div(totalBAGStakedBN),
+    [totalBAGStakedBN, yourBAGsStakedBN]
+  );
 
   const reward = useMemo(
     () => poolShare.multipliedBy(yearlyValueInterestIncome),
@@ -49,8 +49,11 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
   );
 
   const APY = useMemo(
-    () => yourBAGsStakedBN.multipliedBy(props.bagCost ?? '1').div(reward),
-    [reward, yourBAGsStakedBN, props.bagCost]
+    () =>
+      reward
+        .div(yourBAGsStakedBN.multipliedBy(props.bagPrice ?? '1'))
+        .multipliedBy(100),
+    [reward, yourBAGsStakedBN, props.bagPrice]
   );
 
   return (
@@ -101,7 +104,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
           <li className={classes.row}>
             <Typography variant="h5" component="div">
               Every quarter, the bonds generate interest income at 3-6% APY.
-              Coupon payments are distributed among BAG token holders
+              Coupon payments are distributed among BAG token holders.
             </Typography>
             <div className={classes.col}>
               <Typography
@@ -119,7 +122,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
           <li className={classes.row}>
             <Typography variant="h5" component="div">
               BAG token holders stake their assets on a special contract (to be
-              launched at Phase 2) to receive coupon payments
+              launched at Phase 2) to receive coupon payments.
             </Typography>
             <div className={classes.col}>
               <Typography
@@ -145,7 +148,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
             <Typography variant="h5" component="div">
               As long as the BAG tokens remain staked, their holders will
               receive rewards in accordance with their share of the pool. The
-              rewards are distributed every 15 seconds
+              rewards are distributed every 15 seconds.
             </Typography>
             <div className={clsx(classes.col, classes.colGrid)}>
               <div>
@@ -154,7 +157,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                   component="div"
                   className={classes.title}
                 >
-                  Your BAGs staked
+                  Your BAG staked
                 </Typography>
                 <Typography variant="h3">
                   {humanizeNumeral(yourBAGsStakedBN)}
@@ -176,7 +179,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                   Pool share
                 </Typography>
                 <Typography variant="h3">
-                  {humanizeNumeral(poolShare)}%
+                  {humanizeNumeral(poolShare.multipliedBy(100))}%
                 </Typography>
               </div>
               <div>
@@ -195,7 +198,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
                   component="div"
                   className={classes.title}
                 >
-                  APY (1 BAG = ${humanizeNumeral(props.bagCost)})
+                  APY (1 BAG = ${humanizeNumeral(props.bagPrice)})
                 </Typography>
                 <Typography variant="h3">{humanizeNumeral(APY)}%</Typography>
               </div>
