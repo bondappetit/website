@@ -12,6 +12,7 @@ import { ReactComponent as BinanceIcon } from 'src/assets/icons/bag/binance.svg'
 import { ReactComponent as USDTIcon } from 'src/assets/icons/bag/usdt1.svg';
 import { ReactComponent as USDNIcon } from 'src/assets/icons/bag/usdn1.svg';
 import { ReactComponent as USDCIcon } from 'src/assets/icons/bag/usdc1.svg';
+import { ReactComponent as BNBIcon } from 'src/assets/icons/coins/bnb.svg';
 import { URLS } from 'src/router/urls';
 import { useBagBlocksStyles } from './bag-blocks.styles';
 import { BagBlocksCard } from '../bag-blocks-card/bag-blocks-card';
@@ -31,7 +32,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
   const history = useHistory();
 
   return (
-    <div className={clsx(classes.root, props.className)}>
+    <div className={clsx(classes.root, props.className)} id="blocks">
       <BagBlocksCard
         title="Buy on the market"
         subtitle={
@@ -67,7 +68,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
         percent={props.percent.toString(10)}
         icons={
           <>
-            <BinanceIcon className={classes.coinIcon} />
+            <BNBIcon className={classes.coinIcon} />
             <USDCIcon className={classes.coinIcon} />
             <USDTIcon className={classes.coinIcon} />
             <USDNIcon className={classes.coinIcon} />

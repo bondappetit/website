@@ -15,7 +15,7 @@ export const BagInvest: React.FC<BagInvestProps> = (props) => {
   const classes = useBagInvestStyles();
 
   return (
-    <div className={clsx(classes.root, props.className)}>
+    <div className={clsx(classes.root, props.className)} id="invest">
       <BagTitle
         bold="Invest"
         text={
