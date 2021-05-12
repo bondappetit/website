@@ -27,5 +27,7 @@ export const config = {
   IS_LOCAL: process.env.REACT_APP_IS_LOCAL === 'true',
   TREZOR_URL: process.env.REACT_APP_TREZOR_URL ?? '',
   TREZOR_EMAIL: process.env.REACT_APP_TREZOR_EMAIL ?? '',
-  YM_ID: 75624769
+  YM_ID: 75624769,
+  PANCAKESWAP_URL: process.env.REACT_APP_PANCAKESWAP_URL,
+  WAVES_URL: process.env.REACT_APP_WAVES_URL
 };
