@@ -51,7 +51,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
         onClick={props.onBuyBag}
       />
       <BagBlocksCard
-        title="Transfer BAG between the Ethereum network and the Binance Smart Chain"
+        title="Transfer BAG between the Ethereum and the Binance Smart Chain"
         icons={
           <>
             <EthIcon className={classes.swapIcon} />

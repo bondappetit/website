@@ -115,7 +115,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                 className={classes.button}
               >
                 <CakeIcon width="40" height="40" />
-                Pancakeswap
+                PancakeSwap
               </Button>
             )}
             {config.WAVES_URL && (
