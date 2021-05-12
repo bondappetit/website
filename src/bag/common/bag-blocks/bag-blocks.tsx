@@ -24,7 +24,6 @@ export type BagBlocksProps = {
   totalSupplySum: string;
   percent: BN;
   onBuyBag: () => void;
-  account?: string | null;
 };
 
 export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
@@ -48,7 +47,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
             <WavesIcon className={classes.swapIcon} />
           </>
         }
-        button={props.account ? 'Buy' : 'Connect wallet'}
+        button="Buy"
         onClick={props.onBuyBag}
       />
       <BagBlocksCard
