@@ -166,7 +166,10 @@ const getStakingConfig = (chainId?: number): Record<string, StakingConfig> => {
 export const useStakingConfig = () => {
   const { chainId } = useWeb3React();
 
-  const stakingConfigMemo = useMemo(() => getStakingConfig(chainId), [chainId]);
+  const stakingConfigMemo = useMemo(
+    () => getStakingConfig(chainId ?? Number(config.DEFAULT_CHAIN_ID)),
+    [chainId]
+  );
 
   const stakingConfigValues = useMemo(() => {
     const values = Object.values(stakingConfigMemo);
