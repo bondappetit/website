@@ -30,7 +30,7 @@ export const BagFaq: React.FC<BagFaqProps> = (props) => {
   return (
     <div className={props.className} id="faq">
       <Typography variant="h3" weight="bold" className={classes.title}>
-        Learn more about BAG
+        Learn more about BondAppétit Governance Token (BAG)
       </Typography>
       {FAQ.map((faqItem) => (
         <Accordion key={faqItem.title}>
