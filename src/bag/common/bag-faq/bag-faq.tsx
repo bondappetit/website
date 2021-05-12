@@ -1,10 +1,14 @@
 import React from 'react';
+import ReactMarkdown from 'react-markdown';
 
 import { ReactComponent as ExpandIcon } from 'src/assets/icons/plus.svg';
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  MarkdownLink,
+  MarkdownList,
+  MarkdownParagraph,
   Typography
 } from 'src/common';
 import { useBagFaqStyles } from './bag-faq.styles';
@@ -12,6 +16,12 @@ import { FAQ } from '../constants';
 
 export type BagFaqProps = {
   className?: string;
+};
+
+const renderers = {
+  paragraph: MarkdownParagraph,
+  link: MarkdownLink,
+  list: MarkdownList
 };
 
 export const BagFaq: React.FC<BagFaqProps> = (props) => {
@@ -28,11 +38,7 @@ export const BagFaq: React.FC<BagFaqProps> = (props) => {
             <Typography variant="h5">{faqItem.title}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.detail}>
-            {faqItem.body.map((faqBodyText) => (
-              <Typography variant="body1" key={faqBodyText}>
-                {faqBodyText}
-              </Typography>
-            ))}
+            <ReactMarkdown renderers={renderers}>{faqItem.body}</ReactMarkdown>
           </AccordionDetails>
         </Accordion>
       ))}
