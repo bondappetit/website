@@ -30,10 +30,10 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
 
   return (
     <div className={clsx(classes.root, props.className)}>
-      <Plate>
+      <Plate className={classes.graph}>
         <Typography variant="body1" align="center">
+          {props.loading && <Skeleton className={classes.skeleton} />}
           <Typography variant="inherit" component="span">
-            {props.loading && <Skeleton className={classes.skeleton} />}
             {!props.loading && (
               <>
                 Total Issued today:{' '}

@@ -10,6 +10,10 @@ export const useStablecoinEllipseStyles = createUseStyles(
       gridGap: 40
     },
 
+    graph: {
+      padding: '40px 56px'
+    },
+
     info: {
       '& *:first-child': {
         marginBottom: 8
@@ -36,7 +40,8 @@ export const useStablecoinEllipseStyles = createUseStyles(
     },
 
     skeleton: {
-      width: 150
+      width: 150,
+      display: 'inline-block'
     }
   }),
   {
