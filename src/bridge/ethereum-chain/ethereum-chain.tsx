@@ -160,10 +160,8 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
 
           props.onConfirm?.(newtransit);
         })
-        .on('receipt', async () => {
-          if (props.ethTransit) {
-            await burgerSwapApi.ethTransit(props.ethTransit);
-          }
+        .on('receipt', async (receipt) => {
+          await burgerSwapApi.ethTransit(receipt.transactionHash);
 
           props.onConfirm?.(null);
 

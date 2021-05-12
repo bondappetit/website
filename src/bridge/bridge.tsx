@@ -154,10 +154,8 @@ export const Bridge: React.VFC = () => {
           gas: await estimateGas(withdrawFromBSC, { from: account })
         })
         .on('transactionHash', setEthWithdraw)
-        .on('receipt', async () => {
-          if (ethWithdraw) {
-            await burgerSwapApi.ethWithdraw(ethWithdraw);
-          }
+        .on('receipt', async (receipt) => {
+          await burgerSwapApi.ethWithdraw(receipt.transactionHash);
 
           setTransactionToRecieve(null);
           handleLoadTransactions();
@@ -170,7 +168,7 @@ export const Bridge: React.VFC = () => {
           return Promise.reject(error.message);
         });
     },
-    [account, setEthWithdraw, ethWithdraw]
+    [account, setEthWithdraw]
   );
 
   const [withDrawState, handleWithDraw] = useAsyncFn(
@@ -194,10 +192,8 @@ export const Bridge: React.VFC = () => {
           value: `5${'0'.repeat(16)}`
         })
         .on('transactionHash', setBscWithdraw)
-        .on('receipt', async () => {
-          if (bscWithdraw) {
-            await burgerSwapApi.bscWithdraw(bscWithdraw);
-          }
+        .on('receipt', async (receipt) => {
+          await burgerSwapApi.bscWithdraw(receipt.transactionHash);
 
           setTransactionToRecieve(null);
           handleLoadTransactions();
@@ -210,7 +206,7 @@ export const Bridge: React.VFC = () => {
           return Promise.reject(error.message);
         });
     },
-    [account, bscWithdraw, setBscWithdraw]
+    [account, setBscWithdraw]
   );
 
   const latestEthTransit = useAsyncRetry(async () => {
