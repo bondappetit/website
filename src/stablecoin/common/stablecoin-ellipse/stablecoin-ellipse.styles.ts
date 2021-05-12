@@ -29,8 +29,7 @@ export const useStablecoinEllipseStyles = createUseStyles(
 
       [theme.breakpoints.lg()]: {
         fontSize: 64,
-        lineHeight: '72px',
-        whiteSpace: 'pre'
+        lineHeight: '72px'
       }
     },
 

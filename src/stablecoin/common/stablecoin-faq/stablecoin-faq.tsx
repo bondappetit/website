@@ -19,8 +19,8 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
 
   return (
     <div className={props.className}>
-      <Typography variant="h2" align="center" className={classes.title}>
-        FAQ
+      <Typography variant="h3" weight="bold" className={classes.title}>
+        Learn more about USDap
       </Typography>
       {FAQ.map((faqItem) => (
         <Accordion key={faqItem.title}>

@@ -24,7 +24,8 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
   const classes = useStablecoinEllipseStyles();
 
   const totalLiquidityUSD = useMemo(
-    () => round(props.tokenInfo?.data?.tokenDayDatas?.[0]?.totalLiquidityUSD),
+    () =>
+      round(props.tokenInfo?.data?.token?.data?.statistic?.totalLiquidityUSD),
     [props.tokenInfo]
   );
 
@@ -32,8 +33,7 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
     <div className={props.className}>
       <div className={classes.ellipse}>
         <Typography variant="h1" align="center" className={classes.title}>
-          The first-ever decentralized{'\n'}
-          stablecoin based on real-world assets
+          Decentralized stablecoin based on real-world assets
         </Typography>
         <div>
           <Typography variant="body1" align="center" className={classes.info}>
@@ -45,9 +45,9 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
               {props.loading && <Skeleton className={classes.skeleton} />}
               {!props.loading && (
                 <>
-                  Total Liquidity:{' '}
+                  Total Issued today:{' '}
                   <Typography variant="inherit" component="span" weight="bold">
-                    ${totalLiquidityUSD}
+                    {totalLiquidityUSD} USDap
                   </Typography>
                 </>
               )}

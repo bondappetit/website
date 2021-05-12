@@ -8,6 +8,7 @@ import {
   StablecoinDecentralized,
   StablecoinEllipse,
   StablecoinFaq,
+  StablecoinHeader,
   StablecoinTable,
   useStablecoinInfo
 } from './common';
@@ -47,6 +48,7 @@ export const Stablecoin: React.FC = () => {
       <Head title="The first-ever decentralized stablecoin based on real-world assets." />
       <MainLayout>
         <PageWrapper>
+          <StablecoinHeader />
           <StablecoinEllipse
             className={classes.section}
             onBuy={
