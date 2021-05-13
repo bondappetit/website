@@ -11,6 +11,14 @@ export const STAKING_LIST_QUERY = gql`
       totalSupplyFloat
       stakingTokenDecimals
       stakingToken
+      stakingTokenUniswap {
+        address
+        totalSupplyFloat
+        statistic {
+          dailyVolumeUSD
+          totalLiquidityUSD
+        }
+      }
       poolRate {
         block
         blockFloat
@@ -44,3 +52,6 @@ export const STAKING_LIST_QUERY = gql`
     }
   }
 `;
+
+export const STAKING_LIST_QUERY_STRING =
+  STAKING_LIST_QUERY.loc?.source.body || '';
