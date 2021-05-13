@@ -30,7 +30,8 @@ import {
   useChangeNetworkModal,
   useIntervalIfHasAccount,
   useLibrary,
-  setupBinance
+  setupBinance,
+  Head
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { ReactComponent as EthIcon } from 'src/assets/icons/chains/ethereum.svg';
@@ -324,241 +325,248 @@ export const Bridge: React.VFC = () => {
   }, [currentChainId, closeChangeNetwork]);
 
   return (
-    <MainLayout>
-      <PageWrapper>
-        <div className={classes.root}>
-          <div>
-            <div className={clsx(classes.tabs, classes.mb)}>
-              {chains.map((chain) => (
-                <ButtonBase
-                  key={chain.title}
-                  className={clsx(classes.tabPane, {
-                    [classes.tabPaneActive]: chain.chainIds.includes(
-                      currentChainId
-                    )
-                  })}
-                  onClick={
-                    chains[0] === chain ? openChangeNetwork : setupBinance
-                  }
-                >
-                  <chain.icon className={classes.tabIcon} />
-                  <div>
-                    <Typography
-                      variant="body1"
-                      className={clsx({
-                        [classes.activeNetwork]: chain.chainIds.includes(
-                          currentChainId
-                        ),
-                        [classes.inactiveNetwork]: !chain.chainIds.includes(
-                          currentChainId
-                        )
-                      })}
-                    >
-                      {chain.chainIds.includes(currentChainId)
-                        ? 'Active Network'
-                        : 'Transfer to'}
-                    </Typography>
-                    <Typography variant="h3">{chain.title}</Typography>
-                  </div>
-                </ButtonBase>
-              ))}
-            </div>
-          </div>
-          <Plate className={clsx(classes.form, classes.mb)}>
-            {!account ? (
-              <WalletButtonWithFallback />
-            ) : (
-              <>
-                {loading ? (
-                  <Typography variant="body1">Loading...</Typography>
-                ) : (
-                  <>
-                    {chainId && config.CHAIN_BINANCE_IDS.includes(chainId) && (
-                      <BinanceChain
-                        onBscPayback={setBscPayback}
-                        bscPayback={bscPayback}
-                        transactionsLength={transactions.length}
-                        onConfirm={setBinancePayback}
-                      />
-                    )}
-                    {chainId && config.CHAIN_IDS.includes(chainId) && (
-                      <EthChain
-                        onEthTransit={setEthTransit}
-                        ethTransit={ethTransit}
-                        transactionsLength={transactions.length}
-                        onConfirm={setEthereumTransit}
-                      />
-                    )}
-                  </>
-                )}
-              </>
-            )}
-          </Plate>
-          <div className={classes.transactions}>
-            {loading && account && (
-              <Plate color="grey" withoutBorder className={classes.emptyCard}>
-                <Typography
-                  variant="h3"
-                  className={classes.typography}
-                  align="center"
-                >
-                  Loading...
-                </Typography>
-              </Plate>
-            )}
-            {(!account || (!transactions.length && !loading)) && (
-              <Plate color="grey" withoutBorder className={classes.emptyCard}>
-                <Typography
-                  variant="h3"
-                  className={clsx(classes.emptyCardTitle, classes.typography)}
-                >
-                  No transactions yet...
-                </Typography>
-              </Plate>
-            )}
-            {!loading &&
-              transactions.map((transaction, index) => {
-                const key = `${transaction.id}-${index}`;
-
-                return (
-                  <Plate
-                    color="grey"
-                    withoutBorder
-                    className={classes.card}
-                    key={key}
+    <>
+      <Head
+        title="Transfer BAG between the Ethereum and the Binance Smart Chain"
+        ogUrl="https://bondappetit.io"
+      />
+      <MainLayout>
+        <PageWrapper>
+          <div className={classes.root}>
+            <div>
+              <div className={clsx(classes.tabs, classes.mb)}>
+                {chains.map((chain) => (
+                  <ButtonBase
+                    key={chain.title}
+                    className={clsx(classes.tabPane, {
+                      [classes.tabPaneActive]: chain.chainIds.includes(
+                        currentChainId
+                      )
+                    })}
+                    onClick={
+                      chains[0] === chain ? openChangeNetwork : setupBinance
+                    }
                   >
-                    <div className={classes.cardIcons}>
-                      {isPayback(transaction) ? (
-                        <BnbIcon className={classes.cardIcon} />
-                      ) : (
-                        <EthIcon className={classes.cardIcon} />
-                      )}
-                      <BridgeArrowIcon className={classes.cardArrow} />
-                      {isPayback(transaction) ? (
-                        <EthIcon className={classes.cardIcon} />
-                      ) : (
-                        <BnbIcon className={classes.cardIcon} />
-                      )}
+                    <chain.icon className={classes.tabIcon} />
+                    <div>
+                      <Typography
+                        variant="body1"
+                        className={clsx({
+                          [classes.activeNetwork]: chain.chainIds.includes(
+                            currentChainId
+                          ),
+                          [classes.inactiveNetwork]: !chain.chainIds.includes(
+                            currentChainId
+                          )
+                        })}
+                      >
+                        {chain.chainIds.includes(currentChainId)
+                          ? 'Active Network'
+                          : 'Transfer to'}
+                      </Typography>
+                      <Typography variant="h3">{chain.title}</Typography>
                     </div>
-                    <Typography variant="h3" className={classes.typography}>
-                      {humanizeNumeral(
-                        new BN(transaction.amount).div(new BN(10).pow(18))
-                      )}{' '}
-                      {isPayback(transaction) ? 'BAG' : 'bBAG'}
-                    </Typography>
-                    <div className={classes.cardStatus}>
-                      {transaction.status === 0 && (
-                        <>
-                          {isPayback(transaction) ? (
-                            <Button
-                              variant="outlined"
-                              className={classes.cardButton}
-                              disabled={
-                                withdrawfromBscState.loading ||
-                                withDrawState.loading
-                              }
-                              loading={
-                                (withdrawfromBscState.loading ||
-                                  withDrawState.loading) &&
-                                transactionToRecieve === transaction.sign
-                              }
-                              onClick={() =>
-                                !config.CHAIN_IDS.includes(currentChainId)
-                                  ? openChangeNetwork()
-                                  : handleRecieve(transaction)
-                              }
-                            >
-                              {!config.CHAIN_IDS.includes(currentChainId)
-                                ? 'Change Network'
-                                : 'Recieve'}
-                            </Button>
-                          ) : (
-                            <Button
-                              variant="outlined"
-                              className={classes.cardButton}
-                              disabled={
-                                withdrawfromBscState.loading ||
-                                withDrawState.loading
-                              }
-                              loading={
-                                (withdrawfromBscState.loading ||
-                                  withDrawState.loading) &&
-                                transactionToRecieve === transaction.sign
-                              }
-                              onClick={() =>
-                                !config.CHAIN_BINANCE_IDS.includes(
+                  </ButtonBase>
+                ))}
+              </div>
+            </div>
+            <Plate className={clsx(classes.form, classes.mb)}>
+              {!account ? (
+                <WalletButtonWithFallback />
+              ) : (
+                <>
+                  {loading ? (
+                    <Typography variant="body1">Loading...</Typography>
+                  ) : (
+                    <>
+                      {chainId &&
+                        config.CHAIN_BINANCE_IDS.includes(chainId) && (
+                          <BinanceChain
+                            onBscPayback={setBscPayback}
+                            bscPayback={bscPayback}
+                            transactionsLength={transactions.length}
+                            onConfirm={setBinancePayback}
+                          />
+                        )}
+                      {chainId && config.CHAIN_IDS.includes(chainId) && (
+                        <EthChain
+                          onEthTransit={setEthTransit}
+                          ethTransit={ethTransit}
+                          transactionsLength={transactions.length}
+                          onConfirm={setEthereumTransit}
+                        />
+                      )}
+                    </>
+                  )}
+                </>
+              )}
+            </Plate>
+            <div className={classes.transactions}>
+              {loading && account && (
+                <Plate color="grey" withoutBorder className={classes.emptyCard}>
+                  <Typography
+                    variant="h3"
+                    className={classes.typography}
+                    align="center"
+                  >
+                    Loading...
+                  </Typography>
+                </Plate>
+              )}
+              {(!account || (!transactions.length && !loading)) && (
+                <Plate color="grey" withoutBorder className={classes.emptyCard}>
+                  <Typography
+                    variant="h3"
+                    className={clsx(classes.emptyCardTitle, classes.typography)}
+                  >
+                    No transactions yet...
+                  </Typography>
+                </Plate>
+              )}
+              {!loading &&
+                transactions.map((transaction, index) => {
+                  const key = `${transaction.id}-${index}`;
+
+                  return (
+                    <Plate
+                      color="grey"
+                      withoutBorder
+                      className={classes.card}
+                      key={key}
+                    >
+                      <div className={classes.cardIcons}>
+                        {isPayback(transaction) ? (
+                          <BnbIcon className={classes.cardIcon} />
+                        ) : (
+                          <EthIcon className={classes.cardIcon} />
+                        )}
+                        <BridgeArrowIcon className={classes.cardArrow} />
+                        {isPayback(transaction) ? (
+                          <EthIcon className={classes.cardIcon} />
+                        ) : (
+                          <BnbIcon className={classes.cardIcon} />
+                        )}
+                      </div>
+                      <Typography variant="h3" className={classes.typography}>
+                        {humanizeNumeral(
+                          new BN(transaction.amount).div(new BN(10).pow(18))
+                        )}{' '}
+                        {isPayback(transaction) ? 'BAG' : 'bBAG'}
+                      </Typography>
+                      <div className={classes.cardStatus}>
+                        {transaction.status === 0 && (
+                          <>
+                            {isPayback(transaction) ? (
+                              <Button
+                                variant="outlined"
+                                className={classes.cardButton}
+                                disabled={
+                                  withdrawfromBscState.loading ||
+                                  withDrawState.loading
+                                }
+                                loading={
+                                  (withdrawfromBscState.loading ||
+                                    withDrawState.loading) &&
+                                  transactionToRecieve === transaction.sign
+                                }
+                                onClick={() =>
+                                  !config.CHAIN_IDS.includes(currentChainId)
+                                    ? openChangeNetwork()
+                                    : handleRecieve(transaction)
+                                }
+                              >
+                                {!config.CHAIN_IDS.includes(currentChainId)
+                                  ? 'Change Network'
+                                  : 'Recieve'}
+                              </Button>
+                            ) : (
+                              <Button
+                                variant="outlined"
+                                className={classes.cardButton}
+                                disabled={
+                                  withdrawfromBscState.loading ||
+                                  withDrawState.loading
+                                }
+                                loading={
+                                  (withdrawfromBscState.loading ||
+                                    withDrawState.loading) &&
+                                  transactionToRecieve === transaction.sign
+                                }
+                                onClick={() =>
+                                  !config.CHAIN_BINANCE_IDS.includes(
+                                    currentChainId
+                                  )
+                                    ? setupBinance()
+                                    : handleRecieve(transaction)
+                                }
+                              >
+                                {!config.CHAIN_BINANCE_IDS.includes(
                                   currentChainId
                                 )
-                                  ? setupBinance()
-                                  : handleRecieve(transaction)
-                              }
-                            >
-                              {!config.CHAIN_BINANCE_IDS.includes(
-                                currentChainId
-                              )
-                                ? 'Change Network'
-                                : 'Recieve'}
-                            </Button>
-                          )}
-                        </>
-                      )}
-                      {transaction.status === 1 && (
-                        <Typography
-                          variant="body1"
-                          className={classes.cardStatusTitle}
-                        >
-                          Recieved
-                        </Typography>
-                      )}
-                      {transaction.status === 3 && (
-                        <Typography
-                          variant="body1"
-                          className={classes.cardStatusTitle}
-                        >
-                          Pending
-                        </Typography>
-                      )}
-                    </div>
-                  </Plate>
-                );
-              })}
+                                  ? 'Change Network'
+                                  : 'Recieve'}
+                              </Button>
+                            )}
+                          </>
+                        )}
+                        {transaction.status === 1 && (
+                          <Typography
+                            variant="body1"
+                            className={classes.cardStatusTitle}
+                          >
+                            Recieved
+                          </Typography>
+                        )}
+                        {transaction.status === 3 && (
+                          <Typography
+                            variant="body1"
+                            className={classes.cardStatusTitle}
+                          >
+                            Pending
+                          </Typography>
+                        )}
+                      </div>
+                    </Plate>
+                  );
+                })}
+            </div>
+            <div className={classes.footer}>
+              <Typography variant="body2" align="center">
+                We use <BurgerSwapLogoIcon className={classes.footerIcon} />{' '}
+                BurgerSwap.{' '}
+                <Link
+                  target="_blank"
+                  color="blue"
+                  href="https://burgerswap.org/transit"
+                >
+                  {' '}
+                  Learn more
+                </Link>
+              </Typography>
+              <Typography variant="body2" align="center">
+                <ButtonBase
+                  className={classes.lostTransaction}
+                  onClick={toggleLostTransaction}
+                >
+                  Lost transaction?
+                </ButtonBase>
+              </Typography>
+            </div>
           </div>
-          <div className={classes.footer}>
-            <Typography variant="body2" align="center">
-              We use <BurgerSwapLogoIcon className={classes.footerIcon} />{' '}
-              BurgerSwap.{' '}
-              <Link
-                target="_blank"
-                color="blue"
-                href="https://burgerswap.org/transit"
-              >
-                {' '}
-                Learn more
-              </Link>
-            </Typography>
-            <Typography variant="body2" align="center">
-              <ButtonBase
-                className={classes.lostTransaction}
-                onClick={toggleLostTransaction}
-              >
-                Lost transaction?
-              </ButtonBase>
-            </Typography>
-          </div>
-        </div>
-        <Modal open={lostTransactionOpen} onClose={toggleLostTransaction}>
-          <SmallModal>
-            <BridgeLostTransaction
-              placeholder={
-                config.CHAIN_BINANCE_IDS.includes(currentChainId)
-                  ? 'eth'
-                  : 'bsc'
-              }
-              onSubmit={handleLostTransaction}
-            />
-          </SmallModal>
-        </Modal>
-      </PageWrapper>
-    </MainLayout>
+          <Modal open={lostTransactionOpen} onClose={toggleLostTransaction}>
+            <SmallModal>
+              <BridgeLostTransaction
+                placeholder={
+                  config.CHAIN_BINANCE_IDS.includes(currentChainId)
+                    ? 'eth'
+                    : 'bsc'
+                }
+                onSubmit={handleLostTransaction}
+              />
+            </SmallModal>
+          </Modal>
+        </PageWrapper>
+      </MainLayout>
+    </>
   );
 };
