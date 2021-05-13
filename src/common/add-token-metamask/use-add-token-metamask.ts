@@ -1,4 +1,5 @@
 import { useCallback } from 'react';
+import networks from '@bondappetit/networks';
 
 import { useNetworkConfig } from 'src/common/use-network-config';
 import BAGIcon from 'src/assets/icons/coins/bag.svg';
@@ -6,14 +7,18 @@ import USDAPIcon from 'src/assets/icons/coins/usdap.svg';
 
 const ICONS = new Map([
   ['Stable', USDAPIcon],
-  ['Governance', BAGIcon]
+  ['Governance', BAGIcon],
+  ['bBAG', BAGIcon]
 ]);
 
-export const useAddTokenMetamask = (type: 'Governance' | 'Stable') => {
+export const useAddTokenMetamask = (type: 'Governance' | 'Stable' | 'bBAG') => {
   const networkConfig = useNetworkConfig();
 
   return useCallback(() => {
-    const asset = networkConfig.assets[type];
+    const asset =
+      type === 'bBAG'
+        ? networks.mainBSC.assets[type]
+        : networkConfig.assets[type];
 
     if (!window.ethereum?.isMetaMask || !asset) return;
 

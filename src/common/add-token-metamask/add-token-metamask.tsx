@@ -7,7 +7,7 @@ import { useAddTokenMetamask } from './use-add-token-metamask';
 import { useAddTokenMetamaskStyles } from './add-token-metamask.styles';
 
 export type AddTokenMetamaskProps = {
-  token: 'Governance' | 'Stable';
+  token: 'Governance' | 'Stable' | 'bBAG';
   className: string;
 };
 

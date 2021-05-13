@@ -223,7 +223,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
       <Modal open={successOpen} onClose={toggleSuccess}>
         <SmallModal>
           <InfoCardSuccess
-            token="Governance"
+            token="bBAG"
             tokenName="bBAG"
             onClick={toggleSuccess}
             purchased={formik.values.amount}
