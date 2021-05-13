@@ -161,11 +161,6 @@ export const Bridge: React.VFC = () => {
           handleLoadTransactions();
 
           return Promise.resolve();
-        })
-        .on('error', (error) => {
-          console.error(error.message);
-
-          return Promise.reject(error.message);
         });
     },
     [account, setEthWithdraw]
@@ -199,11 +194,6 @@ export const Bridge: React.VFC = () => {
           handleLoadTransactions();
 
           return Promise.resolve();
-        })
-        .on('error', (error) => {
-          console.error(error.message);
-
-          return Promise.reject(error.message);
         });
     },
     [account, setBscWithdraw]
@@ -303,7 +293,7 @@ export const Bridge: React.VFC = () => {
   const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
 
   const handleRecieve = useCallback(
-    (transaction: BurgerSwapTransit | BurgerSwapPayback) => {
+    async (transaction: BurgerSwapTransit | BurgerSwapPayback) => {
       if (isPayback(transaction)) handleWithdrawFromBSC(transaction);
       else handleWithDraw(transaction);
 
