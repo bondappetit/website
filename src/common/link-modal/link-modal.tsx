@@ -6,6 +6,7 @@ import { ReactComponent as BAGicon } from 'src/assets/icons/coins/bag.svg';
 import { ReactComponent as CakeIcon } from 'src/assets/icons/bag/cake.svg';
 import { ReactComponent as WavesIcon } from 'src/assets/icons/bag/waves.svg';
 import { config } from 'src/config';
+import network from '@bondappetit/networks';
 import { Button } from '../button';
 import { Modal, SmallModal } from '../modal';
 import { Typography } from '../typography';
@@ -111,7 +112,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                 <Button
                   variant="outlined"
                   component={Link}
-                  href={`${config.PANCAKESWAP_URL}/${networkConfig.assets.USDT.symbol}/${props.tokenName}`}
+                  href={`${config.PANCAKESWAP_URL}?outputCurrency=${network.mainBSC.assets.bBAG.address}`}
                   target="_blank"
                   className={classes.button}
                 >
