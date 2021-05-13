@@ -132,7 +132,7 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
         amount
       );
 
-      const newtransit = {
+      const newtransit: BurgerSwapTransit = {
         ...transit
       };
 
@@ -165,7 +165,7 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
             receipt.transactionHash
           );
 
-          props.onConfirm?.(response);
+          props.onConfirm?.(response.data);
           toggleSuccess(true);
           resetForm();
 

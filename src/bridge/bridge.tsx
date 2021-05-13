@@ -205,7 +205,9 @@ export const Bridge: React.VFC = () => {
     const receipt = await library.eth.getTransactionReceipt(ethTransit);
 
     if (receipt.status) {
-      return burgerSwapApi.ethTransit(ethTransit);
+      const reponse = await burgerSwapApi.ethTransit(ethTransit);
+
+      return reponse.data;
     }
   }, [ethTransit, library]);
 
@@ -225,7 +227,9 @@ export const Bridge: React.VFC = () => {
     const receipt = await library.eth.getTransactionReceipt(bscPayback);
 
     if (receipt.status) {
-      return burgerSwapApi.bscPayback(bscPayback);
+      const reponse = await burgerSwapApi.bscPayback(bscPayback);
+
+      return reponse.data;
     }
   }, [bscPayback, library]);
 

@@ -65,14 +65,14 @@ export const burgerSwapApi = {
     fetchWrap('/transitapi/ethTransit', {
       method: 'POST',
       body: { tx }
-    }).then((res) => res.json()) as Promise<BurgerSwapTransit>,
+    }).then((res) => res.json()) as Promise<{ data: BurgerSwapTransit }>,
 
   // transit from binance to ethereum
   bscPayback: (tx: string) =>
     fetchWrap('/transitapi/bscPayback', {
       method: 'POST',
       body: { tx }
-    }).then((res) => res.json()) as Promise<BurgerSwapPayback>,
+    }).then((res) => res.json()) as Promise<{ data: BurgerSwapPayback }>,
 
   bscWithdraw: (tx: string) =>
     fetchWrap('/transitapi/bscWithdraw', {

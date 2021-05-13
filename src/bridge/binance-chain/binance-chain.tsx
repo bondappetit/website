@@ -132,7 +132,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
         amount
       );
 
-      const newPayback = {
+      const newPayback: BurgerSwapPayback = {
         ...payback
       };
 
@@ -166,7 +166,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
             receipt.transactionHash
           );
 
-          props.onConfirm?.(response);
+          props.onConfirm?.(response.data);
           toggleSuccess(true);
           resetForm();
 
