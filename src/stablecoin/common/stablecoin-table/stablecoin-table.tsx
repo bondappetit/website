@@ -7,8 +7,11 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody
+  TableBody,
+  COIN_ICONS
 } from 'src/common';
+import { ReactComponent as YesIcon } from 'src/assets/icons/yes.svg';
+import { ReactComponent as NoIcon } from 'src/assets/icons/no.svg';
 import { STABLECOIN_TABLE_DATA } from './stablecoin-table-data';
 import { useStablecoinTableStyles } from './stablecoin-table.styles';
 
@@ -21,12 +24,12 @@ export const StablecoinTable: React.FC<StablecoinTableProps> = (props) => {
 
   return (
     <div className={props.className}>
-      <Typography variant="h2" align="center" className={classes.title}>
-        Compare Stablecoins
+      <Typography variant="h3" weight="bold" className={classes.title}>
+        Compare
       </Typography>
-      <Table>
+      <Table className={classes.table}>
         <TableHead>
-          <TableRow>
+          <TableRow className={clsx(classes.tableRow, classes.borderTopNone)}>
             {STABLECOIN_TABLE_DATA.head.map((title, index) => (
               <TableCell key={title}>
                 <Typography
@@ -48,9 +51,7 @@ export const StablecoinTable: React.FC<StablecoinTableProps> = (props) => {
             return (
               <TableRow
                 key={rowId}
-                className={clsx({
-                  [classes.rowGrey]: rowInd === 0
-                })}
+                className={clsx(classes.tableRow, classes.borderBottomNone)}
               >
                 {row.map((cell, cellInd) => {
                   const cellId = String(cellInd);
@@ -58,17 +59,36 @@ export const StablecoinTable: React.FC<StablecoinTableProps> = (props) => {
                   const yes = cell === 'Yes';
                   const no = cell === 'No';
 
+                  const Icon = Array.isArray(cell)
+                    ? COIN_ICONS.get(cell[1])
+                    : undefined;
+
+                  const cellItem = Array.isArray(cell) ? (
+                    <>
+                      {Icon && <Icon className={classes.coin} />} {cell[0]}{' '}
+                      <span className={classes.coinTitle}>{cell[1]}</span>
+                    </>
+                  ) : (
+                    cell
+                  );
+
+                  const yesOrNo = yes || no;
+
                   return (
                     <TableCell key={cellId}>
                       <Typography
-                        variant="body1"
-                        align={yes || no ? 'center' : undefined}
-                        className={clsx({
-                          [classes.no]: no,
-                          [classes.yes]: yes
-                        })}
+                        variant="h5"
+                        component="p"
+                        align={yesOrNo ? 'center' : undefined}
+                        className={clsx(classes.tableCell)}
                       >
-                        {no && '✕'} {yes && '✓'} {cell}
+                        {no && (
+                          <NoIcon className={clsx(yesOrNo && classes.icon)} />
+                        )}{' '}
+                        {yes && (
+                          <YesIcon className={clsx(yesOrNo && classes.icon)} />
+                        )}{' '}
+                        {!yesOrNo && cellItem}
                       </Typography>
                     </TableCell>
                   );

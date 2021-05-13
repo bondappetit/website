@@ -5,7 +5,7 @@ import { Head, PageWrapper, useChangeNetworkModal } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { config } from 'src/config';
 import {
-  StablecoinDecentralized,
+  StablecoinCollateral,
   StablecoinEllipse,
   StablecoinFaq,
   StablecoinHeader,
@@ -14,6 +14,7 @@ import {
 } from './common';
 import { useStablecoinStyles } from './stablecoin.styles';
 import { StablecoinModals, useStablecoinModals } from './stablecoin-modals';
+import { StablecoinFeatures } from './common/stablecoin-features/stablecoin-features';
 
 export const Stablecoin: React.FC = () => {
   const classes = useStablecoinStyles();
@@ -60,8 +61,9 @@ export const Stablecoin: React.FC = () => {
             loading={stablecoinInfo.loading}
             tokenInfo={stablecoinInfo.value}
           />
-          <StablecoinDecentralized className={classes.section} />
+          <StablecoinFeatures className={classes.section} />
           <StablecoinTable className={classes.section} />
+          <StablecoinCollateral className={classes.section} />
           <StablecoinFaq className={classes.section} />
         </PageWrapper>
       </MainLayout>

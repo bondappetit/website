@@ -44,6 +44,7 @@ export const StablecoinEllipse: React.FC<StablecoinEllipseProps> = (props) => {
             )}
           </Typography>
         </Typography>
+        <div>adf</div>
       </Plate>
       <Plate className={classes.sellingBuying}>
         <div className={classes.info}>
