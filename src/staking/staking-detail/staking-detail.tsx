@@ -148,6 +148,7 @@ export const StakingDetail: React.FC = () => {
             poolRate={stakingItem?.poolRate}
             volumeUSD={volume24}
             loading={loading}
+            earnToken={stakingItem?.earnToken}
           />
           <div className={classes.row}>
             <Plate className={classes.card}>
@@ -274,7 +275,7 @@ export const StakingDetail: React.FC = () => {
                     align="center"
                     className={classes.cardTitle}
                   >
-                    You earned BAG
+                    You earned {stakingItem?.earnToken}
                   </Typography>
                   <Typography variant="h2" align="center">
                     {loading ? '...' : humanizeNumeral(rewardSum?.reward)}

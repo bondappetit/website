@@ -66,6 +66,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
                   stakingContractAddress={stakingItem.configAddress}
                   APY={stakingItem.apy}
                   chainId={stakingItem.chainId}
+                  earnToken={stakingItem.earnToken}
                 />
               );
             })}

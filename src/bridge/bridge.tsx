@@ -319,16 +319,6 @@ export const Bridge: React.VFC = () => {
     }
   }, [currentChainId, closeChangeNetwork]);
 
-  useEffect(() => {
-    if (ethereumTransit?.status === 0) {
-      handleLoadTransactions().then(() => setEthereumTransit(null));
-    }
-
-    if (binancePayback?.status === 0) {
-      handleLoadTransactions().then(() => setBinancePayback(null));
-    }
-  }, [ethereumTransit, binancePayback, handleLoadTransactions]);
-
   return (
     <MainLayout>
       <PageWrapper>

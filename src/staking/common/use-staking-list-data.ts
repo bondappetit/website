@@ -42,6 +42,7 @@ export type SakingItem = {
   tokenAddress?: string;
   totalSupplyFloat: string;
   amountInUSDC: BN;
+  earnToken: string;
 };
 
 const useStakingListQuery = () =>
@@ -205,7 +206,12 @@ export const useStakingListData = (address?: string) => {
             contractName: stakingAddress.contractName,
             amountInUSDC: new BN(balanceFloat).multipliedBy(priceUSD),
             date: stakingBalance?.unstakingStart.date,
-            chainId: stakingAddress.chainId
+            chainId: stakingAddress.chainId,
+            earnToken: config.CHAIN_BINANCE_IDS.includes(
+              Number(stakingAddress.chainId)
+            )
+              ? 'bBAG'
+              : 'BAG'
           };
         }
       ),

@@ -10,7 +10,6 @@ import {
   humanizeNumeral,
   dateUtils
 } from 'src/common';
-import { config } from 'src/config';
 import { Maybe } from 'src/graphql/_generated-hooks';
 import { URLS } from 'src/router/urls';
 import { StakingLabel } from '../staking-label';
@@ -27,6 +26,7 @@ export type StakingCardProps = {
   loading?: boolean;
   date?: string | null;
   chainId?: number;
+  earnToken?: string;
 };
 
 export const StakingCard: React.FC<StakingCardProps> = (props) => {
@@ -92,11 +92,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       />
       <StakingLabel
         title="Earn"
-        value={
-          config.CHAIN_BINANCE_IDS.includes(Number(props.chainId))
-            ? 'bBAG'
-            : 'BAG'
-        }
+        value={props.earnToken}
         variant="body1"
         loading={Boolean(props.loading)}
       />
@@ -108,7 +104,11 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       />
       <StakingLabel
         title="Pool rate"
-        value={<>{humanizeNumeral(props.poolRate)} BAG / day</>}
+        value={
+          <>
+            {humanizeNumeral(props.poolRate)} {props.earnToken} / day
+          </>
+        }
         variant="body1"
         loading={Boolean(props.loading)}
       />

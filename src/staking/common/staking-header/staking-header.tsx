@@ -16,6 +16,7 @@ export type StakingHeaderProps = {
   lockable?: boolean;
   loading: boolean;
   depositToken?: string;
+  earnToken?: string;
 };
 
 export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
@@ -53,7 +54,7 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
           <StakingLabel
             variant="body1"
             title="Earn"
-            value="BAG"
+            value={props.earnToken}
             loading={props.loading}
           />
           <StakingLabel
@@ -65,7 +66,11 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
           <StakingLabel
             variant="body1"
             title="Pool rate"
-            value={<>{humanizeNumeral(props.poolRate)} BAG / day</>}
+            value={
+              <>
+                {humanizeNumeral(props.poolRate)} {props.earnToken} / day
+              </>
+            }
             loading={props.loading}
           />
 

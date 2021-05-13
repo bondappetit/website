@@ -161,11 +161,11 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
           props.onConfirm?.(newtransit);
         })
         .on('receipt', async (receipt) => {
-          await burgerSwapApi.ethTransit(receipt.transactionHash);
+          const response = await burgerSwapApi.ethTransit(
+            receipt.transactionHash
+          );
 
-          newtransit.status = 0;
-
-          props.onConfirm?.(newtransit);
+          props.onConfirm?.(response);
           toggleSuccess(true);
           resetForm();
 

@@ -162,11 +162,11 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
           props.onConfirm?.(newPayback);
         })
         .on('receipt', async (receipt) => {
-          await burgerSwapApi.bscPayback(receipt.transactionHash);
+          const response = await burgerSwapApi.bscPayback(
+            receipt.transactionHash
+          );
 
-          newPayback.status = 0;
-
-          props.onConfirm?.(newPayback);
+          props.onConfirm?.(response);
           toggleSuccess(true);
           resetForm();
 
