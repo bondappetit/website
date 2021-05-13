@@ -37,7 +37,7 @@ export const WalletButton: React.FC = () => {
 
   return (
     <div className={classes.wrap}>
-      {account && networkName !== networks.main.networkName && (
+      {account && networkName && networkName !== networks.main.networkName && (
         <Chip className={classes.chip}>{networkName}</Chip>
       )}
       <ButtonBase onClick={toggleOpen} className={clsx(classes.connected)}>
