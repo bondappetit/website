@@ -194,7 +194,7 @@ export const useStakingListData = (address?: string) => {
             .div(priceItemtotalSupply)
             .multipliedBy(stakingBalanceTotalSupply)
             .toString(10),
-          totalSupplyFloat: pairItem?.totalSupplyFloat,
+          totalSupplyFloat: stakingAddress.staking?.totalSupplyFloat ?? '0',
           decimals: stakingBalance?.stakingTokenDecimals ?? 1,
           stacked: Boolean(reward?.staked),
           token: stakingAddress.token,
