@@ -178,7 +178,13 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
           props.token?.includes(asset.symbol) ||
           asset.symbol === networks.mainBSC.assets.BNB.symbol
       )
-      .map(({ address }) => address)
+      .map(({ address }) => {
+        if (address === networks.mainBSC.assets.BNB.address) {
+          return 'BNB';
+        }
+
+        return address;
+      })
       .join('/');
 
     return `${
