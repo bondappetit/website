@@ -1,7 +1,12 @@
 import { useAsyncRetry } from 'react-use';
 
-import { useStakingConfig } from 'src/staking-config';
-import { BN, StakingRewardHistory, useStakingRewardHistory } from 'src/common';
+import { StakingConfig, useStakingConfig } from 'src/staking-config';
+import {
+  BN,
+  StakingReward,
+  StakingRewardHistory,
+  useStakingRewardHistory
+} from 'src/common';
 
 const getRewardHistorySum = (
   [sumReward, sumEarned]: [BN, BN],
@@ -14,14 +19,38 @@ export const useStakingTotal = () => {
   const { stakingConfig } = useStakingConfig();
   const getStakingRewardHistory = useStakingRewardHistory();
 
+  const stakingConfigChainGrouped = Object.values(stakingConfig).reduce(
+    (res, stakingConfigItem) => ({
+      ...res,
+      [stakingConfigItem.chainId]: [
+        ...(res[stakingConfigItem.chainId] || []),
+        stakingConfigItem
+      ]
+    }),
+    {} as { [k: number]: StakingConfig[] }
+  );
   const stakingRewardHistory = useAsyncRetry(async () => {
-    const history = await getStakingRewardHistory({
-      addresses: Object.values(stakingConfig).map(
-        ({ configAddress }) => configAddress
+    const historyGroups = await Promise.all(
+      Object.entries(stakingConfigChainGrouped).map(
+        ([chainId, stakingConfigItems]) => {
+          return getStakingRewardHistory(
+            {
+              addresses: stakingConfigItems.map(
+                ({ configAddress }) => configAddress
+              )
+            },
+            {
+              init: {
+                headers: { 'chain-id': chainId }
+              }
+            }
+          );
+        }
       )
-    });
-
-    return history.data.stakingList;
+    );
+    return ([] as StakingReward[]).concat(
+      ...historyGroups.map(({ data }) => data.stakingList)
+    );
   }, [stakingConfig]);
 
   let sum = { leftTokens: new BN(0), totalSupplySum: new BN(0) };
