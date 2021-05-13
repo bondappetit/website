@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Link, Typography } from 'src/common';
+import { Link } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { VotingProposals } from '../voting-proposals';
 import { FormattedProposal } from '../voting.types';
@@ -21,9 +21,6 @@ export const VotingInfoProposalList: React.FC<VotingInfoProposalListProps> = (
 
   return (
     <div className={props.className}>
-      <Typography variant="h2" align="center" className={classes.title}>
-        Active proposals
-      </Typography>
       <VotingProposals
         transparent
         loading={props.loading}

@@ -33,6 +33,7 @@ export type EthChainProps = {
   onEthTransit?: (transactionHash: string) => void;
   ethTransit?: string | null;
   onConfirm?: (transit: BurgerSwapTransit | null) => void;
+  transactionsLength: number;
 };
 
 const transit: BurgerSwapTransit = {
@@ -131,7 +132,7 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
         amount
       );
 
-      const newtransit = {
+      const newtransit: BurgerSwapTransit = {
         ...transit
       };
 
@@ -152,29 +153,23 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
               }
             }
           });
-        })
-        .on('confirmation', (_, receipt) => {
-          newtransit.id = receipt.transactionIndex;
-          newtransit.transit_id = receipt.transactionHash;
+
+          newtransit.id = props.transactionsLength + 1;
+          newtransit.transit_id = transactionHash;
           newtransit.amount = amount;
 
           props.onConfirm?.(newtransit);
         })
         .on('receipt', async (receipt) => {
-          await burgerSwapApi.ethTransit(receipt.transactionHash);
+          const response = await burgerSwapApi.ethTransit(
+            receipt.transactionHash
+          );
 
-          props.onConfirm?.(null);
-
+          props.onConfirm?.(response.data);
           toggleSuccess(true);
-
           resetForm();
 
           return Promise.resolve();
-        })
-        .on('error', (error) => {
-          console.error(error.message);
-
-          return Promise.reject(error.message);
         });
     }
   });
@@ -202,7 +197,7 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
       const options = {
         token: governanceContract,
         owner: account,
-        spender: governanceContract.options.address,
+        spender: bridgeContract.options.address,
         amount
       };
 
@@ -242,7 +237,7 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
           >
             You have successfully
             <br />
-            sended&nbsp;
+            transferred&nbsp;
             {formik.values.amount}&nbsp;BAG
           </InfoCardSuccess>
         </SmallModal>

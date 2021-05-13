@@ -33,6 +33,7 @@ export type BinanceChainProps = {
   onBscPayback?: (transactionHash: string) => void;
   bscPayback?: null | string;
   onConfirm?: (payback: BurgerSwapPayback | null) => void;
+  transactionsLength: number;
 };
 
 const payback: BurgerSwapPayback = {
@@ -60,7 +61,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
 
   const [successOpen, toggleSuccess] = useToggle(false);
 
-  const getBalance = useBalance();
+  const getBalance = useBalance(chainId);
 
   const [approve, approvalNeeded] = useApprove();
 
@@ -111,7 +112,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
       const options = {
         token: bbagContract,
         owner: account,
-        spender: bbagContract.options.address,
+        spender: transitContract.options.address,
         amount
       };
 
@@ -131,7 +132,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
         amount
       );
 
-      const newPayback = {
+      const newPayback: BurgerSwapPayback = {
         ...payback
       };
 
@@ -153,29 +154,23 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
               }
             }
           });
-        })
-        .on('confirmation', (_, receipt) => {
-          newPayback.id = receipt.transactionIndex;
-          newPayback.payback_id = receipt.transactionHash;
+
+          newPayback.id = props.transactionsLength + 1;
+          newPayback.payback_id = transactionHash;
           newPayback.amount = amount;
 
           props.onConfirm?.(newPayback);
         })
         .on('receipt', async (receipt) => {
-          await burgerSwapApi.bscPayback(receipt.transactionHash);
+          const response = await burgerSwapApi.bscPayback(
+            receipt.transactionHash
+          );
 
-          props.onConfirm?.(null);
-
+          props.onConfirm?.(response.data);
           toggleSuccess(true);
-
           resetForm();
 
           return Promise.resolve();
-        })
-        .on('error', (error) => {
-          console.error(error.message);
-
-          return Promise.reject(error.message);
         });
     }
   });
@@ -203,7 +198,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
       const options = {
         token: bbagContract,
         owner: account,
-        spender: bbagContract.options.address,
+        spender: transitContract.options.address,
         amount
       };
 
@@ -228,14 +223,14 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
       <Modal open={successOpen} onClose={toggleSuccess}>
         <SmallModal>
           <InfoCardSuccess
-            token="Governance"
+            token="bBAG"
             tokenName="bBAG"
             onClick={toggleSuccess}
             purchased={formik.values.amount}
           >
             You have successfully
             <br />
-            sended&nbsp;
+            transferred&nbsp;
             {formik.values.amount}&nbsp;bBAG
           </InfoCardSuccess>
         </SmallModal>

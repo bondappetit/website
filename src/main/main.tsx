@@ -1,15 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 import { useToggle } from 'react-use';
-import { useWeb3React } from '@web3-react/core';
 
-import {
-  Head,
-  humanizeNumeral,
-  PageWrapper,
-  Typography,
-  useChangeNetworkModal
-} from 'src/common';
+import { Head, humanizeNumeral, PageWrapper, Typography } from 'src/common';
 import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
 import { MainLayout } from 'src/layouts';
 import {
@@ -19,7 +12,6 @@ import {
 } from 'src/stablecoin';
 import { useStakingListData } from 'src/staking';
 import { ContactsBecomePartner } from 'src/contacts/contacts-become-partner';
-import { config } from 'src/config';
 import {
   MainStaking,
   MainStablecoin,
@@ -37,8 +29,6 @@ import { MainCointelegraph } from './common/main-cointelegraph';
 
 export const Main: React.FC = () => {
   const classes = useMainStyles();
-
-  const { chainId } = useWeb3React();
 
   const { totalValueLocked, stakingList } = useStakingListData();
 
@@ -61,14 +51,6 @@ export const Main: React.FC = () => {
 
   const [becomeAPartnerIsOpen, toggleBecomeAPartner] = useToggle(false);
 
-  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
-
-  useEffect(() => {
-    if (config.CHAIN_IDS.includes(Number(chainId))) {
-      closeChangeNetwork();
-    }
-  }, [chainId, closeChangeNetwork]);
-
   return (
     <>
       <Head
@@ -90,11 +72,7 @@ export const Main: React.FC = () => {
                 ? humanizeNumeral(stablecoinBalance.value)
                 : ''
             }
-            onBuy={
-              config.CHAIN_BINANCE_IDS.includes(Number(chainId))
-                ? openChangeNetwork
-                : togglelinkModal
-            }
+            onBuy={togglelinkModal}
             onSell={toggleSellModal}
           />
           <MainCollateral className={classes.section} />

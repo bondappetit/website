@@ -8,7 +8,7 @@ import abi from '../abi/bridge-abi.json';
 const ADDRESS = '0xc8c1b41713761281a520b7ad81544197bc85a4ce';
 
 export const useBridgeContract = () => {
-  const library = useLibrary();
+  const library = useLibrary(true);
 
   return useMemo(
     () =>

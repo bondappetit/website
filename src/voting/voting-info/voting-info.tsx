@@ -7,12 +7,9 @@ import { MainLayout } from 'src/layouts';
 import { URLS } from 'src/router/urls';
 import {
   useVotingProposalList,
-  VotingInfoFactoid,
   VotingInfoProposalList,
   VotingInfoDecision
 } from '../common';
-import { VotingInvesting } from '../voting-investing';
-import { VotingStaking } from '../voting-staking/voting-staking';
 import { useVotingInfoStyles } from './voting-info.styles';
 
 export const VotingInfo: React.FC = () => {
@@ -42,11 +39,6 @@ export const VotingInfo: React.FC = () => {
               </Link>
             </Typography>
           </div>
-          <div className={clsx(classes.block, classes.investing)}>
-            <VotingInvesting />
-            <VotingStaking />
-          </div>
-          <VotingInfoFactoid className={clsx(classes.factoid, classes.block)} />
           <VotingInfoProposalList
             loading={proposals.loading}
             proposals={proposals.value}

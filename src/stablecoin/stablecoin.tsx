@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
-import { useWeb3React } from '@web3-react/core';
+import React from 'react';
 
-import { Head, PageWrapper, useChangeNetworkModal } from 'src/common';
+import { Head, PageWrapper } from 'src/common';
 import { MainLayout } from 'src/layouts';
-import { config } from 'src/config';
 import {
   StablecoinDecentralized,
   StablecoinEllipse,
@@ -19,8 +17,6 @@ export const Stablecoin: React.FC = () => {
 
   const stablecoinInfo = useStablecoinInfo();
 
-  const { chainId } = useWeb3React();
-
   const {
     linkModalOpen,
     togglelinkModal,
@@ -34,14 +30,6 @@ export const Stablecoin: React.FC = () => {
     toggleCollateralMarketModal
   } = useStablecoinModals();
 
-  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
-
-  useEffect(() => {
-    if (config.CHAIN_IDS.includes(Number(chainId))) {
-      closeChangeNetwork();
-    }
-  }, [chainId, closeChangeNetwork]);
-
   return (
     <>
       <Head title="The first-ever decentralized stablecoin based on real-world assets." />
@@ -49,11 +37,7 @@ export const Stablecoin: React.FC = () => {
         <PageWrapper>
           <StablecoinEllipse
             className={classes.section}
-            onBuy={
-              config.CHAIN_BINANCE_IDS.includes(Number(chainId))
-                ? openChangeNetwork
-                : togglelinkModal
-            }
+            onBuy={togglelinkModal}
             onSell={toggleSellModal}
             loading={stablecoinInfo.loading}
             tokenInfo={stablecoinInfo.value}

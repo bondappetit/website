@@ -128,14 +128,14 @@ const getStakingConfig = (chainId?: number): Record<string, StakingConfig> => {
     ...chainContracts
   };
 
-  if (currentChainId === config.CHAIN_BINANCE_IDS[0]) {
+  if (
+    currentChainId === config.CHAIN_BINANCE_IDS[0] ||
+    config.CHAIN_IDS.includes(currentChainId)
+  ) {
     delete currentChainContracts[config.CHAIN_BINANCE_IDS[1]];
   }
 
-  if (
-    currentChainId === config.CHAIN_BINANCE_IDS[1] ||
-    config.CHAIN_IDS.includes(currentChainId)
-  ) {
+  if (currentChainId === config.CHAIN_BINANCE_IDS[1]) {
     delete currentChainContracts[config.CHAIN_BINANCE_IDS[0]];
   }
 
@@ -171,14 +171,9 @@ export const useStakingConfig = () => {
     [chainId]
   );
 
-  const stakingConfigValues = useMemo(() => {
-    const values = Object.values(stakingConfigMemo);
+  const stakingConfigValues = useMemo(() => Object.values(stakingConfigMemo), [
+    stakingConfigMemo
+  ]);
 
-    return values;
-  }, [stakingConfigMemo]);
-
-  return useMemo(
-    () => ({ stakingConfigValues, stakingConfig: stakingConfigMemo }),
-    [stakingConfigValues, stakingConfigMemo]
-  );
+  return { stakingConfigValues, stakingConfig: stakingConfigMemo };
 };

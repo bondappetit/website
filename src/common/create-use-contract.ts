@@ -1,8 +1,7 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { AbiItem } from 'web3-utils';
 import type { ContractOptions } from 'web3-eth-contract';
 import networks from '@bondappetit/networks';
-import Web3 from 'web3';
 
 import { config } from 'src/config';
 import { useNetworkConfig } from './use-network-config';
@@ -45,47 +44,29 @@ export const useDynamicContract = <T>(
   const library = useLibrary(
     config.CHAIN_BINANCE_IDS.includes(Number(currentChainId))
   );
-  const contract = useRef<T | null>(null);
 
-  const handleGetContract = useCallback(
-    (address?: string, abi?: AbiItem[] | AbiItem, chainId?: number) => {
+  return useCallback(
+    (address?: string, abi?: AbiItem[] | AbiItem) => {
       const currentAbi = contractParameters?.abi ?? abi;
+
+      let contract: null | T = null;
 
       try {
         if (!currentAbi) {
           throw new Error('Abi is required');
         }
 
-        if (
-          chainId &&
-          config.CHAIN_BINANCE_IDS.includes(chainId) &&
-          !currentChainId
-        ) {
-          const web3 = new Web3(
-            config.CHAIN_BINANCE_IDS[0] === chainId
-              ? networks.mainBSC.networkUrl
-              : networks.testnetBSC.networkUrl
-          );
-
-          contract.current = (new web3.eth.Contract(
-            currentAbi,
-            address
-          ) as unknown) as T;
-        } else {
-          contract.current = (new library.eth.Contract(
-            currentAbi,
-            address
-          ) as unknown) as T;
-        }
+        contract = (new library.eth.Contract(
+          currentAbi,
+          address
+        ) as unknown) as T;
       } catch {
         throw new EthereumNetworkError();
       }
 
-      return contract.current;
+      return contract;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [library, currentChainId]
   );
-
-  return handleGetContract;
 };
