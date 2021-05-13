@@ -197,7 +197,7 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
       const options = {
         token: governanceContract,
         owner: account,
-        spender: governanceContract.options.address,
+        spender: bridgeContract.options.address,
         amount
       };
 

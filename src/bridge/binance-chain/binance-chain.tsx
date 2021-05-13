@@ -111,7 +111,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
       const options = {
         token: bbagContract,
         owner: account,
-        spender: bbagContract.options.address,
+        spender: transitContract.options.address,
         amount
       };
 
@@ -198,7 +198,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
       const options = {
         token: bbagContract,
         owner: account,
-        spender: bbagContract.options.address,
+        spender: transitContract.options.address,
         amount
       };
 
