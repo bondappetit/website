@@ -1,6 +1,9 @@
 export const COIN_LINKS = new Map<string, string>([
   ['BAG', 'https://app.1inch.io/#/1/swap/USDT/BAG'],
-  ['bBAG', 'https://app.1inch.io/#/56/swap/BNB/bBAG'],
+  [
+    'bBAG',
+    'https://exchange.pancakeswap.finance/#/swap?inputCurrency=0x1ad0132d8b5ef3cebda1a9692f36ac30be871b6b'
+  ],
   ['USDap', '/stablecoin'],
   ['DAI', 'https://coinmarketcap.com/currencies/multi-collateral-dai/'],
   ['WBTC', 'https://coinmarketcap.com/currencies/wrapped-bitcoin/'],
