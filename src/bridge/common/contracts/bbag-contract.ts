@@ -8,7 +8,7 @@ import abi from '../abi/bbag-abi.json';
 const ADDRESS = '0x1AD0132D8B5Ef3cEBDA1A9692f36AC30be871b6b';
 
 export const useBBagContract = () => {
-  const library = useLibrary();
+  const library = useLibrary(true);
 
   return useMemo(
     () =>
