@@ -51,8 +51,17 @@ export const FAQ = [
   },
 
   {
+    title: 'What is the BAG token address?',
+    body: `ERC20 - [0x28a06c02287e657ec3f8e151a13c36a1d43814b0](https://etherscan.io/token/0x28a06c02287e657ec3f8e151a13c36a1d43814b0)
+
+BEP20 - [0x1ad0132d8b5ef3cebda1a9692f36ac30be871b6b](https://bscscan.com/token/0x1ad0132d8b5ef3cebda1a9692f36ac30be871b6b)
+
+Useful links: [Etherscan](https://etherscan.io/token/0x28a06c02287e657ec3f8e151a13c36a1d43814b0), [CoinMarketCap](https://coinmarketcap.com/currencies/bondappetit-governance-token/), [CoinGecko](https://www.coingecko.com/en/coins/bondappetit-gov-token), [BscScan](https://bscscan.com/token/0x1ad0132d8b5ef3cebda1a9692f36ac30be871b6b)`
+  },
+
+  {
     title: 'How can I acquire BAG?',
-    body: `1.  They can be acquired on the market (Uniswap or Pancakeswap) at
+    body: `1.  They can be acquired on the market ([Uniswap](https://app.1inch.io/#/1/swap/USDT/BAG) or [PancakeSwap](https://app.1inch.io/#/56/swap/BNB/bBAG)) at
       market price;
   2.  Distributed to those users who decided to lock their crypto into
       liquidity pools and provide the protocol with liquidity pool tokens;
@@ -136,40 +145,5 @@ You can find more details about voting in [this article](https://medium.com/bond
     body: `Any member of the community with more than 1,000,000 BAG tokens can
 create a proposal. This threshold is needed to combat spam and other
 forms of abuse.`
-  },
-
-  {
-    title: 'What is the price stability mechanism?',
-    body: `The price of USDap equals $1 at all times. The token is issued only if
-the protocol has sufficient collateral.
-
-Information about the protocol’s assets is provided by regulated
-intermediaries connected to custody accounts holding the collateral.
-Issuance of USDap is technically impossible without sufficient
-collateral, the price of which is tied to USD.`
-  },
-
-  {
-    title: 'Who controls the issuance of USDap?',
-    body: `USDap is issued by a smart contract without any legal entity behind it.
-Issuance of USDap is initiated by the community of the protocol only if
-the protocol has sufficient collateral.`
-  },
-
-  {
-    title: 'What assets back the USDap?',
-    body: `USDap is backed by real-world fixed-income securities (bonds) provided by borrowers as collateral.`
-  },
-
-  {
-    title: 'What is the legal classification of USDap?',
-    body: `The token represents the means of transferring value, and it is defined
-as such exclusively by market participants. The token itself does not
-imply any obligations of the protocol or any of its participants.
-
-USDap owners do not possess any rights to assets of the protocol.
-Neither they have any legal mechanisms or rights to oblige the protocol
-or its participants to buy-back or redeem USDap or receive any other
-payments or assets from the protocol.`
   }
 ];
