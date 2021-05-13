@@ -237,7 +237,7 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
           >
             You have successfully
             <br />
-            sended&nbsp;
+            transferred&nbsp;
             {formik.values.amount}&nbsp;BAG
           </InfoCardSuccess>
         </SmallModal>

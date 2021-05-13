@@ -230,7 +230,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
           >
             You have successfully
             <br />
-            sended&nbsp;
+            transferred&nbsp;
             {formik.values.amount}&nbsp;bBAG
           </InfoCardSuccess>
         </SmallModal>
