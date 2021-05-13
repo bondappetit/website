@@ -60,7 +60,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
 
   const [successOpen, toggleSuccess] = useToggle(false);
 
-  const getBalance = useBalance();
+  const getBalance = useBalance(chainId);
 
   const [approve, approvalNeeded] = useApprove();
 
