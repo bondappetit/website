@@ -33,6 +33,7 @@ export type BinanceChainProps = {
   onBscPayback?: (transactionHash: string) => void;
   bscPayback?: null | string;
   onConfirm?: (payback: BurgerSwapPayback | null) => void;
+  transactionsLength: number;
 };
 
 const payback: BurgerSwapPayback = {
@@ -153,10 +154,9 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
               }
             }
           });
-        })
-        .on('confirmation', (_, receipt) => {
-          newPayback.id = receipt.transactionIndex;
-          newPayback.payback_id = receipt.transactionHash;
+
+          newPayback.id = props.transactionsLength + 1;
+          newPayback.payback_id = transactionHash;
           newPayback.amount = amount;
 
           props.onConfirm?.(newPayback);

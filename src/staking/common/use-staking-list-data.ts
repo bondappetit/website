@@ -39,6 +39,9 @@ export type SakingItem = {
   configAddress: string;
   date?: string | null;
   chainId?: number;
+  tokenAddress?: string;
+  totalSupplyFloat: string;
+  amountInUSDC: BN;
 };
 
 const useStakingListQuery = () =>
@@ -151,59 +154,61 @@ export const useStakingListData = (address?: string) => {
 
   const stakingList = useMemo(
     () =>
-      stakingAddresses.value?.map((stakingAddress, index) => {
-        const stakingBalance = stakingAddress.staking;
-        const pairItem = stakingAddress.pair;
+      stakingAddresses.value?.map<SakingItem>(
+        (stakingAddress, index): SakingItem => {
+          const stakingBalance = stakingAddress.staking;
+          const pairItem = stakingAddress.pair;
 
-        const priceItemtotalSupplyFloatBN = new BN(
-          pairItem?.totalSupplyFloat ?? '1'
-        );
-        const priceItemtotalSupply = priceItemtotalSupplyFloatBN.isZero()
-          ? new BN(1)
-          : priceItemtotalSupplyFloatBN;
+          const priceItemtotalSupplyFloatBN = new BN(
+            pairItem?.totalSupplyFloat ?? '1'
+          );
+          const priceItemtotalSupply = priceItemtotalSupplyFloatBN.isZero()
+            ? new BN(1)
+            : priceItemtotalSupplyFloatBN;
 
-        const stakingBalanceTotalSupplyBN = new BN(
-          stakingBalance?.totalSupplyFloat ?? '1'
-        );
-        const stakingBalanceTotalSupply = stakingBalanceTotalSupplyBN.isZero()
-          ? new BN(1)
-          : stakingBalanceTotalSupplyBN;
+          const stakingBalanceTotalSupplyBN = new BN(
+            stakingBalance?.totalSupplyFloat ?? '1'
+          );
+          const stakingBalanceTotalSupply = stakingBalanceTotalSupplyBN.isZero()
+            ? new BN(1)
+            : stakingBalanceTotalSupplyBN;
 
-        const priceUSD = new BN(
-          pairItem?.statistic?.totalLiquidityUSD ?? '0'
-        ).div(priceItemtotalSupply);
-
-        const [reward = undefined] = stakingBalance?.userList ?? [];
-
-        const balanceFloat = new BN(reward?.balanceFloat ?? '0');
-
-        return {
-          id: index,
-          configAddress: stakingAddress.configAddress,
-          amount: balanceFloat,
-          address: stakingBalance?.address,
-          tokenAddress: stakingBalance?.stakingToken,
-          apy: new BN(stakingBalance?.apr.year ?? '0')
-            .multipliedBy(100)
-            .toString(10),
-          lockable: Boolean(stakingBalance?.stakingEnd.block),
-          poolRate: stakingBalance?.poolRate.dailyFloat,
-          totalValueLocked: new BN(
+          const priceUSD = new BN(
             pairItem?.statistic?.totalLiquidityUSD ?? '0'
-          )
-            .div(priceItemtotalSupply)
-            .multipliedBy(stakingBalanceTotalSupply)
-            .toString(10),
-          totalSupplyFloat: stakingAddress.staking?.totalSupplyFloat ?? '0',
-          decimals: stakingBalance?.stakingTokenDecimals ?? 1,
-          stacked: Boolean(reward?.staked),
-          token: stakingAddress.token,
-          contractName: stakingAddress.contractName,
-          amountInUSDC: new BN(balanceFloat).multipliedBy(priceUSD),
-          date: stakingBalance?.unstakingStart.date,
-          chaindId: stakingAddress.chainId
-        };
-      }),
+          ).div(priceItemtotalSupply);
+
+          const [reward = undefined] = stakingBalance?.userList ?? [];
+
+          const balanceFloat = new BN(reward?.balanceFloat ?? '0');
+
+          return {
+            id: index,
+            configAddress: stakingAddress.configAddress,
+            amount: balanceFloat,
+            address: stakingBalance?.address,
+            tokenAddress: stakingBalance?.stakingToken,
+            apy: new BN(stakingBalance?.apr.year ?? '0')
+              .multipliedBy(100)
+              .toString(10),
+            lockable: Boolean(stakingBalance?.stakingEnd.block),
+            poolRate: stakingBalance?.poolRate.dailyFloat,
+            totalValueLocked: new BN(
+              pairItem?.statistic?.totalLiquidityUSD ?? '0'
+            )
+              .div(priceItemtotalSupply)
+              .multipliedBy(stakingBalanceTotalSupply)
+              .toString(10),
+            totalSupplyFloat: stakingAddress.staking?.totalSupplyFloat ?? '0',
+            decimals: stakingBalance?.stakingTokenDecimals ?? 1,
+            stacked: Boolean(reward?.staked),
+            token: stakingAddress.token,
+            contractName: stakingAddress.contractName,
+            amountInUSDC: new BN(balanceFloat).multipliedBy(priceUSD),
+            date: stakingBalance?.unstakingStart.date,
+            chainId: stakingAddress.chainId
+          };
+        }
+      ),
     [stakingAddresses.value]
   );
 

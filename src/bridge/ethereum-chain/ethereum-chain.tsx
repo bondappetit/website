@@ -33,6 +33,7 @@ export type EthChainProps = {
   onEthTransit?: (transactionHash: string) => void;
   ethTransit?: string | null;
   onConfirm?: (transit: BurgerSwapTransit | null) => void;
+  transactionsLength: number;
 };
 
 const transit: BurgerSwapTransit = {
@@ -152,10 +153,9 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
               }
             }
           });
-        })
-        .on('confirmation', (_, receipt) => {
-          newtransit.id = receipt.transactionIndex;
-          newtransit.transit_id = receipt.transactionHash;
+
+          newtransit.id = props.transactionsLength + 1;
+          newtransit.transit_id = transactionHash;
           newtransit.amount = amount;
 
           props.onConfirm?.(newtransit);
