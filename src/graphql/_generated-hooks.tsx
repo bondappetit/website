@@ -93,6 +93,8 @@ export type Query = {
   staking: StakingPayload;
   stakingList: Array<StakingType>;
   mediumPostList: Array<MediumPostType>;
+  wallet: WalletPayload;
+  walletList: Array<WalletType>;
 };
 
 export type QueryTokenArgs = {
@@ -117,6 +119,14 @@ export type QueryStakingArgs = {
 
 export type QueryStakingListArgs = {
   filter?: Maybe<StakingListQueryFilterInputType>;
+};
+
+export type QueryWalletArgs = {
+  filter: WalletQueryFilterInputType;
+};
+
+export type QueryWalletListArgs = {
+  filter?: Maybe<WalletListQueryFilterInputType>;
 };
 
 export type StakingAprType = {
@@ -187,6 +197,10 @@ export type StakingType = {
   stakingToken: Scalars['AddressType'];
   /** Staking token decimals */
   stakingTokenDecimals: Scalars['Int'];
+  /** Plain staking token */
+  stakingTokenPlain?: Maybe<TokenType>;
+  /** Uniswap LP staking token */
+  stakingTokenUniswap?: Maybe<UniswapPairType>;
   /** Reward token address */
   rewardToken: Scalars['AddressType'];
   /** Reward token decimals */
@@ -328,6 +342,32 @@ export type UniswapPairType = {
   statistic?: Maybe<UniswapPairStatisticType>;
 };
 
+export type WalletListQueryFilterInputType = {
+  /** List of target wallet addresses */
+  address?: Maybe<Array<Scalars['AddressType']>>;
+};
+
+export type WalletPayload = {
+  __typename?: 'WalletPayload';
+  data?: Maybe<WalletType>;
+  error?: Maybe<Scalars['String']>;
+};
+
+export type WalletQueryFilterInputType = {
+  /** Target wallet address */
+  address: Scalars['AddressType'];
+};
+
+export type WalletType = {
+  __typename?: 'WalletType';
+  /** Wallet address */
+  address: Scalars['AddressType'];
+  /** ETH balance */
+  balance: Scalars['String'];
+  /** ETH balance normalize */
+  balanceFloat: Scalars['String'];
+};
+
 export type AddBurgerSwapBridgeTransitMutationVariables = Exact<{
   input: BurgerSwapBridgeTransitInput;
 }>;
@@ -353,6 +393,19 @@ export type StakingListQuery = { __typename?: 'Query' } & {
       | 'stakingTokenDecimals'
       | 'stakingToken'
     > & {
+        stakingTokenUniswap?: Maybe<
+          { __typename?: 'UniswapPairType' } & Pick<
+            UniswapPairType,
+            'address' | 'totalSupplyFloat'
+          > & {
+              statistic?: Maybe<
+                { __typename?: 'UniswapPairStatisticType' } & Pick<
+                  UniswapPairStatisticType,
+                  'dailyVolumeUSD' | 'totalLiquidityUSD'
+                >
+              >;
+            }
+        >;
         poolRate: { __typename?: 'StakingPoolRateType' } & Pick<
           StakingPoolRateType,
           'block' | 'blockFloat' | 'daily' | 'dailyFloat'
@@ -401,6 +454,19 @@ export type StakingQuery = { __typename?: 'Query' } & {
         | 'stakingTokenDecimals'
         | 'stakingToken'
       > & {
+          stakingTokenUniswap?: Maybe<
+            { __typename?: 'UniswapPairType' } & Pick<
+              UniswapPairType,
+              'address' | 'totalSupplyFloat'
+            > & {
+                statistic?: Maybe<
+                  { __typename?: 'UniswapPairStatisticType' } & Pick<
+                    UniswapPairStatisticType,
+                    'dailyVolumeUSD' | 'totalLiquidityUSD'
+                  >
+                >;
+              }
+          >;
           poolRate: { __typename?: 'StakingPoolRateType' } & Pick<
             StakingPoolRateType,
             'block' | 'blockFloat' | 'daily' | 'dailyFloat'
@@ -595,6 +661,14 @@ export const StakingListDocument = gql`
       totalSupplyFloat
       stakingTokenDecimals
       stakingToken
+      stakingTokenUniswap {
+        address
+        totalSupplyFloat
+        statistic {
+          dailyVolumeUSD
+          totalLiquidityUSD
+        }
+      }
       poolRate {
         block
         blockFloat
@@ -690,6 +764,14 @@ export const StakingDocument = gql`
         totalSupplyFloat
         stakingTokenDecimals
         stakingToken
+        stakingTokenUniswap {
+          address
+          totalSupplyFloat
+          statistic {
+            dailyVolumeUSD
+            totalLiquidityUSD
+          }
+        }
         poolRate {
           block
           blockFloat
