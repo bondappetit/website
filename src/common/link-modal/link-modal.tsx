@@ -106,30 +106,32 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
               <UniswapIcon />
               Uniswap
             </Button>
-            {config.PANCAKESWAP_URL && (
-              <Button
-                variant="outlined"
-                component={Link}
-                href={`${config.PANCAKESWAP_URL}/${networkConfig.assets.USDT.symbol}/${props.tokenName}`}
-                target="_blank"
-                className={classes.button}
-              >
-                <CakeIcon width="40" height="40" />
-                PancakeSwap
-              </Button>
-            )}
-            {config.WAVES_URL && (
-              <Button
-                variant="outlined"
-                component={Link}
-                href={config.WAVES_URL}
-                target="_blank"
-                className={classes.button}
-              >
-                <WavesIcon width="40" height="40" />
-                Waves
-              </Button>
-            )}
+            {config.PANCAKESWAP_URL &&
+              networkConfig.assets.Stable.symbol !== props.tokenName && (
+                <Button
+                  variant="outlined"
+                  component={Link}
+                  href={`${config.PANCAKESWAP_URL}/${networkConfig.assets.USDT.symbol}/${props.tokenName}`}
+                  target="_blank"
+                  className={classes.button}
+                >
+                  <CakeIcon width="40" height="40" />
+                  PancakeSwap
+                </Button>
+              )}
+            {config.WAVES_URL &&
+              networkConfig.assets.Stable.symbol !== props.tokenName && (
+                <Button
+                  variant="outlined"
+                  component={Link}
+                  href={config.WAVES_URL}
+                  target="_blank"
+                  className={classes.button}
+                >
+                  <WavesIcon width="40" height="40" />
+                  Waves
+                </Button>
+              )}
           </div>
         </div>
       </SmallModal>
