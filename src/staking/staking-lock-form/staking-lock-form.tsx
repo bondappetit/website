@@ -80,9 +80,12 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
   const currentChainId = Number(chainId ?? config.DEFAULT_CHAIN_ID);
 
-  const getIERC20Contract = useDynamicContract<Ierc20>({
-    abi: IERC20.abi as AbiItem[]
-  });
+  const getIERC20Contract = useDynamicContract<Ierc20>(
+    {
+      abi: IERC20.abi as AbiItem[]
+    },
+    props.chainId
+  );
 
   const {
     account = null,
@@ -125,11 +128,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
       analytics.send('staking_click');
 
-      const currentAssetContract = getIERC20Contract(
-        tokenAddress,
-        undefined,
-        props.chainId
-      );
+      const currentAssetContract = getIERC20Contract(tokenAddress, undefined);
 
       const formAmount = new BN(formValues.amount)
         .multipliedBy(new BN(10).pow(tokenDecimals))
@@ -190,29 +189,21 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   }, [props.token, props.chainId, networkConfig.assets]);
 
   useDebounce(
-    () => {
-      const handler = async () => {
-        if (!account || !stakingContract || !tokenDecimals) return;
+    async () => {
+      if (!account || !stakingContract || !tokenDecimals) return;
 
-        const currentAssetContract = getIERC20Contract(
-          tokenAddress,
-          undefined,
-          props.chainId
-        );
+      const currentAssetContract = getIERC20Contract(tokenAddress, undefined);
 
-        const formAmount = new BN(formik.values.amount)
-          .multipliedBy(new BN(10).pow(tokenDecimals))
-          .toString(10);
+      const formAmount = new BN(formik.values.amount)
+        .multipliedBy(new BN(10).pow(tokenDecimals))
+        .toString(10);
 
-        await approvalNeeded({
-          token: currentAssetContract,
-          owner: account,
-          spender: stakingContract.options.address,
-          amount: formAmount
-        });
-      };
-
-      handler();
+      await approvalNeeded({
+        token: currentAssetContract,
+        owner: account,
+        spender: stakingContract.options.address,
+        amount: formAmount
+      });
     },
     200,
     [

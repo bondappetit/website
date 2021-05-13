@@ -1,7 +1,7 @@
 import React from 'react';
 import { useToggle } from 'react-use';
 
-import { LinkModal, PageWrapper, useNetworkConfig } from 'src/common';
+import { Head, LinkModal, PageWrapper, useNetworkConfig } from 'src/common';
 import { ContactsFeedback } from 'src/contacts/contacts-feedback/contacts-feedback';
 import { MainLayout } from 'src/layouts';
 import { useGovernanceCost } from 'src/staking';
@@ -30,31 +30,37 @@ export const Bag: React.VFC<BagProps> = () => {
   const networkConfig = useNetworkConfig();
 
   return (
-    <MainLayout>
-      <PageWrapper>
-        <BagHeader className={classes.header} />
-        <BagBlocks
-          className={classes.blocks}
-          leftTokens={leftTokens}
-          totalSupplySum={totalSupplySum}
-          percent={percent}
-          govTokenCost={govTokenCost}
-          onBuyBag={linksToggle}
-        />
-        <BagCalculator className={classes.blocks} bagPrice={govTokenCost} />
-        <BagInstruction className={classes.blocks} />
-        <BagDistribution className={classes.blocks} />
-        <BagInvest className={classes.blocks}>
-          <ContactsFeedback />
-        </BagInvest>
-        <BagFaq />
-      </PageWrapper>
-      <LinkModal
-        open={linksOpen}
-        onClose={linksToggle}
-        tokenName={networkConfig.assets.Governance.symbol}
-        tokenAddress={networkConfig.assets.Governance.address}
+    <>
+      <Head
+        title="BondAppétit Governance Token"
+        ogUrl="https://bondappetit.io"
       />
-    </MainLayout>
+      <MainLayout>
+        <PageWrapper>
+          <BagHeader className={classes.header} />
+          <BagBlocks
+            className={classes.blocks}
+            leftTokens={leftTokens}
+            totalSupplySum={totalSupplySum}
+            percent={percent}
+            govTokenCost={govTokenCost}
+            onBuyBag={linksToggle}
+          />
+          <BagCalculator className={classes.blocks} bagPrice={govTokenCost} />
+          <BagInstruction className={classes.blocks} />
+          <BagDistribution className={classes.blocks} />
+          <BagInvest className={classes.blocks}>
+            <ContactsFeedback />
+          </BagInvest>
+          <BagFaq />
+        </PageWrapper>
+        <LinkModal
+          open={linksOpen}
+          onClose={linksToggle}
+          tokenName={networkConfig.assets.Governance.symbol}
+          tokenAddress={networkConfig.assets.Governance.address}
+        />
+      </MainLayout>
+    </>
   );
 };

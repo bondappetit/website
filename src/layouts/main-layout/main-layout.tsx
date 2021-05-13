@@ -1,13 +1,8 @@
 import { useToggle, useMedia } from 'react-use';
 import { useWeb3React } from '@web3-react/core';
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import {
-  LinkModal,
-  ToggleThemeButton,
-  useChangeNetworkModal,
-  useNetworkConfig
-} from 'src/common';
+import { LinkModal, ToggleThemeButton, useNetworkConfig } from 'src/common';
 import { WalletButton, WalletModal } from 'src/wallets';
 import {
   WalletProfile,
@@ -30,8 +25,6 @@ export const MainLayout: React.FC = (props) => {
 
   const { chainId } = useWeb3React();
 
-  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
-
   const networkConfig = useNetworkConfig();
 
   const [open, toggle] = useToggle(false);
@@ -39,6 +32,7 @@ export const MainLayout: React.FC = (props) => {
   const [linkModalOpen, togglelinkModal] = useToggle(false);
   const [investFormIsOpen, toggleInvestForm] = useToggle(false);
   const [attentionModalOpen, toggleAttentionModal] = useToggle(false);
+  const [linksOpen, linksToggle] = useToggle(false);
 
   const [walletModalOpen, toggleWalletModal] = useToggle(false);
 
@@ -52,12 +46,6 @@ export const MainLayout: React.FC = (props) => {
   };
 
   const isMobile = useMedia('(max-width: 1279px)');
-
-  useEffect(() => {
-    if (config.CHAIN_IDS.includes(Number(chainId))) {
-      closeChangeNetwork();
-    }
-  }, [chainId, closeChangeNetwork]);
 
   return (
     <>
@@ -77,7 +65,7 @@ export const MainLayout: React.FC = (props) => {
                 className={classes.profile}
                 onBuy={
                   config.CHAIN_BINANCE_IDS.includes(Number(chainId))
-                    ? openChangeNetwork
+                    ? linksToggle
                     : togglelinkModal
                 }
                 onConnect={toggleWalletModal}
@@ -96,6 +84,12 @@ export const MainLayout: React.FC = (props) => {
         tokenAddress={networkConfig.assets.Governance?.address}
         withBuyInvestment
         onBuyInvestment={handleAttention}
+      />
+      <LinkModal
+        open={linksOpen}
+        onClose={linksToggle}
+        tokenName={networkConfig.assets.Governance.symbol}
+        tokenAddress={networkConfig.assets.Governance.address}
       />
       <VotingInvestingAttention
         open={attentionModalOpen}

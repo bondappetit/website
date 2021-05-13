@@ -26,6 +26,7 @@ export type StakingCardProps = {
   loading?: boolean;
   date?: string | null;
   chainId?: number;
+  earnToken?: string;
 };
 
 export const StakingCard: React.FC<StakingCardProps> = (props) => {
@@ -36,7 +37,8 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
   const networkName = useMemo(() => {
     const chains: Record<number, string> = {
       1: 'Ethereum',
-      56: 'Binance Smart Chain'
+      56: 'Binance Smart Chain',
+      97: 'Binance Testnet'
     };
 
     if (!props.chainId) return;
@@ -90,7 +92,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       />
       <StakingLabel
         title="Earn"
-        value="BAG"
+        value={props.earnToken}
         variant="body1"
         loading={Boolean(props.loading)}
       />
@@ -102,7 +104,11 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       />
       <StakingLabel
         title="Pool rate"
-        value={<>{humanizeNumeral(props.poolRate)} BAG / day</>}
+        value={
+          <>
+            {humanizeNumeral(props.poolRate)} {props.earnToken} / day
+          </>
+        }
         variant="body1"
         loading={Boolean(props.loading)}
       />

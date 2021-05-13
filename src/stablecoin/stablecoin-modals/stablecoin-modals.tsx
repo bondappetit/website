@@ -1,3 +1,4 @@
+import { useWeb3React } from '@web3-react/core';
 import React from 'react';
 import { useAsyncRetry } from 'react-use';
 
@@ -30,6 +31,8 @@ export type StablecoinModalsProps = {
 export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
   const networkConfig = useNetworkConfig();
 
+  const { chainId } = useWeb3React();
+
   const marketContract = useMarketContract();
   const stableContract = useStableCoinContract();
   const state = useAsyncRetry(async () => {
@@ -52,7 +55,9 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
         withBuyMarket={state.value && config.IS_COLLATERAL}
         onBuyCollateralMarket={props.onBuyCollateralMarket}
         onBuyMarket={props.onBuyMarket}
-        withBuyCollateralMarket
+        withBuyCollateralMarket={
+          !config.CHAIN_BINANCE_IDS.includes(Number(chainId))
+        }
         tokenName={networkConfig.assets.Stable.symbol}
         tokenAddress={networkConfig.assets.Stable.address}
         rewardPercent={humanizeNumeral(reward.value?.rewardPercent)}

@@ -50,14 +50,14 @@ export const StakingDetail: React.FC = () => {
 
   const stakingItem = useMemo(() => stakingList?.[0], [stakingList]);
 
-  const getBalance = useBalance(stakingItem?.chaindId);
+  const getBalance = useBalance(stakingItem?.chainId);
 
-  const getStakingContract = useStakingContracts(stakingItem?.chaindId);
+  const getStakingContract = useStakingContracts(stakingItem?.chainId);
 
   const stakingContract = useMemo(
     () =>
-      stakingItem?.chaindId
-        ? getStakingContract(stakingItem.contractName, stakingItem.chaindId)
+      typeof stakingItem?.chainId === 'number'
+        ? getStakingContract(stakingItem.contractName, stakingItem.chainId)
         : null,
     [getStakingContract, stakingItem]
   );
@@ -148,6 +148,7 @@ export const StakingDetail: React.FC = () => {
             poolRate={stakingItem?.poolRate}
             volumeUSD={volume24}
             loading={loading}
+            earnToken={stakingItem?.earnToken}
           />
           <div className={classes.row}>
             <Plate className={classes.card}>
@@ -166,7 +167,7 @@ export const StakingDetail: React.FC = () => {
                 balanceOfToken={balanceOfToken.value ?? new BN(0)}
                 loading={loading}
                 depositToken={depositToken}
-                chainId={stakingItem?.chaindId}
+                chainId={stakingItem?.chainId}
               />
             </Plate>
             <Plate className={clsx(classes.card, classes.cardFlex)}>
@@ -184,7 +185,7 @@ export const StakingDetail: React.FC = () => {
                       <>
                         {config.CHAIN_IDS.includes(
                           Number(
-                            stakingItem?.chaindId ?? config.DEFAULT_CHAIN_ID
+                            stakingItem?.chainId ?? config.DEFAULT_CHAIN_ID
                           )
                         )
                           ? tokenName
@@ -226,7 +227,7 @@ export const StakingDetail: React.FC = () => {
                     <>
                       {!showUnstakeButton &&
                         account &&
-                        stakingItem?.chaindId === chainId &&
+                        stakingItem?.chainId === chainId &&
                         unstake.value && (
                           <Typography
                             variant="body2"
@@ -239,7 +240,7 @@ export const StakingDetail: React.FC = () => {
                             <br />({unstake.value?.date})
                           </Typography>
                         )}
-                      {stakingItem?.chaindId === chainId ? (
+                      {stakingItem?.chainId === chainId ? (
                         <>
                           {showUnstakeButton && account && (
                             <Tippy
@@ -274,7 +275,7 @@ export const StakingDetail: React.FC = () => {
                     align="center"
                     className={classes.cardTitle}
                   >
-                    You earned BAG
+                    You earned {stakingItem?.earnToken}
                   </Typography>
                   <Typography variant="h2" align="center">
                     {loading ? '...' : humanizeNumeral(rewardSum?.reward)}
@@ -294,7 +295,7 @@ export const StakingDetail: React.FC = () => {
                     <Skeleton className={classes.attention} />
                   ) : (
                     <>
-                      {account && stakingItem?.chaindId === chainId ? (
+                      {account && stakingItem?.chainId === chainId ? (
                         <WalletButtonWithFallback
                           onClick={handleClaim}
                           className={classes.unlock}

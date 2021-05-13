@@ -9,7 +9,7 @@ export type InfoCardSuccessProps = {
   onClick: () => void;
   purchased: string;
   tokenName: string;
-  token: 'Stable' | 'Governance';
+  token: 'Stable' | 'Governance' | 'bBAG';
 };
 
 export const InfoCardSuccess: React.FC<InfoCardSuccessProps> = (props) => {
