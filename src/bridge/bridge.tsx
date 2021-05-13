@@ -329,22 +329,6 @@ export const Bridge: React.VFC = () => {
     }
   }, [currentChainId, closeChangeNetwork]);
 
-  const handleSetEthereumTransit = (transit: BurgerSwapTransit | null) => {
-    setEthereumTransit(transit);
-
-    if (transit === null) {
-      handleLoadTransactions();
-    }
-  };
-
-  const handlesetBinancePayback = (payback: BurgerSwapPayback | null) => {
-    setBinancePayback(payback);
-
-    if (payback === null) {
-      handleLoadTransactions();
-    }
-  };
-
   return (
     <MainLayout>
       <PageWrapper>
@@ -399,14 +383,14 @@ export const Bridge: React.VFC = () => {
                       <BinanceChain
                         onBscPayback={setBscPayback}
                         bscPayback={bscPayback}
-                        onConfirm={handlesetBinancePayback}
+                        onConfirm={setBinancePayback}
                       />
                     )}
                     {chainId && config.CHAIN_IDS.includes(chainId) && (
                       <EthChain
                         onEthTransit={setEthTransit}
                         ethTransit={ethTransit}
-                        onConfirm={handleSetEthereumTransit}
+                        onConfirm={setEthereumTransit}
                       />
                     )}
                   </>
