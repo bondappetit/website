@@ -7,6 +7,7 @@ import { config } from 'src/config';
 
 export const useStakingContracts = (currentChainId?: number) => {
   const networkConfig = useNetworkConfig();
+
   const getContract = useDynamicContract<Staking>(undefined, currentChainId);
 
   const handleGetStakingContract = useCallback(
@@ -24,7 +25,7 @@ export const useStakingContracts = (currentChainId?: number) => {
 
       if (!contractConfig) return null;
 
-      return getContract(contractConfig.address, contractConfig.abi, chainId);
+      return getContract(contractConfig.address, contractConfig.abi);
     },
     [getContract, networkConfig]
   );

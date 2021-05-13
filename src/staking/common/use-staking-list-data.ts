@@ -52,7 +52,9 @@ const useUniswapQuery = () =>
 export const useStakingListData = (address?: string) => {
   const { stakingConfig, stakingConfigValues } = useStakingConfig();
 
-  const { account: web3Account = null } = useWeb3React<Web3>();
+  const { account: web3Account = null, chainId: web3chainId } = useWeb3React<
+    Web3
+  >();
   const [account, setAccount] = useState(web3Account);
 
   const governanceInUSDC = useGovernanceCost();
@@ -118,7 +120,7 @@ export const useStakingListData = (address?: string) => {
       },
       Promise.resolve([])
     );
-  }, [address, stakingConfigValues, account]);
+  }, [address, stakingConfigValues, account, web3chainId]);
 
   const volume24 = useMemo(
     () =>

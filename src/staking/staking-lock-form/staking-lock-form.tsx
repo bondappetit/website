@@ -125,11 +125,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
       analytics.send('staking_click');
 
-      const currentAssetContract = getIERC20Contract(
-        tokenAddress,
-        undefined,
-        props.chainId
-      );
+      const currentAssetContract = getIERC20Contract(tokenAddress, undefined);
 
       const formAmount = new BN(formValues.amount)
         .multipliedBy(new BN(10).pow(tokenDecimals))
@@ -194,11 +190,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       const handler = async () => {
         if (!account || !stakingContract || !tokenDecimals) return;
 
-        const currentAssetContract = getIERC20Contract(
-          tokenAddress,
-          undefined,
-          props.chainId
-        );
+        const currentAssetContract = getIERC20Contract(tokenAddress, undefined);
 
         const formAmount = new BN(formik.values.amount)
           .multipliedBy(new BN(10).pow(tokenDecimals))

@@ -10,6 +10,7 @@ import {
   humanizeNumeral,
   dateUtils
 } from 'src/common';
+import { config } from 'src/config';
 import { Maybe } from 'src/graphql/_generated-hooks';
 import { URLS } from 'src/router/urls';
 import { StakingLabel } from '../staking-label';
@@ -36,7 +37,8 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
   const networkName = useMemo(() => {
     const chains: Record<number, string> = {
       1: 'Ethereum',
-      56: 'Binance Smart Chain'
+      56: 'Binance Smart Chain',
+      97: 'Binance Testnet'
     };
 
     if (!props.chainId) return;
@@ -90,7 +92,11 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       />
       <StakingLabel
         title="Earn"
-        value="BAG"
+        value={
+          config.CHAIN_BINANCE_IDS.includes(Number(props.chainId))
+            ? 'bBAG'
+            : 'BAG'
+        }
         variant="body1"
         loading={Boolean(props.loading)}
       />

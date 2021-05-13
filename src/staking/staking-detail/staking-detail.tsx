@@ -56,7 +56,7 @@ export const StakingDetail: React.FC = () => {
 
   const stakingContract = useMemo(
     () =>
-      stakingItem?.chaindId
+      typeof stakingItem?.chaindId === 'number'
         ? getStakingContract(stakingItem.contractName, stakingItem.chaindId)
         : null,
     [getStakingContract, stakingItem]

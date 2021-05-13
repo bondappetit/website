@@ -58,7 +58,11 @@ export const BridgeForm: React.VFC<BridgeFormProps> = (props) => {
         </Tippy>
       </div>
       <div>
-        <Button disabled={formik.isSubmitting} loading={formik.isSubmitting}>
+        <Button
+          disabled={formik.isSubmitting}
+          loading={formik.isSubmitting}
+          type="submit"
+        >
           {(!props.approve && !props.reset) ||
           new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
             ? formik.errors.amount || 'Transfer'

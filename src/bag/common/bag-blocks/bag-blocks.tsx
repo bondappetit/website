@@ -13,6 +13,7 @@ import { ReactComponent as USDTIcon } from 'src/assets/icons/bag/usdt1.svg';
 import { ReactComponent as USDNIcon } from 'src/assets/icons/bag/usdn1.svg';
 import { ReactComponent as USDCIcon } from 'src/assets/icons/bag/usdc1.svg';
 import { ReactComponent as BNBIcon } from 'src/assets/icons/coins/bnb.svg';
+import { config } from 'src/config';
 import { URLS } from 'src/router/urls';
 import { useBagBlocksStyles } from './bag-blocks.styles';
 import { BagBlocksCard } from '../bag-blocks-card/bag-blocks-card';
@@ -43,8 +44,10 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
         icons={
           <>
             <UniswapIcon className={classes.swapIcon} />
-            <CakeIcon className={classes.swapIcon} />
-            <WavesIcon className={classes.swapIcon} />
+            {config.PANCAKESWAP_URL && (
+              <CakeIcon className={classes.swapIcon} />
+            )}
+            {config.WAVES_URL && <WavesIcon className={classes.swapIcon} />}
           </>
         }
         button="Buy"
