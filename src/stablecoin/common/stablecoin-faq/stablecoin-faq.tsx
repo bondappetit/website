@@ -18,7 +18,7 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
   const classes = useStablecoinFaqStyles();
 
   return (
-    <div className={props.className}>
+    <div className={props.className} id="faq">
       <Typography variant="h3" weight="bold" className={classes.title}>
         Learn more about USDap
       </Typography>

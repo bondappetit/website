@@ -23,7 +23,7 @@ export const StablecoinTable: React.FC<StablecoinTableProps> = (props) => {
   const classes = useStablecoinTableStyles();
 
   return (
-    <div className={props.className}>
+    <div className={props.className} id="compare">
       <Typography variant="h3" weight="bold" className={classes.title}>
         Compare
       </Typography>

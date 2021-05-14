@@ -19,6 +19,8 @@ export const useStablecoinBuyingSellingStyles = createUseStyles(
     },
 
     info: {
+      marginBottom: 72,
+
       '& *:first-child': {
         marginBottom: 8
       }

@@ -27,9 +27,9 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
   );
 
   return (
-    <div className={clsx(classes.root, props.className)}>
-      <Plate className={classes.graph}>
-        <Typography variant="body1" align="center">
+    <div className={clsx(classes.root, props.className)} id="usdap">
+      <Plate className={classes.inner}>
+        <Typography variant="body1" align="center" className={classes.title}>
           {props.loading && '...'}
           <Typography variant="inherit" component="span">
             {!props.loading && (
@@ -42,16 +42,69 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
             )}
           </Typography>
         </Typography>
-        <div>
+        <div className={classes.chart}>
           <div className={classes.lines}>
             <div className={classes.line}>
               <div className={classes.lineLegend}>$20M</div>
             </div>
-            <div className={classes.line} />
-            <div className={classes.line} />
-            <div className={classes.line} />
-            <div className={classes.line} />
+            <div className={classes.line}>
+              <div className={classes.lineLegend}>$15M</div>
+            </div>
+            <div className={classes.line}>
+              <div className={classes.lineLegend}>$10M</div>
+            </div>
+            <div className={classes.line}>
+              <div className={classes.lineLegend}>$5M</div>
+            </div>
+            <div className={classes.line}>
+              <div className={classes.lineLegend}>$0</div>
+            </div>
           </div>
+          <div className={classes.bars}>
+            <div className={classes.bar}>
+              <div className={clsx(classes.barHalf, classes.barUnfilled)} />
+              <div className={clsx(classes.barHalf, classes.barFilled)} />
+              <div className={classes.year}>2021</div>
+            </div>
+            <div className={classes.bar}>
+              <div className={clsx(classes.barHalf, classes.barUnfilled)} />
+              <div className={clsx(classes.barHalf, classes.barFilled)} />
+              <div className={classes.year}>2022</div>
+            </div>
+            <div className={classes.bar}>
+              <div className={clsx(classes.barHalf, classes.barUnfilled)} />
+              <div className={clsx(classes.barHalf, classes.barFilled)} />
+              <div className={classes.year}>2023</div>
+            </div>
+            <div className={classes.bar}>
+              <div className={clsx(classes.barHalf, classes.barUnfilled)} />
+              <div className={clsx(classes.barHalf, classes.barFilled)} />
+              <div className={classes.year}>2024</div>
+            </div>
+            <div className={classes.bar}>
+              <div className={clsx(classes.barHalf, classes.barUnfilled)} />
+              <div className={clsx(classes.barHalf, classes.barFilled)} />
+              <div className={classes.year}>2025</div>
+            </div>
+          </div>
+        </div>
+        <div className={classes.legend}>
+          <Typography
+            variant="body2"
+            className={classes.legendItem}
+            component="div"
+          >
+            <div className={clsx(classes.barHalf, classes.barUnfilled)} />
+            <span>— target collateral value</span>
+          </Typography>
+          <Typography
+            variant="body2"
+            className={classes.legendItem}
+            component="div"
+          >
+            <div className={clsx(classes.barHalf, classes.barFilled)} />
+            <span>— target coupon income</span>
+          </Typography>
         </div>
       </Plate>
       {props.children}

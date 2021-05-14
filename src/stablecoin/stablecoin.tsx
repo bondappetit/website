@@ -52,6 +52,8 @@ export const Stablecoin: React.FC = () => {
             <StablecoinBuyingSelling
               onBuy={togglelinkModal}
               onSell={toggleSellModal}
+              stableCoinBalanceLoading={stableCoinBalance.loading}
+              stableCoinBalanceValue={stableCoinBalance.value}
             />
           </StablecoinGraph>
           <StablecoinFeatures className={classes.section} />

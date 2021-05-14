@@ -20,9 +20,9 @@ import { useStablecoinCollateralStyles } from './stablecoin-collateral.styles';
 export type StablecoinCollateralProps = {
   className?: string;
   stableCoinBalanceLoading: boolean;
+  stableCoinBalanceValue?: BN;
   issuerBalanceLoading: boolean;
   issuerBalanceValue?: BN;
-  stableCoinBalanceValue?: BN;
 };
 
 export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
@@ -33,7 +33,7 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
   const networkConfig = useNetworkConfig();
 
   return (
-    <div className={clsx(classes.root, props.className)}>
+    <div className={clsx(classes.root, props.className)} id="collateral">
       <StablecoinTitle
         bold="Collateral"
         text={
@@ -41,7 +41,11 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
             The assets of the protocol are formed by outstanding debt of the
             borrowers, which in turn is secured by real world collateral in form
             of bonds kept on special security accounts.{' '}
-            <Link color="blue" href="/">
+            <Link
+              color="blue"
+              component={ReactRouterLink}
+              to={URLS.collateral.list}
+            >
               Learn More
             </Link>
           </>

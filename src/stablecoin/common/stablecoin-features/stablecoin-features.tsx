@@ -41,7 +41,11 @@ export const StablecoinFeatures: React.FC<StablecoinFeaturesProps> = (
           const Icon = ICONS.get(stableItem.title);
 
           return (
-            <div key={stableItem.title} className={classes.decisionCard}>
+            <div
+              key={stableItem.title}
+              className={classes.decisionCard}
+              id="features"
+            >
               {Icon && <Icon className={classes.icon} />}
               <Typography
                 variant="h5"
