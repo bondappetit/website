@@ -21,7 +21,8 @@ import {
   MainEditor,
   MainAudit,
   MainMediumArticles,
-  MainWaves
+  MainWaves,
+  MainTeam
 } from './common';
 import { useMainStyles } from './main.styles';
 import { useMediumArticles } from './common/use-medium-articles';
@@ -84,6 +85,7 @@ export const Main: React.FC = () => {
           <MainSteps className={classes.steps} />
           <MainEditor className={classes.editor} />
           <MainVoting className={classes.voting} />
+          <MainTeam className={classes.voting} />
           <MainWaves
             className={classes.editor}
             onBecomePartner={toggleBecomeAPartner}
