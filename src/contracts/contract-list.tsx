@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import networks from '@bondappetit/networks';
 
 import {
   MarkdownCode,
@@ -29,16 +30,32 @@ export const ContractList: React.VFC<ContractListProps> = () => {
   return (
     <MainLayout>
       <PageWrapper>
-        <ul className={classes.root}>
-          {contracts.map(({ name, address }) => (
-            <li key={address}>
-              <div>
-                <Typography variant="h5">{name}</Typography>
-                <MarkdownCode value={address} />
-              </div>
-            </li>
-          ))}
-        </ul>
+        <div className={classes.root}>
+          <Typography variant="h2">Binance contracts</Typography>
+          <ul className={classes.list}>
+            {Object.values(networks.mainBSC.contracts).map(
+              ({ name, address }) => (
+                <li key={address}>
+                  <div>
+                    <Typography variant="h5">{name}</Typography>
+                    <MarkdownCode value={address} />
+                  </div>
+                </li>
+              )
+            )}
+          </ul>
+          <Typography variant="h2">Ethereum contracts</Typography>
+          <ul className={classes.list}>
+            {contracts.map(({ name, address }) => (
+              <li key={address}>
+                <div>
+                  <Typography variant="h5">{name}</Typography>
+                  <MarkdownCode value={address} />
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </PageWrapper>
     </MainLayout>
   );
