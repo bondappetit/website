@@ -235,13 +235,9 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         <div>
           <Typography variant="body1" align="center" className={classes.title}>
             Stake your{' '}
-            {config.CHAIN_IDS.includes(Number(props.chainId)) ? (
-              <Link href={tokenAddresses} target="_blank" color="blue">
-                {props.loading ? '...' : props.tokenName}
-              </Link>
-            ) : (
-              props.token?.join('_')
-            )}
+            <Link href={tokenAddresses} target="_blank" color="blue">
+              {props.loading ? '...' : props.tokenName}
+            </Link>
           </Typography>
           <Tippy
             key={String(formik.isSubmitting)}
