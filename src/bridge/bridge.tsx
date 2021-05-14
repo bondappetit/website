@@ -514,7 +514,7 @@ export const Bridge: React.VFC = () => {
                             variant="body1"
                             className={classes.cardStatusTitle}
                           >
-                            Recieved
+                            Received
                           </Typography>
                         )}
                         {transaction.status === 3 && (

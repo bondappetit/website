@@ -28,7 +28,7 @@ export const WalletButton: React.FC = () => {
 
   const bscNetworks =
     config.CHAIN_BINANCE_IDS[0] === currentChainId
-      ? networks.mainBSC.networkName
+      ? undefined
       : networks.testnetBSC.networkName;
 
   const networkName = !config.CHAIN_IDS.includes(currentChainId)
@@ -37,7 +37,7 @@ export const WalletButton: React.FC = () => {
 
   return (
     <div className={classes.wrap}>
-      {account && networkName !== networks.main.networkName && (
+      {account && networkName && networkName !== networks.main.networkName && (
         <Chip className={classes.chip}>{networkName}</Chip>
       )}
       <ButtonBase onClick={toggleOpen} className={clsx(classes.connected)}>
