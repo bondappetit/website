@@ -178,20 +178,7 @@ export const StakingDetail: React.FC = () => {
                     align="center"
                     className={classes.cardTitle}
                   >
-                    You staked{' '}
-                    {loading ? (
-                      '...'
-                    ) : (
-                      <>
-                        {config.CHAIN_IDS.includes(
-                          Number(
-                            stakingItem?.chainId ?? config.DEFAULT_CHAIN_ID
-                          )
-                        )
-                          ? tokenName
-                          : stakingItem?.token.join('_')}
-                      </>
-                    )}
+                    You staked {loading ? '...' : <>{tokenName}</>}
                   </Typography>
                   <Typography variant="h2" align="center">
                     {stakingItem?.amount.isNaN() ||
