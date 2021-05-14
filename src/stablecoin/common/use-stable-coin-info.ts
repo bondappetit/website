@@ -1,17 +1,14 @@
-import { useQuery, dateUtils, useNetworkConfig } from 'src/common';
+import { useQuery, useNetworkConfig } from 'src/common';
 
 const url = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2';
 
 const QUERY = `
-  query TokenDayDatas($token: String!, $date: Int!) {
+  query TokenDayDatas($token: String!) {
     tokenDayDatas(
       first: 5
       orderBy: date
       orderDirection: desc
-      where:{
-        token: $token
-        date_gt: $date
-      }
+      where:{ token: $token }
     ) {
       token {
         id
@@ -26,8 +23,6 @@ const QUERY = `
 `;
 
 const DEFAULT_ADDRESS = '0x0000000000000000000000000000000000000000';
-
-const date = dateUtils.startOfYesterday;
 
 type Maybe<T> = T | null;
 
@@ -58,7 +53,6 @@ export const useStablecoinInfo = () => {
     {
       query: QUERY,
       variables: {
-        date,
         token: (
           networkConfig.assets.Stable?.address ?? DEFAULT_ADDRESS
         ).toLowerCase()
