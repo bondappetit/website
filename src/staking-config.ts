@@ -24,6 +24,7 @@ const USDT = 'USDT';
 // const ETH = 'ETH';
 const LP = 'UNI-V2';
 const BNB = 'BNB';
+const CAKE_LP = 'Cake-LP';
 
 const stakingConfig = [
   // {
@@ -63,7 +64,7 @@ const stakingConfig = [
 
   {
     contractName: 'BnbGovLPStaking',
-    tokenName: LP,
+    tokenName: CAKE_LP,
     chainId: config.CHAIN_BINANCE_IDS[0],
     token: [GovBNB, BNB],
     liquidityPool: true
@@ -71,7 +72,7 @@ const stakingConfig = [
 
   {
     contractName: 'BnbGovLPStaking',
-    tokenName: LP,
+    tokenName: CAKE_LP,
     chainId: config.CHAIN_BINANCE_IDS[1],
     token: [GovBNB, BNB],
     liquidityPool: true
