@@ -6,12 +6,12 @@ export const useBagHeaderStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       display: 'flex',
-      alignItems: 'center',
       justifyContent: 'space-between',
       flexDirection: 'column',
 
       [theme.breakpoints.md()]: {
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
       }
     },
 
@@ -26,18 +26,27 @@ export const useBagHeaderStyles = createUseStyles(
     },
 
     title: {
-      marginBottom: 24,
-      textAlign: 'center',
+      marginBottom: 16,
 
       [theme.breakpoints.md()]: {
+        marginBottom: 24,
         textAlign: 'left'
       }
     },
 
     coin: {
       '--fill': theme.colors.secondary,
-      width: 286,
-      height: 276
+      width: 166,
+      height: 160,
+      order: -1,
+      marginBottom: 24,
+
+      [theme.breakpoints.md()]: {
+        order: 'unset',
+        width: 286,
+        height: 276,
+        marginBottom: 0
+      }
     },
 
     links: {
@@ -45,20 +54,26 @@ export const useBagHeaderStyles = createUseStyles(
       padding: 0,
       listStyle: 'none',
       opacity: 0.4,
-      flexDirection: 'column',
-      maxWidth: 200,
-      margin: 'auto',
+      maxWidth: '100%',
+      overflowX: 'auto',
+      margin: 0,
 
       [theme.breakpoints.md()]: {
-        flexDirection: 'row',
-        maxWidth: 'none',
-        margin: 0
+        maxWidth: 'none'
       }
     },
 
     linksItem: {
+      whiteSpace: 'nowrap',
+
       '&:not(:last-child)': {
-        marginRight: 24
+        marginRight: 16
+      },
+
+      [theme.breakpoints.md()]: {
+        '&:not(:last-child)': {
+          marginRight: 24
+        }
       }
     }
   }),

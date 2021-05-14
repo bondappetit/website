@@ -4,11 +4,16 @@ import { Theme } from 'src/common';
 export const useBagBlocksCardStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
-      padding: '54px 48px 48px',
+      padding: '40px 24px 24px',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
-      minHeight: 400
+      minHeight: 320,
+
+      [theme.breakpoints.md()]: {
+        minHeight: 400,
+        padding: '54px 48px 48px'
+      }
     },
 
     title: {

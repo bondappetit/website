@@ -6,7 +6,7 @@ export const useBagInstructionStyles = createUseStyles(
   (theme: Theme) => ({
     decision: {
       display: 'grid',
-      padding: '48px 16px',
+      padding: '32px 16px',
       gridGap: 48,
 
       [theme.breakpoints.lg()]: {
@@ -48,8 +48,22 @@ export const useBagInstructionStyles = createUseStyles(
       }
     },
 
+    decisionCardListText: {
+      [theme.breakpoints.down(1279)]: {
+        fontSize: 14,
+        lineHeight: '20px'
+      }
+    },
+
     icon: {
-      marginBottom: 16
+      marginBottom: 16,
+      width: 100,
+      height: 60,
+
+      [theme.breakpoints.md()]: {
+        width: 200,
+        height: 120
+      }
     }
   }),
   {

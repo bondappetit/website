@@ -46,14 +46,14 @@ export const StablecoinFeatures: React.FC<StablecoinFeaturesProps> = (
               <Typography
                 variant="h5"
                 weight="bold"
-                className={classes.decisionCardTitle}
+                className={classes.decisionCardText}
               >
                 {stableItem.title}
               </Typography>
               <Typography variant="h5" className={classes.decisionCardText}>
                 {stableItem.text}
               </Typography>
-              <Typography variant="h5">
+              <Typography variant="h5" className={classes.decisionCardText}>
                 <Link
                   component={ReactRouterLink}
                   to={stableItem.link}

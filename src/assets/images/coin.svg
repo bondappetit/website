@@ -1,5 +1,4 @@
 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 288 278">
-  <defs/>
   <mask id="a" fill="var(--fill)">
     <path fill-rule="evenodd" d="M157.045 276.999c71.773 0 129.956-61.784 129.956-137.999S228.818 1 157.045 1h-26.249v2.816C71.606 16.708 27.089 72.333 27.089 139c0 66.666 44.517 122.291 103.707 135.183v2.816h26.249z" clip-rule="evenodd"/>
   </mask>

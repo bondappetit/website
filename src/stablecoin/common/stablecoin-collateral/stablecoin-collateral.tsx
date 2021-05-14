@@ -1,18 +1,36 @@
 import clsx from 'clsx';
 import React from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Link, Plate } from 'src/common';
+import {
+  BN,
+  humanizeNumeral,
+  Link,
+  LinkIfAccount,
+  Plate,
+  Typography,
+  useNetworkConfig
+} from 'src/common';
+import { config } from 'src/config';
+import { URLS } from 'src/router/urls';
+import { StablecoinCollateralProtocolState } from '../stablecoin-collateral-protocol-state';
 import { StablecoinTitle } from '../stablecoin-title';
 import { useStablecoinCollateralStyles } from './stablecoin-collateral.styles';
 
 export type StablecoinCollateralProps = {
   className?: string;
+  stableCoinBalanceLoading: boolean;
+  issuerBalanceLoading: boolean;
+  issuerBalanceValue?: BN;
+  stableCoinBalanceValue?: BN;
 };
 
 export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
   props
 ) => {
   const classes = useStablecoinCollateralStyles();
+
+  const networkConfig = useNetworkConfig();
 
   return (
     <div className={clsx(classes.root, props.className)}>
@@ -29,8 +47,56 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
           </>
         }
       />
-      <Plate withoutBorder color="grey">
-        asdf
+      <Plate withoutBorder color="grey" className={classes.list}>
+        <div className={classes.body}>
+          <Typography variant="h5" align="center" className={classes.title}>
+            Issued stablecoin
+          </Typography>
+          <Typography variant="h2" align="center" className={classes.bodyText}>
+            {props.stableCoinBalanceLoading && !props.stableCoinBalanceValue ? (
+              '...'
+            ) : (
+              <>{humanizeNumeral(props.stableCoinBalanceValue)} USDap</>
+            )}
+          </Typography>
+          <Typography variant="h5" align="center" className={classes.subtitle}>
+            1 USDp = $1 USD
+          </Typography>
+        </div>
+        <StablecoinCollateralProtocolState
+          stableCoinBalanceValue={props.stableCoinBalanceValue}
+          issuerBalanceValue={props.issuerBalanceValue}
+        />
+        <div className={classes.body}>
+          <Typography variant="h5" align="center" className={classes.title}>
+            Value of Protocol&apos;s assets
+          </Typography>
+          <Typography variant="h2" align="center" className={classes.bodyText}>
+            {props.stableCoinBalanceLoading && !props.issuerBalanceValue ? (
+              '...'
+            ) : (
+              <>${humanizeNumeral(props.issuerBalanceValue)}</>
+            )}
+          </Typography>
+          <Typography variant="h5" align="center" className={classes.subtitle}>
+            {config.IS_COLLATERAL ? (
+              <Link
+                component={ReactRouterLink}
+                to={URLS.whitepaper}
+                color="blue"
+              >
+                check here
+              </Link>
+            ) : (
+              <LinkIfAccount title="check here">
+                {
+                  networkConfig.contracts.StableTokenDepositaryBalanceView
+                    .address
+                }
+              </LinkIfAccount>
+            )}
+          </Typography>
+        </div>
       </Plate>
     </div>
   );

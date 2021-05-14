@@ -5,9 +5,10 @@ export const useBagBlocksStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       display: 'grid',
-      gridGap: 40,
+      gridGap: 24,
 
       [theme.breakpoints.lg()]: {
+        gridGap: 40,
         gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
       }
     },
