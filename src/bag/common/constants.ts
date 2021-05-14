@@ -61,7 +61,7 @@ Useful links: [Etherscan](https://etherscan.io/token/0x28a06c02287e657ec3f8e151a
 
   {
     title: 'How can I acquire BAG?',
-    body: `1.  They can be acquired on the market ([Uniswap](https://app.1inch.io/#/1/swap/USDT/BAG) or [PancakeSwap](https://exchange.pancakeswap.finance/#/swap?inputCurrency=0x1ad0132d8b5ef3cebda1a9692f36ac30be871b6b)) at
+    body: `1.  They can be acquired on the market ([Uniswap](https://app.1inch.io/#/1/swap/USDT/BAG) or [PancakeSwap](https://app.1inch.io/#/56/swap/BNB/bBAG)) at
       market price;
   2.  Distributed to those users who decided to lock their crypto into
       liquidity pools and provide the protocol with liquidity pool tokens;

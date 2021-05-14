@@ -16,14 +16,14 @@ export type StakingConfig = {
 };
 
 const Gov = 'BAG';
-// const GovBNB = 'bBAG';
+const GovBNB = 'bBAG';
 const Stable = 'USDap';
 const USDC = 'USDC';
 const USDN = 'USDN';
 const USDT = 'USDT';
 // const ETH = 'ETH';
 const LP = 'UNI-V2';
-// const BNB = 'BNB';
+const BNB = 'BNB';
 
 const stakingConfig = [
   // {
@@ -61,21 +61,21 @@ const stakingConfig = [
   //   liquidityPool: true
   // },
 
-  // {
-  //   contractName: 'BnbGovLPStaking',
-  //   tokenName: LP,
-  //   chainId: config.CHAIN_BINANCE_IDS[0],
-  //   token: [GovBNB, BNB],
-  //   liquidityPool: true
-  // },
-  //
-  // {
-  //   contractName: 'BnbGovLPStaking',
-  //   tokenName: LP,
-  //   chainId: config.CHAIN_BINANCE_IDS[1],
-  //   token: [GovBNB, BNB],
-  //   liquidityPool: true
-  // },
+  {
+    contractName: 'BnbGovLPStaking',
+    tokenName: LP,
+    chainId: config.CHAIN_BINANCE_IDS[0],
+    token: [GovBNB, BNB],
+    liquidityPool: true
+  },
+
+  {
+    contractName: 'BnbGovLPStaking',
+    tokenName: LP,
+    chainId: config.CHAIN_BINANCE_IDS[1],
+    token: [GovBNB, BNB],
+    liquidityPool: true
+  },
 
   {
     contractName: 'UsdcStableLPLockStaking',
