@@ -112,7 +112,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                 <Button
                   variant="outlined"
                   component={Link}
-                  href={`${config.PANCAKESWAP_URL}?outputCurrency=${network.mainBSC.assets.bBAG.address}`}
+                  href={`${config.PANCAKESWAP_URL}/BNB/${network.mainBSC.assets.bBAG.symbol}`}
                   target="_blank"
                   className={classes.button}
                 >
