@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "BondAppetit",
+  "name": "BondAppetit - Earn Staking Rewards in BAG by providing liquidity for protocol’s assets",
   "icons": [
     {
       "src": "favicon.ico",
