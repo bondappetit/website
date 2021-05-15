@@ -86,6 +86,8 @@ function registerValidSW(swUrl: string, config?: Config) {
               if (config && config.onUpdate) {
                 config.onUpdate(registration);
               }
+
+              unregister()?.then(() => window.location.reload());
             } else {
               // At this point, everything has been precached.
               // It's the perfect time to display a
@@ -138,10 +140,8 @@ function checkValidServiceWorker(swUrl: string, config?: Config) {
 
 export function unregister() {
   if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.ready
-      .then((registration) => {
-        registration.unregister();
-      })
+    return navigator.serviceWorker.ready
+      .then((registration) => registration.unregister())
       .catch((error) => {
         console.error(error.message);
       });

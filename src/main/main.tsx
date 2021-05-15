@@ -55,7 +55,7 @@ export const Main: React.FC = () => {
   return (
     <>
       <Head
-        title="The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem."
+        title="The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem."
         ogUrl="https://bondappetit.io"
       />
       <MainLayout>
