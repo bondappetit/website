@@ -24,9 +24,11 @@ export type StakingCardProps = {
   poolRate?: string;
   lockable?: boolean;
   loading?: boolean;
-  date?: string | null;
+  unstakingStartDate?: string | null;
   chainId?: number;
   earnToken?: string;
+  stakingEndBlock?: string | null;
+  stakingEndDate?: string | null;
 };
 
 export const StakingCard: React.FC<StakingCardProps> = (props) => {
@@ -115,7 +117,7 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
       {props.lockable && (
         <StakingLabel
           title="Unstaking on"
-          value={dateUtils.format(props.date ?? '')}
+          value={dateUtils.format(props.unstakingStartDate ?? '')}
           variant="body1"
           loading={Boolean(props.loading)}
         />
@@ -124,6 +126,16 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
         <StakingLabel
           title="Network"
           value={networkName}
+          variant="body1"
+          loading={Boolean(props.loading)}
+        />
+      )}
+      {props.stakingEndBlock && props.stakingEndDate && (
+        <StakingLabel
+          title="New stakes till"
+          value={`${dateUtils.format(props.stakingEndDate)} / ${
+            props.stakingEndBlock
+          }`}
           variant="body1"
           loading={Boolean(props.loading)}
         />

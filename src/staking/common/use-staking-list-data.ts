@@ -43,12 +43,14 @@ export type SakingItem = {
   decimals: number;
   contractName: string;
   configAddress: string;
-  date?: string | null;
+  unstakingStartDate?: string | null;
   chainId?: number;
   tokenAddress?: string;
   totalSupplyFloat: string;
   amountInUSDC: BN;
   earnToken: string;
+  stakingEndBlock?: string | null;
+  stakingEndDate?: string | null;
 };
 
 const useStakingListQuery = () =>
@@ -197,6 +199,8 @@ export const useStakingListData = (address?: string) => {
               .multipliedBy(100)
               .toString(10),
             lockable: Boolean(stakingBalance?.stakingEnd.block),
+            stakingEndBlock: stakingBalance?.stakingEnd.block,
+            stakingEndDate: stakingBalance?.stakingEnd.date,
             poolRate: stakingBalance?.poolRate.dailyFloat,
             totalValueLocked: new BN(
               pairItem?.statistic?.totalLiquidityUSD ?? '0'
@@ -210,7 +214,7 @@ export const useStakingListData = (address?: string) => {
             token: stakingAddress.token,
             contractName: stakingAddress.contractName,
             amountInUSDC: new BN(balanceFloat).multipliedBy(priceUSD),
-            date: stakingBalance?.unstakingStart.date,
+            unstakingStartDate: stakingBalance?.unstakingStart.date,
             chainId: stakingAddress.chainId,
             earnToken: config.CHAIN_BINANCE_IDS.includes(
               Number(stakingAddress.chainId)
