@@ -22,8 +22,7 @@ import {
   approveAll,
   Button,
   useChangeNetworkModal,
-  setupBinance,
-  humanizeNumeral
+  setupBinance
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { WalletButtonWithFallback } from 'src/wallets';
@@ -278,8 +277,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
                 )
               }
             >
-              {props.loading ? '...' : humanizeNumeral(props.balanceOfToken)}{' '}
-              max
+              {props.loading ? '...' : props.balanceOfToken.toString(10)} max
             </ButtonBase>
           </Typography>
           <Typography
