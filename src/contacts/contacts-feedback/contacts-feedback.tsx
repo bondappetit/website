@@ -28,11 +28,11 @@ export const ContactsFeedback: React.FC<ContactsFeedbackProps> = () => {
       const errors: Partial<typeof formValues> = {};
 
       if (!formValues.email) {
-        errors.email = 'Required';
+        errors.email = 'Email is required';
       }
 
       if (!formValues.name) {
-        errors.name = 'Required';
+        errors.name = 'Name is required';
       }
 
       if (!isEmail(formValues.email)) {
@@ -79,7 +79,7 @@ export const ContactsFeedback: React.FC<ContactsFeedbackProps> = () => {
           loading={formik.isSubmitting}
           disabled={formik.isSubmitting}
         >
-          Contact
+          {formik.errors.email ?? formik.errors.name ?? 'Contact'}
         </Button>
       </form>
       <ContactsSuccess open={open} onClose={toggle}>
