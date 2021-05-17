@@ -100,7 +100,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     validateOnBlur: false,
     validateOnChange: false,
 
-    validate: async (formValues) => {
+    validate: (formValues) => {
       const error: Partial<typeof formValues> = {};
 
       if (Number(formValues.amount) <= 0) {
@@ -227,7 +227,8 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     : undefined;
 
   const buttonTitle =
-    formik.errors.amount ?? props.balanceOfToken.isGreaterThan(0) ? (
+    formik.errors.amount ||
+    (props.balanceOfToken.isGreaterThan(0) ? (
       <>
         {(!approve.value?.approve && !approve.value?.reset) ||
         new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
@@ -236,7 +237,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       </>
     ) : (
       'Add liquidity'
-    );
+    ));
 
   return (
     <>
