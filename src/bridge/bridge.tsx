@@ -45,10 +45,12 @@ import { useBridgeStyles } from './bridge.styles';
 import { EthChain } from './ethereum-chain';
 import * as BridgeReducer from './bridge.reducer';
 import {
+  BridgeBinanceBalance,
   BridgeLostTransaction,
   burgerSwapApi,
   BurgerSwapPayback,
   BurgerSwapTransit,
+  useBinanceBalance,
   useBridgeContract,
   useTransitContract
 } from './common';
@@ -324,6 +326,8 @@ export const Bridge: React.VFC = () => {
     }
   }, [currentChainId, closeChangeNetwork]);
 
+  const bnbBalance = useBinanceBalance();
+
   return (
     <>
       <Head
@@ -371,30 +375,37 @@ export const Bridge: React.VFC = () => {
               </div>
             </div>
             <Plate className={clsx(classes.form, classes.mb)}>
-              {!account ? (
-                <WalletButtonWithFallback />
-              ) : (
+              {bnbBalance && account && (
+                <BridgeBinanceBalance>{account}</BridgeBinanceBalance>
+              )}
+              {!bnbBalance && (
                 <>
-                  {loading ? (
-                    <Typography variant="body1">Loading...</Typography>
+                  {!account ? (
+                    <WalletButtonWithFallback />
                   ) : (
                     <>
-                      {chainId &&
-                        config.CHAIN_BINANCE_IDS.includes(chainId) && (
-                          <BinanceChain
-                            onBscPayback={setBscPayback}
-                            bscPayback={bscPayback}
-                            transactionsLength={transactions.length}
-                            onConfirm={setBinancePayback}
-                          />
-                        )}
-                      {chainId && config.CHAIN_IDS.includes(chainId) && (
-                        <EthChain
-                          onEthTransit={setEthTransit}
-                          ethTransit={ethTransit}
-                          transactionsLength={transactions.length}
-                          onConfirm={setEthereumTransit}
-                        />
+                      {loading ? (
+                        <Typography variant="body1">Loading...</Typography>
+                      ) : (
+                        <>
+                          {chainId &&
+                            config.CHAIN_BINANCE_IDS.includes(chainId) && (
+                              <BinanceChain
+                                onBscPayback={setBscPayback}
+                                bscPayback={bscPayback}
+                                transactionsLength={transactions.length}
+                                onConfirm={setBinancePayback}
+                              />
+                            )}
+                          {chainId && config.CHAIN_IDS.includes(chainId) && (
+                            <EthChain
+                              onEthTransit={setEthTransit}
+                              ethTransit={ethTransit}
+                              transactionsLength={transactions.length}
+                              onConfirm={setEthereumTransit}
+                            />
+                          )}
+                        </>
                       )}
                     </>
                   )}

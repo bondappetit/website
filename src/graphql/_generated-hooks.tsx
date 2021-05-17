@@ -378,6 +378,21 @@ export type AddBurgerSwapBridgeTransitMutation = { __typename?: 'Mutation' } & {
   } & Pick<BurgerSwapBridgeTransitType, 'tx' | 'type' | 'owner' | 'createdAt'>;
 };
 
+export type WalletQueryVariables = Exact<{
+  filter: WalletQueryFilterInputType;
+}>;
+
+export type WalletQuery = { __typename?: 'Query' } & {
+  wallet: { __typename?: 'WalletPayload' } & {
+    data?: Maybe<
+      { __typename?: 'WalletType' } & Pick<
+        WalletType,
+        'address' | 'balance' | 'balanceFloat'
+      >
+    >;
+  };
+};
+
 export type StakingListQueryVariables = Exact<{
   filter?: Maybe<StakingListQueryFilterInputType>;
   userFilter?: Maybe<StakingUserListFilterInputType>;
@@ -649,6 +664,64 @@ export type AddBurgerSwapBridgeTransitMutationResult = Apollo.MutationResult<
 export type AddBurgerSwapBridgeTransitMutationOptions = Apollo.BaseMutationOptions<
   AddBurgerSwapBridgeTransitMutation,
   AddBurgerSwapBridgeTransitMutationVariables
+>;
+export const WalletDocument = gql`
+  query Wallet($filter: WalletQueryFilterInputType!) {
+    wallet(filter: $filter) {
+      data {
+        address
+        balance
+        balanceFloat
+      }
+    }
+  }
+`;
+
+/**
+ * __useWalletQuery__
+ *
+ * To run a query within a React component, call `useWalletQuery` and pass it any options that fit your needs.
+ * When your component renders, `useWalletQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useWalletQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useWalletQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    WalletQuery,
+    WalletQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<WalletQuery, WalletQueryVariables>(
+    WalletDocument,
+    options
+  );
+}
+export function useWalletLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    WalletQuery,
+    WalletQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<WalletQuery, WalletQueryVariables>(
+    WalletDocument,
+    options
+  );
+}
+export type WalletQueryHookResult = ReturnType<typeof useWalletQuery>;
+export type WalletLazyQueryHookResult = ReturnType<typeof useWalletLazyQuery>;
+export type WalletQueryResult = Apollo.QueryResult<
+  WalletQuery,
+  WalletQueryVariables
 >;
 export const StakingListDocument = gql`
   query StakingList(
