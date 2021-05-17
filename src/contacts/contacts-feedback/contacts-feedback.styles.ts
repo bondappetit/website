@@ -15,6 +15,8 @@ export const useContactsFeedbackStyles = createUseStyles(
     },
 
     button: {
+      paddingLeft: 0,
+      paddingRight: 0,
       marginTop: 56,
 
       [theme.breakpoints.md()]: {

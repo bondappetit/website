@@ -3,12 +3,18 @@ import { useEffect, useMemo, useState } from 'react';
 import { useAsyncRetry } from 'react-use';
 import Web3 from 'web3';
 
-import { BN, useIntervalIfHasAccount, useLazyQuery } from 'src/common';
+import {
+  BN,
+  useIntervalIfHasAccount,
+  useLazyQuery,
+  useNetworkConfig
+} from 'src/common';
 import { config } from 'src/config';
 import {
   StakingListQuery,
   StakingQuery,
-  UniswapPairPayload
+  UniswapPairPayload,
+  useTokenPriceQuery
 } from 'src/graphql/_generated-hooks';
 import { StakingConfig, useStakingConfig } from 'src/staking-config';
 import { useGovernanceCost } from './use-governance-cost';
@@ -61,6 +67,8 @@ export const useStakingListData = (address?: string) => {
   const governanceInUSDC = useGovernanceCost();
 
   const stakingListQuery = useStakingListQuery();
+
+  const networkConfig = useNetworkConfig();
 
   useEffect(() => {
     if (web3Account) {
@@ -144,14 +152,11 @@ export const useStakingListData = (address?: string) => {
       .sort((a, b) => a.sort - b.sort);
   }, [address, stakingConfigValues, account, web3chainId]);
 
-  const volume24 = useMemo(
-    () =>
-      stakingAddresses.value?.reduce(
-        (acc, { pair }) => acc.plus(pair?.statistic?.dailyVolumeUSD ?? '0'),
-        new BN(0)
-      ),
-    [stakingAddresses.value]
-  );
+  const govToken = useTokenPriceQuery({
+    variables: {
+      filter: { address: networkConfig.assets.Governance.address }
+    }
+  });
 
   const stakingList = useMemo(
     () =>
@@ -254,7 +259,7 @@ export const useStakingListData = (address?: string) => {
 
   return {
     totalValueLocked,
-    volume24,
+    volume24: govToken.data?.token.data?.statistic?.dailyVolumeUSD,
     governanceInUSDC,
     stakingList,
     rewardSum,

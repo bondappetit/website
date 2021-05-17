@@ -3,7 +3,6 @@ import { useFormik } from 'formik';
 import { useWeb3React } from '@web3-react/core';
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
-import Tippy from '@tippyjs/react';
 import { useDebounce, useToggle } from 'react-use';
 import networks from '@bondappetit/networks';
 
@@ -23,7 +22,8 @@ import {
   approveAll,
   Button,
   useChangeNetworkModal,
-  setupBinance
+  setupBinance,
+  humanizeNumeral
 } from 'src/common';
 import type { Staking } from 'src/generate/Staking';
 import { WalletButtonWithFallback } from 'src/wallets';
@@ -104,10 +104,6 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     validate: async (formValues) => {
       const error: Partial<typeof formValues> = {};
 
-      if (!account) {
-        error.amount = 'Connect your wallet';
-      }
-
       if (Number(formValues.amount) <= 0) {
         error.amount = 'Required';
       }
@@ -124,7 +120,13 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     },
 
     onSubmit: async (formValues, { resetForm }) => {
-      if (!account || !stakingContract || !tokenDecimals) return;
+      if (
+        !account ||
+        !stakingContract ||
+        !tokenDecimals ||
+        (staking.value?.cant && props.lockable)
+      )
+        return;
 
       analytics.send('staking_click');
 
@@ -163,10 +165,6 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       props.onSubmit?.();
     }
   });
-
-  const handleCloseTooltip = () => {
-    formik.setFieldError('amount', '');
-  };
 
   const tokenAddresses = useMemo(() => {
     const addresses = Object.values(
@@ -229,6 +227,18 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
     ? aquireToggle
     : undefined;
 
+  const buttonTitle =
+    formik.errors.amount ?? props.balanceOfToken.isGreaterThan(0) ? (
+      <>
+        {(!approve.value?.approve && !approve.value?.reset) ||
+        new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
+          ? 'Stake'
+          : 'Approve'}
+      </>
+    ) : (
+      'Add liquidity'
+    );
+
   return (
     <>
       <form onSubmit={formik.handleSubmit} className={classes.root} noValidate>
@@ -239,30 +249,17 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
               {props.loading ? '...' : props.tokenName}
             </Link>
           </Typography>
-          <Tippy
-            key={String(formik.isSubmitting)}
-            visible={Boolean(formik.errors.amount)}
-            content={formik.errors.amount}
-            className={classes.tooltip}
-            maxWidth={200}
-            offset={[0, 25]}
-            animation={false}
-            onClickOutside={handleCloseTooltip}
-          >
-            <div>
-              <Input
-                type="number"
-                value={formik.values.amount}
-                name="amount"
-                placeholder="0"
-                disabled={formik.isSubmitting}
-                key={approve.value?.allowance.toString(10)}
-                onChange={formik.handleChange}
-                error={Boolean(formik.errors.amount)}
-                className={classes.input}
-              />
-            </div>
-          </Tippy>
+          <Input
+            type="number"
+            value={formik.values.amount}
+            name="amount"
+            placeholder="0"
+            disabled={formik.isSubmitting}
+            key={approve.value?.allowance.toString(10)}
+            onChange={formik.handleChange}
+            error={Boolean(formik.errors.amount)}
+            className={classes.input}
+          />
           <Typography
             variant="body1"
             align="center"
@@ -281,7 +278,8 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
                 )
               }
             >
-              {props.loading ? '...' : props.balanceOfToken.toString(10)} max
+              {props.loading ? '...' : humanizeNumeral(props.balanceOfToken)}{' '}
+              max
             </ButtonBase>
           </Typography>
           <Typography
@@ -332,16 +330,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
                       : addLiquidity
                   }
                 >
-                  {props.balanceOfToken.isGreaterThan(0) ? (
-                    <>
-                      {(!approve.value?.approve && !approve.value?.reset) ||
-                      new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
-                        ? 'Stake'
-                        : 'Approve'}
-                    </>
-                  ) : (
-                    'Add liquidity'
-                  )}
+                  {buttonTitle}
                 </WalletButtonWithFallback>
               )}
             {((props.unstakingStartBlock?.isLessThanOrEqualTo(0) &&
@@ -365,16 +354,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
                       : addLiquidity
                   }
                 >
-                  {props.balanceOfToken.isGreaterThan(0) ? (
-                    <>
-                      {(!approve.value?.approve && !approve.value?.reset) ||
-                      new BN(formik.values.amount || '0').isLessThanOrEqualTo(0)
-                        ? 'Stake'
-                        : 'Approve'}
-                    </>
-                  ) : (
-                    'Add liquidity'
-                  )}
+                  {buttonTitle}
                 </WalletButtonWithFallback>
               )}
           </>
