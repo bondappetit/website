@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link as ReactRouterLink } from 'react-router-dom';
 import networks from '@bondappetit/networks';
 
 import { Button, cutAccount, Link, Typography } from 'src/common';
@@ -9,6 +8,10 @@ export type BridgeBinanceBalanceProps = {
   className?: string;
   children?: string;
 };
+
+const BUY_BNB = 'https://www.binance.com/en/buy-BNB';
+
+const BLOG_URL = 'https://medium.com/bondappetit';
 
 export const BridgeBinanceBalance: React.VFC<BridgeBinanceBalanceProps> = (
   props
@@ -33,14 +36,20 @@ export const BridgeBinanceBalance: React.VFC<BridgeBinanceBalanceProps> = (
         </Link>
       </Typography>
       <div className={classes.actions}>
-        <Button className={classes.button} component={ReactRouterLink} to="/">
+        <Button
+          className={classes.button}
+          component={Link}
+          href={BLOG_URL}
+          target="_blank"
+        >
           Buy BNB
         </Button>
         <Button
           className={classes.button}
           variant="outlined"
-          component={ReactRouterLink}
-          to="/"
+          component={Link}
+          href={BUY_BNB}
+          target="_blank"
         >
           How transfer works
         </Button>
