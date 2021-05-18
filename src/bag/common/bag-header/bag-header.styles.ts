@@ -28,6 +28,7 @@ export const useBagHeaderStyles = createUseStyles(
     title: {
       marginBottom: 24,
       textAlign: 'center',
+      maxWidth: 615,
 
       [theme.breakpoints.md()]: {
         textAlign: 'left'

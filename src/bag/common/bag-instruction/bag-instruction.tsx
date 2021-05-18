@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { Plate, Typography } from 'src/common';
-import { ReactComponent as management } from 'src/assets/images/protocolsmanagement.svg';
-import { ReactComponent as liquidity } from 'src/assets/images/protocolsassetsliquidity.svg';
-import { ReactComponent as development } from 'src/assets/images/development_of_the_protocol.svg';
+import { ReactComponent as management } from 'src/assets/images/pic1.svg';
+import { ReactComponent as liquidity } from 'src/assets/images/pic2.svg';
+import { ReactComponent as development } from 'src/assets/images/pic3.svg';
 import { BagTitle } from '../bag-title';
 import { useBagInstructionStyles } from './bag-instruction.styles';
 import { GOVERNANCE } from '../constants';

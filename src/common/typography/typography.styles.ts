@@ -114,6 +114,10 @@ export const useTypographyStyles = createUseStyles(
       fontWeight: 700
     },
 
+    semibold: {
+      fontWeight: 600
+    },
+
     left: {
       textAlign: 'left'
     },

@@ -2,7 +2,7 @@ import React from 'react';
 import { useToggle } from 'react-use';
 
 import { Head, LinkModal, PageWrapper, useNetworkConfig } from 'src/common';
-import { ContactsFeedback } from 'src/contacts/contacts-feedback/contacts-feedback';
+import { ContactsFeedback } from 'src/contacts/contacts-feedback';
 import { MainLayout } from 'src/layouts';
 import { useGovernanceCost } from 'src/staking';
 import { useStakingTotal } from 'src/voting/voting-staking';

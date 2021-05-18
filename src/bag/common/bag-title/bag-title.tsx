@@ -19,7 +19,7 @@ export const BagTitle: React.VFC<BagTitleProps> = (props) => {
       className={clsx(classes.root, props.className)}
       component="div"
     >
-      <Typography variant="inherit" weight="bold" component="div">
+      <Typography variant="inherit" weight="semibold" component="div">
         {props.bold}
       </Typography>{' '}
       {props.text}
