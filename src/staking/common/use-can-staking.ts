@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
 import Web3 from 'web3';
 import { useAsyncFn } from 'react-use';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 
 import type { Staking } from 'src/generate/Staking';
 import {
@@ -15,15 +15,12 @@ const DATE_FORMAT = 'HH:mm:ss on MMMM DD';
 
 export const useCanStaking = (stakingContract?: Staking | null) => {
   const { library } = useWeb3React<Web3>();
-  const stakingContractRef = useRef(stakingContract);
   const networkConfig = useNetworkConfig();
 
   const [state, getState] = useAsyncFn(async () => {
-    if (!stakingContractRef.current) return;
+    if (!stakingContract) return;
 
-    const result = await stakingContractRef.current.methods
-      .stakingEndBlock()
-      .call();
+    const result = await stakingContract.methods.stakingEndBlock().call();
 
     const currentBlockNumber = new BN(
       (await library?.eth.getBlockNumber()) ?? 0
@@ -39,15 +36,15 @@ export const useCanStaking = (stakingContract?: Staking | null) => {
     const date = dateUtils.format(dateUtils.addSeconds(seconds), DATE_FORMAT);
 
     const cant =
-      currentBlockNumber.isGreaterThan(stakingEndBlock) &&
-      stakingEndBlock.isGreaterThan(0);
+      stakingEndBlock.isGreaterThan(0) &&
+      currentBlockNumber.isGreaterThanOrEqualTo(stakingEndBlock);
 
     return {
       cant,
       date,
       stakingEndBlock
     };
-  }, [library, networkConfig]);
+  }, [library, networkConfig, stakingContract]);
 
   useEffect(() => {
     if (stakingContract) {

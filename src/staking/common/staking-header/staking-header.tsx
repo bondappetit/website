@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { Typography, COIN_ICONS, BN, humanizeNumeral } from 'src/common';
+import { Typography, COIN_ICONS, humanizeNumeral } from 'src/common';
 import { useStakingHeaderStyles } from './staking-header.styles';
 import { StakingLabel } from '../staking-label';
 
@@ -12,7 +12,6 @@ export type StakingHeaderProps = {
   totalValueLocked?: string;
   className?: string;
   poolRate?: string;
-  volumeUSD?: BN;
   lockable?: boolean;
   loading: boolean;
   depositToken?: string;
@@ -71,13 +70,6 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
                 {humanizeNumeral(props.poolRate)} {props.earnToken} / day
               </>
             }
-            loading={props.loading}
-          />
-
-          <StakingLabel
-            variant="body1"
-            title="Volume (24h)"
-            value={<>${humanizeNumeral(props.volumeUSD)}</>}
             loading={props.loading}
           />
         </div>

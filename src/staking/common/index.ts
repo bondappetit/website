@@ -8,7 +8,6 @@ export * from './use-can-staking';
 export * from './use-can-unstaking';
 export * from './staking-attention-modal';
 export * from './staking-info';
-export * from './use-volume-info';
 export * from './staking-label';
 export * from './use-staking-list-data';
 export * from './staking-empty';

@@ -8,6 +8,14 @@ export const useMainTeamStyles = createUseStyles(
       width: '100%'
     },
 
+    title: {
+      marginBottom: 24,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 48
+      }
+    },
+
     list: {
       listStyle: 'none',
       padding: 0,

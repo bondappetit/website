@@ -13,9 +13,9 @@ export const useInputStyles = createUseStyles(
       height: 24,
 
       [theme.breakpoints.md()]: {
-        fontSize: 40,
-        lineHeight: '48px',
-        height: 48
+        fontSize: 32,
+        lineHeight: '40px',
+        height: 40
       }
     },
 

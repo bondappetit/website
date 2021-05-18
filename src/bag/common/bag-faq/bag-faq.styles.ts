@@ -7,7 +7,12 @@ export const useBagFaqStyles = createUseStyles(
     },
 
     detail: {
-      maxWidth: 800
+      maxWidth: 800,
+
+      '& *': {
+        fontSize: 20,
+        lineHeight: '28px'
+      }
     }
   },
   {

@@ -27,10 +27,10 @@ export const useBagHeaderStyles = createUseStyles(
 
     title: {
       marginBottom: 16,
+      maxWidth: 615,
 
       [theme.breakpoints.md()]: {
-        marginBottom: 24,
-        textAlign: 'left'
+        marginBottom: 24
       }
     },
 

@@ -113,6 +113,7 @@ const stakingConfig = [
 
 const chainContracts: Record<number, Network['contracts']> = {
   [config.CHAIN_IDS[0]]: networks.main.contracts,
+  [config.CHAIN_IDS[1]]: networks.ropsten.contracts,
   [config.CHAIN_BINANCE_IDS[0]]: networks.mainBSC.contracts,
   [config.CHAIN_BINANCE_IDS[1]]: networks.testnetBSC.contracts
 };

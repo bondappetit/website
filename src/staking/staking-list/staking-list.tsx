@@ -77,20 +77,22 @@ export const StakingList: React.VFC = () => {
               ? numberArray(stakingConfigValues.length).map((key) => (
                   <StakingCard key={key} loading />
                 ))
-              : stakingList?.map((stakingAddress) => {
+              : stakingList?.map((stakingItem) => {
                   return (
                     <StakingCard
-                      key={stakingAddress.id}
-                      stacked={stakingAddress.stacked}
-                      token={stakingAddress.token}
-                      totalValueLocked={stakingAddress.totalValueLocked}
-                      poolRate={stakingAddress.poolRate}
-                      lockable={stakingAddress.lockable}
-                      stakingContractAddress={stakingAddress.configAddress}
-                      date={stakingAddress.date}
-                      APY={stakingAddress.apy}
-                      chainId={stakingAddress.chainId}
-                      earnToken={stakingAddress.earnToken}
+                      key={stakingItem.id}
+                      stacked={stakingItem.stacked}
+                      token={stakingItem.token}
+                      totalValueLocked={stakingItem.totalValueLocked}
+                      poolRate={stakingItem.poolRate}
+                      lockable={stakingItem.lockable}
+                      stakingContractAddress={stakingItem.configAddress}
+                      unstakingStartDate={stakingItem.unstakingStartDate}
+                      APY={stakingItem.apy}
+                      chainId={stakingItem.chainId}
+                      earnToken={stakingItem.earnToken}
+                      stakingEndBlock={stakingItem.stakingEndBlock}
+                      stakingEndDate={stakingItem.stakingEndDate}
                     />
                   );
                 })}

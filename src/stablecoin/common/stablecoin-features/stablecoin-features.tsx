@@ -49,7 +49,7 @@ export const StablecoinFeatures: React.FC<StablecoinFeaturesProps> = (
               {Icon && <Icon className={classes.icon} />}
               <Typography
                 variant="h5"
-                weight="bold"
+                weight="semibold"
                 className={classes.decisionCardText}
               >
                 {stableItem.title}

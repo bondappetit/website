@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
-import Tippy from '@tippyjs/react';
 import { useToggle, useAsyncFn, useAsyncRetry } from 'react-use';
 
 import { MainLayout } from 'src/layouts';
@@ -40,12 +39,9 @@ export const StakingDetail: React.FC = () => {
 
   const currentStakingToken = stakingConfig[params.tokenId.toLowerCase()];
 
-  const {
-    stakingList,
-    rewardSum,
-    volume24,
-    stakingAddresses
-  } = useStakingListData(params.tokenId);
+  const { stakingList, rewardSum, stakingAddresses } = useStakingListData(
+    params.tokenId
+  );
 
   const stakingItem = useMemo(() => stakingList?.[0], [stakingList]);
 
@@ -145,7 +141,6 @@ export const StakingDetail: React.FC = () => {
             totalValueLocked={stakingItem?.totalValueLocked}
             className={classes.header}
             poolRate={stakingItem?.poolRate}
-            volumeUSD={volume24}
             loading={loading}
             earnToken={stakingItem?.earnToken}
           />
@@ -183,7 +178,7 @@ export const StakingDetail: React.FC = () => {
                     {stakingItem?.amount.isNaN() ||
                     !stakingItem?.amount.isFinite()
                       ? '0'
-                      : stakingItem?.amount.toString(10)}
+                      : humanizeNumeral(stakingItem?.amount)}
                   </Typography>
                   <Typography
                     variant="body1"
@@ -229,24 +224,14 @@ export const StakingDetail: React.FC = () => {
                       {stakingItem?.chainId === chainId ? (
                         <>
                           {showUnstakeButton && account && (
-                            <Tippy
-                              visible={canUnstake}
-                              key={String(canUnstake)}
-                              content="Unstaking not started"
-                              maxWidth={200}
-                              offset={[0, 25]}
-                              className={classes.tooltip}
-                              animation={false}
+                            <WalletButtonWithFallback
+                              onClick={handleUnstake}
+                              className={classes.unlock}
+                              loading={unstakeState.loading}
+                              disabled={unstakeState.loading}
                             >
-                              <WalletButtonWithFallback
-                                onClick={handleUnstake}
-                                className={classes.unlock}
-                                loading={unstakeState.loading}
-                                disabled={unstakeState.loading}
-                              >
-                                Unstake
-                              </WalletButtonWithFallback>
-                            </Tippy>
+                              {canUnstake ? 'Unstaking not started' : 'Unstake'}
+                            </WalletButtonWithFallback>
                           )}
                         </>
                       ) : (

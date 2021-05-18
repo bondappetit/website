@@ -9,10 +9,8 @@ const getLibrary = (provider: web3Core): Web3 => {
   return library;
 };
 
-export const Web3Provider: React.FC = React.memo((props) => {
-  return (
-    <Web3ReactProvider getLibrary={getLibrary}>
-      {props.children}
-    </Web3ReactProvider>
-  );
-});
+export const Web3Provider: React.FC = (props) => (
+  <Web3ReactProvider getLibrary={getLibrary}>
+    {props.children}
+  </Web3ReactProvider>
+);

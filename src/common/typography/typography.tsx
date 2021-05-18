@@ -35,7 +35,7 @@ const variantMapping: Record<Variants, TagNames> = {
 export type TypographyProps = {
   variant: Variants;
   className?: string;
-  weight?: 'bold' | 'normal' | 'light';
+  weight?: 'bold' | 'normal' | 'light' | 'semibold';
   align?: 'left' | 'center' | 'right';
   component?: TagNames | 'span' | 'div';
   ref?:
