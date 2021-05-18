@@ -29,13 +29,13 @@ export const BagFaq: React.FC<BagFaqProps> = (props) => {
 
   return (
     <div className={props.className} id="faq">
-      <Typography variant="h3" weight="bold" className={classes.title}>
+      <Typography variant="h3" weight="semibold" className={classes.title}>
         Learn more about BondAppétit Governance Token (BAG)
       </Typography>
       {FAQ.map((faqItem) => (
         <Accordion key={faqItem.title}>
           <AccordionSummary expandIcon={<ExpandIcon width="32" height="32" />}>
-            <Typography variant="h5">{faqItem.title}</Typography>
+            <Typography variant="h4">{faqItem.title}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.detail}>
             <ReactMarkdown renderers={renderers}>{faqItem.body}</ReactMarkdown>

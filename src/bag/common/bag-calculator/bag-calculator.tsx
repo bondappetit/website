@@ -67,10 +67,14 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
       />
       <Plate color="grey" withoutBorder className={classes.table}>
         <div className={classes.head}>
-          <Typography variant="h5" weight="bold" className={classes.headCol}>
+          <Typography
+            variant="h5"
+            weight="semibold"
+            className={classes.headCol}
+          >
             How it works
           </Typography>
-          <Typography variant="h5" weight="bold" className={classes.col}>
+          <Typography variant="h5" weight="semibold" className={classes.col}>
             Sample calculation
           </Typography>
         </div>
