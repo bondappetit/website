@@ -43,6 +43,8 @@ export const useMainAuditStyles = createUseStyles(
       display: 'block',
       width: '100%',
       height: '1em',
+      bottom: '-4px',
+      position: 'relative',
 
       [theme.breakpoints.md()]: {
         width: 'auto'
