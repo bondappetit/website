@@ -374,6 +374,21 @@ export type AddBurgerSwapBridgeTransitMutation = { __typename?: 'Mutation' } & {
   } & Pick<BurgerSwapBridgeTransitType, 'tx' | 'type' | 'owner' | 'createdAt'>;
 };
 
+export type WalletQueryVariables = Exact<{
+  filter: WalletQueryFilterInputType;
+}>;
+
+export type WalletQuery = { __typename?: 'Query' } & {
+  wallet: { __typename?: 'WalletPayload' } & {
+    data?: Maybe<
+      { __typename?: 'WalletType' } & Pick<
+        WalletType,
+        'address' | 'balance' | 'balanceFloat'
+      >
+    >;
+  };
+};
+
 export type StakingListQueryVariables = Exact<{
   filter?: Maybe<StakingListQueryFilterInputType>;
   userFilter?: Maybe<StakingUserListFilterInputType>;
