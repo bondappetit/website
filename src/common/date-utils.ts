@@ -10,9 +10,10 @@ export const dateUtils = {
     const days = Math.floor(difference / (1000 * 60 * 60 * 24));
     const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
     const minutes = Math.floor((difference / 1000 / 60) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
 
     if (difference > 0) {
-      return `${days}:${hours}:${minutes}`;
+      return `${days}:${hours}:${minutes}:${seconds}`;
     }
   },
 

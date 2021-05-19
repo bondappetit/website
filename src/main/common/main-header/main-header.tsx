@@ -1,7 +1,9 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState } from 'react';
+import { useInterval } from 'react-use';
 
-import { Button, Typography } from 'src/common';
+import { config } from 'src/config';
+import { Button, dateUtils, Typography } from 'src/common';
 import { ReactComponent as PlayIcon } from 'src/assets/icons/play.svg';
 import { useMainHeaderStyles } from './main-header.styles';
 import { useMainHowitWorksModal } from '../main-how-it-works-modal';
@@ -14,10 +16,18 @@ export type MainHeaderProps = {
   onBuyGov: () => void;
 };
 
+const date = () => dateUtils.countdown(config.COUNTDOWN);
+
 export const MainHeader: React.FC<MainHeaderProps> = (props) => {
   const classes = useMainHeaderStyles();
 
   const [openMainHowItWorks] = useMainHowitWorksModal();
+
+  const [countdown, setCountDown] = useState(date());
+
+  useInterval(() => {
+    setCountDown(date());
+  }, 1000);
 
   return (
     <div className={clsx(classes.root, props.className)}>
@@ -38,11 +48,11 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
       <div className={classes.stat}>
         <Typography variant="body1" component="div">
           <Typography variant="inherit" component="div" weight="semibold">
-            Phase 2
+            Phase {config.IS_COLLATERAL ? '2' : '1'}
           </Typography>
           <div>Real World Asset Collateral</div>
           <Typography variant="inherit" component="div" weight="semibold">
-            42:08:45:56
+            {countdown}
           </Typography>
         </Typography>
         <Typography variant="body1" component="div" align="right">

@@ -29,5 +29,6 @@ export const config = {
   TREZOR_EMAIL: process.env.REACT_APP_TREZOR_EMAIL ?? '',
   YM_ID: 75624769,
   PANCAKESWAP_URL: process.env.REACT_APP_PANCAKESWAP_URL,
-  WAVES_URL: process.env.REACT_APP_WAVES_URL
+  WAVES_URL: process.env.REACT_APP_WAVES_URL,
+  COUNTDOWN: '2021-06-16'
 };
