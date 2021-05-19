@@ -15,7 +15,7 @@ export const MainTeam: React.VFC<MainTeamProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)}>
       <Typography variant="h2" className={classes.title}>
-        Meet the chefs behind the kitchen desk
+        Team
       </Typography>
       <ul className={classes.list}>
         {TEAM.map((teamMember) => (

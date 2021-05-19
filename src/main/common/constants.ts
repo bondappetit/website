@@ -52,9 +52,9 @@ export const VOTING_TEXT = [
 export const WAVES_CARDS = [
   {
     title: 'EAST.Finance',
-    text: `BondAppetit creates ecosystem with EAST,
-    the first enterprise-grade DeFi protocol / stablecoin that
-    combines Real-World Assets with crypto`,
+    text: `BondAppetit creates an ecosystem with EAST,
+    the first enterprise-grade DeFi protocol / stablecoin
+    that combines real-world assets with crypto`,
     link: 'https://east.finance/',
     onClick: false,
     linkLabel: 'east.finance',
@@ -116,7 +116,7 @@ export const TEAM = [
   {
     name: 'Alexander Ivanov',
     role: 'Advisor',
-    text: `Waves, CEO`,
+    text: `CEO of Waves`,
     photo: alexanderInvanov
   }
 ];
