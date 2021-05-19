@@ -1,6 +1,9 @@
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
 import { abi as GovernanceTokenAbi } from '@bondappetit/networks/abi/GovernanceToken.json';
 import type { AbiItem } from 'web3-utils';
+import Web3 from 'web3';
+import networks from '@bondappetit/networks';
+import { useMemo } from 'react';
 
 import type { Investment } from 'src/generate/Investment';
 import type { Market } from 'src/generate/Market';
@@ -18,6 +21,7 @@ import type { UniswapMarketMaker } from 'src/generate/UniswapMarketMaker';
 import type { CollateralMarket } from 'src/generate/CollateralMarket';
 import type { VestingSplitter } from 'src/generate/VestingSplitter';
 import type { RealAssetDepositaryBalanceView } from 'src/generate/RealAssetDepositaryBalanceView';
+import abi from 'src/bridge/common/abi/bbag-abi.json';
 import { createUseContract } from './create-use-contract';
 
 export const useInvestmentContract = createUseContract<Investment>(
@@ -139,3 +143,16 @@ export const useRealAssetDepositaryBalanceView = createUseContract<
   abi: network.contracts.RealAssetDepositaryBalanceView.abi,
   address: network.contracts.RealAssetDepositaryBalanceView.address
 }));
+
+const web3 = new Web3(networks.mainBSC.networkUrl);
+
+export const useBBagContract2 = () => {
+  return useMemo(
+    () =>
+      (new web3.eth.Contract(
+        abi as AbiItem[],
+        networks.mainBSC.assets.bBAG.address
+      ) as unknown) as Ierc20,
+    []
+  );
+};

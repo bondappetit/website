@@ -8,81 +8,170 @@ export const useBagCalculatorStyles = createUseStyles(
     root: {},
 
     table: {
-      padding: '16px 24px',
-
-      [theme.breakpoints.md()]: {
-        padding: '54px 64px'
-      }
-    },
-
-    head: {
+      padding: '24px 16px 40px',
       display: 'grid',
-      marginBottom: 56,
 
       [theme.breakpoints.md()]: {
+        padding: '54px 64px',
+        gridTemplateAreas: `
+        "t howitworks samplecalculation"
+        "num1 text1 value1"
+        "num2 text2 value2"
+        "num3 text3 value3"
+        "num4 text4 value4"
+        `,
         gridTemplateColumns: '136px 1fr 1fr'
       }
     },
 
     headCol: {
+      marginBottom: 32,
+
       [theme.breakpoints.md()]: {
-        gridColumnStart: 2
+        marginBottom: 0,
+        paddingBottom: 56
       }
     },
 
-    list: {
-      padding: 0,
-      margin: '0 0 24px',
-      listStyle: 'none',
-      counterReset: 'counter'
+    howItWorks: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'howitworks'
+      }
     },
 
-    row: {
-      display: 'grid',
-      borderBottom: `1px solid ${rgba(theme.colors.primary, 0.16)}`,
-      padding: '16px 0 56px',
-      counterIncrement: 'counter',
-      gridGap: 10,
-
-      '&:first-child': {
-        borderTop: `1px solid ${rgba(theme.colors.primary, 0.16)}`
-      },
-
-      '&:before': {
-        content: 'counter(counter)',
-        fontSize: 16,
-        lineHeight: '20px',
-
-        [theme.breakpoints.md()]: {
-          fontSize: 20,
-          lineHeight: '28px'
-        }
-      },
+    sampleCalculation: {
+      borderTop: `1px solid ${rgba(theme.colors.primary, 0.16)}`,
+      paddingTop: 40,
 
       [theme.breakpoints.md()]: {
-        gridGap: 0,
-        gridTemplateColumns: '136px 1fr 1fr'
+        gridArea: 'samplecalculation',
+        padding: 0,
+        border: 'none'
+      }
+    },
+
+    borderTop: {
+      [theme.breakpoints.md()]: {
+        borderTop: `1px solid ${rgba(theme.colors.primary, 0.16)}`,
+        paddingTop: 16
+      }
+    },
+
+    num1: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'num1'
+      }
+    },
+
+    num2: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'num2'
+      }
+    },
+
+    num3: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'num3'
+      }
+    },
+
+    num4: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'num4'
+      }
+    },
+
+    text1: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'text1',
+        paddingRight: 112
+      }
+    },
+
+    text2: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'text2',
+        paddingRight: 112
+      }
+    },
+
+    text3: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'text3',
+        paddingRight: 112
+      }
+    },
+
+    text4: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'text4',
+        paddingRight: 112
+      }
+    },
+
+    value1: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'value1'
+      }
+    },
+
+    value2: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'value2'
+      }
+    },
+
+    value3: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'value3'
+      }
+    },
+
+    value4: {
+      [theme.breakpoints.md()]: {
+        gridArea: 'value4'
       }
     },
 
     col: {
+      '&:not(:last-child)': {
+        paddingBottom: 61
+      },
+
       [theme.breakpoints.md()]: {
-        paddingLeft: 112
+        '&:not(:last-child)': {
+          paddingBottom: 56
+        }
       }
     },
 
     hint: {
-      opacity: 0.4
+      opacity: 0.4,
+      display: 'none',
+      margin: '0 64px 56px',
+      paddingTop: 24,
+
+      [theme.breakpoints.md()]: {
+        display: 'block'
+      }
     },
 
     colGrid: {
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
-      gridGap: 52
+      gridGap: 16,
+
+      '& > div': {
+        '&:nth-child(1), &:nth-child(2)': {
+          paddingBottom: 61 - 16
+        }
+      }
     },
 
     slider: {
-      maxWidth: 200,
+      [theme.breakpoints.md()]: {
+        maxWidth: 200
+      },
 
       '& > div.rc-slider-handle': {
         background: theme.colors.primary,
@@ -109,6 +198,14 @@ export const useBagCalculatorStyles = createUseStyles(
 
     title: {
       marginBottom: 8
+    },
+
+    step: {
+      marginBottom: 24,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 0
+      }
     }
   }),
   {
