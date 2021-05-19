@@ -1,11 +1,14 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { ReactComponent as ExpandIcon } from 'src/assets/icons/plus.svg';
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Typography
+  Typography,
+  Link
 } from 'src/common';
 import { useStablecoinFaqStyles } from './stablecoin-faq.styles';
 import { FAQ } from '../constants';
@@ -31,6 +34,18 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
             {faqItem.body.map((faqBodyText) => (
               <Typography variant="h5" key={faqBodyText}>
                 {faqBodyText}
+                {faqItem.link && (
+                  <Link
+                    component={ReactRouterLink}
+                    to={faqItem.link}
+                    color="blue"
+                  >
+                    {[window.location.protocol, window.location.host].join(
+                      '//'
+                    )}
+                    {faqItem.link}
+                  </Link>
+                )}
               </Typography>
             ))}
           </AccordionDetails>

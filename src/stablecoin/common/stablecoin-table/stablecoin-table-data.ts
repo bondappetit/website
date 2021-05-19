@@ -4,7 +4,7 @@ export const STABLECOIN_TABLE_DATA = {
     'Collateral',
     'Decentralized\nissuance',
     'Public info\non collateral',
-    'Liquidity pools supported\nby real cash flow'
+    'Liquidity pools with\n real cash flows'
   ],
   body: [
     [['Appetite USD', 'USDap'], 'Real-world assets', 'Yes', 'Yes', 'Yes'],

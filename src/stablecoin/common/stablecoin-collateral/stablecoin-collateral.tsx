@@ -38,9 +38,9 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
         bold="Collateral"
         text={
           <>
-            The assets of the protocol are formed by outstanding debt of the
-            borrowers, which in turn is secured by real world collateral in form
-            of bonds kept on special security accounts.{' '}
+            The assets of the protocol are formed by the outstanding debt of the
+            borrowers, which, in turn, is secured by real-world collateral in
+            the form of bonds kept on special security accounts.{' '}
             <Link
               color="blue"
               component={ReactRouterLink}
@@ -54,7 +54,7 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
       <Plate withoutBorder color="grey" className={classes.list}>
         <div className={classes.body}>
           <Typography variant="h5" align="center" className={classes.title}>
-            Issued stablecoin
+            Total issuance
           </Typography>
           <Typography variant="h2" align="center" className={classes.bodyText}>
             {props.stableCoinBalanceLoading && !props.stableCoinBalanceValue ? (
@@ -73,7 +73,7 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
         />
         <div className={classes.body}>
           <Typography variant="h5" align="center" className={classes.title}>
-            Value of Protocol&apos;s assets
+            Total protocol asset value
           </Typography>
           <Typography variant="h2" align="center" className={classes.bodyText}>
             {props.stableCoinBalanceLoading && !props.issuerBalanceValue ? (

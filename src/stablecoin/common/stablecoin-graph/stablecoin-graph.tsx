@@ -34,7 +34,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
           <Typography variant="inherit" component="span">
             {!props.loading && (
               <>
-                Total Issued today:{' '}
+                Total Issuance:{' '}
                 <Typography
                   variant="inherit"
                   component="span"

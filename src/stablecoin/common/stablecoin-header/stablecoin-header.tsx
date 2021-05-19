@@ -39,7 +39,7 @@ export const StablecoinHeader: React.VFC<StablecoinHeaderProps> = (props) => {
     <div className={clsx(classes.root, props.className)}>
       <div className={classes.titleWrap}>
         <Typography variant="h1" className={classes.title}>
-          Decentralized stablecoin based on real-world assets
+          A decentralized stablecoin backed by real-world assets
         </Typography>
         <ul className={classes.links}>
           {LINKS.map((link) => (

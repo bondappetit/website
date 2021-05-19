@@ -25,14 +25,14 @@ export const StablecoinFeatures: React.FC<StablecoinFeaturesProps> = (
   const classes = useStablecoinFeaturesStyles();
 
   return (
-    <div className={props.className} id="stable">
+    <div className={props.className} id="features">
       <StablecoinTitle
         bold="Features"
         text={
           <>
-            USDap is better stablecoin. Algorithmic automated issuance,
-            real-world assets collateral and publicly available instruments to
-            verify it in real-time make USDap unique and advaced.
+            USDap is a stablecoin done right. Algorithmic automated issuance,
+            real-world assets as collateral, and publicly available oracles for
+            real-time collateral verification.
           </>
         }
       />
@@ -41,11 +41,7 @@ export const StablecoinFeatures: React.FC<StablecoinFeaturesProps> = (
           const Icon = ICONS.get(stableItem.title);
 
           return (
-            <div
-              key={stableItem.title}
-              className={classes.decisionCard}
-              id="features"
-            >
+            <div key={stableItem.title} className={classes.decisionCard}>
               {Icon && <Icon className={classes.icon} />}
               <Typography
                 variant="h5"

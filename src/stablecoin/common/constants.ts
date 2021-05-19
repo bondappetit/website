@@ -33,6 +33,15 @@ export const FAQ = [
       `USDap represents a means of transferring value and it is defined as such exclusively by market participants.
       The token itself does not imply any obligations of the protocol, any of its participants, or third-parties.`
     ]
+  },
+
+  {
+    title:
+      'If a bond defaults, are USDap bought back? If so, who pays for them?',
+    body: [
+      `In the event of a significant change in asset prices or a default, the protocol may initiate additional capitalization: `
+    ],
+    link: '/whitepaper#6'
   }
 ];
 
