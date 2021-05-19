@@ -5,7 +5,8 @@ import {
   BN,
   useBalance,
   useGovernanceContract,
-  useNetworkConfig
+  useNetworkConfig,
+  useBBagContract2
 } from 'src/common';
 import { useGovernanceCost } from 'src/staking';
 
@@ -17,6 +18,7 @@ export const useWalletInfo = () => {
   const networkConfig = useNetworkConfig();
 
   const getBalance = useBalance();
+  const bBagContract = useBBagContract2();
 
   const governanceInUSDC = useGovernanceCost();
 
@@ -32,11 +34,16 @@ export const useWalletInfo = () => {
       tokenAddress: asset.address
     });
 
+    const bbagBalance = new BN(
+      await bBagContract.methods.balanceOf(account).call()
+    );
+
     const unstakedBAG = new BN(locking.amount).div(
       new BN(10).pow(asset.decimals)
     );
 
     const unstakedInBAG = balance
+      .plus(bbagBalance)
       .div(new BN(10).pow(asset.decimals))
       .minus(unstakedBAG);
 
