@@ -270,6 +270,13 @@ export const useStablecoinGraphStyles = createUseStyles(
           marginRight: 32
         }
       }
+    },
+
+    tippy: {
+      backgroundColor: theme.colors.primary,
+      color: theme.colors.secondary,
+      padding: 16,
+      borderRadius: 16
     }
   }),
   {
