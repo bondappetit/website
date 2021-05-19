@@ -14,7 +14,7 @@ export const MainTeam: React.VFC<MainTeamProps> = (props) => {
 
   return (
     <div className={clsx(classes.root, props.className)}>
-      <Typography variant="h4" align="center" className={classes.title}>
+      <Typography variant="h2" className={classes.title}>
         Meet the chefs behind the kitchen desk
       </Typography>
       <ul className={classes.list}>

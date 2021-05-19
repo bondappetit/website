@@ -5,10 +5,7 @@ export const useButtonStyles = createUseStyles(
   (theme: Theme) => ({
     button: {
       borderRadius: 16,
-      letterSpacing: '-0.02em',
-      padding: '11px 40px',
-      fontSize: 32,
-      lineHeight: '40px'
+      letterSpacing: '-0.02em'
     },
 
     primary: {
@@ -27,6 +24,18 @@ export const useButtonStyles = createUseStyles(
 
     outlined: {
       backgroundColor: 'transparent'
+    },
+
+    small: {
+      padding: '15px 27px',
+      fontSize: 24,
+      lineHeight: '32px'
+    },
+
+    large: {
+      padding: '11px 40px',
+      fontSize: 32,
+      lineHeight: '40px'
     }
   }),
   {

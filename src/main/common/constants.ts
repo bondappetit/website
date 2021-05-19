@@ -12,8 +12,6 @@ export const STEPS = [
   {
     title: 'Investment Stage',
     body: 'Stake your crypto or invest in the protocol',
-    startDate: 'April 5',
-    duration: 'Up to 3 months',
     mobileDate: 'From April 5, up to 3 months duration',
     active: !config.IS_COLLATERAL
   },
@@ -22,8 +20,6 @@ export const STEPS = [
     title: 'RWA-collateral',
     body:
       'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
-    startDate: '1 Day after P1',
-    duration: '2 years',
     mobileDate: '1 Day after P1, 2 years duration',
     active: config.IS_COLLATERAL
   },
@@ -32,8 +28,6 @@ export const STEPS = [
     title: 'Direct Investment',
     body:
       'The capitalization of the protocol reaches $100m. The issuance of governance tokens stops.',
-    startDate: '1 Day after P2',
-    duration: 'unlimited',
     mobileDate: '1 Day after P2, unlimited',
     active: false
   }

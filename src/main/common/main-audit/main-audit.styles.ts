@@ -5,28 +5,38 @@ import { Theme } from 'src/common';
 export const useMainAuditStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
-      maxWidth: 1200,
-      margin: '0 auto',
-      padding: '40px 32px',
-      height: 320,
-      position: 'relative',
-      display: 'flex',
-      flexDirection: 'column',
+      background: theme.colors.secondary,
 
       [theme.breakpoints.md()]: {
-        padding: 48,
-        height: 'auto'
+        position: 'relative',
+        width: 'calc(50% + 20px)',
+        left: -20
+      }
+    },
+
+    content: {
+      padding: '40px 32px',
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+
+      [theme.breakpoints.md()]: {
+        padding: '64px 78px 72px'
       }
     },
 
     title: {
-      marginBottom: 8,
       display: 'inline-flex',
       flexDirection: 'column',
+      color: theme.colors.green1,
 
       [theme.breakpoints.md()]: {
         flexDirection: 'row'
       }
+    },
+
+    text: {
+      marginBottom: 8
     },
 
     logo: {
@@ -36,17 +46,6 @@ export const useMainAuditStyles = createUseStyles(
 
       [theme.breakpoints.md()]: {
         width: 'auto'
-      }
-    },
-
-    auditedIcon: {
-      position: 'absolute',
-      right: -22,
-      top: 3,
-      display: 'none',
-
-      [theme.breakpoints.md()]: {
-        display: 'block'
       }
     },
 

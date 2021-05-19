@@ -4,16 +4,22 @@ import { Theme } from 'src/common';
 
 export const useMainStepsStyles = createUseStyles(
   (theme: Theme) => ({
-    root: {},
-
     title: {
-      maxWidth: 800,
+      maxWidth: 872,
       margin: '0 0 48px',
       padding: '0 16px',
 
       [theme.breakpoints.md()]: {
-        margin: '0 auto 70px',
+        margin: '0 0 70px',
         padding: 0
+      }
+    },
+
+    content: {
+      margin: '0 -16px',
+
+      [theme.breakpoints.md()]: {
+        margin: '0 -64px'
       }
     },
 
@@ -40,7 +46,6 @@ export const useMainStepsStyles = createUseStyles(
 
     list: {
       display: 'grid',
-      maxWidth: 1120,
       gridGap: 48,
       padding: '0 16px',
 
@@ -52,7 +57,6 @@ export const useMainStepsStyles = createUseStyles(
       },
 
       [theme.breakpoints.lg()]: {
-        padding: 0,
         gridGap: 128
       }
     },
@@ -68,7 +72,7 @@ export const useMainStepsStyles = createUseStyles(
         height: 32,
         border: '1px solid currentColor',
         top: -62,
-        left: -16,
+        left: 0,
         borderRadius: '100%',
         backgroundColor: theme.colors.secondary,
 
@@ -90,31 +94,12 @@ export const useMainStepsStyles = createUseStyles(
 
     cardBody: {
       [theme.breakpoints.md()]: {
-        marginBottom: 'auto'
-      }
-    },
-
-    cardDate: {
-      opacity: 0.64,
-      display: 'none',
-
-      [theme.breakpoints.md()]: {
-        display: 'block'
+        marginBottom: '16px'
       }
     },
 
     mobileCardDate: {
-      opacity: 0.64,
-
-      [theme.breakpoints.md()]: {
-        display: 'none'
-      }
-    },
-
-    dateComma: {
-      [theme.breakpoints.md()]: {
-        display: 'none'
-      }
+      opacity: 0.4
     }
   }),
   {
