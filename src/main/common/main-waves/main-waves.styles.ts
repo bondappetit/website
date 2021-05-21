@@ -7,7 +7,11 @@ export const useMainWavesStyles = createUseStyles(
 
     title: {
       maxWidth: 800,
-      margin: '0 auto 47px'
+      marginBottom: 16,
+
+      [theme.breakpoints.md()]: {
+        marginBottom: 48
+      }
     },
 
     list: {

@@ -15,9 +15,8 @@ export const MainWaves: React.VFC<MainWavesProps> = (props) => {
 
   return (
     <div className={props.className}>
-      <Typography variant="h4" align="center" className={classes.title}>
-        BondAppetit works with the best projects in the industry. Discover our
-        partners and collaborators.
+      <Typography variant="h2" className={classes.title}>
+        Partners
       </Typography>
       <div className={classes.list}>
         {WAVES_CARDS.map((card) => {

@@ -5,28 +5,6 @@ import { Theme } from 'src/common';
 export const useMainStablecoinStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
-      backgroundImage: `url(${theme.images.ellipseMobile})`,
-      backgroundRepeat: 'no-repeat',
-      backgroundPosition: 'center',
-      backgroundSize: 'cover',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: 527,
-      marginLeft: -16,
-      marginRight: -16,
-      padding: '0 16px',
-
-      [theme.breakpoints.md()]: {
-        backgroundImage: `url(${theme.images.ellipseMain})`,
-        backgroundPosition: 'center',
-        backgroundSize: '105%',
-        minHeight: 784,
-        marginLeft: -64,
-        marginRight: -64,
-        padding: '0 64px'
-      },
-
       [theme.breakpoints.lg()]: {
         margin: 0,
         padding: 0
@@ -39,8 +17,12 @@ export const useMainStablecoinStyles = createUseStyles(
     },
 
     title: {
-      maxWidth: 800,
-      margin: '0 auto 9px'
+      marginBottom: 48,
+      maxWidth: 872
+    },
+
+    link: {
+      opacity: 0.4
     },
 
     total: {
@@ -55,18 +37,35 @@ export const useMainStablecoinStyles = createUseStyles(
     },
 
     actions: {
-      marginBottom: 48,
-      display: 'flex',
+      display: 'grid',
       justifyContent: 'center',
+      alignItems: 'center',
+      gridGap: 12,
 
-      '& *:first-child': {
-        marginRight: 12
+      [theme.breakpoints.md()]: {
+        gridTemplateColumns: '240px 240px'
       }
     },
 
     button: {
       maxWidth: 240,
       width: '100%'
+    },
+
+    grid: {
+      display: 'grid',
+      gridGap: 40,
+
+      [theme.breakpoints.lg()]: {
+        gridTemplateColumns: '1fr 1fr'
+      }
+    },
+
+    card: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      padding: '40px 0'
     }
   }),
   {

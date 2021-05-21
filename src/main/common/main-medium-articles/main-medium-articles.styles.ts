@@ -8,29 +8,31 @@ export const useMainMediumArticlesStyles = createUseStyles(
       padding: '24px 24px 80px',
 
       [theme.breakpoints.md()]: {
-        padding: '48px 48px 120px'
+        padding: '40px 64px 96px'
       }
     },
 
-    icon: {
-      marginBottom: 24,
-      width: 32,
-      height: 32,
-
-      [theme.breakpoints.md()]: {
-        width: 40,
-        height: 40,
-        marginBottom: 16
-      }
-    },
-
-    title: {
+    header: {
+      display: 'flex',
+      alignItems: 'center',
       marginBottom: 40,
 
       [theme.breakpoints.md()]: {
         marginBottom: 48
       }
-    }
+    },
+
+    icon: {
+      marginRight: 24,
+      width: 32,
+      height: 32,
+
+      [theme.breakpoints.md()]: {
+        marginRight: 16
+      }
+    },
+
+    title: {}
   }),
   {
     name: 'MainMediumArticles'

@@ -4,7 +4,17 @@ import { Theme } from 'src/common';
 
 export const useMainCollateralStyles = createUseStyles(
   (theme: Theme) => ({
-    root: {},
+    root: {
+      padding: '20px 36px',
+
+      [theme.breakpoints.sm()]: {
+        padding: '40px 56px'
+      },
+
+      [theme.breakpoints.md()]: {
+        padding: '80px 96px'
+      }
+    },
 
     title: {
       maxWidth: 800,
@@ -18,13 +28,7 @@ export const useMainCollateralStyles = createUseStyles(
     cards: {
       display: 'grid',
       gridGap: 32,
-      maxWidth: 1120,
-      margin: '0 auto 48px',
-
-      [theme.breakpoints.lg()]: {
-        gridGap: 128,
-        gridTemplateColumns: '1fr 1fr 1fr'
-      }
+      margin: '0 auto 48px'
     }
   }),
   {
