@@ -62,7 +62,7 @@ export const WAVES_CARDS = [
   },
   {
     title: 'Become a partner',
-    text: `BondAppetit always looking for great projects to collaborate with.
+    text: `BondAppetit is always looking for great projects to collaborate with.
     If you have one, feel free to contact.`,
     link: '',
     onClick: true,

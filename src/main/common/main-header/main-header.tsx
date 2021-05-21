@@ -48,11 +48,11 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
       <div className={classes.stat}>
         <Typography variant="body1" component="div">
           <Typography variant="inherit" component="div" weight="semibold">
-            Phase {config.IS_COLLATERAL ? '2' : '1'}
+            Phase 2
           </Typography>
           <div>Real World Asset Collateral</div>
           <Typography variant="inherit" component="div" weight="semibold">
-            {countdown}
+            begins at: {countdown}
           </Typography>
         </Typography>
         <Typography variant="body1" component="div" align="right">

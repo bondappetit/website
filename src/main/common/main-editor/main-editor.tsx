@@ -17,7 +17,7 @@ export const MainEditor: React.FC<MainEditorProps> = (props) => {
   return (
     <>
       <Typography variant="h2" className={classes.title}>
-        Great and secure technology under the hood of the protocol
+        Robust and secure technology under the hood of the protocol
       </Typography>
       <div className={clsx(classes.root, props.className)}>
         <MainWindow className={classes.window}>
