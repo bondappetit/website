@@ -1,5 +1,4 @@
 import clsx from 'clsx';
-import { useWeb3React } from '@web3-react/core';
 import React from 'react';
 import { useToggle } from 'react-use';
 
@@ -19,10 +18,7 @@ import {
   useStablecoinModals
 } from 'src/stablecoin';
 import { useStakingListData } from 'src/staking';
-import { useVotingInvestingForm } from 'src/voting/voting-investing-form';
-import { useVotingInvestingAttention } from 'src/voting/voting-investing-attention';
 import { ContactsBecomePartner } from 'src/contacts/contacts-become-partner';
-import { config } from 'src/config';
 import {
   MainStaking,
   MainStablecoin,
@@ -42,8 +38,6 @@ import { MainCointelegraph } from './common/main-cointelegraph';
 
 export const Main: React.FC = () => {
   const classes = useMainStyles();
-
-  const { chainId } = useWeb3React();
 
   const {
     totalValueLocked,
@@ -70,12 +64,6 @@ export const Main: React.FC = () => {
 
   const [becomeAPartnerIsOpen, toggleBecomeAPartner] = useToggle(false);
 
-  const [openInvestingForm] = useVotingInvestingForm();
-
-  const [openVotingInvestingAttention] = useVotingInvestingAttention(
-    openInvestingForm
-  );
-
   const [linksOpen, linksToggle] = useToggle(false);
 
   const networkConfig = useNetworkConfig();
@@ -89,11 +77,7 @@ export const Main: React.FC = () => {
       <MainLayout>
         <PageWrapper className={classes.root}>
           <MainHeader
-            onBuyGov={
-              config.CHAIN_BINANCE_IDS.includes(Number(chainId))
-                ? linksToggle
-                : openVotingInvestingAttention
-            }
+            onBuyGov={linksToggle}
             totalValueLocked={humanizeNumeral(totalValueLocked)}
             stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
             govCost={humanizeNumeral(governanceInUSDC)}
