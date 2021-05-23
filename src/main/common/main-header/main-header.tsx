@@ -52,7 +52,7 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
           </Typography>
           <div>Real World Asset Collateral</div>
           <Typography variant="inherit" component="div" weight="semibold">
-            begins at: {countdown}
+            starts in: {countdown}
           </Typography>
         </Typography>
         <Typography variant="body1" component="div" align="right">
