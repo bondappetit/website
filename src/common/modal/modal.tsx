@@ -50,7 +50,7 @@ export const Modal: React.VFC<ModalProps> = (props) => {
           <ModalContext2.Provider value={{ contentRef: setRootElement }}>
             {React.cloneElement(child, {
               onClose,
-              onBack
+              ...(onBack ? { onBack } : {})
             })}
           </ModalContext2.Provider>
         </div>

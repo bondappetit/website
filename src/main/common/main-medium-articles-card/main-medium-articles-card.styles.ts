@@ -14,6 +14,10 @@ export const useMainMediumArticlesCardStyles = createUseStyles(
       }
     },
 
+    title: {
+      marginBottom: 8
+    },
+
     date: {
       color: rgba(theme.colors.primary, 0.4)
     }

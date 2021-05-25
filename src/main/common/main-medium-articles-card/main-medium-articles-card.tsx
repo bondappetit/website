@@ -19,7 +19,7 @@ export const MainMediumArticlesCard: React.VFC<MainMediumArticlesCardProps> = (
 
   return (
     <Link className={classes.article} href={props.link} target="_blank">
-      <Typography variant="body1">
+      <Typography variant="h5" className={classes.title}>
         {props.loading ? <Skeleton /> : props.title}
       </Typography>
       <Typography variant="body1" className={classes.date}>

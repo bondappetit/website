@@ -14,14 +14,8 @@ export const useMainHowItWorksStyles = createUseStyles(
       zIndex: 0,
       margin: '0 auto',
 
-      [theme.breakpoints.sm()]: {
-        paddingTop: '48.25%'
-      },
-
       [theme.breakpoints.md()]: {
-        borderRadius: 24,
-        width: '63vw',
-        paddingTop: '38.25%'
+        borderRadius: 24
       }
     },
 

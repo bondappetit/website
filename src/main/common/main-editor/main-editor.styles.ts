@@ -5,40 +5,25 @@ import { Theme } from 'src/common';
 export const useMainEditorStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
-      border: `1px solid ${theme.colors.primary}`,
-      height: 456,
-      padding: 12,
-      borderRadius: 16,
-      display: 'flex',
-      flexDirection: 'column',
-
       [theme.breakpoints.md()]: {
-        minHeight: 600,
-        padding: 24,
-        borderRadius: 24
+        display: 'flex'
       }
     },
 
-    actions: {
-      display: 'flex'
+    title: {
+      marginBottom: 48,
+      maxWidth: 872
     },
 
-    actionsItem: {
-      width: 16,
-      height: 16,
-      borderRadius: '50%',
-      border: `1px solid ${theme.colors.primary}`,
-      '&:not(:last-child)': {
-        marginRight: 8
-      },
+    window: {
+      marginBottom: 20,
 
       [theme.breakpoints.md()]: {
-        width: 24,
-        height: 24,
-
-        '&:not(:last-child)': {
-          marginRight: 16
-        }
+        width: 'calc(50% + 20px)',
+        position: 'relative',
+        right: -20,
+        bottom: -48,
+        marginBottom: 0
       }
     },
 
@@ -46,15 +31,7 @@ export const useMainEditorStyles = createUseStyles(
       display: 'flex',
       justifyContent: 'center',
       maxWidth: 327,
-      margin: 'auto 0',
-
-      [theme.breakpoints.up(369)]: {
-        margin: 'auto 12px'
-      },
-
-      [theme.breakpoints.up(405)]: {
-        margin: 'auto'
-      },
+      margin: 'auto',
 
       [theme.breakpoints.md()]: {
         maxWidth: 488

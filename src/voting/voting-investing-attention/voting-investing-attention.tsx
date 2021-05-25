@@ -1,11 +1,11 @@
 import React from 'react';
 import { analytics } from 'src/analytics';
 
-import { Button, Modal, SmallModal, Typography } from 'src/common';
+import { Button, Modal, SmallModal, Typography, useModal } from 'src/common';
 import { useVotingInvestingAttentionStyles } from './voting-investing-attention.styles';
 
 export type VotingInvestingAttentionProps = {
-  onClose: () => void;
+  onClose?: () => void;
   open: boolean;
   onBuy: () => void;
 };
@@ -49,3 +49,6 @@ export const VotingInvestingAttention: React.VFC<VotingInvestingAttentionProps> 
     </Modal>
   );
 };
+
+export const useVotingInvestingAttention = (onBuy: () => void) =>
+  useModal(<VotingInvestingAttention open onBuy={onBuy} />);

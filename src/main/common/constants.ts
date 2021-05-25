@@ -12,8 +12,6 @@ export const STEPS = [
   {
     title: 'Investment Stage',
     body: 'Stake your crypto or invest in the protocol',
-    startDate: 'April 5',
-    duration: 'Up to 3 months',
     mobileDate: 'From April 5, up to 3 months duration',
     active: !config.IS_COLLATERAL
   },
@@ -22,8 +20,6 @@ export const STEPS = [
     title: 'RWA-collateral',
     body:
       'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
-    startDate: '1 Day after P1',
-    duration: '2 years',
     mobileDate: '1 Day after P1, 2 years duration',
     active: config.IS_COLLATERAL
   },
@@ -32,8 +28,6 @@ export const STEPS = [
     title: 'Direct Investment',
     body:
       'The capitalization of the protocol reaches $100m. The issuance of governance tokens stops.',
-    startDate: '1 Day after P2',
-    duration: 'unlimited',
     mobileDate: '1 Day after P2, unlimited',
     active: false
   }
@@ -58,9 +52,9 @@ export const VOTING_TEXT = [
 export const WAVES_CARDS = [
   {
     title: 'EAST.Finance',
-    text: `BondAppetit creates ecosystem with EAST,
-    the first enterprise-grade DeFi protocol / stablecoin that
-    combines Real-World Assets with crypto`,
+    text: `BondAppetit creates an ecosystem with EAST,
+    the first enterprise-grade DeFi protocol / stablecoin
+    that combines real-world assets with crypto`,
     link: 'https://east.finance/',
     onClick: false,
     linkLabel: 'east.finance',
@@ -68,7 +62,7 @@ export const WAVES_CARDS = [
   },
   {
     title: 'Become a partner',
-    text: `BondAppetit always looking for great projects to collaborate with.
+    text: `BondAppetit is always looking for great projects to collaborate with.
     If you have one, feel free to contact.`,
     link: '',
     onClick: true,
@@ -122,7 +116,7 @@ export const TEAM = [
   {
     name: 'Alexander Ivanov',
     role: 'Advisor',
-    text: `Waves, CEO`,
+    text: `CEO of Waves`,
     photo: alexanderInvanov
   }
 ];

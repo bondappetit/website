@@ -23,7 +23,7 @@ export const useMainCointelegraphStyles = createUseStyles(
       padding: '24px 24px 68px',
 
       [theme.breakpoints.md()]: {
-        padding: '32px 48px 56px'
+        padding: '40px 56px 56px'
       }
     },
 
@@ -37,19 +37,10 @@ export const useMainCointelegraphStyles = createUseStyles(
       }
     },
 
-    cardSite: {
-      color: rgba(theme.colors.primary, 0.4)
-    },
-
     cardIcon: {
       width: 32,
       height: 32,
-      marginRight: 10,
-
-      [theme.breakpoints.md()]: {
-        width: 40,
-        height: 40
-      }
+      marginRight: 16
     },
 
     cardTitle: {

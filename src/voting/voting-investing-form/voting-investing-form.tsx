@@ -14,6 +14,7 @@ import {
   useBalance,
   useIntervalIfHasAccount,
   useInvestmentContract,
+  useModal,
   useNetworkConfig
 } from 'src/common';
 import { WalletButtonWithFallback } from 'src/wallets';
@@ -22,7 +23,7 @@ import { useInvestingForm } from './use-investing-form';
 
 export type VotingInvestingFormProps = {
   open: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   onSuccess?: () => void;
 };
 
@@ -115,7 +116,7 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
   }, [formik.values.youGet, tokenPrices.value, setFieldValue]);
 
   const handleClose = () => {
-    props.onClose();
+    props.onClose?.();
     formik.resetForm();
   };
 
@@ -171,3 +172,6 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
     </>
   );
 };
+
+export const useVotingInvestingForm = () =>
+  useModal(<VotingInvestingForm open />);
