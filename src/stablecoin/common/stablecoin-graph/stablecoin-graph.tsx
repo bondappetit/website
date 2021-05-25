@@ -81,16 +81,19 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
         <div className={classes.chart}>
           <div className={classes.lines}>
             <div className={classes.line}>
-              <div className={classes.lineLegend}>$20M</div>
+              <div className={classes.lineLegend}>$1700M</div>
             </div>
             <div className={classes.line}>
-              <div className={classes.lineLegend}>$15M</div>
+              <div className={classes.lineLegend}>$1000M</div>
             </div>
             <div className={classes.line}>
-              <div className={classes.lineLegend}>$10M</div>
+              <div className={classes.lineLegend}>$700M</div>
             </div>
             <div className={classes.line}>
-              <div className={classes.lineLegend}>$5M</div>
+              <div className={classes.lineLegend}>$300M</div>
+            </div>
+            <div className={classes.line}>
+              <div className={classes.lineLegend}>$100M</div>
             </div>
             <div className={classes.line}>
               <div className={classes.lineLegend}>$0</div>
@@ -100,7 +103,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
             <div className={classes.bar}>
               <Tippy
                 visible={isHovering5m}
-                content="$5M"
+                content="$100M"
                 maxWidth={248}
                 animation={false}
                 className={classes.tippy}
@@ -112,7 +115,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
               </Tippy>
               <Tippy
                 visible={isHovering1m}
-                content="$1M"
+                content="$5M"
                 maxWidth={248}
                 animation={false}
                 className={classes.tippy}
@@ -128,7 +131,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
             <div className={classes.bar}>
               <Tippy
                 visible={isHovering8m}
-                content="$8M"
+                content="$300M"
                 maxWidth={248}
                 animation={false}
                 className={classes.tippy}
@@ -140,7 +143,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
               </Tippy>
               <Tippy
                 visible={isHovering2m}
-                content="$2M"
+                content="$15M"
                 maxWidth={248}
                 animation={false}
                 className={classes.tippy}
@@ -155,7 +158,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
             <div className={classes.bar}>
               <Tippy
                 visible={isHovering11m}
-                content="$9M"
+                content="$700M"
                 maxWidth={248}
                 animation={false}
                 className={classes.tippy}
@@ -167,7 +170,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
               </Tippy>
               <Tippy
                 visible={isHovering4m}
-                content="$4M"
+                content="$35M"
                 maxWidth={248}
                 animation={false}
                 className={classes.tippy}
@@ -182,7 +185,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
             <div className={classes.bar}>
               <Tippy
                 visible={isHovering13m}
-                content="$13M"
+                content="$1000M"
                 maxWidth={248}
                 animation={false}
                 className={classes.tippy}
@@ -194,7 +197,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
               </Tippy>
               <Tippy
                 visible={isHovering5m2}
-                content="$5M"
+                content="$50M"
                 maxWidth={248}
                 animation={false}
                 className={classes.tippy}
@@ -209,7 +212,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
             <div className={classes.bar}>
               <Tippy
                 visible={isHovering18m}
-                content="$18M"
+                content="$1700M"
                 maxWidth={248}
                 animation={false}
                 className={classes.tippy}
@@ -221,7 +224,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
               </Tippy>
               <Tippy
                 visible={isHovering7m}
-                content="$7M"
+                content="$85M"
                 maxWidth={248}
                 animation={false}
                 className={classes.tippy}

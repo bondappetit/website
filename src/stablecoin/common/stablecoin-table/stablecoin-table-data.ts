@@ -7,7 +7,7 @@ export const STABLECOIN_TABLE_DATA = {
     'Liquidity pools with\n real cash flows'
   ],
   body: [
-    [['Appetite USD', 'USDap'], 'Real-world assets', 'Yes', 'Yes', 'Yes'],
+    [['BondAppetit USD', 'USDap'], 'Real-world assets', 'Yes', 'Yes', 'Yes'],
     [['Tether', 'USDT'], 'Fiat', 'No', 'No', 'No'],
     [['USD Coin', 'USDC'], 'Fiat', 'No', 'No', 'No'],
     [['Dai', 'DAI'], 'Crypto', 'Yes', 'Yes', 'No'],

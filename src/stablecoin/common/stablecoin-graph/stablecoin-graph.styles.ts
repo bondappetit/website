@@ -124,10 +124,10 @@ export const useStablecoinGraphStyles = createUseStyles(
 
       '&:first-child': {
         '& $barUnfilled': {
-          height: 45,
+          height: 35,
 
           [theme.breakpoints.md()]: {
-            height: 58
+            height: 46
           }
         },
 
@@ -160,36 +160,36 @@ export const useStablecoinGraphStyles = createUseStyles(
 
       '&:nth-child(3)': {
         '& $barUnfilled': {
-          height: 83,
+          height: 110,
 
           [theme.breakpoints.md()]: {
-            height: 106
+            height: 139
           }
         },
 
         '& $barFilled': {
-          height: 30,
+          height: 35,
 
           [theme.breakpoints.md()]: {
-            height: 39
+            height: 48
           }
         }
       },
 
       '&:nth-child(4)': {
         '& $barUnfilled': {
-          height: 121,
+          height: 141,
 
           [theme.breakpoints.md()]: {
-            height: 154
+            height: 184
           }
         },
 
         '& $barFilled': {
-          height: 45,
+          height: 60,
 
           [theme.breakpoints.md()]: {
-            height: 58
+            height: 80
           }
         }
       },
@@ -199,15 +199,15 @@ export const useStablecoinGraphStyles = createUseStyles(
           height: 160,
 
           [theme.breakpoints.md()]: {
-            height: 202
+            height: 230
           }
         },
 
         '& $barFilled': {
-          height: 57,
+          height: 90,
 
           [theme.breakpoints.md()]: {
-            height: 73
+            height: 120
           }
         }
       }

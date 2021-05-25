@@ -48,17 +48,17 @@ export const FAQ = [
 export const STABLE = [
   {
     title: 'Real-world debt obligations',
-    text: `USDp is the first-ever decentralized stablecoin that is based on a basket of real-world debt obligations. USDp price equals $1 at all times and asset is issued only with sufficient collateral.`,
+    text: `USDap is the first-ever decentralized stablecoin that is based on a basket of real-world debt obligations. USDap price equals $1 at all times and asset is issued only with sufficient collateral.`,
     link: URLS.whitepaper
   },
   {
     title: 'Decentralized and Transparent',
-    text: `There is no centralized issuer behind USDp — tokens are issued automatically by a smart-contract only when required collateral is available in the real world, which can be checked by any user in real time.`,
+    text: `There is no centralized issuer behind USDap — tokens are issued automatically by a smart-contract only when required collateral is available in the real world, which can be checked by any user in real time.`,
     link: URLS.whitepaper
   },
   {
     title: 'Crypto-Liquidity backed by real cash-flows',
-    text: `USDp has its own crypto liquidity pools which are partially composed of liquidity flows coming from real world assets.`,
+    text: `USDap has its own crypto liquidity pools which are partially composed of liquidity flows coming from real world assets.`,
     link: URLS.whitepaper
   }
 ];

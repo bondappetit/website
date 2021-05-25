@@ -38,9 +38,8 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
         bold="Collateral"
         text={
           <>
-            The assets of the protocol are formed by the outstanding debt of the
-            borrowers, which, in turn, is secured by real-world collateral in
-            the form of bonds kept on special security accounts.{' '}
+            USDap is backed by a basket of debt obligations with different
+            terms, interest rates (3-6% per annum), and redemption dates.{' '}
             <Link
               color="blue"
               component={ReactRouterLink}
@@ -64,7 +63,7 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
             )}
           </Typography>
           <Typography variant="h5" align="center" className={classes.subtitle}>
-            1 USDp = $1 USD
+            1 USDap = $1 USD
           </Typography>
         </div>
         <StablecoinCollateralProtocolState
