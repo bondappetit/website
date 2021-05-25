@@ -50,9 +50,9 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
           <Typography variant="inherit" component="div" weight="semibold">
             Phase 2
           </Typography>
-          <div>Real World Asset Collateral</div>
+          <div>Real-World Asset Collateral</div>
           <Typography variant="inherit" component="div" weight="semibold">
-            starts in: {countdown}
+            Begins at: {countdown}
           </Typography>
         </Typography>
         <Typography variant="body1" component="div" align="right">
