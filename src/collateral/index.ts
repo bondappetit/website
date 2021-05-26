@@ -1,1 +1,1 @@
-export { useIssuerRebalance } from './common';
+export { useIssuerRebalance, useIssuerBalance } from './common';

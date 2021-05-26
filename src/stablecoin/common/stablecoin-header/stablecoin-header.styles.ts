@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useBagHeaderStyles = createUseStyles(
+export const useStablecoinHeaderStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       display: 'flex',
@@ -27,10 +27,10 @@ export const useBagHeaderStyles = createUseStyles(
 
     title: {
       marginBottom: 16,
-      maxWidth: 615,
 
       [theme.breakpoints.md()]: {
-        marginBottom: 24
+        marginBottom: 24,
+        textAlign: 'left'
       }
     },
 
@@ -78,6 +78,6 @@ export const useBagHeaderStyles = createUseStyles(
     }
   }),
   {
-    name: 'BagHeader'
+    name: 'StablecoinHeader'
   }
 );

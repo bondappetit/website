@@ -1,11 +1,12 @@
 import { useWeb3React } from '@web3-react/core';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAsyncRetry } from 'react-use';
 
 import {
   BN,
   humanizeNumeral,
   LinkModal,
+  useChangeNetworkModal,
   useMarketContract,
   useNetworkConfig,
   useStableCoinContract
@@ -47,17 +48,32 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
 
   const reward = useRewardToken();
 
+  const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
+
+  const changeNetwork = () => {
+    openChangeNetwork();
+    props.togglelinkModal();
+  };
+
+  useEffect(() => {
+    if (!config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
+      closeChangeNetwork();
+    }
+  }, [chainId, closeChangeNetwork]);
+
   return (
     <>
       <LinkModal
         open={props.linkModalOpen}
         onClose={props.togglelinkModal}
         withBuyMarket={state.value && config.IS_COLLATERAL}
-        onBuyCollateralMarket={props.onBuyCollateralMarket}
-        onBuyMarket={props.onBuyMarket}
-        withBuyCollateralMarket={
-          !config.CHAIN_BINANCE_IDS.includes(Number(chainId))
+        onBuyCollateralMarket={
+          config.CHAIN_BINANCE_IDS.includes(Number(chainId))
+            ? changeNetwork
+            : props.onBuyCollateralMarket
         }
+        onBuyMarket={props.onBuyMarket}
+        withBuyCollateralMarket
         tokenName={networkConfig.assets.Stable.symbol}
         tokenAddress={networkConfig.assets.Stable.address}
         rewardPercent={humanizeNumeral(reward.value?.rewardPercent)}

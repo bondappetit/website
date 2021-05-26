@@ -51,7 +51,12 @@ export const BagInstruction: React.FC<BagInstructionProps> = (props) => {
               <ul className={classes.decisionCardList}>
                 {governanceItem.text.map((text) => (
                   <li key={text} className={classes.decisionCardListItem}>
-                    <Typography variant="body1">{text}</Typography>
+                    <Typography
+                      variant="body1"
+                      className={classes.decisionCardListText}
+                    >
+                      {text}
+                    </Typography>
                   </li>
                 ))}
               </ul>

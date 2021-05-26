@@ -7,16 +7,19 @@ import { ReactComponent as BtcIcon } from 'src/assets/icons/coins/btc.svg';
 import { ReactComponent as EthIcon } from 'src/assets/icons/coins/eth.svg';
 import { ReactComponent as USDNIcon } from 'src/assets/icons/coins/usdn.svg';
 import { ReactComponent as BNBIcon } from 'src/assets/icons/coins/bnb.svg';
+import { ReactComponent as PAXIcon } from 'src/assets/icons/coins/pax.svg';
 
 export const COIN_ICONS = new Map<string, typeof BAGicon>([
   ['BAG', BAGicon],
   ['bBAG', BAGicon],
   ['BNB', BNBIcon],
+  ['BUSD', BNBIcon],
   ['USDap', USDapicon],
   ['DAI', DaiIcon],
   ['WBTC', BtcIcon],
   ['ETH', EthIcon],
   ['USDT', UsdtIcon],
   ['USDC', USDCicon],
-  ['USDN', USDNIcon]
+  ['USDN', USDNIcon],
+  ['PAX', PAXIcon]
 ]);

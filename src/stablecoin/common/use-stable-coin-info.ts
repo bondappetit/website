@@ -1,23 +1,16 @@
 import { useQuery, useNetworkConfig } from 'src/common';
-
-const url = 'https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v2';
+import { config } from 'src/config';
 
 const QUERY = `
-  query TokenDayDatas($token: String!) {
-    tokenDayDatas(
-      first: 5
-      orderBy: date
-      orderDirection: desc
-      where:{ token: $token }
+  query Token($filter: TokenQueryFilterInputType!) {
+    token(
+      filter: $filter
     ) {
-      token {
-        id
-        symbol
-        decimals
+      data {
+        statistic {
+          totalLiquidityUSD
+        }
       }
-      date
-      dailyVolumeUSD
-      totalLiquidityUSD
     }
   }
 `;
@@ -26,22 +19,15 @@ const DEFAULT_ADDRESS = '0x0000000000000000000000000000000000000000';
 
 type Maybe<T> = T | null;
 
-type Token = {
-  decimals: Maybe<string>;
-  id: Maybe<string>;
-  symbol: Maybe<string>;
-};
-
-type TokenDayDatas = {
-  dailyVolumeUSD: Maybe<string>;
-  date: Maybe<number>;
-  token: Maybe<Token>;
-  totalLiquidityUSD: Maybe<string>;
-};
-
 export type SablecoinInfo = {
   data: {
-    tokenDayDatas: TokenDayDatas[];
+    token: Maybe<{
+      data: Maybe<{
+        statistic: Maybe<{
+          totalLiquidityUSD: Maybe<string>;
+        }>;
+      }>;
+    }>;
   };
 };
 
@@ -49,13 +35,13 @@ export const useStablecoinInfo = () => {
   const networkConfig = useNetworkConfig();
 
   const state = useQuery<SablecoinInfo>(
-    url,
+    config.API_URL ?? '',
     {
       query: QUERY,
       variables: {
-        token: (
-          networkConfig.assets.Stable?.address ?? DEFAULT_ADDRESS
-        ).toLowerCase()
+        filter: {
+          address: networkConfig.assets.Stable?.address ?? DEFAULT_ADDRESS
+        }
       }
     },
     [networkConfig.assets]

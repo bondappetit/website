@@ -2,7 +2,7 @@ import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
 
-export const useBagInstructionStyles = createUseStyles(
+export const useStablecoinFeaturesStyles = createUseStyles(
   (theme: Theme) => ({
     decision: {
       display: 'grid',
@@ -40,16 +40,11 @@ export const useBagInstructionStyles = createUseStyles(
       }
     },
 
-    decisionCardTitle: {
+    decisionCardText: {
       marginBottom: 8,
 
-      [theme.breakpoints.lg()]: {
-        marginBottom: 24
-      }
-    },
-
-    decisionCardListText: {
       [theme.breakpoints.down(1279)]: {
+        marginBottom: 4,
         fontSize: 14,
         lineHeight: '20px'
       }
@@ -67,6 +62,6 @@ export const useBagInstructionStyles = createUseStyles(
     }
   }),
   {
-    name: 'BagInstruction'
+    name: 'StablecoinFeatures'
   }
 );

@@ -1,3 +1,5 @@
+import { URLS } from 'src/router/urls';
+
 export const FAQ = [
   {
     title: 'What is the price stability mechanism?',
@@ -31,5 +33,32 @@ export const FAQ = [
       `USDap represents a means of transferring value and it is defined as such exclusively by market participants.
       The token itself does not imply any obligations of the protocol, any of its participants, or third-parties.`
     ]
+  },
+
+  {
+    title:
+      'If a bond defaults, are USDap bought back? If so, who pays for them?',
+    body: [
+      `In the event of a significant change in asset prices or a default, the protocol may initiate additional capitalization: `
+    ],
+    link: '/whitepaper#6'
+  }
+];
+
+export const STABLE = [
+  {
+    title: 'Real-world debt obligations',
+    text: `USDap is the first-ever decentralized stablecoin that is based on a basket of real-world debt obligations. USDap price equals $1 at all times and asset is issued only with sufficient collateral.`,
+    link: URLS.whitepaper
+  },
+  {
+    title: 'Decentralized and Transparent',
+    text: `There is no centralized issuer behind USDap — tokens are issued automatically by a smart-contract only when required collateral is available in the real world, which can be checked by any user in real time.`,
+    link: URLS.whitepaper
+  },
+  {
+    title: 'Crypto-Liquidity backed by real cash-flows',
+    text: `USDap has its own crypto liquidity pools which are partially composed of liquidity flows coming from real world assets.`,
+    link: URLS.whitepaper
   }
 ];

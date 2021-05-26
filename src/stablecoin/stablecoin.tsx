@@ -2,15 +2,20 @@ import React from 'react';
 
 import { Head, PageWrapper } from 'src/common';
 import { MainLayout } from 'src/layouts';
+import { useIssuerBalance } from 'src/collateral';
 import {
-  StablecoinDecentralized,
-  StablecoinEllipse,
+  StablecoinCollateral,
+  StablecoinGraph,
   StablecoinFaq,
+  StablecoinHeader,
   StablecoinTable,
+  useStableCoinBalance,
   useStablecoinInfo
 } from './common';
 import { useStablecoinStyles } from './stablecoin.styles';
 import { StablecoinModals, useStablecoinModals } from './stablecoin-modals';
+import { StablecoinFeatures } from './common/stablecoin-features/stablecoin-features';
+import StablecoinBuyingSelling from './common/stablecoin-buying-selling/stablecoin-buying-selling';
 
 export const Stablecoin: React.FC = () => {
   const classes = useStablecoinStyles();
@@ -30,20 +35,36 @@ export const Stablecoin: React.FC = () => {
     toggleCollateralMarketModal
   } = useStablecoinModals();
 
+  const stableCoinBalance = useStableCoinBalance();
+  const issuerBalance = useIssuerBalance();
+
   return (
     <>
       <Head title="The first-ever decentralized stablecoin based on real-world assets." />
       <MainLayout>
         <PageWrapper>
-          <StablecoinEllipse
+          <StablecoinHeader className={classes.header} />
+          <StablecoinGraph
             className={classes.section}
-            onBuy={togglelinkModal}
-            onSell={toggleSellModal}
             loading={stablecoinInfo.loading}
             tokenInfo={stablecoinInfo.value}
-          />
-          <StablecoinDecentralized className={classes.section} />
+          >
+            <StablecoinBuyingSelling
+              onBuy={togglelinkModal}
+              onSell={toggleSellModal}
+              stableCoinBalanceLoading={stableCoinBalance.loading}
+              stableCoinBalanceValue={stableCoinBalance.value}
+            />
+          </StablecoinGraph>
+          <StablecoinFeatures className={classes.section} />
           <StablecoinTable className={classes.section} />
+          <StablecoinCollateral
+            stableCoinBalanceLoading={stableCoinBalance.loading}
+            stableCoinBalanceValue={stableCoinBalance.value}
+            issuerBalanceLoading={issuerBalance.loading}
+            issuerBalanceValue={issuerBalance.value}
+            className={classes.section}
+          />
           <StablecoinFaq className={classes.section} />
         </PageWrapper>
       </MainLayout>

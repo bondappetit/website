@@ -1,11 +1,14 @@
+/* eslint-disable react/jsx-curly-brace-presence */
 import React from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { ReactComponent as ExpandIcon } from 'src/assets/icons/plus.svg';
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Typography
+  Typography,
+  Link
 } from 'src/common';
 import { useStablecoinFaqStyles } from './stablecoin-faq.styles';
 import { FAQ } from '../constants';
@@ -18,19 +21,31 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
   const classes = useStablecoinFaqStyles();
 
   return (
-    <div className={props.className}>
-      <Typography variant="h2" align="center" className={classes.title}>
-        FAQ
+    <div className={props.className} id="faq">
+      <Typography variant="h3" weight="semibold" className={classes.title}>
+        Learn more about USDap
       </Typography>
       {FAQ.map((faqItem) => (
         <Accordion key={faqItem.title}>
           <AccordionSummary expandIcon={<ExpandIcon width="32" height="32" />}>
-            <Typography variant="h5">{faqItem.title}</Typography>
+            <Typography variant="h4">{faqItem.title}</Typography>
           </AccordionSummary>
           <AccordionDetails className={classes.detail}>
             {faqItem.body.map((faqBodyText) => (
-              <Typography variant="body1" key={faqBodyText}>
+              <Typography variant="h5" key={faqBodyText}>
                 {faqBodyText}
+                {faqItem.link && (
+                  <Link
+                    component={ReactRouterLink}
+                    to={faqItem.link}
+                    color="blue"
+                  >
+                    {[window.location.protocol, window.location.host].join(
+                      '//'
+                    )}
+                    {faqItem.link}
+                  </Link>
+                )}
               </Typography>
             ))}
           </AccordionDetails>
