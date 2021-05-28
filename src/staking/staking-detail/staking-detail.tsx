@@ -127,8 +127,6 @@ export const StakingDetail: React.FC = () => {
       unstake.value?.unstakingStartBlock
     );
 
-  // console.log(unstake);
-
   return (
     <>
       <Head title={`Staking ${tokenName}`} />
