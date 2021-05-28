@@ -12,6 +12,15 @@ import { useContractListStyles } from './contract-list.styles';
 
 export type ContractListProps = unknown;
 
+const Card: React.VFC<{ name: string; address: string }> = (props) => (
+  <li>
+    <div>
+      <Typography variant="h5">{props.name}</Typography>
+      <MarkdownCode value={props.address} />
+    </div>
+  </li>
+);
+
 export const ContractList: React.VFC<ContractListProps> = () => {
   const networkConfig = useNetworkConfig();
 
@@ -33,26 +42,20 @@ export const ContractList: React.VFC<ContractListProps> = () => {
         <div className={classes.root}>
           <Typography variant="h2">Binance contracts</Typography>
           <ul className={classes.list}>
+            <Card
+              name={networks.mainBSC.assets.bBAG.symbol}
+              address={networks.mainBSC.assets.bBAG.address}
+            />
             {Object.values(networks.mainBSC.contracts).map(
               ({ name, address }) => (
-                <li key={address}>
-                  <div>
-                    <Typography variant="h5">{name}</Typography>
-                    <MarkdownCode value={address} />
-                  </div>
-                </li>
+                <Card key={address} name={name} address={address} />
               )
             )}
           </ul>
           <Typography variant="h2">Ethereum contracts</Typography>
           <ul className={classes.list}>
             {contracts.map(({ name, address }) => (
-              <li key={address}>
-                <div>
-                  <Typography variant="h5">{name}</Typography>
-                  <MarkdownCode value={address} />
-                </div>
-              </li>
+              <Card key={address} name={name} address={address} />
             ))}
           </ul>
         </div>

@@ -127,6 +127,8 @@ export const StakingDetail: React.FC = () => {
       unstake.value?.unstakingStartBlock
     );
 
+  // console.log(unstake);
+
   return (
     <>
       <Head title={`Staking ${tokenName}`} />
@@ -175,10 +177,7 @@ export const StakingDetail: React.FC = () => {
                     You staked {loading ? '...' : <>{tokenName}</>}
                   </Typography>
                   <Typography variant="h2" align="center">
-                    {stakingItem?.amount.isNaN() ||
-                    !stakingItem?.amount.isFinite()
-                      ? '0'
-                      : humanizeNumeral(stakingItem?.amount)}
+                    {humanizeNumeral(stakingItem?.amount, 5)}
                   </Typography>
                   <Typography
                     variant="body1"
