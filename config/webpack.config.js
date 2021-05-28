@@ -25,6 +25,7 @@ const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpack
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const CircularDependencyPlugin = require('circular-dependency-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const GitRevisionPlugin = require('git-revision-webpack-plugin')
 
 const postcssNormalize = require('postcss-normalize');
 
@@ -48,6 +49,8 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+
+const gitRevisionPlugin = new GitRevisionPlugin()
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -511,6 +514,11 @@ module.exports = function (webpackEnv) {
       ]
     },
     plugins: [
+      new webpack.EnvironmentPlugin({
+        COMMIT_HASH: gitRevisionPlugin.commithash(),
+        BRANCH: gitRevisionPlugin.branch(),
+        BUILD_DATE: new Date().toISOString()
+      }),
       new CircularDependencyPlugin({
         exclude: /a\.js|(node_modules)/,
         failOnError: false,

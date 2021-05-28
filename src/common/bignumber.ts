@@ -17,7 +17,10 @@ const formatDecimals = (result: string) => {
   return new BN(floatValue).isZero() ? integerValue : result;
 };
 
-function humanizeNumeral(value: string | number | undefined | null | BN) {
+function humanizeNumeral(
+  value: string | number | undefined | null | BN,
+  decimal = 2
+) {
   if (value === undefined || value === null) return '0';
 
   const result = BN.isBigNumber(value) ? value : new BN(value);
@@ -26,18 +29,18 @@ function humanizeNumeral(value: string | number | undefined | null | BN) {
 
   if (result.isInteger()) return result.toFormat(0);
 
-  if (result.lt(10)) return formatDecimals(result.toFormat(2));
+  if (result.lt(10)) return formatDecimals(result.toFormat(decimal));
 
-  if (result.lt(10000)) return formatDecimals(result.toFormat(2));
+  if (result.lt(10000)) return formatDecimals(result.toFormat(decimal));
 
-  if (result.lt(100000)) return formatDecimals(result.toFormat(2));
+  if (result.lt(100000)) return formatDecimals(result.toFormat(decimal));
 
-  if (result.lt(1000000)) return formatDecimals(result.toFormat(2));
+  if (result.lt(1000000)) return formatDecimals(result.toFormat(decimal));
 
   if (result.isGreaterThanOrEqualTo(1000000000))
-    return `${formatDecimals(result.div(1000000000).toFormat(2))}B`;
+    return `${formatDecimals(result.div(1000000000).toFormat(decimal))}B`;
 
-  return `${formatDecimals(result.div(1000000).toFormat(2))}M`;
+  return `${formatDecimals(result.div(1000000).toFormat(decimal))}M`;
 }
 
 export { BN, humanizeNumeral };

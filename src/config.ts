@@ -30,5 +30,8 @@ export const config = {
   YM_ID: 75624769,
   PANCAKESWAP_URL: process.env.REACT_APP_PANCAKESWAP_URL,
   WAVES_URL: process.env.REACT_APP_WAVES_URL,
-  COUNTDOWN: '2021-07-6'
+  COUNTDOWN: '2021-07-6',
+  COMMIT_HASH: process.env.COMMIT_HASH,
+  BRANCH: process.env.BRANCH,
+  BUILD_DATE: process.env.BUILD_DATE
 };

@@ -7,6 +7,8 @@ export const Sentry = {
   options: (): SentryReact.BrowserOptions => ({
     dsn: config.SENTRY,
     environment: config.ENV,
+    release: process.env.COMMITHASH,
+    debug: config.IS_DEV,
     integrations: [new Integrations.BrowserTracing()],
     tracesSampleRate: 1.0,
 
@@ -30,6 +32,21 @@ export const Sentry = {
       }
 
       SentryReact.captureException(err);
+    });
+  },
+
+  configureScope: (user: {
+    account: string;
+    wallet: string;
+    chainId: number;
+  }) => {
+    SentryReact.configureScope((scope) => {
+      scope.setUser({
+        account: user.account,
+        wallet: user.wallet,
+        chainId: user.chainId,
+        buildDate: config.BUILD_DATE
+      });
     });
   }
 };

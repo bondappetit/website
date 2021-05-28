@@ -317,20 +317,28 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
             {props.unstakingStartBlock?.isGreaterThan(0) &&
               props.lockable &&
               props.chainId === currentChainId && (
-                <WalletButtonWithFallback
-                  type="button"
-                  disabled={formik.isSubmitting}
-                  loading={formik.isSubmitting}
-                  key={approve.value?.allowance.toString(10)}
-                  onClick={
-                    new BN(formik.values.amount || '0').isGreaterThan(0) &&
-                    props.balanceOfToken.isGreaterThan(0)
-                      ? toggleStakingAttention
-                      : addLiquidity
-                  }
-                >
-                  {buttonTitle}
-                </WalletButtonWithFallback>
+                <>
+                  {staking.value?.cant ? (
+                    <Typography variant="body2" align="center">
+                      Staking ended
+                    </Typography>
+                  ) : (
+                    <WalletButtonWithFallback
+                      type="button"
+                      disabled={formik.isSubmitting}
+                      loading={formik.isSubmitting}
+                      key={approve.value?.allowance.toString(10)}
+                      onClick={
+                        new BN(formik.values.amount || '0').isGreaterThan(0) &&
+                        props.balanceOfToken.isGreaterThan(0)
+                          ? toggleStakingAttention
+                          : addLiquidity
+                      }
+                    >
+                      {buttonTitle}
+                    </WalletButtonWithFallback>
+                  )}
+                </>
               )}
             {((props.unstakingStartBlock?.isLessThanOrEqualTo(0) &&
               props.chainId === currentChainId) ||
