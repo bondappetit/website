@@ -211,7 +211,7 @@ export const BinanceChain: React.VFC<BinanceChainProps> = (props) => {
   return (
     <div>
       <Typography variant="body1" align="center">
-        Move your bBAG to Etherium
+        Move your bBAG to Ethereum
       </Typography>
       <FormikProvider value={formik}>
         <BridgeForm
