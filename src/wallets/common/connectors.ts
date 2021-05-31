@@ -2,7 +2,6 @@ import type { AbstractConnector } from '@web3-react/abstract-connector';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { LedgerConnector } from '@web3-react/ledger-connector';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { WalletLinkConnector } from '@web3-react/walletlink-connector';
 import { FortmaticConnector } from '@web3-react/fortmatic-connector';
 import { PortisConnector } from '@web3-react/portis-connector';
 import { TrezorConnector } from '@web3-react/trezor-connector';
@@ -19,6 +18,7 @@ import { ReactComponent as TrustIcon } from 'src/assets/icons/trustwallet.svg';
 import { ReactComponent as TrezorIcon } from 'src/assets/icons/trezor-wallet.svg';
 import { ReactComponent as BinanceIcon } from 'src/assets/icons/binance-wallet.svg';
 import { config } from 'src/config';
+import { WalletLinkConnector } from './wallet-link';
 
 export const injected = new InjectedConnector({
   supportedChainIds: [...config.CHAIN_IDS, ...config.CHAIN_BINANCE_IDS]
