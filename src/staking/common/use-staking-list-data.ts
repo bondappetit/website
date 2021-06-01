@@ -13,7 +13,7 @@ import { config } from 'src/config';
 import {
   StakingListQuery,
   StakingQuery,
-  UniswapPairPayload,
+  useSwopfiPairQuery,
   useTokenPriceQuery
 } from 'src/graphql/_generated-hooks';
 import {
@@ -28,7 +28,7 @@ type StakingToken = {
   token: string[];
   contractName: string;
   configAddress: string;
-  pair?: UniswapPairPayload['data'];
+  pair?: StakingListQuery['stakingList'][number]['stakingTokenUniswap'];
   staking?: StakingQuery['staking']['data'];
   chainId?: number;
   sort: number;
@@ -64,8 +64,20 @@ const useStakingListQuery = () =>
     query: STAKING_LIST_QUERY_STRING
   });
 
+const SWOP_FI_ADDRESS = '3PPH7x7iqobW5ziyiRCic19rQqKr6nPYaK1';
+
 export const useStakingListData = (address?: string) => {
   const { stakingConfig, stakingConfigValues } = useStakingConfig();
+
+  const swopfiQuery = useSwopfiPairQuery({
+    variables: {
+      filter: {
+        address: SWOP_FI_ADDRESS
+      }
+    },
+
+    pollInterval: config.POLLING_INTERVAL
+  });
 
   const { account: web3Account = null, chainId: web3chainId } = useWeb3React<
     Web3
@@ -124,7 +136,7 @@ export const useStakingListData = (address?: string) => {
           if (!stakingList.data) return [];
 
           return stakingList.data?.stakingList.reduce(
-            (res: StakingToken[], staking) => {
+            (res, staking): StakingToken[] => {
               const stakingConfigItem = stakingConfigAddresses.find(
                 ({ configAddress }) => configAddress === staking.address
               );
@@ -137,6 +149,7 @@ export const useStakingListData = (address?: string) => {
                 sort,
                 status
               } = stakingConfigItem;
+
               return [
                 ...res,
                 {
@@ -151,7 +164,7 @@ export const useStakingListData = (address?: string) => {
                 }
               ];
             },
-            []
+            [] as StakingToken[]
           );
         }
       )
@@ -237,13 +250,15 @@ export const useStakingListData = (address?: string) => {
   );
 
   const totalValueLocked = useMemo(() => {
-    if (!stakingList) return new BN(0);
+    if (!stakingList || !swopfiQuery.data) return new BN(0);
 
-    return stakingList.reduce(
-      (acc, stakingItem) => acc.plus(stakingItem.totalValueLocked),
-      new BN(0)
-    );
-  }, [stakingList]);
+    return stakingList
+      .reduce(
+        (acc, stakingItem) => acc.plus(stakingItem.totalValueLocked),
+        new BN(0)
+      )
+      .plus(swopfiQuery.data.swopfiPair.data?.totalLiquidityUSD ?? '0');
+  }, [stakingList, swopfiQuery.data]);
 
   const rewardSum = useMemo(
     () =>
@@ -273,6 +288,7 @@ export const useStakingListData = (address?: string) => {
   return {
     totalValueLocked,
     volume24: govToken.data?.token.data?.statistic?.dailyVolumeUSD,
+    swopfiItem: swopfiQuery.data?.swopfiPair.data,
     governanceInUSDC,
     stakingList,
     rewardSum,

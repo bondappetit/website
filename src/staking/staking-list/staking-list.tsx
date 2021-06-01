@@ -30,7 +30,8 @@ export const StakingList: React.VFC = () => {
     volume24,
     governanceInUSDC,
     stakingList,
-    rewardSum
+    rewardSum,
+    swopfiItem
   } = useStakingListData();
 
   return (
@@ -98,7 +99,10 @@ export const StakingList: React.VFC = () => {
                     />
                   );
                 })}
-            <StakingSwopFi />
+            <StakingSwopFi
+              tvl={swopfiItem?.totalLiquidityUSD}
+              apy={swopfiItem?.apr.year}
+            />
           </div>
           {!config.IS_COLLATERAL && <StakingInfo />}
         </PageWrapper>
