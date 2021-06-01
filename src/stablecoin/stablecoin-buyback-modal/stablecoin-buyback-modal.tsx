@@ -23,7 +23,8 @@ import {
   reset,
   useIntervalIfHasAccount,
   useBuybackDepositaryBalanceView,
-  useModal
+  useModal,
+  useUSDCContract
 } from 'src/common';
 import { WalletButtonWithFallback } from 'src/wallets';
 
@@ -85,6 +86,8 @@ export const StablecoinBuybackModal: React.VFC<StablecoinBuybackModalProps> = (
     return balance;
   }, [network.assets.USDC]);
 
+  const usdcContract = useUSDCContract();
+
   const formik = useFormik({
     initialValues: {
       currency: 'USDap',
@@ -110,7 +113,17 @@ export const StablecoinBuybackModal: React.VFC<StablecoinBuybackModalProps> = (
         ({ symbol }) => symbol === formValues.currency
       );
 
-      if (!currentToken) return;
+      if (!currentToken || !buybackDepositary || !usdcContract) return errors;
+
+      const buybackBalance = new BN(
+        await usdcContract?.methods
+          .balanceOf(buybackDepositary.options.address)
+          .call()
+      ).div(new BN(10).pow(network.assets.USDC.decimals));
+
+      if (buybackBalance.isLessThan(formValues.youGet)) {
+        errors.youGet = 'Not enough USDC';
+      }
 
       const balanceOfToken = await getBalance({
         tokenAddress: currentToken.address,
@@ -256,7 +269,10 @@ export const StablecoinBuybackModal: React.VFC<StablecoinBuybackModalProps> = (
             >
               {(!approve.value?.approve && !approve.value?.reset) ||
               new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
-                ? formik.errors.payment || formik.errors.currency || 'Buy'
+                ? formik.errors.payment ||
+                  formik.errors.currency ||
+                  formik.errors.youGet ||
+                  'Buy'
                 : 'Approve'}
             </WalletButtonWithFallback>
           }
