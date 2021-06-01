@@ -77,6 +77,12 @@ export const useStakingCardStyles = createUseStyles(
 
     plus: {
       margin: '0 8px'
+    },
+
+    status: {
+      fontSize: 32,
+      lineHeight: '40px',
+      marginBottom: 40
     }
   }),
   {

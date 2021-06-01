@@ -73,6 +73,11 @@ export const useStakingHeaderStyles = createUseStyles(
           width: 32,
           height: 32
         }
+      },
+
+      status: {
+        fontSize: 32,
+        lineHeight: '40px'
       }
     };
   },

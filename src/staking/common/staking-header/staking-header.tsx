@@ -1,7 +1,8 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { Typography, COIN_ICONS, humanizeNumeral } from 'src/common';
+import { Typography, COIN_ICONS, humanizeNumeral, Status } from 'src/common';
+import { StakingStatuses } from 'src/staking-config';
 import { useStakingHeaderStyles } from './staking-header.styles';
 import { StakingLabel } from '../staking-label';
 
@@ -16,6 +17,7 @@ export type StakingHeaderProps = {
   loading: boolean;
   depositToken?: string;
   earnToken?: string;
+  status?: StakingStatuses;
 };
 
 export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
@@ -39,9 +41,21 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
                   );
                 })}
           </Typography>
-          <Typography variant="h2" align="center">
-            APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
-          </Typography>
+          {props.status === StakingStatuses.archived ? (
+            <Typography variant="h2" align="center">
+              <Status
+                color="black"
+                variant="contained"
+                className={classes.status}
+              >
+                Archived
+              </Status>
+            </Typography>
+          ) : (
+            <Typography variant="h2" align="center">
+              APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
+            </Typography>
+          )}
         </div>
         <div className={classes.info}>
           <StakingLabel

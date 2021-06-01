@@ -12,6 +12,7 @@ import {
 } from 'src/common';
 import { Maybe } from 'src/graphql/_generated-hooks';
 import { URLS } from 'src/router/urls';
+import { StakingStatuses } from 'src/staking-config';
 import { StakingLabel } from '../staking-label';
 import { useStakingCardStyles } from './staking-card.styles';
 
@@ -29,11 +30,10 @@ export type StakingCardProps = {
   earnToken?: string;
   stakingEndBlock?: string | null;
   stakingEndDate?: string | null;
+  status?: StakingStatuses;
 };
 
-export const StakingCard: React.FC<StakingCardProps> = (props) => {
-  const tokenName = useMemo(() => props.token?.join('_'), [props.token]);
-
+export const StakingCard: React.VFC<StakingCardProps> = (props) => {
   const classes = useStakingCardStyles();
 
   const networkName = useMemo(() => {
@@ -82,16 +82,15 @@ export const StakingCard: React.FC<StakingCardProps> = (props) => {
               );
             })}
       </Typography>
-      <Typography variant="h3" align="center" className={classes.apy}>
-        APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
-      </Typography>
-      <StakingLabel
-        title="Deposit"
-        value={tokenName}
-        variant="body1"
-        loading={Boolean(props.loading)}
-        className={classes.deposit}
-      />
+      {StakingStatuses.archived === props.status ? (
+        <Status color="black" variant="contained" className={classes.status}>
+          Archived
+        </Status>
+      ) : (
+        <Typography variant="h3" align="center" className={classes.apy}>
+          APY {props.loading ? '...' : <>{humanizeNumeral(props.APY)} %</>}
+        </Typography>
+      )}
       <StakingLabel
         title="Earn"
         value={props.earnToken}

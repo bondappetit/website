@@ -16,7 +16,11 @@ import {
   UniswapPairPayload,
   useTokenPriceQuery
 } from 'src/graphql/_generated-hooks';
-import { StakingConfig, useStakingConfig } from 'src/staking-config';
+import {
+  StakingConfig,
+  StakingStatuses,
+  useStakingConfig
+} from 'src/staking-config';
 import { useGovernanceCost } from './use-governance-cost';
 import { STAKING_LIST_QUERY_STRING } from './graphql/staking-list-query.graphql';
 
@@ -28,6 +32,7 @@ type StakingToken = {
   staking?: StakingQuery['staking']['data'];
   chainId?: number;
   sort: number;
+  status: StakingStatuses;
 };
 
 export type SakingItem = {
@@ -51,6 +56,7 @@ export type SakingItem = {
   earnToken: string;
   stakingEndBlock?: string | null;
   stakingEndDate?: string | null;
+  status: StakingStatuses;
 };
 
 const useStakingListQuery = () =>
@@ -128,7 +134,8 @@ export const useStakingListData = (address?: string) => {
                 contractName,
                 configAddress,
                 token,
-                sort
+                sort,
+                status
               } = stakingConfigItem;
               return [
                 ...res,
@@ -139,7 +146,8 @@ export const useStakingListData = (address?: string) => {
                   configAddress,
                   token,
                   chainId: stakingConfigItem.chainId,
-                  sort
+                  sort,
+                  status
                 }
               ];
             },
@@ -220,7 +228,8 @@ export const useStakingListData = (address?: string) => {
               Number(stakingAddress.chainId)
             )
               ? 'bBAG'
-              : 'BAG'
+              : 'BAG',
+            status: stakingAddress.status
           };
         }
       ),

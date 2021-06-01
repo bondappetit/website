@@ -52,6 +52,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
                   earnToken={stakingItem.earnToken}
                   stakingEndBlock={stakingItem.stakingEndBlock}
                   stakingEndDate={stakingItem.stakingEndDate}
+                  status={stakingItem.status}
                 />
               );
             })}
