@@ -45,6 +45,10 @@ export const useBridgeBinanceBalanceStyles = createUseStyles(
           marginBottom: 0
         }
       }
+    },
+
+    buyButton: {
+      color: theme.colors.secondary
     }
   }),
   {

@@ -78,7 +78,9 @@ export const EthChain: React.VFC<EthChainProps> = (props) => {
     validate: async (formValues) => {
       const errors: Partial<typeof formValues> = {};
 
-      if (!formValues.amount) {
+      const formValuesAmount = new BN(formValues.amount);
+
+      if (formValuesAmount.isLessThanOrEqualTo(0)) {
         errors.amount = 'BAG is required';
       }
 

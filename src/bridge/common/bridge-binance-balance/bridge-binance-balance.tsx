@@ -1,5 +1,6 @@
 import React from 'react';
 import networks from '@bondappetit/networks';
+import clsx from 'clsx';
 
 import { Button, cutAccount, Link, Typography } from 'src/common';
 import { useBridgeBinanceBalanceStyles } from './bridge-binance-balance.styles';
@@ -37,7 +38,7 @@ export const BridgeBinanceBalance: React.VFC<BridgeBinanceBalanceProps> = (
       </Typography>
       <div className={classes.actions}>
         <Button
-          className={classes.button}
+          className={clsx(classes.button, classes.buyButton)}
           component={Link}
           href={BLOG_URL}
           target="_blank"
