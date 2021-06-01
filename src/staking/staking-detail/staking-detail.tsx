@@ -143,6 +143,7 @@ export const StakingDetail: React.FC = () => {
             poolRate={stakingItem?.poolRate}
             loading={loading}
             earnToken={stakingItem?.earnToken}
+            status={stakingItem?.status}
           />
           <div className={classes.row}>
             <Plate className={classes.card}>
@@ -162,6 +163,7 @@ export const StakingDetail: React.FC = () => {
                 loading={loading}
                 depositToken={depositToken}
                 chainId={stakingItem?.chainId}
+                status={stakingItem?.status}
               />
             </Plate>
             <Plate className={clsx(classes.card, classes.cardFlex)}>

@@ -91,6 +91,8 @@ export type Query = {
   mediumPostList: Array<MediumPostType>;
   wallet: WalletPayload;
   walletList: Array<WalletType>;
+  swopfiPair: SwopfiPairPayload;
+  swopfiPairList: Array<SwopfiPairType>;
 };
 
 export type QueryTokenArgs = {
@@ -123,6 +125,14 @@ export type QueryWalletArgs = {
 
 export type QueryWalletListArgs = {
   filter?: Maybe<WalletListQueryFilterInputType>;
+};
+
+export type QuerySwopfiPairArgs = {
+  filter: SwopfiPairQueryFilterInputType;
+};
+
+export type QuerySwopfiPairListArgs = {
+  filter?: Maybe<SwopfiPairListQueryFilterInputType>;
 };
 
 export type StakingAprType = {
@@ -262,6 +272,57 @@ export type StakingUserType = {
   earnedFloat: Scalars['String'];
 };
 
+export type SwopfiLpAprType = {
+  __typename?: 'SwopfiLPAprType';
+  /** APR per year */
+  year: Scalars['String'];
+};
+
+export type SwopfiPairListQueryFilterInputType = {
+  /** List of target pair addresses */
+  address?: Maybe<Array<Scalars['String']>>;
+};
+
+export type SwopfiPairPayload = {
+  __typename?: 'SwopfiPairPayload';
+  data?: Maybe<SwopfiPairType>;
+  error?: Maybe<Scalars['String']>;
+};
+
+export type SwopfiPairQueryFilterInputType = {
+  /** Target pair address */
+  address: Scalars['String'];
+};
+
+export type SwopfiPairType = {
+  __typename?: 'SwopfiPairType';
+  /** Pair address */
+  address: Scalars['String'];
+  /** Token 0 */
+  token0Address: Scalars['String'];
+  /** Token 0 */
+  token1Address: Scalars['String'];
+  /** Token 0 reserve */
+  token0Reserve: Scalars['String'];
+  /** Token 0 reserve normalize */
+  token0ReserveFloat: Scalars['String'];
+  /** Token 1 reserve */
+  token1Reserve: Scalars['String'];
+  /** Token 1 reserve normalize */
+  token1ReserveFloat: Scalars['String'];
+  /** Daily income */
+  incomeUSD: Scalars['String'];
+  /** Total liquidity */
+  totalLiquidityUSD: Scalars['String'];
+  /** Daily fees */
+  dailyFeesUSD: Scalars['String'];
+  /** Daily volume */
+  dailyVolumeUSD: Scalars['String'];
+  /** Daily transactions count */
+  dailyTxCount: Scalars['String'];
+  apr: SwopfiLpAprType;
+};
+
 export type TokenListQueryFilterInputType = {
   /** List of target token addresses */
   address?: Maybe<Array<Scalars['AddressType']>>;
@@ -333,6 +394,18 @@ export type UniswapPairType = {
   __typename?: 'UniswapPairType';
   /** Pair address */
   address: Scalars['AddressType'];
+  /** Token 0 */
+  token0Address: Scalars['AddressType'];
+  /** Token 1 */
+  token1Address: Scalars['AddressType'];
+  /** Token 0 reserve */
+  token0Reserve: Scalars['String'];
+  /** Token 0 reserve normalize */
+  token0ReserveFloat: Scalars['String'];
+  /** Token 1 reserve */
+  token1Reserve: Scalars['String'];
+  /** Token 1 reserve normalize */
+  token1ReserveFloat: Scalars['String'];
   /** Pair total supply normalize */
   totalSupplyFloat: Scalars['String'];
   statistic?: Maybe<UniswapPairStatisticType>;
@@ -505,6 +578,37 @@ export type StakingQuery = { __typename?: 'Query' } & {
               | 'earned'
               | 'earnedFloat'
             >
+          >;
+        }
+    >;
+  };
+};
+
+export type SwopfiPairQueryVariables = Exact<{
+  filter: SwopfiPairQueryFilterInputType;
+}>;
+
+export type SwopfiPairQuery = { __typename?: 'Query' } & {
+  swopfiPair: { __typename?: 'SwopfiPairPayload' } & {
+    data?: Maybe<
+      { __typename?: 'SwopfiPairType' } & Pick<
+        SwopfiPairType,
+        | 'address'
+        | 'token0Address'
+        | 'token1Address'
+        | 'token0Reserve'
+        | 'token0ReserveFloat'
+        | 'token1Reserve'
+        | 'token1ReserveFloat'
+        | 'incomeUSD'
+        | 'totalLiquidityUSD'
+        | 'dailyTxCount'
+        | 'dailyFeesUSD'
+        | 'dailyVolumeUSD'
+      > & {
+          apr: { __typename?: 'SwopfiLPAprType' } & Pick<
+            SwopfiLpAprType,
+            'year'
           >;
         }
     >;

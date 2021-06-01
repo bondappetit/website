@@ -18,6 +18,7 @@ import {
 import { config } from 'src/config';
 import { useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
+import { StakingSwopFi } from '../staking-swop-fi/staking-swop-fi';
 
 export const StakingList: React.VFC = () => {
   const classes = useStakingListStyles();
@@ -29,7 +30,8 @@ export const StakingList: React.VFC = () => {
     volume24,
     governanceInUSDC,
     stakingList,
-    rewardSum
+    rewardSum,
+    swopfiItem
   } = useStakingListData();
 
   return (
@@ -93,9 +95,14 @@ export const StakingList: React.VFC = () => {
                       earnToken={stakingItem.earnToken}
                       stakingEndBlock={stakingItem.stakingEndBlock}
                       stakingEndDate={stakingItem.stakingEndDate}
+                      status={stakingItem.status}
                     />
                   );
                 })}
+            <StakingSwopFi
+              tvl={swopfiItem?.totalLiquidityUSD}
+              apy={swopfiItem?.apr.year}
+            />
           </div>
           {!config.IS_COLLATERAL && <StakingInfo />}
         </PageWrapper>

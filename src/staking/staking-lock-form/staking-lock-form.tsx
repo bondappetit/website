@@ -28,6 +28,7 @@ import type { Staking } from 'src/generate/Staking';
 import { WalletButtonWithFallback } from 'src/wallets';
 import { analytics } from 'src/analytics';
 import { config } from 'src/config';
+import { StakingStatuses } from 'src/staking-config';
 import {
   StakingAcquireModal,
   StakingAttentionModal,
@@ -51,6 +52,7 @@ export type StakingLockFormProps = {
   lockable?: boolean;
   depositToken?: string;
   chainId?: number;
+  status?: StakingStatuses;
 };
 
 const UNISWAP_URL = 'https://app.uniswap.org/#/add/v2/';
@@ -325,7 +327,10 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
                   ) : (
                     <WalletButtonWithFallback
                       type="button"
-                      disabled={formik.isSubmitting}
+                      disabled={
+                        formik.isSubmitting ||
+                        props.status === StakingStatuses.archived
+                      }
                       loading={formik.isSubmitting}
                       key={approve.value?.allowance.toString(10)}
                       onClick={
@@ -351,7 +356,10 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
                       ? 'submit'
                       : 'button'
                   }
-                  disabled={formik.isSubmitting}
+                  disabled={
+                    formik.isSubmitting ||
+                    props.status === StakingStatuses.archived
+                  }
                   loading={formik.isSubmitting}
                   key={approve.value?.allowance.toString(10)}
                   onClick={

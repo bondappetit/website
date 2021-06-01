@@ -68,7 +68,6 @@ export const useStakingDetailStyles = createUseStyles(
     stakingBalance: {
       display: 'grid',
       gridGap: 64,
-      height: '100%',
 
       [theme.breakpoints.sm()]: {
         gridGap: 0,

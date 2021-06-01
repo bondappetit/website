@@ -95,6 +95,8 @@ export type Query = {
   mediumPostList: Array<MediumPostType>;
   wallet: WalletPayload;
   walletList: Array<WalletType>;
+  swopfiPair: SwopfiPairPayload;
+  swopfiPairList: Array<SwopfiPairType>;
 };
 
 export type QueryTokenArgs = {
@@ -127,6 +129,14 @@ export type QueryWalletArgs = {
 
 export type QueryWalletListArgs = {
   filter?: Maybe<WalletListQueryFilterInputType>;
+};
+
+export type QuerySwopfiPairArgs = {
+  filter: SwopfiPairQueryFilterInputType;
+};
+
+export type QuerySwopfiPairListArgs = {
+  filter?: Maybe<SwopfiPairListQueryFilterInputType>;
 };
 
 export type StakingAprType = {
@@ -266,6 +276,57 @@ export type StakingUserType = {
   earnedFloat: Scalars['String'];
 };
 
+export type SwopfiLpAprType = {
+  __typename?: 'SwopfiLPAprType';
+  /** APR per year */
+  year: Scalars['String'];
+};
+
+export type SwopfiPairListQueryFilterInputType = {
+  /** List of target pair addresses */
+  address?: Maybe<Array<Scalars['String']>>;
+};
+
+export type SwopfiPairPayload = {
+  __typename?: 'SwopfiPairPayload';
+  data?: Maybe<SwopfiPairType>;
+  error?: Maybe<Scalars['String']>;
+};
+
+export type SwopfiPairQueryFilterInputType = {
+  /** Target pair address */
+  address: Scalars['String'];
+};
+
+export type SwopfiPairType = {
+  __typename?: 'SwopfiPairType';
+  /** Pair address */
+  address: Scalars['String'];
+  /** Token 0 */
+  token0Address: Scalars['String'];
+  /** Token 0 */
+  token1Address: Scalars['String'];
+  /** Token 0 reserve */
+  token0Reserve: Scalars['String'];
+  /** Token 0 reserve normalize */
+  token0ReserveFloat: Scalars['String'];
+  /** Token 1 reserve */
+  token1Reserve: Scalars['String'];
+  /** Token 1 reserve normalize */
+  token1ReserveFloat: Scalars['String'];
+  /** Daily income */
+  incomeUSD: Scalars['String'];
+  /** Total liquidity */
+  totalLiquidityUSD: Scalars['String'];
+  /** Daily fees */
+  dailyFeesUSD: Scalars['String'];
+  /** Daily volume */
+  dailyVolumeUSD: Scalars['String'];
+  /** Daily transactions count */
+  dailyTxCount: Scalars['String'];
+  apr: SwopfiLpAprType;
+};
+
 export type TokenListQueryFilterInputType = {
   /** List of target token addresses */
   address?: Maybe<Array<Scalars['AddressType']>>;
@@ -337,6 +398,18 @@ export type UniswapPairType = {
   __typename?: 'UniswapPairType';
   /** Pair address */
   address: Scalars['AddressType'];
+  /** Token 0 */
+  token0Address: Scalars['AddressType'];
+  /** Token 1 */
+  token1Address: Scalars['AddressType'];
+  /** Token 0 reserve */
+  token0Reserve: Scalars['String'];
+  /** Token 0 reserve normalize */
+  token0ReserveFloat: Scalars['String'];
+  /** Token 1 reserve */
+  token1Reserve: Scalars['String'];
+  /** Token 1 reserve normalize */
+  token1ReserveFloat: Scalars['String'];
   /** Pair total supply normalize */
   totalSupplyFloat: Scalars['String'];
   statistic?: Maybe<UniswapPairStatisticType>;
@@ -509,6 +582,37 @@ export type StakingQuery = { __typename?: 'Query' } & {
               | 'earned'
               | 'earnedFloat'
             >
+          >;
+        }
+    >;
+  };
+};
+
+export type SwopfiPairQueryVariables = Exact<{
+  filter: SwopfiPairQueryFilterInputType;
+}>;
+
+export type SwopfiPairQuery = { __typename?: 'Query' } & {
+  swopfiPair: { __typename?: 'SwopfiPairPayload' } & {
+    data?: Maybe<
+      { __typename?: 'SwopfiPairType' } & Pick<
+        SwopfiPairType,
+        | 'address'
+        | 'token0Address'
+        | 'token1Address'
+        | 'token0Reserve'
+        | 'token0ReserveFloat'
+        | 'token1Reserve'
+        | 'token1ReserveFloat'
+        | 'incomeUSD'
+        | 'totalLiquidityUSD'
+        | 'dailyTxCount'
+        | 'dailyFeesUSD'
+        | 'dailyVolumeUSD'
+      > & {
+          apr: { __typename?: 'SwopfiLPAprType' } & Pick<
+            SwopfiLpAprType,
+            'year'
           >;
         }
     >;
@@ -926,6 +1030,78 @@ export type StakingLazyQueryHookResult = ReturnType<typeof useStakingLazyQuery>;
 export type StakingQueryResult = Apollo.QueryResult<
   StakingQuery,
   StakingQueryVariables
+>;
+export const SwopfiPairDocument = gql`
+  query swopfiPair($filter: SwopfiPairQueryFilterInputType!) {
+    swopfiPair(filter: $filter) {
+      data {
+        address
+        token0Address
+        token1Address
+        token0Reserve
+        token0ReserveFloat
+        token1Reserve
+        token1ReserveFloat
+        incomeUSD
+        totalLiquidityUSD
+        dailyTxCount
+        dailyFeesUSD
+        dailyVolumeUSD
+        apr {
+          year
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useSwopfiPairQuery__
+ *
+ * To run a query within a React component, call `useSwopfiPairQuery` and pass it any options that fit your needs.
+ * When your component renders, `useSwopfiPairQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useSwopfiPairQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useSwopfiPairQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    SwopfiPairQuery,
+    SwopfiPairQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<SwopfiPairQuery, SwopfiPairQueryVariables>(
+    SwopfiPairDocument,
+    options
+  );
+}
+export function useSwopfiPairLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    SwopfiPairQuery,
+    SwopfiPairQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    SwopfiPairQuery,
+    SwopfiPairQueryVariables
+  >(SwopfiPairDocument, options);
+}
+export type SwopfiPairQueryHookResult = ReturnType<typeof useSwopfiPairQuery>;
+export type SwopfiPairLazyQueryHookResult = ReturnType<
+  typeof useSwopfiPairLazyQuery
+>;
+export type SwopfiPairQueryResult = Apollo.QueryResult<
+  SwopfiPairQuery,
+  SwopfiPairQueryVariables
 >;
 export const TokenListFilterDocument = gql`
   query TokenListFilter($filter: TokenListQueryFilterInputType) {

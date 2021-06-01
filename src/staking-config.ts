@@ -5,6 +5,11 @@ import networks from '@bondappetit/networks';
 import { Network } from './common';
 import { config } from './config';
 
+export enum StakingStatuses {
+  archived = 'archived',
+  active = 'active'
+}
+
 export type StakingConfig = {
   contractName: string;
   tokenName: string;
@@ -13,6 +18,7 @@ export type StakingConfig = {
   configAddress: string;
   networkName: string;
   chainId: number;
+  status: StakingStatuses;
 };
 
 const Gov = 'BAG';
@@ -67,7 +73,8 @@ const stakingConfig = [
     tokenName: CAKE_LP,
     chainId: config.CHAIN_BINANCE_IDS[0],
     token: [GovBNB, BNB],
-    liquidityPool: true
+    liquidityPool: true,
+    status: StakingStatuses.active
   },
 
   {
@@ -75,7 +82,8 @@ const stakingConfig = [
     tokenName: CAKE_LP,
     chainId: config.CHAIN_BINANCE_IDS[1],
     token: [GovBNB, BNB],
-    liquidityPool: true
+    liquidityPool: true,
+    status: StakingStatuses.active
   },
 
   {
@@ -83,7 +91,8 @@ const stakingConfig = [
     tokenName: LP,
     chainId: config.CHAIN_IDS[0],
     token: [Stable, USDC],
-    liquidityPool: true
+    liquidityPool: true,
+    status: StakingStatuses.active
   },
 
   {
@@ -91,7 +100,8 @@ const stakingConfig = [
     tokenName: LP,
     chainId: config.CHAIN_IDS[0],
     token: [Gov, USDT],
-    liquidityPool: true
+    liquidityPool: true,
+    status: StakingStatuses.active
   },
 
   {
@@ -99,7 +109,8 @@ const stakingConfig = [
     tokenName: LP,
     chainId: config.CHAIN_IDS[0],
     token: [Gov, USDN],
-    liquidityPool: true
+    liquidityPool: true,
+    status: StakingStatuses.active
   },
 
   {
@@ -107,7 +118,8 @@ const stakingConfig = [
     tokenName: LP,
     chainId: config.CHAIN_IDS[0],
     token: [Gov, USDC],
-    liquidityPool: true
+    liquidityPool: true,
+    status: StakingStatuses.archived
   }
 ];
 
