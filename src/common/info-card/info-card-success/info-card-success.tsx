@@ -8,8 +8,8 @@ import { useInfoCardSuccessStyles } from './info-card-success.styles';
 export type InfoCardSuccessProps = {
   onClick: () => void;
   purchased: string;
-  tokenName: string;
-  token: 'Stable' | 'Governance' | 'bBAG';
+  tokenName?: string;
+  token?: string;
 };
 
 export const InfoCardSuccess: React.FC<InfoCardSuccessProps> = (props) => {
@@ -33,7 +33,12 @@ export const InfoCardSuccess: React.FC<InfoCardSuccessProps> = (props) => {
       onClick={props.onClick}
       button="Finish!"
     >
-      <AddTokenMetamask className={classes.addToMetaMask} token={props.token} />
+      {props.token && (
+        <AddTokenMetamask
+          className={classes.addToMetaMask}
+          token={props.token}
+        />
+      )}
     </InfoCardWrapper>
   );
 };

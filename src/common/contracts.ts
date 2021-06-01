@@ -21,6 +21,7 @@ import type { UniswapMarketMaker } from 'src/generate/UniswapMarketMaker';
 import type { CollateralMarket } from 'src/generate/CollateralMarket';
 import type { VestingSplitter } from 'src/generate/VestingSplitter';
 import type { RealAssetDepositaryBalanceView } from 'src/generate/RealAssetDepositaryBalanceView';
+import type { BuybackDepositaryBalanceView } from 'src/generate/BuybackDepositaryBalanceView';
 import abi from 'src/bridge/common/abi/bbag-abi.json';
 import { createUseContract } from './create-use-contract';
 
@@ -142,6 +143,13 @@ export const useRealAssetDepositaryBalanceView = createUseContract<
 >((network) => ({
   abi: network.contracts.RealAssetDepositaryBalanceView.abi,
   address: network.contracts.RealAssetDepositaryBalanceView.address
+}));
+
+export const useBuybackDepositaryBalanceView = createUseContract<
+  BuybackDepositaryBalanceView
+>((network) => ({
+  abi: network.contracts.BuybackDepositaryBalanceView.abi,
+  address: network.contracts.BuybackDepositaryBalanceView.address
 }));
 
 const web3 = new Web3(networks.mainBSC.networkUrl);
