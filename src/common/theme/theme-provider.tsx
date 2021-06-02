@@ -5,9 +5,8 @@ import { useLocalStorage, useMedia } from 'react-use';
 import { theme, themeModes, ThemeModes } from './theme';
 
 const THEME_KEY = 'bond:theme';
-const toggleThemeContext = React.createContext<(() => void) | undefined>(
-  undefined
-);
+const toggleThemeContext =
+  React.createContext<(() => void) | undefined>(undefined);
 
 export const useToggleTheme = () => {
   return React.useContext(toggleThemeContext);

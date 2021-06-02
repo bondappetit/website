@@ -14,15 +14,13 @@ const ARTICLES = [
       'A nightmare on Stable Street: Centralized stablecoins may be doomed',
     date: 'Apr 18, 2021',
     author: 'Artem Tolkachev',
-    link:
-      'https://cointelegraph.com/news/a-nightmare-on-stable-street-centralized-stablecoins-may-be-doomed'
+    link: 'https://cointelegraph.com/news/a-nightmare-on-stable-street-centralized-stablecoins-may-be-doomed'
   },
   {
     title: 'Why DeFi plus asset tokenization will take crypto to new heights',
     date: 'Jan 17, 2021',
     author: 'Artem Tolkachev',
-    link:
-      'https://cointelegraph.com/news/why-defi-plus-asset-tokenization-will-take-crypto-to-new-heights'
+    link: 'https://cointelegraph.com/news/why-defi-plus-asset-tokenization-will-take-crypto-to-new-heights'
   }
 ];
 

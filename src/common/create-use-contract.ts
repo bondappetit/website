@@ -18,24 +18,26 @@ type Callback = (network: Network) => ContractParameters;
 
 export type Network = typeof networks[keyof typeof networks];
 
-export const createUseContract = <T>(cb: Callback) => () => {
-  const library = useLibrary();
-  const networkConfig = useNetworkConfig();
+export const createUseContract =
+  <T>(cb: Callback) =>
+  () => {
+    const library = useLibrary();
+    const networkConfig = useNetworkConfig();
 
-  return useMemo(() => {
-    try {
-      const contractParams = cb(networkConfig);
+    return useMemo(() => {
+      try {
+        const contractParams = cb(networkConfig);
 
-      return (new library.eth.Contract(
-        contractParams?.abi,
-        contractParams?.address,
-        contractParams?.options
-      ) as unknown) as T;
-    } catch {
-      return null;
-    }
-  }, [library, networkConfig]);
-};
+        return new library.eth.Contract(
+          contractParams?.abi,
+          contractParams?.address,
+          contractParams?.options
+        ) as unknown as T;
+      } catch {
+        return null;
+      }
+    }, [library, networkConfig]);
+  };
 
 export const useDynamicContract = <T>(
   contractParameters?: ContractParameters,
@@ -56,10 +58,10 @@ export const useDynamicContract = <T>(
           throw new Error('Abi is required');
         }
 
-        contract = (new library.eth.Contract(
+        contract = new library.eth.Contract(
           currentAbi,
           address
-        ) as unknown) as T;
+        ) as unknown as T;
       } catch {
         throw new EthereumNetworkError();
       }

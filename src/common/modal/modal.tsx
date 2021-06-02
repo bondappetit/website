@@ -30,9 +30,8 @@ export const Modal: React.VFC<ModalProps> = (props) => {
     }
   }, [isPressed, onClose, open]);
 
-  const [overlayElement, setOverlayElement] = useState<HTMLDivElement | null>(
-    null
-  );
+  const [overlayElement, setOverlayElement] =
+    useState<HTMLDivElement | null>(null);
   useEffect(() => {
     const handleClose = () => onClose?.();
     overlayElement?.addEventListener('click', handleClose);

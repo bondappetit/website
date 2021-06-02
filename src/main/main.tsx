@@ -39,11 +39,8 @@ import { MainCointelegraph } from './common/main-cointelegraph';
 export const Main: React.FC = () => {
   const classes = useMainStyles();
 
-  const {
-    totalValueLocked,
-    stakingList,
-    governanceInUSDC
-  } = useStakingListData();
+  const { totalValueLocked, stakingList, governanceInUSDC } =
+    useStakingListData();
 
   const stablecoinBalance = useStableCoinBalance();
 
@@ -97,8 +94,10 @@ export const Main: React.FC = () => {
           </MainStablecoin>
           <MainEditor className={clsx(classes.section)}>
             <MainAudit
-              auditLink="https://github.com/mixbytes/audits_public/tree/4fc7d333e3df57586e0f96cc551819e2c93f3ae9/BondAppetit"
-              companyLogo={<MixBytesLogo />}
+              mixBytesLink="https://github.com/mixbytes/audits_public/tree/4fc7d333e3df57586e0f96cc551819e2c93f3ae9/BondAppetit"
+              hashExLink="https://github.com/HashEx/public_audits/blob/32a680c5b8f3a784ef3273c324e0841341f3abc2/BondAppétit/BondAppetit%20report.pdf"
+              mixBytesLogo={<MixBytesLogo />}
+              hashExLogo={<MixBytesLogo />}
             />
           </MainEditor>
           <MainVoting className={classes.section} />

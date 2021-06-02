@@ -110,7 +110,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       }
 
       if (staking.value?.cant) {
-        error.amount = 'Staking ended';
+        error.amount = 'Staking has ended';
       }
 
       if (new BN(props.balanceOfToken).isLessThan(formValues.amount)) {
@@ -322,7 +322,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
                 <>
                   {staking.value?.cant ? (
                     <Typography variant="body2" align="center">
-                      Staking ended
+                      Staking has ended
                     </Typography>
                   ) : (
                     <WalletButtonWithFallback

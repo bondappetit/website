@@ -12,10 +12,10 @@ export const useBridgeContract = () => {
 
   return useMemo(
     () =>
-      (new library.eth.Contract(
+      new library.eth.Contract(
         abi as AbiItem[],
         ADDRESS
-      ) as unknown) as BridgeAbi,
+      ) as unknown as BridgeAbi,
     [library]
   );
 };

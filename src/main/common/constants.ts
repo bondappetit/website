@@ -18,16 +18,14 @@ export const STEPS = [
 
   {
     title: 'RWA-collateral',
-    body:
-      'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
+    body: 'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
     mobileDate: '1 Day after P1, 2 years duration',
     active: config.IS_COLLATERAL
   },
 
   {
     title: 'Direct Investment',
-    body:
-      'The capitalization of the protocol reaches $100m. The issuance of governance tokens stops.',
+    body: 'The capitalization of the protocol reaches $100m. The issuance of governance tokens stops.',
     mobileDate: '1 Day after P2, unlimited',
     active: false
   }

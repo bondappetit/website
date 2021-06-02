@@ -8,10 +8,10 @@ export const usePagination = (limit = LIMIT) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [countItems, setCountItems] = useState(0);
 
-  const pages = useMemo(() => chunk(range(countItems, 0), limit), [
-    countItems,
-    limit
-  ]);
+  const pages = useMemo(
+    () => chunk(range(countItems, 0), limit),
+    [countItems, limit]
+  );
 
   const getPages = useCallback(
     (count: number) => {

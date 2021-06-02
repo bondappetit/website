@@ -79,9 +79,8 @@ export const useStakingListData = (address?: string) => {
     pollInterval: config.POLLING_INTERVAL
   });
 
-  const { account: web3Account = null, chainId: web3chainId } = useWeb3React<
-    Web3
-  >();
+  const { account: web3Account = null, chainId: web3chainId } =
+    useWeb3React<Web3>();
   const [account, setAccount] = useState(web3Account);
 
   const governanceInUSDC = useGovernanceCost();
@@ -99,9 +98,8 @@ export const useStakingListData = (address?: string) => {
   const stakingAddresses = useAsyncRetry(async () => {
     const stakingItem = address ? stakingConfig[address.toLowerCase()] : null;
 
-    const groupedStakingConfig = (stakingItem
-      ? [stakingItem]
-      : stakingConfigValues
+    const groupedStakingConfig = (
+      stakingItem ? [stakingItem] : stakingConfigValues
     ).reduce(
       (res, stakingConfigItem, i) => ({
         ...res,
@@ -142,13 +140,8 @@ export const useStakingListData = (address?: string) => {
               );
               if (!stakingConfigItem) return res;
 
-              const {
-                contractName,
-                configAddress,
-                token,
-                sort,
-                status
-              } = stakingConfigItem;
+              const { contractName, configAddress, token, sort, status } =
+                stakingConfigItem;
 
               return [
                 ...res,

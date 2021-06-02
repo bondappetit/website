@@ -1,10 +1,11 @@
 import React, { createContext, useContext } from 'react';
 
-export const ModalContext = createContext<{
-  onOpen: (node: React.ReactNode, key?: string) => void;
-  onClose: () => void;
-  closeOnOverlay: (value: boolean) => void;
-} | null>(null);
+export const ModalContext =
+  createContext<{
+    onOpen: (node: React.ReactNode, key?: string) => void;
+    onClose: () => void;
+    closeOnOverlay: (value: boolean) => void;
+  } | null>(null);
 
 const ERROR_MESSAGE = 'ModalContext is null';
 
@@ -16,9 +17,10 @@ export const useModalContext = () => {
   return context;
 };
 
-export const ModalContext2 = createContext<{
-  contentRef?: (instance: HTMLDivElement | null) => void;
-} | null>(null);
+export const ModalContext2 =
+  createContext<{
+    contentRef?: (instance: HTMLDivElement | null) => void;
+  } | null>(null);
 
 export const useModalContext2 = () => {
   const context = useContext(ModalContext2);

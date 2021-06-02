@@ -9,13 +9,11 @@ export type BridgeLostTransactionProps = {
   placeholder: 'bsc' | 'eth';
 };
 
-const placeholders: Record<
-  BridgeLostTransactionProps['placeholder'],
-  string
-> = {
-  bsc: 'Please Input BSC Transaction Hash', // TODO: from bsc to eth
-  eth: 'Please Input Ethereum Transaction Hash' // TODO: form eth to bsc
-};
+const placeholders: Record<BridgeLostTransactionProps['placeholder'], string> =
+  {
+    bsc: 'Please Input BSC Transaction Hash', // TODO: from bsc to eth
+    eth: 'Please Input Ethereum Transaction Hash' // TODO: form eth to bsc
+  };
 
 export const BridgeLostTransaction: React.VFC<BridgeLostTransactionProps> = (
   props

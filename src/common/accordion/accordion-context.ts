@@ -7,6 +7,5 @@ type AccordionContextValue = {
   handleDetailHeight: (height: number) => void;
 };
 
-export const AccordionContext = React.createContext<AccordionContextValue | null>(
-  null
-);
+export const AccordionContext =
+  React.createContext<AccordionContextValue | null>(null);

@@ -7,8 +7,8 @@ export const useUpdate = (): [number, () => void] => {
     setUpdateCount(updateCount + 1);
   }, [updateCount]);
 
-  return useMemo(() => [updateCount, handleUpdate], [
-    handleUpdate,
-    updateCount
-  ]);
+  return useMemo(
+    () => [updateCount, handleUpdate],
+    [handleUpdate, updateCount]
+  );
 };

@@ -16,33 +16,32 @@ export type DocsRendererTableOfContentsContainerProps = {
   ) => JSX.Element;
 };
 
-export const DocsRendererTableOfContentsContainer: React.FC<DocsRendererTableOfContentsContainerProps> = (
-  props
-) => {
-  const [tableOfContent, setTableOfContent] = useState<TableOfContent[]>([]);
+export const DocsRendererTableOfContentsContainer: React.FC<DocsRendererTableOfContentsContainerProps> =
+  (props) => {
+    const [tableOfContent, setTableOfContent] = useState<TableOfContent[]>([]);
 
-  const params = useParams<{ contractName?: string }>();
-  const { hash } = useLocation();
+    const params = useParams<{ contractName?: string }>();
+    const { hash } = useLocation();
 
-  useEffect(() => {
-    const headingElements = document.querySelectorAll(HEADINGS);
+    useEffect(() => {
+      const headingElements = document.querySelectorAll(HEADINGS);
 
-    headingElements.forEach((headingElement, index) => {
-      headingElement.setAttribute('id', String(index));
+      headingElements.forEach((headingElement, index) => {
+        headingElement.setAttribute('id', String(index));
+      });
+
+      setTableOfContent(buildTableOfContents([...headingElements]));
+
+      document.getElementById(hash.slice(1))?.scrollIntoView();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [params]);
+
+    const activeElement = useScrollSpy({
+      activeSectionDefault: '0',
+      sectionElements: HEADINGS,
+      offsetPx: 10,
+      routerParams: params.contractName
     });
 
-    setTableOfContent(buildTableOfContents([...headingElements]));
-
-    document.getElementById(hash.slice(1))?.scrollIntoView();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [params]);
-
-  const activeElement = useScrollSpy({
-    activeSectionDefault: '0',
-    sectionElements: HEADINGS,
-    offsetPx: 10,
-    routerParams: params.contractName
-  });
-
-  return props.children(tableOfContent, activeElement);
-};
+    return props.children(tableOfContent, activeElement);
+  };

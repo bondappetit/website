@@ -117,12 +117,11 @@ export const useBudgetContract = createUseContract<Budget>((network) => ({
   address: network.contracts.Budget.address
 }));
 
-export const useUniswapMarketMakerContract = createUseContract<
-  UniswapMarketMaker
->((network) => ({
-  abi: network.contracts.UniswapMarketMaker.abi,
-  address: network.contracts.UniswapMarketMaker.address
-}));
+export const useUniswapMarketMakerContract =
+  createUseContract<UniswapMarketMaker>((network) => ({
+    abi: network.contracts.UniswapMarketMaker.abi,
+    address: network.contracts.UniswapMarketMaker.address
+  }));
 
 export const useCollateralMarketContract = createUseContract<CollateralMarket>(
   (network) => ({
@@ -138,29 +137,27 @@ export const useVestingSplitterContract = createUseContract<VestingSplitter>(
   })
 );
 
-export const useRealAssetDepositaryBalanceView = createUseContract<
-  RealAssetDepositaryBalanceView
->((network) => ({
-  abi: network.contracts.RealAssetDepositaryBalanceView.abi,
-  address: network.contracts.RealAssetDepositaryBalanceView.address
-}));
+export const useRealAssetDepositaryBalanceView =
+  createUseContract<RealAssetDepositaryBalanceView>((network) => ({
+    abi: network.contracts.RealAssetDepositaryBalanceView.abi,
+    address: network.contracts.RealAssetDepositaryBalanceView.address
+  }));
 
-export const useBuybackDepositaryBalanceView = createUseContract<
-  BuybackDepositaryBalanceView
->((network) => ({
-  abi: network.contracts.BuybackDepositaryBalanceView.abi,
-  address: network.contracts.BuybackDepositaryBalanceView.address
-}));
+export const useBuybackDepositaryBalanceView =
+  createUseContract<BuybackDepositaryBalanceView>((network) => ({
+    abi: network.contracts.BuybackDepositaryBalanceView.abi,
+    address: network.contracts.BuybackDepositaryBalanceView.address
+  }));
 
 const web3 = new Web3(networks.mainBSC.networkUrl);
 
 export const useBBagContract2 = () => {
   return useMemo(
     () =>
-      (new web3.eth.Contract(
+      new web3.eth.Contract(
         abi as AbiItem[],
         networks.mainBSC.assets.bBAG.address
-      ) as unknown) as Ierc20,
+      ) as unknown as Ierc20,
     []
   );
 };

@@ -42,6 +42,7 @@ export class WalletLinkConnector extends AbstractConnector {
 
   public async activate(): Promise<ConnectorUpdate> {
     if (!this.walletLink) {
+      // eslint-disable-next-line import/no-extraneous-dependencies
       const WalletLink = await import('walletlink').then(
         (m) => m?.default ?? m
       );
@@ -61,9 +62,8 @@ export class WalletLinkConnector extends AbstractConnector {
       provider.request = provider.request.bind(provider);
       provider.scanQRCode = provider.scanQRCode.bind(provider);
       provider.arbitraryRequest = provider.arbitraryRequest.bind(provider);
-      provider.childRequestEthereumAccounts = provider.childRequestEthereumAccounts.bind(
-        provider
-      );
+      provider.childRequestEthereumAccounts =
+        provider.childRequestEthereumAccounts.bind(provider);
 
       provider.on('chainChanged', this.handleChainChanged);
       provider.on('accountsChanged', this.handleAccountsChanged);
