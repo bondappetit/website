@@ -17,31 +17,7 @@ export const useDocsRendererStyles = createUseStyles(
       }
     },
 
-    mobileToolbar: {
-      position: 'fixed',
-      zIndex: 1,
-      bottom: 0,
-      left: 0,
-      width: '100%',
-      display: 'flex',
-      justifyContent: 'flex-start',
-      background: theme.colors.secondary,
-      borderTop: `1px solid ${theme.colors.primary}`,
-      alignItems: 'center',
-      padding: '10px 15px 10px 12px'
-    },
-
-    mobileToolbarIcon: {
-      marginRight: 20
-    },
-
-    mobileMenu: {
-      maxHeight: '100%',
-      height: 'auto'
-    },
-
     tableOfContents: {
-      position: 'fixed',
       width: '100%',
       left: 0,
       zIndex: 1,
