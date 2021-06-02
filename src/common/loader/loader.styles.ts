@@ -1,5 +1,7 @@
 import { createUseStyles } from 'react-jss';
 
+type Props = { width: number; height: number };
+
 export const useLoaderStyles = createUseStyles(
   {
     root: {
@@ -7,8 +9,8 @@ export const useLoaderStyles = createUseStyles(
       alignItems: 'center',
       justifyContent: 'center',
       position: 'relative',
-      width: (props: { width: number }) => props.width,
-      height: (props: { height: number }) => props.height,
+      width: (props: Props) => props.width,
+      height: (props: Props) => props.height,
       color: 'inherit'
     }
   },
