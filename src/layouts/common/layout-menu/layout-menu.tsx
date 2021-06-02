@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React, { forwardRef, useRef } from 'react';
 import { NavLink as ReactRouterNavLink } from 'react-router-dom';
-import { useHoverDirty, useToggle } from 'react-use';
+import { useHoverDirty } from 'react-use';
 
 import { ButtonBase, Link, useDevMode } from 'src/common';
 import { URLS } from 'src/router/urls';
@@ -129,6 +129,7 @@ export type LayoutMenuProps = {
   className?: string;
   profile?: React.ReactNode;
   children?: React.ReactNode;
+  onOpenProfile?: () => void;
 };
 
 export const LayoutMenu = forwardRef<HTMLUListElement, LayoutMenuProps>(
@@ -142,8 +143,6 @@ export const LayoutMenu = forwardRef<HTMLUListElement, LayoutMenuProps>(
     const phasesRef = useRef<HTMLButtonElement | null>(null);
 
     const phasesHovered = useHoverDirty(phasesRef);
-
-    const [open, toggle] = useToggle(false);
 
     return (
       <ul className={clsx(classes.root, classes.menu, className)} ref={ref}>
@@ -165,11 +164,11 @@ export const LayoutMenu = forwardRef<HTMLUListElement, LayoutMenuProps>(
                 <>
                   <ButtonBase
                     className={clsx(classes.navLink, classes.mobileNavLink)}
-                    onClick={toggle}
+                    onClick={props.onOpenProfile}
                   >
                     {menuItem.title}
                   </ButtonBase>
-                  {open && profile}
+                  {profile}
                 </>
               )}
               {menuItem.variant !== Variants.mobile && (

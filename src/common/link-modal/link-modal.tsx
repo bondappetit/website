@@ -82,6 +82,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                   variant="inherit"
                   component="span"
                   className={classes.buttonTitle}
+                  align="center"
                 >
                   Buy with a fixed price
                 </Typography>

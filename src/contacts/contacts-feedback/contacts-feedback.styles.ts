@@ -18,6 +18,7 @@ export const useContactsFeedbackStyles = createUseStyles(
       paddingLeft: 0,
       paddingRight: 0,
       marginTop: 56,
+      width: '100%',
 
       [theme.breakpoints.md()]: {
         width: 320

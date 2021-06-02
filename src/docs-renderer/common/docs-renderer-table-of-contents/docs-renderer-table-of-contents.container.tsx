@@ -44,5 +44,5 @@ export const DocsRendererTableOfContentsContainer: React.FC<DocsRendererTableOfC
     routerParams: params.contractName
   });
 
-  return <>{props.children(tableOfContent, activeElement)}</>;
+  return props.children(tableOfContent, activeElement);
 };

@@ -1,7 +1,9 @@
 import { createUseStyles } from 'react-jss';
 
+import { Theme } from '../theme';
+
 export const useLinkModalStyles = createUseStyles(
-  {
+  (theme: Theme) => ({
     root: {
       display: 'flex',
       flexDirection: 'column',
@@ -33,13 +35,21 @@ export const useLinkModalStyles = createUseStyles(
     },
 
     buttonTitle: {
-      marginBottom: 8
+      marginBottom: 8,
+      fontSize: 24,
+      lineHeight: '32px',
+
+      [theme.breakpoints.md()]: {
+        fontSize: 'inherit',
+        fontWeight: 'inherit',
+        lineHeight: 'inherit'
+      }
     },
 
     bagIcon: {
       marginBottom: -2
     }
-  },
+  }),
   {
     name: 'LinkModal'
   }

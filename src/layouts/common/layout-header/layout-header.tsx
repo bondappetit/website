@@ -23,6 +23,13 @@ export const LayoutHeader: React.FC<LayoutHeaderProps> = (props) => {
 
   useBodyScrollLock(open, menuElement);
 
+  const [profileOpen, toggleProfile] = useToggle(false);
+
+  const handleClose = () => {
+    toggleProfile(false);
+    toggle(false);
+  };
+
   return (
     <header className={classes.root}>
       <div className={clsx(classes.col, classes.leftButton)}>
@@ -33,12 +40,16 @@ export const LayoutHeader: React.FC<LayoutHeaderProps> = (props) => {
           className={clsx(classes.menu, {
             [classes.menuOpen]: open
           })}
-          profile={props.profile}
+          profile={profileOpen ? props.profile : undefined}
           ref={setMenuElement}
+          onOpenProfile={toggleProfile}
         >
           {props.mobileButton}
         </LayoutMenu>
-        <ButtonBase className={classes.menuButton} onClick={toggle}>
+        <ButtonBase
+          className={classes.menuButton}
+          onClick={!open ? toggle : handleClose}
+        >
           {open && <CloseIcon />}
           {!open && <MenuIcon />}
         </ButtonBase>
