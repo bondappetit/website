@@ -23,7 +23,7 @@ export type FormModalValues = {
 
 export type FormModalProps = {
   open: boolean;
-  onClose: () => void;
+  onClose?: () => void;
   tokenName: string;
   tokens: Asset[];
   balance?: string;
@@ -126,155 +126,150 @@ export const FormModal: React.VFC<FormModalProps> = (props) => {
   const CurrencyIcon = COIN_ICONS.get(formik.values.currency);
 
   return (
-    <>
-      <Modal
-        open={props.open}
-        onClose={props.onClose}
-        onBack={select ? toggleSelect : undefined}
-      >
-        <SmallModal>
-          {select && (
-            <FormModalSelect
-              value={formik.values.currency}
-              options={props.tokens}
-              onChange={(value: string) => {
-                formik.resetForm();
-                formik.setFieldValue('currency', value);
-                toggleSelect();
-              }}
-            />
-          )}
-          {!select && (
-            <form
-              onSubmit={formik.handleSubmit}
-              className={classes.root}
-              noValidate
-            >
-              <div className={classes.inputs}>
-                <div className={classes.row}>
+    <Modal
+      open={props.open}
+      onClose={props.onClose}
+      onBack={select ? toggleSelect : undefined}
+    >
+      <SmallModal>
+        {select && (
+          <FormModalSelect
+            value={formik.values.currency}
+            options={props.tokens}
+            onChange={(value: string) => {
+              formik.resetForm();
+              formik.setFieldValue('currency', value);
+              toggleSelect();
+            }}
+          />
+        )}
+        {!select && (
+          <form
+            onSubmit={formik.handleSubmit}
+            className={classes.root}
+            noValidate
+          >
+            <div className={classes.inputs}>
+              <div className={classes.row}>
+                <Input
+                  name="payment"
+                  label="You spent"
+                  placeholder="0.0"
+                  type="number"
+                  disabled={formik.isSubmitting}
+                  value={formik.values.payment}
+                  className={classes.inputSizes}
+                  onChange={formik.handleChange}
+                  onFocus={() => {
+                    youGetRef.current = true;
+                  }}
+                  onBlur={() => {
+                    youGetRef.current = false;
+                  }}
+                />
+                <div
+                  className={clsx(classes.input, {
+                    [classes.emptyBalance]: !props.balance
+                  })}
+                >
+                  {currentToken?.balance && (
+                    <Typography
+                      variant="body1"
+                      component="div"
+                      className={classes.labelWithBalance}
+                    >
+                      Balance:{' '}
+                      <ButtonBase
+                        type="button"
+                        className={classes.balanceButton}
+                        disabled={formik.isSubmitting}
+                        onClick={
+                          currentToken?.balance
+                            ? () =>
+                                formik.setFieldValue(
+                                  'payment',
+                                  currentToken?.balance
+                                )
+                            : undefined
+                        }
+                      >
+                        {humanizeNumeral(currentToken?.balance ?? '0')}
+                      </ButtonBase>
+                    </Typography>
+                  )}
+                  <ButtonBase
+                    type="button"
+                    disabled={formik.isSubmitting}
+                    className={clsx(classes.selectButton, classes.inputSizes)}
+                    onClick={toggleSelect}
+                  >
+                    {CurrencyIcon && <CurrencyIcon />}
+                    <span className={classes.currency}>
+                      {formik.values.currency}↓
+                    </span>
+                  </ButtonBase>
+                </div>
+              </div>
+              <div className={classes.row}>
+                <div className={classes.input}>
                   <Input
-                    name="payment"
-                    label="You spent"
+                    name="youGet"
+                    label="You will get"
                     placeholder="0.0"
                     type="number"
                     disabled={formik.isSubmitting}
-                    value={formik.values.payment}
-                    className={classes.inputSizes}
+                    value={formik.values.youGet}
                     onChange={formik.handleChange}
+                    className={classes.inputSizes}
                     onFocus={() => {
-                      youGetRef.current = true;
+                      paymentRef.current = true;
                     }}
                     onBlur={() => {
-                      youGetRef.current = false;
+                      paymentRef.current = false;
                     }}
                   />
-                  <div
-                    className={clsx(classes.input, {
-                      [classes.emptyBalance]: !props.balance
-                    })}
-                  >
-                    {props.balance && (
-                      <Typography
-                        variant="body1"
-                        component="div"
-                        className={classes.labelWithBalance}
-                      >
-                        Balance:{' '}
-                        <ButtonBase
-                          type="button"
-                          className={classes.balanceButton}
-                          disabled={formik.isSubmitting}
-                          onClick={
-                            currentToken?.balance
-                              ? () =>
-                                  formik.setFieldValue(
-                                    'payment',
-                                    currentToken?.balance
-                                  )
-                              : undefined
-                          }
-                        >
-                          {humanizeNumeral(currentToken?.balance ?? '0')}
-                        </ButtonBase>
-                      </Typography>
-                    )}
-                    <ButtonBase
-                      type="button"
-                      disabled={formik.isSubmitting}
-                      className={clsx(classes.selectButton, classes.inputSizes)}
-                      onClick={toggleSelect}
-                    >
-                      {CurrencyIcon && <CurrencyIcon />}
-                      <span className={classes.currency}>
-                        {formik.values.currency}↓
-                      </span>
-                    </ButtonBase>
-                  </div>
                 </div>
-                <div className={classes.row}>
-                  <div className={classes.input}>
-                    <Input
-                      name="youGet"
-                      label="You will get"
-                      placeholder="0.0"
-                      type="number"
-                      disabled={formik.isSubmitting}
-                      value={formik.values.youGet}
-                      onChange={formik.handleChange}
-                      className={classes.inputSizes}
-                      onFocus={() => {
-                        paymentRef.current = true;
-                      }}
-                      onBlur={() => {
-                        paymentRef.current = false;
-                      }}
-                    />
-                  </div>
-                  {props.withReward && rewardHoverable}
-                  <div
-                    className={clsx(classes.input, {
-                      [classes.emptyBalance]: !props.balance
-                    })}
-                  >
-                    {props.balance && (
-                      <Typography
-                        variant="body1"
-                        component="div"
-                        className={classes.labelWithBalance}
-                      >
-                        Balance: {humanizeNumeral(props.balance)}
-                      </Typography>
-                    )}
+                {props.withReward && rewardHoverable}
+                <div
+                  className={clsx(classes.input, {
+                    [classes.emptyBalance]: !props.balance
+                  })}
+                >
+                  {props.balance && (
                     <Typography
-                      variant="inherit"
+                      variant="body1"
                       component="div"
-                      className={clsx(classes.tokenWrap, classes.inputSizes)}
+                      className={classes.labelWithBalance}
                     >
-                      {TokenIcon && <TokenIcon />}
-                      <span className={classes.currency}>
-                        {props.tokenName}
-                      </span>
+                      Balance: {humanizeNumeral(props.balance)}
                     </Typography>
-                  </div>
+                  )}
+                  <Typography
+                    variant="inherit"
+                    component="div"
+                    className={clsx(classes.tokenWrap, classes.inputSizes)}
+                  >
+                    {TokenIcon && <TokenIcon />}
+                    <span className={classes.currency}>{props.tokenName}</span>
+                  </Typography>
                 </div>
               </div>
-              {currentToken?.symbol !== 'USDC' &&
-                !new BN(props.tokenCost).eq(1) && (
-                  <Typography
-                    variant="body1"
-                    align="center"
-                    className={classes.hint}
-                  >
-                    {props.tokenCost} {formik.values.currency} per{' '}
-                    {props.tokenName}, estimated price
-                    {helpHoverable}
-                  </Typography>
-                )}
-              {props.button}
-            </form>
-          )}
-        </SmallModal>
-      </Modal>
-    </>
+            </div>
+            {currentToken?.symbol !== 'USDC' && !new BN(props.tokenCost).eq(1) && (
+              <Typography
+                variant="body1"
+                align="center"
+                className={classes.hint}
+              >
+                {props.tokenCost} {formik.values.currency} per {props.tokenName}
+                , estimated price
+                {helpHoverable}
+              </Typography>
+            )}
+            {props.button}
+          </form>
+        )}
+      </SmallModal>
+    </Modal>
   );
 };

@@ -16,6 +16,7 @@ import { useStablecoinStyles } from './stablecoin.styles';
 import { StablecoinModals, useStablecoinModals } from './stablecoin-modals';
 import { StablecoinFeatures } from './common/stablecoin-features/stablecoin-features';
 import StablecoinBuyingSelling from './common/stablecoin-buying-selling/stablecoin-buying-selling';
+import { useStablecoinBuybackModal } from './stablecoin-buyback-modal';
 
 export const Stablecoin: React.FC = () => {
   const classes = useStablecoinStyles();
@@ -38,11 +39,14 @@ export const Stablecoin: React.FC = () => {
   const stableCoinBalance = useStableCoinBalance();
   const issuerBalance = useIssuerBalance();
 
+  const [openBuybackModal] = useStablecoinBuybackModal();
+
   return (
     <>
       <Head title="The first-ever decentralized stablecoin based on real-world assets." />
       <MainLayout>
         <PageWrapper>
+          <button onClick={openBuybackModal}>buy back</button>
           <StablecoinHeader className={classes.header} />
           <StablecoinGraph
             className={classes.section}

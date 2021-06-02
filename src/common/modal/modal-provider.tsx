@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useLockBodyScroll, useUpdateEffect, useKeyPress } from 'react-use';
+import { useUpdateEffect, useKeyPress } from 'react-use';
 
 import { ModalContext } from './modal-context';
 
@@ -12,8 +12,6 @@ export const ModalProvider: React.FC = React.memo((props) => {
     (node: React.ReactNode) => setModalNode(node),
     []
   );
-
-  useLockBodyScroll(Boolean(modalNode));
 
   useUpdateEffect(() => {
     if (isPressed && modalNode) {
