@@ -99,10 +99,12 @@ export const StakingList: React.VFC = () => {
                     />
                   );
                 })}
-            <StakingSwopFi
-              tvl={swopfiItem?.totalLiquidityUSD}
-              apy={swopfiItem?.apr.year}
-            />
+            {config.SWOP_FI_ENABLE && (
+              <StakingSwopFi
+                tvl={swopfiItem?.totalLiquidityUSD}
+                apy={swopfiItem?.apr.year}
+              />
+            )}
           </div>
           {!config.IS_COLLATERAL && <StakingInfo />}
         </PageWrapper>
