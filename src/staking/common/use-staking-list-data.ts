@@ -257,7 +257,11 @@ export const useStakingListData = (address?: string) => {
         (acc, stakingItem) => acc.plus(stakingItem.totalValueLocked),
         new BN(0)
       )
-      .plus(swopfiQuery.data.swopfiPair.data?.totalLiquidityUSD ?? '0');
+      .plus(
+        config.SWOP_FI_ENABLE
+          ? swopfiQuery.data.swopfiPair.data?.totalLiquidityUSD ?? '0'
+          : '0'
+      );
   }, [stakingList, swopfiQuery.data]);
 
   const rewardSum = useMemo(

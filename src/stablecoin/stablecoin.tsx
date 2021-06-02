@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Head, PageWrapper } from 'src/common';
 import { MainLayout } from 'src/layouts';
+import { config } from 'src/config';
 import { useIssuerBalance } from 'src/collateral';
 import {
   StablecoinCollateral,
@@ -46,7 +47,9 @@ export const Stablecoin: React.FC = () => {
       <Head title="The first-ever decentralized stablecoin based on real-world assets." />
       <MainLayout>
         <PageWrapper>
-          <button onClick={openBuybackModal}>buy back</button>
+          {config.BUY_BACK_ENABLE && (
+            <button onClick={openBuybackModal}>buy back</button>
+          )}
           <StablecoinHeader className={classes.header} />
           <StablecoinGraph
             className={classes.section}
