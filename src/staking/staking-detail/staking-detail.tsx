@@ -22,7 +22,8 @@ import {
   useCanUnStaking,
   useStakingListData,
   StakingEmpty,
-  useStakingContracts
+  useStakingContracts,
+  useStakingUnstakeAttentionModal
 } from 'src/staking/common';
 import { useStakingConfig } from 'src/staking-config';
 import { WalletButtonWithFallback } from 'src/wallets';
@@ -69,23 +70,10 @@ export const StakingDetail: React.FC = () => {
   const [unstakeState, handleUnstake] = useAsyncFn(async () => {
     if (stakingBalanceIsEmpty) return;
 
-    if (!unstake.value?.can && stakingItem?.lockable) {
-      toggleCanUnstake(true);
-
-      return;
-    }
-    toggleCanUnstake(false);
-
     await unlock();
 
     stakingAddresses.retry();
-  }, [
-    unlock,
-    stakingAddresses.retry,
-    stakingBalanceIsEmpty,
-    unstake.value,
-    toggleCanUnstake
-  ]);
+  }, [unlock, stakingAddresses.retry, stakingBalanceIsEmpty]);
 
   const [claimState, handleClaim] = useAsyncFn(async () => {
     if (stakingBalanceIsEmpty) return;
@@ -126,6 +114,24 @@ export const StakingDetail: React.FC = () => {
     unstake.value?.currentBlockNumber.isGreaterThan(
       unstake.value?.unstakingStartBlock
     );
+
+  const [openUnstake] = useStakingUnstakeAttentionModal({
+    onUnstake: handleUnstake,
+    loading: unstakeState.loading
+  });
+
+  const handleOpenUnstake = () => {
+    if (stakingBalanceIsEmpty) return;
+
+    if (!unstake.value?.can && stakingItem?.lockable) {
+      toggleCanUnstake(true);
+
+      return;
+    }
+    toggleCanUnstake(false);
+
+    openUnstake();
+  };
 
   return (
     <>
@@ -224,7 +230,7 @@ export const StakingDetail: React.FC = () => {
                         <>
                           {showUnstakeButton && account && (
                             <WalletButtonWithFallback
-                              onClick={handleUnstake}
+                              onClick={handleOpenUnstake}
                               className={classes.unlock}
                               loading={unstakeState.loading}
                               disabled={unstakeState.loading}
