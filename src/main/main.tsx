@@ -11,6 +11,7 @@ import {
   useNetworkConfig
 } from 'src/common';
 import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
+import { ReactComponent as HashExLogo } from 'src/assets/icons/hashex.svg';
 import { MainLayout } from 'src/layouts';
 import {
   useStableCoinBalance,
@@ -97,7 +98,7 @@ export const Main: React.FC = () => {
               mixBytesLink="https://github.com/mixbytes/audits_public/tree/4fc7d333e3df57586e0f96cc551819e2c93f3ae9/BondAppetit"
               hashExLink="https://github.com/HashEx/public_audits/blob/32a680c5b8f3a784ef3273c324e0841341f3abc2/BondAppétit/BondAppetit%20report.pdf"
               mixBytesLogo={<MixBytesLogo />}
-              hashExLogo={<MixBytesLogo />}
+              hashExLogo={<HashExLogo />}
             />
           </MainEditor>
           <MainVoting className={classes.section} />
