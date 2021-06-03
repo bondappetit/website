@@ -42,10 +42,8 @@ export const VotingCreateProposal: React.FC = () => {
   const classes = useVotingCreateProposalStyles();
   const { library, account } = useWeb3React<Web3>();
   const [addActionOpen, toggleAddAction] = useToggle(false);
-  const [
-    editAction,
-    setEditAction
-  ] = useState<VotingAddActionFormValues | null>(null);
+  const [editAction, setEditAction] =
+    useState<VotingAddActionFormValues | null>(null);
   const history = useHistory();
 
   const formik = useFormik<FormValues>({

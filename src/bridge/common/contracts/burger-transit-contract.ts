@@ -18,10 +18,10 @@ export const useTransitContract = () => {
 
   return useMemo(
     () =>
-      (new library.eth.Contract(
+      new library.eth.Contract(
         abi as AbiItem[],
         ADDRESS
-      ) as unknown) as BurgerTransit,
+      ) as unknown as BurgerTransit,
     [library]
   );
 };

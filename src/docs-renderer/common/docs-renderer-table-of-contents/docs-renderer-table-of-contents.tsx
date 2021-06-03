@@ -9,38 +9,37 @@ export type DocsRendererTableOfContentsProps = {
   tableOfContents?: TableOfContent[];
 };
 
-export const DocsRendererTableOfContents: React.FC<DocsRendererTableOfContentsProps> = (
-  props
-) => {
-  return (
-    <DocsRendererTableOfContentsContainer>
-      {(tableOfContents, activeElement) => {
-        const mergedTableOfContents = (props.tableOfContents ?? []).map(
-          (tableOfContent) => {
-            const findedTableOfContent = tableOfContents.find(
-              (heading) => heading.text === tableOfContent.text
-            );
+export const DocsRendererTableOfContents: React.FC<DocsRendererTableOfContentsProps> =
+  (props) => {
+    return (
+      <DocsRendererTableOfContentsContainer>
+        {(tableOfContents, activeElement) => {
+          const mergedTableOfContents = (props.tableOfContents ?? []).map(
+            (tableOfContent) => {
+              const findedTableOfContent = tableOfContents.find(
+                (heading) => heading.text === tableOfContent.text
+              );
 
-            if (findedTableOfContent) {
-              return findedTableOfContent;
+              if (findedTableOfContent) {
+                return findedTableOfContent;
+              }
+
+              return tableOfContent;
             }
+          );
 
-            return tableOfContent;
-          }
-        );
+          const newTableOfContents = mergedTableOfContents.length
+            ? mergedTableOfContents
+            : tableOfContents;
 
-        const newTableOfContents = mergedTableOfContents.length
-          ? mergedTableOfContents
-          : tableOfContents;
-
-        return (
-          <DocsRendererTableOfContentsList
-            tableOfContent={newTableOfContents}
-            activeElement={activeElement}
-            className={props.className}
-          />
-        );
-      }}
-    </DocsRendererTableOfContentsContainer>
-  );
-};
+          return (
+            <DocsRendererTableOfContentsList
+              tableOfContent={newTableOfContents}
+              activeElement={activeElement}
+              className={props.className}
+            />
+          );
+        }}
+      </DocsRendererTableOfContentsContainer>
+    );
+  };

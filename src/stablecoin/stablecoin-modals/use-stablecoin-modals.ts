@@ -3,9 +3,8 @@ import { useToggle } from 'react-use';
 
 export const useStablecoinModals = () => {
   const [linkModalOpen, togglelinkModal] = useToggle(false);
-  const [collateralMarketModalOpen, toggleCollateralMarketModal] = useToggle(
-    false
-  );
+  const [collateralMarketModalOpen, toggleCollateralMarketModal] =
+    useToggle(false);
   const [marketModalOpen, toggleMarketModal] = useToggle(false);
   const [sellModalOpen, toggleSellModal] = useToggle(false);
 

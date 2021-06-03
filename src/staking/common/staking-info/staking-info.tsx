@@ -6,8 +6,7 @@ import { useStakingInfoStyles } from './staking-info.styles';
 const STAKING_CARDS = [
   {
     title: 'All',
-    body:
-      'BondAppétit governance tokens reserved for protocol’s usage will be distributed in 2 years.',
+    body: 'BondAppétit governance tokens reserved for protocol’s usage will be distributed in 2 years.',
     date: '2021 — 2023'
   },
   {

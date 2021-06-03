@@ -46,8 +46,7 @@ export const FACTOID = [
 export const FAQ = [
   {
     title: 'What is BAG?',
-    body:
-      'BAG is the main tool for decision-making and the main incentive tool for participants of the protocol and the community. Technically, it is an ERC-20 token and is based on the [Compound Governance system](https://github.com/compound-developers/compound-governance-examples), as it allows ensuring transparent and secure management of the protocol by the community.'
+    body: 'BAG is the main tool for decision-making and the main incentive tool for participants of the protocol and the community. Technically, it is an ERC-20 token and is based on the [Compound Governance system](https://github.com/compound-developers/compound-governance-examples), as it allows ensuring transparent and secure management of the protocol by the community.'
   },
 
   {

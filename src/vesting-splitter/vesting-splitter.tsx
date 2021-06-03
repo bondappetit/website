@@ -83,11 +83,8 @@ export const VestingSplitter: React.FC = () => {
   const [open, toggle] = useToggle(false);
   const classes = useVestingSplitterStyles();
 
-  const [
-    splitterInfo,
-    withDrawInfo,
-    withDrawInfoLoading
-  ] = useVestingSplitterInfo();
+  const [splitterInfo, withDrawInfo, withDrawInfoLoading] =
+    useVestingSplitterInfo();
   const [totalSupply, split, splitLoading] = useVestingSplitterTotalSupply();
   const [
     splitterShares,

@@ -12,14 +12,12 @@ const PHASES = [
   },
   {
     title: 'Phase 2: RWA-collateral',
-    body:
-      'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
+    body: 'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
     date: '1 Day after P1, 2 years'
   },
   {
     title: 'Phase 3: Direct Investment',
-    body:
-      'The capitalization of the protocol reaches $100m. The issuance of governance tokens stops.',
+    body: 'The capitalization of the protocol reaches $100m. The issuance of governance tokens stops.',
     date: '1 Day after P2, unlimited'
   }
 ];

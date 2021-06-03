@@ -92,9 +92,10 @@ const ModalTableOfContents: React.FC<DocsRendererTableOfContentsListProps> = (
   const classes = useDocsRendererTableOfContentsStyles();
   const [menuIsOpen, toggleMenu] = useToggle(false);
 
-  const tableOfContent = useMemo(() => deepFlat(props.tableOfContent), [
-    props.tableOfContent
-  ]);
+  const tableOfContent = useMemo(
+    () => deepFlat(props.tableOfContent),
+    [props.tableOfContent]
+  );
 
   const activeTitle = useMemo(
     () =>
@@ -125,14 +126,13 @@ const ModalTableOfContents: React.FC<DocsRendererTableOfContentsListProps> = (
   );
 };
 
-export const DocsRendererTableOfContentsList: React.VFC<DocsRendererTableOfContentsListProps> = (
-  props
-) => {
-  const isDesktop = useMedia(IS_DESKTOP);
+export const DocsRendererTableOfContentsList: React.VFC<DocsRendererTableOfContentsListProps> =
+  (props) => {
+    const isDesktop = useMedia(IS_DESKTOP);
 
-  return (
-    <div>
-      {isDesktop ? <List {...props} /> : <ModalTableOfContents {...props} />}
-    </div>
-  );
-};
+    return (
+      <div>
+        {isDesktop ? <List {...props} /> : <ModalTableOfContents {...props} />}
+      </div>
+    );
+  };

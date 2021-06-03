@@ -7,8 +7,10 @@ import { MainWindow } from '../main-window';
 
 export type MainAuditProps = {
   className?: string;
-  companyLogo?: React.ReactNode;
-  auditLink?: string;
+  mixBytesLogo?: React.ReactNode;
+  hashExLogo?: React.ReactNode;
+  mixBytesLink?: string;
+  hashExLink?: string;
 };
 
 export const MainAudit: React.VFC<MainAuditProps> = (props) => {
@@ -34,11 +36,20 @@ export const MainAudit: React.VFC<MainAuditProps> = (props) => {
           <Typography variant="inherit">
             Audited and Verified by&#160;
           </Typography>
-          <span className={classes.logo}>{props.companyLogo}</span>
+          <span className={classes.logo}>{props.mixBytesLogo}</span>
+          <Typography variant="inherit">&#160;and&#160;</Typography>
+          <span className={clsx(classes.logo, classes.hashEx)}>
+            {props.hashExLogo}
+          </span>
         </Typography>
         <Typography variant="h4" className={classes.link}>
-          <Link href={props.auditLink} target="_blank" color="blue">
-            Read security report
+          Read security report by&#160;
+          <Link href={props.mixBytesLink} target="_blank" color="blue">
+            MixBytes
+          </Link>
+          &#160;or&#160;
+          <Link href={props.hashExLink} target="_blank" color="blue">
+            HashEx
           </Link>
         </Typography>
       </div>

@@ -35,249 +35,248 @@ export type StablecoinCollateralMarketModalProps = {
   tokenName: string;
 };
 
-export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarketModalProps> = (
-  props
-) => {
-  const [balance, setBalance] = useState('0');
-  const tokens = useStablecoinTokens();
-  const { account = null } = useWeb3React<Web3>();
-  const collateralMarketContract = useCollateralMarketContract();
-  const network = useNetworkConfig();
-  const getBalance = useBalance();
-  const getContract = useDynamicContract<Ierc20>({
-    abi: IERC20.abi as AbiItem[]
-  });
-
-  const [successOpen, successToggle] = useToggle(false);
-  const [failureOpen, failureToggle] = useToggle(false);
-  const [transactionOpen, transactionToggle] = useToggle(false);
-
-  const [approve, approvalNeeded] = useApprove();
-
-  const formik = useFormik({
-    initialValues: {
-      currency: 'USDC',
-      payment: '0',
-      youGet: '0'
-    },
-
-    validateOnBlur: false,
-    validateOnChange: false,
-
-    validate: async (formValues) => {
-      const error: Partial<typeof formValues> = {};
-
-      if (!formValues.currency) {
-        error.currency = 'Choose currency';
-        return error;
-      }
-
-      if (Number(formValues.payment) <= 0) {
-        error.payment = `${formValues.currency} is required`;
-        return error;
-      }
-
-      const currentToken = Object.values(network.assets).find(
-        ({ symbol }) => symbol === formValues.currency
-      );
-
-      if (!currentToken) return;
-
-      const balanceOfToken = await getBalance({
-        tokenAddress: currentToken.address,
-        tokenName: currentToken.symbol
-      });
-
-      if (
-        balanceOfToken
-          .div(new BN(10).pow(currentToken.decimals))
-          .isLessThan(formValues.payment)
-      ) {
-        error.payment = `Not enough ${formValues.currency}`;
-      }
-
-      return error;
-    },
-
-    onSubmit: async (formValues) => {
-      const currentToken = Object.values(network.assets).find(
-        ({ symbol }) => symbol === formValues.currency
-      );
-
-      if (!currentToken || !account || !collateralMarketContract) return;
-
-      const currentContract = getContract(currentToken.address);
-
-      const formInvest = new BN(formValues.payment)
-        .multipliedBy(new BN(10).pow(currentToken.decimals))
-        .toString(10);
-      analytics.send('buy_usdap_click');
-
-      try {
-        const options = {
-          token: currentContract,
-          owner: account,
-          spender: collateralMarketContract.options.address,
-          amount: formInvest
-        };
-
-        const approved = await approvalNeeded(options);
-
-        if (approved.reset) {
-          await reset(options);
-        }
-        if (approved.approve) {
-          await approveAll(options);
-          await approvalNeeded(options);
-          return;
-        }
-
-        window.onbeforeunload = () => 'wait please transaction in progress';
-
-        const buyStableToken = collateralMarketContract.methods.buy(
-          currentContract.options.address,
-          formInvest
-        );
-        await buyStableToken.send({
-          from: account,
-          gas: await estimateGas(buyStableToken, { from: account })
-        });
-
-        analytics.send('buy_usdap_success');
-        failureToggle(false);
-        successToggle(true);
-        tokens.retry();
-      } catch {
-        failureToggle(true);
-      } finally {
-        window.onbeforeunload = () => null;
-        transactionToggle(false);
-      }
-    }
-  });
-
-  useIntervalIfHasAccount(async () => {
-    const balanceOfToken = await getBalance({
-      tokenAddress: network.assets.Stable.address,
-      tokenName: network.assets.Stable.name
+export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarketModalProps> =
+  (props) => {
+    const [balance, setBalance] = useState('0');
+    const tokens = useStablecoinTokens();
+    const { account = null } = useWeb3React<Web3>();
+    const collateralMarketContract = useCollateralMarketContract();
+    const network = useNetworkConfig();
+    const getBalance = useBalance();
+    const getContract = useDynamicContract<Ierc20>({
+      abi: IERC20.abi as AbiItem[]
     });
 
-    setBalance(
-      balanceOfToken
-        .div(new BN(10).pow(network.assets.Stable.decimals))
-        .toString(10)
-    );
-  });
+    const [successOpen, successToggle] = useToggle(false);
+    const [failureOpen, failureToggle] = useToggle(false);
+    const [transactionOpen, transactionToggle] = useToggle(false);
 
-  const handleSuccessClose = useCallback(() => {
-    successToggle(false);
-    formik.resetForm();
-  }, [successToggle, formik]);
+    const [approve, approvalNeeded] = useApprove();
 
-  const handleClose = useCallback(() => {
-    props.onClose?.();
-    formik.resetForm();
-  }, [formik, props]);
+    const formik = useFormik({
+      initialValues: {
+        currency: 'USDC',
+        payment: '0',
+        youGet: '0'
+      },
 
-  const { setFieldValue } = formik;
+      validateOnBlur: false,
+      validateOnChange: false,
 
-  useEffect(() => {
-    const payment = new BN(formik.values.payment);
+      validate: async (formValues) => {
+        const error: Partial<typeof formValues> = {};
 
-    setFieldValue('youGet', payment.isNaN() ? '0' : payment.toString(10));
-  }, [formik.values.payment, setFieldValue]);
+        if (!formValues.currency) {
+          error.currency = 'Choose currency';
+          return error;
+        }
 
-  useEffect(() => {
-    const youGet = new BN(formik.values.youGet);
+        if (Number(formValues.payment) <= 0) {
+          error.payment = `${formValues.currency} is required`;
+          return error;
+        }
 
-    setFieldValue('payment', youGet.isNaN() ? '0' : youGet.toString(10));
-  }, [formik.values.youGet, formik.values.currency, setFieldValue]);
-
-  useDebounce(
-    () => {
-      const handle = async () => {
         const currentToken = Object.values(network.assets).find(
-          ({ symbol }) => symbol === formik.values.currency
+          ({ symbol }) => symbol === formValues.currency
+        );
+
+        if (!currentToken) return;
+
+        const balanceOfToken = await getBalance({
+          tokenAddress: currentToken.address,
+          tokenName: currentToken.symbol
+        });
+
+        if (
+          balanceOfToken
+            .div(new BN(10).pow(currentToken.decimals))
+            .isLessThan(formValues.payment)
+        ) {
+          error.payment = `Not enough ${formValues.currency}`;
+        }
+
+        return error;
+      },
+
+      onSubmit: async (formValues) => {
+        const currentToken = Object.values(network.assets).find(
+          ({ symbol }) => symbol === formValues.currency
         );
 
         if (!currentToken || !account || !collateralMarketContract) return;
 
         const currentContract = getContract(currentToken.address);
 
-        const formInvest = new BN(formik.values.payment)
+        const formInvest = new BN(formValues.payment)
           .multipliedBy(new BN(10).pow(currentToken.decimals))
           .toString(10);
+        analytics.send('buy_usdap_click');
 
-        if (!currentContract) return;
+        try {
+          const options = {
+            token: currentContract,
+            owner: account,
+            spender: collateralMarketContract.options.address,
+            amount: formInvest
+          };
 
-        await approvalNeeded({
-          token: currentContract,
-          owner: account,
-          spender: collateralMarketContract.options.address,
-          amount: formInvest
-        });
-      };
+          const approved = await approvalNeeded(options);
 
-      handle();
-    },
-    200,
-    [
-      approvalNeeded,
-      collateralMarketContract,
-      account,
-      formik.values.currency,
-      formik.values.payment,
-      network.assets,
-      getContract
-    ]
-  );
-
-  return (
-    <>
-      <FormikContext.Provider value={formik}>
-        <FormModal
-          onClose={handleClose}
-          open={props.open}
-          tokenName="USDap"
-          tokens={tokens.value ?? []}
-          balance={account ? balance : undefined}
-          tokenCost="1"
-          button={
-            <WalletButtonWithFallback
-              disabled={
-                Boolean(formik.errors.payment || formik.errors.currency) ||
-                formik.isSubmitting
-              }
-              loading={formik.isSubmitting}
-            >
-              {(!approve.value?.approve && !approve.value?.reset) ||
-              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
-                ? formik.errors.payment || formik.errors.currency || 'Buy'
-                : 'Approve'}
-            </WalletButtonWithFallback>
+          if (approved.reset) {
+            await reset(options);
           }
-        />
-      </FormikContext.Provider>
-      <Modal open={successOpen} onClose={handleSuccessClose}>
-        <SmallModal>
-          <InfoCardSuccess
-            token="Stable"
+          if (approved.approve) {
+            await approveAll(options);
+            await approvalNeeded(options);
+            return;
+          }
+
+          window.onbeforeunload = () => 'wait please transaction in progress';
+
+          const buyStableToken = collateralMarketContract.methods.buy(
+            currentContract.options.address,
+            formInvest
+          );
+          await buyStableToken.send({
+            from: account,
+            gas: await estimateGas(buyStableToken, { from: account })
+          });
+
+          analytics.send('buy_usdap_success');
+          failureToggle(false);
+          successToggle(true);
+          tokens.retry();
+        } catch {
+          failureToggle(true);
+        } finally {
+          window.onbeforeunload = () => null;
+          transactionToggle(false);
+        }
+      }
+    });
+
+    useIntervalIfHasAccount(async () => {
+      const balanceOfToken = await getBalance({
+        tokenAddress: network.assets.Stable.address,
+        tokenName: network.assets.Stable.name
+      });
+
+      setBalance(
+        balanceOfToken
+          .div(new BN(10).pow(network.assets.Stable.decimals))
+          .toString(10)
+      );
+    });
+
+    const handleSuccessClose = useCallback(() => {
+      successToggle(false);
+      formik.resetForm();
+    }, [successToggle, formik]);
+
+    const handleClose = useCallback(() => {
+      props.onClose?.();
+      formik.resetForm();
+    }, [formik, props]);
+
+    const { setFieldValue } = formik;
+
+    useEffect(() => {
+      const payment = new BN(formik.values.payment);
+
+      setFieldValue('youGet', payment.isNaN() ? '0' : payment.toString(10));
+    }, [formik.values.payment, setFieldValue]);
+
+    useEffect(() => {
+      const youGet = new BN(formik.values.youGet);
+
+      setFieldValue('payment', youGet.isNaN() ? '0' : youGet.toString(10));
+    }, [formik.values.youGet, formik.values.currency, setFieldValue]);
+
+    useDebounce(
+      () => {
+        const handle = async () => {
+          const currentToken = Object.values(network.assets).find(
+            ({ symbol }) => symbol === formik.values.currency
+          );
+
+          if (!currentToken || !account || !collateralMarketContract) return;
+
+          const currentContract = getContract(currentToken.address);
+
+          const formInvest = new BN(formik.values.payment)
+            .multipliedBy(new BN(10).pow(currentToken.decimals))
+            .toString(10);
+
+          if (!currentContract) return;
+
+          await approvalNeeded({
+            token: currentContract,
+            owner: account,
+            spender: collateralMarketContract.options.address,
+            amount: formInvest
+          });
+        };
+
+        handle();
+      },
+      200,
+      [
+        approvalNeeded,
+        collateralMarketContract,
+        account,
+        formik.values.currency,
+        formik.values.payment,
+        network.assets,
+        getContract
+      ]
+    );
+
+    return (
+      <>
+        <FormikContext.Provider value={formik}>
+          <FormModal
+            onClose={handleClose}
+            open={props.open}
             tokenName="USDap"
-            onClick={handleSuccessClose}
-            purchased={formik.values.youGet}
+            tokens={tokens.value ?? []}
+            balance={account ? balance : undefined}
+            tokenCost="1"
+            button={
+              <WalletButtonWithFallback
+                disabled={
+                  Boolean(formik.errors.payment || formik.errors.currency) ||
+                  formik.isSubmitting
+                }
+                loading={formik.isSubmitting}
+              >
+                {(!approve.value?.approve && !approve.value?.reset) ||
+                new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
+                  ? formik.errors.payment || formik.errors.currency || 'Buy'
+                  : 'Approve'}
+              </WalletButtonWithFallback>
+            }
           />
-        </SmallModal>
-      </Modal>
-      <Modal open={failureOpen} onClose={failureToggle}>
-        <SmallModal>
-          <InfoCardFailure onClick={formik.submitForm} />
-        </SmallModal>
-      </Modal>
-      <Modal open={transactionOpen}>
-        <SmallModal>
-          <InfoCardLoader />
-        </SmallModal>
-      </Modal>
-    </>
-  );
-};
+        </FormikContext.Provider>
+        <Modal open={successOpen} onClose={handleSuccessClose}>
+          <SmallModal>
+            <InfoCardSuccess
+              token="Stable"
+              tokenName="USDap"
+              onClick={handleSuccessClose}
+              purchased={formik.values.youGet}
+            />
+          </SmallModal>
+        </Modal>
+        <Modal open={failureOpen} onClose={failureToggle}>
+          <SmallModal>
+            <InfoCardFailure onClick={formik.submitForm} />
+          </SmallModal>
+        </Modal>
+        <Modal open={transactionOpen}>
+          <SmallModal>
+            <InfoCardLoader />
+          </SmallModal>
+        </Modal>
+      </>
+    );
+  };

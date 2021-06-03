@@ -13,10 +13,7 @@ export const useBBagContract = () => {
 
   return useMemo(
     () =>
-      (new library.eth.Contract(
-        abi as AbiItem[],
-        ADDRESS
-      ) as unknown) as BbagAbi,
+      new library.eth.Contract(abi as AbiItem[], ADDRESS) as unknown as BbagAbi,
     [library]
   );
 };

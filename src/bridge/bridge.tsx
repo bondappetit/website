@@ -88,18 +88,13 @@ export const Bridge: React.VFC = () => {
   const classes = useBridgeStyles();
   const [lostTransactionOpen, toggleLostTransaction] = useToggle(false);
 
-  const [
-    ethereumTransit,
-    setEthereumTransit
-  ] = useState<BurgerSwapTransit | null>(null);
-  const [
-    binancePayback,
-    setBinancePayback
-  ] = useState<BurgerSwapPayback | null>(null);
+  const [ethereumTransit, setEthereumTransit] =
+    useState<BurgerSwapTransit | null>(null);
+  const [binancePayback, setBinancePayback] =
+    useState<BurgerSwapPayback | null>(null);
 
-  const [transactionToRecieve, setTransactionToRecieve] = useState<
-    string | null
-  >(null);
+  const [transactionToRecieve, setTransactionToRecieve] =
+    useState<string | null>(null);
 
   const [ethTransit, setEthTransit] = useLocalStorage<string | null>(
     'ethTransit',
@@ -343,9 +338,8 @@ export const Bridge: React.VFC = () => {
                   <ButtonBase
                     key={chain.title}
                     className={clsx(classes.tabPane, {
-                      [classes.tabPaneActive]: chain.chainIds.includes(
-                        currentChainId
-                      )
+                      [classes.tabPaneActive]:
+                        chain.chainIds.includes(currentChainId)
                     })}
                     onClick={
                       chains[0] === chain ? openChangeNetwork : setupBinance
@@ -356,12 +350,10 @@ export const Bridge: React.VFC = () => {
                       <Typography
                         variant="body1"
                         className={clsx({
-                          [classes.activeNetwork]: chain.chainIds.includes(
-                            currentChainId
-                          ),
-                          [classes.inactiveNetwork]: !chain.chainIds.includes(
-                            currentChainId
-                          )
+                          [classes.activeNetwork]:
+                            chain.chainIds.includes(currentChainId),
+                          [classes.inactiveNetwork]:
+                            !chain.chainIds.includes(currentChainId)
                         })}
                       >
                         {chain.chainIds.includes(currentChainId)

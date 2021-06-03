@@ -54,15 +54,14 @@ export const VotingActionParameters: React.FC<VotingActionParametersProps> = (
   const { setFieldValue, values } = formik;
 
   const handleChange = useCallback(
-    (options: Options) => ({
-      currentTarget
-    }: React.FormEvent<HTMLInputElement>) => {
-      setFieldValue(currentTarget.name, {
-        value: currentTarget.value,
-        name: options.inputName,
-        type: options.inputType
-      });
-    },
+    (options: Options) =>
+      ({ currentTarget }: React.FormEvent<HTMLInputElement>) => {
+        setFieldValue(currentTarget.name, {
+          value: currentTarget.value,
+          name: options.inputName,
+          type: options.inputType
+        });
+      },
     [setFieldValue]
   );
 

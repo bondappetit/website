@@ -105,9 +105,10 @@ export const StakingDetail: React.FC = () => {
 
   const loading = !stakingItem;
 
-  const depositToken = useMemo(() => stakingItem?.token?.join('_'), [
-    stakingItem
-  ]);
+  const depositToken = useMemo(
+    () => stakingItem?.token?.join('_'),
+    [stakingItem]
+  );
 
   const showUnstakeButton =
     unstake.value?.unstakingStartBlock.eq(0) ||

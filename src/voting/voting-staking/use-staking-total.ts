@@ -60,10 +60,10 @@ export const useStakingTotal = () => {
         { leftTokens, totalSupplySum },
         { rewardForDurationFloat, earnedFloat, rewardHistory }
       ) => {
-        const [
-          totalEarnedSum,
-          totalRewardSum
-        ] = rewardHistory.reduce(getRewardHistorySum, [new BN(0), new BN(0)]);
+        const [totalEarnedSum, totalRewardSum] = rewardHistory.reduce(
+          getRewardHistorySum,
+          [new BN(0), new BN(0)]
+        );
 
         return {
           leftTokens: leftTokens.plus(earnedFloat).plus(totalEarnedSum),

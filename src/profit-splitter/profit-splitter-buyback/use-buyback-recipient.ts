@@ -3,9 +3,8 @@ import { useCallback, useEffect, useState } from 'react';
 import { useBuybackContract } from 'src/common';
 
 export const useBuybackRecipient = () => {
-  const [currentRecipient, setCurrentRecipient] = useState<
-    string | undefined
-  >();
+  const [currentRecipient, setCurrentRecipient] =
+    useState<string | undefined>();
 
   const buybackContract = useBuybackContract();
 

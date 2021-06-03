@@ -44,9 +44,8 @@ export const useVestingSplitterInfo = () => {
 
       toggleLoading(true);
 
-      const vestingWithdraw = vestingSplitterContract.methods.vestingWithdraw(
-        periodId
-      );
+      const vestingWithdraw =
+        vestingSplitterContract.methods.vestingWithdraw(periodId);
 
       try {
         await vestingWithdraw.send({

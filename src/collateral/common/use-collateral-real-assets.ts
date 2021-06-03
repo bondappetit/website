@@ -58,7 +58,8 @@ const isValid = (data: string, signature: string) =>
   rsa.verify(data, Buffer.from(signature, 'base64'));
 
 export const useCollateralRealAssets = () => {
-  const realAssetDepositaryBalanceViewContract = useRealAssetDepositaryBalanceView();
+  const realAssetDepositaryBalanceViewContract =
+    useRealAssetDepositaryBalanceView();
   const networkConfig = useNetworkConfig();
 
   return useAsyncRetry(async () => {
@@ -78,15 +79,14 @@ export const useCollateralRealAssets = () => {
         .multipliedBy(price)
         .div(new BN(10).pow(USDC.decimals));
 
-      const [
-        updateEvent
-      ] = await realAssetDepositaryBalanceViewContract.getPastEvents(
-        'AssetUpdated',
-        {
-          fromBlock: updatedBlockAt,
-          toBlock: updatedBlockAt
-        }
-      );
+      const [updateEvent] =
+        await realAssetDepositaryBalanceViewContract.getPastEvents(
+          'AssetUpdated',
+          {
+            fromBlock: updatedBlockAt,
+            toBlock: updatedBlockAt
+          }
+        );
 
       acc.set(id, {
         id,

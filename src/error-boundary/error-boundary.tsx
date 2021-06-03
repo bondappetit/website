@@ -24,7 +24,7 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error({ error, errorInfo });
-    Sentry.log(error, (errorInfo as unknown) as Record<string, unknown>);
+    Sentry.log(error, errorInfo as unknown as Record<string, unknown>);
   }
 
   private handleReloadPage = () => {

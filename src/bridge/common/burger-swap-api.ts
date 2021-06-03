@@ -33,17 +33,19 @@ export type BurgerSwapPayback = {
   updateTime: string;
 };
 
-const createFetch = (url: string) => (
-  path: string,
-  init?: (Omit<RequestInit, 'body'> & { body: unknown }) | undefined
-) =>
-  fetch(`${url}${path}`, {
-    ...(init ?? {}),
-    body: JSON.stringify(init?.body),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  });
+const createFetch =
+  (url: string) =>
+  (
+    path: string,
+    init?: (Omit<RequestInit, 'body'> & { body: unknown }) | undefined
+  ) =>
+    fetch(`${url}${path}`, {
+      ...(init ?? {}),
+      body: JSON.stringify(init?.body),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
 const fetchWrap = createFetch(BURGER_SWAP_API_URL);
 

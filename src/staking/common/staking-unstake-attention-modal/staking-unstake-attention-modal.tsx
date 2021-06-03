@@ -9,35 +9,34 @@ export type StakingUnstakeAttentionModalProps = {
   loading: boolean;
 };
 
-const StakingUnstakeAttentionModal: React.VFC<StakingUnstakeAttentionModalProps> = (
-  props
-) => {
-  const classes = useStakingUnstakeAttentionModalStyles();
+const StakingUnstakeAttentionModal: React.VFC<StakingUnstakeAttentionModalProps> =
+  (props) => {
+    const classes = useStakingUnstakeAttentionModalStyles();
 
-  return (
-    <Modal open onClose={props.onClose}>
-      <SmallModal>
-        <div className={classes.root}>
-          <div className={classes.content}>
-            <Typography variant="h5" weight="bold">
-              <Typography variant="inherit" className={classes.attention}>
-                Attention!
-              </Typography>{' '}
-              Unstaking
-            </Typography>
+    return (
+      <Modal open onClose={props.onClose}>
+        <SmallModal>
+          <div className={classes.root}>
+            <div className={classes.content}>
+              <Typography variant="h5" weight="bold">
+                <Typography variant="inherit" className={classes.attention}>
+                  Attention!
+                </Typography>{' '}
+                Unstaking
+              </Typography>
+            </div>
+            <Button
+              onClick={props.onUnstake}
+              disabled={props.loading}
+              loading={props.loading}
+            >
+              Unstake
+            </Button>
           </div>
-          <Button
-            onClick={props.onUnstake}
-            disabled={props.loading}
-            loading={props.loading}
-          >
-            Unstake
-          </Button>
-        </div>
-      </SmallModal>
-    </Modal>
-  );
-};
+        </SmallModal>
+      </Modal>
+    );
+  };
 
 export const useStakingUnstakeAttentionModal = (
   props: StakingUnstakeAttentionModalProps

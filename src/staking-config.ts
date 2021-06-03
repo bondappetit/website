@@ -185,9 +185,10 @@ export const useStakingConfig = () => {
     [chainId]
   );
 
-  const stakingConfigValues = useMemo(() => Object.values(stakingConfigMemo), [
-    stakingConfigMemo
-  ]);
+  const stakingConfigValues = useMemo(
+    () => Object.values(stakingConfigMemo),
+    [stakingConfigMemo]
+  );
 
   return { stakingConfigValues, stakingConfig: stakingConfigMemo };
 };
