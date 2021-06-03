@@ -26,13 +26,8 @@ export const useMainAuditStyles = createUseStyles(
     },
 
     title: {
-      display: 'inline-flex',
       flexDirection: 'column',
-      color: theme.colors.green1,
-
-      [theme.breakpoints.md()]: {
-        flexDirection: 'row'
-      }
+      color: theme.colors.green1
     },
 
     text: {
@@ -40,15 +35,17 @@ export const useMainAuditStyles = createUseStyles(
     },
 
     logo: {
-      display: 'block',
-      width: '100%',
-      height: '1em',
+      display: 'inline-block',
       bottom: '-4px',
       position: 'relative',
 
       [theme.breakpoints.md()]: {
         width: 'auto'
       }
+    },
+
+    hashEx: {
+      bottom: 0
     },
 
     link: {

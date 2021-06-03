@@ -38,7 +38,9 @@ export const MainAudit: React.VFC<MainAuditProps> = (props) => {
           </Typography>
           <span className={classes.logo}>{props.mixBytesLogo}</span>
           <Typography variant="inherit">&#160;and&#160;</Typography>
-          <span className={classes.logo}>{props.hashExLogo}</span>
+          <span className={clsx(classes.logo, classes.hashEx)}>
+            {props.hashExLogo}
+          </span>
         </Typography>
         <Typography variant="h4" className={classes.link}>
           Read security report by&#160;
