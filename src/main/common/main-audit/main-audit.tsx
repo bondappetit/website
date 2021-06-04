@@ -43,11 +43,11 @@ export const MainAudit: React.VFC<MainAuditProps> = (props) => {
           </span>
         </Typography>
         <Typography variant="h4" className={classes.link}>
-          Read security report by&#160;
+          Read security reports by&#160;
           <Link href={props.mixBytesLink} target="_blank" color="blue">
             MixBytes
           </Link>
-          &#160;or&#160;
+          &#160;and&#160;
           <Link href={props.hashExLink} target="_blank" color="blue">
             HashEx
           </Link>
