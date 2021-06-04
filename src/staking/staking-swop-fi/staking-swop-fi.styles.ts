@@ -29,11 +29,39 @@ export const useStakingSwopFiStyles = createUseStyles(
     },
 
     title: {
-      marginBottom: 40
+      display: 'flex',
+      fontSize: 24,
+      lineHeight: '32px',
+
+      [theme.breakpoints.md()]: {
+        fontSize: 32,
+        lineHeight: '40px'
+      }
     },
 
     icon: {
       marginBottom: 12
+    },
+
+    plus: {
+      margin: '0 8px'
+    },
+
+    apy: {
+      marginBottom: 30,
+      fontSize: 24,
+      lineHeight: '32px',
+
+      [theme.breakpoints.md()]: {
+        fontSize: 32,
+        lineHeight: '40px'
+      }
+    },
+
+    status: {
+      fontSize: 32,
+      lineHeight: '40px',
+      marginBottom: 40
     }
   }),
   {

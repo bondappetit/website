@@ -286,6 +286,7 @@ export const useStakingListData = (address?: string) => {
     totalValueLocked,
     volume24: govToken.data?.token.data?.statistic?.dailyVolumeUSD,
     swopfiItem: swopfiQuery.data?.swopfiPair.data,
+    swopfiLoading: swopfiQuery.loading,
     governanceInUSDC,
     stakingList,
     rewardSum,

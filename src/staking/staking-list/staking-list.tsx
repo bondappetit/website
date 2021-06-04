@@ -31,7 +31,8 @@ export const StakingList: React.VFC = () => {
     governanceInUSDC,
     stakingList,
     rewardSum,
-    swopfiItem
+    swopfiItem,
+    swopfiLoading
   } = useStakingListData();
 
   return (
@@ -103,6 +104,7 @@ export const StakingList: React.VFC = () => {
               <StakingSwopFi
                 tvl={swopfiItem?.totalLiquidityUSD}
                 apy={swopfiItem?.apr.year}
+                loading={swopfiLoading}
               />
             )}
           </div>
