@@ -4,7 +4,8 @@ import clsx from 'clsx';
 import { ReactComponent as UniswapIcon } from 'src/assets/icons/uniswap.svg';
 import { ReactComponent as BAGicon } from 'src/assets/icons/coins/bag.svg';
 import { ReactComponent as CakeIcon } from 'src/assets/icons/bag/cake.svg';
-import { ReactComponent as WavesIcon } from 'src/assets/icons/bag/waves.svg';
+import { ReactComponent as WavesIcon } from 'src/assets/icons/waves-exchange.svg';
+import { ReactComponent as SwopFiIcon } from 'src/assets/icons/swop-fi.svg';
 import { config } from 'src/config';
 import network from '@bondappetit/networks';
 import { Button } from '../button';
@@ -132,6 +133,19 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                 >
                   <WavesIcon width="40" height="40" />
                   Waves
+                </Button>
+              )}
+            {config.SWOP_URL &&
+              networkConfig.assets.Stable.symbol !== props.tokenName && (
+                <Button
+                  variant="outlined"
+                  component={Link}
+                  href={config.SWOP_URL}
+                  target="_blank"
+                  className={classes.button}
+                >
+                  <SwopFiIcon width="40" height="40" />
+                  Swop.fi
                 </Button>
               )}
           </div>
