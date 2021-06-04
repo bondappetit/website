@@ -32,6 +32,7 @@ jobs:
           REACT_APP_TREZOR_EMAIL: ${{secrets.REACT_APP_TREZOR_EMAIL}}
           REACT_APP_PANCAKESWAP_URL: https://app.1inch.io/#/56/swap
           REACT_APP_WAVES_URL: https://waves.exchange
+          REACT_APP_SWOP_URL: https://swop.fi/exchange/3PAgYAV4jYJ7BF8LCVNU9tyWCBtQaqeLQH4
       - if: github.event.release.prerelease == false
         run: npm run build
         env:
@@ -48,6 +49,7 @@ jobs:
           REACT_APP_TREZOR_EMAIL: ${{secrets.REACT_APP_TREZOR_EMAIL}}
           REACT_APP_PANCAKESWAP_URL: https://app.1inch.io/#/56/swap
           REACT_APP_WAVES_URL: https://waves.exchange
+          REACT_APP_SWOP_URL: https://swop.fi/exchange/3PAgYAV4jYJ7BF8LCVNU9tyWCBtQaqeLQH4
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
