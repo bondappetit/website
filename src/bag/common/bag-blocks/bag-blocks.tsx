@@ -7,6 +7,7 @@ import { ReactComponent as UniswapIcon } from 'src/assets/icons/bag/uniswap1.svg
 import { ReactComponent as CakeIcon } from 'src/assets/icons/bag/cake.svg';
 import { ReactComponent as WavesIcon } from 'src/assets/icons/waves-exchange.svg';
 import { ReactComponent as EthIcon } from 'src/assets/icons/bag/ethereum1.svg';
+import { ReactComponent as SwopFiIcon } from 'src/assets/icons/swop-fi.svg';
 import { ReactComponent as ExchangeIcon } from 'src/assets/icons/bag/exchange.svg';
 import { ReactComponent as BinanceIcon } from 'src/assets/icons/bag/binance.svg';
 import { ReactComponent as USDTIcon } from 'src/assets/icons/bag/usdt1.svg';
@@ -60,6 +61,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
             <EthIcon className={classes.swapIcon} />
             <ExchangeIcon className={classes.swapIcon} />
             <BinanceIcon className={classes.swapIcon} />
+            <SwopFiIcon className={classes.swapIcon} />
           </>
         }
         button="Transfer"
