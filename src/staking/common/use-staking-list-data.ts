@@ -64,7 +64,7 @@ const useStakingListQuery = () =>
     query: STAKING_LIST_QUERY_STRING
   });
 
-const SWOP_FI_ADDRESS = '3PPH7x7iqobW5ziyiRCic19rQqKr6nPYaK1';
+const SWOP_FI_ADDRESS = '3PAgYAV4jYJ7BF8LCVNU9tyWCBtQaqeLQH4';
 
 export const useStakingListData = (address?: string) => {
   const { stakingConfig, stakingConfigValues } = useStakingConfig();

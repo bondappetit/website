@@ -47,6 +47,7 @@ jobs:
           REACT_APP_TREZOR_URL: ${{secrets.REACT_APP_TREZOR_URL}}
           REACT_APP_TREZOR_EMAIL: ${{secrets.REACT_APP_TREZOR_EMAIL}}
           REACT_APP_PANCAKESWAP_URL: https://app.1inch.io/#/56/swap
+          REACT_APP_WAVES_URL: https://waves.exchange
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
