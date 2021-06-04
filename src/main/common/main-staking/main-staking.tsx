@@ -30,6 +30,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
   return (
     <div className={props.className}>
       <Grid>
+        {props.children}
         {!props.staking?.length
           ? numberArray(props.countOfCards).map((key) => (
               <StakingCard loading={!props.staking?.length} key={key} />

@@ -18,7 +18,7 @@ import {
   StablecoinModals,
   useStablecoinModals
 } from 'src/stablecoin';
-import { useStakingListData } from 'src/staking';
+import { StakingSwopFi, useStakingListData } from 'src/staking';
 import { ContactsBecomePartner } from 'src/contacts/contacts-become-partner';
 import {
   MainStaking,
@@ -40,8 +40,13 @@ import { MainCointelegraph } from './common/main-cointelegraph';
 export const Main: React.FC = () => {
   const classes = useMainStyles();
 
-  const { totalValueLocked, stakingList, governanceInUSDC } =
-    useStakingListData();
+  const {
+    totalValueLocked,
+    stakingList,
+    governanceInUSDC,
+    swopfiItem,
+    swopfiLoading
+  } = useStakingListData();
 
   const stablecoinBalance = useStableCoinBalance();
 
@@ -83,8 +88,14 @@ export const Main: React.FC = () => {
           <MainStaking
             countOfCards={5}
             className={classes.section}
-            staking={stakingList?.slice(0, 5)}
-          />
+            staking={stakingList?.slice(0, 4)}
+          >
+            <StakingSwopFi
+              tvl={swopfiItem?.totalLiquidityUSD}
+              apy={swopfiItem?.apr.year}
+              loading={swopfiLoading}
+            />
+          </MainStaking>
           <MainStablecoin
             className={classes.section}
             stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}

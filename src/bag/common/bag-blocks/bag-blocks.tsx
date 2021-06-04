@@ -5,7 +5,7 @@ import { useHistory } from 'react-router-dom';
 import { BN, humanizeNumeral, Typography } from 'src/common';
 import { ReactComponent as UniswapIcon } from 'src/assets/icons/bag/uniswap1.svg';
 import { ReactComponent as CakeIcon } from 'src/assets/icons/bag/cake.svg';
-import { ReactComponent as WavesIcon } from 'src/assets/icons/bag/waves.svg';
+import { ReactComponent as WavesIcon } from 'src/assets/icons/waves-exchange.svg';
 import { ReactComponent as EthIcon } from 'src/assets/icons/bag/ethereum1.svg';
 import { ReactComponent as ExchangeIcon } from 'src/assets/icons/bag/exchange.svg';
 import { ReactComponent as BinanceIcon } from 'src/assets/icons/bag/binance.svg';
