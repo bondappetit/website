@@ -35,6 +35,6 @@ export const config = {
   COMMIT_HASH: process.env.COMMIT_HASH,
   BRANCH: process.env.BRANCH,
   BUILD_DATE: process.env.BUILD_DATE,
-  SWOP_FI_ENABLE: process.env.REACT_APP_SWOP_FI_ENABLE !== 'true',
+  SWOP_FI_ENABLE: process.env.REACT_APP_SWOP_FI_ENABLE === 'true',
   BUY_BACK_ENABLE: process.env.REACT_APP_BUY_BACK_ENABLE === 'true'
 };

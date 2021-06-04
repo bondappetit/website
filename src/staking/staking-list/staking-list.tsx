@@ -76,6 +76,13 @@ export const StakingList: React.VFC = () => {
             </Plate>
           </div>
           <div className={classes.staking}>
+            {config.SWOP_FI_ENABLE && (
+              <StakingSwopFi
+                tvl={swopfiItem?.totalLiquidityUSD}
+                apy={swopfiItem?.apr.year}
+                loading={swopfiLoading}
+              />
+            )}
             {!stakingList
               ? numberArray(stakingConfigValues.length).map((key) => (
                   <StakingCard key={key} loading />
@@ -100,13 +107,6 @@ export const StakingList: React.VFC = () => {
                     />
                   );
                 })}
-            {config.SWOP_FI_ENABLE && (
-              <StakingSwopFi
-                tvl={swopfiItem?.totalLiquidityUSD}
-                apy={swopfiItem?.apr.year}
-                loading={swopfiLoading}
-              />
-            )}
           </div>
           {!config.IS_COLLATERAL && <StakingInfo />}
         </PageWrapper>

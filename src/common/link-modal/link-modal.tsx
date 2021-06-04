@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { ReactComponent as UniswapIcon } from 'src/assets/icons/uniswap.svg';
+import { ReactComponent as UniswapIcon } from 'src/assets/icons/bag/uniswap1.svg';
 import { ReactComponent as BAGicon } from 'src/assets/icons/coins/bag.svg';
 import { ReactComponent as CakeIcon } from 'src/assets/icons/bag/cake.svg';
 import { ReactComponent as WavesIcon } from 'src/assets/icons/waves-exchange.svg';
@@ -106,7 +106,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
               target="_blank"
               className={classes.button}
             >
-              <UniswapIcon />
+              <UniswapIcon width="40" height="40" />
               Uniswap
             </Button>
             {config.PANCAKESWAP_URL &&
@@ -132,7 +132,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                   className={classes.button}
                 >
                   <WavesIcon width="40" height="40" />
-                  Waves
+                  Waves.exchange
                 </Button>
               )}
             {config.SWOP_URL &&
