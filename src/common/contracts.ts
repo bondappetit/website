@@ -1,4 +1,4 @@
-import IERC20 from '@bondappetit/networks/abi/IERC20.json';
+import IERC20Abi from '@bondappetit/networks/abi/IERC20.json';
 import GovernanceTokenAbi from '@bondappetit/networks/abi/GovernanceToken.json';
 import type { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 
 import type { Investment } from 'src/generate/Investment';
 import type { Market } from 'src/generate/Market';
-import type { Ierc20 } from 'src/generate/IERC20';
+import type { IERC20 } from 'src/generate/IERC20';
 import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
 import type { GovernanceToken } from 'src/generate/GovernanceToken';
 import type { IUniswapV2Router02 } from 'src/generate/IUniswapV2Router02';
@@ -37,30 +37,30 @@ export const useMarketContract = createUseContract<Market>((network) => ({
   address: network.contracts.Market.address
 }));
 
-export const useUSDTContract = createUseContract<Ierc20>((network) => ({
-  abi: IERC20.abi as AbiItem[],
+export const useUSDTContract = createUseContract<IERC20>((network) => ({
+  abi: IERC20Abi.abi as AbiItem[],
   address: network.assets.USDT.address
 }));
 
-export const useDAIContract = createUseContract<Ierc20>((network) => ({
-  abi: IERC20.abi as AbiItem[],
+export const useDAIContract = createUseContract<IERC20>((network) => ({
+  abi: IERC20Abi.abi as AbiItem[],
   address: network.assets.DAI.address
 }));
 
-export const useUSDCContract = createUseContract<Ierc20>((network) => ({
-  abi: IERC20.abi as AbiItem[],
+export const useUSDCContract = createUseContract<IERC20>((network) => ({
+  abi: IERC20Abi.abi as AbiItem[],
   address: network.assets.USDC.address
 }));
 
-export const useGovernanceTokenContract = createUseContract<Ierc20>(
+export const useGovernanceTokenContract = createUseContract<IERC20>(
   (network) => ({
-    abi: IERC20.abi as AbiItem[],
+    abi: IERC20Abi.abi as AbiItem[],
     address: network.assets.Governance.address
   })
 );
 
-export const useStableCoinContract = createUseContract<Ierc20>((network) => ({
-  abi: IERC20.abi as AbiItem[],
+export const useStableCoinContract = createUseContract<IERC20>((network) => ({
+  abi: IERC20Abi.abi as AbiItem[],
   address: network.assets.Stable.address
 }));
 
@@ -157,7 +157,7 @@ export const useBBagContract2 = () => {
       new web3.eth.Contract(
         abi as AbiItem[],
         networks.mainBSC.assets.bBAG.address
-      ) as unknown as Ierc20,
+      ) as unknown as IERC20,
     []
   );
 };

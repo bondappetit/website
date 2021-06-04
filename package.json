@@ -154,7 +154,7 @@
     "build-analyze": "cross-env ANALYZE=true node scripts/build.js",
     "test": "node scripts/test.js",
     "typechain-remove": "rimraf ./src/generate",
-    "typechain": "typechain --target web3-v1 --outDir ./src/generate ./node_modules/@bondappetit/networks/abi/**/*.json",
+    "typechain": "typechain --target web3-v1 --out-dir ./src/generate ./node_modules/@bondappetit/networks/abi/**/*.json",
     "codegen": "graphql-codegen --config config.yml",
     "prepare": "husky install"
   },

@@ -1,8 +1,8 @@
 import { useFormik, FormikContext } from 'formik';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDebounce, useToggle } from 'react-use';
-import type { Ierc20 } from 'src/generate/IERC20';
-import IERC20 from '@bondappetit/networks/abi/IERC20.json';
+import type { IERC20 } from 'src/generate/IERC20';
+import IERC20Abi from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
@@ -43,8 +43,8 @@ export const StablecoinCollateralMarketModal: React.FC<StablecoinCollateralMarke
     const collateralMarketContract = useCollateralMarketContract();
     const network = useNetworkConfig();
     const getBalance = useBalance();
-    const getContract = useDynamicContract<Ierc20>({
-      abi: IERC20.abi as AbiItem[]
+    const getContract = useDynamicContract<IERC20>({
+      abi: IERC20Abi.abi as AbiItem[]
     });
 
     const [successOpen, successToggle] = useToggle(false);

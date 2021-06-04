@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { useFormik } from 'formik';
 import { useWeb3React } from '@web3-react/core';
-import IERC20 from '@bondappetit/networks/abi/IERC20.json';
+import IERC20Abi from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
 import { useDebounce, useToggle } from 'react-use';
 import networks from '@bondappetit/networks';
 
-import type { Ierc20 } from 'src/generate/IERC20';
+import type { IERC20 } from 'src/generate/IERC20';
 import {
   Input,
   useNetworkConfig,
@@ -81,9 +81,9 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
 
   const currentChainId = Number(chainId ?? config.DEFAULT_CHAIN_ID);
 
-  const getIERC20Contract = useDynamicContract<Ierc20>(
+  const getIERC20Contract = useDynamicContract<IERC20>(
     {
-      abi: IERC20.abi as AbiItem[]
+      abi: IERC20Abi.abi as AbiItem[]
     },
     props.chainId
   );
