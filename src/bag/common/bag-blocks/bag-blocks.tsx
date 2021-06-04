@@ -49,6 +49,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
               <CakeIcon className={classes.swapIcon} />
             )}
             {config.WAVES_URL && <WavesIcon className={classes.swapIcon} />}
+            {config.SWOP_URL && <SwopFiIcon className={classes.swapIcon} />}
           </>
         }
         button="Buy"
@@ -61,7 +62,6 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
             <EthIcon className={classes.swapIcon} />
             <ExchangeIcon className={classes.swapIcon} />
             <BinanceIcon className={classes.swapIcon} />
-            <SwopFiIcon className={classes.swapIcon} />
           </>
         }
         button="Transfer"
