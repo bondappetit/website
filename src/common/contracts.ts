@@ -1,5 +1,5 @@
 import IERC20 from '@bondappetit/networks/abi/IERC20.json';
-import { abi as GovernanceTokenAbi } from '@bondappetit/networks/abi/GovernanceToken.json';
+import GovernanceTokenAbi from '@bondappetit/networks/abi/GovernanceToken.json';
 import type { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import networks from '@bondappetit/networks';
@@ -73,7 +73,7 @@ export const useGovernorContract = createUseContract<GovernorAlpha>(
 
 export const useGovernanceContract = createUseContract<GovernanceToken>(
   (network) => ({
-    abi: GovernanceTokenAbi as AbiItem[],
+    abi: GovernanceTokenAbi.abi as AbiItem[],
     address: network.assets.Governance.address
   })
 );
