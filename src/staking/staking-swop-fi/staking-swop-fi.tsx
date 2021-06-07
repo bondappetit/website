@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-  BN,
   COIN_ICONS,
   humanizeNumeral,
   Link,
@@ -53,21 +52,9 @@ export const StakingSwopFi: React.VFC<StakingSwopFiProps> = (props) => {
               );
             })}
       </Typography>
-      {new BN(props.apy ?? '0').isLessThanOrEqualTo(0) ? (
-        <Status color="black" variant="contained" className={classes.status}>
-          New
-        </Status>
-      ) : (
-        <StakingLabel
-          title="APY"
-          value={`${humanizeNumeral(
-            new BN(props.apy ?? '0').multipliedBy(100)
-          )} %`}
-          variant="h3"
-          loading={loading}
-          className={classes.apy}
-        />
-      )}
+      <Status color="black" variant="contained" className={classes.status}>
+        New
+      </Status>
       <StakingLabel
         title="Total value locked"
         value={`$${humanizeNumeral(props.tvl)}`}
