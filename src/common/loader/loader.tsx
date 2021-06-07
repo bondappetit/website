@@ -14,14 +14,11 @@ export type LoaderProps = {
 export const Loader = forwardRef<HTMLDivElement, LoaderProps>((props, ref) => {
   const { width = 80, height = 80, strokeWidth = 1 } = props;
 
-  const classes = useLoaderStyles({
-    width: Number(width),
-    height: Number(height)
-  });
+  const classes = useLoaderStyles();
 
   return (
     <div className={clsx(classes.root, props.className)} ref={ref}>
-      <HatOutlineIcon strokeWidth={strokeWidth} />
+      <HatOutlineIcon strokeWidth={strokeWidth} width={width} height={height} />
     </div>
   );
 });

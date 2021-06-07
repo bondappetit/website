@@ -4,4 +4,4 @@ export * from './bag-calculator';
 export * from './bag-instruction';
 export * from './bag-distribution';
 export * from './bag-invest';
-export * from './bag-faq';
+export * from './constants';

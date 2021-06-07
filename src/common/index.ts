@@ -69,3 +69,4 @@ export * from './use-interval-if-has-account';
 export * from './use-staking-reward-history';
 export * from './change-network-modal';
 export * from './setup-network';
+export * from './faq';

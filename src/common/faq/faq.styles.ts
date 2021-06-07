@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-export const useBagFaqStyles = createUseStyles(
+export const useFaqStyles = createUseStyles(
   {
     title: {
       marginBottom: 56
@@ -16,6 +16,6 @@ export const useBagFaqStyles = createUseStyles(
     }
   },
   {
-    name: 'BagFaq'
+    name: 'FAQ'
   }
 );
