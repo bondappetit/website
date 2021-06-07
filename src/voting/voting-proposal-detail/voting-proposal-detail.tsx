@@ -87,6 +87,17 @@ export const VotingProposalDetail: React.FC = () => {
                     {ProposalState[Number(votingProposalState.value.status)]}
                   </Status>
                 )}
+                {ProposalState.Active ===
+                  Number(votingProposalState.value?.status) &&
+                  votingProposalState.value?.endVoteDate && (
+                    <span className={classes.date}>
+                      Voting will end on{' '}
+                      {dateUtils.format(
+                        votingProposalState.value.endVoteDate,
+                        'DD MMMM YYYY HH:mm'
+                      )}
+                    </span>
+                  )}
                 {ProposalState.Queued ===
                   Number(votingProposalState.value?.status) &&
                   votingProposalState.value?.eta && (

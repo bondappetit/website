@@ -5,7 +5,9 @@ import {
   useNetworkConfig,
   useGovernorContract,
   useGovernanceContract,
-  BN
+  BN,
+  useLibrary,
+  dateUtils
 } from 'src/common';
 import { useVotingEvents, getProposal } from '../common';
 
@@ -17,12 +19,23 @@ export const useVotingProposalDetail = (proposalId?: number) => {
 
   const { account = null } = useWeb3React();
 
+  const library = useLibrary();
+
   const state = useAsyncRetry(async () => {
     if (!proposalId || !governorContract || !eventData || !governanceToken)
       return;
 
     const result = await getProposal(proposalId)(governorContract)(eventData)(
       networkConfig
+    );
+
+    const currentBlockNumber = await library.eth.getBlockNumber();
+
+    const endVoteDate = dateUtils.addSeconds(
+      new BN(result.endBlock)
+        .minus(currentBlockNumber)
+        .multipliedBy(networkConfig.averageBlockTime)
+        .toNumber()
     );
 
     let priorVotes = '0';
@@ -39,9 +52,17 @@ export const useVotingProposalDetail = (proposalId?: number) => {
 
     return {
       ...result,
+      endVoteDate: endVoteDate.toISOString(),
       priorVotes: new BN(priorVotes)
     };
-  }, [proposalId, governorContract, eventData, networkConfig, account]);
+  }, [
+    proposalId,
+    governorContract,
+    eventData,
+    networkConfig,
+    account,
+    library
+  ]);
 
   return state;
 };

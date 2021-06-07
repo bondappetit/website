@@ -2,13 +2,14 @@ import clsx from 'clsx';
 import React, { useMemo } from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Head, Link, PageWrapper, Typography } from 'src/common';
+import { Faq, Head, Link, PageWrapper, Typography } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { URLS } from 'src/router/urls';
 import {
   useVotingProposalList,
   VotingInfoProposalList,
-  VotingInfoDecision
+  VotingInfoDecision,
+  FAQ
 } from '../common';
 import { useVotingInfoStyles } from './voting-info.styles';
 
@@ -46,8 +47,14 @@ export const VotingInfo: React.FC = () => {
             className={clsx(classes.proposals, classes.block)}
           />
           <VotingInfoDecision
-            className={clsx(classes.decision, classes.block)}
+            className={clsx(classes.proposals, classes.block)}
           />
+          <Faq
+            title="Learn more about BondAppétit Governance Token (BAG)"
+            className={clsx(classes.decision, classes.block)}
+          >
+            {FAQ}
+          </Faq>
         </PageWrapper>
       </MainLayout>
     </>

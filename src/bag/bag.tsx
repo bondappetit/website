@@ -1,7 +1,13 @@
 import React from 'react';
 import { useToggle } from 'react-use';
 
-import { Head, LinkModal, PageWrapper, useNetworkConfig } from 'src/common';
+import {
+  Head,
+  LinkModal,
+  PageWrapper,
+  useNetworkConfig,
+  Faq
+} from 'src/common';
 import { ContactsFeedback } from 'src/contacts/contacts-feedback';
 import { MainLayout } from 'src/layouts';
 import { useGovernanceCost } from 'src/staking';
@@ -14,7 +20,7 @@ import {
   BagHeader,
   BagInstruction,
   BagInvest,
-  BagFaq
+  FAQ
 } from './common';
 
 export type BagProps = unknown;
@@ -52,7 +58,9 @@ export const Bag: React.VFC<BagProps> = () => {
           <BagInvest className={classes.blocks}>
             <ContactsFeedback />
           </BagInvest>
-          <BagFaq />
+          <Faq title="Learn more about BondAppétit Governance Token (BAG)">
+            {FAQ}
+          </Faq>
         </PageWrapper>
         <LinkModal
           open={linksOpen}

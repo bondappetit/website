@@ -2,20 +2,20 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 
 import { ReactComponent as ExpandIcon } from 'src/assets/icons/plus.svg';
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-  MarkdownLink,
-  MarkdownList,
-  MarkdownParagraph,
-  Typography
-} from 'src/common';
-import { useBagFaqStyles } from './bag-faq.styles';
-import { FAQ } from '../constants';
+import { Accordion, AccordionDetails, AccordionSummary } from '../accordion';
+import { MarkdownLink } from '../markdown-link';
+import { MarkdownList } from '../markdown-list';
+import { MarkdownParagraph } from '../markdown-paragraph';
+import { Typography } from '../typography';
+import { useFaqStyles } from './faq.styles';
 
 export type BagFaqProps = {
   className?: string;
+  children: {
+    title: string;
+    body: string;
+  }[];
+  title: string;
 };
 
 const renderers = {
@@ -24,15 +24,15 @@ const renderers = {
   list: MarkdownList
 };
 
-export const BagFaq: React.FC<BagFaqProps> = (props) => {
-  const classes = useBagFaqStyles();
+export const Faq: React.VFC<BagFaqProps> = (props) => {
+  const classes = useFaqStyles();
 
   return (
     <div className={props.className} id="faq">
       <Typography variant="h3" weight="semibold" className={classes.title}>
-        Learn more about BondAppétit Governance Token (BAG)
+        {props.title}
       </Typography>
-      {FAQ.map((faqItem) => (
+      {props.children.map((faqItem) => (
         <Accordion key={faqItem.title}>
           <AccordionSummary expandIcon={<ExpandIcon width="32" height="32" />}>
             <Typography variant="h4">{faqItem.title}</Typography>
