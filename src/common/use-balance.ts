@@ -1,8 +1,8 @@
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import type { Ierc20 } from 'src/generate/IERC20';
-import IERC20 from '@bondappetit/networks/abi/IERC20.json';
+import type { IERC20 } from 'src/generate/IERC20';
+import IERC20Abi from '@bondappetit/networks/abi/IERC20.json';
 import type { AbiItem } from 'web3-utils';
 
 import { BN } from './bignumber';
@@ -17,9 +17,9 @@ type GetBalanceOptions = {
 export const useBalance = (chainId?: number) => {
   const { account: web3Account = null, library } = useWeb3React<Web3>();
   const balanceRef = useRef('');
-  const getIERC20Contract = useDynamicContract<Ierc20>(
+  const getIERC20Contract = useDynamicContract<IERC20>(
     {
-      abi: IERC20.abi as AbiItem[]
+      abi: IERC20Abi.abi as AbiItem[]
     },
     chainId
   );

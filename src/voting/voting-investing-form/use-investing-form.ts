@@ -17,7 +17,7 @@ import {
   approveAll,
   reset
 } from 'src/common';
-import type { Ierc20 } from 'src/generate/IERC20';
+import type { IERC20 } from 'src/generate/IERC20';
 import { analytics } from 'src/analytics';
 
 export const useInvestingForm = (onSuccess: () => void) => {
@@ -34,7 +34,7 @@ export const useInvestingForm = (onSuccess: () => void) => {
   const DAI = useDAIContract();
   const USDC = useUSDCContract();
 
-  const tokenContracts: Record<string, Ierc20 | null> = useMemo(
+  const tokenContracts: Record<string, IERC20 | null> = useMemo(
     () => ({ USDT, DAI, USDC }),
     [USDT, DAI, USDC]
   );

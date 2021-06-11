@@ -29,7 +29,6 @@ module.exports = {
     createDefaultProgram: true
   },
   rules: {
-    'react/destructuring-assignment': 0,
     'linebreak-style': 'off',
     'prettier/prettier': [
       'error',
@@ -40,7 +39,6 @@ module.exports = {
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/no-loop-func': 'off',
     '@typescript-eslint/no-redeclare': 'off',
-    '@typescript-eslint/no-shadow': 'off',
     'no-loop-func': 'error',
     'no-redeclare': 'error',
     'no-shadow': 'off',

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useReducer } from 'react';
 import type { AbiItem } from 'web3-utils';
-import IERC20 from '@bondappetit/networks/abi/IERC20.json';
-import { Ierc20 } from 'src/generate/IERC20';
+import IERC20Abi from '@bondappetit/networks/abi/IERC20.json';
+import { IERC20 } from 'src/generate/IERC20';
 
 import {
   useNetworkConfig,
@@ -14,7 +14,7 @@ import { NonPayableTransactionObject } from 'src/generate/types';
 
 type InitialState = {
   asset?: Network['assets'][number];
-  tokenContract?: Ierc20;
+  tokenContract?: IERC20;
   tokenBalance?: BN;
 };
 
@@ -36,7 +36,7 @@ export const useSplitterBalance = (
   const networkConfig = useNetworkConfig();
 
   const getBalance = useBalance();
-  const getContract = useDynamicContract<Ierc20>();
+  const getContract = useDynamicContract<IERC20>();
 
   const handleGetBalance = useCallback(async () => {
     if (!callback || !accountAddress) return;
@@ -46,7 +46,7 @@ export const useSplitterBalance = (
       ({ address }) => address === tokenAddress
     );
 
-    const tokenContract = getContract(tokenAddress, IERC20.abi as AbiItem[]);
+    const tokenContract = getContract(tokenAddress, IERC20Abi.abi as AbiItem[]);
     const tokenBalance = await getBalance({
       tokenAddress,
       accountAddress

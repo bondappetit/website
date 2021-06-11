@@ -1,10 +1,10 @@
 import BN from 'bignumber.js';
 
-import { Ierc20 } from 'src/generate/IERC20';
+import { IERC20 } from 'src/generate/IERC20';
 import { estimateGas } from './estimate-gas';
 
 type Options = {
-  token: Ierc20;
+  token: IERC20;
   owner: string;
   spender: string;
   amount: string | number;

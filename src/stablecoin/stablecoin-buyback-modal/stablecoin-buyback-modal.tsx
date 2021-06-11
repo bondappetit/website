@@ -2,8 +2,8 @@ import { useWeb3React } from '@web3-react/core';
 import { FormikContext, useFormik } from 'formik';
 import React, { useEffect } from 'react';
 import { useAsyncRetry, useDebounce, useToggle } from 'react-use';
-import type { Ierc20 } from 'src/generate/IERC20';
-import IERC20 from '@bondappetit/networks/abi/IERC20.json';
+import type { IERC20 } from 'src/generate/IERC20';
+import IERC20Abi from '@bondappetit/networks/abi/IERC20.json';
 import { AbiItem } from 'web3-utils';
 
 import {
@@ -47,8 +47,8 @@ export const StablecoinBuybackModal: React.VFC<StablecoinBuybackModalProps> = (
 
   const getBalance = useBalance();
 
-  const getContract = useDynamicContract<Ierc20>({
-    abi: IERC20.abi as AbiItem[]
+  const getContract = useDynamicContract<IERC20>({
+    abi: IERC20Abi.abi as AbiItem[]
   });
 
   const [successOpen, successToggle] = useToggle(false);

@@ -1,13 +1,13 @@
 import { useMemo } from 'react';
 import { ethers, utils } from 'ethers';
-import { abi as GOV_ABI } from '@bondappetit/networks/abi/GovernorAlpha.json';
+import GOV_ABI from '@bondappetit/networks/abi/GovernorAlpha.json';
 import { useAsyncRetry } from 'react-use';
 import { useWeb3React } from '@web3-react/core';
 
 import { useGovernorContract } from 'src/common';
 import { FormattedEventData } from './voting.types';
 
-const eventParser = new ethers.utils.Interface(GOV_ABI);
+const eventParser = new ethers.utils.Interface(GOV_ABI.abi);
 
 export const useVotingEvents = () => {
   const governorContract = useGovernorContract();
