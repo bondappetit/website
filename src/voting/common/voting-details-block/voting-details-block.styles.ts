@@ -25,7 +25,7 @@ export const useVotingDetailsBlockStyles = createUseStyles(
     },
 
     link: {
-      color: theme.colors.darkBlue
+      color: theme.colors.blue2
     }
   }),
   {

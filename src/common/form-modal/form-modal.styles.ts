@@ -56,7 +56,7 @@ export const useFormModalStyles = createUseStyles(
     },
 
     balanceButton: {
-      color: theme.colors.darkBlue
+      color: theme.colors.blue2
     },
 
     selectButton: {

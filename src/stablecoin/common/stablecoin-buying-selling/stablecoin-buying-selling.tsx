@@ -1,6 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useInterval } from 'react-use';
 
-import { Typography, Button, Plate, BN } from 'src/common';
+import {
+  Typography,
+  Button,
+  Plate,
+  BN,
+  ButtonBase,
+  dateUtils
+} from 'src/common';
+import { config } from 'src/config';
 import { useStablecoinBuyingSellingStyles } from './stablecoin-buying-selling.styles';
 
 export type StablecoinBuyingSellingProps = {
@@ -8,12 +17,19 @@ export type StablecoinBuyingSellingProps = {
   onSell: () => void;
   stableCoinBalanceLoading: boolean;
   stableCoinBalanceValue?: BN;
+  onSwap: () => void;
 };
 
-const StablecoinBuyingSelling: React.FC<StablecoinBuyingSellingProps> = (
+const date = () => dateUtils.countdown(config.PHASE2_COUNTDOWN);
+
+export const StablecoinBuyingSelling: React.FC<StablecoinBuyingSellingProps> = (
   props
 ) => {
   const classes = useStablecoinBuyingSellingStyles();
+
+  const [countdown, setCountDown] = useState(date());
+
+  useInterval(() => setCountDown(date()), 1000);
 
   return (
     <Plate className={classes.root}>
@@ -38,8 +54,21 @@ const StablecoinBuyingSelling: React.FC<StablecoinBuyingSellingProps> = (
         <Button onClick={props.onBuy}>Buy</Button>
         <Button onClick={props.onSell}>Sell</Button>
       </div>
+      {config.BUY_BACK_ENABLE && (
+        <Typography
+          variant="body1"
+          align="center"
+          component="div"
+          className={classes.swap}
+        >
+          <ButtonBase className={classes.swapButton} onClick={props.onSwap}>
+            Swap USDap/USDC with fixed price
+          </ButtonBase>
+          <Typography variant="inherit" component="div" align="center">
+            till {countdown}
+          </Typography>
+        </Typography>
+      )}
     </Plate>
   );
 };
-
-export default StablecoinBuyingSelling;

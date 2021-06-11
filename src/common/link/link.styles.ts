@@ -44,7 +44,7 @@ export const useLinkStyles = createUseStyles(
     },
 
     blue: {
-      color: theme.colors.darkBlue
+      color: theme.colors.blue2
     }
   }),
   {

@@ -1,3 +1,4 @@
+import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
 import React from 'react';
 import { useToggle } from 'react-use';
@@ -8,6 +9,7 @@ import {
   LinkModal,
   PageWrapper,
   Typography,
+  useChangeNetworkModal,
   useNetworkConfig
 } from 'src/common';
 import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
@@ -16,9 +18,11 @@ import { MainLayout } from 'src/layouts';
 import {
   useStableCoinBalance,
   StablecoinModals,
-  useStablecoinModals
+  useStablecoinModals,
+  useStablecoinBuybackModal
 } from 'src/stablecoin';
 import { StakingSwopFi, useStakingListData } from 'src/staking';
+import { config } from 'src/config';
 import { ContactsBecomePartner } from 'src/contacts/contacts-become-partner';
 import {
   MainStaking,
@@ -31,7 +35,8 @@ import {
   MainMediumArticles,
   MainWaves,
   MainTeam,
-  MainHeader
+  MainHeader,
+  MainSwap
 } from './common';
 import { useMainStyles } from './main.styles';
 import { useMediumArticles } from './common/use-medium-articles';
@@ -39,6 +44,8 @@ import { MainCointelegraph } from './common/main-cointelegraph';
 
 export const Main: React.FC = () => {
   const classes = useMainStyles();
+
+  const { chainId } = useWeb3React();
 
   const {
     totalValueLocked,
@@ -71,12 +78,25 @@ export const Main: React.FC = () => {
 
   const networkConfig = useNetworkConfig();
 
+  const [openBuyback] = useStablecoinBuybackModal();
+
+  const [openChangeNetwork] = useChangeNetworkModal();
+
+  const handleOpenBuyBack = () => {
+    if (config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
+      openChangeNetwork();
+    } else {
+      openBuyback();
+    }
+  };
+
   return (
     <>
       <Head
         title="The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem."
         ogUrl="https://bondappetit.io"
       />
+      {config.BUY_BACK_ENABLE && <MainSwap onSwap={handleOpenBuyBack} />}
       <MainLayout>
         <PageWrapper className={classes.root}>
           <MainHeader
@@ -101,6 +121,7 @@ export const Main: React.FC = () => {
             stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
             onBuy={togglelinkModal}
             onSell={toggleSellModal}
+            onSwap={handleOpenBuyBack}
           >
             <MainCollateral />
           </MainStablecoin>

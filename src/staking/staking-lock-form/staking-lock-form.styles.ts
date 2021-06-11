@@ -18,7 +18,7 @@ export const useStakingLockFormStyles = createUseStyles(
     title: {},
 
     link: {
-      color: theme.colors.darkBlue
+      color: theme.colors.blue2
     },
 
     uniswapLink: {

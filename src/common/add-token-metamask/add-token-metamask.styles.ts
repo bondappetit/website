@@ -5,7 +5,7 @@ import { Theme } from '../theme';
 export const useAddTokenMetamaskStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
-      color: theme.colors.darkBlue
+      color: theme.colors.blue2
     }
   }),
   {

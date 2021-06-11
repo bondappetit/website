@@ -21,4 +21,4 @@ export const useVotingProposalDescriptionStyles = createUseStyles(
     name: 'VotingDetailsBlock'
   }
 );
-// theme.colors.darkBlue
+// theme.colors.blue2

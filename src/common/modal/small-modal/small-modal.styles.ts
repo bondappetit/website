@@ -9,7 +9,6 @@ export const useSmallModalStyles = createUseStyles(
       backgroundColor: theme.colors.secondary,
       color: theme.colors.primary,
       height: '100%',
-      maxHeight: 560,
       width: '100%',
       boxShadow: `0px 36px 85px ${rgba(theme.colors.black, 0.09)},
         0px 15.719px 38.8242px ${rgba(theme.colors.black, 0.0594795)},

@@ -39,6 +39,14 @@ export const useStablecoinBuyingSellingStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         maxWidth: 240
       }
+    },
+
+    swap: {
+      marginTop: 24
+    },
+
+    swapButton: {
+      color: theme.colors.blue2
     }
   }),
   {

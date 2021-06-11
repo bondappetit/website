@@ -23,7 +23,8 @@ import {
   useStakingListData,
   StakingEmpty,
   useStakingContracts,
-  useStakingUnstakeAttentionModal
+  useStakingUnstakeAttentionModal,
+  useCanStaking
 } from 'src/staking/common';
 import { useStakingConfig } from 'src/staking-config';
 import { WalletButtonWithFallback } from 'src/wallets';
@@ -61,6 +62,8 @@ export const StakingDetail: React.FC = () => {
   const unlock = useStakingUnlock(stakingContract);
 
   const unstake = useCanUnStaking(stakingContract);
+
+  const staking = useCanStaking(stakingContract);
 
   const stakingBalanceIsEmpty = useMemo(
     () => Boolean(stakingItem?.amount.isZero()),
@@ -171,6 +174,8 @@ export const StakingDetail: React.FC = () => {
                 depositToken={depositToken}
                 chainId={stakingItem?.chainId}
                 status={stakingItem?.status}
+                stakingEndBlock={staking.value?.stakingEndBlock}
+                stakingCant={staking.value?.cant}
               />
             </Plate>
             <Plate className={clsx(classes.card, classes.cardFlex)}>

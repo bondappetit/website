@@ -1,9 +1,10 @@
 import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
+import { config } from 'src/config';
 
-const HEADER_DESKTOP = 79;
-const HEADER_MOBILE = 59;
+const HEADER_DESKTOP = config.BUY_BACK_ENABLE ? 135 : 79;
+const HEADER_MOBILE = config.BUY_BACK_ENABLE ? 217 : 59;
 
 export const useMainHeaderStyles = createUseStyles(
   (theme: Theme) => ({
