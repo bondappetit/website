@@ -9,7 +9,7 @@ export type ButtonProps = Omit<ButtonBaseProps, 'size'> & {
   variant?: 'contained' | 'outlined';
   color?: 'primary' | 'secondary';
   loading?: boolean;
-  size?: 'small' | 'large';
+  size?: 'small' | 'medium' | 'large';
 };
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

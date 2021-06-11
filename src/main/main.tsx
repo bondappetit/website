@@ -16,9 +16,11 @@ import { MainLayout } from 'src/layouts';
 import {
   useStableCoinBalance,
   StablecoinModals,
-  useStablecoinModals
+  useStablecoinModals,
+  useStablecoinBuybackModal
 } from 'src/stablecoin';
 import { StakingSwopFi, useStakingListData } from 'src/staking';
+import { config } from 'src/config';
 import { ContactsBecomePartner } from 'src/contacts/contacts-become-partner';
 import {
   MainStaking,
@@ -31,7 +33,8 @@ import {
   MainMediumArticles,
   MainWaves,
   MainTeam,
-  MainHeader
+  MainHeader,
+  MainSwap
 } from './common';
 import { useMainStyles } from './main.styles';
 import { useMediumArticles } from './common/use-medium-articles';
@@ -71,12 +74,15 @@ export const Main: React.FC = () => {
 
   const networkConfig = useNetworkConfig();
 
+  const [openBuyback] = useStablecoinBuybackModal();
+
   return (
     <>
       <Head
         title="The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem."
         ogUrl="https://bondappetit.io"
       />
+      {config.BUY_BACK_ENABLE && <MainSwap onSwap={openBuyback} />}
       <MainLayout>
         <PageWrapper className={classes.root}>
           <MainHeader
@@ -101,6 +107,7 @@ export const Main: React.FC = () => {
             stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
             onBuy={togglelinkModal}
             onSell={toggleSellModal}
+            onSwap={openBuyback}
           >
             <MainCollateral />
           </MainStablecoin>

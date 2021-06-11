@@ -46,7 +46,7 @@ export const useWalletProfileStyles = createUseStyles(
     },
 
     buy: {
-      color: theme.colors.darkBlue
+      color: theme.colors.blue2
     },
 
     row: {

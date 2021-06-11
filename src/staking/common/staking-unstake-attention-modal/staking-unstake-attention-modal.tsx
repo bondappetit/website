@@ -18,11 +18,26 @@ const StakingUnstakeAttentionModal: React.VFC<StakingUnstakeAttentionModalProps>
         <SmallModal>
           <div className={classes.root}>
             <div className={classes.content}>
-              <Typography variant="h5" weight="bold">
-                <Typography variant="inherit" className={classes.attention}>
-                  Attention!
-                </Typography>{' '}
-                Unstaking
+              <Typography
+                variant="h5"
+                weight="bold"
+                className={classes.attention}
+              >
+                Attention!
+              </Typography>
+              <br />
+              <Typography variant="h5">
+                1. Once you unstake your LP tokens, you will not be able to
+                stake them again
+              </Typography>
+              <br />
+              <Typography variant="h5">
+                2. The USDap / USDC pool is closed for staking
+              </Typography>
+              <br />
+              <Typography variant="h5">
+                3. Staking rewards will be distributed at the same pool rate
+                until the end of August 2021
               </Typography>
             </div>
             <Button
@@ -30,7 +45,7 @@ const StakingUnstakeAttentionModal: React.VFC<StakingUnstakeAttentionModalProps>
               disabled={props.loading}
               loading={props.loading}
             >
-              Unstake
+              Unstake anyway
             </Button>
           </div>
         </SmallModal>

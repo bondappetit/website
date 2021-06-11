@@ -27,6 +27,13 @@ export const useButtonStyles = createUseStyles(
     },
 
     small: {
+      padding: '4px 12px',
+      fontSize: 16,
+      lineHeight: '24px',
+      borderRadius: 8
+    },
+
+    medium: {
       padding: '15px 27px',
       fontSize: 24,
       lineHeight: '32px'

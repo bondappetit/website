@@ -29,11 +29,7 @@ import { WalletButtonWithFallback } from 'src/wallets';
 import { analytics } from 'src/analytics';
 import { config } from 'src/config';
 import { StakingStatuses } from 'src/staking-config';
-import {
-  StakingAcquireModal,
-  StakingAttentionModal,
-  useCanStaking
-} from '../common';
+import { StakingAcquireModal, StakingAttentionModal } from '../common';
 import { useStakingLockFormStyles } from './staking-lock-form.styles';
 
 export type StakingLockFormProps = {
@@ -53,6 +49,8 @@ export type StakingLockFormProps = {
   depositToken?: string;
   chainId?: number;
   status?: StakingStatuses;
+  stakingEndBlock?: BN;
+  stakingCant?: boolean;
 };
 
 const UNISWAP_URL = 'https://app.uniswap.org/#/add/v2/';
@@ -75,7 +73,6 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
   const [stakingAttentionOpen, toggleStakingAttention] = useToggle(false);
 
   const networkConfig = useNetworkConfig();
-  const staking = useCanStaking(props.stakingContract);
 
   const [approve, approvalNeeded] = useApprove();
 
@@ -109,7 +106,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         error.amount = 'Required';
       }
 
-      if (staking.value?.cant) {
+      if (props.stakingCant) {
         error.amount = 'Staking has ended';
       }
 
@@ -125,7 +122,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
         !account ||
         !stakingContract ||
         !tokenDecimals ||
-        (staking.value?.cant && props.lockable)
+        (props.stakingCant && props.lockable)
       )
         return;
 
@@ -320,7 +317,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
               props.lockable &&
               props.chainId === currentChainId && (
                 <>
-                  {staking.value?.cant ? (
+                  {props.stakingCant ? (
                     <Typography variant="body2" align="center">
                       Staking has ended
                     </Typography>
@@ -389,7 +386,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       />
       <StakingAttentionModal
         date={props.unstakeStart}
-        blockNumber={staking.value?.stakingEndBlock.toString(10) ?? ''}
+        blockNumber={props.stakingEndBlock?.toString(10) ?? ''}
         open={stakingAttentionOpen}
         onClose={toggleStakingAttention}
         onStake={() => {

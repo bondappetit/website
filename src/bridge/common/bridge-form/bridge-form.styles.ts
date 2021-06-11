@@ -16,7 +16,7 @@ export const useBridgeFormStyles = createUseStyles(
     },
 
     max: {
-      color: theme.colors.darkBlue,
+      color: theme.colors.blue2,
       marginBottom: 6
     },
 

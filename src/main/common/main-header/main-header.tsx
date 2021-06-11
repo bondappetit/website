@@ -16,7 +16,7 @@ export type MainHeaderProps = {
   onBuyGov: () => void;
 };
 
-const date = () => dateUtils.countdown(config.COUNTDOWN);
+const date = () => dateUtils.countdown(config.PHASE1_COUNTDOWN);
 
 export const MainHeader: React.FC<MainHeaderProps> = (props) => {
   const classes = useMainHeaderStyles();
@@ -25,9 +25,7 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
 
   const [countdown, setCountDown] = useState(date());
 
-  useInterval(() => {
-    setCountDown(date());
-  }, 1000);
+  useInterval(() => setCountDown(date()), 1000);
 
   return (
     <div className={clsx(classes.root, props.className)}>
@@ -37,10 +35,10 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
           the Ethereum ecosystem
         </Typography>
         <div className={classes.action}>
-          <Button size="small" onClick={props.onBuyGov}>
+          <Button size="medium" onClick={props.onBuyGov}>
             Buy BAG
           </Button>
-          <Button variant="outlined" size="small" onClick={openMainHowItWorks}>
+          <Button variant="outlined" size="medium" onClick={openMainHowItWorks}>
             <PlayIcon className={classes.playIcon} /> See how it works
           </Button>
         </div>

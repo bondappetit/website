@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Head, PageWrapper } from 'src/common';
 import { MainLayout } from 'src/layouts';
-import { config } from 'src/config';
 import { useIssuerBalance } from 'src/collateral';
 import {
   StablecoinCollateral,
@@ -11,12 +10,12 @@ import {
   StablecoinHeader,
   StablecoinTable,
   useStableCoinBalance,
-  useStablecoinInfo
+  useStablecoinInfo,
+  StablecoinBuyingSelling,
+  StablecoinFeatures
 } from './common';
 import { useStablecoinStyles } from './stablecoin.styles';
 import { StablecoinModals, useStablecoinModals } from './stablecoin-modals';
-import { StablecoinFeatures } from './common/stablecoin-features/stablecoin-features';
-import StablecoinBuyingSelling from './common/stablecoin-buying-selling/stablecoin-buying-selling';
 import { useStablecoinBuybackModal } from './stablecoin-buyback-modal';
 
 export const Stablecoin: React.FC = () => {
@@ -47,9 +46,6 @@ export const Stablecoin: React.FC = () => {
       <Head title="The first-ever decentralized stablecoin based on real-world assets." />
       <MainLayout>
         <PageWrapper>
-          {config.BUY_BACK_ENABLE && (
-            <button onClick={openBuybackModal}>buy back</button>
-          )}
           <StablecoinHeader className={classes.header} />
           <StablecoinGraph
             className={classes.section}
@@ -59,6 +55,7 @@ export const Stablecoin: React.FC = () => {
             <StablecoinBuyingSelling
               onBuy={togglelinkModal}
               onSell={toggleSellModal}
+              onSwap={openBuybackModal}
               stableCoinBalanceLoading={stableCoinBalance.loading}
               stableCoinBalanceValue={stableCoinBalance.value}
             />

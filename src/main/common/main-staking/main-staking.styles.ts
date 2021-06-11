@@ -20,7 +20,8 @@ export const useMainStakingStyles = createUseStyles(
       padding: 40,
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'space-between'
+      justifyContent: 'space-between',
+      minHeight: '400px'
     }
   }),
   {

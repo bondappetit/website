@@ -66,6 +66,18 @@ export const useMainStablecoinStyles = createUseStyles(
       flexDirection: 'column',
       justifyContent: 'center',
       padding: '40px 0'
+    },
+
+    cardContent: {
+      margin: 'auto 0'
+    },
+
+    swap: {
+      marginTop: 24
+    },
+
+    swapButton: {
+      color: theme.colors.blue2
     }
   }),
   {
