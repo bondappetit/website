@@ -1,8 +1,10 @@
+import { useWeb3React } from '@web3-react/core';
 import React from 'react';
 
-import { Head, PageWrapper } from 'src/common';
+import { Head, PageWrapper, useChangeNetworkModal } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useIssuerBalance } from 'src/collateral';
+import { config } from 'src/config';
 import {
   StablecoinCollateral,
   StablecoinGraph,
@@ -20,6 +22,8 @@ import { useStablecoinBuybackModal } from './stablecoin-buyback-modal';
 
 export const Stablecoin: React.FC = () => {
   const classes = useStablecoinStyles();
+
+  const { chainId } = useWeb3React();
 
   const stablecoinInfo = useStablecoinInfo();
 
@@ -40,6 +44,7 @@ export const Stablecoin: React.FC = () => {
   const issuerBalance = useIssuerBalance();
 
   const [openBuybackModal] = useStablecoinBuybackModal();
+  const [openChangeNetwork] = useChangeNetworkModal();
 
   return (
     <>
@@ -55,7 +60,11 @@ export const Stablecoin: React.FC = () => {
             <StablecoinBuyingSelling
               onBuy={togglelinkModal}
               onSell={toggleSellModal}
-              onSwap={openBuybackModal}
+              onSwap={
+                config.CHAIN_BINANCE_IDS.includes(Number(chainId))
+                  ? openChangeNetwork
+                  : openBuybackModal
+              }
               stableCoinBalanceLoading={stableCoinBalance.loading}
               stableCoinBalanceValue={stableCoinBalance.value}
             />

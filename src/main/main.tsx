@@ -1,3 +1,4 @@
+import { useWeb3React } from '@web3-react/core';
 import clsx from 'clsx';
 import React from 'react';
 import { useToggle } from 'react-use';
@@ -8,6 +9,7 @@ import {
   LinkModal,
   PageWrapper,
   Typography,
+  useChangeNetworkModal,
   useNetworkConfig
 } from 'src/common';
 import { ReactComponent as MixBytesLogo } from 'src/assets/icons/mix-bytes.svg';
@@ -43,6 +45,8 @@ import { MainCointelegraph } from './common/main-cointelegraph';
 export const Main: React.FC = () => {
   const classes = useMainStyles();
 
+  const { chainId } = useWeb3React();
+
   const {
     totalValueLocked,
     stakingList,
@@ -76,13 +80,23 @@ export const Main: React.FC = () => {
 
   const [openBuyback] = useStablecoinBuybackModal();
 
+  const [openChangeNetwork] = useChangeNetworkModal();
+
+  const handleOpenBuyBack = () => {
+    if (config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
+      openChangeNetwork();
+    } else {
+      openBuyback();
+    }
+  };
+
   return (
     <>
       <Head
         title="The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem."
         ogUrl="https://bondappetit.io"
       />
-      {config.BUY_BACK_ENABLE && <MainSwap onSwap={openBuyback} />}
+      {config.BUY_BACK_ENABLE && <MainSwap onSwap={handleOpenBuyBack} />}
       <MainLayout>
         <PageWrapper className={classes.root}>
           <MainHeader
@@ -107,7 +121,7 @@ export const Main: React.FC = () => {
             stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
             onBuy={togglelinkModal}
             onSell={toggleSellModal}
-            onSwap={openBuyback}
+            onSwap={handleOpenBuyBack}
           >
             <MainCollateral />
           </MainStablecoin>
