@@ -252,6 +252,9 @@ export const StablecoinBuybackModal: React.VFC<StablecoinBuybackModalProps> = (
     setFieldValue('payment', youGet.isNaN() ? '0' : youGet.toString(10));
   }, [formik.values.youGet, formik.values.currency, setFieldValue]);
 
+  const errorMessage =
+    formik.errors.payment || formik.errors.currency || formik.errors.youGet;
+
   return (
     <div>
       <FormikContext.Provider value={formik}>
@@ -267,13 +270,11 @@ export const StablecoinBuybackModal: React.VFC<StablecoinBuybackModalProps> = (
               disabled={formik.isSubmitting}
               loading={formik.isSubmitting}
             >
-              {(!approve.value?.approve && !approve.value?.reset) ||
-              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
-                ? formik.errors.payment ||
-                  formik.errors.currency ||
-                  formik.errors.youGet ||
-                  'Buy'
-                : 'Approve'}
+              {errorMessage ||
+                ((!approve.value?.approve && !approve.value?.reset) ||
+                new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
+                  ? 'Swap'
+                  : 'Approve')}
             </WalletButtonWithFallback>
           }
         />

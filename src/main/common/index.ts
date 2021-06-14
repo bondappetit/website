@@ -12,4 +12,3 @@ export * from './main-waves';
 export * from './main-team';
 export * from './main-header';
 export * from './main-window';
-export * from './main-swap';

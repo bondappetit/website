@@ -7,26 +7,25 @@ import {
   useModal,
   Typography,
   dateUtils,
-  ButtonBase
+  ButtonBase,
+  Button
 } from 'src/common';
 import { config } from 'src/config';
-import { useMainStablecoinHowItWorksStyles } from './main-stablecoin-how-it-works.styles';
+import { useStablecoinHowItWorksStyles } from './stablecoin-how-it-works.styles';
 
-export type MainStablecoinHowItWorksProps = {
+export type StablecoinHowItWorksProps = {
   onClose?: () => void;
   onSwap: () => void;
 };
 
 const date = () => dateUtils.countdown(config.PHASE2_COUNTDOWN);
 
-const MainStablecoinHowItWorks: React.VFC<MainStablecoinHowItWorksProps> = (
-  props
-) => {
+const StablecoinHowItWorks: React.VFC<StablecoinHowItWorksProps> = (props) => {
   const [countdown, setCountDown] = useState(date());
 
   useInterval(() => setCountDown(date()), 1000);
 
-  const classes = useMainStablecoinHowItWorksStyles();
+  const classes = useStablecoinHowItWorksStyles();
 
   return (
     <Modal className={classes.root} open onClose={props.onClose}>
@@ -49,7 +48,7 @@ const MainStablecoinHowItWorks: React.VFC<MainStablecoinHowItWorksProps> = (
         <Typography variant="h5">
           3. Current USDap holders can swap USDap for USDC on bondappetit.io in{' '}
           {countdown} at a fixed price of 1 USDap = 1 USDC{' '}
-          <ButtonBase className={classes.swap} onClick={props.onSwap}>
+          <ButtonBase className={classes.swapLink} onClick={props.onSwap}>
             Swap USDap to USDC
           </ButtonBase>
         </Typography>
@@ -62,10 +61,13 @@ const MainStablecoinHowItWorks: React.VFC<MainStablecoinHowItWorksProps> = (
           5. Holders of USDap can participate in new pools (to be launched at
           Phase 2) and earn more rewards
         </Typography>
+        <Button className={classes.swap} onClick={props.onSwap}>
+          Swap
+        </Button>
       </SmallModal>
     </Modal>
   );
 };
 
-export const useMainStablecoinHowItWorks = (onSwap: () => void) =>
-  useModal(<MainStablecoinHowItWorks onSwap={onSwap} />);
+export const useStablecoinHowItWorks = (onSwap: () => void) =>
+  useModal(<StablecoinHowItWorks onSwap={onSwap} />);

@@ -1,8 +1,8 @@
 import { createUseStyles } from 'react-jss';
 
-import { Theme } from 'src/common/theme/theme';
+import { Theme } from 'src/common';
 
-export const useMainSwapStyles = createUseStyles(
+export const useLayoutSwapStyles = createUseStyles(
   (theme: Theme) => ({
     root: {
       background: theme.colors.swap,
@@ -38,15 +38,6 @@ export const useMainSwapStyles = createUseStyles(
       }
     },
 
-    actionsItem: {
-      marginBottom: 8,
-
-      [theme.breakpoints.lg()]: {
-        marginRight: 15,
-        marginBottom: 0
-      }
-    },
-
     icons: {
       paddingRight: 8,
       display: 'inline-flex',
@@ -71,6 +62,6 @@ export const useMainSwapStyles = createUseStyles(
     }
   }),
   {
-    name: 'MainSwap'
+    name: 'LayoutSwap'
   }
 );
