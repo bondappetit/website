@@ -2,8 +2,14 @@ import { useToggle, useMedia } from 'react-use';
 import { useWeb3React } from '@web3-react/core';
 import React from 'react';
 
-import { LinkModal, ToggleThemeButton, useNetworkConfig } from 'src/common';
+import {
+  LinkModal,
+  ToggleThemeButton,
+  useChangeNetworkModal,
+  useNetworkConfig
+} from 'src/common';
 import { WalletButton, WalletModal } from 'src/wallets';
+import { useStablecoinBuybackModal } from 'src/stablecoin/stablecoin-buyback-modal';
 import {
   WalletProfile,
   WalletProfileDropdown
@@ -12,11 +18,13 @@ import { ContactsNews } from 'src/contacts/contacts-news';
 import { VotingInvestingAttention } from 'src/voting/voting-investing-attention';
 import { VotingInvestingForm } from 'src/voting/voting-investing-form';
 import { config } from 'src/config';
+import { useStablecoinHowItWorks } from 'src/stablecoin/common';
 import {
   LayoutHeader,
   LayoutContainer,
   LayoutWrapper,
-  LayoutFooter
+  LayoutFooter,
+  LayoutSwap
 } from '../common';
 import { useMainLayoutStyles } from './main-layout.styles';
 
@@ -47,8 +55,23 @@ export const MainLayout: React.FC = (props) => {
 
   const isMobile = useMedia('(max-width: 1279px)');
 
+  const [openBuyback] = useStablecoinBuybackModal();
+
+  const [openChangeNetwork] = useChangeNetworkModal();
+
+  const [openHowItWorks] = useStablecoinHowItWorks(openBuyback);
+
+  const handleOpenBuyBack = () => {
+    if (config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
+      openChangeNetwork();
+    } else {
+      openHowItWorks();
+    }
+  };
+
   return (
     <>
+      {config.BUY_BACK_ENABLE && <LayoutSwap onSwap={handleOpenBuyBack} />}
       <LayoutWrapper>
         <LayoutHeader
           rightButton={

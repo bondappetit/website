@@ -19,11 +19,12 @@ import {
   useStableCoinBalance,
   StablecoinModals,
   useStablecoinModals,
-  useStablecoinBuybackModal
+  useStablecoinBuybackModal,
+  useStablecoinHowItWorks
 } from 'src/stablecoin';
 import { StakingSwopFi, useStakingListData } from 'src/staking';
-import { config } from 'src/config';
 import { ContactsBecomePartner } from 'src/contacts/contacts-become-partner';
+import { config } from 'src/config';
 import {
   MainStaking,
   MainStablecoin,
@@ -35,8 +36,7 @@ import {
   MainMediumArticles,
   MainWaves,
   MainTeam,
-  MainHeader,
-  MainSwap
+  MainHeader
 } from './common';
 import { useMainStyles } from './main.styles';
 import { useMediumArticles } from './common/use-medium-articles';
@@ -82,11 +82,13 @@ export const Main: React.FC = () => {
 
   const [openChangeNetwork] = useChangeNetworkModal();
 
+  const [openHowItWorks] = useStablecoinHowItWorks(openBuyback);
+
   const handleOpenBuyBack = () => {
     if (config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
       openChangeNetwork();
     } else {
-      openBuyback();
+      openHowItWorks();
     }
   };
 
@@ -96,7 +98,6 @@ export const Main: React.FC = () => {
         title="The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem."
         ogUrl="https://bondappetit.io"
       />
-      {config.BUY_BACK_ENABLE && <MainSwap onSwap={handleOpenBuyBack} />}
       <MainLayout>
         <PageWrapper className={classes.root}>
           <MainHeader

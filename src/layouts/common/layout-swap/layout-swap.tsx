@@ -4,27 +4,24 @@ import { useInterval } from 'react-use';
 
 import { Button, COIN_ICONS, dateUtils, Typography } from 'src/common';
 import { config } from 'src/config';
-import { useMainStablecoinHowItWorks } from '../main-stablecoin-how-it-works';
-import { useMainSwapStyles } from './main-swap.style';
+import { useLayoutSwapStyles } from './layout-swap.style';
 
-export type MainSwapProps = {
+export type LayoutSwapProps = {
   className?: string;
   onSwap: () => void;
 };
 
 const date = () => dateUtils.countdown(config.PHASE2_COUNTDOWN);
 
-export const MainSwap: React.VFC<MainSwapProps> = (props) => {
+export const LayoutSwap: React.VFC<LayoutSwapProps> = (props) => {
   const USDapIcon = COIN_ICONS.get('USDap');
   const USDCIcon = COIN_ICONS.get('USDC');
 
-  const classes = useMainSwapStyles();
+  const classes = useLayoutSwapStyles();
 
   const [countdown, setCountDown] = useState(date());
 
   useInterval(() => setCountDown(date()), 1000);
-
-  const [openHowItWorks] = useMainStablecoinHowItWorks(props.onSwap);
 
   return (
     <div className={clsx(classes.root, props.className)}>
@@ -43,14 +40,6 @@ export const MainSwap: React.VFC<MainSwapProps> = (props) => {
         </Typography>
       </div>
       <div className={classes.actions}>
-        <Button
-          variant="outlined"
-          size="small"
-          className={classes.actionsItem}
-          onClick={openHowItWorks}
-        >
-          How it works
-        </Button>
         <Button size="small" onClick={props.onSwap}>
           Swap USDap/USDC
         </Button>

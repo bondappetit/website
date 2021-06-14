@@ -28,14 +28,26 @@ export type LinkModalProps = {
   tokenAddress: string;
   rewardPercent?: string;
   tokenName: string;
+  withSell?: boolean;
+  onBuyBack?: () => void;
 };
 
 const INCH_URL = 'https://app.1inch.io/#/1/swap';
+
+const SELL_UNISWAP_URL =
+  'https://app.uniswap.org/#/swap?inputCurrency=0x9a1997c130f4b2997166975d9aff92797d5134c2&outputCurrency=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48';
+
+const BUY_UNISWAP_URL =
+  'https://app.uniswap.org/#/swap?inputCurrency=0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48&outputCurrency=0x9a1997c130f4b2997166975d9aff92797d5134c2';
 
 export const LinkModal: React.FC<LinkModalProps> = (props) => {
   const classes = useLinkModalStyles();
 
   const networkConfig = useNetworkConfig();
+
+  const uniswapUrl = `${INCH_URL}/${networkConfig.assets.USDT.symbol}/${props.tokenName}`;
+
+  const uniswapUsdap = props.withSell ? SELL_UNISWAP_URL : BUY_UNISWAP_URL;
 
   return (
     <Modal open={props.open} onClose={props.onClose}>
@@ -99,10 +111,20 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
                 </Typography>
               </Button>
             )}
+            {props.withSell && config.BUY_BACK_ENABLE && (
+              <Button onClick={props.onBuyBack} className={classes.button}>
+                Convert to USDC
+              </Button>
+            )}
             <Button
               variant="outlined"
               component={Link}
-              href={`${INCH_URL}/${networkConfig.assets.USDT.symbol}/${props.tokenName}`}
+              href={
+                props.tokenName === networkConfig.assets.Stable.symbol &&
+                config.BUY_BACK_ENABLE
+                  ? uniswapUsdap
+                  : uniswapUrl
+              }
               target="_blank"
               className={classes.button}
             >

@@ -1,12 +1,6 @@
 import React from 'react';
 
-import {
-  COIN_ICONS,
-  humanizeNumeral,
-  Link,
-  Status,
-  Typography
-} from 'src/common';
+import { COIN_ICONS, humanizeNumeral, Link, Typography } from 'src/common';
 import { ReactComponent as SwopfiIcon } from 'src/assets/icons/swopfi.svg';
 import { StakingLabel } from '../common';
 import { useStakingSwopFiStyles } from './staking-swop-fi.styles';
@@ -52,9 +46,9 @@ export const StakingSwopFi: React.VFC<StakingSwopFiProps> = (props) => {
               );
             })}
       </Typography>
-      <Status color="black" variant="contained" className={classes.status}>
-        New
-      </Status>
+      <Typography variant="h3" align="center" className={classes.apy}>
+        APY {props.loading ? '...' : <>{humanizeNumeral(props.apy)} %</>}
+      </Typography>
       <StakingLabel
         title="Total value locked"
         value={`$${humanizeNumeral(props.tvl)}`}

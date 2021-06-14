@@ -14,7 +14,9 @@ import {
 import { config } from 'src/config';
 import { StablecoinCollateralMarketModal } from 'src/stablecoin/stablecoin-collateral-market-modal';
 import { StablecoinMarketModal } from 'src/stablecoin/stablecoin-market-modal';
+import { useStablecoinHowItWorks } from '../common';
 import { useRewardToken } from '../common/use-reward-token';
+import { useStablecoinBuybackModal } from '../stablecoin-buyback-modal';
 
 export type StablecoinModalsProps = {
   linkModalOpen: boolean;
@@ -55,11 +57,24 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
     props.togglelinkModal();
   };
 
+  const [openBuyback] = useStablecoinBuybackModal();
+  const [openHowItWorks] = useStablecoinHowItWorks(openBuyback);
+
   useEffect(() => {
     if (!config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
       closeChangeNetwork();
     }
   }, [chainId, closeChangeNetwork]);
+
+  const handleBuyback = () => {
+    if (config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
+      openChangeNetwork();
+    } else {
+      openHowItWorks();
+    }
+
+    props.toggleSellModal();
+  };
 
   return (
     <>
@@ -81,6 +96,8 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
       <LinkModal
         open={props.sellModalOpen}
         onClose={props.toggleSellModal}
+        withSell
+        onBuyBack={handleBuyback}
         tokenName={networkConfig.assets.Stable.symbol}
         tokenAddress={networkConfig.assets.Stable.address}
       />

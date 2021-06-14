@@ -14,7 +14,8 @@ import {
   useStableCoinBalance,
   useStablecoinInfo,
   StablecoinBuyingSelling,
-  StablecoinFeatures
+  StablecoinFeatures,
+  useStablecoinHowItWorks
 } from './common';
 import { useStablecoinStyles } from './stablecoin.styles';
 import { StablecoinModals, useStablecoinModals } from './stablecoin-modals';
@@ -46,6 +47,16 @@ export const Stablecoin: React.FC = () => {
   const [openBuybackModal] = useStablecoinBuybackModal();
   const [openChangeNetwork] = useChangeNetworkModal();
 
+  const [openHowItWorks] = useStablecoinHowItWorks(openBuybackModal);
+
+  const handleOpenBuyBack = () => {
+    if (config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
+      openChangeNetwork();
+    } else {
+      openHowItWorks();
+    }
+  };
+
   return (
     <>
       <Head title="The first-ever decentralized stablecoin based on real-world assets." />
@@ -60,11 +71,7 @@ export const Stablecoin: React.FC = () => {
             <StablecoinBuyingSelling
               onBuy={togglelinkModal}
               onSell={toggleSellModal}
-              onSwap={
-                config.CHAIN_BINANCE_IDS.includes(Number(chainId))
-                  ? openChangeNetwork
-                  : openBuybackModal
-              }
+              onSwap={handleOpenBuyBack}
               stableCoinBalanceLoading={stableCoinBalance.loading}
               stableCoinBalanceValue={stableCoinBalance.value}
             />

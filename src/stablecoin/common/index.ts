@@ -7,3 +7,4 @@ export * from './stablecoin-header';
 export * from './stablecoin-collateral';
 export * from './stablecoin-buying-selling';
 export * from './stablecoin-features';
+export * from './stablecoin-how-it-works';
