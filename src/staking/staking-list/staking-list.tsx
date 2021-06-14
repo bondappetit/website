@@ -7,7 +7,8 @@ import {
   Head,
   Plate,
   numberArray,
-  humanizeNumeral
+  humanizeNumeral,
+  BN
 } from 'src/common';
 import {
   StakingCard,
@@ -79,7 +80,9 @@ export const StakingList: React.VFC = () => {
             {config.SWOP_FI_ENABLE && (
               <StakingSwopFi
                 tvl={swopfiItem?.totalLiquidityUSD}
-                apy={swopfiItem?.apr.year}
+                apy={new BN(swopfiItem?.apr.year ?? '0')
+                  .multipliedBy(100)
+                  .toString(10)}
                 loading={swopfiLoading}
               />
             )}
