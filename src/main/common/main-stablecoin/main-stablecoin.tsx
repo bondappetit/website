@@ -70,7 +70,7 @@ export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
               className={classes.swap}
             >
               <ButtonBase className={classes.swapButton} onClick={props.onSwap}>
-                Swap USDap/USDC with fixed price
+                Swap USDap to USDC with fixed price
               </ButtonBase>
               <Typography variant="inherit" component="div" align="center">
                 till {countdown}

@@ -273,7 +273,7 @@ export const StablecoinBuybackModal: React.VFC<StablecoinBuybackModalProps> = (
               {errorMessage ||
                 ((!approve.value?.approve && !approve.value?.reset) ||
                 new BN(formik.values.payment || '0').isLessThanOrEqualTo(0)
-                  ? 'Swap'
+                  ? 'Swap USDap to USDC'
                   : 'Approve')}
             </WalletButtonWithFallback>
           }
