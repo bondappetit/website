@@ -119,10 +119,7 @@ export const StakingDetail: React.FC = () => {
       unstake.value?.unstakingStartBlock
     );
 
-  const [openUnstake] = useStakingUnstakeAttentionModal({
-    onUnstake: handleUnstake,
-    loading: unstakeState.loading
-  });
+  const [openUnstake] = useStakingUnstakeAttentionModal(handleUnstake);
 
   const handleOpenUnstake = () => {
     if (stakingBalanceIsEmpty) return;
