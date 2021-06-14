@@ -37,7 +37,7 @@ const StakingUnstakeAttentionModal: React.VFC<StakingUnstakeAttentionModalProps>
               <br />
               <Typography variant="h5">
                 3. Staking rewards will be distributed at the same pool rate
-                until the end of August 2021
+                until 05 August 2021
               </Typography>
             </div>
             <Button
