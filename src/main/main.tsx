@@ -4,6 +4,7 @@ import React from 'react';
 import { useToggle } from 'react-use';
 
 import {
+  BN,
   Head,
   humanizeNumeral,
   LinkModal,
@@ -113,7 +114,9 @@ export const Main: React.FC = () => {
           >
             <StakingSwopFi
               tvl={swopfiItem?.totalLiquidityUSD}
-              apy={swopfiItem?.apr.year}
+              apy={new BN(swopfiItem?.apr.year ?? '0')
+                .multipliedBy(100)
+                .toString(10)}
               loading={swopfiLoading}
             />
           </MainStaking>
