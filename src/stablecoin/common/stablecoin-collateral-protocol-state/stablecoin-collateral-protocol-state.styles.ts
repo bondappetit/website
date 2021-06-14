@@ -50,17 +50,20 @@ export const useStablecoinCollateralProtocolStateStyles = createUseStyles(
 
     green: {
       display: 'flex',
-      backgroundColor: theme.colors.green1
+      backgroundColor: theme.colors.green1,
+      color: theme.colors.black
     },
 
     red: {
       display: 'flex',
-      backgroundColor: theme.colors.red
+      backgroundColor: theme.colors.red,
+      color: theme.colors.black
     },
 
     yellow: {
       display: 'flex',
-      backgroundColor: theme.colors.yellow
+      backgroundColor: theme.colors.yellow,
+      color: theme.colors.black
     },
 
     tippy: {
