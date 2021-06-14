@@ -41,7 +41,7 @@ export const LayoutSwap: React.VFC<LayoutSwapProps> = (props) => {
       </div>
       <div className={classes.actions}>
         <Button size="small" onClick={props.onSwap}>
-          Swap to USDap/USDC
+          Swap USDap to USDC
         </Button>
       </div>
     </div>
