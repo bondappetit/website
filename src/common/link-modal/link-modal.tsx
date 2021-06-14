@@ -120,8 +120,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
               variant="outlined"
               component={Link}
               href={
-                props.tokenName === networkConfig.assets.Stable.symbol &&
-                config.BUY_BACK_ENABLE
+                props.tokenName === networkConfig.assets.Stable.symbol
                   ? uniswapUsdap
                   : uniswapUrl
               }

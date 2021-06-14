@@ -62,7 +62,7 @@ const StablecoinHowItWorks: React.VFC<StablecoinHowItWorksProps> = (props) => {
           Phase 2) and earn more rewards
         </Typography>
         <Button className={classes.swap} onClick={props.onSwap}>
-          Swap
+          Swap to USDap/USDC
         </Button>
       </SmallModal>
     </Modal>
