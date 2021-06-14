@@ -6,12 +6,16 @@ import { useStakingUnstakeAttentionModalStyles } from './staking-unstake-attenti
 export type StakingUnstakeAttentionModalProps = {
   onUnstake: () => void;
   onClose?: () => void;
-  loading: boolean;
 };
 
 const StakingUnstakeAttentionModal: React.VFC<StakingUnstakeAttentionModalProps> =
   (props) => {
     const classes = useStakingUnstakeAttentionModalStyles();
+
+    const handleUnstake = () => {
+      props.onUnstake();
+      props.onClose?.();
+    };
 
     return (
       <Modal open onClose={props.onClose}>
@@ -37,22 +41,15 @@ const StakingUnstakeAttentionModal: React.VFC<StakingUnstakeAttentionModalProps>
               <br />
               <Typography variant="h5">
                 3. Staking rewards will be distributed at the same pool rate
-                until the end of August 2021
+                until 05 August 2021
               </Typography>
             </div>
-            <Button
-              onClick={props.onUnstake}
-              disabled={props.loading}
-              loading={props.loading}
-            >
-              Unstake anyway
-            </Button>
+            <Button onClick={handleUnstake}>Unstake anyway</Button>
           </div>
         </SmallModal>
       </Modal>
     );
   };
 
-export const useStakingUnstakeAttentionModal = (
-  props: StakingUnstakeAttentionModalProps
-) => useModal(<StakingUnstakeAttentionModal {...props} />);
+export const useStakingUnstakeAttentionModal = (onUnstake: () => void) =>
+  useModal(<StakingUnstakeAttentionModal onUnstake={onUnstake} />);
