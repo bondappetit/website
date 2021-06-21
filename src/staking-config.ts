@@ -96,6 +96,15 @@ const stakingConfig = [
   },
 
   {
+    contractName: 'StableGovLPStaking',
+    tokenName: LP,
+    chainId: config.CHAIN_IDS[0],
+    token: [Stable, Gov],
+    liquidityPool: true,
+    status: StakingStatuses.active
+  },
+
+  {
     contractName: 'UsdtGovLPStaking',
     tokenName: LP,
     chainId: config.CHAIN_IDS[0],
