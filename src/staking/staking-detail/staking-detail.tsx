@@ -131,7 +131,11 @@ export const StakingDetail: React.FC = () => {
     }
     toggleCanUnstake(false);
 
-    openUnstake();
+    if (stakingItem?.lockable) {
+      openUnstake();
+    } else {
+      handleUnstake();
+    }
   };
 
   return (
