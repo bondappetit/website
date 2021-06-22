@@ -101,7 +101,7 @@ const stakingConfig = [
     chainId: config.CHAIN_IDS[0],
     token: [Gov, USDN],
     liquidityPool: true,
-    status: StakingStatuses.active
+    status: StakingStatuses.archived
   },
 
   {
