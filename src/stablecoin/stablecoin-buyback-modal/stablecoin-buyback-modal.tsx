@@ -1,7 +1,7 @@
 import { useWeb3React } from '@web3-react/core';
 import { FormikContext, useFormik } from 'formik';
 import React, { useEffect } from 'react';
-import { useAsyncRetry, useDebounce, useToggle } from 'react-use';
+import { useAsync, useAsyncRetry, useDebounce, useToggle } from 'react-use';
 import type { IERC20 } from 'src/generate/IERC20';
 import IERC20Abi from '@bondappetit/networks/abi/IERC20.json';
 import { AbiItem } from 'web3-utils';
@@ -252,8 +252,17 @@ export const StablecoinBuybackModal: React.VFC<StablecoinBuybackModalProps> = (
     setFieldValue('payment', youGet.isNaN() ? '0' : youGet.toString(10));
   }, [formik.values.youGet, formik.values.currency, setFieldValue]);
 
-  const errorMessage =
-    formik.errors.payment || formik.errors.currency || formik.errors.youGet;
+  const paused = useAsync(
+    async () => buybackDepositary?.methods.paused().call(),
+    [buybackDepositary]
+  );
+
+  const errorMessage = paused.value
+    ? 'Period of convert has ended'
+    : '' ||
+      formik.errors.payment ||
+      formik.errors.currency ||
+      formik.errors.youGet;
 
   return (
     <div>
@@ -267,7 +276,7 @@ export const StablecoinBuybackModal: React.VFC<StablecoinBuybackModalProps> = (
           balance={usdcBalance.value}
           button={
             <WalletButtonWithFallback
-              disabled={formik.isSubmitting}
+              disabled={paused.value || formik.isSubmitting}
               loading={formik.isSubmitting}
             >
               {errorMessage ||
