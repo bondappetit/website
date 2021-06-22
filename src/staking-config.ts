@@ -96,24 +96,6 @@ const stakingConfig = [
   },
 
   {
-    contractName: 'UsdnGovLPStaking',
-    tokenName: LP,
-    chainId: config.CHAIN_IDS[0],
-    token: [Gov, USDN],
-    liquidityPool: true,
-    status: StakingStatuses.archived
-  },
-
-  {
-    contractName: 'UsdcGovLPStaking',
-    tokenName: LP,
-    chainId: config.CHAIN_IDS[0],
-    token: [Gov, USDC],
-    liquidityPool: true,
-    status: StakingStatuses.archived
-  },
-
-  {
     contractName: 'BnbGovLPStaking',
     tokenName: CAKE_LP,
     chainId: config.CHAIN_BINANCE_IDS[0],
@@ -129,6 +111,24 @@ const stakingConfig = [
     token: [GovBNB, BNB],
     liquidityPool: true,
     status: StakingStatuses.active
+  },
+
+  {
+    contractName: 'UsdnGovLPStaking',
+    tokenName: LP,
+    chainId: config.CHAIN_IDS[0],
+    token: [Gov, USDN],
+    liquidityPool: true,
+    status: StakingStatuses.archived
+  },
+
+  {
+    contractName: 'UsdcGovLPStaking',
+    tokenName: LP,
+    chainId: config.CHAIN_IDS[0],
+    token: [Gov, USDC],
+    liquidityPool: true,
+    status: StakingStatuses.archived
   }
 ];
 
