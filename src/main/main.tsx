@@ -108,7 +108,7 @@ export const Main: React.FC = () => {
             govCost={humanizeNumeral(governanceInUSDC)}
           />
           <MainStaking
-            countOfCards={5}
+            countOfCards={4}
             className={classes.section}
             staking={stakingList?.slice(0, 4)}
           >
