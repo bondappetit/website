@@ -68,7 +68,8 @@ module.exports = {
   testsSetup: resolveModule(resolveApp, 'src/setupTests'),
   proxySetup: resolveApp('src/setupProxy.js'),
   appNodeModules: resolveApp('node_modules'),
-  publicUrlOrPath
+  swSrc: resolveModule(resolveApp, 'src/service-worker'),
+  publicUrlOrPath,
 };
 
 module.exports.moduleFileExtensions = moduleFileExtensions;
