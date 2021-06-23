@@ -1,47 +1,70 @@
 import React from 'react';
 
 import { URLS } from './urls';
+import { lazyLoading } from './lazy-loading';
 
-const Stablecoin = React.lazy(() => import('src/stablecoin'));
-const StakingDetail = React.lazy(() => import('src/staking/staking-detail'));
-const StakingList = React.lazy(() => import('src/staking/staking-list'));
-const VestingList = React.lazy(() => import('src/vesting/vesting-list'));
-const MonitorContractList = React.lazy(
-  () => import('src/monitor/monitor-contract-list')
+const Stablecoin = React.lazy(() =>
+  lazyLoading(() => import('src/stablecoin'))
 );
-const NotFound = React.lazy(() => import('src/not-found'));
-const Whitepaper = React.lazy(() => import('src/whitepaper'));
-const ProfitSplitterForms = React.lazy(() => import('src/profit-splitter'));
-const VotingProposalDetail = React.lazy(
-  () => import('src/voting/voting-proposal-detail')
+const StakingDetail = React.lazy(() =>
+  lazyLoading(() => import('src/staking/staking-detail'))
 );
-const VotingProposalList = React.lazy(
-  () => import('src/voting/voting-proposal-list')
+const StakingList = React.lazy(() =>
+  lazyLoading(() => import('src/staking/staking-list'))
 );
-const VotingCreateProposal = React.lazy(
-  () => import('src/voting/voting-create-proposal')
+const VestingList = React.lazy(() =>
+  lazyLoading(() => import('src/vesting/vesting-list'))
 );
-const VotingInfo = React.lazy(() => import('src/voting/voting-info'));
-const DocsList = React.lazy(() => import('src/docs/docs-list'));
-const DocsDetail = React.lazy(() => import('src/docs/docs-detail'));
-const CollateralList = React.lazy(
-  () => import('src/collateral/collateral-list')
+const MonitorContractList = React.lazy(() =>
+  lazyLoading(() => import('src/monitor/monitor-contract-list'))
 );
-const CollateralDetail = React.lazy(
-  () => import('src/collateral/collateral-detail')
+const NotFound = React.lazy(() => lazyLoading(() => import('src/not-found')));
+const Whitepaper = React.lazy(() =>
+  lazyLoading(() => import('src/whitepaper'))
 );
-const CollateralIssuer = React.lazy(
-  () => import('src/collateral/collateral-issuer')
+const ProfitSplitterForms = React.lazy(() =>
+  lazyLoading(() => import('src/profit-splitter'))
 );
-const CollateralBorrow = React.lazy(
-  () => import('src/collateral/collateral-borrow')
+const VotingProposalDetail = React.lazy(() =>
+  lazyLoading(() => import('src/voting/voting-proposal-detail'))
 );
-const Main = React.lazy(() => import('src/main'));
-const VestingSplitter = React.lazy(() => import('src/vesting-splitter'));
-const Playground = React.lazy(() => import('src/playground'));
-const Contracts = React.lazy(() => import('src/contracts'));
-const Bridge = React.lazy(() => import('src/bridge'));
-const BAG = React.lazy(() => import('src/bag'));
+const VotingProposalList = React.lazy(() =>
+  lazyLoading(() => import('src/voting/voting-proposal-list'))
+);
+const VotingCreateProposal = React.lazy(() =>
+  lazyLoading(() => import('src/voting/voting-create-proposal'))
+);
+const VotingInfo = React.lazy(() =>
+  lazyLoading(() => import('src/voting/voting-info'))
+);
+const DocsList = React.lazy(() =>
+  lazyLoading(() => import('src/docs/docs-list'))
+);
+const DocsDetail = React.lazy(() =>
+  lazyLoading(() => import('src/docs/docs-detail'))
+);
+const CollateralList = React.lazy(() =>
+  lazyLoading(() => import('src/collateral/collateral-list'))
+);
+const CollateralDetail = React.lazy(() =>
+  lazyLoading(() => import('src/collateral/collateral-detail'))
+);
+const CollateralIssuer = React.lazy(() =>
+  lazyLoading(() => import('src/collateral/collateral-issuer'))
+);
+const CollateralBorrow = React.lazy(() =>
+  lazyLoading(() => import('src/collateral/collateral-borrow'))
+);
+const Main = React.lazy(() => lazyLoading(() => import('src/main')));
+const VestingSplitter = React.lazy(() =>
+  lazyLoading(() => import('src/vesting-splitter'))
+);
+const Playground = React.lazy(() =>
+  lazyLoading(() => import('src/playground'))
+);
+const Contracts = React.lazy(() => lazyLoading(() => import('src/contracts')));
+const Bridge = React.lazy(() => lazyLoading(() => import('src/bridge')));
+const BAG = React.lazy(() => lazyLoading(() => import('src/bag')));
 
 export const routes = [
   {
