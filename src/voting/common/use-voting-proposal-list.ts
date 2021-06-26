@@ -22,13 +22,13 @@ export const useVotingProposalList = (limit?: number) => {
 
     const proposalPages = getPages(Number(proposalCount));
 
-    const existingProposals = proposalPages.map((proposalId) => {
+    const allProposals = proposalPages.map((proposalId) => {
       return getProposal(proposalId)(governorContract)(eventData)(
         networkConfig
       );
     });
 
-    return Promise.all(existingProposals);
+    return Promise.all(allProposals);
   }, [governorContract, eventData, networkConfig, chainId, getPages]);
 
   return useMemo(

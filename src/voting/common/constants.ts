@@ -8,7 +8,8 @@ export enum ProposalState {
   Succeeded,
   Queued,
   Expired,
-  Executed
+  Executed,
+  Error
 }
 
 export const ProposalStateColors: Record<string, StatusProps['color']> = {
@@ -19,7 +20,8 @@ export const ProposalStateColors: Record<string, StatusProps['color']> = {
   [ProposalState.Succeeded]: 'green',
   [ProposalState.Queued]: 'purple',
   [ProposalState.Executed]: 'green',
-  [ProposalState.Expired]: 'green'
+  [ProposalState.Expired]: 'green',
+  [ProposalState.Error]: 'red'
 };
 
 export const FACTOID = [
