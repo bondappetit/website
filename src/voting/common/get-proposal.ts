@@ -1,7 +1,9 @@
 import { formatUnits } from 'ethers/lib.esm/utils';
 
 import { BN, Network } from 'src/common';
+import { config } from 'src/config';
 import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
+import { ProposalState } from './constants';
 import { FormattedEventData } from './voting.types';
 
 const TITLE_REGEX = /# |\n/g;
@@ -19,6 +21,8 @@ export const getProposal =
 
     const [title] = formattedEvent?.description?.split(TITLE_REGEX) ?? [];
 
+    const status = await governorContract.methods.state(proposalId).call();
+
     return {
       id: proposal?.id,
       eta: proposal?.eta,
@@ -26,7 +30,9 @@ export const getProposal =
       description:
         formattedEvent?.description?.replace(title, '') ?? 'No description.',
       proposer: proposal?.proposer,
-      status: await governorContract.methods.state(proposalId).call(),
+      status: config.IMPROPERLY_PROPOSALS.includes(proposal.id)
+        ? String(ProposalState.Error)
+        : status,
       forCount: new BN(
         formatUnits(
           String(proposal?.forVotes ?? 0),

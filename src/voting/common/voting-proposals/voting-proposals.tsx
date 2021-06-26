@@ -26,7 +26,16 @@ export const VotingProposals: React.FC<VotingProposalsProps> = (props) => {
         ))}
       {!props.loading &&
         props.proposals?.map((proposal) => (
-          <Typography key={proposal.id} variant="h5" component="div">
+          <Typography
+            key={proposal.id}
+            variant="h5"
+            component="div"
+            className={
+              ProposalState.Error === Number(proposal.status)
+                ? classes.error
+                : undefined
+            }
+          >
             <Link
               component={ReactRouterLink}
               to={URLS.voting.detail(proposal.id)}

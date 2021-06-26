@@ -41,6 +41,10 @@ export const useVotingProposalsStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         width: 'calc(100% - 200px)'
       }
+    },
+
+    error: {
+      opacity: 0.6
     }
   }),
   {
