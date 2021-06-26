@@ -2,13 +2,14 @@ import Web3 from 'web3';
 import { useAsyncRetry } from 'react-use';
 import { useWeb3React } from '@web3-react/core';
 import { useMemo } from 'react';
+import { config } from 'src/config';
 
 import { useNetworkConfig, useGovernorContract } from 'src/common';
 import { useVotingEvents } from './use-voting-events';
 import { usePagination } from './use-pagination';
 import { getProposal } from './get-proposal';
 
-const FAILED_PROPOSALS = [15, 13, 10, 7];
+console.log(config.IMPROPERLY_PROPOSALS);
 
 export const useVotingProposalList = (limit?: number) => {
   const { nextPage, getPages, pages, currentPage } = usePagination(limit);
@@ -22,12 +23,8 @@ export const useVotingProposalList = (limit?: number) => {
 
     const proposalCount = await governorContract.methods.proposalCount().call();
 
-    const isMainnet = chainId === 1;
-
     const proposalPages = getPages(
-      isMainnet
-        ? Number(proposalCount) - FAILED_PROPOSALS.length
-        : Number(proposalCount)
+      Number(proposalCount) - config.IMPROPERLY_PROPOSALS.length
     );
 
     const allProposals = proposalPages.map((proposalId) => {
@@ -36,13 +33,9 @@ export const useVotingProposalList = (limit?: number) => {
       );
     });
 
-    if (isMainnet) {
-      return (await Promise.all(allProposals)).filter(
-        ({ id }) => !FAILED_PROPOSALS.includes(Number(id))
-      );
-    }
-
-    return Promise.all(allProposals);
+    return (await Promise.all(allProposals)).filter(
+      ({ id }) => !config.IMPROPERLY_PROPOSALS.includes(id)
+    );
   }, [governorContract, eventData, networkConfig, chainId, getPages]);
 
   return useMemo(
