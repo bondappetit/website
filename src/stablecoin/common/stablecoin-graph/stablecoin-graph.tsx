@@ -3,13 +3,12 @@ import React, { useMemo, useRef } from 'react';
 import Tippy from '@tippyjs/react';
 import { useHoverDirty } from 'react-use';
 
-import { Typography, BN, Plate } from 'src/common';
-import { SablecoinInfo } from '../use-stable-coin-info';
+import { Typography, BN, Plate, humanizeNumeral } from 'src/common';
 import { useStablecoinGraphStyles } from './stablecoin-graph.styles';
 
 export type StablecoinGraphProps = {
   className?: string;
-  tokenInfo?: SablecoinInfo;
+  issuerBalance?: BN;
   loading: boolean;
 };
 
@@ -21,12 +20,6 @@ const round = (sum?: string | null) => {
 
 export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
   const classes = useStablecoinGraphStyles();
-
-  const totalLiquidityUSD = useMemo(
-    () =>
-      round(props.tokenInfo?.data?.token?.data?.statistic?.totalLiquidityUSD),
-    [props.tokenInfo]
-  );
 
   const fivem = useRef(null);
   const onem = useRef(null);
@@ -72,7 +65,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
                   component="span"
                   weight="semibold"
                 >
-                  {totalLiquidityUSD} USDap
+                  {humanizeNumeral(props.issuerBalance)} USDap
                 </Typography>
               </>
             )}
