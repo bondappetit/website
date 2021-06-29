@@ -31,7 +31,7 @@ export const LayoutSwap: React.VFC<LayoutSwapProps> = (props) => {
           {USDCIcon && <USDCIcon className={classes.iconsItem} />}
         </div>
         <Typography variant="body1" component="div" className={classes.text}>
-          Swap USDap to USDC in{' '}
+          Time left to swap USDap to USDC: {' '}
           <Typography variant="inherit" weight="semibold">
             {countdown}
           </Typography>
