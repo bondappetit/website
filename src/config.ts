@@ -32,7 +32,7 @@ export const config = {
   WAVES_URL: process.env.REACT_APP_WAVES_URL,
   SWOP_URL: process.env.REACT_APP_SWOP_URL,
   PHASE1_COUNTDOWN: '2021-07-15',
-  PHASE2_COUNTDOWN: '2021-07-1 10:00:00',
+  PHASE2_COUNTDOWN: '2021-07-1 13:00:00',
   COMMIT_HASH: process.env.COMMIT_HASH,
   BRANCH: process.env.BRANCH,
   BUILD_DATE: process.env.BUILD_DATE,
