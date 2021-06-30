@@ -47,6 +47,7 @@ export type VotingAddActionProps = {
 
 export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
   const networkConfig = useNetworkConfig();
+
   const votingPresets = useMemo(
     () =>
       getVotingPresets(networkConfig).reduce<Record<string, VotingPresetItem>>(

@@ -1,5 +1,5 @@
 import { useFormik } from 'formik';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useToggle } from 'react-use';
 import { useHistory } from 'react-router-dom';
 import Web3 from 'web3';
@@ -40,7 +40,7 @@ const joinAction = ({ input, ...action }: VotingAddActionFormValues) => {
 export const VotingCreateProposal: React.FC = () => {
   const governorContract = useGovernorContract();
   const classes = useVotingCreateProposalStyles();
-  const { library, account } = useWeb3React<Web3>();
+  const { library, account, chainId } = useWeb3React<Web3>();
   const [addActionOpen, toggleAddAction] = useToggle(false);
   const [editAction, setEditAction] =
     useState<VotingAddActionFormValues | null>(null);
@@ -149,6 +149,11 @@ export const VotingCreateProposal: React.FC = () => {
 
     setEditAction(null);
   }, [toggleAddAction]);
+
+  useEffect(() => {
+    setFieldValue('actions', []);
+    handleCloseAddAction();
+  }, [chainId, setFieldValue, handleCloseAddAction]);
 
   return (
     <>
