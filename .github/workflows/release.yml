@@ -34,7 +34,7 @@ jobs:
           REACT_APP_SWOP_FI_ENABLE: true
           REACT_APP_WAVES_URL: https://waves.exchange
           REACT_APP_SWOP_URL: https://swop.fi/exchange/3PAgYAV4jYJ7BF8LCVNU9tyWCBtQaqeLQH4?utm_source=bondappetit&utm_medium=partner&utm_campaign=buy_bag
-          REACT_APP_BUY_BACK_ENABLE: true
+          REACT_APP_BUY_BACK_ENABLE: false
       - if: github.event.release.prerelease == false
         run: npm run build
         env:
@@ -53,7 +53,7 @@ jobs:
           REACT_APP_SWOP_FI_ENABLE: true
           REACT_APP_WAVES_URL: https://waves.exchange
           REACT_APP_SWOP_URL: https://swop.fi/exchange/3PAgYAV4jYJ7BF8LCVNU9tyWCBtQaqeLQH4?utm_source=bondappetit&utm_medium=partner&utm_campaign=buy_bag
-          REACT_APP_BUY_BACK_ENABLE: true
+          REACT_APP_BUY_BACK_ENABLE: false
           REACT_APP_IMPROPERLY_PROPOSALS: 15,13,10,7
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
