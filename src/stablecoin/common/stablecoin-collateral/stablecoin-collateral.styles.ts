@@ -18,6 +18,10 @@ export const useStablecoinCollateralStyles = createUseStyles(
       }
     },
 
+    phaseDescription: {
+      marginBottom: 20
+    },
+
     title: {
       fontSize: 14,
       lineHeight: '20px',

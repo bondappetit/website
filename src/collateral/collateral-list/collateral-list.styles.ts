@@ -10,6 +10,10 @@ export const useCollateralListStyles = createUseStyles(
       margin: '0 auto 64px'
     },
 
+    phaseDescription: {
+      marginBottom: 20
+    },
+
     list: {
       display: 'grid',
 

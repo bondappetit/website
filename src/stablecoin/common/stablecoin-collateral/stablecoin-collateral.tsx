@@ -7,6 +7,7 @@ import {
   humanizeNumeral,
   Link,
   LinkIfAccount,
+  PhaseDescription,
   Plate,
   Typography,
   useNetworkConfig
@@ -50,6 +51,7 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
           </>
         }
       />
+      <PhaseDescription className={classes.phaseDescription} />
       <Plate withoutBorder color="grey" className={classes.list}>
         <div className={classes.body}>
           <Typography variant="h5" align="center" className={classes.title}>
