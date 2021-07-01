@@ -1,7 +1,5 @@
 import { createUseStyles } from 'react-jss';
 
-import { Theme } from 'src/common/theme';
-
 export const usePhaseDescriptionStyles = createUseStyles(
   {
     root: {
