@@ -1,11 +1,19 @@
 import dayjs, { Dayjs } from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 
 dayjs.extend(relativeTime);
+dayjs.extend(utc);
+dayjs.extend(timezone);
+
+const MOSCOW_TIMEZONE = 'Europe/Moscow';
+
+dayjs.tz.setDefault(MOSCOW_TIMEZONE);
 
 export const dateUtils = {
   countdown: (date: string) => {
-    const difference = dayjs(date).diff(dayjs());
+    const difference = dayjs.tz(date).diff(dayjs().tz());
 
     const days = Math.floor(difference / (1000 * 60 * 60 * 24));
     const hours = Math.floor((difference / (1000 * 60 * 60)) % 24);
