@@ -68,5 +68,10 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA
 if (!config.IS_DEV) {
-  serviceWorkerRegistration.register();
+  serviceWorkerRegistration.register({
+    onUpdate: (registration) => {
+      registration.waiting?.postMessage({ type: 'SKIP_WAITING' });
+      window.location.reload();
+    }
+  });
 }

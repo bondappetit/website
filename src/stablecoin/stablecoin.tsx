@@ -12,7 +12,6 @@ import {
   StablecoinHeader,
   StablecoinTable,
   useStableCoinBalance,
-  useStablecoinInfo,
   StablecoinBuyingSelling,
   StablecoinFeatures,
   useStablecoinHowItWorks
@@ -25,8 +24,6 @@ export const Stablecoin: React.FC = () => {
   const classes = useStablecoinStyles();
 
   const { chainId } = useWeb3React();
-
-  const stablecoinInfo = useStablecoinInfo();
 
   const {
     linkModalOpen,

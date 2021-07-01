@@ -15,7 +15,8 @@ import {
   SmallModal,
   LinkIfAccount,
   useNetworkConfig,
-  Link
+  Link,
+  PhaseDescription
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
@@ -69,6 +70,7 @@ export const CollateralList: React.FC = () => {
             The protocol’s assets are backed by real-world collateral in the
             form of bonds
           </Typography>
+          <PhaseDescription className={classes.phaseDescription} />
           <Plate className={clsx(classes.list, classes.ussued)}>
             <CollateralCard
               className={classes.card}
