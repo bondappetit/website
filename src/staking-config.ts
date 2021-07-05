@@ -101,7 +101,7 @@ const stakingConfig = [
     chainId: config.CHAIN_BINANCE_IDS[0],
     token: [GovBNB, BNB],
     liquidityPool: true,
-    status: StakingStatuses.active
+    status: StakingStatuses.archived
   },
 
   {
@@ -110,7 +110,7 @@ const stakingConfig = [
     chainId: config.CHAIN_BINANCE_IDS[1],
     token: [GovBNB, BNB],
     liquidityPool: true,
-    status: StakingStatuses.active
+    status: StakingStatuses.archived
   },
 
   {
