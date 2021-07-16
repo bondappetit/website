@@ -63,12 +63,9 @@ export const Main: React.FC = () => {
     togglelinkModal,
     sellModalOpen,
     toggleSellModal,
-    handleBuyCollateralMarket,
     handleBuyMarket,
     marketModalOpen,
-    toggleMarketModal,
-    collateralMarketModalOpen,
-    toggleCollateralMarketModal
+    toggleMarketModal
   } = useStablecoinModals();
 
   const mediumArticles = useMediumArticles();
@@ -169,10 +166,7 @@ export const Main: React.FC = () => {
         togglelinkModal={togglelinkModal}
         sellModalOpen={sellModalOpen}
         toggleSellModal={toggleSellModal}
-        onBuyCollateralMarket={handleBuyCollateralMarket}
         onBuyMarket={handleBuyMarket}
-        toggleCollateralMarketModal={toggleCollateralMarketModal}
-        collateralMarketModalOpen={collateralMarketModalOpen}
       />
       <LinkModal
         open={linksOpen}
