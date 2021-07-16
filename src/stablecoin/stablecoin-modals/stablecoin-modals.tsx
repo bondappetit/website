@@ -12,7 +12,6 @@ import {
   useStableCoinContract
 } from 'src/common';
 import { config } from 'src/config';
-import { StablecoinCollateralMarketModal } from 'src/stablecoin/stablecoin-collateral-market-modal';
 import { StablecoinMarketModal } from 'src/stablecoin/stablecoin-market-modal';
 import { useStablecoinHowItWorks } from '../common';
 import { useRewardToken } from '../common/use-reward-token';
@@ -21,14 +20,11 @@ import { useStablecoinBuybackModal } from '../stablecoin-buyback-modal';
 export type StablecoinModalsProps = {
   linkModalOpen: boolean;
   togglelinkModal: () => void;
-  onBuyCollateralMarket: () => void;
   onBuyMarket: () => void;
   sellModalOpen: boolean;
   toggleSellModal: () => void;
   marketModalOpen: boolean;
   toggleMarketModal: () => void;
-  collateralMarketModalOpen: boolean;
-  toggleCollateralMarketModal: () => void;
 };
 
 export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
@@ -51,11 +47,6 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
   const reward = useRewardToken();
 
   const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
-
-  const changeNetwork = () => {
-    openChangeNetwork();
-    props.togglelinkModal();
-  };
 
   const [openBuyback] = useStablecoinBuybackModal();
   const [openHowItWorks] = useStablecoinHowItWorks(openBuyback);
@@ -82,13 +73,7 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
         open={props.linkModalOpen}
         onClose={props.togglelinkModal}
         withBuyMarket={state.value && config.IS_COLLATERAL}
-        onBuyCollateralMarket={
-          config.CHAIN_BINANCE_IDS.includes(Number(chainId))
-            ? changeNetwork
-            : props.onBuyCollateralMarket
-        }
         onBuyMarket={props.onBuyMarket}
-        withBuyCollateralMarket
         tokenName={networkConfig.assets.Stable.symbol}
         tokenAddress={networkConfig.assets.Stable.address}
         rewardPercent={humanizeNumeral(reward.value?.rewardPercent)}
@@ -105,13 +90,6 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
         <StablecoinMarketModal
           open={props.marketModalOpen}
           onClose={props.toggleMarketModal}
-          tokenName="USDap"
-        />
-      )}
-      {props.collateralMarketModalOpen && (
-        <StablecoinCollateralMarketModal
-          open={props.collateralMarketModalOpen}
-          onClose={props.toggleCollateralMarketModal}
           tokenName="USDap"
         />
       )}

@@ -30,12 +30,9 @@ export const Stablecoin: React.FC = () => {
     togglelinkModal,
     sellModalOpen,
     toggleSellModal,
-    handleBuyCollateralMarket,
     handleBuyMarket,
     marketModalOpen,
-    toggleMarketModal,
-    collateralMarketModalOpen,
-    toggleCollateralMarketModal
+    toggleMarketModal
   } = useStablecoinModals();
 
   const stableCoinBalance = useStableCoinBalance();
@@ -92,10 +89,7 @@ export const Stablecoin: React.FC = () => {
         togglelinkModal={togglelinkModal}
         sellModalOpen={sellModalOpen}
         toggleSellModal={toggleSellModal}
-        onBuyCollateralMarket={handleBuyCollateralMarket}
         onBuyMarket={handleBuyMarket}
-        toggleCollateralMarketModal={toggleCollateralMarketModal}
-        collateralMarketModalOpen={collateralMarketModalOpen}
       />
     </>
   );
