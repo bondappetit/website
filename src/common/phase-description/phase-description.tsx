@@ -22,7 +22,7 @@ export const PhaseDescription: React.VFC<{ className?: string }> = (props) => {
           https://bondappetit.io/whitepaper
         </Link>
         ), which means that the first batch of bonds are in the process of being
-        purchased. The transition will be concluded approximately by July 13th.
+        purchased. The transition will be concluded approximately by July 25th.
       </Typography>
     </Plate>
   );
