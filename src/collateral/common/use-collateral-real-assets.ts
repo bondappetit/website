@@ -8,7 +8,8 @@ import {
   useNetworkConfig,
   useRealAssetDepositaryBalanceView
 } from 'src/common';
-import { ASSETS_MAP, PROTOCOL_ASSETS, PUBLIC_KEY } from './contstants';
+import { config } from 'src/config';
+import { ASSETS_MAP, PROTOCOL_ASSETS } from './contstants';
 import { ConfigAsset, TableCellTypes, TableData } from './collateral.types';
 
 type Asset = {
@@ -36,7 +37,7 @@ export type RealAsset = {
   isValid: boolean;
 } & Asset;
 
-const rsa = new NodeRSA(PUBLIC_KEY, 'pkcs8-public-pem', {
+const rsa = new NodeRSA(config.PUBLIC_KEY, 'pkcs8-public-pem', {
   environment: 'browser',
   encryptionScheme: 'pkcs1',
   signingScheme: 'pkcs1-sha512'

@@ -39,5 +39,8 @@ export const config = {
   SWOP_FI_ENABLE: process.env.REACT_APP_SWOP_FI_ENABLE === 'true',
   BUY_BACK_ENABLE: process.env.REACT_APP_BUY_BACK_ENABLE === 'true',
   IMPROPERLY_PROPOSALS:
-    process.env.REACT_APP_IMPROPERLY_PROPOSALS?.split(',') ?? []
+    process.env.REACT_APP_IMPROPERLY_PROPOSALS?.split(',') ?? [],
+  PUBLIC_KEY: `-----BEGIN PUBLIC KEY-----
+MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIY/1CNmMbKN7JJiorkpxz2RnX3sClnDZ/zDFm0Zmh+0lU4xfEkjfp05sQzxrbgXztL0HzJkTB8v5HMICuv2WY4nPas8SgE8wCt19IAS/uiHkPVqOLdnfBN5iKMjOaS7GEkODlnd8KRvyeUQLP3t/a6aQtDSvBPnFsJAs1dKhWwwIDAQAB
+-----END PUBLIC KEY-----`
 };

@@ -6,7 +6,7 @@ import type { GovernorAlpha } from 'src/generate/GovernorAlpha';
 import { ProposalState } from './constants';
 import { FormattedEventData } from './voting.types';
 
-const TITLE_REGEX = /# |\n/g;
+const TITLE_REGEX = /(# | \s#) |\n/g;
 
 export const getProposal =
   (proposalId: number) =>
