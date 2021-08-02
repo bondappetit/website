@@ -2,7 +2,7 @@ import { ConfigAsset, TableCellTypes, TableData } from '../collateral.types';
 
 export const PROTOCOL_ASSETS: TableData = {
   head: [
-    'Borrower',
+    'Intermediary',
     '%',
     'Issuer',
     'Total value',
