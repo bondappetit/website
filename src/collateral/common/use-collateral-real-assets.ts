@@ -136,11 +136,12 @@ export const useCollateralRealAssets = () => {
           : { ...defaultAsset };
 
         if (asset) {
-          newAsset.percent = asset.totalValue
+          const percent = asset.totalValue
             .div(sumTotalValue)
             .multipliedBy(100)
-            .integerValue()
-            .toString(10);
+            .integerValue();
+
+          newAsset.percent = percent.isNaN() ? '0' : percent.toString(10);
 
           newAsset.totalValue = `$ ${humanizeNumeral(asset.totalValue)}`;
           newAsset.updatedAt = asset.updatedAt;
