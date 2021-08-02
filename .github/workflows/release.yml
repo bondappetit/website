@@ -35,6 +35,7 @@ jobs:
           REACT_APP_WAVES_URL: https://waves.exchange
           REACT_APP_SWOP_URL: https://swop.fi/exchange/3PAgYAV4jYJ7BF8LCVNU9tyWCBtQaqeLQH4?utm_source=bondappetit&utm_medium=partner&utm_campaign=buy_bag
           REACT_APP_BUY_BACK_ENABLE: false
+          REACT_APP_WISE_WOLVES_PUBLIC_KEY: -----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCIY/1CNmMbKN7JJiorkpxz2RnX3sClnDZ/zDFm0Zmh+0lU4xfEkjfp05sQzxrbgXztL0HzJkTB8v5HMICuv2WY4nPas8SgE8wCt19IAS/uiHkPVqOLdnfBN5iKMjOaS7GEkODlnd8KRvyeUQLP3t/a6aQtDSvBPnFsJAs1dKhWwwIDAQAB-----END PUBLIC KEY-----
       - if: github.event.release.prerelease == false
         run: npm run build
         env:
@@ -55,6 +56,7 @@ jobs:
           REACT_APP_SWOP_URL: https://swop.fi/exchange/3PAgYAV4jYJ7BF8LCVNU9tyWCBtQaqeLQH4?utm_source=bondappetit&utm_medium=partner&utm_campaign=buy_bag
           REACT_APP_BUY_BACK_ENABLE: false
           REACT_APP_IMPROPERLY_PROPOSALS: 15,13,10,7
+          REACT_APP_WISE_WOLVES_PUBLIC_KEY: -----BEGIN PUBLIC KEY-----MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCHcFAgx296HYsaNV1GfpMeYB88ZlLjKvNJfBDrWT5+wYOJkfwEwDRyKgQqL5s40o4y6afb3vxPSIics3fL1Xn/LQfT5cITzyQCGTQzFccoEezg4T0R5Aj9klrkEuCG8cafYO+gKxQplzo2hkeZVWfPh6hG/g+cd2ZqLaif+cSb8QIDAQAB-----END PUBLIC KEY-----
       - name: Archive artifacts
         uses: actions/upload-artifact@v2
         with:
