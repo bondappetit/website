@@ -17,12 +17,12 @@ export const PhaseDescription: React.VFC<{ className?: string }> = (props) => {
     >
       <Typography variant="h5" className={classes.text}>
         Do not be alarmed by the red light on the indicator panel. The protocol
-        is transitioning to Phase 2 (
+        is&nbsp;
         <Link color="blue" href="/whitepaper#46">
-          https://bondappetit.io/whitepaper
+          transitioning to Phase 2
         </Link>
-        ), which means that the first batch of bonds are in the process of being
-        purchased. The transition will be concluded approximately by August 1th.
+        , which means that the first batch of bonds are in the process of being
+        purchased. The transition will be concluded approximately by August 4th.
       </Typography>
     </Plate>
   );

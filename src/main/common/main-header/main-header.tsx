@@ -16,17 +16,10 @@ export type MainHeaderProps = {
   onBuyGov: () => void;
 };
 
-const date = () => dateUtils.countdown(config.PHASE1_COUNTDOWN);
-
 export const MainHeader: React.FC<MainHeaderProps> = (props) => {
   const classes = useMainHeaderStyles();
 
   const [openMainHowItWorks] = useMainHowitWorksModal();
-
-  const [countdown, setCountDown] = useState(date());
-
-  useInterval(() => setCountDown(date()), 1000);
-
   return (
     <div className={clsx(classes.root, props.className)}>
       <div className={classes.content}>
@@ -49,9 +42,6 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
             Phase 2
           </Typography>
           <div>Real-World Asset Collateral</div>
-          <Typography variant="inherit" component="div" weight="semibold">
-            Begins in: {countdown}
-          </Typography>
         </Typography>
         <Typography variant="body1" component="div" align="right">
           <div>
