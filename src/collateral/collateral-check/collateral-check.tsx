@@ -22,9 +22,13 @@ export const CollateralCheck: React.VFC<CollateralCheckProps> = (props) => {
     <div className={classes.root}>
       <Typography variant="body1" className={classes.description}>
         To insure transparency of collateral all our data signed by regulated
-        entity.{' '}
-        <Link color="blue" href="/#">
-          Learn more
+        entity. Download public key{' '}
+        <Link
+          color="blue"
+          target="_blank"
+          href="https://wise-wolves.finance/pk/pk-oapi-b.txt"
+        >
+          here
         </Link>
       </Typography>
       <div className={classes.card}>

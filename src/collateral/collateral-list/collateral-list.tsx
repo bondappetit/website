@@ -106,7 +106,7 @@ export const CollateralList: React.FC = () => {
                 config.IS_COLLATERAL ? (
                   <Link
                     component={ReactRouterLink}
-                    to={URLS.whitepaper}
+                    to="/whitepaper#13"
                     color="blue"
                   >
                     check here
