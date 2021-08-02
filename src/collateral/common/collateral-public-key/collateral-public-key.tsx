@@ -3,7 +3,7 @@ import React from 'react';
 import { useCopyToClipboard, useDebounce } from 'react-use';
 
 import { ButtonBase, Typography } from 'src/common';
-import { PUBLIC_KEY } from '../contstants';
+import { config } from 'src/config';
 import { useCollateralPublicKeyStyles } from './collateral-public-key.styles';
 
 export type CollateralPublicKeyProps = {
@@ -32,7 +32,7 @@ export const CollateralPublicKey: React.VFC<CollateralPublicKeyProps> = (
   return (
     <div className={clsx(classes.root, props.className)}>
       <ButtonBase
-        onClick={() => copyToClipboard(PUBLIC_KEY)}
+        onClick={() => copyToClipboard(config.PUBLIC_KEY)}
         className={classes.button}
       >
         <div className={classes.header}>
@@ -47,7 +47,7 @@ export const CollateralPublicKey: React.VFC<CollateralPublicKeyProps> = (
           </Typography>
         </div>
         <Typography variant="body1" className={classes.text}>
-          {PUBLIC_KEY}
+          {config.PUBLIC_KEY}
         </Typography>
       </ButtonBase>
     </div>
