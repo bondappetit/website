@@ -159,6 +159,9 @@ export const useCollateralRealAssets = () => {
 
         return newAsset;
       })
+      .filter(({ percent, amount, totalValue }) => {
+        return percent !== '0' && amount !== '0' && totalValue !== '0';
+      })
       .sort((a, b) => Number(b.percent) - Number(a.percent))
       .map((asset) => {
         const newAsset = { ...asset, percent: `${asset.percent}%` };
