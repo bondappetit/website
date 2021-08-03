@@ -33,17 +33,28 @@ export const ASSETS_MAP = new Map<string, ConfigAsset>([
     }
   ],
   [
-    'XS1533921299',
+    'USP98118AA38',
     {
       percent: '-',
-      issuer: {
-        cellType: TableCellTypes.issuer,
-        title: 'Company 1'
-      },
+      issuer: 'Nexa Resources SA',
       totalValue: '-',
       amount: '-',
-      coupon: '5.125',
-      maturity: '02.02.2022',
+      coupon: '5.38%',
+      maturity: '26.06.2026',
+      isinCode: '-',
+      isValid: false,
+      updatedAt: '-'
+    }
+  ],
+  [
+    'US279158AL39',
+    {
+      percent: '-',
+      issuer: 'Ecopetrol SA',
+      totalValue: '-',
+      amount: '-',
+      coupon: '5.38%',
+      maturity: '04.05.2027',
       isinCode: '-',
       isValid: false,
       updatedAt: '-'
@@ -53,13 +64,10 @@ export const ASSETS_MAP = new Map<string, ConfigAsset>([
     'US247361ZZ42',
     {
       percent: '-',
-      issuer: {
-        cellType: TableCellTypes.issuer,
-        title: 'Company 3'
-      },
+      issuer: 'Delta Air Lines Inc',
       totalValue: '-',
       amount: '-',
-      coupon: '7.375',
+      coupon: '7,38%',
       maturity: '15.01.2026',
       isinCode: '-',
       isValid: false,
@@ -67,154 +75,56 @@ export const ASSETS_MAP = new Map<string, ConfigAsset>([
     }
   ],
   [
-    'USY00130VS35',
+    'US345370BY59',
     {
       percent: '-',
-      issuer: '-',
+      issuer: 'Ford Motor Co',
       totalValue: '-',
       amount: '-',
-      coupon: '-',
-      maturity: '-',
+      coupon: '6,63%',
+      maturity: '01.10.2028',
       isinCode: '-',
       isValid: false,
       updatedAt: '-'
     }
   ],
   [
-    'USP32466AA50',
+    'USU98401AB58',
     {
       percent: '-',
-      issuer: '-',
+      issuer: 'Xerox Holdings Corp',
       totalValue: '-',
       amount: '-',
-      coupon: '-',
-      maturity: '-',
+      coupon: '5,5%',
+      maturity: '15.08.2028',
       isinCode: '-',
       isValid: false,
       updatedAt: '-'
     }
   ],
   [
-    'XS1890684688',
+    'USG0R209AA85',
     {
       percent: '-',
-      issuer: '-',
+      issuer: 'American Airlines Inc/AAdvantage Loyalty IP Ltd',
       totalValue: '-',
       amount: '-',
-      coupon: '-',
-      maturity: '-',
+      coupon: '5,5%',
+      maturity: '20.04.2026',
       isinCode: '-',
       isValid: false,
       updatedAt: '-'
     }
   ],
   [
-    'US682051AB34',
+    'USG0R209AB68',
     {
       percent: '-',
-      issuer: '-',
+      issuer: 'American Airlines Inc/AAdvantage Loyalty IP Ltd',
       totalValue: '-',
       amount: '-',
-      coupon: '-',
-      maturity: '-',
-      isinCode: '-',
-      isValid: false,
-      updatedAt: '-'
-    }
-  ],
-  [
-    'US91086QBA58',
-    {
-      percent: '-',
-      issuer: '-',
-      totalValue: '-',
-      amount: '-',
-      coupon: '-',
-      maturity: '-',
-      isinCode: '-',
-      isValid: false,
-      updatedAt: '-'
-    }
-  ],
-  [
-    'US50247VAA70',
-    {
-      percent: '-',
-      issuer: '-',
-      totalValue: '-',
-      amount: '-',
-      coupon: '-',
-      maturity: '-',
-      isinCode: '-',
-      isValid: false,
-      updatedAt: '-'
-    }
-  ],
-  [
-    'US456837AK90',
-    {
-      percent: '-',
-      issuer: '-',
-      totalValue: '-',
-      amount: '-',
-      coupon: '-',
-      maturity: '-',
-      isinCode: '-',
-      isValid: false,
-      updatedAt: '-'
-    }
-  ],
-  [
-    'USN30707AD06',
-    {
-      percent: '-',
-      issuer: '-',
-      totalValue: '-',
-      amount: '-',
-      coupon: '-',
-      maturity: '-',
-      isinCode: '-',
-      isValid: false,
-      updatedAt: '-'
-    }
-  ],
-  [
-    'US09659X2E17',
-    {
-      percent: '-',
-      issuer: '-',
-      totalValue: '-',
-      amount: '-',
-      coupon: '-',
-      maturity: '-',
-      isinCode: '-',
-      isValid: false,
-      updatedAt: '-'
-    }
-  ],
-  [
-    'US06738EAQ89',
-    {
-      percent: '-',
-      issuer: '-',
-      totalValue: '-',
-      amount: '-',
-      coupon: '-',
-      maturity: '-',
-      isinCode: '-',
-      isValid: false,
-      updatedAt: '-'
-    }
-  ],
-  [
-    'US77586TAA43',
-    {
-      percent: '-',
-      issuer: '-',
-      totalValue: '-',
-      amount: '-',
-      coupon: '-',
-      maturity: '-',
+      coupon: '5,75%',
+      maturity: '20.04.2029',
       isinCode: '-',
       isValid: false,
       updatedAt: '-'
