@@ -164,7 +164,13 @@ export const useCollateralRealAssets = () => {
       })
       .sort((a, b) => Number(b.percent) - Number(a.percent))
       .map((asset) => {
-        const newAsset = { ...asset, percent: `${asset.percent}%` };
+        const newAsset = {
+          ...asset,
+          percent: {
+            title: asset.percent as string,
+            cellType: TableCellTypes.percent
+          }
+        };
 
         return getTableCell(newAsset);
       });

@@ -1,6 +1,7 @@
 export enum TableCellTypes {
   issuer = 'issuer',
-  borrower = 'borrower'
+  borrower = 'borrower',
+  percent = 'percent'
 }
 
 export type TableData = {
@@ -15,7 +16,7 @@ export type TableData = {
   >;
 };
 
-export type ConfigIssuer = {
+export type TableCell = {
   cellType: TableCellTypes;
   title: string;
 };
@@ -26,8 +27,8 @@ export type ConfigIsinCode = {
 };
 
 export type ConfigAsset = {
-  percent: string;
-  issuer: string | ConfigIssuer;
+  percent: string | TableCell;
+  issuer: string | TableCell;
   totalValue: string;
   amount: string;
   coupon: string;
