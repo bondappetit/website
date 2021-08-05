@@ -30,8 +30,6 @@ export type CollateralTableProps = {
 const isBoolean = (booleanLike: unknown): booleanLike is boolean =>
   typeof booleanLike === 'boolean';
 
-const isPercentValue = (str: string) => str.includes('%');
-
 const isIsinCode = (isincode: unknown): isincode is ConfigIsinCode => {
   return (
     typeof isincode === 'object' &&
@@ -101,10 +99,13 @@ export const CollateralTable: React.FC<CollateralTableProps> = (props) => {
                           className={classes.tableCellContent}
                         >
                           {!isBoolean(cell.title) &&
-                            isPercentValue(cell.title) && (
-                              <PieIcon className={classes.pieIcon}>
-                                {Number(cell.title.replace('%', ''))}
-                              </PieIcon>
+                            cell.cellType === TableCellTypes.percent && (
+                              <>
+                                <PieIcon className={classes.pieIcon}>
+                                  {Number(cell.title)}
+                                </PieIcon>
+                                {cell.title}%
+                              </>
                             )}
                           {cell.cellType === TableCellTypes.borrower &&
                             !isBoolean(cell.title) && (

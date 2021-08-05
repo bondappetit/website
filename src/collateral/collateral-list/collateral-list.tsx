@@ -20,7 +20,6 @@ import {
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { useStableCoinBalance } from 'src/stablecoin';
-import { URLS } from 'src/router/urls';
 import { config } from 'src/config';
 import { useCollateralListStyles } from './collateral-list.styles';
 import {
