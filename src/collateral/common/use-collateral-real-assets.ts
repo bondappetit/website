@@ -144,7 +144,7 @@ export const useCollateralRealAssets = () => {
 
           newAsset.percent = percent.isNaN() ? '0' : percent.toString(10);
 
-          newAsset.totalValue = `$ ${humanizeNumeral(asset.totalValue)}`;
+          newAsset.totalValue = asset.totalValue.toString(10);
           newAsset.updatedAt = asset.updatedAt;
           newAsset.amount = humanizeNumeral(asset.amount);
           newAsset.isValid = asset.isValid;
@@ -162,10 +162,11 @@ export const useCollateralRealAssets = () => {
       .filter(({ percent, amount, totalValue }) => {
         return percent !== '0' && amount !== '0' && totalValue !== '0';
       })
-      .sort((a, b) => Number(b.percent) - Number(a.percent))
+      .sort((a, b) => Number(b.totalValue) - Number(a.totalValue))
       .map((asset) => {
         const newAsset = {
           ...asset,
+          totalValue: `$ ${humanizeNumeral(asset.totalValue)}`,
           percent: {
             title: asset.percent as string,
             cellType: TableCellTypes.percent
