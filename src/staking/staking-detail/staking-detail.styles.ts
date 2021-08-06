@@ -22,12 +22,12 @@ export const useStakingDetailStyles = createUseStyles(
     },
 
     row: {
-      display: 'grid',
-      gridTemplateColumns: '1fr',
-      gridGap: 16,
+      display: 'flex',
+      flexDirection: 'column',
       textAlign: 'center',
 
       [theme.breakpoints.lg()]: {
+        display: 'grid',
         gridGap: 48,
         gridTemplateColumns: '424px 1fr'
       }
@@ -36,8 +36,16 @@ export const useStakingDetailStyles = createUseStyles(
     card: {
       padding: 40,
 
+      '&:not(:first-child)': {
+        marginBottom: 16
+      },
+
       [theme.breakpoints.lg()]: {
-        padding: '80px 48px 40px'
+        padding: '80px 48px 40px',
+
+        '&:not(:first-child)': {
+          marginBottom: 0
+        }
       }
     },
 
