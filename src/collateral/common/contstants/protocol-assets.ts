@@ -1,4 +1,4 @@
-import { ConfigAsset, TableCellTypes, TableData } from '../collateral.types';
+import { ConfigAsset, TableData } from '../collateral.types';
 
 export const PROTOCOL_ASSETS: TableData = {
   head: [
