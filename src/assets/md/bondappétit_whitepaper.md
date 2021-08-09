@@ -205,7 +205,7 @@ The target audience of the USDap includes four types of investors:
 - institutional investors
 - cryptocurrency exchanges
 
-### **Retail crypto investors**
+## **Retail crypto investors**
 
 **Experience**
 
@@ -219,7 +219,7 @@ Average investor would invest from \$1,000 to \$5,000.
 
 Investing in a crypto asset that is backed by traditional collateral and has stable fixed income with several other incentivization mechanisms inside the protocol.
 
-### **Sophisticated crypto investors**
+## **Sophisticated crypto investors**
 
 **Experience**
 
@@ -233,11 +233,11 @@ Average investor would invest from \$5,000 to \$10,000.
 
 Investing in a crypto asset that is backed by a traditional collateral.
 
-### **Institutional investors**
+## **Institutional investors**
 
 Institutional investors are currently paying close attention to the crypto market in general and DeFi in particular. A stablecoin backed by traditional assets of reputable large-scale companies could potentially spark huge interest among institutional investors.
 
-### **Cryptocurrency exchanges**
+## **Cryptocurrency exchanges**
 
 Holding large amounts of volatile cryptocurrencies, crypto exchanges could potentially welcome the opportunity to invest part of their BTC funds in a stablecoin backed by a traditional regulated fixed-income asset.
 
