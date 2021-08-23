@@ -20,7 +20,7 @@ export const BagInvest: React.FC<BagInvestProps> = (props) => {
         bold="Invest"
         text={
           <>
-            BondAppétite provides a unique opportunity for early investors.
+            BondAppétit provides a unique opportunity for early investors.
             Become a part of the protocol on early stage with special offer
           </>
         }

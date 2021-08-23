@@ -28,7 +28,7 @@ export const BagInstruction: React.FC<BagInstructionProps> = (props) => {
         text={
           <>
             BAG is the only tool for decision-making. BAG holders are entitled
-            to influence the future of BondAppétite. In order to enforce certain
+            to influence the future of BondAppétit. In order to enforce certain
             actions, a simple majority of token holders must vote for a certain
             proposal.
           </>
