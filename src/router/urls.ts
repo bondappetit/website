@@ -1,6 +1,5 @@
 export const URLS = {
   main: '/',
-  playground: '/playground',
   voting: {
     info: '/governance',
     list: '/governance/proposals',
@@ -33,5 +32,6 @@ export const URLS = {
   },
   contract: '/contracts',
   bridge: '/bridge',
-  bag: '/bag'
+  bag: '/bag',
+  yieldEscrow: '/yield-escrow'
 } as const;

@@ -3,7 +3,7 @@ import clsx from 'clsx';
 
 import { useInputStyles } from './input.styles';
 
-export type InputProps = React.HTMLProps<HTMLInputElement> & {
+export type InputProps = React.ComponentProps<'input'> & {
   label?: string;
   error?: boolean;
   htmlFor?: string;
