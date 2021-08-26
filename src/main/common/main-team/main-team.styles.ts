@@ -56,6 +56,16 @@ export const useMainTeamStyles = createUseStyles(
       height: 80
     },
 
+    teamMemberRole: {
+      display: 'flex',
+      alignItems: 'center'
+    },
+
+    teamMemberTwitter: {
+      marginLeft: 9,
+      marginTop: -3
+    },
+
     teamMemberText: {
       opacity: 0.72
     }

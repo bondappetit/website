@@ -1,6 +1,6 @@
 import { createUseStyles } from 'react-jss';
 
-export const useMainCollateralCardStyles = createUseStyles(
+export const useMainTextCardStyles = createUseStyles(
   {
     root: {
       display: 'flex',
@@ -12,6 +12,6 @@ export const useMainCollateralCardStyles = createUseStyles(
     }
   },
   {
-    name: 'MainCollateralCard'
+    name: 'MainTextCard'
   }
 );

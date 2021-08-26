@@ -80,7 +80,7 @@ export const themeModes: Record<ThemeModes, { colors: Colors }> = {
 export const theme = {
   colors: themeModes.light.colors,
 
-  currentTheme: 'light',
+  currentTheme: 'light' as 'light' | 'dark',
 
   mixins: {
     hover: () => '@media (hover: hover)' as const

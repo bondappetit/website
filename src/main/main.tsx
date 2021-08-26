@@ -29,15 +29,16 @@ import { config } from 'src/config';
 import {
   MainStaking,
   MainStablecoin,
-  MainCollateral,
-  MainVoting,
   MainSteps,
   MainEditor,
   MainAudit,
   MainMediumArticles,
   MainWaves,
   MainTeam,
-  MainHeader
+  MainHeader,
+  MainNewsResources,
+  MainEconomy,
+  MainStake
 } from './common';
 import { useMainStyles } from './main.styles';
 import { useMediumArticles } from './common/use-medium-articles';
@@ -77,9 +78,7 @@ export const Main: React.FC = () => {
   const networkConfig = useNetworkConfig();
 
   const [openBuyback] = useStablecoinBuybackModal();
-
   const [openChangeNetwork] = useChangeNetworkModal();
-
   const [openHowItWorks] = useStablecoinHowItWorks(openBuyback);
 
   const handleOpenBuyBack = () => {
@@ -104,10 +103,23 @@ export const Main: React.FC = () => {
             stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
             govCost={humanizeNumeral(governanceInUSDC)}
           />
-          <MainStaking
-            countOfCards={4}
+          <MainEconomy
             className={classes.section}
-            staking={stakingList?.slice(0, 4)}
+            onBuyBAG={linksToggle}
+            onBuyUSDap={togglelinkModal}
+          />
+          <MainStablecoin
+            className={classes.section}
+            stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
+            onBuy={togglelinkModal}
+            onSell={toggleSellModal}
+            onSwap={handleOpenBuyBack}
+          />
+          <MainStake className={classes.section} />
+          <MainStaking
+            countOfCards={2}
+            className={classes.section}
+            staking={stakingList?.slice(0, 2)}
           >
             <StakingSwopFi
               tvl={swopfiItem?.totalLiquidityUSD}
@@ -117,15 +129,6 @@ export const Main: React.FC = () => {
               loading={swopfiLoading}
             />
           </MainStaking>
-          <MainStablecoin
-            className={classes.section}
-            stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
-            onBuy={togglelinkModal}
-            onSell={toggleSellModal}
-            onSwap={handleOpenBuyBack}
-          >
-            <MainCollateral />
-          </MainStablecoin>
           <MainEditor className={clsx(classes.section)}>
             <MainAudit
               mixBytesLink="https://github.com/mixbytes/audits_public/tree/4fc7d333e3df57586e0f96cc551819e2c93f3ae9/BondAppetit"
@@ -134,14 +137,13 @@ export const Main: React.FC = () => {
               hashExLogo={<HashExLogo />}
             />
           </MainEditor>
-          <MainVoting className={classes.section} />
           <MainSteps className={classes.section} />
           <MainWaves
             className={classes.section}
             onBecomePartner={toggleBecomeAPartner}
           />
           <MainTeam className={classes.section} />
-          <div>
+          <div className={classes.articlesWrap}>
             <Typography variant="h2" className={classes.newsTitle}>
               Learn more about BondAppétit
             </Typography>
@@ -153,6 +155,7 @@ export const Main: React.FC = () => {
               <MainCointelegraph />
             </div>
           </div>
+          <MainNewsResources />
         </PageWrapper>
       </MainLayout>
       <ContactsBecomePartner

@@ -49,6 +49,20 @@ export const useMainHeaderStyles = createUseStyles(
       display: 'flex',
       justifyContent: 'space-between',
       paddingBottom: 36
+    },
+
+    live: {
+      display: 'flex',
+      alignItems: 'center',
+      verticalAlign: 'middle'
+    },
+
+    liveIndicator: {
+      background: theme.colors.red,
+      width: 8,
+      height: 8,
+      borderRadius: '50%',
+      marginLeft: 5
     }
   }),
   {

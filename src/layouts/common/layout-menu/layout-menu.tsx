@@ -1,14 +1,11 @@
 import clsx from 'clsx';
-import React, { forwardRef, useRef } from 'react';
+import React, { forwardRef } from 'react';
 import { NavLink as ReactRouterNavLink } from 'react-router-dom';
-import { useHoverDirty } from 'react-use';
 
 import { ButtonBase, Link, useDevMode } from 'src/common';
 import { URLS } from 'src/router/urls';
-import { config } from 'src/config';
 import { useLayoutMenuStyles } from './layout-menu.styles';
 import { LayoutMenuDropdown } from './layout-menu-dropdown';
-import { LayoutMenuPhasesDropdown } from './layout-menu-phases-dropdown';
 import { SOCIAL_LINKS } from '../constants';
 
 enum Variants {
@@ -140,21 +137,8 @@ export const LayoutMenu = forwardRef<HTMLUListElement, LayoutMenuProps>(
 
     const [devMode] = useDevMode();
 
-    const phasesRef = useRef<HTMLButtonElement | null>(null);
-
-    const phasesHovered = useHoverDirty(phasesRef);
-
     return (
       <ul className={clsx(classes.root, classes.menu, className)} ref={ref}>
-        <li className={clsx(classes.menuItem, classes.phase)}>
-          <ButtonBase
-            ref={phasesRef}
-            className={clsx(classes.navLink, classes.phaseLink)}
-          >
-            Phase {config.IS_COLLATERAL ? '2' : '1'}
-          </ButtonBase>
-          {phasesHovered && <LayoutMenuPhasesDropdown />}
-        </li>
         {menuItems.map((menuItem) => {
           if (menuItem.variant === Variants.devMode && !devMode) return null;
 

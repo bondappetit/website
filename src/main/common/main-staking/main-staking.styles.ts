@@ -16,12 +16,13 @@ export const useMainStakingStyles = createUseStyles(
       }
     },
 
-    stakingText: {
-      padding: 40,
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      minHeight: '400px'
+    header: {
+      maxWidth: 872,
+      marginBottom: 48
+    },
+
+    link: {
+      opacity: 0.4
     }
   }),
   {
