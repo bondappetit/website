@@ -69,9 +69,6 @@ export const YieldEscrow: React.VFC<YieldEscrowProps> = () => {
   const [createvoteDelegatorState, handleCreateVoteDelegator] =
     createVoteDelegatorMethod('createVoteDelegator');
 
-  const [destroyVoteDelegatorState, handleDestroyVoteDelegatorState] =
-    createVoteDelegatorMethod('destroyVoteDelegator');
-
   const delegatorOf = useAsyncRetry(async () => {
     if (!account || !yieldEscrowContract) return;
 
@@ -157,7 +154,7 @@ export const YieldEscrow: React.VFC<YieldEscrowProps> = () => {
 
   useUpdateEffect(() => {
     delegatorOf.retry();
-  }, [createvoteDelegatorState.value, destroyVoteDelegatorState.value]);
+  }, [createvoteDelegatorState.value]);
 
   useUpdateEffect(() => {
     balance.retry();
@@ -208,25 +205,17 @@ export const YieldEscrow: React.VFC<YieldEscrowProps> = () => {
             </Button>
           </div>
         </Plate>
-        <Plate style={{ padding: 30 }}>
-          <Typography variant="body1">Vote delegate</Typography>
-          {delegatorOf.value && delegatorOf.value === DEFAULT_ADDRESS && (
+        {delegatorOf.value && delegatorOf.value === DEFAULT_ADDRESS && (
+          <Plate style={{ padding: 30 }}>
+            <Typography variant="body1">Vote delegate</Typography>
             <Button
               loading={createvoteDelegatorState.loading}
               onClick={handleCreateVoteDelegator}
             >
               Create
             </Button>
-          )}
-          {delegatorOf.value && delegatorOf.value !== DEFAULT_ADDRESS && (
-            <Button
-              loading={destroyVoteDelegatorState.loading}
-              onClick={handleDestroyVoteDelegatorState}
-            >
-              Destroy
-            </Button>
-          )}
-        </Plate>
+          </Plate>
+        )}
       </PageWrapper>
     </MainLayout>
   );
