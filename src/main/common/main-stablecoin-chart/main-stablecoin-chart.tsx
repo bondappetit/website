@@ -31,17 +31,14 @@ const DATA = [
     date: new Date(2021, 0, 1)
   },
   {
-    '— target supply value': '0.2',
     '— real supply value': '0.3',
     date: new Date(2021, 1, 1)
   },
   {
-    '— target supply value': '0.4',
     '— real supply value': '0.4',
     date: new Date(2021, 2, 1)
   },
   {
-    '— target supply value': '0.6',
     '— real supply value': '0.5',
     date: new Date(2021, 3, 1)
   },
@@ -51,12 +48,10 @@ const DATA = [
     date: new Date(2021, 4, 1)
   },
   {
-    '— target supply value': '1',
     '— real supply value': '0.7',
     date: new Date(2021, 5, 1)
   },
   {
-    '— target supply value': '1.1',
     '— real supply value': '0.8',
     date: new Date(2021, 6, 1)
   },
@@ -66,17 +61,14 @@ const DATA = [
     date: new Date(2021, 7, 1)
   },
   {
-    '— target supply value': '1.3',
     '— real supply value': '2.1',
     date: new Date(2021, 8, 1)
   },
   {
-    '— target supply value': '1.8',
     '— real supply value': '2.16',
     date: new Date(2021, 9, 1)
   },
   {
-    '— target supply value': '2',
     '— real supply value': '2.16',
     date: new Date(2021, 10, 1)
   },
@@ -91,47 +83,36 @@ const DATA = [
     date: new Date(2022, 0, 1)
   },
   {
-    '— target supply value': '2.6',
     date: new Date(2022, 1, 1)
   },
   {
-    '— target supply value': '2.8',
     date: new Date(2022, 2, 1)
   },
   {
-    '— target supply value': '3',
     date: new Date(2022, 3, 1)
   },
   {
-    '— target supply value': '3.2',
     date: new Date(2022, 4, 1)
   },
   {
-    '— target supply value': '3.4',
     date: new Date(2022, 5, 1)
   },
   {
-    '— target supply value': '3.6',
     date: new Date(2022, 6, 1)
   },
   {
-    '— target supply value': '3.8',
     date: new Date(2022, 7, 1)
   },
   {
-    '— target supply value': '4',
     date: new Date(2022, 8, 1)
   },
   {
-    '— target supply value': '4.2',
     date: new Date(2022, 9, 1)
   },
   {
-    '— target supply value': '4.4',
     date: new Date(2022, 10, 1)
   },
   {
-    '— target supply value': '4.6',
     date: new Date(2022, 11, 1)
   },
 
@@ -140,47 +121,36 @@ const DATA = [
     date: new Date(2023, 0, 1)
   },
   {
-    '— target supply value': '5',
     date: new Date(2023, 1, 1)
   },
   {
-    '— target supply value': '5.2',
     date: new Date(2023, 2, 1)
   },
   {
-    '— target supply value': '5.4',
     date: new Date(2023, 3, 1)
   },
   {
-    '— target supply value': '5.6',
     date: new Date(2023, 4, 1)
   },
   {
-    '— target supply value': '5.8',
     date: new Date(2023, 5, 1)
   },
   {
-    '— target supply value': '6',
     date: new Date(2023, 6, 1)
   },
   {
-    '— target supply value': '6.2',
     date: new Date(2023, 7, 1)
   },
   {
-    '— target supply value': '6.4',
     date: new Date(2023, 8, 1)
   },
   {
-    '— target supply value': '6.6',
     date: new Date(2023, 9, 1)
   },
   {
-    '— target supply value': '6.8',
     date: new Date(2023, 10, 1)
   },
   {
-    '— target supply value': '7',
     date: new Date(2023, 11, 1)
   },
 
@@ -189,47 +159,36 @@ const DATA = [
     date: new Date(2024, 0, 1)
   },
   {
-    '— target supply value': '7.4',
     date: new Date(2024, 1, 1)
   },
   {
-    '— target supply value': '7.6',
     date: new Date(2024, 2, 1)
   },
   {
-    '— target supply value': '7.8',
     date: new Date(2024, 3, 1)
   },
   {
-    '— target supply value': '8',
     date: new Date(2024, 4, 1)
   },
   {
-    '— target supply value': '8.2',
     date: new Date(2024, 5, 1)
   },
   {
-    '— target supply value': '8.4',
     date: new Date(2024, 6, 1)
   },
   {
-    '— target supply value': '8.6',
     date: new Date(2024, 7, 1)
   },
   {
-    '— target supply value': '8.8',
     date: new Date(2024, 8, 1)
   },
   {
-    '— target supply value': '9',
     date: new Date(2024, 9, 1)
   },
   {
-    '— target supply value': '11.2',
     date: new Date(2024, 10, 1)
   },
   {
-    '— target supply value': '11.4',
     date: new Date(2024, 11, 1)
   },
 
@@ -238,43 +197,33 @@ const DATA = [
     date: new Date(2025, 0, 1)
   },
   {
-    '— target supply value': '11.8',
     date: new Date(2025, 1, 1)
   },
   {
-    '— target supply value': '12',
     date: new Date(2025, 2, 1)
   },
   {
-    '— target supply value': '13.2',
     date: new Date(2025, 3, 1)
   },
   {
-    '— target supply value': '14.4',
     date: new Date(2025, 4, 1)
   },
   {
-    '— target supply value': '14.6',
     date: new Date(2025, 5, 1)
   },
   {
-    '— target supply value': '14.8',
     date: new Date(2025, 6, 1)
   },
   {
-    '— target supply value': '15',
     date: new Date(2025, 7, 1)
   },
   {
-    '— target supply value': '15.2',
     date: new Date(2025, 8, 1)
   },
   {
-    '— target supply value': '15.4',
     date: new Date(2025, 9, 1)
   },
   {
-    '— target supply value': '15.8',
     date: new Date(2025, 10, 1)
   },
   {
