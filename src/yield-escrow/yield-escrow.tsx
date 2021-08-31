@@ -49,9 +49,7 @@ export const YieldEscrow: React.VFC<YieldEscrowProps> = () => {
       fn(event.target.value);
     };
 
-  const createVoteDelegatorMethod = (
-    methodName: 'destroyVoteDelegator' | 'createVoteDelegator'
-  ) =>
+  const createVoteDelegatorMethod = (methodName: 'createVoteDelegator') =>
     // eslint-disable-next-line react-hooks/rules-of-hooks
     useAsyncFn(async () => {
       if (!yieldEscrowContract || !account) return;
