@@ -12,26 +12,13 @@ export const useStakingListStyles = createUseStyles(
       }
     },
 
+    titleWrap: {
+      maxWidth: 872,
+      marginBottom: 40
+    },
+
     title: {
-      maxWidth: 1200,
-      margin: '0 auto 80px'
-    },
-
-    info: {
-      justifyContent: 'center',
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '24px 0',
-
-      [theme.breakpoints.md()]: {
-        flexDirection: 'row'
-      }
-    },
-
-    bag: {
-      [theme.breakpoints.md()]: {
-        marginRight: 32
-      }
+      marginBottom: 24
     },
 
     staking: {

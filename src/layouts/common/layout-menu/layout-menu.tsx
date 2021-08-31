@@ -38,7 +38,7 @@ const MENU_ITEMS: MenuItem[] = [
   },
 
   {
-    title: 'Staking',
+    title: 'Rewards',
     link: URLS.staking.list
   },
 

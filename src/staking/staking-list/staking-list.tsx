@@ -5,7 +5,6 @@ import {
   PageWrapper,
   Typography,
   Head,
-  Plate,
   numberArray,
   humanizeNumeral,
   BN
@@ -26,55 +25,35 @@ export const StakingList: React.VFC = () => {
 
   const { stakingConfigValues } = useStakingConfig();
 
-  const {
-    totalValueLocked,
-    volume24,
-    governanceInUSDC,
-    stakingList,
-    rewardSum,
-    swopfiItem,
-    swopfiLoading
-  } = useStakingListData();
+  const { stakingList, rewardSum, swopfiItem, swopfiLoading } =
+    useStakingListData();
 
   return (
     <>
-      <Head title="Earn Staking Rewards in BAG by providing liquidity for protocol’s assets" />
+      <Head title="Earn Staking Rewards in BAG by providing liquidity for protocol's assets" />
       <MainLayout>
         <PageWrapper>
           <div className={classes.header}>
-            <Typography variant="h1" align="center" className={classes.title}>
-              Earn Staking Rewards in BAG by providing liquidity for protocol’s
-              assets
-            </Typography>
-            <Plate color="grey" withoutBorder className={classes.info}>
+            <div className={classes.titleWrap}>
+              <Typography variant="h1" component="h2" className={classes.title}>
+                Earn liquidity rewards
+              </Typography>
+              <Typography variant="h5" className={classes.title}>
+                Earn Staking Rewards in BAG by locking your assets for a certain
+                period of time and providing liquidity for protocol&apos;s
+                assets.
+              </Typography>
               <StakingLabel
-                className={classes.bag}
-                title="Total value locked"
-                loading={!stakingList}
-                value={<>${humanizeNumeral(totalValueLocked)}</>}
-              />
-              <StakingLabel
-                className={classes.bag}
-                title="BAG price"
-                loading={!stakingList || !governanceInUSDC}
-                value={<>${humanizeNumeral(governanceInUSDC)}</>}
-              />
-              <StakingLabel
-                className={classes.bag}
                 title="You earned"
                 loading={!stakingList}
+                align="left"
                 value={<>{humanizeNumeral(rewardSum?.reward)} BAG</>}
               >
                 {rewardSum?.rewardInUSDC.isGreaterThan(0) && (
                   <> (${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
                 )}
               </StakingLabel>
-              <StakingLabel
-                title="Volume (24h)"
-                loading={!stakingList}
-                value={<>${humanizeNumeral(volume24)}</>}
-              />
-            </Plate>
+            </div>
           </div>
           <div className={classes.staking}>
             {config.SWOP_FI_ENABLE && (
