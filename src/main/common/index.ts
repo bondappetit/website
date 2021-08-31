@@ -1,6 +1,5 @@
 export * from './main-staking';
 export * from './main-stablecoin';
-export * from './main-collateral';
 export * from './main-voting';
 export * from './main-steps';
 export * from './main-editor';
@@ -12,3 +11,6 @@ export * from './main-waves';
 export * from './main-team';
 export * from './main-header';
 export * from './main-window';
+export * from './main-news-resources';
+export * from './main-economy';
+export * from './main-stake';

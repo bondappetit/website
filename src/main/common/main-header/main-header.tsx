@@ -1,9 +1,7 @@
 import clsx from 'clsx';
-import React, { useState } from 'react';
-import { useInterval } from 'react-use';
+import React from 'react';
 
-import { config } from 'src/config';
-import { Button, dateUtils, Typography } from 'src/common';
+import { Button, Typography } from 'src/common';
 import { ReactComponent as PlayIcon } from 'src/assets/icons/play.svg';
 import { useMainHeaderStyles } from './main-header.styles';
 import { useMainHowitWorksModal } from '../main-how-it-works-modal';
@@ -41,7 +39,17 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
           <Typography variant="inherit" component="div" weight="semibold">
             Phase 2
           </Typography>
-          <div>Real-World Asset Collateral</div>
+          <Typography variant="inherit" component="div">
+            Real-World Asset Collateral
+          </Typography>
+          <Typography
+            variant="inherit"
+            component="div"
+            weight="semibold"
+            className={classes.live}
+          >
+            Live <div className={classes.liveIndicator} />
+          </Typography>
         </Typography>
         <Typography variant="body1" component="div" align="right">
           <div>

@@ -39,10 +39,10 @@ export const useTableStyles = createUseStyles(
 
     tableRow: {
       verticalAlign: 'middle',
-      borderBottom: `dotted 1px ${theme.colors.primary}`,
+      borderBottom: `solid 1px ${theme.colors.primary}`,
 
       '&:first-child': {
-        borderTop: `dotted 1px ${theme.colors.primary}`
+        borderTop: `solid 1px ${theme.colors.primary}`
       }
     }
   }),

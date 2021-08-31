@@ -26,6 +26,7 @@ export const useMainStepsStyles = createUseStyles(
     status: {
       borderRadius: 8,
       padding: '2px 8px',
+      textTransform: 'capitalize',
 
       [theme.breakpoints.md()]: {
         display: 'none'
@@ -66,30 +67,37 @@ export const useMainStepsStyles = createUseStyles(
       display: 'flex',
       flexDirection: 'column',
 
-      '&:before': {
-        position: 'absolute',
-        width: 32,
-        height: 32,
-        border: '1px solid currentColor',
-        top: -62,
-        left: 0,
-        borderRadius: '100%',
-        backgroundColor: theme.colors.secondary,
-
-        [theme.breakpoints.md()]: {
-          content: '""'
-        }
-      },
-
       [theme.breakpoints.md()]: {
         minHeight: 208
       }
     },
 
-    cardActive: {
-      '&:before': {
-        backgroundColor: theme.colors.primary
+    mark: {
+      position: 'absolute',
+      width: 32,
+      height: 32,
+      border: `1px solid ${theme.colors.primary}`,
+      top: -62,
+      left: 0,
+      borderRadius: '100%',
+      backgroundColor: theme.colors.secondary,
+      display: 'none',
+      color: theme.colors.secondary,
+      alignItems: 'center',
+      justifyContent: 'center',
+
+      [theme.breakpoints.md()]: {
+        display: 'flex'
       }
+    },
+
+    markActive: {
+      background: theme.colors.primary
+    },
+
+    pie: {
+      border: 'none',
+      background: 'none'
     },
 
     cardBody: {

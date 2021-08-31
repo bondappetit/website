@@ -34,10 +34,8 @@ export const Table: React.FC<TableProps> = (props) => {
         tableState: state
       }}
     >
-      <div className={classes.root} id={props.id}>
-        <table className={clsx(classes.table, props.className)}>
-          {props.children}
-        </table>
+      <div className={clsx(classes.root, props.className)} id={props.id}>
+        <table className={classes.table}>{props.children}</table>
       </div>
     </TableFirstLevelContext.Provider>
   );

@@ -26,7 +26,6 @@ export const useMainAuditStyles = createUseStyles(
     },
 
     title: {
-      flexDirection: 'column',
       color: theme.colors.green1
     },
 
@@ -38,18 +37,7 @@ export const useMainAuditStyles = createUseStyles(
       display: 'inline-block',
       bottom: '-4px',
       position: 'relative',
-
-      [theme.breakpoints.md()]: {
-        width: 'auto'
-      }
-    },
-
-    hashEx: {
-      bottom: 0
-    },
-
-    link: {
-      marginTop: 'auto'
+      verticalAlign: 'middle'
     }
   }),
   {

@@ -33,6 +33,10 @@ export const useMainStyles = createUseStyles(
       width: '50%'
     },
 
+    articlesWrap: {
+      marginBottom: 40
+    },
+
     articles: {
       display: 'grid',
       gridGap: 16,
