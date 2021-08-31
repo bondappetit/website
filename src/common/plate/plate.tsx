@@ -3,7 +3,7 @@ import React from 'react';
 
 import { usePlateStyles } from './plate.styles';
 
-export type PlateProps = React.HTMLProps<HTMLDivElement> & {
+export type PlateProps = React.ComponentProps<'div'> & {
   component?: React.ElementType;
   color?: 'grey' | 'transparent';
   withoutBorder?: boolean;

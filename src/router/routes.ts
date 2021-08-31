@@ -59,12 +59,12 @@ const Main = React.lazy(() => lazyLoading(() => import('src/main')));
 const VestingSplitter = React.lazy(() =>
   lazyLoading(() => import('src/vesting-splitter'))
 );
-const Playground = React.lazy(() =>
-  lazyLoading(() => import('src/playground'))
-);
 const Contracts = React.lazy(() => lazyLoading(() => import('src/contracts')));
 const Bridge = React.lazy(() => lazyLoading(() => import('src/bridge')));
 const BAG = React.lazy(() => lazyLoading(() => import('src/bag')));
+const YieldEscrow = React.lazy(() =>
+  lazyLoading(() => import('src/yield-escrow'))
+);
 
 export const routes = [
   {
@@ -74,10 +74,6 @@ export const routes = [
   {
     url: URLS.whitepaper,
     component: Whitepaper
-  },
-  {
-    url: URLS.playground,
-    component: Playground
   },
   {
     url: URLS.voting.create,
@@ -158,6 +154,10 @@ export const routes = [
   {
     url: URLS.bag,
     component: BAG
+  },
+  {
+    url: URLS.yieldEscrow,
+    component: YieldEscrow
   },
   {
     component: NotFound
