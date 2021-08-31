@@ -1,3 +1,4 @@
+import { rgba } from 'polished';
 import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
@@ -37,8 +38,10 @@ export const useStakingListStyles = createUseStyles(
       }
     },
 
-    skeleton: {
-      minHeight: 360
+    showMore: {
+      color: rgba(theme.colors.primary, 0.4),
+      fontSize: 20,
+      lineHeight: '28px'
     }
   }),
   {

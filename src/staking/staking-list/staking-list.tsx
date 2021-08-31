@@ -1,3 +1,4 @@
+import { useToggle } from 'react-use';
 import React from 'react';
 
 import { MainLayout } from 'src/layouts';
@@ -7,7 +8,9 @@ import {
   Head,
   numberArray,
   humanizeNumeral,
-  BN
+  BN,
+  ButtonBase,
+  Link
 } from 'src/common';
 import {
   StakingCard,
@@ -16,23 +19,62 @@ import {
   useStakingListData
 } from 'src/staking/common';
 import { config } from 'src/config';
-import { useStakingConfig } from 'src/staking-config';
+import { StakingStatuses, useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
 import { StakingSwopFi } from '../staking-swop-fi/staking-swop-fi';
 
 export const StakingList: React.VFC = () => {
   const classes = useStakingListStyles();
 
+  const [showMore, setShowMore] = useToggle(false);
+
   const { stakingConfigValues } = useStakingConfig();
 
   const { stakingList, rewardSum, swopfiItem, swopfiLoading } =
     useStakingListData();
+
+  const activeStaking = stakingList?.filter(
+    ({ status }) => status === StakingStatuses.active
+  );
+
+  const archivedStaking = stakingList?.filter(
+    ({ status }) => status === StakingStatuses.archived
+  );
+
+  const activeStakingConfig = stakingConfigValues.filter(
+    ({ status }) => status === StakingStatuses.active
+  );
 
   return (
     <>
       <Head title="Earn Staking Rewards in BAG by providing liquidity for protocol's assets" />
       <MainLayout>
         <PageWrapper>
+          <div className={classes.header}>
+            <div className={classes.titleWrap}>
+              <Typography variant="h1" component="h2" className={classes.title}>
+                Earn coupon rewards
+              </Typography>
+              <Typography variant="h5" className={classes.title}>
+                BAG holders receive coupon payments from bonds that back the
+                USDap stablecoin. Interest income in USDC is distributed among
+                token holders every quarter.{' '}
+                <Link color="blue" href="/">
+                  How it works
+                </Link>
+              </Typography>
+              <StakingLabel
+                title="You earned"
+                loading={!stakingList}
+                align="left"
+                value={<>{humanizeNumeral(rewardSum?.reward)} BAG</>}
+              >
+                {rewardSum?.rewardInUSDC.isGreaterThan(0) && (
+                  <> (${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
+                )}
+              </StakingLabel>
+            </div>
+          </div>
           <div className={classes.header}>
             <div className={classes.titleWrap}>
               <Typography variant="h1" component="h2" className={classes.title}>
@@ -65,11 +107,14 @@ export const StakingList: React.VFC = () => {
                 loading={swopfiLoading}
               />
             )}
-            {!stakingList
-              ? numberArray(stakingConfigValues.length).map((key) => (
+            {!activeStaking
+              ? numberArray(activeStakingConfig.length).map((key) => (
                   <StakingCard key={key} loading />
                 ))
-              : stakingList?.map((stakingItem) => {
+              : [
+                  ...(activeStaking ?? []),
+                  ...(showMore && archivedStaking ? archivedStaking : [])
+                ].map((stakingItem) => {
                   return (
                     <StakingCard
                       key={stakingItem.id}
@@ -90,6 +135,11 @@ export const StakingList: React.VFC = () => {
                   );
                 })}
           </div>
+          {!showMore && (
+            <ButtonBase className={classes.showMore} onClick={setShowMore}>
+              Show {archivedStaking?.length ?? '...'} archived pools ↓
+            </ButtonBase>
+          )}
           {!config.IS_COLLATERAL && <StakingInfo />}
         </PageWrapper>
       </MainLayout>
