@@ -24,11 +24,11 @@ export const useStakingListStyles = createUseStyles(
     staking: {
       display: 'grid',
       gridTemplateColumns: '1fr',
-      gridGap: 24,
+      gridGap: 40,
       marginBottom: 24,
 
       [theme.breakpoints.md()]: {
-        gridTemplateColumns: '1fr 1fr'
+        gridTemplateColumns: 'repeat(auto-fit, minmax(416px, 1fr))'
       },
 
       [theme.breakpoints.lg()]: {
