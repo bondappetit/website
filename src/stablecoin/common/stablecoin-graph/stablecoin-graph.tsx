@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useMemo, useRef } from 'react';
+import React, { useRef } from 'react';
 import Tippy from '@tippyjs/react';
 import { useHoverDirty } from 'react-use';
 
@@ -10,12 +10,6 @@ export type StablecoinGraphProps = {
   className?: string;
   issuerBalance?: BN;
   loading: boolean;
-};
-
-const round = (sum?: string | null) => {
-  if (!sum) return '0';
-
-  return new BN(sum.replace(',', '')).integerValue().toFormat(0);
 };
 
 export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {

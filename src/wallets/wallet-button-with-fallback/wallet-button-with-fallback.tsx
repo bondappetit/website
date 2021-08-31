@@ -10,7 +10,7 @@ export type WalletButtonWithFallbackProps = {
   disabled?: boolean;
   loading?: boolean;
   className?: string;
-  type?: string;
+  type?: 'button' | 'submit';
   children?: React.ReactNode;
 };
 

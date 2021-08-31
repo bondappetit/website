@@ -22,6 +22,7 @@ import type { CollateralMarket } from 'src/generate/CollateralMarket';
 import type { VestingSplitter } from 'src/generate/VestingSplitter';
 import type { RealAssetDepositaryBalanceView } from 'src/generate/RealAssetDepositaryBalanceView';
 import type { BuybackDepositaryBalanceView } from 'src/generate/BuybackDepositaryBalanceView';
+import type { YieldEscrow } from 'src/generate/YieldEscrow';
 import abi from 'src/bridge/common/abi/bbag-abi.json';
 import { createUseContract } from './create-use-contract';
 
@@ -161,3 +162,8 @@ export const useBBagContract2 = () => {
     []
   );
 };
+
+export const useYieldEscrow = createUseContract<YieldEscrow>((network) => ({
+  abi: network.contracts.YieldEscrow.abi,
+  address: network.contracts.YieldEscrow.address
+}));

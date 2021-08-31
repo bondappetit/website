@@ -32,13 +32,23 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       className,
       classes[variant],
       classes[color],
-      classes[size]
+      classes[size],
+      loading && classes.loading
     );
 
     return (
       <ButtonBase className={classNames} ref={ref} {...props}>
-        {loading && <Loader width="1em" height="1em" strokeWidth={5} />}
-        {!loading && children}
+        {loading && (
+          <Loader
+            className={classes.loader}
+            width="1em"
+            height="1em"
+            strokeWidth={5}
+          />
+        )}
+        <span className={clsx(loading && classes.loadingChildren)}>
+          {children}
+        </span>
       </ButtonBase>
     );
   }

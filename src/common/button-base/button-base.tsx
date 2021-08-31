@@ -3,9 +3,11 @@ import clsx from 'clsx';
 
 import { useButtonBaseStyles } from './button-base.styles';
 
-export type ButtonBaseProps = React.HTMLProps<HTMLButtonElement> & {
+export type ButtonBaseProps = React.ComponentProps<'button'> & {
   component?: React.ElementType;
   to?: string;
+  href?: string;
+  target?: string;
   ref?:
     | ((instance: HTMLButtonElement | null) => void)
     | React.MutableRefObject<HTMLButtonElement | null>

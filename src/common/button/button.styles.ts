@@ -5,7 +5,8 @@ export const useButtonStyles = createUseStyles(
   (theme: Theme) => ({
     button: {
       borderRadius: 16,
-      letterSpacing: '-0.02em'
+      letterSpacing: '-0.02em',
+      position: 'relative'
     },
 
     primary: {
@@ -43,6 +44,23 @@ export const useButtonStyles = createUseStyles(
       padding: '11px 40px',
       fontSize: 32,
       lineHeight: '40px'
+    },
+
+    loading: {
+      pointerEvents: 'none'
+    },
+
+    loader: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      margin: 'auto'
+    },
+
+    loadingChildren: {
+      opacity: 0
     }
   }),
   {

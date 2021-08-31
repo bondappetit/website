@@ -33,7 +33,7 @@ const variantMapping: Record<Variants, TagNames> = {
 };
 
 export type TypographyProps = {
-  variant: Variants;
+  variant?: Variants;
   className?: string;
   weight?: 'bold' | 'normal' | 'light' | 'semibold';
   align?: 'left' | 'center' | 'right';
@@ -49,15 +49,17 @@ export const Typography = forwardRef<HTMLHeadingElement, TypographyProps>(
   (props, ref) => {
     const classes = useTypographyStyles();
 
+    const { variant = 'body1' } = props;
+
     const classNames = clsx(
       classes.root,
       props.className,
-      classes[props.variant],
+      classes[variant],
       classes[props.weight ?? 'normal'],
       classes[props.align ?? 'left']
     );
 
-    const Component = props.component ?? variantMapping[props.variant];
+    const Component = props.component ?? variantMapping[variant];
 
     return (
       <Component className={classNames} ref={ref}>
