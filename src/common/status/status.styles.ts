@@ -15,7 +15,7 @@ export const useStatusStyles = createUseStyles(
     },
 
     grey: {
-      color: theme.colors.grey
+      color: theme.colors.grey3
     },
 
     blue: {
@@ -56,9 +56,9 @@ export const useStatusStyles = createUseStyles(
 
     contained: {
       '&$grey': {
-        backgroundColor: theme.colors.grey,
+        backgroundColor: theme.colors.grey3,
         color: theme.colors.primary,
-        borderColor: theme.colors.grey
+        borderColor: theme.colors.grey3
       },
 
       '&$blue': {

@@ -17,6 +17,7 @@ export type Colors = {
   blue4: string;
   grey1: string;
   grey: string;
+  grey3: string;
   grey2: string;
   green1: string;
   green2: string;
@@ -46,7 +47,8 @@ const mainColors = {
   blue: '#326BFF',
   blue4: '#27435C',
   grey1: '#EEEEEE',
-  grey2: '#EBEEEF'
+  grey2: '#EBEEEF',
+  grey3: '#F2F4F6'
 };
 
 export const themeModes: Record<ThemeModes, { colors: Colors }> = {

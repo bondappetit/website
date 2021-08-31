@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { useToggle } from 'react-use';
 import React from 'react';
 
@@ -10,7 +11,9 @@ import {
   humanizeNumeral,
   BN,
   ButtonBase,
-  Link
+  Link,
+  Plate,
+  Status
 } from 'src/common';
 import {
   StakingCard,
@@ -22,6 +25,36 @@ import { config } from 'src/config';
 import { StakingStatuses, useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
 import { StakingSwopFi } from '../staking-swop-fi/staking-swop-fi';
+
+const REWARDS = [
+  {
+    staked: false,
+    month: '3',
+    apy: '3.56',
+    deposit: 'BAG',
+    earn: 'USDC',
+    totalSupply: '487642',
+    poolRate: '250000'
+  },
+  {
+    staked: true,
+    month: '6',
+    apy: '8.4',
+    deposit: 'BAG',
+    earn: 'USDC',
+    totalSupply: '487642',
+    poolRate: '250000'
+  },
+  {
+    staked: false,
+    month: '12',
+    apy: '14.72',
+    deposit: 'BAG',
+    earn: 'USDC',
+    totalSupply: '487642',
+    poolRate: '250000'
+  }
+];
 
 export const StakingList: React.VFC = () => {
   const classes = useStakingListStyles();
@@ -74,6 +107,60 @@ export const StakingList: React.VFC = () => {
                 )}
               </StakingLabel>
             </div>
+          </div>
+          <div className={clsx(classes.staking, classes.mb160)}>
+            {REWARDS.map((reward) => (
+              <Plate key={reward.month} className={classes.card}>
+                {reward.staked && (
+                  <Status
+                    color="grey"
+                    variant="contained"
+                    className={classes.staked}
+                  >
+                    Staked
+                  </Status>
+                )}
+                <div className={classes.mb40}>
+                  <Typography
+                    align="center"
+                    variant="h3"
+                    weight="semibold"
+                    className={classes.mb4}
+                  >
+                    {reward.month} Months Lock
+                  </Typography>
+                  <Typography align="center" variant="h3">
+                    APY: {humanizeNumeral(reward.apy)}%
+                  </Typography>
+                </div>
+                <div>
+                  <Typography align="center" className={classes.mb4}>
+                    Deposit:{' '}
+                    <Typography variant="inherit" weight="semibold">
+                      {reward.deposit}
+                    </Typography>
+                  </Typography>
+                  <Typography align="center" className={classes.mb4}>
+                    Earn:{' '}
+                    <Typography variant="inherit" weight="semibold">
+                      {reward.earn}
+                    </Typography>
+                  </Typography>
+                  <Typography align="center" className={classes.mb4}>
+                    Total supply:{' '}
+                    <Typography variant="inherit" weight="semibold">
+                      ${humanizeNumeral(reward.totalSupply)}
+                    </Typography>
+                  </Typography>
+                  <Typography align="center">
+                    Pool rate:{' '}
+                    <Typography variant="inherit" weight="semibold">
+                      {humanizeNumeral(reward.poolRate)} USDC / day
+                    </Typography>
+                  </Typography>
+                </div>
+              </Plate>
+            ))}
           </div>
           <div className={classes.header}>
             <div className={classes.titleWrap}>

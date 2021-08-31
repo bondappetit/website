@@ -42,6 +42,36 @@ export const useStakingListStyles = createUseStyles(
       color: rgba(theme.colors.primary, 0.4),
       fontSize: 20,
       lineHeight: '28px'
+    },
+
+    card: {
+      padding: 40,
+      minHeight: 400,
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center',
+      position: 'relative'
+    },
+
+    mb4: {
+      marginBottom: 4
+    },
+
+    mb40: {
+      marginBottom: 40
+    },
+
+    mb160: {
+      marginBottom: 160
+    },
+
+    staked: {
+      position: 'absolute',
+      top: 12,
+      left: 12,
+      padding: '0px 8px',
+      borderRadius: 100
     }
   }),
   {
