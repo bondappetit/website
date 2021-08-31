@@ -7,29 +7,37 @@ import artemTolkachev from 'src/assets/images/team/artem_tolkachev.png';
 import rogerOhan from 'src/assets/images/team/roger_ohan.png';
 import sergeyStopnevich from 'src/assets/images/team/sergey_stopnevich.png';
 import vladKomissarov from 'src/assets/images/team/vlad_komissarov.png';
+import { dateUtils } from 'src/common';
 
 export const STEPS = [
   {
     title: 'Investment Stage',
     body: 'Stake your crypto or invest in the protocol',
     mobileDate: 'From April 5, up to 3 months duration',
-    active: !config.IS_COLLATERAL
+    status: 'done',
+    progress: 100
   },
 
   {
     title: 'RWA-collateral',
     body: 'Purchase the first-ever decentralized stablecoin backed by real-world fixed-income securities',
     mobileDate: '1 Day after P1, 2 years duration',
-    active: config.IS_COLLATERAL
+    status: config.IS_COLLATERAL ? 'active' : 'done',
+    progress:
+      ((dateUtils.getTotalMonth2Phase(config.PHASE2_COUNTDOWN) -
+        dateUtils.getRemainingMonth2Phase()) /
+        dateUtils.getTotalMonth2Phase(config.PHASE2_COUNTDOWN)) *
+      100
   },
 
   {
     title: 'Direct Investment',
     body: 'The capitalization of the protocol reaches $100m. The issuance of governance tokens stops.',
     mobileDate: '1 Day after P2, unlimited',
-    active: false
+    status: 'none',
+    progress: 100
   }
-];
+] as const;
 
 export const VOTING_TEXT = [
   'Add new markets for automatic exchange of USDap',
@@ -50,9 +58,7 @@ export const VOTING_TEXT = [
 export const WAVES_CARDS = [
   {
     title: 'EAST.Finance',
-    text: `BondAppetit creates an ecosystem with EAST,
-    the first enterprise-grade DeFi protocol / stablecoin
-    that combines real-world assets with crypto`,
+    text: `BondAppetit creates ecosystem with EAST, the first enterprise-grade DeFi protocol / stablecoin that combines Real-World Assets with crypto`,
     link: 'https://east.finance/',
     onClick: false,
     linkLabel: 'east.finance',
@@ -60,8 +66,7 @@ export const WAVES_CARDS = [
   },
   {
     title: 'Become a partner',
-    text: `BondAppetit is always looking for great projects to collaborate with.
-    If you have one, feel free to contact.`,
+    text: `BondAppetit always looking for great projects to collaborate with. If you have one, feel free to contact.`,
     link: '',
     onClick: true,
     linkLabel: 'Fill in the form',
@@ -73,6 +78,7 @@ export const TEAM = [
   {
     name: 'Artem Tolkachev',
     role: 'Founder, CEO',
+    twitter: '/',
     text: `
     Former head of the Blockchain Lab at Deloitte. For over seven years, Artem has been
     one of the key opinion leaders in the CIS region in blockchain and tokenization.
@@ -93,6 +99,7 @@ export const TEAM = [
   {
     name: 'Vlad Komissarov',
     role: 'CTO',
+    twitter: '/',
     text: `
     Vlad has over 17 years of experience in web development.
     He launched and managed a number of major ICT products and services on the CIS market.
@@ -114,6 +121,7 @@ export const TEAM = [
   {
     name: 'Alexander Ivanov',
     role: 'Advisor',
+    twitter: '/',
     text: `CEO of Waves`,
     photo: alexanderInvanov
   }

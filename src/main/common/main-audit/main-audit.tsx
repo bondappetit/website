@@ -36,21 +36,27 @@ export const MainAudit: React.VFC<MainAuditProps> = (props) => {
           <Typography variant="inherit">
             Audited and Verified by&#160;
           </Typography>
-          <span className={classes.logo}>{props.mixBytesLogo}</span>
-          <Typography variant="inherit">&#160;and&#160;</Typography>
-          <span className={clsx(classes.logo, classes.hashEx)}>
-            {props.hashExLogo}
-          </span>
+          <div className={classes.logo}>{props.mixBytesLogo}</div>
+          <div>
+            <Link href={props.mixBytesLink} target="_blank" color="blue">
+              Read security report
+            </Link>
+          </div>
         </Typography>
-        <Typography variant="h4" className={classes.link}>
-          Read security reports by&#160;
-          <Link href={props.mixBytesLink} target="_blank" color="blue">
-            MixBytes
-          </Link>
-          &#160;and&#160;
-          <Link href={props.hashExLink} target="_blank" color="blue">
-            HashEx
-          </Link>
+        <Typography
+          variant="h4"
+          className={clsx(classes.title, classes.text)}
+          component="div"
+        >
+          <Typography variant="inherit">
+            Audited and Verified by&#160;
+          </Typography>
+          <div className={classes.logo}>{props.hashExLogo}</div>
+          <div>
+            <Link href={props.hashExLink} target="_blank" color="blue">
+              Read security report
+            </Link>
+          </div>
         </Typography>
       </div>
     </MainWindow>

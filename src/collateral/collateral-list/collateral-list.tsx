@@ -61,12 +61,12 @@ export const CollateralList: React.FC = () => {
 
   return (
     <>
-      <Head title="The protocol’s assets are backed by real-world collateral in the form of bonds" />
+      <Head title="The protocol's assets are backed by real-world collateral in the form of bonds" />
       <MainLayout>
         <PageWrapper>
           <Typography variant="h1" align="center" className={classes.title}>
-            The protocol’s assets are backed by real-world collateral in the
-            form of bonds
+            The protocol&apos;s assets are backed by real-world collateral in
+            the form of bonds
           </Typography>
           <Plate className={clsx(classes.list, classes.ussued)}>
             <CollateralCard

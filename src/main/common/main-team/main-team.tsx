@@ -1,7 +1,8 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { Plate, Typography } from 'src/common';
+import { Link, Plate, Typography } from 'src/common';
+import { ReactComponent as TwitterFilledIcon } from 'src/assets/icons/twitter-filled.svg';
 import { TEAM } from '../constants';
 import { useMainTeamStyles } from './main-team.styles';
 
@@ -15,7 +16,7 @@ export const MainTeam: React.VFC<MainTeamProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)}>
       <Typography variant="h2" className={classes.title}>
-        Team
+        Meet the chefs behind the kitchen desk
       </Typography>
       <ul className={classes.list}>
         {TEAM.map((teamMember) => (
@@ -31,7 +32,18 @@ export const MainTeam: React.VFC<MainTeamProps> = (props) => {
                   <Typography variant="h5" weight="bold">
                     {teamMember.name}
                   </Typography>
-                  <Typography variant="h5">{teamMember.role}</Typography>
+                  <Typography variant="h5" className={classes.teamMemberRole}>
+                    {teamMember.role}
+                    {teamMember.twitter && (
+                      <Link
+                        href={teamMember.twitter}
+                        target="_blank"
+                        className={classes.teamMemberTwitter}
+                      >
+                        <TwitterFilledIcon />
+                      </Link>
+                    )}
+                  </Typography>
                 </div>
               </div>
               <Typography variant="body1" className={classes.teamMemberText}>

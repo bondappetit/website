@@ -1,1 +1,1 @@
-export * from './numerical-input'
+export * from './numerical-input';

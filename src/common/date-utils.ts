@@ -44,5 +44,11 @@ export const dateUtils = {
   after: (
     from: string | number | Date | Dayjs,
     to: string | number | Date | Dayjs
-  ) => dayjs(from).isAfter(to)
+  ) => dayjs(from).isAfter(to),
+
+  getTotalMonth2Phase: (date: string | number | Date | Dayjs) =>
+    dayjs(dayjs().add(2, 'year')).diff(dayjs(date), 'month'),
+
+  getRemainingMonth2Phase: () =>
+    dayjs(dayjs().add(2, 'year')).diff(dayjs(), 'month')
 };

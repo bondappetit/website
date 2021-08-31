@@ -10,8 +10,8 @@ if (!defaultNetworkConfig) {
 }
 
 export const config = {
-  CHAIN_IDS: [1, 3, 4, 5, 42, 999],
-  CHAIN_BINANCE_IDS: [56, 97],
+  CHAIN_IDS: [1, 3, 4, 5, 42, 999] as number[],
+  CHAIN_BINANCE_IDS: [56, 97] as number[],
   ENV: process.env.NODE_ENV,
   IS_DEV: process.env.NODE_ENV === 'development',
   DEFAULT_CHAIN_ID: process.env.REACT_APP_DEFAULT_CHAIN_ID,
@@ -41,4 +41,4 @@ export const config = {
   IMPROPERLY_PROPOSALS:
     process.env.REACT_APP_IMPROPERLY_PROPOSALS?.split(',') ?? [],
   PUBLIC_KEY: process.env.REACT_APP_WISE_WOLVES_PUBLIC_KEY ?? ''
-};
+} as const;

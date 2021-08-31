@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import React, { useState } from 'react';
+import { useTheme } from 'react-jss';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useInterval } from 'react-use';
 
@@ -7,13 +8,15 @@ import {
   Button,
   Typography,
   Link,
-  Skeleton,
   Plate,
   ButtonBase,
-  dateUtils
+  dateUtils,
+  Theme
 } from 'src/common';
 import { config } from 'src/config';
 import { URLS } from 'src/router/urls';
+import { MainStablecoinChart } from '../main-stablecoin-chart/main-stablecoin-chart';
+import { MainTextCard } from '../main-text-card';
 import { useMainStablecoinStyles } from './main-stablecoin.styles';
 
 export type MainStablecoinProps = {
@@ -26,33 +29,45 @@ export type MainStablecoinProps = {
 
 const date = () => dateUtils.countdown(config.PHASE2_COUNTDOWN);
 
-export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
+export const MainStablecoin: React.VFC<MainStablecoinProps> = (props) => {
   const classes = useMainStablecoinStyles();
 
   const [countdown, setCountDown] = useState(date());
 
   useInterval(() => setCountDown(date()), 1000);
 
+  const theme = useTheme<Theme>();
+
   return (
     <div className={clsx(classes.root, props.className)}>
       <Typography variant="h2" className={classes.title}>
         At the heart of the protocol lies USDap — the first-ever decentralized
-        stablecoin backed by real-world assets with fixed periodic income.{' '}
+        stablecoin based on real-world assets.{' '}
         <Link
           component={ReactRouterLink}
           to={URLS.stablecoin}
           className={classes.link}
         >
-          Explore
+          Explore USDap
         </Link>
       </Typography>
       <div className={classes.grid}>
         <Plate className={classes.card}>
           <div className={classes.cardContent}>
-            <Typography variant="h2" align="center" className={classes.total}>
-              {!props.stablecoinBalance && <Skeleton />}
-              {props.stablecoinBalance && <>{props.stablecoinBalance} USDap</>}
+            <Typography variant="h3" weight="semibold" align="center">
+              USDap Total Supply
             </Typography>
+            <Typography
+              variant="h3"
+              align="center"
+              className={classes.cardSubtitle}
+            >
+              ${props.stablecoinBalance}
+            </Typography>
+            <MainStablecoinChart
+              key={theme.currentTheme}
+              className={classes.chart}
+            />
             <div className={classes.actions}>
               <Button className={classes.button} onClick={props.onBuy}>
                 Buy
@@ -78,7 +93,48 @@ export const MainStablecoin: React.FC<MainStablecoinProps> = (props) => {
             </Typography>
           )}
         </Plate>
-        {props.children}
+        <Plate withoutBorder color="grey" className={classes.text}>
+          <div className={classes.cards}>
+            <MainTextCard>
+              USDap is a stablecoin done right. Algorithmic automated issuance,
+              real-world assets as collateral, and publicly available oracles
+              for real-time collateral verification.
+              <br />
+              <Link
+                color="blue"
+                component={ReactRouterLink}
+                to={`${URLS.whitepaper}#3`}
+              >
+                Learn more
+              </Link>
+            </MainTextCard>
+            <MainTextCard>
+              The bonds that back USDap are stored by a licensed custodian in a
+              stable jurisdiction. Anyone can check their availability any time
+              online. No single protocol with fiat collateral has this level of
+              transparency.
+              <br />
+              <Link
+                color="blue"
+                component={ReactRouterLink}
+                to={URLS.collateral.list}
+              >
+                Check Collateral
+              </Link>
+            </MainTextCard>
+            <MainTextCard>
+              Provide liquidity for the protocol and earn ample rewards.
+              <br />
+              <Link
+                color="blue"
+                component={ReactRouterLink}
+                to={URLS.staking.list}
+              >
+                Stake
+              </Link>
+            </MainTextCard>
+          </div>
+        </Plate>
       </div>
     </div>
   );

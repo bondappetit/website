@@ -16,7 +16,7 @@ export const MainWaves: React.VFC<MainWavesProps> = (props) => {
   return (
     <div className={props.className}>
       <Typography variant="h2" className={classes.title}>
-        Partners
+        BondAppétit works with the best projects in the industry
       </Typography>
       <div className={classes.list}>
         {WAVES_CARDS.map((card) => {
