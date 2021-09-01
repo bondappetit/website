@@ -29,7 +29,12 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
           <Button size="medium" onClick={props.onBuyGov}>
             Buy BAG
           </Button>
-          <Button variant="outlined" size="medium" onClick={openMainHowItWorks}>
+          <Button
+            variant="outlined"
+            size="medium"
+            onClick={openMainHowItWorks}
+            className={classes.play}
+          >
             <PlayIcon className={classes.playIcon} /> See how it works
           </Button>
         </div>

@@ -10,16 +10,10 @@ export const useStablecoinCollateralProtocolStateStyles = createUseStyles(
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      border: `1px solid ${theme.colors.primary}`,
-      width: 200,
-      height: 72,
       margin: 'auto',
 
       [theme.breakpoints.md()]: {
         flexDirection: 'column',
-        width: 'auto',
-        height: 216,
-        border: `2px solid ${theme.colors.primary}`,
         margin: 'unset'
       }
     },
@@ -30,40 +24,24 @@ export const useStablecoinCollateralProtocolStateStyles = createUseStyles(
       justifyContent: 'center',
       height: 40,
       width: 40,
-      borderRadius: '50%',
       fontSize: 20,
       lineHeight: '28px',
-      border: `1px solid ${theme.colors.primary}`,
-      cursor: 'pointer',
-
-      '&:not(:last-child)': {
-        marginRight: 8
-      },
-
-      [theme.breakpoints.md()]: {
-        '&:not(:last-child)': {
-          marginRight: 0,
-          marginBottom: 8
-        }
-      }
+      opacity: 0.16
     },
 
     green: {
-      display: 'flex',
-      backgroundColor: theme.colors.green1,
-      color: theme.colors.black
+      color: theme.colors.green1,
+      opacity: 1
     },
 
     red: {
-      display: 'flex',
-      backgroundColor: theme.colors.red,
-      color: theme.colors.black
+      color: theme.colors.red,
+      opacity: 1
     },
 
     yellow: {
-      display: 'flex',
-      backgroundColor: theme.colors.yellow,
-      color: theme.colors.black
+      color: theme.colors.yellow,
+      opacity: 1
     },
 
     tippy: {

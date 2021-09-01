@@ -27,6 +27,10 @@ export const useMainHeaderStyles = createUseStyles(
       margin: 'auto'
     },
 
+    play: {
+      whiteSpace: 'nowrap'
+    },
+
     playIcon: {
       width: 14,
       height: 19,
