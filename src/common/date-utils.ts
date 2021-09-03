@@ -50,5 +50,11 @@ export const dateUtils = {
     dayjs(dayjs().add(2, 'year')).diff(dayjs(date), 'month'),
 
   getRemainingMonth2Phase: () =>
-    dayjs(dayjs().add(2, 'year')).diff(dayjs(), 'month')
+    dayjs(dayjs().add(2, 'year')).diff(dayjs(), 'month'),
+
+  add: (
+    date: string | number | Date | Dayjs,
+    count: number,
+    unit: dayjs.OpUnitType = 'month'
+  ) => dayjs(date).add(count, unit).toISOString()
 };

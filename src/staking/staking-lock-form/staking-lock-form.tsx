@@ -238,6 +238,8 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
       'Add liquidity'
     ));
 
+  const handleChangeNetwork = () => openChangeNetwork().catch(console.error);
+
   return (
     <>
       <form onSubmit={formik.handleSubmit} className={classes.root} noValidate>
@@ -306,7 +308,7 @@ export const StakingLockForm: React.FC<StakingLockFormProps> = (props) => {
                 onClick={
                   chainId && config.CHAIN_IDS.includes(currentChainId)
                     ? setupBinance
-                    : openChangeNetwork
+                    : handleChangeNetwork
                 }
                 className={classes.changeNetwork}
               >

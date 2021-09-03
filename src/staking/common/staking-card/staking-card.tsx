@@ -63,7 +63,7 @@ export const StakingCard: React.VFC<StakingCardProps> = (props) => {
       )}
       <Typography
         variant="h3"
-        weight="bold"
+        weight="semibold"
         align="center"
         className={classes.title}
       >

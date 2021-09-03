@@ -27,4 +27,4 @@ const ChangeNetworkModal: React.VFC<ChangeNetworkModalProps> = (props) => {
   );
 };
 
-export const useChangeNetworkModal = () => useModal(<ChangeNetworkModal />);
+export const useChangeNetworkModal = () => useModal(ChangeNetworkModal);

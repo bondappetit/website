@@ -18,6 +18,9 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
   const classes = useMainHeaderStyles();
 
   const [openMainHowItWorks] = useMainHowitWorksModal();
+
+  const handleOpenHowItWorks = () => openMainHowItWorks().catch(console.error);
+
   return (
     <div className={clsx(classes.root, props.className)}>
       <div className={classes.content}>
@@ -29,7 +32,11 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
           <Button size="medium" onClick={props.onBuyGov}>
             Buy BAG
           </Button>
-          <Button variant="outlined" size="medium" onClick={openMainHowItWorks}>
+          <Button
+            variant="outlined"
+            size="medium"
+            onClick={handleOpenHowItWorks}
+          >
             <PlayIcon className={classes.playIcon} /> See how it works
           </Button>
         </div>

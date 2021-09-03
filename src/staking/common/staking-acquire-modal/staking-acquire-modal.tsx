@@ -34,7 +34,7 @@ export const StakingAcquireModal: React.VFC<StakingAcquireModalProps> = (
       <SmallModal>
         <div className={classes.inner}>
           <div className={classes.content}>
-            <Typography weight="bold" variant="h5">
+            <Typography weight="semibold" variant="h5">
               To acquire {props.tokenName}.
             </Typography>
             {props.token?.map((token, index) => {

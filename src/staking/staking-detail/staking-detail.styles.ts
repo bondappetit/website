@@ -21,6 +21,17 @@ export const useStakingDetailStyles = createUseStyles(
       }
     },
 
+    headerIcon: {
+      marginBottom: -4,
+      width: 27,
+      height: 27,
+
+      [theme.breakpoints.md()]: {
+        width: 32,
+        height: 32
+      }
+    },
+
     row: {
       display: 'flex',
       flexDirection: 'column',

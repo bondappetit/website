@@ -24,4 +24,4 @@ const MainHowItWorksModal: React.FC<MainHowItWorksModalProps> = (props) => {
   );
 };
 
-export const useMainHowitWorksModal = () => useModal(<MainHowItWorksModal />);
+export const useMainHowitWorksModal = () => useModal(MainHowItWorksModal);
