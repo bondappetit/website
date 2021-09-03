@@ -20,5 +20,14 @@ export const bignumberUtils = {
     new BN(num1 || 0).isEqualTo(num2 || 0),
 
   lt: (num1?: string | number | null, num2?: string | number | null) =>
-    new BN(num1 || 0).isLessThan(num2 || 0)
+    new BN(num1 || 0).isLessThan(num2 || 0),
+
+  lte: (num1?: string | number | null, num2?: string | number | null) =>
+    new BN(num1 || 0).isLessThanOrEqualTo(num2 || 0),
+
+  gt: (num1?: string | number | null, num2?: string | number | null) =>
+    new BN(num1 || 0).gt(num2 || 0),
+
+  minus: (num1?: string | number | null, num2?: string | number | null) =>
+    new BN(num1 || 0).minus(num2 || 0).toString(10)
 };

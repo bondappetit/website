@@ -185,6 +185,10 @@ export type ProfitDistributorUserType = {
   earned: Scalars['String'];
   /** Earned balance normalize */
   earnedFloat: Scalars['String'];
+  /** Penalty balance */
+  penalty: Scalars['String'];
+  /** Penalty balance normalize */
+  penaltyFloat: Scalars['String'];
   /** Stake at block number */
   stakeAt?: Maybe<Scalars['String']>;
   /** Stake at date */
@@ -676,6 +680,8 @@ export type StakingCouponsListQuery = { __typename?: 'Query' } & {
             | 'nextLockDate'
             | 'nextUnlock'
             | 'nextUnlockDate'
+            | 'penalty'
+            | 'penaltyFloat'
           >
         >;
       }
@@ -1114,6 +1120,8 @@ export const StakingCouponsListDocument = gql`
         nextLockDate
         nextUnlock
         nextUnlockDate
+        penalty
+        penaltyFloat
       }
     }
   }

@@ -71,6 +71,8 @@ export const STAKING_COUPONS_LIST_QUERY = gql`
         nextLockDate
         nextUnlock
         nextUnlockDate
+        penalty
+        penaltyFloat
       }
     }
   }

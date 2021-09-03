@@ -7,19 +7,17 @@ import {
   Modal,
   humanizeNumeral
 } from 'src/common';
-import { useStakingCouponsDescriptionModalStyles } from './staking-coupons-description-modal.styles';
+import { useStakingCouponsUnstakingDescriptionModalStyles } from './staking-coupons-unstaking-description-modal.styles';
 
-export type StakingCouponsDescriptionModalProps = {
+export type StakingCouponsUnstakingDescriptionModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
   amount: string;
-  month: string;
-  howToStake: boolean;
 };
 
-export const StakingCouponsDescriptionModal: React.VFC<StakingCouponsDescriptionModalProps> =
+export const StakingCouponsUnstakingDescriptionModal: React.VFC<StakingCouponsUnstakingDescriptionModalProps> =
   (props) => {
-    const classes = useStakingCouponsDescriptionModalStyles();
+    const classes = useStakingCouponsUnstakingDescriptionModalStyles();
 
     const handleContinue = () => props.onConfirm(true);
 
@@ -29,25 +27,15 @@ export const StakingCouponsDescriptionModal: React.VFC<StakingCouponsDescription
           <div className={classes.root}>
             <div className={classes.content}>
               <Typography variant="h5" weight="semibold">
-                {props.howToStake
-                  ? 'How to stake'
-                  : `Stake ${humanizeNumeral(props.amount)} BAG for ${
-                      props.month
-                    } months`}
+                Unstake {humanizeNumeral(props.amount)} BAG
               </Typography>
               <Typography variant="h5">
-                To stake your BAG in coupon rewards pool you have to make
-                several transactions:
+                To unstake your BAG you have to make two transactions:
               </Typography>
               <Typography variant="h5" component="div">
                 <ol className={classes.list}>
-                  {!props.howToStake && (
-                    <li>Delegate votes (one-time and optional)</li>
-                  )}
-                  <li>Convert BAG to yBAG</li>
-                  <li>
-                    Then stake yBAG to earn coupons profit&nbsp;in&nbsp;USDC
-                  </li>
+                  <li>Unlock your yBAG</li>
+                  <li>Convert yBAG to BAG</li>
                 </ol>
               </Typography>
             </div>

@@ -7,18 +7,17 @@ import {
   Modal,
   humanizeNumeral
 } from 'src/common';
-import { useStakingCouponsConvertModalStyles } from './staking-coupons-convert-modal.styles';
+import { useStakingCouponsUnstakingUnlockModalStyles } from './staking-coupons-unstaking-unlock-modal.styles';
 
-export type StakingCouponsConvertModalProps = {
+export type StakingCouponsUnstakingUnlockModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
   amount: string;
-  steps: number;
 };
 
-export const StakingCouponsConvertModal: React.VFC<StakingCouponsConvertModalProps> =
+export const StakingCouponsUnstakingUnlockModal: React.VFC<StakingCouponsUnstakingUnlockModalProps> =
   (props) => {
-    const classes = useStakingCouponsConvertModalStyles();
+    const classes = useStakingCouponsUnstakingUnlockModalStyles();
 
     const handleConvert = () => props.onConfirm(true);
 
@@ -29,14 +28,14 @@ export const StakingCouponsConvertModal: React.VFC<StakingCouponsConvertModalPro
             <div className={classes.content}>
               <Typography variant="h5" component="div">
                 <Typography variant="inherit" weight="semibold" component="div">
-                  Convert {humanizeNumeral(props.amount)} BAG to yBAG
+                  Unlock {humanizeNumeral(props.amount)} yBAG
                 </Typography>
                 <Typography
                   variant="inherit"
                   component="div"
                   className={classes.steps}
                 >
-                  Step {props.steps - 1} of {props.steps}
+                  Step 1 of 2
                 </Typography>
               </Typography>
               <Typography variant="h5">

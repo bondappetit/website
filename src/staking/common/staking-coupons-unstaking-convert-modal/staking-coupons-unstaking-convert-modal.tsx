@@ -7,18 +7,17 @@ import {
   Modal,
   humanizeNumeral
 } from 'src/common';
-import { useStakingCouponsConvertModalStyles } from './staking-coupons-convert-modal.styles';
+import { useStakingCouponsUnstakingConvertModalStyles } from './staking-coupons-unstaking-convert-modal.styles';
 
-export type StakingCouponsConvertModalProps = {
+export type StakingCouponsUnstakingConvertModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
   amount: string;
-  steps: number;
 };
 
-export const StakingCouponsConvertModal: React.VFC<StakingCouponsConvertModalProps> =
+export const StakingCouponsUnstakingConvertModal: React.VFC<StakingCouponsUnstakingConvertModalProps> =
   (props) => {
-    const classes = useStakingCouponsConvertModalStyles();
+    const classes = useStakingCouponsUnstakingConvertModalStyles();
 
     const handleConvert = () => props.onConfirm(true);
 
@@ -29,23 +28,20 @@ export const StakingCouponsConvertModal: React.VFC<StakingCouponsConvertModalPro
             <div className={classes.content}>
               <Typography variant="h5" component="div">
                 <Typography variant="inherit" weight="semibold" component="div">
-                  Convert {humanizeNumeral(props.amount)} BAG to yBAG
+                  Convert {humanizeNumeral(props.amount)} yBAG to BAG
                 </Typography>
                 <Typography
                   variant="inherit"
                   component="div"
                   className={classes.steps}
                 >
-                  Step {props.steps - 1} of {props.steps}
+                  Step 2 of 2
                 </Typography>
               </Typography>
+              <Typography variant="h5">1 yBAG = 1 BAG</Typography>
               <Typography variant="h5">
-                yBAG is a techincal token which allows you to earn rewards from
-                bonds coupon profit.
-              </Typography>
-              <Typography variant="h5">
-                yBAG = BAG always, and you can convert it back anytime you
-                decide to unstake.
+                Your votes will be delegated back automaticaly, no extra
+                transaction required
               </Typography>
             </div>
             <Button
@@ -53,7 +49,7 @@ export const StakingCouponsConvertModal: React.VFC<StakingCouponsConvertModalPro
               onClick={handleConvert}
               size="medium"
             >
-              Convert
+              Unstake
             </Button>
           </div>
         </SmallModal>

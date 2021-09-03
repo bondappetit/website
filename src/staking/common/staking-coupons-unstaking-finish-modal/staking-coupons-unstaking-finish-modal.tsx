@@ -5,21 +5,19 @@ import {
   SmallModal,
   Typography,
   Modal,
-  humanizeNumeral,
-  dateUtils
+  humanizeNumeral
 } from 'src/common';
-import { useStakingCouponsFinishModalStyles } from './staking-coupons-finish-modal.styles';
+import { useStakingCouponsUnstakingFinishModalStyles } from './staking-coupons-unstaking-finish-modal.styles';
 
-export type StakingCouponsFinishModalProps = {
+export type StakingCouponsUnstakingFinishModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
   amount: string;
-  unstakingAt: string;
 };
 
-export const StakingCouponsFinishModal: React.VFC<StakingCouponsFinishModalProps> =
+export const StakingCouponsUnstakingFinishModal: React.VFC<StakingCouponsUnstakingFinishModalProps> =
   (props) => {
-    const classes = useStakingCouponsFinishModalStyles();
+    const classes = useStakingCouponsUnstakingFinishModalStyles();
 
     const handleLock = () => props.onConfirm(true);
 
@@ -29,15 +27,13 @@ export const StakingCouponsFinishModal: React.VFC<StakingCouponsFinishModalProps
           <div className={classes.root}>
             <div className={classes.content}>
               <Typography variant="h5" component="div" align="center">
-                {humanizeNumeral(props.amount)} BAG locked!
-                <br />
-                Unstaking at {dateUtils.format(props.unstakingAt, 'MMMM DD')}
+                {humanizeNumeral(props.amount)} BAG unlocked!
                 <br />
                 <Typography
                   variant="inherit"
                   className={classes.votesDeligated}
                 >
-                  Votes delegated
+                  Votes delegated back
                 </Typography>
               </Typography>
             </div>

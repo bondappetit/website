@@ -19,3 +19,8 @@ export * from './staking-coupons-convert-modal';
 export * from './staking-coupons-lock-modal';
 export * from './staking-coupons-finish-modal';
 export * from './use-staking-coupons';
+export * from './staking-coupons-unstaking-attention-modal';
+export * from './staking-coupons-unstaking-description-modal';
+export * from './staking-coupons-unstaking-unlock-modal';
+export * from './staking-coupons-unstaking-convert-modal';
+export * from './staking-coupons-unstaking-finish-modal';

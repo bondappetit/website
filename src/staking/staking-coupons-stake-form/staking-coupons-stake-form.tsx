@@ -4,8 +4,6 @@ import { useFormik } from 'formik';
 import {
   Typography,
   ButtonBase,
-  Skeleton,
-  useApprove,
   NumericalInput,
   bignumberUtils
 } from 'src/common';
@@ -25,8 +23,6 @@ export const StakingCouponsStakeForm: React.FC<StakingCouponsStakeFormProps> = (
   const classes = useStakingCouponsStakeFormStyles();
 
   const { balance = '0' } = props;
-
-  const [approve, approvalNeeded] = useApprove();
 
   const formik = useFormik({
     initialValues: {
@@ -50,7 +46,7 @@ export const StakingCouponsStakeForm: React.FC<StakingCouponsStakeFormProps> = (
     },
 
     onSubmit: async ({ amount }, { resetForm }) => {
-      props.onSubmit?.(amount, resetForm);
+      await props.onSubmit?.(amount, resetForm);
     }
   });
 
@@ -89,16 +85,12 @@ export const StakingCouponsStakeForm: React.FC<StakingCouponsStakeFormProps> = (
           </ButtonBase>
         </Typography>
       </div>
-      {props.loading ? (
-        <Skeleton className={classes.skeleton} />
-      ) : (
-        <WalletButtonWithFallback
-          className={classes.button}
-          loading={formik.isSubmitting}
-        >
-          {formik.errors.amount || 'Stake'}
-        </WalletButtonWithFallback>
-      )}
+      <WalletButtonWithFallback
+        className={classes.button}
+        loading={formik.isSubmitting}
+      >
+        {formik.errors.amount || 'Stake'}
+      </WalletButtonWithFallback>
     </form>
   );
 };
