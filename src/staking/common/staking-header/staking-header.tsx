@@ -1,19 +1,17 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { Typography, COIN_ICONS, humanizeNumeral, Status } from 'src/common';
+import { Typography, humanizeNumeral, Status } from 'src/common';
 import { StakingStatuses } from 'src/staking-config';
 import { useStakingHeaderStyles } from './staking-header.styles';
 import { StakingLabel } from '../staking-label';
 
 export type StakingHeaderProps = {
-  token?: string[];
-  tokenKey: string;
+  title?: React.ReactNode;
   APY?: string;
   totalValueLocked?: string;
   className?: string;
   poolRate?: string;
-  lockable?: boolean;
   loading: boolean;
   depositToken?: string;
   earnToken?: string;
@@ -27,19 +25,8 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
     <div className={clsx(classes.root, props.className)}>
       <div className={classes.content}>
         <div className={classes.title}>
-          <Typography variant="h2" weight="bold" align="center">
-            {props.loading
-              ? 'Loading pool...'
-              : props.token?.map((title, index) => {
-                  const Icon = COIN_ICONS.get(title);
-
-                  return (
-                    <React.Fragment key={title}>
-                      {Icon && <Icon className={classes.icon} />} {title}{' '}
-                      {index === 0 && props.token?.length === 2 ? ' + ' : null}
-                    </React.Fragment>
-                  );
-                })}
+          <Typography variant="h2" weight="semibold" align="center">
+            {props.loading ? 'Loading pool...' : props.title}
           </Typography>
           {props.status === StakingStatuses.archived ? (
             <Typography variant="h2" align="center">

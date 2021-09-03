@@ -33,7 +33,7 @@ const mainColors = {
   white: '#fff',
   black: '#000',
   grey: '#A9A9A9',
-  red: '#DE4909',
+  red: '#E84A4A',
   orange: '#DEBC09',
   yellow: '#FBFF43',
   beige: '#E7D7BE',

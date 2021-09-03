@@ -16,7 +16,8 @@ export const useMainEconomyStyles = createUseStyles(
 
     icon: {
       marginLeft: 10,
-      marginRight: 4
+      marginRight: 4,
+      verticalAlign: 'middle'
     },
 
     scheme: {

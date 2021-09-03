@@ -83,6 +83,122 @@ export type MutationAddBurgerSwapBridgeTransitArgs = {
   input: BurgerSwapBridgeTransitInput;
 };
 
+export type ProfitDistributorAprType = {
+  __typename?: 'ProfitDistributorAprType';
+  /** APR per block */
+  block: Scalars['String'];
+  /** APR per day */
+  day: Scalars['String'];
+  /** APR per week */
+  week: Scalars['String'];
+  /** APR per month */
+  month: Scalars['String'];
+  /** APR per year */
+  year: Scalars['String'];
+};
+
+export type ProfitDistributorListQueryFilterInputType = {
+  /** List of target staking contract addresses */
+  address?: Maybe<Array<Scalars['AddressType']>>;
+};
+
+export type ProfitDistributorPayload = {
+  __typename?: 'ProfitDistributorPayload';
+  data?: Maybe<ProfitDistributorType>;
+  error?: Maybe<Scalars['String']>;
+};
+
+export type ProfitDistributorPoolRateType = {
+  __typename?: 'ProfitDistributorPoolRateType';
+  /** Pool rate per block */
+  block: Scalars['String'];
+  /** Pool rate per block normalize */
+  blockFloat: Scalars['String'];
+  /** Pool rate per day */
+  daily: Scalars['String'];
+  /** Pool rate per day normalize */
+  dailyFloat: Scalars['String'];
+};
+
+export type ProfitDistributorQueryFilterInputType = {
+  /** Target staking contract address */
+  address: Scalars['AddressType'];
+};
+
+export type ProfitDistributorType = {
+  __typename?: 'ProfitDistributorType';
+  /** Staking contract address */
+  address: Scalars['AddressType'];
+  /** Staking token */
+  stakingToken?: Maybe<TokenType>;
+  /** Staking token decimals */
+  stakingTokenDecimals: Scalars['Int'];
+  /** Reward token address */
+  rewardToken?: Maybe<TokenType>;
+  /** Reward token decimals */
+  rewardTokenDecimals: Scalars['Int'];
+  /** Staking total supply */
+  totalSupply: Scalars['String'];
+  /** Staking total supply normalize */
+  totalSupplyFloat: Scalars['String'];
+  /** Block number of staking period start */
+  periodStart: Scalars['String'];
+  /** Block number of staking period finish */
+  periodFinish: Scalars['String'];
+  /** Rewards duration */
+  rewardsDuration: Scalars['String'];
+  /** Reward for duration */
+  rewardForDuration: Scalars['String'];
+  /** Reward for duration normalize */
+  rewardForDurationFloat: Scalars['String'];
+  /** Already earned */
+  earned: Scalars['String'];
+  /** Already earned normalize */
+  earnedFloat: Scalars['String'];
+  poolRate: ProfitDistributorPoolRateType;
+  apr: ProfitDistributorAprType;
+  userList: Array<ProfitDistributorUserType>;
+};
+
+export type ProfitDistributorTypeUserListArgs = {
+  filter?: Maybe<ProfitDistributorUserListFilterInputType>;
+};
+
+export type ProfitDistributorUserListFilterInputType = {
+  /** List of target wallets */
+  address?: Maybe<Array<Scalars['AddressType']>>;
+};
+
+export type ProfitDistributorUserType = {
+  __typename?: 'ProfitDistributorUserType';
+  /** Staking contract address */
+  staking: Scalars['AddressType'];
+  /** User wallet address */
+  address: Scalars['AddressType'];
+  /** Staking balance */
+  balance: Scalars['String'];
+  /** Staking balance normalize */
+  balanceFloat: Scalars['String'];
+  /** Is staked */
+  staked: Scalars['Boolean'];
+  /** Earned balance */
+  earned: Scalars['String'];
+  /** Earned balance normalize */
+  earnedFloat: Scalars['String'];
+  /** Stake at block number */
+  stakeAt?: Maybe<Scalars['String']>;
+  /** Stake at date */
+  stakeAtDate?: Maybe<Scalars['DateTimeType']>;
+  /** Next lock block number */
+  nextLock?: Maybe<Scalars['String']>;
+  /** Next lock date */
+  nextLockDate?: Maybe<Scalars['DateTimeType']>;
+  /** Next unlock block number */
+  nextUnlock?: Maybe<Scalars['String']>;
+  /** Next unlock date */
+  nextUnlockDate?: Maybe<Scalars['DateTimeType']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   getTVL: Scalars['String'];
@@ -92,6 +208,8 @@ export type Query = {
   uniswapPairList: Array<UniswapPairType>;
   staking: StakingPayload;
   stakingList: Array<StakingType>;
+  profitDistributor: ProfitDistributorPayload;
+  profitDistributorList: Array<ProfitDistributorType>;
   mediumPostList: Array<MediumPostType>;
   wallet: WalletPayload;
   walletList: Array<WalletType>;
@@ -121,6 +239,14 @@ export type QueryStakingArgs = {
 
 export type QueryStakingListArgs = {
   filter?: Maybe<StakingListQueryFilterInputType>;
+};
+
+export type QueryProfitDistributorArgs = {
+  filter: ProfitDistributorQueryFilterInputType;
+};
+
+export type QueryProfitDistributorListArgs = {
+  filter?: Maybe<ProfitDistributorListQueryFilterInputType>;
 };
 
 export type QueryWalletArgs = {
@@ -466,6 +592,96 @@ export type WalletQuery = { __typename?: 'Query' } & {
   };
 };
 
+export type StakingCouponsListQueryVariables = Exact<{
+  filter?: Maybe<ProfitDistributorListQueryFilterInputType>;
+  userFilter?: Maybe<ProfitDistributorUserListFilterInputType>;
+}>;
+
+export type StakingCouponsListQuery = { __typename?: 'Query' } & {
+  profitDistributorList: Array<
+    { __typename?: 'ProfitDistributorType' } & Pick<
+      ProfitDistributorType,
+      | 'address'
+      | 'stakingTokenDecimals'
+      | 'rewardTokenDecimals'
+      | 'totalSupply'
+      | 'totalSupplyFloat'
+      | 'periodStart'
+      | 'periodFinish'
+      | 'rewardsDuration'
+      | 'rewardForDuration'
+      | 'rewardForDurationFloat'
+      | 'earned'
+      | 'earnedFloat'
+    > & {
+        stakingToken?: Maybe<
+          { __typename?: 'TokenType' } & Pick<
+            TokenType,
+            | 'address'
+            | 'name'
+            | 'symbol'
+            | 'decimals'
+            | 'totalSupply'
+            | 'totalSupplyFloat'
+            | 'priceUSD'
+          > & {
+              statistic?: Maybe<
+                { __typename?: 'TokenStatisticType' } & Pick<
+                  TokenStatisticType,
+                  'dailyVolumeUSD' | 'totalLiquidityUSD'
+                >
+              >;
+            }
+        >;
+        rewardToken?: Maybe<
+          { __typename?: 'TokenType' } & Pick<
+            TokenType,
+            | 'address'
+            | 'name'
+            | 'symbol'
+            | 'decimals'
+            | 'totalSupply'
+            | 'totalSupplyFloat'
+            | 'priceUSD'
+          > & {
+              statistic?: Maybe<
+                { __typename?: 'TokenStatisticType' } & Pick<
+                  TokenStatisticType,
+                  'dailyVolumeUSD' | 'totalLiquidityUSD'
+                >
+              >;
+            }
+        >;
+        poolRate: { __typename?: 'ProfitDistributorPoolRateType' } & Pick<
+          ProfitDistributorPoolRateType,
+          'block' | 'blockFloat' | 'daily' | 'dailyFloat'
+        >;
+        apr: { __typename?: 'ProfitDistributorAprType' } & Pick<
+          ProfitDistributorAprType,
+          'block' | 'day' | 'week' | 'month' | 'year'
+        >;
+        userList: Array<
+          { __typename?: 'ProfitDistributorUserType' } & Pick<
+            ProfitDistributorUserType,
+            | 'staking'
+            | 'address'
+            | 'balance'
+            | 'balanceFloat'
+            | 'staked'
+            | 'earned'
+            | 'earnedFloat'
+            | 'stakeAt'
+            | 'stakeAtDate'
+            | 'nextLock'
+            | 'nextLockDate'
+            | 'nextUnlock'
+            | 'nextUnlockDate'
+          >
+        >;
+      }
+  >;
+};
+
 export type StakingListQueryVariables = Exact<{
   filter?: Maybe<StakingListQueryFilterInputType>;
   userFilter?: Maybe<StakingUserListFilterInputType>;
@@ -762,13 +978,13 @@ export function useAddBurgerSwapBridgeTransitMutation(
 export type AddBurgerSwapBridgeTransitMutationHookResult = ReturnType<
   typeof useAddBurgerSwapBridgeTransitMutation
 >;
-export type AddBurgerSwapBridgeTransitMutationResult = Apollo.MutationResult<
-  AddBurgerSwapBridgeTransitMutation
->;
-export type AddBurgerSwapBridgeTransitMutationOptions = Apollo.BaseMutationOptions<
-  AddBurgerSwapBridgeTransitMutation,
-  AddBurgerSwapBridgeTransitMutationVariables
->;
+export type AddBurgerSwapBridgeTransitMutationResult =
+  Apollo.MutationResult<AddBurgerSwapBridgeTransitMutation>;
+export type AddBurgerSwapBridgeTransitMutationOptions =
+  Apollo.BaseMutationOptions<
+    AddBurgerSwapBridgeTransitMutation,
+    AddBurgerSwapBridgeTransitMutationVariables
+  >;
 export const WalletDocument = gql`
   query Wallet($filter: WalletQueryFilterInputType!) {
     wallet(filter: $filter) {
@@ -826,6 +1042,133 @@ export type WalletLazyQueryHookResult = ReturnType<typeof useWalletLazyQuery>;
 export type WalletQueryResult = Apollo.QueryResult<
   WalletQuery,
   WalletQueryVariables
+>;
+export const StakingCouponsListDocument = gql`
+  query StakingCouponsList(
+    $filter: ProfitDistributorListQueryFilterInputType
+    $userFilter: ProfitDistributorUserListFilterInputType
+  ) {
+    profitDistributorList(filter: $filter) {
+      address
+      stakingToken {
+        address
+        name
+        symbol
+        decimals
+        totalSupply
+        totalSupplyFloat
+        priceUSD
+        statistic {
+          dailyVolumeUSD
+          totalLiquidityUSD
+        }
+      }
+      stakingTokenDecimals
+      rewardToken {
+        address
+        name
+        symbol
+        decimals
+        totalSupply
+        totalSupplyFloat
+        priceUSD
+        statistic {
+          dailyVolumeUSD
+          totalLiquidityUSD
+        }
+      }
+      rewardTokenDecimals
+      totalSupply
+      totalSupplyFloat
+      periodStart
+      periodFinish
+      rewardsDuration
+      rewardForDuration
+      rewardForDurationFloat
+      earned
+      earnedFloat
+      poolRate {
+        block
+        blockFloat
+        daily
+        dailyFloat
+      }
+      apr {
+        block
+        day
+        week
+        month
+        year
+      }
+      userList(filter: $userFilter) {
+        staking
+        address
+        balance
+        balanceFloat
+        staked
+        earned
+        earnedFloat
+        stakeAt
+        stakeAtDate
+        nextLock
+        nextLockDate
+        nextUnlock
+        nextUnlockDate
+      }
+    }
+  }
+`;
+
+/**
+ * __useStakingCouponsListQuery__
+ *
+ * To run a query within a React component, call `useStakingCouponsListQuery` and pass it any options that fit your needs.
+ * When your component renders, `useStakingCouponsListQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useStakingCouponsListQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *      userFilter: // value for 'userFilter'
+ *   },
+ * });
+ */
+export function useStakingCouponsListQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<
+    StakingCouponsListQuery,
+    StakingCouponsListQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<
+    StakingCouponsListQuery,
+    StakingCouponsListQueryVariables
+  >(StakingCouponsListDocument, options);
+}
+export function useStakingCouponsListLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    StakingCouponsListQuery,
+    StakingCouponsListQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    StakingCouponsListQuery,
+    StakingCouponsListQueryVariables
+  >(StakingCouponsListDocument, options);
+}
+export type StakingCouponsListQueryHookResult = ReturnType<
+  typeof useStakingCouponsListQuery
+>;
+export type StakingCouponsListLazyQueryHookResult = ReturnType<
+  typeof useStakingCouponsListLazyQuery
+>;
+export type StakingCouponsListQueryResult = Apollo.QueryResult<
+  StakingCouponsListQuery,
+  StakingCouponsListQueryVariables
 >;
 export const StakingListDocument = gql`
   query StakingList(

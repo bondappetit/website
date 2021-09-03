@@ -49,5 +49,5 @@ export const VotingInvestingAttention: React.VFC<VotingInvestingAttentionProps> 
     );
   };
 
-export const useVotingInvestingAttention = (onBuy: () => void) =>
-  useModal(<VotingInvestingAttention open onBuy={onBuy} />);
+export const useVotingInvestingAttention = () =>
+  useModal(VotingInvestingAttention);

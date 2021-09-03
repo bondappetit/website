@@ -1,0 +1,104 @@
+import React from 'react';
+import { useFormik } from 'formik';
+
+import {
+  Typography,
+  ButtonBase,
+  Skeleton,
+  useApprove,
+  NumericalInput,
+  bignumberUtils
+} from 'src/common';
+import { WalletButtonWithFallback } from 'src/wallets';
+import { useStakingCouponsStakeFormStyles } from './staking-coupons-stake-form.styles';
+
+export type StakingCouponsStakeFormProps = {
+  onSubmit?: (amount: string, fn: () => void) => Promise<void>;
+  loading: boolean;
+  stakingToken?: string;
+  balance?: string;
+};
+
+export const StakingCouponsStakeForm: React.FC<StakingCouponsStakeFormProps> = (
+  props
+) => {
+  const classes = useStakingCouponsStakeFormStyles();
+
+  const { balance = '0' } = props;
+
+  const [approve, approvalNeeded] = useApprove();
+
+  const formik = useFormik({
+    initialValues: {
+      amount: ''
+    },
+    validateOnBlur: false,
+    validateOnChange: false,
+
+    validate: (formValues) => {
+      const errors: Partial<typeof formValues> = {};
+
+      if (bignumberUtils.eq(formValues.amount, 0)) {
+        errors.amount = 'Please enter amount';
+      }
+
+      if (bignumberUtils.lt(props.balance, formValues.amount)) {
+        errors.amount = `Not enough ${props.stakingToken}`;
+      }
+
+      return errors;
+    },
+
+    onSubmit: async ({ amount }, { resetForm }) => {
+      props.onSubmit?.(amount, resetForm);
+    }
+  });
+
+  const handleOnMax = () => {
+    formik.setFieldValue('amount', balance);
+  };
+
+  return (
+    <form onSubmit={formik.handleSubmit} className={classes.root} noValidate>
+      <div>
+        <Typography variant="body1" align="center">
+          Stake your {props.loading ? '...' : props.stakingToken}
+        </Typography>
+        <NumericalInput
+          value={formik.values.amount}
+          name="amount"
+          placeholder="0"
+          disabled={formik.isSubmitting}
+          onChange={formik.handleChange}
+          error={Boolean(formik.errors.amount)}
+          className={classes.input}
+        />
+        <Typography
+          variant="body1"
+          align="center"
+          className={classes.max}
+          component="div"
+        >
+          <ButtonBase
+            className={classes.link}
+            type="button"
+            disabled={formik.isSubmitting}
+            onClick={handleOnMax}
+          >
+            {props.loading ? '...' : balance} max
+          </ButtonBase>
+        </Typography>
+      </div>
+      {props.loading ? (
+        <Skeleton className={classes.skeleton} />
+      ) : (
+        <WalletButtonWithFallback
+          className={classes.button}
+          loading={formik.isSubmitting}
+        >
+          {formik.errors.amount || 'Stake'}
+        </WalletButtonWithFallback>
+      )}
+    </form>
+  );
+};

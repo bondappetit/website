@@ -2,17 +2,10 @@ import { useWeb3React } from '@web3-react/core';
 import React, { forwardRef } from 'react';
 import { useToggle } from 'react-use';
 
-import { Button } from 'src/common';
+import { Button, ButtonProps } from 'src/common';
 import { WalletModal } from '../wallet-modal';
 
-export type WalletButtonWithFallbackProps = {
-  onClick?: () => void;
-  disabled?: boolean;
-  loading?: boolean;
-  className?: string;
-  type?: 'button' | 'submit';
-  children?: React.ReactNode;
-};
+export type WalletButtonWithFallbackProps = ButtonProps;
 
 export const WalletButtonWithFallback = forwardRef<
   HTMLButtonElement,
@@ -27,6 +20,7 @@ export const WalletButtonWithFallback = forwardRef<
   return (
     <>
       <Button
+        {...props}
         ref={ref}
         disabled={!account ? undefined : props.disabled}
         loading={props.loading}

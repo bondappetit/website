@@ -173,5 +173,4 @@ export const VotingInvestingForm: React.VFC<VotingInvestingFormProps> = (
   );
 };
 
-export const useVotingInvestingForm = () =>
-  useModal(<VotingInvestingForm open />);
+export const useVotingInvestingForm = () => useModal(VotingInvestingForm);

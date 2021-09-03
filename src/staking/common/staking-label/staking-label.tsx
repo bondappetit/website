@@ -17,7 +17,7 @@ export const StakingLabel: React.FC<StakingLabelProps> = (props) => {
   return (
     <Typography variant={variant} align={align} className={props.className}>
       {props.title}:{' '}
-      <Typography variant="inherit" component="span" weight="bold">
+      <Typography variant="inherit" component="span" weight="semibold">
         {props.loading ? '...' : props.value}
       </Typography>
       {props.children}

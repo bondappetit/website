@@ -56,6 +56,8 @@ export const VotingInvesting: React.VFC = () => {
 
   const handleInvest = config.IS_INVEST ? toggleAttention : handleToUniswap;
 
+  const handleChangeNetwork = () => openChangeNetwork().catch(console.error);
+
   return (
     <>
       <VotingInfoCard
@@ -73,7 +75,7 @@ export const VotingInvesting: React.VFC = () => {
         buttonTitle="Buy BAG"
         onClick={
           config.CHAIN_BINANCE_IDS.includes(Number(chainId))
-            ? openChangeNetwork
+            ? handleChangeNetwork
             : handleInvest
         }
         description={

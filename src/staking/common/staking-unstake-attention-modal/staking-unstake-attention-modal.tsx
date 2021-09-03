@@ -24,7 +24,7 @@ const StakingUnstakeAttentionModal: React.VFC<StakingUnstakeAttentionModalProps>
             <div className={classes.content}>
               <Typography
                 variant="h5"
-                weight="bold"
+                weight="semibold"
                 className={classes.attention}
               >
                 Attention!
@@ -44,12 +44,14 @@ const StakingUnstakeAttentionModal: React.VFC<StakingUnstakeAttentionModalProps>
                 until 05 August 2021
               </Typography>
             </div>
-            <Button onClick={handleUnstake}>Unstake anyway</Button>
+            <Button onClick={handleUnstake} size="medium">
+              Unstake anyway
+            </Button>
           </div>
         </SmallModal>
       </Modal>
     );
   };
 
-export const useStakingUnstakeAttentionModal = (onUnstake: () => void) =>
-  useModal(<StakingUnstakeAttentionModal onUnstake={onUnstake} />);
+export const useStakingUnstakeAttentionModal = () =>
+  useModal(StakingUnstakeAttentionModal);

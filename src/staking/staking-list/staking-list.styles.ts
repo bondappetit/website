@@ -1,4 +1,4 @@
-import { rgba } from 'polished';
+import { rgba, transitions } from 'polished';
 import { createUseStyles } from 'react-jss';
 
 import { Theme } from 'src/common';
@@ -41,7 +41,13 @@ export const useStakingListStyles = createUseStyles(
     showMore: {
       color: rgba(theme.colors.primary, 0.4),
       fontSize: 20,
-      lineHeight: '28px'
+      lineHeight: '28px',
+      justifyContent: 'flex-start'
+    },
+
+    cardWrap: {
+      color: 'inherit',
+      textDecoration: 'none'
     },
 
     card: {
@@ -51,7 +57,16 @@ export const useStakingListStyles = createUseStyles(
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center',
-      position: 'relative'
+      position: 'relative',
+      boxShadow: `0px 0px 0px 1px ${theme.colors.primary}`,
+      ...transitions('box-shadow .3s ease-in-out'),
+
+      [theme.mixins.hover()]: {
+        '&:hover': {
+          boxShadow: `0px 0px 0px 2px ${theme.colors.primary}`,
+          opacity: 1
+        }
+      }
     },
 
     mb4: {
@@ -71,7 +86,8 @@ export const useStakingListStyles = createUseStyles(
       top: 12,
       left: 12,
       padding: '0px 8px',
-      borderRadius: 100
+      borderRadius: 100,
+      color: `${theme.colors.black} !important`
     }
   }),
   {

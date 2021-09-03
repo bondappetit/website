@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import { useToggle } from 'react-use';
 import React from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { MainLayout } from 'src/layouts';
 import {
@@ -13,48 +14,21 @@ import {
   ButtonBase,
   Link,
   Plate,
-  Status
+  Status,
+  bignumberUtils
 } from 'src/common';
 import {
   StakingCard,
   StakingInfo,
   StakingLabel,
+  useStakingCoupons,
   useStakingListData
 } from 'src/staking/common';
 import { config } from 'src/config';
+import { URLS } from 'src/router/urls';
 import { StakingStatuses, useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
 import { StakingSwopFi } from '../staking-swop-fi/staking-swop-fi';
-
-const REWARDS = [
-  {
-    staked: false,
-    month: '3',
-    apy: '3.56',
-    deposit: 'BAG',
-    earn: 'USDC',
-    totalSupply: '487642',
-    poolRate: '250000'
-  },
-  {
-    staked: true,
-    month: '6',
-    apy: '8.4',
-    deposit: 'BAG',
-    earn: 'USDC',
-    totalSupply: '487642',
-    poolRate: '250000'
-  },
-  {
-    staked: false,
-    month: '12',
-    apy: '14.72',
-    deposit: 'BAG',
-    earn: 'USDC',
-    totalSupply: '487642',
-    poolRate: '250000'
-  }
-];
 
 export const StakingList: React.VFC = () => {
   const classes = useStakingListStyles();
@@ -62,14 +36,12 @@ export const StakingList: React.VFC = () => {
   const [showMore, setShowMore] = useToggle(false);
 
   const { stakingConfigValues } = useStakingConfig();
-
   const { stakingList, rewardSum, swopfiItem, swopfiLoading } =
     useStakingListData();
 
   const activeStaking = stakingList?.filter(
     ({ status }) => status === StakingStatuses.active
   );
-
   const archivedStaking = stakingList?.filter(
     ({ status }) => status === StakingStatuses.archived
   );
@@ -77,6 +49,8 @@ export const StakingList: React.VFC = () => {
   const activeStakingConfig = stakingConfigValues.filter(
     ({ status }) => status === StakingStatuses.active
   );
+
+  const { stakingCoupons, stakingCouponsReward } = useStakingCoupons();
 
   return (
     <>
@@ -98,69 +72,84 @@ export const StakingList: React.VFC = () => {
               </Typography>
               <StakingLabel
                 title="You earned"
-                loading={!stakingList}
+                loading={stakingCoupons.loading}
                 align="left"
-                value={<>{humanizeNumeral(rewardSum?.reward)} BAG</>}
+                value={
+                  <>{humanizeNumeral(stakingCouponsReward?.reward)} USDap</>
+                }
               >
-                {rewardSum?.rewardInUSDC.isGreaterThan(0) && (
-                  <> (${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
+                {stakingCouponsReward?.rewardInUSDC.isGreaterThan(0) && (
+                  <> (${humanizeNumeral(stakingCouponsReward?.rewardInUSDC)})</>
                 )}
               </StakingLabel>
             </div>
           </div>
           <div className={clsx(classes.staking, classes.mb160)}>
-            {REWARDS.map((reward) => (
-              <Plate key={reward.month} className={classes.card}>
-                {reward.staked && (
-                  <Status
-                    color="grey"
-                    variant="contained"
-                    className={classes.staked}
+            {stakingCoupons.loading
+              ? numberArray(3).map((key) => <StakingCard key={key} loading />)
+              : stakingCoupons.value?.map((stakingCoupon) => (
+                  <ReactRouterLink
+                    to={URLS.staking.coupons(stakingCoupon.lockPeriod)}
+                    key={stakingCoupon.lockPeriod}
+                    className={classes.cardWrap}
                   >
-                    Staked
-                  </Status>
-                )}
-                <div className={classes.mb40}>
-                  <Typography
-                    align="center"
-                    variant="h3"
-                    weight="semibold"
-                    className={classes.mb4}
-                  >
-                    {reward.month} Months Lock
-                  </Typography>
-                  <Typography align="center" variant="h3">
-                    APY: {humanizeNumeral(reward.apy)}%
-                  </Typography>
-                </div>
-                <div>
-                  <Typography align="center" className={classes.mb4}>
-                    Deposit:{' '}
-                    <Typography variant="inherit" weight="semibold">
-                      {reward.deposit}
-                    </Typography>
-                  </Typography>
-                  <Typography align="center" className={classes.mb4}>
-                    Earn:{' '}
-                    <Typography variant="inherit" weight="semibold">
-                      {reward.earn}
-                    </Typography>
-                  </Typography>
-                  <Typography align="center" className={classes.mb4}>
-                    Total supply:{' '}
-                    <Typography variant="inherit" weight="semibold">
-                      ${humanizeNumeral(reward.totalSupply)}
-                    </Typography>
-                  </Typography>
-                  <Typography align="center">
-                    Pool rate:{' '}
-                    <Typography variant="inherit" weight="semibold">
-                      {humanizeNumeral(reward.poolRate)} USDC / day
-                    </Typography>
-                  </Typography>
-                </div>
-              </Plate>
-            ))}
+                    <Plate className={classes.card} withoutBorder>
+                      {stakingCoupon.userList[0].staked && (
+                        <Status
+                          color="grey"
+                          variant="contained"
+                          className={classes.staked}
+                        >
+                          Staked
+                        </Status>
+                      )}
+                      <div className={classes.mb40}>
+                        <Typography
+                          align="center"
+                          variant="h3"
+                          weight="semibold"
+                          className={classes.mb4}
+                        >
+                          {stakingCoupon.lockPeriod} Months Lock
+                        </Typography>
+                        <Typography align="center" variant="h3">
+                          APY:{' '}
+                          {humanizeNumeral(
+                            bignumberUtils.toPercent(stakingCoupon.apr.year)
+                          )}
+                          %
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography align="center" className={classes.mb4}>
+                          Deposit:{' '}
+                          <Typography variant="inherit" weight="semibold">
+                            {stakingCoupon.stakingToken?.symbol}
+                          </Typography>
+                        </Typography>
+                        <Typography align="center" className={classes.mb4}>
+                          Earn:{' '}
+                          <Typography variant="inherit" weight="semibold">
+                            {stakingCoupon.rewardToken?.symbol}
+                          </Typography>
+                        </Typography>
+                        <Typography align="center" className={classes.mb4}>
+                          Total supply:{' '}
+                          <Typography variant="inherit" weight="semibold">
+                            ${humanizeNumeral(stakingCoupon.totalSupplyFloat)}
+                          </Typography>
+                        </Typography>
+                        <Typography align="center">
+                          Pool rate:{' '}
+                          <Typography variant="inherit" weight="semibold">
+                            {humanizeNumeral(stakingCoupon.poolRate.dailyFloat)}{' '}
+                            USDC / day
+                          </Typography>
+                        </Typography>
+                      </div>
+                    </Plate>
+                  </ReactRouterLink>
+                ))}
           </div>
           <div className={classes.header}>
             <div className={classes.titleWrap}>
