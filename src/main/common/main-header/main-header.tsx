@@ -25,8 +25,8 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
     <div className={clsx(classes.root, props.className)}>
       <div className={classes.content}>
         <Typography variant="h1" align="center" className={classes.title}>
-          The first DeFi protocol that connects real-world debt instruments with
-          the Ethereum ecosystem
+          The first decentralized lending protocol with a stablecoin 100% backed
+          by yield-generating bonds
         </Typography>
         <div className={classes.action}>
           <Button size="medium" onClick={props.onBuyGov}>
