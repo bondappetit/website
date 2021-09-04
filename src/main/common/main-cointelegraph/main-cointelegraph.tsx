@@ -10,17 +10,17 @@ export type MainCointelegraphProps = {
 
 const ARTICLES = [
   {
+    title: 'How do DeFi protocols get hacked?',
+    date: 'Aug 14, 2021',
+    author: 'Vladislav Komissarov & Dmitry Mishunin',
+    link: 'https://cointelegraph.com/news/how-do-defi-protocols-get-hacked'
+  },
+  {
     title:
       'A nightmare on Stable Street: Centralized stablecoins may be doomed',
     date: 'Apr 18, 2021',
     author: 'Artem Tolkachev',
     link: 'https://cointelegraph.com/news/a-nightmare-on-stable-street-centralized-stablecoins-may-be-doomed'
-  },
-  {
-    title: 'Why DeFi plus asset tokenization will take crypto to new heights',
-    date: 'Jan 17, 2021',
-    author: 'Artem Tolkachev',
-    link: 'https://cointelegraph.com/news/why-defi-plus-asset-tokenization-will-take-crypto-to-new-heights'
   }
 ];
 
