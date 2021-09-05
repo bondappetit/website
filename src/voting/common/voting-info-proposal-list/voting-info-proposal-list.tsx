@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { Link } from 'src/common';
+import { Link, Typography } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { VotingProposals } from '../voting-proposals';
 import { FormattedProposal } from '../voting.types';
@@ -12,6 +12,7 @@ export type VotingInfoProposalListProps = {
   proposals?: FormattedProposal[];
   proposalCount: number;
   className?: string;
+  actions: React.ReactNode;
 };
 
 export const VotingInfoProposalList: React.FC<VotingInfoProposalListProps> = (
@@ -21,23 +22,24 @@ export const VotingInfoProposalList: React.FC<VotingInfoProposalListProps> = (
 
   return (
     <div className={props.className}>
+      {props.actions}
       <VotingProposals
         transparent
         loading={props.loading}
         proposals={props.proposals}
         className={classes.proposals}
       />
-      <Link
-        component={ReactRouterLink}
-        to={URLS.voting.list}
-        className={classes.link}
-      >
-        {!props.proposalCount ? (
-          <>Create first proposal →</>
-        ) : (
-          <>Go to all {props.proposalCount} proposals →</>
-        )}
-      </Link>
+      {props.proposalCount > 3 && (
+        <Typography variant="h5">
+          <Link
+            component={ReactRouterLink}
+            to={URLS.voting.list}
+            className={classes.link}
+          >
+            Show {props.proposalCount} more proposals ↓
+          </Link>
+        </Typography>
+      )}
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import React, { useMemo, useRef } from 'react';
 import clsx from 'clsx';
 import Tippy from '@tippyjs/react';
-import { useHoverDirty, useMedia } from 'react-use';
+import { useHoverDirty } from 'react-use';
 
 import { BN, Typography } from 'src/common';
 import { useCollateralProtocolStateStyles } from './collateral-protocol-state.styles';
@@ -28,8 +28,6 @@ export const CollateralProtocolState: React.FC<CollateralProtocolStateProps> = (
   const isHoveringBalanced = useHoverDirty(balanced);
   const isHoveringUnbalanced = useHoverDirty(unbalanced);
   const isHoveringCritical = useHoverDirty(critical);
-
-  const isMobile = useMedia('(max-width: 959px)');
 
   const collateralState = useMemo(() => {
     if (!props.stableCoinBalanceValue || !props.issuerBalanceValue)
@@ -73,7 +71,7 @@ export const CollateralProtocolState: React.FC<CollateralProtocolStateProps> = (
               collateralState === CollateralProtocolStates.balanced
           })}
         >
-          {isMobile ? 'balanced' : 'b'}
+          Balanced
         </Typography>
       </Tippy>
 
@@ -94,7 +92,7 @@ export const CollateralProtocolState: React.FC<CollateralProtocolStateProps> = (
               collateralState === CollateralProtocolStates.unbalanced
           })}
         >
-          {isMobile ? 'unbalanced' : 'u'}
+          Unbalanced
         </Typography>
       </Tippy>
       <Tippy
@@ -113,7 +111,7 @@ export const CollateralProtocolState: React.FC<CollateralProtocolStateProps> = (
             [classes.red]: collateralState === CollateralProtocolStates.critical
           })}
         >
-          {isMobile ? 'critical' : 'c'}
+          Critical
         </Typography>
       </Tippy>
     </div>

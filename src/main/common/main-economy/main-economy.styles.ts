@@ -21,6 +21,10 @@ export const useMainEconomyStyles = createUseStyles(
     },
 
     scheme: {
+      display: 'block',
+      maxWidth: '100%',
+      objectFit: 'contain',
+
       [theme.breakpoints.lg()]: {
         gridColumnStart: 1,
         gridColumnEnd: 3

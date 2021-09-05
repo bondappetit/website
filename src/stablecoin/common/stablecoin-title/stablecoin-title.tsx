@@ -14,15 +14,13 @@ export const StablecoinTitle: React.VFC<StablecoinTitleProps> = (props) => {
   const classes = useStablecoinTitleStyles();
 
   return (
-    <Typography
-      variant="h3"
-      className={clsx(classes.root, props.className)}
-      component="div"
-    >
-      <Typography variant="inherit" weight="semibold" component="div">
+    <div className={clsx(classes.root, props.className)}>
+      <Typography variant="h2" component="div" className={classes.bold}>
         {props.bold}
       </Typography>{' '}
-      {props.text}
-    </Typography>
+      <Typography variant="h5" component="div">
+        {props.text}
+      </Typography>
+    </div>
   );
 };

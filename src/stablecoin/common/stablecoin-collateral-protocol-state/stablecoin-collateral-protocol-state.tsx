@@ -70,7 +70,7 @@ export const StablecoinCollateralProtocolState: React.VFC<StablecoinCollateralPr
                 collateralState === StablecoinCollateralProtocolStates.balanced
             })}
           >
-            b
+            Balanced
           </Typography>
         </Tippy>
 
@@ -92,7 +92,7 @@ export const StablecoinCollateralProtocolState: React.VFC<StablecoinCollateralPr
                 StablecoinCollateralProtocolStates.unbalanced
             })}
           >
-            u
+            Unbalanced
           </Typography>
         </Tippy>
         <Tippy
@@ -112,7 +112,7 @@ export const StablecoinCollateralProtocolState: React.VFC<StablecoinCollateralPr
                 collateralState === StablecoinCollateralProtocolStates.critical
             })}
           >
-            c
+            Critical
           </Typography>
         </Tippy>
       </div>

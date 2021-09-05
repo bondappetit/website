@@ -100,7 +100,7 @@ export const Main: React.FC = () => {
       <MainLayout>
         <PageWrapper className={classes.root}>
           <MainHeader
-            onBuyGov={linksToggle}
+            onBuyStable={togglelinkModal}
             totalValueLocked={humanizeNumeral(totalValueLocked)}
             stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
             govCost={humanizeNumeral(governanceInUSDC)}

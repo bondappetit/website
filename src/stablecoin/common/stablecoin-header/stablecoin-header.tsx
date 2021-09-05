@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { ScrollIntoView, Typography } from 'src/common';
-import { ReactComponent as CoinIcon } from 'src/assets/images/big-usdap.svg';
 import { useStablecoinHeaderStyles } from './stablecoin-header.styles';
 
 const LINKS = [
@@ -39,7 +38,7 @@ export const StablecoinHeader: React.VFC<StablecoinHeaderProps> = (props) => {
     <div className={clsx(classes.root, props.className)}>
       <div className={classes.titleWrap}>
         <Typography variant="h1" className={classes.title}>
-          A decentralized stablecoin backed by real-world assets
+          Decentralized stablecoin based on real-world assets
         </Typography>
         <ul className={classes.links}>
           {LINKS.map((link) => (
@@ -51,7 +50,6 @@ export const StablecoinHeader: React.VFC<StablecoinHeaderProps> = (props) => {
           ))}
         </ul>
       </div>
-      <CoinIcon className={classes.coin} />
     </div>
   );
 };

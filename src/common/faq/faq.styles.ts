@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 export const useFaqStyles = createUseStyles(
   {
     title: {
-      marginBottom: 56
+      marginBottom: 48
     },
 
     detail: {

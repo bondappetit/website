@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { Plate, Typography } from 'src/common';
+import { Typography } from 'src/common';
 import { useCollateralCardStyles } from './collateral-card.styles';
 
 export type CollateralCardProps = {
@@ -15,7 +15,7 @@ export const CollateralCard: React.FC<CollateralCardProps> = (props) => {
   const classes = useCollateralCardStyles();
 
   return (
-    <Plate className={clsx(classes.root, props.className)}>
+    <div className={clsx(classes.root, props.className)}>
       <div className={classes.body}>
         <Typography variant="h5" align="center" className={classes.title}>
           {props.title}
@@ -29,6 +29,6 @@ export const CollateralCard: React.FC<CollateralCardProps> = (props) => {
           </Typography>
         )}
       </div>
-    </Plate>
+    </div>
   );
 };

@@ -41,7 +41,7 @@ export const useStablecoinCollateralStyles = createUseStyles(
       justifyContent: 'center',
 
       [theme.breakpoints.md()]: {
-        minHeight: 400
+        minHeight: 268
       }
     },
 

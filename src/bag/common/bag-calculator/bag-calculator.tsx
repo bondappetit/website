@@ -2,8 +2,10 @@ import clsx from 'clsx';
 import React, { useMemo, useState } from 'react';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
-import { BN, humanizeNumeral, Plate, Typography } from 'src/common';
+import { BN, humanizeNumeral, Plate, Typography, Link } from 'src/common';
+import { URLS } from 'src/router/urls';
 import { BagTitle } from '../bag-title';
 import { useBagCalculatorStyles } from './bag-calculator.styles';
 
@@ -59,11 +61,22 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)} id="coupon">
       <BagTitle
-        bold="Coupon Rewards"
-        text={`
-        BAG is made unique as a token thanks to the collateral of BondAppétit.
-        BAG holders have the option to earn rewards from real-world assets, which back the USDap.
-        Stable income in USD distributed between holders as staking rewards.`}
+        title="Coupon Rewards"
+        text={
+          <>
+            BAG is made unique as a token thanks to the collateral of
+            BondAppétit. BAG holders have the option to earn rewards from
+            real-world assets, which back the USDap. Stable income in USD
+            distributed between holders as staking rewards.{' '}
+            <Link
+              color="blue"
+              component={ReactRouterLink}
+              to={URLS.staking.list}
+            >
+              Stake and Earn
+            </Link>
+          </>
+        }
       />
       <Plate color="grey" withoutBorder>
         <div className={classes.table}>

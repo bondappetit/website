@@ -19,12 +19,16 @@ export const useMainHeaderStyles = createUseStyles(
     },
 
     title: {
-      maxWidth: 1200,
+      maxWidth: 1328,
       margin: '0 auto 24px'
     },
 
     content: {
       margin: 'auto'
+    },
+
+    play: {
+      whiteSpace: 'nowrap'
     },
 
     playIcon: {

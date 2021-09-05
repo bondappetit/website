@@ -1,19 +1,19 @@
 import { useFormik } from 'formik';
 import React from 'react';
-import { useToggle } from 'react-use';
 
-import { Button, Input, isEmail } from 'src/common';
-import { contactsApi, ContactsSuccess } from '../common';
+import { Button, Input, isEmail, Modal, SmallModal } from 'src/common';
+import { contactsApi } from '../common';
 import { useContactsFeedbackStyles } from './contacts-feedback.styles';
 
-export type ContactsFeedbackProps = unknown;
+export type ContactsFeedbackProps = {
+  onClose?: () => void;
+  onSubmit?: () => void;
+};
 
 const LIST_ID = '143';
 
-export const ContactsFeedback: React.FC<ContactsFeedbackProps> = () => {
+export const ContactsFeedback: React.FC<ContactsFeedbackProps> = (props) => {
   const classes = useContactsFeedbackStyles();
-
-  const [open, toggle] = useToggle(false);
 
   const formik = useFormik({
     initialValues: {
@@ -46,45 +46,50 @@ export const ContactsFeedback: React.FC<ContactsFeedbackProps> = () => {
       try {
         await contactsApi.sendForm(LIST_ID, formValues);
 
-        toggle(true);
+        props.onSubmit?.();
         resetForm();
       } catch (error) {
-        console.error(error.message);
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
     }
   });
 
   return (
-    <>
-      <form className={classes.root} onSubmit={formik.handleSubmit} noValidate>
-        <Input
-          placeholder="Name"
-          name="name"
-          onChange={formik.handleChange}
-          className={classes.input}
-          value={formik.values.name}
-          error={Boolean(formik.errors.name)}
-        />
-        <Input
-          placeholder="Email"
-          name="email"
-          onChange={formik.handleChange}
-          className={classes.input}
-          value={formik.values.email}
-          error={Boolean(formik.errors.email)}
-        />
-        <Button
-          className={classes.button}
-          type="submit"
-          loading={formik.isSubmitting}
-          disabled={formik.isSubmitting}
+    <Modal open onClose={props.onClose}>
+      <SmallModal>
+        <form
+          className={classes.root}
+          onSubmit={formik.handleSubmit}
+          noValidate
         >
-          {formik.errors.email ?? formik.errors.name ?? 'Contact'}
-        </Button>
-      </form>
-      <ContactsSuccess open={open} onClose={toggle}>
-        We will contact with you soon.
-      </ContactsSuccess>
-    </>
+          <Input
+            placeholder="Name"
+            name="name"
+            onChange={formik.handleChange}
+            className={classes.input}
+            value={formik.values.name}
+            error={Boolean(formik.errors.name)}
+          />
+          <Input
+            placeholder="Email"
+            name="email"
+            onChange={formik.handleChange}
+            className={classes.input}
+            value={formik.values.email}
+            error={Boolean(formik.errors.email)}
+          />
+          <Button
+            className={classes.button}
+            type="submit"
+            loading={formik.isSubmitting}
+            disabled={formik.isSubmitting}
+          >
+            {formik.errors.email ?? formik.errors.name ?? 'Contact'}
+          </Button>
+        </form>
+      </SmallModal>
+    </Modal>
   );
 };

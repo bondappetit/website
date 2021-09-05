@@ -46,8 +46,8 @@ export const DECISION_MAKING = [
       'Add a new asset type (collateral) to the basket;',
       'Add a new asset type to the Price Oracle;',
       'Whitelist a new Depository smart contract;',
-      'Start emergency shutdown procedure;',
-      'Add new markets for automatic exchange of USDap.'
+      'Start the emergency shutdown procedure;',
+      'Add new markets for the automatic exchange of BAG.'
     ]
   },
   {
@@ -55,13 +55,13 @@ export const DECISION_MAKING = [
     text: [
       'Change in the reward rates for participation in liquidity pools;',
       'Choose the profit distribution of the protocol;',
-      'Change of the list of assets available for exchange for USDap.'
+      'Change the list of assets available in exchange for BAG.'
     ]
   },
   {
     title: 'Development of the protocol',
     text: [
-      'Proposal and voting on new features of the protocol;',
+      'Propose and vote on new features of the protocol;',
       'Change the rate of technical costs for the maintenance of the protocol;',
       'Initiate additional capitalization of the protocol;',
       'Apply changes to current smart contracts.'

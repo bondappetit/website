@@ -6,8 +6,11 @@ export const useCollateralListStyles = createUseStyles(
     root: {},
 
     title: {
-      maxWidth: 1200,
-      margin: '0 auto 64px'
+      marginBottom: 24
+    },
+
+    subtitle: {
+      marginBottom: 80
     },
 
     phaseDescription: {

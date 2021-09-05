@@ -8,56 +8,40 @@ export const useCollateralProtocolStateStyles = createUseStyles(
       boxSizing: 'border-box',
       borderRadius: 24,
       display: 'flex',
-      flexDirection: 'column',
       alignItems: 'center',
       justifyContent: 'center',
+      margin: 'auto',
 
       [theme.breakpoints.md()]: {
-        height: 216,
-        border: `2px solid ${theme.colors.primary}`
+        flexDirection: 'column',
+        margin: 'unset'
       }
     },
 
     circle: {
-      display: 'none',
+      display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      width: 160,
-      height: 48,
-      border: `1px solid ${theme.colors.primary}`,
-      borderRadius: 16,
-      cursor: 'pointer',
-
-      '&:not(:last-child)': {
-        marginBottom: 8
-      },
-
-      [theme.breakpoints.md()]: {
-        display: 'flex',
-        height: 40,
-        width: 40,
-        borderRadius: '50%',
-        fontSize: 20,
-        lineHeight: '28px'
-      }
+      height: 40,
+      width: 40,
+      fontSize: 20,
+      lineHeight: '28px',
+      opacity: 0.16
     },
 
     green: {
-      display: 'flex',
-      backgroundColor: theme.colors.green1,
-      color: theme.colors.black
+      color: theme.colors.green1,
+      opacity: 1
     },
 
     red: {
-      display: 'flex',
-      backgroundColor: theme.colors.red,
-      color: theme.colors.black
+      color: theme.colors.red,
+      opacity: 1
     },
 
     yellow: {
-      display: 'flex',
-      backgroundColor: theme.colors.yellow,
-      color: theme.colors.black
+      color: theme.colors.yellow,
+      opacity: 1
     },
 
     tippy: {

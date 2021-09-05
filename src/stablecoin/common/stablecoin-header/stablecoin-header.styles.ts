@@ -20,7 +20,7 @@ export const useStablecoinHeaderStyles = createUseStyles(
       marginBottom: 20,
 
       [theme.breakpoints.md()]: {
-        maxWidth: 872,
+        maxWidth: 969,
         margin: 0
       }
     },
@@ -31,21 +31,6 @@ export const useStablecoinHeaderStyles = createUseStyles(
       [theme.breakpoints.md()]: {
         marginBottom: 24,
         textAlign: 'left'
-      }
-    },
-
-    coin: {
-      '--fill': theme.colors.secondary,
-      width: 166,
-      height: 160,
-      order: -1,
-      marginBottom: 24,
-
-      [theme.breakpoints.md()]: {
-        order: 'unset',
-        width: 286,
-        height: 276,
-        marginBottom: 0
       }
     },
 

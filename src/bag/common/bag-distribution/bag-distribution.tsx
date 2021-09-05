@@ -16,7 +16,7 @@ export const BagDistribution: React.VFC<BagDistributionProps> = (props) => {
   return (
     <div className={clsx(props.className)} id="distribution">
       <BagTitle
-        bold="Distribution"
+        title="Distribution"
         text={
           <>
             BAG is also the main reward and the incentive tool for participants
@@ -29,7 +29,10 @@ export const BagDistribution: React.VFC<BagDistributionProps> = (props) => {
       <Plate color="grey" withoutBorder className={classes.plate}>
         <div className={classes.factoidText}>
           <Typography variant="h2">
-            65% of all 100,000,000 BAG reserved for protocol usage and future
+            <Typography variant="inherit" weight="bold">
+              65%
+            </Typography>{' '}
+            of all 100,000,000 BAG reserved for protocol usage and future
             governance participation incentives.
           </Typography>
           <ul className={classes.factoid}>

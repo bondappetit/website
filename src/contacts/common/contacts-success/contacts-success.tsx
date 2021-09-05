@@ -4,11 +4,12 @@ import { Modal, SmallModal, Typography, Button } from 'src/common';
 import { useContactsSuccessStyles } from './contacts-success.styles';
 
 export type ContactsSuccessProps = {
-  onClose: () => void;
+  onClose?: () => void;
   open: boolean;
+  children?: React.ReactNode;
 };
 
-export const ContactsSuccess: React.FC<ContactsSuccessProps> = (props) => {
+export const ContactsSuccess: React.VFC<ContactsSuccessProps> = (props) => {
   const classes = useContactsSuccessStyles();
 
   return (

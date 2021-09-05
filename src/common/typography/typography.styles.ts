@@ -37,8 +37,8 @@ export const useTypographyStyles = createUseStyles(
       },
 
       [theme.breakpoints.lg()]: {
-        fontSize: 40,
-        lineHeight: '48px'
+        fontSize: 48,
+        lineHeight: '56px'
       }
     },
 

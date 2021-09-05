@@ -4,7 +4,11 @@ export const useStablecoinTitleStyles = createUseStyles(
   {
     root: {
       maxWidth: 872,
-      marginBottom: 56
+      marginBottom: 48
+    },
+
+    bold: {
+      marginBottom: 16
     }
   },
   {

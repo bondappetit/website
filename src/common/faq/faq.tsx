@@ -29,7 +29,7 @@ export const Faq: React.VFC<BagFaqProps> = (props) => {
 
   return (
     <div className={props.className} id="faq">
-      <Typography variant="h3" weight="semibold" className={classes.title}>
+      <Typography variant="h2" className={classes.title}>
         {props.title}
       </Typography>
       {props.children.map((faqItem) => (

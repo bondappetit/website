@@ -1,14 +1,14 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import { Plate } from 'src/common';
-import { DocumentCard } from 'src/common/document-card';
+import { Button, Link } from 'src/common';
 import OnepagerPdf from 'src/assets/pdf/bondappetit_litepaper.pdf';
 import { BagTitle } from '../bag-title';
 import { useBagInvestStyles } from './bag-invest.styles';
 
 export type BagInvestProps = {
   className?: string;
+  onContact?: () => void;
 };
 
 export const BagInvest: React.FC<BagInvestProps> = (props) => {
@@ -17,7 +17,7 @@ export const BagInvest: React.FC<BagInvestProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)} id="invest">
       <BagTitle
-        bold="Invest"
+        title="Invest in BondAppétit"
         text={
           <>
             BondAppétit provides a unique opportunity for early investors.
@@ -26,10 +26,17 @@ export const BagInvest: React.FC<BagInvestProps> = (props) => {
         }
       />
       <div className={classes.grid}>
-        <DocumentCard className={classes.litpaper} link={OnepagerPdf}>
-          Litepaper
-        </DocumentCard>
-        <Plate className={classes.contacts}>{props.children}</Plate>
+        <Button className={classes.contacts} onClick={props.onContact}>
+          Contact
+        </Button>
+        <Button
+          className={classes.litpaper}
+          component={Link}
+          variant="outlined"
+          href={OnepagerPdf}
+        >
+          Download Litepaper
+        </Button>
       </div>
     </div>
   );
