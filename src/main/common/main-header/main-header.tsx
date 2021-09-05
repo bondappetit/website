@@ -11,7 +11,7 @@ export type MainHeaderProps = {
   totalValueLocked: string;
   stablecoinBalance: string;
   govCost: string;
-  onBuyGov: () => void;
+  onBuyStable: () => void;
 };
 
 export const MainHeader: React.FC<MainHeaderProps> = (props) => {
@@ -22,12 +22,12 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
     <div className={clsx(classes.root, props.className)}>
       <div className={classes.content}>
         <Typography variant="h1" align="center" className={classes.title}>
-          The first DeFi protocol that connects real-world debt instruments with
-          the Ethereum ecosystem
+          The first decentralized lending protocol with a stablecoin 100% backed
+          by yield&nbsp;-&nbsp;generating bonds
         </Typography>
         <div className={classes.action}>
-          <Button size="medium" onClick={props.onBuyGov}>
-            Buy BAG
+          <Button size="medium" onClick={props.onBuyStable}>
+            Buy USDap
           </Button>
           <Button
             variant="outlined"

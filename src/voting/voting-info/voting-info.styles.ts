@@ -4,24 +4,18 @@ import { Theme } from 'src/common';
 
 export const useVotingInfoStyles = createUseStyles(
   (theme: Theme) => ({
-    root: {
-      padding: '64px 16px 104px',
-
-      [theme.breakpoints.md()]: {
-        padding: '104px 40px 200px'
-      }
-    },
+    root: {},
 
     block: {
-      maxWidth: 1280,
-      margin: 'auto'
+      marginBottom: 216
     },
 
     titleWrap: {
-      margin: '0 auto 64px',
+      maxWidth: 1100,
+      marginBottom: 64,
 
       [theme.breakpoints.md()]: {
-        margin: '0 auto 104px'
+        bottom: 80
       }
     },
 
@@ -29,42 +23,39 @@ export const useVotingInfoStyles = createUseStyles(
       marginBottom: 24
     },
 
-    link: {
-      display: 'none',
+    subtitle: {
+      maxWidth: 872
+    },
+
+    actions: {
+      width: '100%',
+      height: 82,
+      fontSize: 16,
+      lineHeight: '24px',
+      display: 'flex',
+      alignItems: 'center',
+      background: theme.colors.proposalPlate,
+      borderRadius: 16,
+      marginBottom: 16,
+      padding: '0 32px',
 
       [theme.breakpoints.md()]: {
-        display: 'block'
+        borderRadius: 24,
+        height: 88,
+        fontSize: 20,
+        lineHeight: '28px'
       }
     },
 
-    investing: {
-      marginBottom: 48,
-      display: 'grid',
-      gridGap: 32,
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))'
-    },
+    actionsButton: {
+      color: theme.colors.blue2,
 
-    factoid: {
-      margin: '0 auto 160px',
+      '&:nth-child(2)': {
+        marginLeft: 16
+      },
 
-      [theme.breakpoints.md()]: {
-        margin: '0 auto 200px'
-      }
-    },
-
-    proposals: {
-      margin: '0 auto 64px',
-
-      [theme.breakpoints.md()]: {
-        margin: '0 auto 48px'
-      }
-    },
-
-    decision: {
-      marginBottom: 14,
-
-      [theme.breakpoints.md()]: {
-        margin: 'auto'
+      '&:last-child': {
+        marginLeft: 'auto'
       }
     }
   }),

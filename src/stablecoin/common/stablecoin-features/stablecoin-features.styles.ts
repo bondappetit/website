@@ -4,43 +4,25 @@ import { Theme } from 'src/common';
 
 export const useStablecoinFeaturesStyles = createUseStyles(
   (theme: Theme) => ({
-    decision: {
+    feature: {
       display: 'grid',
-      padding: '32px 16px',
-      gridGap: 48,
+      gridGap: 20,
 
       [theme.breakpoints.lg()]: {
-        gridGap: 130,
-        padding: '64px 80px',
+        gridGap: 40,
         gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))'
       }
     },
 
-    decisionCard: {
-      border: 'none'
-    },
+    featureCard: {
+      padding: '32px 16px',
 
-    decisionCardList: {
-      margin: 0,
-      listStyleType: 'none',
-      padding: 0
-    },
-
-    decisionCardListItem: {
-      display: 'flex',
-
-      '&:before': {
-        content: '"- "',
-        marginRight: 8,
-
-        [theme.breakpoints.lg()]: {
-          marginRight: 4,
-          marginLeft: -12
-        }
+      [theme.breakpoints.lg()]: {
+        padding: '56px 56px 112px'
       }
     },
 
-    decisionCardText: {
+    featureCardText: {
       marginBottom: 8,
 
       [theme.breakpoints.down(1279)]: {

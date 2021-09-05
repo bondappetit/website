@@ -6,8 +6,10 @@ import {
   LinkModal,
   PageWrapper,
   useNetworkConfig,
-  Faq
+  Faq,
+  useModal
 } from 'src/common';
+import { ContactsSuccess } from 'src/contacts/common';
 import { ContactsFeedback } from 'src/contacts/contacts-feedback';
 import { MainLayout } from 'src/layouts';
 import { useGovernanceCost } from 'src/staking';
@@ -35,6 +37,13 @@ export const Bag: React.VFC<BagProps> = () => {
 
   const networkConfig = useNetworkConfig();
 
+  const [openSuccess] = useModal(
+    <ContactsSuccess open>We will contact with you soon.</ContactsSuccess>
+  );
+  const [openContact] = useModal(<ContactsFeedback onSubmit={openSuccess} />);
+
+  const handleOpenContact = () => openContact();
+
   return (
     <>
       <Head
@@ -55,12 +64,8 @@ export const Bag: React.VFC<BagProps> = () => {
           <BagCalculator className={classes.blocks} bagPrice={govTokenCost} />
           <BagInstruction className={classes.blocks} />
           <BagDistribution className={classes.blocks} />
-          <BagInvest className={classes.blocks}>
-            <ContactsFeedback />
-          </BagInvest>
-          <Faq title="Learn more about BondAppétit Governance Token (BAG)">
-            {FAQ}
-          </Faq>
+          <BagInvest onContact={handleOpenContact} className={classes.blocks} />
+          <Faq title="Learn more about BAG">{FAQ}</Faq>
         </PageWrapper>
         <LinkModal
           open={linksOpen}

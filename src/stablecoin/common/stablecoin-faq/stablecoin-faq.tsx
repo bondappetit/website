@@ -22,7 +22,7 @@ export const StablecoinFaq: React.FC<StablecoinFaqProps> = (props) => {
 
   return (
     <div className={props.className} id="faq">
-      <Typography variant="h3" weight="semibold" className={classes.title}>
+      <Typography variant="h2" className={classes.title}>
         Learn more about USDap
       </Typography>
       {FAQ.map((faqItem) => (

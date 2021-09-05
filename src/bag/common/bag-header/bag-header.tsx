@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { ScrollIntoView, Typography } from 'src/common';
-import { ReactComponent as CoinIcon } from 'src/assets/images/coin.svg';
 import { useBagHeaderStyles } from './bag-header.styles';
 
 const LINKS = [
@@ -55,7 +54,6 @@ export const BagHeader: React.VFC<BagHeaderProps> = (props) => {
           ))}
         </ul>
       </div>
-      <CoinIcon className={classes.coin} />
     </div>
   );
 };

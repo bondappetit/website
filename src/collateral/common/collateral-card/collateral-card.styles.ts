@@ -9,7 +9,7 @@ export const useCollateralCardStyles = createUseStyles(
       flexDirection: 'column',
 
       [theme.breakpoints.md()]: {
-        minHeight: 400
+        minHeight: 268
       }
     },
 

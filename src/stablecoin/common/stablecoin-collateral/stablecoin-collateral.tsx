@@ -45,7 +45,7 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
               component={ReactRouterLink}
               to={URLS.collateral.list}
             >
-              Learn More
+              Explore collateral
             </Link>
           </>
         }

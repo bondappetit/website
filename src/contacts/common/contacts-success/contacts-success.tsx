@@ -4,7 +4,7 @@ import { Modal, SmallModal, Typography, Button } from 'src/common';
 import { useContactsSuccessStyles } from './contacts-success.styles';
 
 export type ContactsSuccessProps = {
-  onClose: () => void;
+  onClose?: () => void;
   open: boolean;
 };
 

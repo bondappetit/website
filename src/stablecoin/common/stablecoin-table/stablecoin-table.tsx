@@ -24,7 +24,7 @@ export const StablecoinTable: React.FC<StablecoinTableProps> = (props) => {
 
   return (
     <div className={props.className} id="compare">
-      <Typography variant="h3" weight="semibold" className={classes.title}>
+      <Typography variant="h2" className={classes.title}>
         Compare
       </Typography>
       <Table className={classes.table}>

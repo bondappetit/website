@@ -5,7 +5,6 @@ import { Link as ReactRouterLink } from 'react-router-dom';
 import {
   PageWrapper,
   Typography,
-  Skeleton,
   Plate,
   Head,
   humanizeNumeral,
@@ -61,21 +60,29 @@ export const CollateralList: React.FC = () => {
 
   return (
     <>
-      <Head title="The protocol's assets are backed by real-world collateral in the form of bonds" />
+      <Head title="Backed by real-world collateral" />
       <MainLayout>
         <PageWrapper>
-          <Typography variant="h1" align="center" className={classes.title}>
-            The protocol&apos;s assets are backed by real-world collateral in
-            the form of bonds
+          <Typography variant="h1" className={classes.title}>
+            Backed by real-world collateral
           </Typography>
-          <Plate className={clsx(classes.list, classes.ussued)}>
+          <Typography variant="h5" className={classes.subtitle}>
+            The assets of the protocol are formed by outstanding debt of the
+            borrowers, which in turn is secured by real world collateral in form
+            of bonds kept on special security accounts.
+          </Typography>
+          <Plate
+            color="grey"
+            withoutBorder
+            className={clsx(classes.list, classes.ussued)}
+          >
             <CollateralCard
               className={classes.card}
               title={<>USDap Issued</>}
               body={
                 <>
                   {stableCoinBalance.loading && !stableCoinBalance ? (
-                    <Skeleton />
+                    '...'
                   ) : (
                     <>{humanizeNumeral(stableCoinBalance.value)} USDap</>
                   )}
@@ -93,7 +100,7 @@ export const CollateralList: React.FC = () => {
               body={
                 <>
                   {issuerBalance.loading && !issuerBalance.value ? (
-                    <Skeleton />
+                    '...'
                   ) : (
                     <>${humanizeNumeral(issuerBalance.value)}</>
                   )}

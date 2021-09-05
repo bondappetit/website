@@ -26,7 +26,7 @@ export const VotingInfoFactoid: React.FC<VotingInfoFactoidProps> = (props) => {
                   variant="body1"
                   className={classes.factoidItemContent}
                 >
-                  <Typography variant="inherit" weight="bold">
+                  <Typography variant="inherit" weight="semibold">
                     {fact.percent}
                   </Typography>{' '}
                   <Typography variant="inherit">{fact.text}</Typography>

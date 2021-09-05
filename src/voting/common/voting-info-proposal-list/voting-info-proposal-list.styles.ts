@@ -13,26 +13,11 @@ export const useVotingInfoProposalListStyles = createUseStyles(
     },
 
     proposals: {
-      marginBottom: 16
+      marginBottom: 50
     },
 
     link: {
-      width: '100%',
-      height: 82,
-      fontSize: 16,
-      lineHeight: '24px',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      border: `1px solid ${theme.colors.primary}`,
-      borderRadius: 16,
-
-      [theme.breakpoints.md()]: {
-        borderRadius: 24,
-        height: 88,
-        fontSize: 20,
-        lineHeight: '28px'
-      }
+      opacity: 0.4
     }
   }),
   {

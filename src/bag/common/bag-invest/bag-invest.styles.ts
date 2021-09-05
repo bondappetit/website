@@ -8,28 +8,22 @@ export const useBagInvestStyles = createUseStyles(
 
     grid: {
       display: 'grid',
-      gridGap: 40,
+      gridGap: 16,
+      marginTop: -20,
 
       [theme.breakpoints.md()]: {
-        gridTemplateColumns: '1fr 1fr'
+        gridTemplateColumns: '206px 386px'
       }
     },
 
-    litpaper: {
-      [theme.breakpoints.md()]: {
-        minHeight: 379,
-        height: 'auto'
-      }
-    },
+    litpaper: {},
 
     contacts: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      height: 240,
 
       [theme.breakpoints.md()]: {
-        marginTop: -24,
         height: 'auto'
       }
     }

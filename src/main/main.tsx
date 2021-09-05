@@ -92,13 +92,13 @@ export const Main: React.FC = () => {
   return (
     <>
       <Head
-        title="The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem."
+        title="The first decentralized lending protocol with a stablecoin 100% backed by yield-generating bonds"
         ogUrl="https://bondappetit.io"
       />
       <MainLayout>
         <PageWrapper className={classes.root}>
           <MainHeader
-            onBuyGov={linksToggle}
+            onBuyStable={togglelinkModal}
             totalValueLocked={humanizeNumeral(totalValueLocked)}
             stablecoinBalance={humanizeNumeral(stablecoinBalance.value)}
             govCost={humanizeNumeral(governanceInUSDC)}

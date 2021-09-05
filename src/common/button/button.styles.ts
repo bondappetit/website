@@ -6,7 +6,11 @@ export const useButtonStyles = createUseStyles(
     button: {
       borderRadius: 16,
       letterSpacing: '-0.02em',
-      position: 'relative'
+      position: 'relative',
+
+      '& *': {
+        verticalAlign: 'middle'
+      }
     },
 
     primary: {

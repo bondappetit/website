@@ -4,29 +4,31 @@ import { Theme } from 'src/common';
 
 export const useBagInstructionStyles = createUseStyles(
   (theme: Theme) => ({
-    decision: {
+    instruction: {
       display: 'grid',
-      padding: '32px 16px',
-      gridGap: 48,
+      gridGap: 20,
 
       [theme.breakpoints.lg()]: {
-        gridGap: 130,
-        padding: '64px 80px',
+        gridGap: 40,
         gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))'
       }
     },
 
-    decisionCard: {
-      border: 'none'
+    instructionCard: {
+      padding: '32px 16px',
+
+      [theme.breakpoints.lg()]: {
+        padding: '56px 56px 68px'
+      }
     },
 
-    decisionCardList: {
+    instructionCardList: {
       margin: 0,
       listStyleType: 'none',
       padding: 0
     },
 
-    decisionCardListItem: {
+    instructionCardListItem: {
       display: 'flex',
 
       '&:before': {
@@ -40,15 +42,11 @@ export const useBagInstructionStyles = createUseStyles(
       }
     },
 
-    decisionCardTitle: {
-      marginBottom: 8,
-
-      [theme.breakpoints.lg()]: {
-        marginBottom: 24
-      }
+    instructionCardTitle: {
+      marginBottom: 8
     },
 
-    decisionCardListText: {
+    instructionCardListText: {
       [theme.breakpoints.down(1279)]: {
         fontSize: 14,
         lineHeight: '20px'

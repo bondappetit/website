@@ -7,7 +7,9 @@ export const useContactsFeedbackStyles = createUseStyles(
     root: {
       display: 'flex',
       flexDirection: 'column',
-      alignItems: 'center'
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%'
     },
 
     input: {

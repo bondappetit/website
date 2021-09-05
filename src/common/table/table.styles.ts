@@ -20,7 +20,9 @@ export const useTableStyles = createUseStyles(
     table: {
       width: '100%',
       borderCollapse: 'collapse',
-      textAlign: 'left'
+      textAlign: 'left',
+      backgroundColor: 'inherit',
+      borderRadius: 'inherit'
     },
 
     tableHead: {

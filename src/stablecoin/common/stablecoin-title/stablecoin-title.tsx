@@ -15,12 +15,7 @@ export const StablecoinTitle: React.VFC<StablecoinTitleProps> = (props) => {
 
   return (
     <div className={clsx(classes.root, props.className)}>
-      <Typography
-        variant="h3"
-        weight="semibold"
-        component="div"
-        className={classes.bold}
-      >
+      <Typography variant="h2" component="div" className={classes.bold}>
         {props.bold}
       </Typography>{' '}
       <Typography variant="h5" component="div">

@@ -53,7 +53,7 @@ export const Stablecoin: React.FC = () => {
 
   return (
     <>
-      <Head title="The first-ever decentralized stablecoin based on real-world assets." />
+      <Head title="Decentralized stablecoin based on real-world assets" />
       <MainLayout>
         <PageWrapper>
           <StablecoinHeader className={classes.header} />

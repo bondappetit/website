@@ -36,24 +36,29 @@ export const StablecoinFeatures: React.FC<StablecoinFeaturesProps> = (
           </>
         }
       />
-      <Plate withoutBorder color="grey" className={classes.decision}>
+      <div className={classes.feature}>
         {STABLE.map((stableItem) => {
           const Icon = ICONS.get(stableItem.title);
 
           return (
-            <div key={stableItem.title} className={classes.decisionCard}>
+            <Plate
+              color="grey"
+              withoutBorder
+              key={stableItem.title}
+              className={classes.featureCard}
+            >
               {Icon && <Icon className={classes.icon} />}
               <Typography
                 variant="h5"
                 weight="semibold"
-                className={classes.decisionCardText}
+                className={classes.featureCardText}
               >
                 {stableItem.title}
               </Typography>
-              <Typography variant="h5" className={classes.decisionCardText}>
+              <Typography variant="h5" className={classes.featureCardText}>
                 {stableItem.text}
               </Typography>
-              <Typography variant="h5" className={classes.decisionCardText}>
+              <Typography variant="h5" className={classes.featureCardText}>
                 <Link
                   component={ReactRouterLink}
                   to={stableItem.link}
@@ -62,10 +67,10 @@ export const StablecoinFeatures: React.FC<StablecoinFeaturesProps> = (
                   Learn more
                 </Link>
               </Typography>
-            </div>
+            </Plate>
           );
         })}
-      </Plate>
+      </div>
     </div>
   );
 };

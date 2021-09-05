@@ -16,17 +16,12 @@ export const useCollateralBorrowInfoStyles = createUseStyles(
       }
     },
 
-    assetsTitle: {
-      maxWidth: 800,
-      margin: '0 auto 104px',
-
-      [theme.breakpoints.md()]: {
-        margin: '0 auto 128px'
-      }
+    borrowTitle: {
+      marginBottom: 16
     },
 
     borrowText: {
-      marginBottom: 16
+      marginBottom: 24
     }
   }),
   {
