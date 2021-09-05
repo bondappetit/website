@@ -47,7 +47,7 @@ export const VotingInfo: React.VFC<unknown> = () => {
   const classes = useVotingInfoStyles();
 
   const history = useHistory();
-  const [openCreateProposal] = useModal(<VotingCreateProposalModal />);
+  const [openCreateProposal] = useModal(VotingCreateProposalModal);
 
   const { proposals, pages } = useVotingProposalList(3);
   const {
@@ -69,7 +69,7 @@ export const VotingInfo: React.VFC<unknown> = () => {
 
   const handleCreateProposal = () => {
     if (!canCreateProposal) {
-      openCreateProposal();
+      openCreateProposal().catch(console.error);
       return;
     }
 

@@ -57,7 +57,9 @@ export const ContactsAnnounce: React.FC<ContactsAnnounceProps> = (props) => {
 
         toggle(true);
       } catch (error) {
-        console.error(error.message);
+        if (error instanceof Error) {
+          console.error(error.message);
+        }
       }
     }
   });

@@ -37,12 +37,17 @@ export const Bag: React.VFC<BagProps> = () => {
 
   const networkConfig = useNetworkConfig();
 
-  const [openSuccess] = useModal(
-    <ContactsSuccess open>We will contact with you soon.</ContactsSuccess>
-  );
-  const [openContact] = useModal(<ContactsFeedback onSubmit={openSuccess} />);
+  const [openSuccess] = useModal(ContactsSuccess);
+  const [openContact] = useModal(ContactsFeedback);
 
-  const handleOpenContact = () => openContact();
+  const handleOpenSuccess = () =>
+    openSuccess({
+      children: 'We will contact with you soon.',
+      open: true
+    }).catch(console.error);
+
+  const handleOpenContact = () =>
+    openContact({ onSubmit: handleOpenSuccess }).catch(console.error);
 
   return (
     <>
