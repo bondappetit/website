@@ -13,7 +13,7 @@ export type HeadProps = {
 const SITE_URL = 'https://bondappetit.io';
 
 const SITE_DESCRIPTION =
-  'The first DeFi protocol that connects real-world debt instruments with the Ethereum ecosystem';
+  'The first decentralized lending protocol with a stablecoin 100% backed by yield-generating bonds';
 
 export const Head: React.FC<HeadProps> = (props) => {
   const siteTitle = ['BondAppetit', props.title].filter(Boolean).join(' - ');

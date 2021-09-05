@@ -49,7 +49,7 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
   const [openChangeNetwork, closeChangeNetwork] = useChangeNetworkModal();
 
   const [openBuyback] = useStablecoinBuybackModal();
-  const [openHowItWorks] = useStablecoinHowItWorks(openBuyback);
+  const [openHowItWorks] = useStablecoinHowItWorks();
 
   useEffect(() => {
     if (!config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
@@ -57,14 +57,20 @@ export const StablecoinModals: React.FC<StablecoinModalsProps> = (props) => {
     }
   }, [chainId, closeChangeNetwork]);
 
-  const handleBuyback = () => {
-    if (config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
-      openChangeNetwork();
-    } else {
-      openHowItWorks();
-    }
+  const handleBuyback = async () => {
+    try {
+      if (config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
+        await openChangeNetwork();
+      } else {
+        await openHowItWorks({
+          onSwap: () => openBuyback().catch(console.error)
+        });
+      }
 
-    props.toggleSellModal();
+      props.toggleSellModal();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

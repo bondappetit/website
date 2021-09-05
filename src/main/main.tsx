@@ -79,13 +79,15 @@ export const Main: React.FC = () => {
 
   const [openBuyback] = useStablecoinBuybackModal();
   const [openChangeNetwork] = useChangeNetworkModal();
-  const [openHowItWorks] = useStablecoinHowItWorks(openBuyback);
+  const [openHowItWorks] = useStablecoinHowItWorks();
 
   const handleOpenBuyBack = () => {
     if (config.CHAIN_BINANCE_IDS.includes(Number(chainId))) {
-      openChangeNetwork();
+      openChangeNetwork().catch(console.error);
     } else {
-      openHowItWorks();
+      openHowItWorks({
+        onSwap: () => openBuyback().catch(console.error)
+      }).catch(console.error);
     }
   };
 

@@ -14,7 +14,8 @@ import {
   Head,
   BN,
   humanizeNumeral,
-  Skeleton
+  Skeleton,
+  COIN_ICONS
 } from 'src/common';
 import {
   StakingHeader,
@@ -119,7 +120,7 @@ export const StakingDetail: React.FC = () => {
       unstake.value?.unstakingStartBlock
     );
 
-  const [openUnstake] = useStakingUnstakeAttentionModal(handleUnstake);
+  const [openUnstake] = useStakingUnstakeAttentionModal();
 
   const handleOpenUnstake = () => {
     if (stakingBalanceIsEmpty) return;
@@ -132,11 +133,22 @@ export const StakingDetail: React.FC = () => {
     toggleCanUnstake(false);
 
     if (stakingItem?.lockable) {
-      openUnstake();
+      openUnstake({ onUnstake: handleUnstake }).catch(console.error);
     } else {
       handleUnstake();
     }
   };
+
+  const title = stakingItem?.token.map((tokenTitle, index) => {
+    const Icon = COIN_ICONS.get(tokenTitle);
+
+    return (
+      <React.Fragment key={tokenTitle}>
+        {Icon && <Icon className={classes.headerIcon} />} {tokenTitle}{' '}
+        {index === 0 && stakingItem?.token.length === 2 ? ' + ' : null}
+      </React.Fragment>
+    );
+  });
 
   return (
     <>
@@ -145,9 +157,7 @@ export const StakingDetail: React.FC = () => {
         <PageWrapper className={classes.staking}>
           <StakingHeader
             depositToken={depositToken}
-            lockable={stakingItem?.lockable}
-            tokenKey={params.tokenId}
-            token={stakingItem?.token}
+            title={title}
             APY={stakingItem?.apy}
             totalValueLocked={stakingItem?.totalValueLocked}
             className={classes.header}

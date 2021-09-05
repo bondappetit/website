@@ -312,5 +312,4 @@ export const StablecoinBuybackModal: React.VFC<StablecoinBuybackModalProps> = (
   );
 };
 
-export const useStablecoinBuybackModal = () =>
-  useModal(<StablecoinBuybackModal />);
+export const useStablecoinBuybackModal = () => useModal(StablecoinBuybackModal);

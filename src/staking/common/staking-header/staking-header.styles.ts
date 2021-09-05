@@ -64,17 +64,6 @@ export const useStakingHeaderStyles = createUseStyles(
         }
       },
 
-      icon: {
-        marginBottom: -4,
-        width: 27,
-        height: 27,
-
-        [theme.breakpoints.md()]: {
-          width: 32,
-          height: 32
-        }
-      },
-
       status: {
         fontSize: 32,
         lineHeight: '40px'

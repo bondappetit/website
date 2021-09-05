@@ -69,5 +69,4 @@ const StablecoinHowItWorks: React.VFC<StablecoinHowItWorksProps> = (props) => {
   );
 };
 
-export const useStablecoinHowItWorks = (onSwap: () => void) =>
-  useModal(<StablecoinHowItWorks onSwap={onSwap} />);
+export const useStablecoinHowItWorks = () => useModal(StablecoinHowItWorks);

@@ -12,6 +12,9 @@ const StakingDetail = React.lazy(() =>
 const StakingList = React.lazy(() =>
   lazyLoading(() => import('src/staking/staking-list'))
 );
+const StakingCoupons = React.lazy(() =>
+  lazyLoading(() => import('src/staking/staking-coupons'))
+);
 const VestingList = React.lazy(() =>
   lazyLoading(() => import('src/vesting/vesting-list'))
 );
@@ -104,6 +107,10 @@ export const routes = [
     component: StakingList
   },
   {
+    url: URLS.staking.coupons(),
+    component: StakingCoupons
+  },
+  {
     url: URLS.vesting,
     component: VestingList
   },
@@ -160,6 +167,7 @@ export const routes = [
     component: YieldEscrow
   },
   {
+    url: '*',
     component: NotFound
   }
 ];

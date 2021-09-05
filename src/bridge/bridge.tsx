@@ -323,6 +323,8 @@ export const Bridge: React.VFC = () => {
 
   const bnbBalance = useBinanceBalance();
 
+  const handleChangeNetwork = () => openChangeNetwork().catch(console.error);
+
   return (
     <>
       <Head
@@ -342,7 +344,7 @@ export const Bridge: React.VFC = () => {
                         chain.chainIds.includes(currentChainId)
                     })}
                     onClick={
-                      chains[0] === chain ? openChangeNetwork : setupBinance
+                      chains[0] === chain ? handleChangeNetwork : setupBinance
                     }
                   >
                     <chain.icon className={classes.tabIcon} />

@@ -18,6 +18,9 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
   const classes = useMainHeaderStyles();
 
   const [openMainHowItWorks] = useMainHowitWorksModal();
+
+  const handleOpenHowItWorks = () => openMainHowItWorks();
+
   return (
     <div className={clsx(classes.root, props.className)}>
       <div className={classes.content}>
@@ -32,7 +35,7 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
           <Button
             variant="outlined"
             size="medium"
-            onClick={openMainHowItWorks}
+            onClick={handleOpenHowItWorks}
             className={classes.play}
           >
             <PlayIcon className={classes.playIcon} /> See how it works

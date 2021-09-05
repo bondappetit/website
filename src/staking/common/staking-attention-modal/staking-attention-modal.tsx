@@ -4,7 +4,6 @@ import { Button, SmallModal, Typography, Modal } from 'src/common';
 import { useStakingAttentionModalStyles } from './staking-attention-modal.styles';
 
 export type StakingAttentionModalProps = {
-  className?: string;
   open: boolean;
   blockNumber: string;
   date?: string;
@@ -22,7 +21,7 @@ export const StakingAttentionModal: React.FC<StakingAttentionModalProps> = (
       <SmallModal>
         <div className={classes.root}>
           <div className={classes.content}>
-            <Typography variant="h5" weight="bold">
+            <Typography variant="h5" weight="semibold">
               <Typography variant="inherit" className={classes.attention}>
                 Attention!
               </Typography>{' '}
@@ -36,7 +35,11 @@ export const StakingAttentionModal: React.FC<StakingAttentionModalProps> = (
               You will be able to claim the staking reward anytime.
             </Typography>
           </div>
-          <Button className={classes.button} onClick={props.onStake}>
+          <Button
+            className={classes.button}
+            onClick={props.onStake}
+            size="medium"
+          >
             Stake
           </Button>
         </div>

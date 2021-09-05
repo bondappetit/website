@@ -8,20 +8,19 @@ export type StakingLabelProps = {
   value: React.ReactNode;
   loading: boolean;
   variant?: TypographyProps['variant'];
+  align?: TypographyProps['align'];
 };
 
 export const StakingLabel: React.FC<StakingLabelProps> = (props) => {
-  const { variant = 'h5' } = props;
+  const { variant = 'h5', align = 'center' } = props;
 
   return (
-    <>
-      <Typography variant={variant} align="center" className={props.className}>
-        {props.title}:{' '}
-        <Typography variant="inherit" component="span" weight="bold">
-          {props.loading ? '...' : props.value}
-        </Typography>
-        {props.children}
+    <Typography variant={variant} align={align} className={props.className}>
+      {props.title}:{' '}
+      <Typography variant="inherit" component="span" weight="semibold">
+        {props.loading ? '...' : props.value}
       </Typography>
-    </>
+      {props.children}
+    </Typography>
   );
 };

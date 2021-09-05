@@ -1,9 +1,15 @@
-import React, { createContext, useContext } from 'react';
+import { createContext, useContext } from 'react';
+
+export type Node = { Modal: React.ElementType; props: unknown };
 
 export const ModalContext =
   createContext<{
-    onOpen: (node: React.ReactNode, key?: string) => void;
-    onClose: () => void;
+    onOpen: <T = unknown, Y = unknown>(
+      node: Node,
+      resolve: (value: T) => void,
+      reject: (value: Y) => void
+    ) => void;
+    onClose: (value?: unknown) => void;
     closeOnOverlay: (value: boolean) => void;
   } | null>(null);
 

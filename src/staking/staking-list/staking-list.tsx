@@ -1,80 +1,177 @@
+import clsx from 'clsx';
+import { useToggle } from 'react-use';
 import React from 'react';
+import { Link as ReactRouterLink } from 'react-router-dom';
 
 import { MainLayout } from 'src/layouts';
 import {
   PageWrapper,
   Typography,
   Head,
-  Plate,
   numberArray,
   humanizeNumeral,
-  BN
+  BN,
+  ButtonBase,
+  Link,
+  Plate,
+  Status,
+  bignumberUtils
 } from 'src/common';
 import {
   StakingCard,
   StakingInfo,
   StakingLabel,
+  useStakingCoupons,
   useStakingListData
 } from 'src/staking/common';
 import { config } from 'src/config';
-import { useStakingConfig } from 'src/staking-config';
+import { URLS } from 'src/router/urls';
+import { StakingStatuses, useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
 import { StakingSwopFi } from '../staking-swop-fi/staking-swop-fi';
 
 export const StakingList: React.VFC = () => {
   const classes = useStakingListStyles();
 
-  const { stakingConfigValues } = useStakingConfig();
+  const [showMore, setShowMore] = useToggle(false);
 
-  const {
-    totalValueLocked,
-    volume24,
-    governanceInUSDC,
-    stakingList,
-    rewardSum,
-    swopfiItem,
-    swopfiLoading
-  } = useStakingListData();
+  const { stakingConfigValues } = useStakingConfig();
+  const { stakingList, rewardSum, swopfiItem, swopfiLoading } =
+    useStakingListData();
+
+  const activeStaking = stakingList?.filter(
+    ({ status }) => status === StakingStatuses.active
+  );
+  const archivedStaking = stakingList?.filter(
+    ({ status }) => status === StakingStatuses.archived
+  );
+
+  const activeStakingConfig = stakingConfigValues.filter(
+    ({ status }) => status === StakingStatuses.active
+  );
+
+  const { stakingCoupons, stakingCouponsReward } = useStakingCoupons();
 
   return (
     <>
-      <Head title="Earn Staking Rewards in BAG by providing liquidity for protocol’s assets" />
+      <Head title="Earn Staking Rewards in BAG by providing liquidity for protocol's assets" />
       <MainLayout>
         <PageWrapper>
           <div className={classes.header}>
-            <Typography variant="h1" align="center" className={classes.title}>
-              Earn Staking Rewards in BAG by providing liquidity for protocol’s
-              assets
-            </Typography>
-            <Plate color="grey" withoutBorder className={classes.info}>
+            <div className={classes.titleWrap}>
+              <Typography variant="h1" component="h2" className={classes.title}>
+                Earn coupon rewards
+              </Typography>
+              <Typography variant="h5" className={classes.title}>
+                BAG holders receive coupon payments from bonds that back the
+                USDap stablecoin. Interest income in USDC is distributed among
+                token holders every quarter.{' '}
+                <Link color="blue" href="/">
+                  How it works
+                </Link>
+              </Typography>
               <StakingLabel
-                className={classes.bag}
-                title="Total value locked"
-                loading={!stakingList}
-                value={<>${humanizeNumeral(totalValueLocked)}</>}
-              />
+                title="You earned"
+                loading={stakingCoupons.loading}
+                align="left"
+                value={
+                  <>{humanizeNumeral(stakingCouponsReward?.reward)} USDap</>
+                }
+              >
+                {stakingCouponsReward?.rewardInUSDC.isGreaterThan(0) && (
+                  <> (${humanizeNumeral(stakingCouponsReward?.rewardInUSDC)})</>
+                )}
+              </StakingLabel>
+            </div>
+          </div>
+          <div className={clsx(classes.staking, classes.mb160)}>
+            {stakingCoupons.loading
+              ? numberArray(3).map((key) => <StakingCard key={key} loading />)
+              : stakingCoupons.value?.map((stakingCoupon) => (
+                  <ReactRouterLink
+                    to={URLS.staking.coupons(stakingCoupon.lockPeriod)}
+                    key={stakingCoupon.lockPeriod}
+                    className={classes.cardWrap}
+                  >
+                    <Plate className={classes.card} withoutBorder>
+                      {stakingCoupon.userList[0].staked && (
+                        <Status
+                          color="grey"
+                          variant="contained"
+                          className={classes.staked}
+                        >
+                          Staked
+                        </Status>
+                      )}
+                      <div className={classes.mb40}>
+                        <Typography
+                          align="center"
+                          variant="h3"
+                          weight="semibold"
+                          className={classes.mb4}
+                        >
+                          {stakingCoupon.lockPeriod} Months Lock
+                        </Typography>
+                        <Typography align="center" variant="h3">
+                          APY:{' '}
+                          {humanizeNumeral(
+                            bignumberUtils.toPercent(stakingCoupon.apr.year)
+                          )}
+                          %
+                        </Typography>
+                      </div>
+                      <div>
+                        <Typography align="center" className={classes.mb4}>
+                          Deposit:{' '}
+                          <Typography variant="inherit" weight="semibold">
+                            {stakingCoupon.stakingToken?.symbol}
+                          </Typography>
+                        </Typography>
+                        <Typography align="center" className={classes.mb4}>
+                          Earn:{' '}
+                          <Typography variant="inherit" weight="semibold">
+                            {stakingCoupon.rewardToken?.symbol}
+                          </Typography>
+                        </Typography>
+                        <Typography align="center" className={classes.mb4}>
+                          Total supply:{' '}
+                          <Typography variant="inherit" weight="semibold">
+                            ${humanizeNumeral(stakingCoupon.totalSupplyFloat)}
+                          </Typography>
+                        </Typography>
+                        <Typography align="center">
+                          Pool rate:{' '}
+                          <Typography variant="inherit" weight="semibold">
+                            {humanizeNumeral(stakingCoupon.poolRate.dailyFloat)}{' '}
+                            USDC / day
+                          </Typography>
+                        </Typography>
+                      </div>
+                    </Plate>
+                  </ReactRouterLink>
+                ))}
+          </div>
+          <div className={classes.header}>
+            <div className={classes.titleWrap}>
+              <Typography variant="h1" component="h2" className={classes.title}>
+                Earn liquidity rewards
+              </Typography>
+              <Typography variant="h5" className={classes.title}>
+                Earn Staking Rewards in BAG by locking your assets for a certain
+                period of time and providing liquidity for protocol&apos;s
+                assets.
+              </Typography>
               <StakingLabel
-                className={classes.bag}
-                title="BAG price"
-                loading={!stakingList || !governanceInUSDC}
-                value={<>${humanizeNumeral(governanceInUSDC)}</>}
-              />
-              <StakingLabel
-                className={classes.bag}
                 title="You earned"
                 loading={!stakingList}
+                align="left"
                 value={<>{humanizeNumeral(rewardSum?.reward)} BAG</>}
               >
                 {rewardSum?.rewardInUSDC.isGreaterThan(0) && (
                   <> (${humanizeNumeral(rewardSum?.rewardInUSDC)})</>
                 )}
               </StakingLabel>
-              <StakingLabel
-                title="Volume (24h)"
-                loading={!stakingList}
-                value={<>${humanizeNumeral(volume24)}</>}
-              />
-            </Plate>
+            </div>
           </div>
           <div className={classes.staking}>
             {config.SWOP_FI_ENABLE && (
@@ -86,11 +183,14 @@ export const StakingList: React.VFC = () => {
                 loading={swopfiLoading}
               />
             )}
-            {!stakingList
-              ? numberArray(stakingConfigValues.length).map((key) => (
+            {!activeStaking
+              ? numberArray(activeStakingConfig.length).map((key) => (
                   <StakingCard key={key} loading />
                 ))
-              : stakingList?.map((stakingItem) => {
+              : [
+                  ...(activeStaking ?? []),
+                  ...(showMore && archivedStaking ? archivedStaking : [])
+                ].map((stakingItem) => {
                   return (
                     <StakingCard
                       key={stakingItem.id}
@@ -111,6 +211,11 @@ export const StakingList: React.VFC = () => {
                   );
                 })}
           </div>
+          {!showMore && (
+            <ButtonBase className={classes.showMore} onClick={setShowMore}>
+              Show {archivedStaking?.length ?? '...'} archived pools ↓
+            </ButtonBase>
+          )}
           {!config.IS_COLLATERAL && <StakingInfo />}
         </PageWrapper>
       </MainLayout>
