@@ -75,7 +75,7 @@ export const TEAM = [
   {
     name: 'Artem Tolkachev',
     role: 'Founder, CEO',
-    twitter: '/',
+    twitter: 'https://twitter.com/artemtolkachev',
     text: `
     Former head of the Blockchain Lab at Deloitte. For over seven years, Artem has been
     one of the key opinion leaders in the CIS region in blockchain and tokenization.
@@ -86,7 +86,7 @@ export const TEAM = [
   {
     name: 'Vlad Komissarov',
     role: 'CTO',
-    twitter: '/',
+    twitter: 'https://twitter.com/cryptoappetit',
     text: `
     Vlad has over 17 years of experience in web development.
     He launched and managed a number of major ICT products and services on the CIS market.
@@ -96,7 +96,7 @@ export const TEAM = [
   {
     name: 'Alexander Ivanov',
     role: 'Advisor',
-    twitter: '/',
+    twitter: 'https://twitter.com/sasha35625',
     text: `CEO of Waves`,
     photo: alexanderInvanov
   }
