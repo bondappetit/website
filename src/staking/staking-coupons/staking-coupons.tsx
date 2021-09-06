@@ -410,6 +410,10 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
             <WalletButtonWithFallback
               onClick={handleUnstake}
               loading={unstakingState.loading}
+              disabled={bignumberUtils.eq(
+                stakingCoupon?.userList[0].balanceFloat,
+                0
+              )}
             >
               Unstake
             </WalletButtonWithFallback>
@@ -428,6 +432,10 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
             <WalletButtonWithFallback
               loading={claimState.loading}
               onClick={handleClaim}
+              disabled={bignumberUtils.eq(
+                stakingCoupon?.userList[0].penaltyFloat,
+                0
+              )}
             >
               Claim
             </WalletButtonWithFallback>
