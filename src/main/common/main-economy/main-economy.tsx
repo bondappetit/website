@@ -3,8 +3,8 @@ import React from 'react';
 import { useTheme } from 'react-jss';
 
 import { Button, COIN_ICONS, Plate, Typography, Theme } from 'src/common';
-import schemaLight from 'src/assets/images/schema-light.png';
-import schemaDark from 'src/assets/images/schema-dark.png';
+import { ReactComponent as SchemaLight } from 'src/assets/images/schema-light.svg';
+import { ReactComponent as SchemaDark } from 'src/assets/images/schema-dark.svg';
 import { useMainEconomyStyles } from './main-economy.styles';
 
 export type MainEconomyProps = {
@@ -21,13 +21,13 @@ export const MainEconomy: React.VFC<MainEconomyProps> = (props) => {
   const USDapIcon = COIN_ICONS.get('USDap');
   const BAGIcon = COIN_ICONS.get('BAG');
 
+  const Schema = theme.currentTheme === 'light' ? SchemaLight : SchemaDark;
+
   return (
     <div className={clsx(classes.root, props.className)}>
-      <img
-        className={classes.scheme}
-        src={theme.currentTheme === 'light' ? schemaLight : schemaDark}
-        alt=""
-      />
+      <div className={classes.scheme}>
+        <Schema />
+      </div>
       <Plate color="grey" withoutBorder className={classes.card}>
         <Typography variant="h5" weight="bold">
           Why buy USDap

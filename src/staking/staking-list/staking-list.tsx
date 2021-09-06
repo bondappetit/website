@@ -75,7 +75,7 @@ export const StakingList: React.VFC = () => {
                 loading={stakingCoupons.loading}
                 align="left"
                 value={
-                  <>{humanizeNumeral(stakingCouponsReward?.reward)} USDap</>
+                  <>{humanizeNumeral(stakingCouponsReward?.reward)} USDC</>
                 }
               >
                 {stakingCouponsReward?.rewardInUSDC.isGreaterThan(0) && (

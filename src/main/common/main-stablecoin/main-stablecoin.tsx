@@ -15,7 +15,7 @@ import {
 } from 'src/common';
 import { config } from 'src/config';
 import { URLS } from 'src/router/urls';
-import { MainStablecoinChart } from '../main-stablecoin-chart/main-stablecoin-chart';
+import { StablecoinChart } from 'src/stablecoin';
 import { MainTextCard } from '../main-text-card';
 import { useMainStablecoinStyles } from './main-stablecoin.styles';
 
@@ -64,7 +64,7 @@ export const MainStablecoin: React.VFC<MainStablecoinProps> = (props) => {
             >
               ${props.stablecoinBalance}
             </Typography>
-            <MainStablecoinChart
+            <StablecoinChart
               key={theme.currentTheme}
               className={classes.chart}
             />

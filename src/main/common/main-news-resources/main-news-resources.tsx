@@ -8,6 +8,7 @@ import hackernoon from 'src/assets/images/news-resources/hackernoon.png';
 import ibt from 'src/assets/images/news-resources/ibt.png';
 import newsBTC from 'src/assets/images/news-resources/news-btc.png';
 import yahooFinance from 'src/assets/images/news-resources/yahoo-finance.png';
+import { Link } from 'src/common';
 import { useMainNewsResourcesStyles } from './main-news-resources.styles';
 
 export type MainNewsResourcesProps = {
@@ -16,25 +17,32 @@ export type MainNewsResourcesProps = {
 
 const RESOURCES = [
   {
-    src: cointelegraph
+    src: cointelegraph,
+    link: 'https://cointelegraph.com/authors/artem-tolkachev'
   },
   {
-    src: ibt
+    src: ibt,
+    link: 'https://www.ibtimes.com/8-cryptocurrency-defi-projects-watch-may-3184490'
   },
   {
-    src: yahooFinance
+    src: yahooFinance,
+    link: 'https://finance.yahoo.com/news/investors-now-stablecoins-beat-market-142108604.html'
   },
   {
-    src: coinpedia
+    src: coinpedia,
+    link: 'https://coinpedia.org/guest-post/staking-in-defi-liquidity-pools/'
   },
   {
-    src: newsBTC
+    src: newsBTC,
+    link: 'https://www.newsbtc.com/news/company/stablecoins-are-changing-and-its-a-big-deal/'
   },
   {
-    src: hackernoon
+    src: hackernoon,
+    link: 'https://hackernoon.com/top-15-small-cap-defi-projects-to-keep-your-eye-on-in-2021'
   },
   {
-    src: blockchainNews
+    src: blockchainNews,
+    link: 'https://blockchain.news/news/how-why-can-collateral-used-financial-services'
   }
 ];
 
@@ -44,9 +52,14 @@ export const MainNewsResources: React.VFC<MainNewsResourcesProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)}>
       {RESOURCES.map((resource) => (
-        <div key={resource.src} className={classes.item}>
+        <Link
+          key={resource.src}
+          href={resource.link}
+          target="_blank"
+          className={classes.item}
+        >
           <img src={resource.src} alt="" className={classes.img} />
-        </div>
+        </Link>
       ))}
     </div>
   );
