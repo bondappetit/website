@@ -76,7 +76,11 @@ export const useStakingCoupons = () => {
 
       return {
         ...couponsItem,
-        ...stakingCouponsConfig
+        ...stakingCouponsConfig,
+        stakingToken: {
+          ...couponsItem.stakingToken,
+          symbol: 'BAG'
+        }
       };
     });
   }, [networkConfig, account, chainId]);

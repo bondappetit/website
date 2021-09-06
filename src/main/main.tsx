@@ -23,7 +23,11 @@ import {
   useStablecoinBuybackModal,
   useStablecoinHowItWorks
 } from 'src/stablecoin';
-import { StakingSwopFi, useStakingListData } from 'src/staking';
+import {
+  StakingSwopFi,
+  useStakingCoupons,
+  useStakingListData
+} from 'src/staking';
 import { ContactsBecomePartner } from 'src/contacts/contacts-become-partner';
 import { config } from 'src/config';
 import {
@@ -58,6 +62,8 @@ export const Main: React.FC = () => {
   } = useStakingListData();
 
   const stablecoinBalance = useStableCoinBalance();
+
+  const { stakingCoupons } = useStakingCoupons();
 
   const {
     linkModalOpen,
@@ -117,7 +123,11 @@ export const Main: React.FC = () => {
             onSell={toggleSellModal}
             onSwap={handleOpenBuyBack}
           />
-          <MainStake className={classes.section} />
+          <MainStake
+            className={classes.section}
+            apy={stakingCoupons.value?.map(({ apr }) => apr.year)}
+            loading={stakingCoupons.loading}
+          />
           <MainStaking
             countOfCards={2}
             className={classes.section}

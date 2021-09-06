@@ -1,7 +1,8 @@
 import clsx from 'clsx';
+import { useTheme } from 'react-jss';
 import React from 'react';
 
-import { Typography, BN, Plate, humanizeNumeral } from 'src/common';
+import { Typography, BN, Plate, humanizeNumeral, Theme } from 'src/common';
 import { useStablecoinGraphStyles } from './stablecoin-graph.styles';
 import { StablecoinChart } from '../stablecoin-chart';
 
@@ -13,6 +14,8 @@ export type StablecoinGraphProps = {
 
 export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
   const classes = useStablecoinGraphStyles();
+
+  const theme = useTheme<Theme>();
 
   return (
     <div className={clsx(classes.root, props.className)} id="usdap">
@@ -34,7 +37,7 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
             )}
           </Typography>
         </Typography>
-        <StablecoinChart className={classes.chart} />
+        <StablecoinChart key={theme.currentTheme} className={classes.chart} />
       </Plate>
       {props.children}
     </div>

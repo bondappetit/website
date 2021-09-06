@@ -122,7 +122,7 @@ export const VotingProposalList: React.FC = () => {
                     )}
                   {new BN(currentVotes).isEqualTo(0) &&
                     new BN(currentGovCoin).isGreaterThan(0) && (
-                      <>Unlock it so you can vote</>
+                      <> Unlock it so you can vote</>
                     )}
                 </Typography>
                 {canDelegate && (

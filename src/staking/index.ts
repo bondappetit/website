@@ -2,7 +2,8 @@ export {
   useGovernanceCost,
   StakingCard,
   useStakingContracts,
-  useStakingListData
+  useStakingListData,
+  useStakingCoupons
 } from './common';
 export type { SakingItem } from './common';
 export * from './staking-swop-fi';

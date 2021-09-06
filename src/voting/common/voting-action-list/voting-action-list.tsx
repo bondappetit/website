@@ -75,7 +75,7 @@ export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
               className={classes.list}
             >
               {props.actions.map((action, index) => {
-                const { functionSig, input, contract } = action;
+                const { functionSig, input, contract, address = '' } = action;
 
                 const inputArgs = input.map((arg, key) => {
                   const id = [arg, key].join(',');
@@ -90,7 +90,8 @@ export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
 
                 const method = (
                   <>
-                    {contract}.{functionSig}({inputArgs})
+                    <LinkIfAccount>{address}</LinkIfAccount>.{functionSig}(
+                    {inputArgs})
                   </>
                 );
 

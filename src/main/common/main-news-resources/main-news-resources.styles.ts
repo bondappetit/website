@@ -7,6 +7,7 @@ export const useMainNewsResourcesStyles = createUseStyles(
     root: {
       display: 'flex',
       flexWrap: 'wrap',
+      filter: 'grayscale(100%)',
 
       [theme.breakpoints.sm()]: {
         flexWrap: 'nowrap'
@@ -15,6 +16,7 @@ export const useMainNewsResourcesStyles = createUseStyles(
 
     item: {
       marginBottom: 12,
+      display: 'block',
 
       '&:not(:last-child)': {
         marginRight: 12

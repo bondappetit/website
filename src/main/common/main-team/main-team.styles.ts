@@ -63,7 +63,8 @@ export const useMainTeamStyles = createUseStyles(
 
     teamMemberTwitter: {
       marginLeft: 9,
-      marginTop: -3
+      marginTop: -3,
+      '--icon-color': theme.colors.proposalPlate
     },
 
     teamMemberText: {

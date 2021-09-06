@@ -10,7 +10,8 @@ import {
   Table,
   TableRow,
   TableBody,
-  TableCell
+  TableCell,
+  numberArray
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { MainTextCard } from '../main-text-card';
@@ -18,16 +19,27 @@ import { useMainStakeStyles } from './main-stake.styles';
 
 export type MainStakeProps = {
   className?: string;
+  apy?: string[];
+  loading: boolean;
 };
 
 const TABLE = [
   ['Lock period', '3 months', '6 months', '12 months'],
-  ['Share of profit', '25%', '30%', '45%'],
-  ['APY', '3.32%', '6.64%', '14.93%']
+  ['Share of profit', '25%', '30%', '45%']
 ];
 
 export const MainStake: React.VFC<MainStakeProps> = (props) => {
   const classes = useMainStakeStyles();
+
+  const table = [
+    ...TABLE,
+    [
+      'APY',
+      ...(props.loading
+        ? numberArray(3).map(() => '...')
+        : props.apy?.map((apy) => `${apy}%`) ?? [])
+    ]
+  ];
 
   return (
     <div className={clsx(classes.root, props.className)}>
@@ -62,10 +74,10 @@ export const MainStake: React.VFC<MainStakeProps> = (props) => {
           </Typography>
           <Table className={classes.table}>
             <TableBody>
-              {TABLE.map((row, index) => (
+              {table.map((row, index) => (
                 <TableRow key={String(index)} className={classes.tableRow}>
                   {row.map((rowItem, i) => (
-                    <TableCell key={rowItem} className={classes.tableCell}>
+                    <TableCell key={String(i)} className={classes.tableCell}>
                       <Typography
                         variant="body1"
                         weight={i ? 'semibold' : undefined}

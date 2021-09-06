@@ -31,55 +31,49 @@ const DATA = [
     date: new Date(2021, 0, 1)
   },
   {
-    '— real supply value': '0.3',
+    '— real supply value': '1',
     date: new Date(2021, 1, 1)
   },
   {
-    '— real supply value': '0.4',
+    '— real supply value': '1',
     date: new Date(2021, 2, 1)
   },
   {
-    '— real supply value': '0.5',
+    '— real supply value': '1',
     date: new Date(2021, 3, 1)
   },
   {
-    '— target supply value': '0.8',
-    '— real supply value': '0.6',
+    '— real supply value': '1',
     date: new Date(2021, 4, 1)
   },
   {
-    '— real supply value': '0.7',
+    '— real supply value': '1',
     date: new Date(2021, 5, 1)
   },
   {
-    '— real supply value': '0.8',
+    '— real supply value': '1',
     date: new Date(2021, 6, 1)
   },
   {
-    '— target supply value': '1.2',
-    '— real supply value': '2',
+    '— real supply value': '1',
     date: new Date(2021, 7, 1)
   },
   {
-    '— real supply value': '2.1',
+    '— real supply value': '1.08',
     date: new Date(2021, 8, 1)
   },
   {
-    '— real supply value': '2.16',
     date: new Date(2021, 9, 1)
   },
   {
-    '— real supply value': '2.16',
     date: new Date(2021, 10, 1)
   },
   {
-    '— target supply value': '2.2',
-    '— real supply value': '2.16',
     date: new Date(2021, 11, 1)
   },
 
   {
-    '— target supply value': '2.4',
+    '— target supply value': '50',
     date: new Date(2022, 0, 1)
   },
   {
@@ -113,123 +107,123 @@ const DATA = [
     date: new Date(2022, 10, 1)
   },
   {
+    '— target supply value': '100',
     date: new Date(2022, 11, 1)
-  },
-
-  {
-    '— target supply value': '4.8',
-    date: new Date(2023, 0, 1)
-  },
-  {
-    date: new Date(2023, 1, 1)
-  },
-  {
-    date: new Date(2023, 2, 1)
-  },
-  {
-    date: new Date(2023, 3, 1)
-  },
-  {
-    date: new Date(2023, 4, 1)
-  },
-  {
-    date: new Date(2023, 5, 1)
-  },
-  {
-    date: new Date(2023, 6, 1)
-  },
-  {
-    date: new Date(2023, 7, 1)
-  },
-  {
-    date: new Date(2023, 8, 1)
-  },
-  {
-    date: new Date(2023, 9, 1)
-  },
-  {
-    date: new Date(2023, 10, 1)
-  },
-  {
-    date: new Date(2023, 11, 1)
-  },
-
-  {
-    '— target supply value': '7.2',
-    date: new Date(2024, 0, 1)
-  },
-  {
-    date: new Date(2024, 1, 1)
-  },
-  {
-    date: new Date(2024, 2, 1)
-  },
-  {
-    date: new Date(2024, 3, 1)
-  },
-  {
-    date: new Date(2024, 4, 1)
-  },
-  {
-    date: new Date(2024, 5, 1)
-  },
-  {
-    date: new Date(2024, 6, 1)
-  },
-  {
-    date: new Date(2024, 7, 1)
-  },
-  {
-    date: new Date(2024, 8, 1)
-  },
-  {
-    date: new Date(2024, 9, 1)
-  },
-  {
-    date: new Date(2024, 10, 1)
-  },
-  {
-    date: new Date(2024, 11, 1)
-  },
-
-  {
-    '— target supply value': '11.6',
-    date: new Date(2025, 0, 1)
-  },
-  {
-    date: new Date(2025, 1, 1)
-  },
-  {
-    date: new Date(2025, 2, 1)
-  },
-  {
-    date: new Date(2025, 3, 1)
-  },
-  {
-    date: new Date(2025, 4, 1)
-  },
-  {
-    date: new Date(2025, 5, 1)
-  },
-  {
-    date: new Date(2025, 6, 1)
-  },
-  {
-    date: new Date(2025, 7, 1)
-  },
-  {
-    date: new Date(2025, 8, 1)
-  },
-  {
-    date: new Date(2025, 9, 1)
-  },
-  {
-    date: new Date(2025, 10, 1)
-  },
-  {
-    '— target supply value': '16',
-    date: new Date(2025, 11, 1)
   }
+
+  // {
+  //   '— target supply value': '700',
+  //   date: new Date(2023, 0, 1)
+  // },
+  // {
+  //   date: new Date(2023, 1, 1)
+  // },
+  // {
+  //   date: new Date(2023, 2, 1)
+  // },
+  // {
+  //   date: new Date(2023, 3, 1)
+  // },
+  // {
+  //   date: new Date(2023, 4, 1)
+  // },
+  // {
+  //   date: new Date(2023, 5, 1)
+  // },
+  // {
+  //   date: new Date(2023, 6, 1)
+  // },
+  // {
+  //   date: new Date(2023, 7, 1)
+  // },
+  // {
+  //   date: new Date(2023, 8, 1)
+  // },
+  // {
+  //   date: new Date(2023, 9, 1)
+  // },
+  // {
+  //   date: new Date(2023, 10, 1)
+  // },
+  // {
+  //   date: new Date(2023, 11, 1)
+  // },
+
+  // {
+  //   '— target supply value': '1000',
+  //   date: new Date(2024, 0, 1)
+  // },
+  // {
+  //   date: new Date(2024, 1, 1)
+  // },
+  // {
+  //   date: new Date(2024, 2, 1)
+  // },
+  // {
+  //   date: new Date(2024, 3, 1)
+  // },
+  // {
+  //   date: new Date(2024, 4, 1)
+  // },
+  // {
+  //   date: new Date(2024, 5, 1)
+  // },
+  // {
+  //   date: new Date(2024, 6, 1)
+  // },
+  // {
+  //   date: new Date(2024, 7, 1)
+  // },
+  // {
+  //   date: new Date(2024, 8, 1)
+  // },
+  // {
+  //   date: new Date(2024, 9, 1)
+  // },
+  // {
+  //   date: new Date(2024, 10, 1)
+  // },
+  // {
+  //   date: new Date(2024, 11, 1)
+  // },
+
+  // {
+  //   date: new Date(2025, 0, 1)
+  // },
+  // {
+  //   date: new Date(2025, 1, 1)
+  // },
+  // {
+  //   date: new Date(2025, 2, 1)
+  // },
+  // {
+  //   date: new Date(2025, 3, 1)
+  // },
+  // {
+  //   date: new Date(2025, 4, 1)
+  // },
+  // {
+  //   date: new Date(2025, 5, 1)
+  // },
+  // {
+  //   date: new Date(2025, 6, 1)
+  // },
+  // {
+  //   date: new Date(2025, 7, 1)
+  // },
+  // {
+  //   date: new Date(2025, 8, 1)
+  // },
+  // {
+  //   date: new Date(2025, 9, 1)
+  // },
+  // {
+  //   date: new Date(2025, 10, 1)
+  // },
+  // {
+  //   '— target supply value': '1700',
+  //   date: new Date(2025, 11, 1)
+  // }
 ];
 
 const DATA_FIELDS = [
@@ -295,7 +289,7 @@ export const StablecoinChart: React.VFC<StablecoinChartProps> = (props) => {
       valueAxis.width = 30;
 
       valueAxis.min = 0;
-      valueAxis.max = 16;
+      valueAxis.max = 100;
       valueAxis.strictMinMax = true;
       valueAxis.renderer.grid.template.disabled = true;
       valueAxis.renderer.labels.template.disabled = true;
@@ -316,10 +310,11 @@ export const StablecoinChart: React.VFC<StablecoinChartProps> = (props) => {
 
       if (!index) {
         createGrid(0);
-        createGrid(4);
-        createGrid(8);
-        createGrid(12);
-        createGrid(16);
+        createGrid(20);
+        createGrid(40);
+        createGrid(60);
+        createGrid(80);
+        createGrid(100);
       }
 
       series.strokeDasharray = field.dashed;
