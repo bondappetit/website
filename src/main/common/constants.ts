@@ -2,10 +2,7 @@ import { config } from 'src/config';
 import { ReactComponent as EastIcon } from 'src/assets/icons/east.svg';
 import { ReactComponent as PlaceholderIcon } from 'src/assets/icons/placeholder.svg';
 import alexanderInvanov from 'src/assets/images/team/alexander_ivanov.png';
-import amedeoCristofaro from 'src/assets/images/team/amedeo_cristofaro.png';
 import artemTolkachev from 'src/assets/images/team/artem_tolkachev.png';
-import rogerOhan from 'src/assets/images/team/roger_ohan.png';
-import sergeyStopnevich from 'src/assets/images/team/sergey_stopnevich.png';
 import vladKomissarov from 'src/assets/images/team/vlad_komissarov.png';
 import { dateUtils } from 'src/common';
 
@@ -87,16 +84,6 @@ export const TEAM = [
     photo: artemTolkachev
   },
   {
-    name: 'Sergey Stopnevich',
-    role: 'Co-Founder',
-    text: `
-    In 2016, Sergey founded Wise Wolves Group Ltd, a group of companies providing financial,
-    brokerage, corporate, and fiduciary services to banks, mid-sized, and large businesses with
-    the use of the latest IT technologies and an individual approach to each client.
-    `,
-    photo: sergeyStopnevich
-  },
-  {
     name: 'Vlad Komissarov',
     role: 'CTO',
     twitter: '/',
@@ -105,18 +92,6 @@ export const TEAM = [
     He launched and managed a number of major ICT products and services on the CIS market.
     `,
     photo: vladKomissarov
-  },
-  {
-    name: 'Mr Amedeo Cristofaro',
-    role: 'Advisor',
-    text: `ex BNY Mellon, Head of EMEA Payment`,
-    photo: amedeoCristofaro
-  },
-  {
-    name: 'Mr Roger Ohan',
-    role: 'Advisor',
-    text: `Ariadne Capital, Board Director Designate`,
-    photo: rogerOhan
   },
   {
     name: 'Alexander Ivanov',
