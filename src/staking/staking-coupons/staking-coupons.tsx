@@ -104,6 +104,8 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     [params, stakingCoupons.value]
   );
 
+  const unstakingAt = dateUtils.add(new Date(), Number(params.couponId));
+
   const [stakeState, handleStake] = useAsyncFn(
     async (amount, fn) => {
       if (
@@ -114,8 +116,6 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         !governanceTokenContract
       )
         return;
-
-      const unstakingAt = dateUtils.add(new Date(), Number(params.couponId));
 
       const voteDelegatorOf = await yieldEscrowContract.methods
         .voteDelegatorOf(account)
@@ -255,7 +255,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
   useIntervalIfHasAccount(stakingCoupons.retry);
 
   const [unstakingState, handleUnstake] = useAsyncFn(async () => {
-    const amount = stakingCoupon?.userList[0]?.balanceFloat ?? '0';
+    const amount = stakingCoupon?.rewardToken?.totalSupplyFloat ?? '0';
 
     if (
       !yieldEscrowContract ||
@@ -282,7 +282,9 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
       : yieldEscrowContract;
 
     await openUnstakeAttention({
-      unstakingAt: stakingCoupon?.userList[0]?.nextUnlockDate ?? ''
+      unstakingAt:
+        stakingCoupon.userList?.[0]?.stakeAtDate ?? new Date().toISOString(),
+      amount
     });
     await openUnstakingDescription({
       amount

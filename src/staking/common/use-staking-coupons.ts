@@ -77,8 +77,8 @@ export const useStakingCoupons = () => {
       return {
         ...couponsItem,
         ...stakingCouponsConfig,
-        rewardToken: {
-          ...couponsItem.rewardToken,
+        stakingToken: {
+          ...couponsItem.stakingToken,
           symbol: 'BAG'
         }
       };
