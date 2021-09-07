@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAsyncFn } from 'react-use';
 
 import {
   Button,
@@ -12,6 +13,7 @@ import { useStakingCouponsUnstakingUnlockModalStyles } from './staking-coupons-u
 export type StakingCouponsUnstakingUnlockModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
+  onUnstake: () => Promise<void>;
   amount: string;
 };
 
@@ -19,7 +21,11 @@ export const StakingCouponsUnstakingUnlockModal: React.VFC<StakingCouponsUnstaki
   (props) => {
     const classes = useStakingCouponsUnstakingUnlockModalStyles();
 
-    const handleConvert = () => props.onConfirm(true);
+    const [unstakeState, handleUnstake] = useAsyncFn(async () => {
+      await props.onUnstake();
+
+      props.onConfirm(true);
+    });
 
     return (
       <Modal open onClose={props.onClose}>
@@ -49,10 +55,11 @@ export const StakingCouponsUnstakingUnlockModal: React.VFC<StakingCouponsUnstaki
             </div>
             <Button
               className={classes.button}
-              onClick={handleConvert}
+              onClick={handleUnstake}
               size="medium"
+              loading={unstakeState.loading}
             >
-              Convert
+              Unstake
             </Button>
           </div>
         </SmallModal>

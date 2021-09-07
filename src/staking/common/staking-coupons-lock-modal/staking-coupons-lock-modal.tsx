@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAsyncFn } from 'react-use';
 
 import {
   Button,
@@ -13,6 +14,7 @@ import { useStakingCouponsLockModalStyles } from './staking-coupons-lock-modal.s
 export type StakingCouponsLockModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
+  onStake: () => Promise<void>;
   amount: string;
   steps: number;
   month: string;
@@ -23,7 +25,11 @@ export const StakingCouponsLockModal: React.VFC<StakingCouponsLockModalProps> =
   (props) => {
     const classes = useStakingCouponsLockModalStyles();
 
-    const handleLock = () => props.onConfirm(true);
+    const [lockState, handleLock] = useAsyncFn(async () => {
+      await props.onStake();
+
+      props.onConfirm(true);
+    }, []);
 
     return (
       <Modal open onClose={props.onClose}>
@@ -45,7 +51,7 @@ export const StakingCouponsLockModal: React.VFC<StakingCouponsLockModalProps> =
               </Typography>
               <Typography variant="h5">
                 Unstaking starts:{' '}
-                {dateUtils.format(props.unstakingAt, 'MMMM DD')}
+                {dateUtils.format(props.unstakingAt, 'MMMM DD YYYY')}
                 <br />
                 Unstaking period: 7 days
               </Typography>
@@ -58,6 +64,7 @@ export const StakingCouponsLockModal: React.VFC<StakingCouponsLockModalProps> =
               className={classes.button}
               onClick={handleLock}
               size="medium"
+              loading={lockState.loading}
             >
               Stake
             </Button>

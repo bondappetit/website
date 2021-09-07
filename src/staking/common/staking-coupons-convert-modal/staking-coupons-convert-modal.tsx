@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAsyncFn } from 'react-use';
 
 import {
   Button,
@@ -12,6 +13,7 @@ import { useStakingCouponsConvertModalStyles } from './staking-coupons-convert-m
 export type StakingCouponsConvertModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
+  onConvert: () => Promise<void>;
   amount: string;
   steps: number;
 };
@@ -20,7 +22,10 @@ export const StakingCouponsConvertModal: React.VFC<StakingCouponsConvertModalPro
   (props) => {
     const classes = useStakingCouponsConvertModalStyles();
 
-    const handleConvert = () => props.onConfirm(true);
+    const [convertState, handleConvert] = useAsyncFn(async () => {
+      await props.onConvert();
+      props.onConfirm(true);
+    }, []);
 
     return (
       <Modal open onClose={props.onClose}>
@@ -52,6 +57,7 @@ export const StakingCouponsConvertModal: React.VFC<StakingCouponsConvertModalPro
               className={classes.button}
               onClick={handleConvert}
               size="medium"
+              loading={convertState.loading}
             >
               Convert
             </Button>

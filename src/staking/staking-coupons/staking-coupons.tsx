@@ -136,11 +136,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         .decimals()
         .call();
 
-      const continueWithoutDeploy = notDelegated
-        ? await openDeligate({ steps: 3 })
-        : true;
-
-      if (!continueWithoutDeploy) {
+      const onDelegate = async () => {
         const createVoteDelegator =
           yieldEscrowContract.methods.createVoteDelegator();
 
@@ -149,6 +145,13 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
           gas: await estimateGas(createVoteDelegator, {
             from: account
           })
+        });
+      };
+
+      if (notDelegated) {
+        await openDeligate({
+          steps: 3,
+          onDelegate
         });
       }
 
@@ -165,9 +168,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
 
       const rawAmount = bignumberUtils.toSend(newAmount, yieldEscrowdecimals);
 
-      if (!bignumberUtils.lte(amount, yBAG)) {
-        await openConvert({ amount, steps: notDelegated ? 3 : 2 });
-
+      const onConvert = async () => {
         const contract = !notDelegated
           ? getVoteDelegator(voteDelegatorOf)
           : yieldEscrowContract;
@@ -195,6 +196,14 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
           from: account,
           gas: await estimateGas(deposit, { from: account })
         });
+      };
+
+      if (!bignumberUtils.lte(amount, yBAG)) {
+        await openConvert({
+          amount,
+          steps: notDelegated ? 3 : 2,
+          onConvert
+        });
       }
 
       const profitDistributorContract = getProfitDistributor(
@@ -202,36 +211,39 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         stakingCoupon.contract.abi
       );
 
+      const onStake = async () => {
+        const stake = profitDistributorContract.methods.stake(rawAmount);
+
+        const stakeOptions = {
+          token: yieldEscrowContract,
+          owner: account,
+          spender: profitDistributorContract.options.address,
+          amount: rawAmount
+        };
+
+        const stakeApproved = await approvalNeeded(stakeOptions);
+
+        if (stakeApproved.reset) {
+          await reset(stakeOptions);
+        }
+        if (stakeApproved.approve) {
+          await approveAll(stakeOptions);
+
+          await approvalNeeded(stakeOptions);
+        }
+
+        await stake.send({
+          from: account,
+          gas: await estimateGas(stake, { from: account })
+        });
+      };
+
       await openLock({
         amount: newAmount,
         steps: notDelegated ? 3 : 2,
         month: stakingCoupon.lockPeriod ?? '',
-        unstakingAt
-      });
-
-      const stake = profitDistributorContract.methods.stake(rawAmount);
-
-      const stakeOptions = {
-        token: yieldEscrowContract,
-        owner: account,
-        spender: profitDistributorContract.options.address,
-        amount: rawAmount
-      };
-
-      const stakeApproved = await approvalNeeded(stakeOptions);
-
-      if (stakeApproved.reset) {
-        await reset(stakeOptions);
-      }
-      if (stakeApproved.approve) {
-        await approveAll(stakeOptions);
-
-        await approvalNeeded(stakeOptions);
-      }
-
-      await stake.send({
-        from: account,
-        gas: await estimateGas(stake, { from: account })
+        unstakingAt,
+        onStake
       });
 
       await openFinish({
@@ -294,30 +306,36 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
       amount
     });
 
+    const onUnstake = async () => {
+      const exit = profitDistributorContract.methods.exit();
+
+      await exit.send({
+        from: account,
+        gas: await estimateGas(exit, { from: account })
+      });
+    };
+
     await openUnstakingUnlock({
-      amount
+      amount,
+      onUnstake
     });
 
-    const exit = profitDistributorContract.methods.exit();
+    const onConvert = async () => {
+      const decimals = await yieldEscrowContract.methods.decimals().call();
 
-    await exit.send({
-      from: account,
-      gas: await estimateGas(exit, { from: account })
-    });
+      const withdraw = contract.methods.withdraw(
+        bignumberUtils.toSend(amount, decimals)
+      );
+
+      await withdraw.send({
+        from: account,
+        gas: await estimateGas(withdraw, { from: account })
+      });
+    };
 
     await openUnstakingConvert({
-      amount
-    });
-
-    const decimals = await yieldEscrowContract.methods.decimals().call();
-
-    const withdraw = contract.methods.withdraw(
-      bignumberUtils.toSend(amount, decimals)
-    );
-
-    await withdraw.send({
-      from: account,
-      gas: await estimateGas(withdraw, { from: account })
+      amount,
+      onConvert
     });
 
     await openUnstakingFinish({
@@ -347,7 +365,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
       from: account,
       gas: await estimateGas(getReward, { from: account })
     });
-  }, [getProfitDistributor]);
+  }, [getProfitDistributor, stakingCoupon]);
 
   useUpdateEffect(() => {
     if (stakeState.loading || claimState.loading || unstakingState.loading)
