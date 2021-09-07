@@ -2,7 +2,8 @@ import {
   color,
   create,
   unuseTheme,
-  useTheme as amchartsUseTheme
+  useTheme as amchartsUseTheme,
+  addLicense
 } from '@amcharts/amcharts4/core';
 import {
   DateAxis,
@@ -17,12 +18,16 @@ import amchartsdark from '@amcharts/amcharts4/themes/amchartsdark';
 import { useTheme } from 'react-jss';
 
 import { Theme } from 'src/common';
+import { config } from 'src/config';
 
 export type StablecoinChartProps = {
   className?: string;
 };
 
 amchartsUseTheme(am4themes_animated);
+if (config.AMCHARTS_LICENCE) {
+  addLicense(config.AMCHARTS_LICENCE);
+}
 
 const DATA = [
   {

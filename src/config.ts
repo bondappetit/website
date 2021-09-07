@@ -40,5 +40,6 @@ export const config = {
   BUY_BACK_ENABLE: process.env.REACT_APP_BUY_BACK_ENABLE === 'true',
   IMPROPERLY_PROPOSALS:
     process.env.REACT_APP_IMPROPERLY_PROPOSALS?.split(',') ?? [],
-  PUBLIC_KEY: process.env.REACT_APP_WISE_WOLVES_PUBLIC_KEY ?? ''
+  PUBLIC_KEY: process.env.REACT_APP_WISE_WOLVES_PUBLIC_KEY ?? '',
+  AMCHARTS_LICENCE: process.env.REACT_APP_AMCHARTS_LICENCE
 } as const;
