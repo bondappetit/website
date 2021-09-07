@@ -89,7 +89,7 @@ export const StakingList: React.VFC = () => {
               ? numberArray(3).map((key) => <StakingCard key={key} loading />)
               : stakingCoupons.value?.map((stakingCoupon) => (
                   <ReactRouterLink
-                    to={URLS.staking.coupons(stakingCoupon.lockPeriod)}
+                    to={URLS.staking.coupons(stakingCoupon.address)}
                     key={stakingCoupon.lockPeriod}
                     className={classes.cardWrap}
                   >

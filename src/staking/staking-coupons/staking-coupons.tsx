@@ -98,13 +98,14 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
 
   const stakingCoupon = useMemo(
     () =>
-      stakingCoupons.value?.find(
-        ({ lockPeriod }) => lockPeriod === params.couponId
-      ),
+      stakingCoupons.value?.find(({ address }) => address === params.couponId),
     [params, stakingCoupons.value]
   );
 
-  const unstakingAt = dateUtils.add(new Date(), Number(params.couponId));
+  const unstakingAt = dateUtils.add(
+    new Date(),
+    Number(stakingCoupon?.lockPeriod ?? 1)
+  );
 
   const [stakeState, handleStake] = useAsyncFn(
     async (amount, fn) => {
@@ -124,7 +125,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
       const notDelegated = voteDelegatorOf === DEFAULT_ADDRESS;
 
       await openDescription({
-        month: params.couponId,
+        month: stakingCoupon.lockPeriod ?? '',
         amount,
         howToStake: !notDelegated
       });
@@ -204,7 +205,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
       await openLock({
         amount: newAmount,
         steps: notDelegated ? 3 : 2,
-        month: params.couponId,
+        month: stakingCoupon.lockPeriod ?? '',
         unstakingAt
       });
 
@@ -369,7 +370,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     <MainLayout>
       <PageWrapper className={classes.root}>
         <StakingHeader
-          title={`${params.couponId} Month Lock`}
+          title={`${stakingCoupon?.lockPeriod ?? ''} Month Lock`}
           loading={loading}
           depositToken={stakingCoupon?.stakingToken?.symbol}
           earnToken={stakingCoupon?.rewardToken?.symbol}
