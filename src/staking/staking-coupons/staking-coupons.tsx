@@ -84,15 +84,15 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
   const getProfitDistributor = useDynamicContract<ProfitDistributor>();
 
   const balance = useAsyncRetry(async () => {
-    if (!yieldEscrowContract || !account) return;
+    if (!governanceContract || !account) return;
 
-    const balanceOf = await yieldEscrowContract.methods
+    const balanceOf = await governanceContract.methods
       .balanceOf(account)
       .call();
-    const decimals = await yieldEscrowContract.methods.decimals().call();
+    const decimals = await governanceContract.methods.decimals().call();
 
     return bignumberUtils.fromCall(balanceOf, decimals);
-  }, [account, yieldEscrowContract]);
+  }, [account, governanceContract]);
 
   const { stakingCoupons, governanceInUSDC } = useStakingCoupons();
 
@@ -252,10 +252,13 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
 
   const loading = !stakingCoupon;
 
-  useIntervalIfHasAccount(stakingCoupons.retry);
+  useIntervalIfHasAccount(() => {
+    stakingCoupons.retry();
+    balance.retry();
+  });
 
   const [unstakingState, handleUnstake] = useAsyncFn(async () => {
-    const amount = stakingCoupon?.rewardToken?.totalSupplyFloat ?? '0';
+    const amount = stakingCoupon?.userList?.[0]?.balanceFloat ?? '0';
 
     if (
       !yieldEscrowContract ||
@@ -352,6 +355,16 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     stakingCoupons.retry();
   }, [stakeState.loading, claimState.loading, unstakingState.loading]);
 
+  const earned = stakingCoupon?.userList[0].locked
+    ? bignumberUtils.div(stakingCoupon?.userList[0].earnedFloat, 2)
+    : bignumberUtils.plus(
+        stakingCoupon?.userList[0].earnedFloat,
+        stakingCoupon?.userList[0].penaltyFloat
+      );
+  const locked = stakingCoupon?.userList[0].locked
+    ? bignumberUtils.plus(earned, stakingCoupon?.userList[0].penaltyFloat)
+    : 0;
+
   return (
     <MainLayout>
       <PageWrapper className={classes.root}>
@@ -411,10 +424,10 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
             <WalletButtonWithFallback
               onClick={handleUnstake}
               loading={unstakingState.loading}
-              disabled={bignumberUtils.eq(
-                stakingCoupon?.userList[0].balanceFloat,
-                0
-              )}
+              disabled={
+                bignumberUtils.eq(stakingCoupon?.userList[0].balanceFloat, 0) &&
+                !unstakingState.loading
+              }
             >
               Unstake
             </WalletButtonWithFallback>
@@ -424,19 +437,21 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
               Earned {loading ? '...' : stakingCoupon?.rewardToken?.symbol}
             </Typography>
             <Typography variant="h3" className={classes.sum}>
-              {humanizeNumeral(stakingCoupon?.userList[0].earnedFloat)}
+              {humanizeNumeral(earned)}
             </Typography>
-            <Typography className={classes.subSum}>
-              Claimable{' '}
-              {humanizeNumeral(stakingCoupon?.userList[0].penaltyFloat)}
-            </Typography>
+            {stakingCoupon?.userList[0].locked && (
+              <Typography className={classes.subSum}>
+                Locked {humanizeNumeral(locked)}
+              </Typography>
+            )}
             <WalletButtonWithFallback
               loading={claimState.loading}
               onClick={handleClaim}
-              disabled={bignumberUtils.eq(
-                stakingCoupon?.userList[0].earnedFloat,
-                0
-              )}
+              className={classes.claim}
+              disabled={
+                bignumberUtils.eq(stakingCoupon?.userList[0].earnedFloat, 0) &&
+                !claimState.loading
+              }
             >
               Claim
             </WalletButtonWithFallback>

@@ -185,6 +185,8 @@ export type ProfitDistributorUserType = {
   penalty: Scalars['String'];
   /** Penalty balance normalize */
   penaltyFloat: Scalars['String'];
+  /** Is locked period */
+  locked: Scalars['Boolean'];
   /** Stake at block number */
   stakeAt?: Maybe<Scalars['String']>;
   /** Stake at date */
@@ -678,6 +680,7 @@ export type StakingCouponsListQuery = { __typename?: 'Query' } & {
             | 'nextUnlockDate'
             | 'penalty'
             | 'penaltyFloat'
+            | 'locked'
           >
         >;
       }

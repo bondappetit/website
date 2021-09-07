@@ -29,5 +29,8 @@ export const bignumberUtils = {
     new BN(num1 || 0).gt(num2 || 0),
 
   minus: (num1?: string | number | null, num2?: string | number | null) =>
-    new BN(num1 || 0).minus(num2 || 0).toString(10)
+    new BN(num1 || 0).minus(num2 || 0).toString(10),
+
+  plus: (num1?: string | number | null, num2?: string | number | null) =>
+    new BN(num1 || 0).plus(num2 || 0).toString(10)
 };

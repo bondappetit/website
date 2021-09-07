@@ -37,7 +37,7 @@ export const StakingCouponsUnstakingAttentionModal: React.VFC<StakingCouponsUnst
               </Typography>
               <Typography variant="h5">
                 Unstaking period starts at{' '}
-                {dateUtils.format(props.unstakingAt, 'MMMM DD')}.
+                {dateUtils.format(props.unstakingAt, 'MMMM DD YYYY')}.
                 If&nbsp;you&nbsp;unstake your BAGs now{' '}
                 <Typography variant="inherit" weight="semibold">
                   you will lose 50%&nbsp;of&nbsp;earned rewards (
