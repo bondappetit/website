@@ -61,6 +61,10 @@ export const useStakingCouponsStyles = createUseStyles(
       marginBottom: 4
     },
 
+    claim: {
+      marginTop: 'auto'
+    },
+
     subSum: {
       opacity: 0.4,
       marginBottom: 'auto'
