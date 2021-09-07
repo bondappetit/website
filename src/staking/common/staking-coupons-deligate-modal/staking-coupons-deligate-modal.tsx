@@ -1,4 +1,5 @@
 import React from 'react';
+import { useAsyncFn } from 'react-use';
 
 import { Button, SmallModal, Typography, Modal } from 'src/common';
 import { useStakingCouponsDeligateModalStyles } from './staking-coupons-deligate-modal.styles';
@@ -6,6 +7,7 @@ import { useStakingCouponsDeligateModalStyles } from './staking-coupons-deligate
 export type StakingCouponsDeligateModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
+  onDelegate: () => Promise<void>;
   steps: number;
 };
 
@@ -13,7 +15,11 @@ export const StakingCouponsDeligateModal: React.VFC<StakingCouponsDeligateModalP
   (props) => {
     const classes = useStakingCouponsDeligateModalStyles();
 
-    const handleDeploy = () => props.onConfirm(false);
+    const [deployState, handleDeploy] = useAsyncFn(async () => {
+      await props.onDelegate();
+
+      props.onConfirm(false);
+    }, []);
     const handleContinue = () => props.onConfirm(true);
 
     return (
@@ -53,6 +59,7 @@ export const StakingCouponsDeligateModal: React.VFC<StakingCouponsDeligateModalP
               className={classes.button}
               onClick={handleDeploy}
               size="medium"
+              loading={deployState.loading}
             >
               Deploy contract
             </Button>
