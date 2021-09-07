@@ -434,7 +434,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
               loading={claimState.loading}
               onClick={handleClaim}
               disabled={bignumberUtils.eq(
-                stakingCoupon?.userList[0].penaltyFloat,
+                stakingCoupon?.userList[0].earnedFloat,
                 0
               )}
             >
