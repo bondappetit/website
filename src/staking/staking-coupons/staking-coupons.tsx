@@ -325,7 +325,8 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     stakingCoupon,
     governanceContract,
     governanceTokenContract,
-    getProfitDistributor
+    getProfitDistributor,
+    getVoteDelegator
   ]);
 
   const [claimState, handleClaim] = useAsyncFn(async () => {
