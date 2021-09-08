@@ -11,7 +11,8 @@ import {
   TableRow,
   TableBody,
   TableCell,
-  numberArray
+  numberArray,
+  humanizeNumeral
 } from 'src/common';
 import { URLS } from 'src/router/urls';
 import { MainTextCard } from '../main-text-card';
@@ -37,7 +38,7 @@ export const MainStake: React.VFC<MainStakeProps> = (props) => {
       'APY',
       ...(props.loading
         ? numberArray(3).map(() => '...')
-        : props.apy?.map((apy) => `${apy}%`) ?? [])
+        : props.apy?.map((apy) => `${humanizeNumeral(apy)}%`) ?? [])
     ]
   ];
 
