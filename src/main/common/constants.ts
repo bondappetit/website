@@ -55,7 +55,7 @@ export const VOTING_TEXT = [
 export const WAVES_CARDS = [
   {
     title: 'EAST.Finance',
-    text: `BondAppetit creates ecosystem with EAST, the first enterprise-grade DeFi protocol / stablecoin that combines Real-World Assets with crypto`,
+    text: `BondAppetit creates an ecosystem with EAST, the first enterprise-grade DeFi protocol / stablecoin that combines real-world assets with crypto`,
     link: 'https://east.finance/',
     onClick: false,
     linkLabel: 'east.finance',
@@ -63,10 +63,10 @@ export const WAVES_CARDS = [
   },
   {
     title: 'Become a partner',
-    text: `BondAppetit always looking for great projects to collaborate with. If you have one, feel free to contact.`,
+    text: `BondAppetit is always looking for new partners to collaborate with. Drop us a line if you have a proposal or an idea.`,
     link: '',
     onClick: true,
-    linkLabel: 'Fill in the form',
+    linkLabel: 'Get in touch',
     icon: PlaceholderIcon
   }
 ];

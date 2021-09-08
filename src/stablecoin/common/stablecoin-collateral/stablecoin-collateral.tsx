@@ -39,7 +39,7 @@ export const StablecoinCollateral: React.VFC<StablecoinCollateralProps> = (
         text={
           <>
             USDap is backed by a basket of debt obligations with different
-            terms, interest rates (3-6% per annum), and redemption dates.{' '}
+            terms, interest rates (3-7.5% per annum), and redemption dates.{' '}
             <Link
               color="blue"
               component={ReactRouterLink}

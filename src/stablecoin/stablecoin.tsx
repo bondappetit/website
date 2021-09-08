@@ -55,7 +55,7 @@ export const Stablecoin: React.FC = () => {
 
   return (
     <>
-      <Head title="Decentralized stablecoin based on real-world assets" />
+      <Head title="The first decentralized stablecoin backed by yield-generating bonds" />
       <MainLayout>
         <PageWrapper>
           <StablecoinHeader className={classes.header} />

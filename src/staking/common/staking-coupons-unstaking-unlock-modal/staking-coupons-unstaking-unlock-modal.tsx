@@ -45,12 +45,11 @@ export const StakingCouponsUnstakingUnlockModal: React.VFC<StakingCouponsUnstaki
                 </Typography>
               </Typography>
               <Typography variant="h5">
-                yBAG is a techincal token which allows you to earn rewards from
-                bonds coupon profit.
+                The yBAG token is just a technical representation of the BAG
+                token. It is used only for staking.
               </Typography>
               <Typography variant="h5">
-                yBAG = BAG always, and you can convert it back anytime you
-                decide to unstake.
+                You can convert yBAG back to BAG at any time at a 1:1 ratio.
               </Typography>
             </div>
             <Button

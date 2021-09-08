@@ -17,11 +17,11 @@ export const BagInvest: React.FC<BagInvestProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)} id="invest">
       <BagTitle
-        title="Invest in BondAppétit"
+        title="Invest in BondAppetit"
         text={
           <>
-            BondAppétit provides a unique opportunity for early investors.
-            Become a part of the protocol on early stage with special offer
+            BondAppetit provides a unique opportunity for early investors.
+            Invest early with a special offer.
           </>
         }
       />
@@ -35,7 +35,7 @@ export const BagInvest: React.FC<BagInvestProps> = (props) => {
           variant="outlined"
           href={OnepagerPdf}
         >
-          Download Litepaper
+          Litepaper
         </Button>
       </div>
     </div>

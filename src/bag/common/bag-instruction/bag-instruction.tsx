@@ -29,16 +29,15 @@ export const BagInstruction: React.FC<BagInstructionProps> = (props) => {
         title="Governance"
         text={
           <>
-            BAG is the only tool for instruction-making. BAG holders are
-            entitled to influence the future of BondAppétit. In order to enforce
-            certain actions, a simple majority of token holders must vote for a
-            certain proposal.{' '}
+            BondAppet is governed by its community. All token holders can
+            participate in governing the protocol. Any member of the community
+            with more than 1,000,000 BAG tokens can create a proposal.{' '}
             <Link
               color="blue"
               component={ReactRouterLink}
               to={URLS.voting.info}
             >
-              Vote or iniate a proposal
+              Vote or initiate a proposal
             </Link>
           </>
         }

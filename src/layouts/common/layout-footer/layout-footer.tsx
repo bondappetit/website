@@ -83,7 +83,7 @@ const LINKS = [
     list: [
       {
         title: 'Medium',
-        url: 'https://medium.com/bondappetit',
+        url: 'https://bondappetit.medium.com/',
         icons: [BlogIcon]
       },
       {
@@ -220,7 +220,7 @@ export const LayoutFooter: React.FC<LayoutFooterProps> = (props) => {
         ))}
       </div>
       <Typography variant="body1" className={classes.copyright}>
-        © {new Date().getFullYear()} BondAppétit
+        © {new Date().getFullYear()} BondAppetit
       </Typography>
     </footer>
   );

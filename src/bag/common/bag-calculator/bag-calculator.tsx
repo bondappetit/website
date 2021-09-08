@@ -64,10 +64,9 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
         title="Coupon Rewards"
         text={
           <>
-            BAG is made unique as a token thanks to the collateral of
-            BondAppétit. BAG holders have the option to earn rewards from
-            real-world assets, which back the USDap. Stable income in USD
-            distributed between holders as staking rewards.{' '}
+            BAG holders have the option to earn rewards from bonds that back the
+            USDap. Interest income in USDC is distributed among token holders as
+            staking rewards.{' '}
             <Link
               color="blue"
               component={ReactRouterLink}
@@ -115,8 +114,8 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
             component="div"
             className={clsx(classes.step, classes.text2, classes.borderTop)}
           >
-            Every quarter, the bonds generate interest income at 3-6% APY.
-            Coupon payments minus technical costs of the protocol are
+            Every quarter, the bonds generate interest income at 3-7.5% APY.
+            Coupon payments minus maintenance costs of the protocol are
             distributed among BAG token holders.
           </Typography>
           <Typography
@@ -131,8 +130,8 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
             component="div"
             className={clsx(classes.step, classes.text3, classes.borderTop)}
           >
-            BAG token holders stake their assets on a special contract (to be
-            launched at Phase 2) to receive coupon payments.
+            BAG holders stake their tokens on a special contract to receive
+            coupon payments.
           </Typography>
           <Typography
             variant="h5"
@@ -261,7 +260,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
           component="div"
           className={clsx(classes.hint, classes.borderTop)}
         >
-          This example is based on BondAppétit plans and expectations, and on
+          This example is based on BondAppetit plans and expectations, and on
           average historical data. Numbers may differ, depending on the BAG
           price and total value of protocol collateral at the date of Phase 2
           launch. However, the main formula remains the same: Your profit =

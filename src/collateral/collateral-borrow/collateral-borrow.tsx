@@ -85,7 +85,7 @@ export const CollateralBorrow: React.FC = () => {
 
   return (
     <>
-      <Head title="Borrow from BondAppétit" />
+      <Head title="Borrow from BondAppetit" />
       <MainLayout>
         <PageWrapper className={classes.root}>
           <Typography
@@ -104,7 +104,7 @@ export const CollateralBorrow: React.FC = () => {
           <div className={classes.wrap}>
             <div className={classes.section}>
               <Typography variant="h1" align="center" className={classes.title}>
-                Borrow from BondAppétit
+                Borrow from BondAppetit
               </Typography>
               <Typography variant="h4" align="center">
                 Borrowing from the protocol currently is possible with use of

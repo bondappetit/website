@@ -157,9 +157,8 @@ export const StakingList: React.VFC = () => {
                 Earn liquidity rewards
               </Typography>
               <Typography variant="h5" className={classes.title}>
-                Earn Staking Rewards in BAG by locking your assets for a certain
-                period of time and providing liquidity for protocol&apos;s
-                assets.
+                Earn staking rewards in BAG by locking your assets for a certain
+                period of time and providing liquidity for protocol assets.
               </Typography>
               <StakingLabel
                 title="You earned"

@@ -40,19 +40,19 @@ export const StakingCouponsDeligateModal: React.VFC<StakingCouponsDeligateModalP
                 </Typography>
               </Typography>
               <Typography variant="h5">
-                In order to save your votes to govern protocol you have to
-                deploy special contract.
+                If you want to retain your right to vote, you need to deploy a
+                special contract.
               </Typography>
               <Typography variant="h5">
-                It&apos;s{' '}
+                It is{' '}
                 <Typography variant="inherit" weight="semibold">
                   optional
                 </Typography>{' '}
                 and{' '}
                 <Typography variant="inherit" weight="semibold">
-                  one-time action
+                  one-time
                 </Typography>{' '}
-                for all locking pools. Skip if you are not interested in voting.
+                action. Skip it if you do NOT want to retain your right to vote.
               </Typography>
             </div>
             <Button

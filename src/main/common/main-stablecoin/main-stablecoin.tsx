@@ -41,8 +41,8 @@ export const MainStablecoin: React.VFC<MainStablecoinProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)}>
       <Typography variant="h2" className={classes.title}>
-        At the heart of the protocol lies USDap — the first-ever decentralized
-        stablecoin based on real-world assets.{' '}
+        USDap is the first decentralized stablecoin backed by yield-generating
+        bonds.{' '}
         <Link
           component={ReactRouterLink}
           to={URLS.stablecoin}
@@ -119,7 +119,7 @@ export const MainStablecoin: React.VFC<MainStablecoinProps> = (props) => {
                 component={ReactRouterLink}
                 to={URLS.collateral.list}
               >
-                Check Collateral
+                Check the collateral
               </Link>
             </MainTextCard>
             <MainTextCard>

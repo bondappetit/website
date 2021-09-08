@@ -388,7 +388,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     <MainLayout>
       <PageWrapper className={classes.root}>
         <StakingHeader
-          title={`${stakingCoupon?.lockPeriod ?? ''} Month Lock`}
+          title={`${stakingCoupon?.lockPeriod ?? ''} Month lockup`}
           loading={loading}
           depositToken={stakingCoupon?.stakingToken?.symbol}
           earnToken={stakingCoupon?.rewardToken?.symbol}

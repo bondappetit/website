@@ -144,7 +144,7 @@ export const Main: React.FC = () => {
           <MainEditor className={clsx(classes.section)}>
             <MainAudit
               mixBytesLink="https://github.com/mixbytes/audits_public/tree/4fc7d333e3df57586e0f96cc551819e2c93f3ae9/BondAppetit"
-              hashExLink="https://github.com/HashEx/public_audits/blob/32a680c5b8f3a784ef3273c324e0841341f3abc2/BondAppétit/BondAppetit%20report.pdf"
+              hashExLink="https://github.com/HashEx/public_audits/blob/32a680c5b8f3a784ef3273c324e0841341f3abc2/BondAppetit/BondAppetit%20report.pdf"
               mixBytesLogo={<MixBytesLogo />}
               hashExLogo={<HashExLogo />}
             />
@@ -157,7 +157,7 @@ export const Main: React.FC = () => {
           <MainTeam className={classes.section} />
           <div className={classes.articlesWrap}>
             <Typography variant="h2" className={classes.newsTitle}>
-              Learn more about BondAppétit
+              Learn more about BondAppetit
             </Typography>
             <div className={classes.articles}>
               <MainMediumArticles

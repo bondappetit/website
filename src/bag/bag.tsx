@@ -52,7 +52,7 @@ export const Bag: React.VFC<BagProps> = () => {
   return (
     <>
       <Head
-        title="BondAppétit Governance Token"
+        title="BondAppetit Governance Token"
         ogUrl="https://bondappetit.io"
       />
       <MainLayout>
