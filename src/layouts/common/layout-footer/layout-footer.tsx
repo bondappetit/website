@@ -140,12 +140,12 @@ const ACTIONS = [
     title: 'Subscribtion',
     body: 'Be the first one to know about protocols updates and new features',
     button: 'Subscribe'
-  },
-  {
-    title: 'Ambassadors',
-    body: 'Participate in the protocols future, become an ambassador',
-    button: 'Apply'
   }
+  // {
+  //   title: 'Ambassadors',
+  //   body: 'Participate in the protocols future, become an ambassador',
+  //   button: 'Apply'
+  // }
 ] as const;
 
 export const LayoutFooter: React.FC<LayoutFooterProps> = (props) => {

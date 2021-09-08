@@ -306,6 +306,10 @@ export const StablecoinChart: React.VFC<StablecoinChartProps> = (props) => {
       series.dataFields.valueY = field.valueY;
       series.dataFields.dateX = field.dateX;
 
+      series.dummyData = {
+        strokeDasharray: field.dashed
+      };
+
       function createGrid(value: number) {
         const range = valueAxis.axisRanges.create();
         range.value = value;
@@ -333,13 +337,14 @@ export const StablecoinChart: React.VFC<StablecoinChartProps> = (props) => {
     const legend = new Legend();
 
     chartRef.current.legend = legend;
-    chartRef.current.legend.useDefaultMarker = false;
+    chartRef.current.legend.useDefaultMarker = true;
 
-    chartRef.current.legend.data = DATA_FIELDS.map((field) => {
+    const data = DATA_FIELDS.map((field) => {
       return {
         name: field.valueY,
         stroke: color(theme.colors[field.color]),
-        fill: 'none'
+        fill: 'none',
+        dashed: field.dashed
       };
     });
 
@@ -347,6 +352,28 @@ export const StablecoinChart: React.VFC<StablecoinChartProps> = (props) => {
     chartRef.current.legend.markers.template.width = 24;
     chartRef.current.legend.itemContainers.template.clickable = false;
     chartRef.current.legend.itemContainers.template.focusable = false;
+
+    data.forEach((field, index) => {
+      const marker =
+        chartRef.current?.legend.markers.template.children.getIndex(index);
+
+      marker?.adapter.add('fill', () => color(theme.colors.secondary));
+
+      marker?.adapter.add('strokeDasharray', (_, target) => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        return target.dataItem?.dataContext?.dashed;
+      });
+
+      if (marker) {
+        marker.strokeWidth = 1;
+        marker.strokeOpacity = 1;
+        marker.opacity = 1;
+        marker.stroke = field.stroke;
+      }
+    });
+
+    chartRef.current.legend.data = data;
 
     return () => {
       chartRef.current?.dispose();
