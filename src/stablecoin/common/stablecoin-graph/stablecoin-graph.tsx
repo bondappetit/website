@@ -4,7 +4,7 @@ import React from 'react';
 
 import { Typography, BN, Plate, humanizeNumeral, Theme } from 'src/common';
 import { useStablecoinGraphStyles } from './stablecoin-graph.styles';
-import { StablecoinChart } from '../stablecoin-chart';
+import { StablecoinOldChart } from '../stablecoin-old-chart';
 
 export type StablecoinGraphProps = {
   className?: string;
@@ -37,7 +37,10 @@ export const StablecoinGraph: React.FC<StablecoinGraphProps> = (props) => {
             )}
           </Typography>
         </Typography>
-        <StablecoinChart key={theme.currentTheme} className={classes.chart} />
+        <StablecoinOldChart
+          key={theme.currentTheme}
+          className={classes.chart}
+        />
       </Plate>
       {props.children}
     </div>
