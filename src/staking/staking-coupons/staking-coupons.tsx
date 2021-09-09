@@ -270,8 +270,18 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     balance.retry();
   });
 
+  const earned = stakingCoupon?.userList[0].locked
+    ? bignumberUtils.div(stakingCoupon?.userList[0].earnedFloat, 2)
+    : bignumberUtils.plus(
+        stakingCoupon?.userList[0].earnedFloat,
+        stakingCoupon?.userList[0].penaltyFloat
+      );
+  const locked = stakingCoupon?.userList[0].locked
+    ? bignumberUtils.plus(earned, stakingCoupon?.userList[0].penaltyFloat)
+    : 0;
+
   const [unstakingState, handleUnstake] = useAsyncFn(async () => {
-    const amount = stakingCoupon?.userList?.[0]?.balanceFloat ?? '0';
+    const amount = earned ?? '0';
 
     if (
       !yieldEscrowContract ||
@@ -348,7 +358,8 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     governanceContract,
     governanceTokenContract,
     getProfitDistributor,
-    getVoteDelegator
+    getVoteDelegator,
+    earned
   ]);
 
   const [claimState, handleClaim] = useAsyncFn(async () => {
@@ -373,16 +384,6 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
 
     stakingCoupons.retry();
   }, [stakeState.loading, claimState.loading, unstakingState.loading]);
-
-  const earned = stakingCoupon?.userList[0].locked
-    ? bignumberUtils.div(stakingCoupon?.userList[0].earnedFloat, 2)
-    : bignumberUtils.plus(
-        stakingCoupon?.userList[0].earnedFloat,
-        stakingCoupon?.userList[0].penaltyFloat
-      );
-  const locked = stakingCoupon?.userList[0].locked
-    ? bignumberUtils.plus(earned, stakingCoupon?.userList[0].penaltyFloat)
-    : 0;
 
   return (
     <MainLayout>
