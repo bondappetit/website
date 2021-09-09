@@ -78,7 +78,7 @@ const DATA = [
   },
 
   {
-    '— target supply value': '50',
+    '— target supply value': '5',
     date: new Date(2022, 0, 1)
   },
   {
@@ -112,7 +112,7 @@ const DATA = [
     date: new Date(2022, 10, 1)
   },
   {
-    '— target supply value': '100',
+    '— target supply value': '10',
     date: new Date(2022, 11, 1)
   }
 
@@ -248,6 +248,10 @@ const DATA_FIELDS = [
 
 const id = 'stablecoin-chart';
 
+const isDashed = (value: unknown): value is { dashed: string } => {
+  return typeof value === 'object' && value !== null && 'dashed' in value;
+};
+
 export const StablecoinChart: React.VFC<StablecoinChartProps> = (props) => {
   const chartRef = useRef<null | XYChart>(null);
 
@@ -294,7 +298,7 @@ export const StablecoinChart: React.VFC<StablecoinChartProps> = (props) => {
       valueAxis.width = 30;
 
       valueAxis.min = 0;
-      valueAxis.max = 100;
+      valueAxis.max = 10;
       valueAxis.strictMinMax = true;
       valueAxis.renderer.grid.template.disabled = true;
       valueAxis.renderer.labels.template.disabled = true;
@@ -319,11 +323,11 @@ export const StablecoinChart: React.VFC<StablecoinChartProps> = (props) => {
 
       if (!index) {
         createGrid(0);
-        createGrid(20);
-        createGrid(40);
-        createGrid(60);
-        createGrid(80);
-        createGrid(100);
+        createGrid(2);
+        createGrid(4);
+        createGrid(6);
+        createGrid(8);
+        createGrid(10);
       }
 
       series.strokeDasharray = field.dashed;
@@ -360,9 +364,9 @@ export const StablecoinChart: React.VFC<StablecoinChartProps> = (props) => {
       marker?.adapter.add('fill', () => color(theme.colors.secondary));
 
       marker?.adapter.add('strokeDasharray', (_, target) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        return target.dataItem?.dataContext?.dashed;
+        if (isDashed(target.dataItem?.dataContext)) {
+          return target.dataItem?.dataContext?.dashed;
+        }
       });
 
       if (marker) {
