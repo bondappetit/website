@@ -1,7 +1,7 @@
 export const SOCIAL_LINKS = [
   {
     title: 'Medium',
-    link: 'https://medium.com/bondappetit'
+    link: 'https://bondappetit.medium.com/'
   },
   {
     title: 'Github',

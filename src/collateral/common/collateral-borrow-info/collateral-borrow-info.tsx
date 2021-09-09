@@ -30,10 +30,10 @@ export const CollateralBorrowInfo: React.VFC<ColateralBorrowInfoProps> = (
       </div>
       <div className={classes.section}>
         <Typography variant="h2" className={classes.borrowTitle}>
-          Borrow from BondAppétit
+          Borrow from BondAppetit
         </Typography>
         <Typography variant="h5" className={classes.borrowText}>
-          BondAppétit provides an opportunity to borrow funds providing
+          BondAppetit provides an opportunity to borrow funds providing
           fixed-income
           <br />
           securities as collateral. Explore terms and benefits of our offer.

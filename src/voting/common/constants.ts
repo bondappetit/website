@@ -27,11 +27,11 @@ export const ProposalStateColors: Record<string, StatusProps['color']> = {
 export const FACTOID = [
   {
     percent: '20%',
-    text: `BondAppétit team & future team members, subject to 4-year vesting;`
+    text: `BondAppetit team & future team members, subject to 4-year vesting;`
   },
   {
     percent: '14%',
-    text: `to BondAppétit founders, subject to 18 - months moratorium on sale;`
+    text: `to BondAppetit founders, subject to 18 - months moratorium on sale;`
   },
   {
     percent: '1%',
@@ -71,7 +71,7 @@ export const DECISION_MAKING = [
 
 export const FAQ = [
   {
-    title: 'What is the BondAppétit governance token?',
+    title: 'What is the BondAppetit governance token?',
     body: `BAG is the main tool for decision-making and the main reward for participants of the protocol and the community.
 Technically, it is an ERC-20 token and is based on the Compound Governance system,
 as it allows ensuring transparent and secure management of the protocol by the community. Check [this article](https://medium.com/bondappetit/bondappetit-governance-token-explained-87eeacead488) for more details.

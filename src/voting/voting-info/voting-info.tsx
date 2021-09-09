@@ -78,7 +78,7 @@ export const VotingInfo: React.VFC<unknown> = () => {
 
   return (
     <>
-      <Head title="Shape the future of the protocol with the BondAppétit Governance token (BAG)" />
+      <Head title="Shape the future of the protocol with the BondAppetit Governance token (BAG)" />
       <MainLayout>
         <PageWrapper className={classes.root}>
           <div className={clsx(classes.block, classes.titleWrap)}>
@@ -86,7 +86,7 @@ export const VotingInfo: React.VFC<unknown> = () => {
               Shape the future of the protocol
             </Typography>
             <Typography variant="h5" className={classes.subtitle}>
-              BondAppet is governed by its community. All token holders can
+              BondAppetit is governed by its community. All token holders can
               participate in governing the&nbsp;protocol. Any member of the
               community with more than 1,000,000 BAG tokens can create a
               proposal.{' '}

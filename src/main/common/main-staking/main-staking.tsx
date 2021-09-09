@@ -2,7 +2,13 @@ import React from 'react';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { useMedia } from 'react-use';
 
-import { Typography, Link, Carousel, numberArray } from 'src/common';
+import {
+  Typography,
+  Link,
+  Carousel,
+  numberArray,
+  humanizeNumeral
+} from 'src/common';
 import { URLS } from 'src/router/urls';
 import { SakingItem, StakingCard } from 'src/staking';
 import { useMainStakingStyles } from './main-staking.styles';
@@ -27,11 +33,14 @@ const Grid: React.FC = (props) => {
 export const MainStaking: React.FC<MainStakingProps> = (props) => {
   const classes = useMainStakingStyles();
 
+  const maxApy = Math.max(
+    ...(props.staking ?? []).map(({ apy }) => Number(apy))
+  );
+
   return (
     <div className={props.className}>
       <Typography variant="h2" className={classes.header}>
-        Earn Staking Rewards in BAG by providing liquidity for protocol&apos;s
-        assets.
+        Stake your crypto and earn rewards up to {humanizeNumeral(maxApy)}%.
         <Typography variant="inherit" component="div">
           <Link
             component={ReactRouterLink}

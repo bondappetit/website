@@ -16,11 +16,11 @@ export const BagDistribution: React.VFC<BagDistributionProps> = (props) => {
   return (
     <div className={clsx(props.className)} id="distribution">
       <BagTitle
-        title="Distribution"
+        title="Fair and transparent distribution"
         text={
           <>
-            BAG is also the main reward and the incentive tool for participants
-            of the protocol and the community. Distribution of BAG is fully
+            BAG is the main reward and the incentive tool for participants of
+            the protocol and the community. Distribution of BAG is fully
             transparent and moderated by protocol&apos;s community-driven
             governance.
           </>

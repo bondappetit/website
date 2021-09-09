@@ -60,16 +60,16 @@ export const CollateralList: React.FC = () => {
 
   return (
     <>
-      <Head title="Backed by real-world collateral" />
+      <Head title="Backed by real-world assets" />
       <MainLayout>
         <PageWrapper>
           <Typography variant="h1" className={classes.title}>
-            Backed by real-world collateral
+            Backed by real-world assets
           </Typography>
           <Typography variant="h5" className={classes.subtitle}>
             The assets of the protocol are formed by outstanding debt of the
-            borrowers, which in turn is secured by real world collateral in form
-            of bonds kept on special security accounts.
+            borrowers, which in turn is secured by real-world collateral in the
+            form of bonds kept on special security accounts.
           </Typography>
           <Plate
             color="grey"

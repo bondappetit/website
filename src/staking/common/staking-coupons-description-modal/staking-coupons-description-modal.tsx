@@ -36,18 +36,16 @@ export const StakingCouponsDescriptionModal: React.VFC<StakingCouponsDescription
                     } months`}
               </Typography>
               <Typography variant="h5">
-                To stake your BAG in coupon rewards pool you have to make
+                To stake your BAG in a coupon rewards pool, you need to make
                 several transactions:
               </Typography>
               <Typography variant="h5" component="div">
                 <ol className={classes.list}>
                   {!props.howToStake && (
-                    <li>Delegate votes (one-time and optional)</li>
+                    <li>Delegate vote (one-time and optional)</li>
                   )}
                   <li>Convert BAG to yBAG</li>
-                  <li>
-                    Then stake yBAG to earn coupons profit&nbsp;in&nbsp;USDC
-                  </li>
+                  <li>Stake yBAG to earn interest income in USDC</li>
                 </ol>
               </Typography>
             </div>

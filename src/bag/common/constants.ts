@@ -31,11 +31,11 @@ export const GOVERNANCE = [
 export const FACTOID = [
   {
     percent: '20%',
-    text: `BondAppétit team & future team members, subject to 4-year vesting;`
+    text: `BondAppetit team & future team members, subject to 4-year vesting;`
   },
   {
     percent: '14%',
-    text: `to BondAppétit founders, subject to 18 - months moratorium on sale;`
+    text: `to BondAppetit founders, subject to 18 - months moratorium on sale;`
   },
   {
     percent: '1%',
@@ -69,62 +69,36 @@ Useful links: [Etherscan](https://etherscan.io/token/0x28a06c02287e657ec3f8e151a
   },
 
   {
-    title: 'How can I profit on BAG?',
+    title: 'How can I make profits on BAG?',
     body: `There are two ways of making profits on BAG tokens:
 
-1.  On the growth of its market value;
-2.  By means of passive income from owning BAG tokens.
+1. On the growth of its market value;
+2. By means of passive income from owning BAG tokens.
 
-The second way (which will be available starting from the [second launch phase](/whitepaper#46))
-is making money on BAG is by simply buying the tokens and holding them
-indefinitely on a special contract, thus receiving interest income from
-the bonds used as collateral.
+The second way is to stake tokens in the staking contact and receive interest income from bonds that back the USDap. Payouts are made every quarter.
 
-It is up to the protocol community to decide how to dispose of the bond
-coupon. If the community decides to distribute it among the BAG holders,
-then the income from coupons will be converted from fiat to stablecoins,
-all transferred to a special contract. From there on, it will be
-distributed to the owners of the governance tokens. When selecting the
-bonds, the protocol is guided by an annual yield of 3-6% per annum. The
-income from coupons is paid on a quarterly basis and the funds are
-allocated for distribution to a special contract, as determined by the
-community.
-
-The rewards of BAG holders are directly related to the volume of USDap
-stablecoins issued. The emission of the stablecoins will constantly
-increase. By purchasing the tokens once, you will be receiving
-incremental income from the entire amount of bonds in securing the
-protocol.
-
-The generation of stable passive income from real-world sources is one
-of the key features of BondAppétit.
+It is up to the protocol community to decide how to dispose of the bond coupon. If the community decides to distribute it among the BAG holders, then the income from coupons will be converted from fiat to stablecoins, all transferred to a special contract. From there on, it will be distributed to the owners of the governance tokens. When selecting the bonds, the protocol is guided by an annual yield of 3-6% per annum. The income from coupons is paid on a quarterly basis and the funds are allocated for distribution to a special contract, as determined by the community.
     `
   },
 
   {
-    title:
-      'What is the volume of the token sale, and how many tokens will be distributed to the community?',
-    body: `The volume of the initial offering of BAGs will be 100m. It will be
-distributed in the following shares:
+    title: 'What is the total supply and the max supply of BAG?',
+    body: `The total supply and the max supply of BAG equals 100,000,000. It will be distributed in the following shares:
 
--   20% to BondAppétit team and future team members, subject to 4-year
-    vesting;
--   14% to BondAppétit founders, subject to 18-month moratorium on sale;
--   1% to the pre-launch investor;
--   65% reserved for protocol usage and future governance participation
-    incentives. They will be distributed in two years.
+- 20% to BondAppétit team and future team members, subject to 4-year vesting;
+- 14% to BondAppétit founders, subject to 18-month moratorium on sale;
+- % to the pre-launch investor;
+- 65% reserved for protocol usage and future governance participation incentives. They will be distributed in two years.
 
-After issuance, the tokens are distributed to wallets or smart
-contracts. To ensure the moratorium on sale, the following restrictions
-will be set for the founders’ wallets strictly during the moratorium
-period:
+After issuance, the tokens are distributed to wallets or smart contracts. To ensure the moratorium on sale, the following restrictions will be set for the founders' wallets strictly during the moratorium period:
 
-1.  The minimum balance of BAG tokens on the wallet (is equal to the
-    initial investment amount);
-2.  No possibility of transfer of BAG tokens from the founders’ wallets.
+1. The minimum balance of BAG tokens on the wallet (is equal to the initial investment amount);
+2. No possibility of transfer of BAG tokens from the founders' wallets.
 
-Such a mechanism allows founders to participate in voting, while
-ensuring the fulfillment of moratorium on sale.`
+Such a mechanism allows founders to participate in voting, while ensuring the fulfillment of moratorium on sale.
+
+The rewards of BAG holders are directly related to the volume of USDap stablecoins issued. The emission of the stablecoins will constantly increase. By purchasing the tokens once, you will be receiving incremental income from the entire amount of bonds in securing the protocol.
+    `
   },
 
   {

@@ -18,8 +18,8 @@ export const MainVoting: React.FC<MainVotingProps> = (props) => {
   return (
     <div className={clsx(props.className)}>
       <Typography variant="h4" align="center" className={classes.title}>
-        Shape the future of BondAppétit using the main tool for decision-making
-        in the protocol — BondAppétit Governance. In order to enforce certain
+        Shape the future of BondAppetit using the main tool for decision-making
+        in the protocol — BondAppetit Governance. In order to enforce certain
         actions, a simple majority of tokenholders must vote for a certain
         proposal.
       </Typography>

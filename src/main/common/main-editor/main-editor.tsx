@@ -17,7 +17,7 @@ export const MainEditor: React.FC<MainEditorProps> = (props) => {
   return (
     <>
       <Typography variant="h2" className={classes.title}>
-        Great and secure technology under the hood of the protocol
+        BondAppetit is powered by robust and secure technology
       </Typography>
       <div className={clsx(classes.root, props.className)}>
         <MainWindow className={classes.window}>
@@ -35,7 +35,7 @@ export const MainEditor: React.FC<MainEditorProps> = (props) => {
                 (docs) {'{'}
               </Typography>
               <Typography variant="h4" className={classes.text} component="div">
-                While cooking the delicious technical stuffing of BondAppétit,
+                While cooking the delicious technical stuffing of BondAppetit,
                 we were inspired by a great work of developers from Compound,
                 MakerDAO, Uniswap, and other protocols based on the Ethereum
                 blockchain.

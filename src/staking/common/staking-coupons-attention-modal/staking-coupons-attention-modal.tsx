@@ -27,17 +27,10 @@ export const StakingCouponsAttentionModal: React.VFC<StakingCouponsAttentionModa
                 Attention!
               </Typography>
               <Typography variant="h5">
-                Once you lock your BAGs, you will be able to unstake them
-                without restriction in unlocking period only (week before lock
-                period ends);
-              </Typography>
-              <Typography variant="h5">
-                If you unstake your bag before unlocking period you will lose
-                50% of rewards you have earned.
-              </Typography>
-              <Typography variant="h5">
-                You can claim 50% of rewards anytime and 50% in unlocking period
-                only;
+                You can exit the contract at any time, but if you leave during a
+                lockup period, you will lose 50% of all accumulated income. The
+                lockup period starts right after you stake your tokens and ends
+                one week before the end of the staking period.
               </Typography>
             </div>
             <Button

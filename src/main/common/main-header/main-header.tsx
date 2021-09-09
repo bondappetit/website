@@ -26,7 +26,7 @@ export const MainHeader: React.FC<MainHeaderProps> = (props) => {
       <div className={classes.content}>
         <Typography variant="h1" align="center" className={classes.title}>
           The first decentralized lending protocol with a stablecoin 100% backed
-          by yield&nbsp;-&nbsp;generating bonds
+          by yield&#8209;generating bonds
         </Typography>
         <div className={classes.action}>
           <Button size="medium" onClick={props.onBuyStable}>

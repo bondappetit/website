@@ -45,8 +45,7 @@ export const MainStake: React.VFC<MainStakeProps> = (props) => {
   return (
     <div className={clsx(classes.root, props.className)}>
       <Typography variant="h2" className={classes.title}>
-        Earn rewards from bonds collateral and influence the future of the
-        protocol with BAG token.{' '}
+        Stake your BAG and earn USDC.{' '}
         <Link
           component={ReactRouterLink}
           to={URLS.bag}
@@ -124,12 +123,12 @@ export const MainStake: React.VFC<MainStakeProps> = (props) => {
                 component={ReactRouterLink}
                 to={URLS.voting.info}
               >
-                Vote or iniate a proposal
+                Vote or initiate a proposal
               </Link>
             </MainTextCard>
             <MainTextCard>
               BondAppetit provides a unique opportunity for early investors.
-              Become a part of the protocol on early stage with special offer.{' '}
+              Invest early with a special offer.{' '}
               <Link
                 color="blue"
                 component={ReactRouterLink}

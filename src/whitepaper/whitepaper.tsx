@@ -2,7 +2,7 @@ import { useTimeoutFn, useToggle } from 'react-use';
 import React, { useRef } from 'react';
 import clsx from 'clsx';
 
-import WhitepaperMd from 'src/assets/md/bondappétit_whitepaper.md';
+import WhitepaperMd from 'src/assets/md/BondAppetit_whitepaper.md';
 import WhitepaperPdf from 'src/assets/pdf/bondappetit_whitepaper.pdf';
 import OnepagerPdf from 'src/assets/pdf/bondappetit_litepaper.pdf';
 import { ContactsNewsFloat } from 'src/contacts/contacts-news-float';
@@ -35,7 +35,7 @@ export const WhitePaper: React.FC = () => {
       <MainLayout>
         <div className={classes.header}>
           <Typography className={classes.title} variant="h1" align="center">
-            BondAppétit Protocol
+            BondAppetit Protocol
           </Typography>
           <Typography variant="body1" align="center">
             <Link
