@@ -118,11 +118,11 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
       )
         return;
 
-      const voteDelegatorOf = await yieldEscrowContract.methods
+      let voteDelegatorOf = await yieldEscrowContract.methods
         .voteDelegatorOf(account)
         .call();
 
-      const notDelegated = voteDelegatorOf === DEFAULT_ADDRESS;
+      let notDelegated = voteDelegatorOf === DEFAULT_ADDRESS;
 
       await openDescription({
         month: stakingCoupon.lockPeriod ?? '',
@@ -146,6 +146,12 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
             from: account
           })
         });
+
+        voteDelegatorOf = await yieldEscrowContract.methods
+          .voteDelegatorOf(account)
+          .call();
+
+        notDelegated = voteDelegatorOf === DEFAULT_ADDRESS;
       };
 
       if (notDelegated) {
