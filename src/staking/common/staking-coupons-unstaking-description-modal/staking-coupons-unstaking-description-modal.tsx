@@ -34,7 +34,7 @@ export const StakingCouponsUnstakingDescriptionModal: React.VFC<StakingCouponsUn
               </Typography>
               <Typography variant="h5" component="div">
                 <ol className={classes.list}>
-                  <li>Unlock your yBAG</li>
+                  <li>Unstake your yBAG</li>
                   <li>Convert yBAG to BAG</li>
                 </ol>
               </Typography>
