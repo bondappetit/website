@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useToggle } from 'react-use';
+import React from 'react';
+import { useUpdateEffect } from 'react-use';
 import { useHistory } from 'react-router-dom';
 import Web3 from 'web3';
 import { useWeb3React } from '@web3-react/core';
@@ -9,9 +9,9 @@ import {
   Button,
   useGovernorContract,
   ButtonBase,
-  Modal,
   Head,
-  estimateGas
+  estimateGas,
+  useModal
 } from 'src/common';
 import { MainLayout } from 'src/layouts';
 import { URLS } from 'src/router/urls';
@@ -26,32 +26,21 @@ type FormValues = {
   actions: VotingAddActionFormValues[];
   title: string;
   description: string;
-  value: string;
-};
-
-const joinAction = ({ input, ...action }: VotingAddActionFormValues) => {
-  const joinedInput = input
-    .map(({ type, name }) => [type, name].join(''))
-    .join('');
-
-  return [Object.values(action).join(''), joinedInput].join('');
 };
 
 export const VotingCreateProposal: React.FC = () => {
   const governorContract = useGovernorContract();
   const classes = useVotingCreateProposalStyles();
   const { library, account, chainId } = useWeb3React<Web3>();
-  const [addActionOpen, toggleAddAction] = useToggle(false);
-  const [editAction, setEditAction] =
-    useState<VotingAddActionFormValues | null>(null);
   const history = useHistory();
+
+  const [openAddAction] = useModal(VotingAddAction);
 
   const formik = useFormik<FormValues>({
     initialValues: {
       actions: [],
       title: '',
-      description: '',
-      value: ''
+      description: ''
     },
 
     onSubmit: async (formValues, { resetForm }) => {
@@ -102,58 +91,40 @@ export const VotingCreateProposal: React.FC = () => {
 
   const { setFieldValue } = formik;
 
-  const handleChangeActions = useCallback(
-    (actions) => setFieldValue('actions', actions),
-    [setFieldValue]
-  );
+  const handleChangeActions = (actions: VotingAddActionFormValues[]) =>
+    setFieldValue('actions', actions);
 
-  const handleEditAction = useCallback(
-    (actionToEdit: VotingAddActionFormValues) => {
-      setEditAction(actionToEdit);
+  const handleEditAction = async (
+    actionToEdit: VotingAddActionFormValues,
+    editActionIndex: number
+  ) => {
+    const result = await openAddAction({
+      editAction: actionToEdit
+    });
 
-      toggleAddAction(true);
-    },
-    [toggleAddAction]
-  );
+    setFieldValue(
+      'actions',
+      formik.values.actions.flatMap((previousAction, index) =>
+        index === editActionIndex ? result : [previousAction]
+      )
+    );
+  };
 
-  const handleSubmitAction = useCallback(
-    (formValues: VotingAddActionFormValues) => {
-      const actions = formik.values.actions.map((action) => {
-        if (joinAction(action) === joinAction(formValues)) {
-          return formValues;
-        }
-
-        return action;
+  const handleAddAction = async () => {
+    try {
+      const result = await openAddAction({
+        editAction: null
       });
 
-      if (!editAction) {
-        actions.push(formValues);
-      }
+      setFieldValue('actions', [...formik.values.actions, ...result]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-      setFieldValue('actions', actions);
-
-      setEditAction(null);
-    },
-    [setFieldValue, formik.values.actions, editAction]
-  );
-
-  const handleSubmitActions = useCallback(
-    (actions: VotingAddActionFormValues[]) => {
-      setFieldValue('actions', [...formik.values.actions, ...actions]);
-    },
-    [setFieldValue, formik.values.actions]
-  );
-
-  const handleCloseAddAction = useCallback(() => {
-    toggleAddAction(false);
-
-    setEditAction(null);
-  }, [toggleAddAction]);
-
-  useEffect(() => {
+  useUpdateEffect(() => {
     setFieldValue('actions', []);
-    handleCloseAddAction();
-  }, [chainId, setFieldValue, handleCloseAddAction]);
+  }, [chainId]);
 
   return (
     <>
@@ -175,7 +146,7 @@ export const VotingCreateProposal: React.FC = () => {
             {!!formik.values.actions.length && (
               <VotingActionList
                 actions={formik.values.actions}
-                onAddAnother={toggleAddAction}
+                onAddAnother={handleAddAction}
                 onEdit={handleEditAction}
                 onChange={handleChangeActions}
               />
@@ -184,7 +155,7 @@ export const VotingCreateProposal: React.FC = () => {
               <ButtonBase
                 type="button"
                 className={classes.button}
-                onClick={toggleAddAction}
+                onClick={handleAddAction}
               >
                 +Add Action
               </ButtonBase>
@@ -205,14 +176,6 @@ export const VotingCreateProposal: React.FC = () => {
             Submit proposal
           </Button>
         </form>
-        <Modal onClose={handleCloseAddAction} open={addActionOpen}>
-          <VotingAddAction
-            onClose={handleCloseAddAction}
-            editAction={editAction}
-            onSubmit={handleSubmitAction}
-            onSubmitActions={handleSubmitActions}
-          />
-        </Modal>
       </MainLayout>
     </>
   );
