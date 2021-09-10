@@ -75,7 +75,7 @@ export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
               className={classes.list}
             >
               {props.actions.map((action, index) => {
-                const { functionSig, input, contract, address = '' } = action;
+                const { functionSig, input, address = '' } = action;
 
                 const inputArgs = input.map((arg, key) => {
                   const id = [arg, key].join(',');
@@ -95,9 +95,7 @@ export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
                   </>
                 );
 
-                const inputStr = input.map(({ value }) => value).join(',');
-
-                const key = `${contract}${functionSig}${inputStr}-${index}`;
+                const key = String(index);
 
                 return (
                   <Draggable key={key} draggableId={key} index={index}>
