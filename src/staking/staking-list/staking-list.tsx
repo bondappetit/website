@@ -110,7 +110,7 @@ export const StakingList: React.VFC = () => {
                           weight="semibold"
                           className={classes.mb4}
                         >
-                          {stakingCoupon.lockPeriod} Months Lock
+                          {stakingCoupon.lockPeriod} Months
                         </Typography>
                         <Typography align="center" variant="h3">
                           APY:{' '}
