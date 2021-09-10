@@ -32,7 +32,7 @@ export type VotingActionListProps = {
   actions: VotingAddActionFormValues[];
   onAddAnother?: () => void;
   onChange: (actions: VotingAddActionFormValues[]) => void;
-  onEdit: (action: VotingAddActionFormValues) => void;
+  onEdit: (action: VotingAddActionFormValues, index: number) => void;
 };
 
 export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
@@ -119,7 +119,7 @@ export const VotingActionList: React.FC<VotingActionListProps> = (props) => {
                           <ButtonBase
                             className={classes.editAction}
                             type="button"
-                            onClick={() => props.onEdit(action)}
+                            onClick={() => props.onEdit(action, index)}
                           >
                             Edit
                           </ButtonBase>

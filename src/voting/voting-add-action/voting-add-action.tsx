@@ -7,7 +7,8 @@ import {
   useNetworkConfig,
   Network,
   ContractMethodInput,
-  SmallModal
+  SmallModal,
+  Modal
 } from 'src/common';
 import {
   getVotingPresets,
@@ -39,8 +40,7 @@ export type VotingAddActionFormValues = {
 };
 
 export type VotingAddActionProps = {
-  onSubmit: (formValues: VotingAddActionFormValues) => void;
-  onSubmitActions: (formValues: VotingAddActionFormValues[]) => void;
+  onConfirm: (formValues: VotingAddActionFormValues[]) => void;
   onClose: () => void;
   editAction: VotingAddActionFormValues | null;
 };
@@ -128,11 +128,13 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
 
       const contract = contracts?.[formValues.contract];
 
-      props.onSubmit({
-        ...formValues,
-        contract: contract?.name,
-        address: contract?.address
-      });
+      props.onConfirm([
+        {
+          ...formValues,
+          contract: contract?.name,
+          address: contract?.address
+        }
+      ]);
 
       resetForm();
       props.onClose();
@@ -216,7 +218,7 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
       preset={currentPreset}
       contracts={contracts}
       onClose={props.onClose}
-      onSubmitActions={props.onSubmitActions}
+      onSubmit={props.onConfirm}
     />
   ];
 
@@ -229,38 +231,42 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
   }, [formik.values.functionSig]);
 
   return (
-    <SmallModal
-      onClose={props.onClose}
-      onBack={state.currentVariant ? handleOnBack : undefined}
-    >
-      <div className={classes.form}>
-        {!state.currentVariant && (
-          <VotingChooseButtons
-            subtitle="Actions will be automatically executed if the voting on the proposal is successful"
-            buttons={[
-              {
-                title: 'Set up manually',
-                subtitle: `Adjust the target and all characteristics of the voting manually`,
-                onClick: () => dispatch(setVariant(AddActionVariants.manually))
-              },
-              {
-                title: 'Use template',
-                subtitle: `Choose one of several presets and simply launch voting in a few clicks`,
-                onClick: () => dispatch(setVariant(AddActionVariants.template))
-              }
-            ]}
-          />
-        )}
-        <FormikProvider value={formik}>
-          {state.currentVariant === AddActionVariants.manually && (
-            <form onSubmit={formik.handleSubmit} className={classes.form}>
-              {manualSteps[state.step]}
-            </form>
+    <Modal open>
+      <SmallModal
+        onClose={props.onClose}
+        onBack={state.currentVariant ? handleOnBack : undefined}
+      >
+        <div className={classes.form}>
+          {!state.currentVariant && (
+            <VotingChooseButtons
+              subtitle="Actions will be automatically executed if the voting on the proposal is successful"
+              buttons={[
+                {
+                  title: 'Set up manually',
+                  subtitle: `Adjust the target and all characteristics of the voting manually`,
+                  onClick: () =>
+                    dispatch(setVariant(AddActionVariants.manually))
+                },
+                {
+                  title: 'Use template',
+                  subtitle: `Choose one of several presets and simply launch voting in a few clicks`,
+                  onClick: () =>
+                    dispatch(setVariant(AddActionVariants.template))
+                }
+              ]}
+            />
           )}
-        </FormikProvider>
-        {state.currentVariant === AddActionVariants.template &&
-          templateSteps[state.step]}
-      </div>
-    </SmallModal>
+          <FormikProvider value={formik}>
+            {state.currentVariant === AddActionVariants.manually && (
+              <form onSubmit={formik.handleSubmit} className={classes.form}>
+                {manualSteps[state.step]}
+              </form>
+            )}
+          </FormikProvider>
+          {state.currentVariant === AddActionVariants.template &&
+            templateSteps[state.step]}
+        </div>
+      </SmallModal>
+    </Modal>
   );
 };
