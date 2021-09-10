@@ -47,12 +47,12 @@ export const STABLE = [
     link: URLS.whitepaper
   },
   {
-    title: 'Decentralized and Transparent',
+    title: 'Decentralized and transparent',
     text: `There is no centralized issuer behind USDap — tokens are issued automatically by a smart-contract only when required collateral is available in the real world. Anyone can check collateral any time online at bondappetit.com/collateral. No single protocol with fiat collateral — neither USDC, nor USDT — has this level of transparency.`,
     link: URLS.whitepaper
   },
   {
-    title: 'Crypto-Liquidity backed by real cash-flows',
+    title: 'Crypto-liquidity backed by real cash-flows',
     text: `USDap has its own crypto liquidity pools which are partially composed of liquidity flows coming from real-world assets.`,
     link: URLS.whitepaper
   }
