@@ -3,6 +3,7 @@ import React from 'react';
 
 import { Link, Plate, Typography } from 'src/common';
 import { ReactComponent as TwitterFilledIcon } from 'src/assets/icons/twitter-filled.svg';
+import { ReactComponent as LinkedinIcon } from 'src/assets/icons/linkedin.svg';
 import { TEAM } from '../constants';
 import { useMainTeamStyles } from './main-team.styles';
 
@@ -38,9 +39,18 @@ export const MainTeam: React.VFC<MainTeamProps> = (props) => {
                       <Link
                         href={teamMember.twitter}
                         target="_blank"
-                        className={classes.teamMemberTwitter}
+                        className={classes.teamMemberIcon}
                       >
                         <TwitterFilledIcon />
+                      </Link>
+                    )}
+                    {teamMember.linkedin && (
+                      <Link
+                        href={teamMember.linkedin}
+                        target="_blank"
+                        className={classes.teamMemberIcon}
+                      >
+                        <LinkedinIcon />
                       </Link>
                     )}
                   </Typography>

@@ -61,7 +61,7 @@ export const useMainTeamStyles = createUseStyles(
       alignItems: 'center'
     },
 
-    teamMemberTwitter: {
+    teamMemberIcon: {
       marginLeft: 9,
       marginTop: -3,
       '--icon-color': theme.colors.proposalPlate
