@@ -231,7 +231,7 @@ export const VotingAddAction: React.FC<VotingAddActionProps> = (props) => {
   }, [formik.values.functionSig]);
 
   return (
-    <Modal open>
+    <Modal open onClose={props.onClose}>
       <SmallModal
         onClose={props.onClose}
         onBack={state.currentVariant ? handleOnBack : undefined}

@@ -84,7 +84,7 @@ export const StakingList: React.VFC = () => {
               </StakingLabel>
             </div>
           </div>
-          <div className={clsx(classes.staking, classes.mb160)}>
+          <div className={clsx(classes.staking)}>
             {stakingCoupons.loading
               ? numberArray(3).map((key) => <StakingCard key={key} loading />)
               : stakingCoupons.value?.map((stakingCoupon) => (
@@ -151,6 +151,12 @@ export const StakingList: React.VFC = () => {
                   </ReactRouterLink>
                 ))}
           </div>
+          <Typography variant="h5" className={classes.mb160}>
+            You can exit any of these contracts at any time, but if you leave
+            during a lockup period, you will lose 50% of all accumulated income.
+            The lockup period starts right after you stake your tokens and ends
+            one week before the end of the staking period.
+          </Typography>
           <div className={classes.header}>
             <div className={classes.titleWrap}>
               <Typography variant="h1" component="h2" className={classes.title}>
