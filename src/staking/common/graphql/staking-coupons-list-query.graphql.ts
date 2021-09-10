@@ -42,6 +42,8 @@ export const STAKING_COUPONS_LIST_QUERY = gql`
       rewardsDuration
       rewardForDuration
       rewardForDurationFloat
+      lockPeriod
+      lockPeriodDate
       earned
       earnedFloat
       poolRate {

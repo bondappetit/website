@@ -1,9 +1,14 @@
 import { useWeb3React } from '@web3-react/core';
-import { useAsyncFn, useAsyncRetry, useUpdateEffect } from 'react-use';
+import {
+  useAsyncFn,
+  useAsyncRetry,
+  useDebounce,
+  useUpdateEffect
+} from 'react-use';
 import type { AbiItem } from 'web3-utils';
 import { useParams } from 'react-router-dom';
 import clsx from 'clsx';
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import VoteDelegatorAbi from '@bondappetit/networks/abi/VoteDelegator.json';
 
 import { MainLayout } from 'src/layouts';
@@ -54,6 +59,8 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
   const classes = useStakingCouponsStyles();
   const params = useParams<{ couponId: string }>();
 
+  const [formAmount, setAmount] = useState('0');
+
   const { account = null } = useWeb3React();
 
   const [openAttention] = useModal(StakingCouponsAttentionModal);
@@ -73,7 +80,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
   const [openUnstakingConvert] = useModal(StakingCouponsUnstakingConvertModal);
   const [openUnstakingFinish] = useModal(StakingCouponsUnstakingFinishModal);
 
-  const [, approvalNeeded] = useApprove();
+  const [approve, approvalNeeded] = useApprove();
 
   const yieldEscrowContract = useYieldEscrow();
   const governanceContract = useGovernanceContract();
@@ -102,13 +109,10 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     [params, stakingCoupons.value]
   );
 
-  const unstakingAt = dateUtils.add(
-    new Date(),
-    Number(stakingCoupon?.lockPeriod ?? 1)
-  );
+  const unstakingAt = stakingCoupon?.lockPeriodDate ?? new Date().toISOString();
 
   const [stakeState, handleStake] = useAsyncFn(
-    async (amount, fn) => {
+    async (amount: string, fn: () => void) => {
       if (
         !yieldEscrowContract ||
         !account ||
@@ -179,23 +183,6 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
           ? getVoteDelegator(voteDelegatorOf)
           : yieldEscrowContract;
 
-        const depositOptions = {
-          token: governanceTokenContract,
-          owner: account,
-          spender: contract.options.address,
-          amount: rawAmount
-        };
-
-        const depositApproved = await approvalNeeded(depositOptions);
-
-        if (depositApproved.reset) {
-          await reset(depositOptions);
-        }
-        if (depositApproved.approve) {
-          await approveAll(depositOptions);
-          await approvalNeeded(depositOptions);
-        }
-
         const deposit = contract.methods.deposit(rawAmount);
 
         await deposit.send({
@@ -219,24 +206,6 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
 
       const onStake = async () => {
         const stake = profitDistributorContract.methods.stake(rawAmount);
-
-        const stakeOptions = {
-          token: yieldEscrowContract,
-          owner: account,
-          spender: profitDistributorContract.options.address,
-          amount: rawAmount
-        };
-
-        const stakeApproved = await approvalNeeded(stakeOptions);
-
-        if (stakeApproved.reset) {
-          await reset(stakeOptions);
-        }
-        if (stakeApproved.approve) {
-          await approveAll(stakeOptions);
-
-          await approvalNeeded(stakeOptions);
-        }
 
         await stake.send({
           from: account,
@@ -298,6 +267,8 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     )
       return;
 
+    const decimals = await yieldEscrowContract.methods.decimals().call();
+
     const voteDelegatorOf = await yieldEscrowContract.methods
       .voteDelegatorOf(account)
       .call();
@@ -318,8 +289,15 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         stakingCoupon.userList?.[0]?.stakeAtDate ?? new Date().toISOString(),
       amount
     });
+
+    const bagBalanceOf = await profitDistributorContract.methods
+      .balanceOf(account)
+      .call();
+
+    const bag = bignumberUtils.fromCall(bagBalanceOf, decimals);
+
     await openUnstakingDescription({
-      amount
+      amount: bag
     });
 
     const onUnstake = async () => {
@@ -327,21 +305,19 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
 
       await exit.send({
         from: account,
-        gas: await estimateGas(exit, { from: account })
+        gas: await estimateGas(exit, {
+          from: account
+        })
       });
     };
 
     await openUnstakingUnlock({
-      amount,
+      amount: bag,
       onUnstake
     });
 
     const onConvert = async () => {
-      const decimals = await yieldEscrowContract.methods.decimals().call();
-
-      const withdraw = contract.methods.withdraw(
-        bignumberUtils.toSend(amount, decimals)
-      );
+      const withdraw = contract.methods.withdraw(bagBalanceOf);
 
       await withdraw.send({
         from: account,
@@ -350,12 +326,12 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     };
 
     await openUnstakingConvert({
-      amount,
+      amount: bag,
       onConvert
     });
 
     await openUnstakingFinish({
-      amount
+      amount: bag
     });
   }, [
     yieldEscrowContract,
@@ -391,6 +367,76 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     stakingCoupons.retry();
   }, [stakeState.loading, claimState.loading, unstakingState.loading]);
 
+  const [, handleApprove] = useAsyncFn(
+    async (amount: string) => {
+      if (!stakingCoupon?.contract || !account || !yieldEscrowContract) return;
+
+      const decimals = await yieldEscrowContract.methods.decimals().call();
+
+      const rawAmount = bignumberUtils.toSend(amount, decimals);
+
+      const profitDistributorContract = getProfitDistributor(
+        stakingCoupon.contract.address,
+        stakingCoupon.contract.abi
+      );
+
+      const stakeOptions = {
+        token: yieldEscrowContract,
+        owner: account,
+        spender: profitDistributorContract.options.address,
+        amount: rawAmount
+      };
+
+      const stakeApproved = await approvalNeeded(stakeOptions);
+
+      if (stakeApproved.reset) {
+        await reset(stakeOptions);
+      }
+      if (stakeApproved.approve) {
+        await approveAll(stakeOptions);
+
+        await approvalNeeded(stakeOptions);
+      }
+    },
+    [
+      getProfitDistributor,
+      stakingCoupon?.contract,
+      account,
+      yieldEscrowContract
+    ]
+  );
+
+  useDebounce(
+    async () => {
+      if (!stakingCoupon?.contract || !account || !yieldEscrowContract) return;
+
+      const decimals = await yieldEscrowContract.methods.decimals().call();
+
+      const profitDistributorContract = getProfitDistributor(
+        stakingCoupon.contract.address,
+        stakingCoupon.contract.abi
+      );
+
+      const rawAmount = bignumberUtils.toSend(formAmount, decimals);
+
+      await approvalNeeded({
+        token: yieldEscrowContract,
+        owner: account,
+        spender: profitDistributorContract.options.address,
+        amount: rawAmount
+      });
+    },
+    200,
+    [
+      account,
+      approvalNeeded,
+      stakingCoupon?.contract,
+      yieldEscrowContract,
+      getProfitDistributor,
+      formAmount
+    ]
+  );
+
   return (
     <MainLayout>
       <PageWrapper className={classes.root}>
@@ -406,9 +452,20 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         <Plate className={classes.col}>
           <StakingCouponsStakeForm
             loading={loading}
-            onSubmit={handleStake}
+            onSubmit={
+              !approve.value?.approve && !approve.value?.reset
+                ? handleStake
+                : handleApprove
+            }
             stakingToken={stakingCoupon?.stakingToken?.symbol}
             balance={balance.value}
+            onChange={setAmount}
+            buttonTitle={
+              (!approve.value?.approve && !approve.value?.reset) ||
+              bignumberUtils.lte(formAmount, 0)
+                ? 'Stake'
+                : 'Approve'
+            }
           />
         </Plate>
         <Plate className={clsx(classes.col, classes.unstakeClaim)}>
