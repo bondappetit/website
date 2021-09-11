@@ -145,6 +145,10 @@ export type ProfitDistributorType = {
   periodStart: Scalars['String'];
   /** Block number of staking period finish */
   periodFinish: Scalars['String'];
+  /** Block number of lock period */
+  lockPeriod: Scalars['String'];
+  /** Date of lock period */
+  lockPeriodDate: Scalars['DateTimeType'];
   /** Rewards duration */
   rewardsDuration: Scalars['String'];
   /** Reward for duration */
@@ -617,6 +621,8 @@ export type StakingCouponsListQuery = { __typename?: 'Query' } & {
       | 'rewardsDuration'
       | 'rewardForDuration'
       | 'rewardForDurationFloat'
+      | 'lockPeriod'
+      | 'lockPeriodDate'
       | 'earned'
       | 'earnedFloat'
     > & {
@@ -1094,6 +1100,8 @@ export const StakingCouponsListDocument = gql`
       rewardsDuration
       rewardForDuration
       rewardForDurationFloat
+      lockPeriod
+      lockPeriodDate
       earned
       earnedFloat
       poolRate {
