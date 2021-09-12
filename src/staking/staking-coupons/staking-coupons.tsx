@@ -390,8 +390,8 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
       const voteDelegatorContract = getVoteDelegator(voteDelegatorOf);
 
       const contract = notDelegated
-        ? voteDelegatorContract
-        : yieldEscrowContract;
+        ? yieldEscrowContract
+        : voteDelegatorContract;
 
       const stakeOptions = {
         token: governanceTokenContract,
@@ -441,8 +441,8 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
       const voteDelegatorContract = getVoteDelegator(voteDelegatorOf);
 
       const contract = notDelegated
-        ? voteDelegatorContract
-        : yieldEscrowContract;
+        ? yieldEscrowContract
+        : voteDelegatorContract;
 
       const rawAmount = bignumberUtils.toSend(formAmount, decimals);
 
