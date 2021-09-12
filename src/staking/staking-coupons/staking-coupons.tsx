@@ -224,7 +224,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         }
       };
 
-      if (stakeApproved.approve && stakeApproved.reset) {
+      if (stakeApproved.approve || stakeApproved.reset) {
         await openLock({
           amount: newAmount,
           steps: notDelegated ? 3 : 2,
