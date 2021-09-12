@@ -48,6 +48,10 @@ export const StakingCouponsDescriptionModal: React.VFC<StakingCouponsDescription
                   <li>Stake yBAG to earn interest income in USDC</li>
                 </ol>
               </Typography>
+              <Typography variant="h5">
+                The yBAG token is just a technical representation of the BAG
+                token. It is used only for staking.
+              </Typography>
             </div>
             <Button
               className={classes.button}
