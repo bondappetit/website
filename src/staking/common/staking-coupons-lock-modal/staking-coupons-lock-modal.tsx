@@ -57,7 +57,7 @@ export const StakingCouponsLockModal: React.VFC<StakingCouponsLockModalProps> =
                 Unstaking period: 7 days
               </Typography>
               <Typography variant="h5">
-                If you left yout BAGs after unstakeperiod their lock will be
+                If you left yout BAGs after unstake period their lock will be
                 prolongate for another {props.month} months
               </Typography>
             </div>
