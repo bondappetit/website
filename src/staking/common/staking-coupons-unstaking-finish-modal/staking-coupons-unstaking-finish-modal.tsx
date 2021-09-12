@@ -13,6 +13,7 @@ export type StakingCouponsUnstakingFinishModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
   amount: string;
+  delegated: boolean;
 };
 
 export const StakingCouponsUnstakingFinishModal: React.VFC<StakingCouponsUnstakingFinishModalProps> =
@@ -28,13 +29,17 @@ export const StakingCouponsUnstakingFinishModal: React.VFC<StakingCouponsUnstaki
             <div className={classes.content}>
               <Typography variant="h5" component="div" align="center">
                 {humanizeNumeral(props.amount)} BAG unlocked!
-                <br />
-                <Typography
-                  variant="inherit"
-                  className={classes.votesDeligated}
-                >
-                  Votes delegated back
-                </Typography>
+                {props.delegated && (
+                  <>
+                    <br />
+                    <Typography
+                      variant="inherit"
+                      className={classes.votesDeligated}
+                    >
+                      Votes delegated back
+                    </Typography>
+                  </>
+                )}
               </Typography>
             </div>
             <Button
