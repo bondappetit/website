@@ -14,11 +14,12 @@ import { useStakingCouponsLockModalStyles } from './staking-coupons-lock-modal.s
 export type StakingCouponsLockModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
-  onStake: () => Promise<void>;
+  onSubmit: () => Promise<void>;
   amount: string;
   steps: number;
   month: string;
   unstakingAt: string;
+  button: 'Stake' | 'Approve';
 };
 
 export const StakingCouponsLockModal: React.VFC<StakingCouponsLockModalProps> =
@@ -26,7 +27,7 @@ export const StakingCouponsLockModal: React.VFC<StakingCouponsLockModalProps> =
     const classes = useStakingCouponsLockModalStyles();
 
     const [lockState, handleLock] = useAsyncFn(async () => {
-      await props.onStake();
+      await props.onSubmit();
 
       props.onConfirm(true);
     }, []);
@@ -66,7 +67,7 @@ export const StakingCouponsLockModal: React.VFC<StakingCouponsLockModalProps> =
               size="medium"
               loading={lockState.loading}
             >
-              Stake
+              {props.button}
             </Button>
           </div>
         </SmallModal>

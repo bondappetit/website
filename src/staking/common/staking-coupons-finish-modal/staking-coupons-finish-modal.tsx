@@ -15,6 +15,7 @@ export type StakingCouponsFinishModalProps = {
   onConfirm: (confirm: boolean) => void;
   amount: string;
   unstakingAt: string;
+  delegated: boolean;
 };
 
 export const StakingCouponsFinishModal: React.VFC<StakingCouponsFinishModalProps> =
@@ -32,13 +33,17 @@ export const StakingCouponsFinishModal: React.VFC<StakingCouponsFinishModalProps
                 {humanizeNumeral(props.amount)} BAG locked!
                 <br />
                 Unstaking at {dateUtils.format(props.unstakingAt, 'MMMM DD')}
-                <br />
-                <Typography
-                  variant="inherit"
-                  className={classes.votesDeligated}
-                >
-                  Votes delegated
-                </Typography>
+                {props.delegated && (
+                  <>
+                    <br />
+                    <Typography
+                      variant="inherit"
+                      className={classes.votesDeligated}
+                    >
+                      Votes delegated
+                    </Typography>
+                  </>
+                )}
               </Typography>
             </div>
             <Button

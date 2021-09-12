@@ -213,17 +213,48 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         });
       };
 
+      const onApprove = async () => {
+        const stakeOptions = {
+          token: yieldEscrowContract,
+          owner: account,
+          spender: profitDistributorContract.options.address,
+          amount: rawAmount
+        };
+
+        const stakeApproved = await approvalNeeded(stakeOptions);
+
+        if (stakeApproved.reset) {
+          await reset(stakeOptions);
+        }
+        if (stakeApproved.approve) {
+          await approveAll(stakeOptions);
+
+          await approvalNeeded(stakeOptions);
+        }
+      };
+
       await openLock({
         amount: newAmount,
         steps: notDelegated ? 3 : 2,
         month: stakingCoupon.lockPeriod ?? '',
         unstakingAt,
-        onStake
+        onSubmit: onApprove,
+        button: 'Approve'
+      });
+
+      await openLock({
+        amount: newAmount,
+        steps: notDelegated ? 3 : 2,
+        month: stakingCoupon.lockPeriod ?? '',
+        unstakingAt,
+        onSubmit: onStake,
+        button: 'Stake'
       });
 
       await openFinish({
         amount: newAmount,
-        unstakingAt
+        unstakingAt,
+        delegated: !notDelegated
       });
 
       fn();
@@ -393,22 +424,22 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         ? yieldEscrowContract
         : voteDelegatorContract;
 
-      const stakeOptions = {
+      const depositOptions = {
         token: governanceTokenContract,
         owner: account,
         spender: contract.options.address,
         amount: rawAmount
       };
 
-      const stakeApproved = await approvalNeeded(stakeOptions);
+      const depositApproved = await approvalNeeded(depositOptions);
 
-      if (stakeApproved.reset) {
-        await reset(stakeOptions);
+      if (depositApproved.reset) {
+        await reset(depositOptions);
       }
-      if (stakeApproved.approve) {
-        await approveAll(stakeOptions);
+      if (depositApproved.approve) {
+        await approveAll(depositOptions);
 
-        await approvalNeeded(stakeOptions);
+        await approvalNeeded(depositOptions);
       }
     },
     [
