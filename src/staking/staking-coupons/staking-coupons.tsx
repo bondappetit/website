@@ -369,21 +369,34 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
 
   const [, handleApprove] = useAsyncFn(
     async (amount: string) => {
-      if (!stakingCoupon?.contract || !account || !yieldEscrowContract) return;
+      if (
+        !stakingCoupon?.contract ||
+        !account ||
+        !yieldEscrowContract ||
+        !governanceTokenContract
+      )
+        return;
 
       const decimals = await yieldEscrowContract.methods.decimals().call();
 
       const rawAmount = bignumberUtils.toSend(amount, decimals);
 
-      const profitDistributorContract = getProfitDistributor(
-        stakingCoupon.contract.address,
-        stakingCoupon.contract.abi
-      );
+      const voteDelegatorOf = await yieldEscrowContract.methods
+        .voteDelegatorOf(account)
+        .call();
+
+      const notDelegated = voteDelegatorOf === DEFAULT_ADDRESS;
+
+      const voteDelegatorContract = getVoteDelegator(voteDelegatorOf);
+
+      const contract = notDelegated
+        ? voteDelegatorContract
+        : yieldEscrowContract;
 
       const stakeOptions = {
-        token: yieldEscrowContract,
+        token: governanceTokenContract,
         owner: account,
-        spender: profitDistributorContract.options.address,
+        spender: contract.options.address,
         amount: rawAmount
       };
 
@@ -399,30 +412,44 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
       }
     },
     [
-      getProfitDistributor,
       stakingCoupon?.contract,
       account,
-      yieldEscrowContract
+      yieldEscrowContract,
+      getVoteDelegator,
+      governanceTokenContract
     ]
   );
 
   useDebounce(
     async () => {
-      if (!stakingCoupon?.contract || !account || !yieldEscrowContract) return;
+      if (
+        !stakingCoupon?.contract ||
+        !account ||
+        !yieldEscrowContract ||
+        !governanceTokenContract
+      )
+        return;
+
+      const voteDelegatorOf = await yieldEscrowContract.methods
+        .voteDelegatorOf(account)
+        .call();
+
+      const notDelegated = voteDelegatorOf === DEFAULT_ADDRESS;
 
       const decimals = await yieldEscrowContract.methods.decimals().call();
 
-      const profitDistributorContract = getProfitDistributor(
-        stakingCoupon.contract.address,
-        stakingCoupon.contract.abi
-      );
+      const voteDelegatorContract = getVoteDelegator(voteDelegatorOf);
+
+      const contract = notDelegated
+        ? voteDelegatorContract
+        : yieldEscrowContract;
 
       const rawAmount = bignumberUtils.toSend(formAmount, decimals);
 
       await approvalNeeded({
-        token: yieldEscrowContract,
+        token: governanceTokenContract,
         owner: account,
-        spender: profitDistributorContract.options.address,
+        spender: contract.options.address,
         amount: rawAmount
       });
     },
@@ -432,8 +459,9 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
       approvalNeeded,
       stakingCoupon?.contract,
       yieldEscrowContract,
-      getProfitDistributor,
-      formAmount
+      formAmount,
+      governanceTokenContract,
+      getVoteDelegator
     ]
   );
 
