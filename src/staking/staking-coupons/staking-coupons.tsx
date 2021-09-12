@@ -364,7 +364,8 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     });
 
     await openUnstakingFinish({
-      amount: bag
+      amount: bag,
+      delegated: !notDelegated
     });
   }, [
     yieldEscrowContract,
