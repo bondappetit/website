@@ -204,25 +204,16 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         stakingCoupon.contract.abi
       );
 
-      const onStake = async () => {
-        const stake = profitDistributorContract.methods.stake(rawAmount);
-
-        await stake.send({
-          from: account,
-          gas: await estimateGas(stake, { from: account })
-        });
+      const stakeOptions = {
+        token: yieldEscrowContract,
+        owner: account,
+        spender: profitDistributorContract.options.address,
+        amount: rawAmount
       };
 
+      const stakeApproved = await approvalNeeded(stakeOptions);
+
       const onApprove = async () => {
-        const stakeOptions = {
-          token: yieldEscrowContract,
-          owner: account,
-          spender: profitDistributorContract.options.address,
-          amount: rawAmount
-        };
-
-        const stakeApproved = await approvalNeeded(stakeOptions);
-
         if (stakeApproved.reset) {
           await reset(stakeOptions);
         }
@@ -233,14 +224,25 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         }
       };
 
-      await openLock({
-        amount: newAmount,
-        steps: notDelegated ? 3 : 2,
-        month: stakingCoupon.lockPeriod ?? '',
-        unstakingAt,
-        onSubmit: onApprove,
-        button: 'Approve'
-      });
+      if (stakeApproved.approve && stakeApproved.reset) {
+        await openLock({
+          amount: newAmount,
+          steps: notDelegated ? 3 : 2,
+          month: stakingCoupon.lockPeriod ?? '',
+          unstakingAt,
+          onSubmit: onApprove,
+          button: 'Approve'
+        });
+      }
+
+      const onStake = async () => {
+        const stake = profitDistributorContract.methods.stake(rawAmount);
+
+        await stake.send({
+          from: account,
+          gas: await estimateGas(stake, { from: account })
+        });
+      };
 
       await openLock({
         amount: newAmount,
