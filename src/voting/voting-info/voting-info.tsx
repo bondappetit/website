@@ -109,9 +109,13 @@ export const VotingInfo: React.VFC<unknown> = () => {
                       <>
                         Your votes:{' '}
                         <Typography variant="inherit" weight="semibold">
-                          {new BN(currentVotes).isEqualTo(0)
-                            ? currentGovCoin
-                            : currentVotes}{' '}
+                          {!new BN(currentVotes).isGreaterThan(0) && (
+                            <>
+                              {new BN(currentVotes).isZero()
+                                ? currentGovCoin
+                                : currentVotes}
+                            </>
+                          )}{' '}
                           {new BN(currentVotes).isGreaterThan(0) &&
                             new BN(currentGovCoin).isGreaterThan(
                               currentVotes
@@ -121,8 +125,8 @@ export const VotingInfo: React.VFC<unknown> = () => {
                       </>
                     )}
                   {!proposals.loading &&
-                    new BN(currentVotes).isEqualTo(0) &&
-                    new BN(currentGovCoin).isEqualTo(0) && <>No Votes</>}
+                    new BN(currentVotes).isZero() &&
+                    new BN(currentGovCoin).isZero() && <>No Votes</>}
                 </Typography>
                 <ButtonBase
                   className={classes.actionsButton}
