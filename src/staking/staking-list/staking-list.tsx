@@ -94,7 +94,7 @@ export const StakingList: React.VFC = () => {
                     className={classes.cardWrap}
                   >
                     <Plate className={classes.card} withoutBorder>
-                      {stakingCoupon.userList[0].staked && (
+                      {stakingCoupon.userList?.[0]?.staked && (
                         <Status
                           color="grey"
                           variant="contained"
