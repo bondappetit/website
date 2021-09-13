@@ -68,6 +68,7 @@ export const StakingList: React.VFC = () => {
                 token holders every quarter.{' '}
                 <Link
                   color="blue"
+                  target="_blank"
                   href="https://bondappetit.medium.com/bag-holders-will-receive-their-first-payouts-in-usdc-this-month-here-are-the-details-21bd22c6dbd0"
                 >
                   How it works

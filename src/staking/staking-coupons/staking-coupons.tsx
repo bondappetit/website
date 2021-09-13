@@ -91,15 +91,23 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
   const getProfitDistributor = useDynamicContract<ProfitDistributor>();
 
   const balance = useAsyncRetry(async () => {
-    if (!governanceContract || !account) return;
+    if (!governanceContract || !account || !yieldEscrowContract) return;
 
     const balanceOf = await governanceContract.methods
       .balanceOf(account)
       .call();
+
     const decimals = await governanceContract.methods.decimals().call();
 
-    return bignumberUtils.fromCall(balanceOf, decimals);
-  }, [account, governanceContract]);
+    const depositBalanceOf = await yieldEscrowContract.methods
+      .balanceOf(account)
+      .call();
+
+    return bignumberUtils.fromCall(
+      bignumberUtils.plus(balanceOf, depositBalanceOf),
+      decimals
+    );
+  }, [account, governanceContract, yieldEscrowContract]);
 
   const { stakingCoupons, governanceInUSDC } = useStakingCoupons();
 
