@@ -13,9 +13,10 @@ import { useStakingCouponsConvertModalStyles } from './staking-coupons-convert-m
 export type StakingCouponsConvertModalProps = {
   onClose: () => void;
   onConfirm: (confirm: boolean) => void;
-  onConvert: () => Promise<void>;
+  onSubmit: () => Promise<void>;
   amount: string;
   steps: number;
+  button: 'Convert' | 'Approve';
 };
 
 export const StakingCouponsConvertModal: React.VFC<StakingCouponsConvertModalProps> =
@@ -23,7 +24,8 @@ export const StakingCouponsConvertModal: React.VFC<StakingCouponsConvertModalPro
     const classes = useStakingCouponsConvertModalStyles();
 
     const [convertState, handleConvert] = useAsyncFn(async () => {
-      await props.onConvert();
+      await props.onSubmit();
+
       props.onConfirm(true);
     }, []);
 
@@ -58,7 +60,7 @@ export const StakingCouponsConvertModal: React.VFC<StakingCouponsConvertModalPro
               size="medium"
               loading={convertState.loading}
             >
-              Convert
+              {props.button}
             </Button>
           </div>
         </SmallModal>
