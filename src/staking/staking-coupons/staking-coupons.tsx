@@ -148,6 +148,24 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         .decimals()
         .call();
 
+      const yBAG = bignumberUtils.fromCall(
+        await yieldEscrowContract.methods.balanceOf(account).call(),
+        yieldEscrowdecimals
+      );
+
+      const amountBiggerThanYBAG = bignumberUtils.gt(amount, yBAG);
+
+      const newAmount = amountBiggerThanYBAG
+        ? bignumberUtils.minus(amount, yBAG)
+        : amount;
+
+      const rawAmount = bignumberUtils.toSend(newAmount, yieldEscrowdecimals);
+
+      const profitDistributorContract = getProfitDistributor(
+        stakingCoupon.contract.address,
+        stakingCoupon.contract.abi
+      );
+
       const onDelegate = async () => {
         const createVoteDelegator =
           yieldEscrowContract.methods.createVoteDelegator();
@@ -173,24 +191,42 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         });
       }
 
-      const yBAG = bignumberUtils.fromCall(
-        await yieldEscrowContract.methods.balanceOf(account).call(),
-        yieldEscrowdecimals
-      );
+      const voteDelegatorContract = getVoteDelegator(voteDelegatorOf);
 
-      const amountBiggerThanYBAG = bignumberUtils.gt(amount, yBAG);
+      const contract = notDelegated
+        ? yieldEscrowContract
+        : voteDelegatorContract;
 
-      const newAmount = amountBiggerThanYBAG
-        ? bignumberUtils.minus(amount, yBAG)
-        : amount;
+      const depositOptions = {
+        token: governanceTokenContract,
+        owner: account,
+        spender: contract.options.address,
+        amount: rawAmount
+      };
 
-      const rawAmount = bignumberUtils.toSend(newAmount, yieldEscrowdecimals);
+      const depositApproved = await approvalNeeded(depositOptions);
+
+      const onApprove = async () => {
+        if (depositApproved.reset) {
+          await reset(depositOptions);
+        }
+        if (depositApproved.approve) {
+          await approveAll(depositOptions);
+
+          await approvalNeeded(depositOptions);
+        }
+      };
+
+      if (depositApproved.approve || depositApproved.reset) {
+        await openConvert({
+          amount,
+          steps: notDelegated ? 3 : 2,
+          onSubmit: onApprove,
+          button: 'Approve'
+        });
+      }
 
       const onConvert = async () => {
-        const contract = !notDelegated
-          ? getVoteDelegator(voteDelegatorOf)
-          : yieldEscrowContract;
-
         const deposit = contract.methods.deposit(rawAmount);
 
         await deposit.send({
@@ -203,43 +239,8 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         await openConvert({
           amount,
           steps: notDelegated ? 3 : 2,
-          onConvert
-        });
-      }
-
-      const profitDistributorContract = getProfitDistributor(
-        stakingCoupon.contract.address,
-        stakingCoupon.contract.abi
-      );
-
-      const stakeOptions = {
-        token: yieldEscrowContract,
-        owner: account,
-        spender: profitDistributorContract.options.address,
-        amount: rawAmount
-      };
-
-      const stakeApproved = await approvalNeeded(stakeOptions);
-
-      const onApprove = async () => {
-        if (stakeApproved.reset) {
-          await reset(stakeOptions);
-        }
-        if (stakeApproved.approve) {
-          await approveAll(stakeOptions);
-
-          await approvalNeeded(stakeOptions);
-        }
-      };
-
-      if (stakeApproved.approve || stakeApproved.reset) {
-        await openLock({
-          amount: newAmount,
-          steps: notDelegated ? 3 : 2,
-          month: stakingCoupon.lockPeriod ?? '',
-          unstakingAt,
-          onSubmit: onApprove,
-          button: 'Approve'
+          onSubmit: onConvert,
+          button: 'Convert'
         });
       }
 
@@ -411,99 +412,74 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
 
   const [, handleApprove] = useAsyncFn(
     async (amount: string) => {
-      if (
-        !stakingCoupon?.contract ||
-        !account ||
-        !yieldEscrowContract ||
-        !governanceTokenContract
-      )
-        return;
+      if (!stakingCoupon?.contract || !account || !yieldEscrowContract) return;
+
+      const profitDistributorContract = getProfitDistributor(
+        stakingCoupon.contract.address,
+        stakingCoupon.contract.abi
+      );
 
       const decimals = await yieldEscrowContract.methods.decimals().call();
 
       const rawAmount = bignumberUtils.toSend(amount, decimals);
 
-      const voteDelegatorOf = await yieldEscrowContract.methods
-        .voteDelegatorOf(account)
-        .call();
-
-      const notDelegated = voteDelegatorOf === DEFAULT_ADDRESS;
-
-      const voteDelegatorContract = getVoteDelegator(voteDelegatorOf);
-
-      const contract = notDelegated
-        ? yieldEscrowContract
-        : voteDelegatorContract;
-
-      const depositOptions = {
-        token: governanceTokenContract,
+      const stakeOptions = {
+        token: yieldEscrowContract,
         owner: account,
-        spender: contract.options.address,
+        spender: profitDistributorContract.options.address,
         amount: rawAmount
       };
 
-      const depositApproved = await approvalNeeded(depositOptions);
+      const stakeApproved = await approvalNeeded(stakeOptions);
 
-      if (depositApproved.reset) {
-        await reset(depositOptions);
+      if (stakeApproved.reset) {
+        await reset(stakeOptions);
       }
-      if (depositApproved.approve) {
-        await approveAll(depositOptions);
+      if (stakeApproved.approve) {
+        await approveAll(stakeOptions);
 
-        await approvalNeeded(depositOptions);
+        await approvalNeeded(stakeOptions);
       }
     },
     [
       stakingCoupon?.contract,
       account,
       yieldEscrowContract,
-      getVoteDelegator,
-      governanceTokenContract
+      approvalNeeded,
+      getProfitDistributor
     ]
   );
 
   useDebounce(
     async () => {
-      if (
-        !stakingCoupon?.contract ||
-        !account ||
-        !yieldEscrowContract ||
-        !governanceTokenContract
-      )
-        return;
+      if (!stakingCoupon?.contract || !account || !yieldEscrowContract) return;
 
-      const voteDelegatorOf = await yieldEscrowContract.methods
-        .voteDelegatorOf(account)
-        .call();
-
-      const notDelegated = voteDelegatorOf === DEFAULT_ADDRESS;
+      const profitDistributorContract = getProfitDistributor(
+        stakingCoupon.contract.address,
+        stakingCoupon.contract.abi
+      );
 
       const decimals = await yieldEscrowContract.methods.decimals().call();
 
-      const voteDelegatorContract = getVoteDelegator(voteDelegatorOf);
-
-      const contract = notDelegated
-        ? yieldEscrowContract
-        : voteDelegatorContract;
-
       const rawAmount = bignumberUtils.toSend(formAmount, decimals);
 
-      await approvalNeeded({
-        token: governanceTokenContract,
+      const stakeOptions = {
+        token: yieldEscrowContract,
         owner: account,
-        spender: contract.options.address,
+        spender: profitDistributorContract.options.address,
         amount: rawAmount
-      });
+      };
+
+      await approvalNeeded(stakeOptions);
     },
     200,
     [
       account,
-      approvalNeeded,
-      stakingCoupon?.contract,
-      yieldEscrowContract,
       formAmount,
-      governanceTokenContract,
-      getVoteDelegator
+      getProfitDistributor,
+      approvalNeeded,
+      yieldEscrowContract,
+      stakingCoupon?.contract
     ]
   );
 
