@@ -109,7 +109,10 @@ export const VotingInfo: React.VFC<unknown> = () => {
                       <>
                         Your votes:{' '}
                         <Typography variant="inherit" weight="semibold">
-                          {!new BN(currentVotes).isGreaterThan(0) && (
+                          {!(
+                            new BN(currentVotes).isGreaterThan(0) &&
+                            new BN(currentGovCoin).isGreaterThan(currentVotes)
+                          ) && (
                             <>
                               {new BN(currentVotes).isZero()
                                 ? currentGovCoin
