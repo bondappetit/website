@@ -45,7 +45,7 @@ export const LinkModal: React.FC<LinkModalProps> = (props) => {
 
   const networkConfig = useNetworkConfig();
 
-  const uniswapUrl = `${INCH_URL}/${networkConfig.assets.USDT.symbol}/${props.tokenName}`;
+  const uniswapUrl = `${INCH_URL}/${networkConfig.assets.USDC.symbol}/${props.tokenName}`;
 
   const uniswapUsdap = props.withSell ? SELL_UNISWAP_URL : BUY_UNISWAP_URL;
 
