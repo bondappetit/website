@@ -66,7 +66,10 @@ export const StakingList: React.VFC = () => {
                 BAG holders receive coupon payments from bonds that back the
                 USDap stablecoin. Interest income in USDC is distributed among
                 token holders every quarter.{' '}
-                <Link color="blue" href="/">
+                <Link
+                  color="blue"
+                  href="https://bondappetit.medium.com/bag-holders-will-receive-their-first-payouts-in-usdc-this-month-here-are-the-details-21bd22c6dbd0"
+                >
                   How it works
                 </Link>
               </Typography>
