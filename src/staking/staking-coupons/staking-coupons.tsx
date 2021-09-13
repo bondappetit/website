@@ -278,14 +278,14 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     balance.retry();
   });
 
-  const earned = stakingCoupon?.userList[0].locked
-    ? bignumberUtils.div(stakingCoupon?.userList[0].earnedFloat, 2)
+  const earned = stakingCoupon?.userList?.[0]?.locked
+    ? bignumberUtils.div(stakingCoupon?.userList?.[0]?.earnedFloat, 2)
     : bignumberUtils.plus(
-        stakingCoupon?.userList[0].earnedFloat,
-        stakingCoupon?.userList[0].penaltyFloat
+        stakingCoupon?.userList?.[0]?.earnedFloat,
+        stakingCoupon?.userList?.[0]?.penaltyFloat
       );
-  const locked = stakingCoupon?.userList[0].locked
-    ? bignumberUtils.plus(earned, stakingCoupon?.userList[0].penaltyFloat)
+  const locked = stakingCoupon?.userList?.[0]?.locked
+    ? bignumberUtils.plus(earned, stakingCoupon?.userList?.[0]?.penaltyFloat)
     : 0;
 
   const [unstakingState, handleUnstake] = useAsyncFn(async () => {
@@ -536,13 +536,13 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
               Staked {loading ? '...' : stakingCoupon?.stakingToken?.symbol}
             </Typography>
             <Typography variant="h3" className={classes.sum}>
-              {humanizeNumeral(stakingCoupon?.userList[0].balanceFloat)}
+              {humanizeNumeral(stakingCoupon?.userList?.[0]?.balanceFloat)}
             </Typography>
             <Typography className={classes.subSum}>
               $
               {humanizeNumeral(
                 bignumberUtils.mul(
-                  stakingCoupon?.userList[0].balanceFloat,
+                  stakingCoupon?.userList?.[0]?.balanceFloat,
                   governanceInUSDC
                 )
               )}{' '}
@@ -550,18 +550,18 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
               {humanizeNumeral(
                 bignumberUtils.toPercent(
                   bignumberUtils.div(
-                    stakingCoupon?.userList[0].balanceFloat,
+                    stakingCoupon?.userList?.[0]?.balanceFloat,
                     stakingCoupon?.totalSupplyFloat
                   )
                 )
               )}
               % Pool share)
             </Typography>
-            {stakingCoupon?.userList[0]?.nextUnlockDate && (
+            {stakingCoupon?.userList?.[0]?.nextUnlockDate && (
               <Typography className={classes.unstakingDate}>
                 Unstaking at{' '}
                 {dateUtils.format(
-                  stakingCoupon?.userList[0]?.nextUnlockDate,
+                  stakingCoupon?.userList?.[0]?.nextUnlockDate,
                   'MMMM DD'
                 )}
               </Typography>
@@ -570,8 +570,10 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
               onClick={handleUnstake}
               loading={unstakingState.loading}
               disabled={
-                bignumberUtils.eq(stakingCoupon?.userList[0].balanceFloat, 0) &&
-                !unstakingState.loading
+                bignumberUtils.eq(
+                  stakingCoupon?.userList?.[0]?.balanceFloat,
+                  0
+                ) && !unstakingState.loading
               }
             >
               Unstake
@@ -584,7 +586,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
             <Typography variant="h3" className={classes.sum}>
               {humanizeNumeral(earned)}
             </Typography>
-            {stakingCoupon?.userList[0].locked && (
+            {stakingCoupon?.userList?.[0]?.locked && (
               <Typography className={classes.subSum}>
                 Locked {humanizeNumeral(locked)}
               </Typography>
@@ -594,8 +596,10 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
               onClick={handleClaim}
               className={classes.claim}
               disabled={
-                bignumberUtils.eq(stakingCoupon?.userList[0].earnedFloat, 0) &&
-                !claimState.loading
+                bignumberUtils.eq(
+                  stakingCoupon?.userList?.[0]?.earnedFloat,
+                  0
+                ) && !claimState.loading
               }
             >
               Claim
