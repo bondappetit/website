@@ -491,7 +491,10 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
           loading={loading}
           depositToken={stakingCoupon?.stakingToken?.symbol}
           earnToken={stakingCoupon?.rewardToken?.symbol}
-          totalValueLocked={stakingCoupon?.totalSupplyFloat}
+          totalValueLocked={bignumberUtils.mul(
+            stakingCoupon?.totalSupplyFloat,
+            stakingCoupon?.stakingToken.priceUSD
+          )}
           poolRate={stakingCoupon?.poolRate.dailyFloat}
           className={classes.header}
         />
