@@ -16,7 +16,6 @@ export type StakingCouponsStakeFormProps = {
   loading: boolean;
   stakingToken?: string;
   balance?: string;
-  onChange: (amount: string) => void;
   buttonTitle: string;
 };
 
@@ -56,10 +55,6 @@ export const StakingCouponsStakeForm: React.FC<StakingCouponsStakeFormProps> = (
   const handleOnMax = () => {
     formik.setFieldValue('amount', balance);
   };
-
-  useUpdateEffect(() => {
-    props.onChange(formik.values.amount);
-  }, [formik.values.amount]);
 
   return (
     <form onSubmit={formik.handleSubmit} className={classes.root} noValidate>

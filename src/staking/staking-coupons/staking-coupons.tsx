@@ -1,14 +1,9 @@
 import { useWeb3React } from '@web3-react/core';
-import {
-  useAsyncFn,
-  useAsyncRetry,
-  useDebounce,
-  useUpdateEffect
-} from 'react-use';
+import { useAsyncFn, useAsyncRetry, useUpdateEffect } from 'react-use';
 import type { AbiItem } from 'web3-utils';
 import { useParams } from 'react-router-dom';
 import clsx from 'clsx';
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import VoteDelegatorAbi from '@bondappetit/networks/abi/VoteDelegator.json';
 
 import { MainLayout } from 'src/layouts';
@@ -59,8 +54,6 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
   const classes = useStakingCouponsStyles();
   const params = useParams<{ couponId: string }>();
 
-  const [formAmount, setAmount] = useState('0');
-
   const { account = null } = useWeb3React();
 
   const [openAttention] = useModal(StakingCouponsAttentionModal);
@@ -80,7 +73,7 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
   const [openUnstakingConvert] = useModal(StakingCouponsUnstakingConvertModal);
   const [openUnstakingFinish] = useModal(StakingCouponsUnstakingFinishModal);
 
-  const [approve, approvalNeeded] = useApprove();
+  const [, approvalNeeded] = useApprove();
 
   const yieldEscrowContract = useYieldEscrow();
   const governanceContract = useGovernanceContract();
@@ -241,6 +234,37 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
           steps: notDelegated ? 3 : 2,
           onSubmit: onConvert,
           button: 'Convert'
+        });
+      }
+
+      const stakeOptions = {
+        token: yieldEscrowContract,
+        owner: account,
+        spender: profitDistributorContract.options.address,
+        amount: rawAmount
+      };
+
+      const stakeApproved = await approvalNeeded(stakeOptions);
+
+      const onApproveStake = async () => {
+        if (stakeApproved.reset) {
+          await reset(stakeOptions);
+        }
+        if (stakeApproved.approve) {
+          await approveAll(stakeOptions);
+
+          await approvalNeeded(stakeOptions);
+        }
+      };
+
+      if (stakeApproved.approve || stakeApproved.reset) {
+        await openLock({
+          amount: newAmount,
+          steps: notDelegated ? 3 : 2,
+          month: stakingCoupon.lockPeriod ?? '',
+          unstakingAt,
+          onSubmit: onApproveStake,
+          button: 'Approve'
         });
       }
 
@@ -410,79 +434,6 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
     stakingCoupons.retry();
   }, [stakeState.loading, claimState.loading, unstakingState.loading]);
 
-  const [, handleApprove] = useAsyncFn(
-    async (amount: string) => {
-      if (!stakingCoupon?.contract || !account || !yieldEscrowContract) return;
-
-      const profitDistributorContract = getProfitDistributor(
-        stakingCoupon.contract.address,
-        stakingCoupon.contract.abi
-      );
-
-      const decimals = await yieldEscrowContract.methods.decimals().call();
-
-      const rawAmount = bignumberUtils.toSend(amount, decimals);
-
-      const stakeOptions = {
-        token: yieldEscrowContract,
-        owner: account,
-        spender: profitDistributorContract.options.address,
-        amount: rawAmount
-      };
-
-      const stakeApproved = await approvalNeeded(stakeOptions);
-
-      if (stakeApproved.reset) {
-        await reset(stakeOptions);
-      }
-      if (stakeApproved.approve) {
-        await approveAll(stakeOptions);
-
-        await approvalNeeded(stakeOptions);
-      }
-    },
-    [
-      stakingCoupon?.contract,
-      account,
-      yieldEscrowContract,
-      approvalNeeded,
-      getProfitDistributor
-    ]
-  );
-
-  useDebounce(
-    async () => {
-      if (!stakingCoupon?.contract || !account || !yieldEscrowContract) return;
-
-      const profitDistributorContract = getProfitDistributor(
-        stakingCoupon.contract.address,
-        stakingCoupon.contract.abi
-      );
-
-      const decimals = await yieldEscrowContract.methods.decimals().call();
-
-      const rawAmount = bignumberUtils.toSend(formAmount, decimals);
-
-      const stakeOptions = {
-        token: yieldEscrowContract,
-        owner: account,
-        spender: profitDistributorContract.options.address,
-        amount: rawAmount
-      };
-
-      await approvalNeeded(stakeOptions);
-    },
-    200,
-    [
-      account,
-      formAmount,
-      getProfitDistributor,
-      approvalNeeded,
-      yieldEscrowContract,
-      stakingCoupon?.contract
-    ]
-  );
-
   return (
     <MainLayout>
       <PageWrapper className={classes.root}>
@@ -501,20 +452,10 @@ export const StakingCoupons: React.VFC<StakingCouponsProps> = () => {
         <Plate className={classes.col}>
           <StakingCouponsStakeForm
             loading={loading}
-            onSubmit={
-              !approve.value?.approve && !approve.value?.reset
-                ? handleStake
-                : handleApprove
-            }
+            onSubmit={handleStake}
             stakingToken={stakingCoupon?.stakingToken?.symbol}
             balance={balance.value}
-            onChange={setAmount}
-            buttonTitle={
-              (!approve.value?.approve && !approve.value?.reset) ||
-              bignumberUtils.lte(formAmount, 0)
-                ? 'Stake'
-                : 'Approve'
-            }
+            buttonTitle="Stake"
           />
         </Plate>
         <Plate className={clsx(classes.col, classes.unstakeClaim)}>
