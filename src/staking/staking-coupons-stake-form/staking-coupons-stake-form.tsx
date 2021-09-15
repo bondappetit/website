@@ -1,6 +1,5 @@
 import React from 'react';
 import { useFormik } from 'formik';
-import { useUpdateEffect } from 'react-use';
 
 import {
   Typography,
