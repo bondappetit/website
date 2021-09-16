@@ -138,9 +138,15 @@ export const StakingList: React.VFC = () => {
                           </Typography>
                         </Typography>
                         <Typography align="center" className={classes.mb4}>
-                          Total supply:{' '}
+                          Total value locked:{' '}
                           <Typography variant="inherit" weight="semibold">
-                            ${humanizeNumeral(stakingCoupon.totalSupplyFloat)}
+                            $
+                            {humanizeNumeral(
+                              bignumberUtils.mul(
+                                stakingCoupon.totalSupplyFloat,
+                                stakingCoupon.stakingToken.priceUSD
+                              )
+                            )}
                           </Typography>
                         </Typography>
                         <Typography align="center">
