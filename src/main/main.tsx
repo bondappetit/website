@@ -144,7 +144,7 @@ export const Main: React.FC = () => {
           <MainEditor className={clsx(classes.section)}>
             <MainAudit
               mixBytesLink="https://github.com/mixbytes/audits_public/tree/4fc7d333e3df57586e0f96cc551819e2c93f3ae9/BondAppetit"
-              hashExLink="https://github.com/HashEx/public_audits/blob/32a680c5b8f3a784ef3273c324e0841341f3abc2/BondAppetit/BondAppetit%20report.pdf"
+              hashExLink="https://github.com/HashEx/public_audits/tree/7a220efcfb1a4dbe3b79fa24fd6e9c905893c616/BondAppétit/BondAppetit%20report.pdf"
               mixBytesLogo={<MixBytesLogo />}
               hashExLogo={<HashExLogo />}
             />
