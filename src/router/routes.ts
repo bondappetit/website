@@ -103,11 +103,11 @@ export const routes = [
     component: StakingDetail
   },
   {
-    url: URLS.staking.list,
+    url: URLS.rewards.list,
     component: StakingList
   },
   {
-    url: URLS.staking.coupons(),
+    url: URLS.rewards.coupons(),
     component: StakingCoupons
   },
   {

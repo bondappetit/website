@@ -14,7 +14,7 @@ export const VotingStaking: React.VFC = () => {
       title="Earn by staking"
       subtitle={`${leftTokens} of ${totalSupplySum} BAG left to earn`}
       loading={loading}
-      onClick={() => history.push(URLS.staking.list)}
+      onClick={() => history.push(URLS.rewards.list)}
       buttonTitle="Earn BAG"
       percent={percent.toString(10)}
       description={

@@ -44,7 +44,7 @@ export const MainStaking: React.FC<MainStakingProps> = (props) => {
         <Typography variant="inherit" component="div">
           <Link
             component={ReactRouterLink}
-            to={URLS.staking.list}
+            to={URLS.rewards.list}
             className={classes.link}
           >
             Explore Staking

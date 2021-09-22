@@ -93,7 +93,7 @@ export const StakingList: React.VFC = () => {
               ? numberArray(3).map((key) => <StakingCard key={key} loading />)
               : stakingCoupons.value?.map((stakingCoupon) => (
                   <ReactRouterLink
-                    to={URLS.staking.coupons(stakingCoupon.address)}
+                    to={URLS.rewards.coupons(stakingCoupon.address)}
                     key={stakingCoupon.lockPeriod}
                     className={classes.cardWrap}
                   >
@@ -138,15 +138,10 @@ export const StakingList: React.VFC = () => {
                           </Typography>
                         </Typography>
                         <Typography align="center" className={classes.mb4}>
-                          Total value locked:{' '}
+                          Total supply:{' '}
                           <Typography variant="inherit" weight="semibold">
-                            $
-                            {humanizeNumeral(
-                              bignumberUtils.mul(
-                                stakingCoupon.totalSupplyFloat,
-                                stakingCoupon.stakingToken.priceUSD
-                              )
-                            )}
+                            {humanizeNumeral(stakingCoupon.totalSupplyFloat)}{' '}
+                            BAG
                           </Typography>
                         </Typography>
                         <Typography align="center">
