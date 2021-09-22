@@ -12,7 +12,7 @@ const Router: React.FC = () => {
       <BrowserRouter>
         <ScrollToTop />
         <Switch>
-          <Redirect from={URLS.staking.list} to={URLS.rewards.list} />
+          <Redirect from={URLS.staking.list} to={URLS.rewards.list} exact />
           {routes.map((route, index) => {
             const id = `${route.url}-${index}`;
 
