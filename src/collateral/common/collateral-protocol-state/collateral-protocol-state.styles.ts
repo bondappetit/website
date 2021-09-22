@@ -11,11 +11,7 @@ export const useCollateralProtocolStateStyles = createUseStyles(
       alignItems: 'center',
       justifyContent: 'center',
       margin: 'auto',
-
-      [theme.breakpoints.md()]: {
-        flexDirection: 'column',
-        margin: 'unset'
-      }
+      flexDirection: 'column'
     },
 
     circle: {
