@@ -33,7 +33,7 @@ export const CollateralPhases: React.FC<CollateralPhasesProps> = (props) => {
             <Link
               color="blue"
               component={ReactRouterLink}
-              to={URLS.staking.list}
+              to={URLS.rewards.list}
             >
               Explore Staking →
             </Link>

@@ -10,6 +10,7 @@ export type StakingHeaderProps = {
   title?: React.ReactNode;
   APY?: string;
   totalValueLocked?: string;
+  totalSupply?: string;
   className?: string;
   poolRate?: string;
   loading: boolean;
@@ -57,12 +58,22 @@ export const StakingHeader: React.FC<StakingHeaderProps> = (props) => {
             value={props.earnToken}
             loading={props.loading}
           />
-          <StakingLabel
-            variant="body1"
-            title="Total value locked"
-            value={<>${humanizeNumeral(props.totalValueLocked)}</>}
-            loading={props.loading}
-          />
+          {(props.loading || props.totalValueLocked) && (
+            <StakingLabel
+              variant="body1"
+              title="Total value locked"
+              value={<>${humanizeNumeral(props.totalValueLocked)}</>}
+              loading={props.loading}
+            />
+          )}
+          {props.totalSupply && (
+            <StakingLabel
+              variant="body1"
+              title="Total supply"
+              value={<>{humanizeNumeral(props.totalSupply)} BAG</>}
+              loading={props.loading}
+            />
+          )}
           <StakingLabel
             variant="body1"
             title="Pool rate"

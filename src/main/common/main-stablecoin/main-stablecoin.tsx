@@ -128,7 +128,7 @@ export const MainStablecoin: React.VFC<MainStablecoinProps> = (props) => {
               <Link
                 color="blue"
                 component={ReactRouterLink}
-                to={URLS.staking.list}
+                to={URLS.rewards.list}
               >
                 Stake
               </Link>

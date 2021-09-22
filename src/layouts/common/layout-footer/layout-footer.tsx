@@ -32,8 +32,8 @@ const LINKS = [
         icons: []
       },
       {
-        title: 'Staking',
-        url: URLS.staking.list,
+        title: 'Rewards',
+        url: URLS.rewards.list,
         icons: []
       },
       {

@@ -96,7 +96,7 @@ export const MainStake: React.VFC<MainStakeProps> = (props) => {
           <Button
             size="medium"
             component={ReactRouterLink}
-            to={URLS.staking.list}
+            to={URLS.rewards.list}
             className={classes.stake}
           >
             Stake
@@ -112,7 +112,7 @@ export const MainStake: React.VFC<MainStakeProps> = (props) => {
               <Link
                 color="blue"
                 component={ReactRouterLink}
-                to={URLS.staking.list}
+                to={URLS.rewards.list}
               >
                 Stake and earn
               </Link>

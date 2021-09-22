@@ -70,7 +70,7 @@ export const BagCalculator: React.VFC<BagCalculatorProps> = (props) => {
             <Link
               color="blue"
               component={ReactRouterLink}
-              to={URLS.staking.list}
+              to={URLS.rewards.list}
             >
               Stake and Earn
             </Link>

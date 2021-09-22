@@ -80,7 +80,7 @@ export const BagBlocks: React.VFC<BagBlocksProps> = (props) => {
           </>
         }
         button="Earn"
-        onClick={() => history.push(URLS.staking.list)}
+        onClick={() => history.push(URLS.rewards.list)}
       />
     </div>
   );

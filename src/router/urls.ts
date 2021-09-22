@@ -11,8 +11,11 @@ export const URLS = {
   notfound: '/404',
   staking: {
     list: '/staking',
-    detail: (tokenId = ':tokenId') => `/staking/${tokenId}` as const,
-    coupons: (couponId = ':couponId') => `/staking/coupons/${couponId}` as const
+    detail: (tokenId = ':tokenId') => `/staking/${tokenId}` as const
+  },
+  rewards: {
+    list: '/rewards',
+    coupons: (couponId = ':couponId') => `/rewards/${couponId}` as const
   },
   vesting: '/vesting',
   vestingSplitter: '/vesting-splitter',
