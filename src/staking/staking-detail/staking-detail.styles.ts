@@ -85,10 +85,8 @@ export const useStakingDetailStyles = createUseStyles(
     },
 
     stakingBalance: {
-      display: 'grid',
-      gridGap: 64,
-
       [theme.breakpoints.sm()]: {
+        display: 'grid',
         gridGap: 0,
         gridTemplateColumns: '1fr 1fr'
       }
@@ -97,7 +95,17 @@ export const useStakingDetailStyles = createUseStyles(
     unstakeAndClaim: {
       display: 'flex',
       flexDirection: 'column',
-      height: '100%'
+      height: '100%',
+
+      '&:first-child': {
+        marginBottom: 64
+      },
+
+      [theme.breakpoints.sm()]: {
+        '&:first-child': {
+          marginBottom: 0
+        }
+      }
     },
 
     attention: {
