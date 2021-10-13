@@ -36,8 +36,14 @@ export const StakingList: React.VFC = () => {
   const [showMore, setShowMore] = useToggle(false);
 
   const { stakingConfigValues } = useStakingConfig();
-  const { stakingList, rewardSum, swopfiItem, swopfiLoading } =
-    useStakingListData();
+  const {
+    stakingList,
+    rewardSum,
+    swopfiBAG,
+    swopfiBAGLoading,
+    swopfiUSDAP,
+    swopfiUSDAPLoading
+  } = useStakingListData();
 
   const activeStaking = stakingList?.filter(
     ({ status }) => status === StakingStatuses.active
@@ -81,8 +87,7 @@ export const StakingList: React.VFC = () => {
                 value={
                   <>{humanizeNumeral(stakingCouponsReward?.reward)} USDC</>
                 }
-              >
-              </StakingLabel>
+              />
             </div>
           </div>
           <div className={clsx(classes.staking)}>
@@ -182,13 +187,24 @@ export const StakingList: React.VFC = () => {
           </div>
           <div className={classes.staking}>
             {config.SWOP_FI_ENABLE && (
-              <StakingSwopFi
-                tvl={swopfiItem?.totalLiquidityUSD}
-                apy={new BN(swopfiItem?.apr.year ?? '0')
-                  .multipliedBy(100)
-                  .toString(10)}
-                loading={swopfiLoading}
-              />
+              <>
+                <StakingSwopFi
+                  tvl={swopfiBAG?.totalLiquidityUSD}
+                  token="BAG"
+                  apy={new BN(swopfiBAG?.apr.year ?? '0')
+                    .multipliedBy(100)
+                    .toString(10)}
+                  loading={swopfiBAGLoading}
+                />
+                <StakingSwopFi
+                  tvl={swopfiUSDAP?.totalLiquidityUSD}
+                  token="USDap"
+                  apy={new BN(swopfiUSDAP?.apr.year ?? '0')
+                    .multipliedBy(100)
+                    .toString(10)}
+                  loading={swopfiUSDAPLoading}
+                />
+              </>
             )}
             {!activeStaking
               ? numberArray(activeStakingConfig.length).map((key) => (

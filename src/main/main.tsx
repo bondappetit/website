@@ -57,8 +57,8 @@ export const Main: React.FC = () => {
     totalValueLocked,
     stakingList,
     governanceInUSDC,
-    swopfiItem,
-    swopfiLoading
+    swopfiBAG,
+    swopfiBAGLoading
   } = useStakingListData();
 
   const stablecoinBalance = useStableCoinBalance();
@@ -134,11 +134,12 @@ export const Main: React.FC = () => {
             staking={stakingList?.slice(0, 2)}
           >
             <StakingSwopFi
-              tvl={swopfiItem?.totalLiquidityUSD}
-              apy={new BN(swopfiItem?.apr.year ?? '0')
+              tvl={swopfiBAG?.totalLiquidityUSD}
+              token="BAG"
+              apy={new BN(swopfiBAG?.apr.year ?? '0')
                 .multipliedBy(100)
                 .toString(10)}
-              loading={swopfiLoading}
+              loading={swopfiBAGLoading}
             />
           </MainStaking>
           <MainEditor className={clsx(classes.section)}>
