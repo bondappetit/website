@@ -64,15 +64,26 @@ const useStakingListQuery = () =>
     query: STAKING_LIST_QUERY_STRING
   });
 
-const SWOP_FI_ADDRESS = '3PAgYAV4jYJ7BF8LCVNU9tyWCBtQaqeLQH4';
+const SWOP_FI_BAG_ADDRESS = '3PAgYAV4jYJ7BF8LCVNU9tyWCBtQaqeLQH4';
+const SWOP_FI_USDAP_ADDRESS = '3PPtpEVDy6suxgBQTPMwaVosinkhoVL7QUn';
 
 export const useStakingListData = (address?: string) => {
   const { stakingConfig, stakingConfigValues } = useStakingConfig();
 
-  const swopfiQuery = useSwopfiPairQuery({
+  const swopfiBAGQuery = useSwopfiPairQuery({
     variables: {
       filter: {
-        address: SWOP_FI_ADDRESS
+        address: SWOP_FI_BAG_ADDRESS
+      }
+    },
+
+    pollInterval: config.POLLING_INTERVAL
+  });
+
+  const swopfiUSDAPQuery = useSwopfiPairQuery({
+    variables: {
+      filter: {
+        address: SWOP_FI_USDAP_ADDRESS
       }
     },
 
@@ -243,7 +254,7 @@ export const useStakingListData = (address?: string) => {
   );
 
   const totalValueLocked = useMemo(() => {
-    if (!stakingList || !swopfiQuery.data) return new BN(0);
+    if (!stakingList) return new BN(0);
 
     return stakingList
       .reduce(
@@ -252,10 +263,15 @@ export const useStakingListData = (address?: string) => {
       )
       .plus(
         config.SWOP_FI_ENABLE
-          ? swopfiQuery.data.swopfiPair.data?.totalLiquidityUSD ?? '0'
+          ? swopfiBAGQuery.data?.swopfiPair.data?.totalLiquidityUSD ?? '0'
+          : '0'
+      )
+      .plus(
+        config.SWOP_FI_ENABLE
+          ? swopfiUSDAPQuery.data?.swopfiPair.data?.totalLiquidityUSD ?? '0'
           : '0'
       );
-  }, [stakingList, swopfiQuery.data]);
+  }, [stakingList, swopfiBAGQuery.data, swopfiUSDAPQuery.data]);
 
   const rewardSum = useMemo(
     () =>
@@ -285,8 +301,10 @@ export const useStakingListData = (address?: string) => {
   return {
     totalValueLocked,
     volume24: govToken.data?.token.data?.statistic?.dailyVolumeUSD,
-    swopfiItem: swopfiQuery.data?.swopfiPair.data,
-    swopfiLoading: swopfiQuery.loading,
+    swopfiBAG: swopfiBAGQuery.data?.swopfiPair.data,
+    swopfiBAGLoading: swopfiBAGQuery.loading,
+    swopfiUSDAP: swopfiUSDAPQuery.data?.swopfiPair.data,
+    swopfiUSDAPLoading: swopfiUSDAPQuery.loading,
     governanceInUSDC,
     stakingList,
     rewardSum,

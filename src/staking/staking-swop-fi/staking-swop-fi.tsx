@@ -10,20 +10,27 @@ export type StakingSwopFiProps = {
   apy?: string;
   tvl?: string;
   loading: boolean;
+  token: 'BAG' | 'USDap';
 };
 
-const SWOP_FI_POOL_URL =
+const SWOP_FI_BAG_POOL_URL =
   'https://swop.fi/info/3PAgYAV4jYJ7BF8LCVNU9tyWCBtQaqeLQH4';
-
-const TOKENS = ['BAG', 'USDN'];
+const SWOP_FI_USDAP_POOL_URL =
+  'https://swop.fi/info/3PPtpEVDy6suxgBQTPMwaVosinkhoVL7QUn';
 
 export const StakingSwopFi: React.VFC<StakingSwopFiProps> = (props) => {
   const classes = useStakingSwopFiStyles();
 
-  const { loading } = props;
+  const { loading, token } = props;
+
+  const TOKENS = [token, 'USDN'];
 
   return (
-    <Link target="_blank" href={SWOP_FI_POOL_URL} className={classes.root}>
+    <Link
+      target="_blank"
+      href={token === 'BAG' ? SWOP_FI_BAG_POOL_URL : SWOP_FI_USDAP_POOL_URL}
+      className={classes.root}
+    >
       <SwopfiIcon className={classes.icon} />
       <Typography
         variant="h3"
