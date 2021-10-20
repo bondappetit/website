@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import blockchainNews from 'src/assets/images/news-resources/blockchain-news.png';
+import bitCourier from 'src/assets/images/news-resources/bit-courier.png';
 import coinpedia from 'src/assets/images/news-resources/coinpedia.png';
 import cointelegraph from 'src/assets/images/news-resources/cointelegraph.png';
 import hackernoon from 'src/assets/images/news-resources/hackernoon.png';
@@ -41,8 +41,8 @@ const RESOURCES = [
     link: 'https://hackernoon.com/top-15-small-cap-defi-projects-to-keep-your-eye-on-in-2021'
   },
   {
-    src: blockchainNews,
-    link: 'https://blockchain.news/news/how-why-can-collateral-used-financial-services'
+    src: bitCourier,
+    link: 'https://bitcourier.co.uk/news/bond-appetit'
   }
 ];
 
