@@ -36,31 +36,13 @@ const StablecoinHowItWorks: React.VFC<StablecoinHowItWorksProps> = (props) => {
         </Typography>
         <br />
         <Typography variant="h5">
-          1. At Phase 1, the protocol raised USDap collateral in the form of
-          USDC
-        </Typography>
-        <br />
-        <Typography variant="h5">
-          2. At Phase 2, USDap collateral will be locked and used for purchasing
-          bonds
-        </Typography>
-        <br />
-        <Typography variant="h5">
-          3. Current USDap holders can swap USDap for USDC on bondappetit.io in{' '}
-          {countdown} at a fixed price of 1 USDap = 1 USDC{' '}
+          Current USDap holders can swap USDap for USDC on bondappetit.io at a
+          fixed price of 1 USDap = 1 USDC{' '}
           <ButtonBase className={classes.swapLink} onClick={props.onSwap}>
             Swap USDap to USDC
           </ButtonBase>
         </Typography>
         <br />
-        <Typography variant="h5">
-          4. Anyone can buy or sell USDap at any time at market price
-        </Typography>
-        <br />
-        <Typography variant="h5">
-          5. Holders of USDap can participate in new pools (to be launched at
-          Phase 2) and earn more rewards
-        </Typography>
         <Button className={classes.swap} onClick={props.onSwap}>
           Swap USDap to USDC
         </Button>

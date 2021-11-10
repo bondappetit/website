@@ -77,21 +77,6 @@ export const MainStablecoin: React.VFC<MainStablecoinProps> = (props) => {
               </Button>
             </div>
           </div>
-          {config.BUY_BACK_ENABLE && (
-            <Typography
-              variant="body1"
-              align="center"
-              component="div"
-              className={classes.swap}
-            >
-              <ButtonBase className={classes.swapButton} onClick={props.onSwap}>
-                Time left to swap USDap to USDC with fixed price
-              </ButtonBase>
-              <Typography variant="inherit" component="div" align="center">
-                till {countdown}
-              </Typography>
-            </Typography>
-          )}
         </Plate>
         <Plate withoutBorder color="grey" className={classes.text}>
           <div className={classes.cards}>

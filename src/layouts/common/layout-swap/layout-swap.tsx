@@ -31,12 +31,8 @@ export const LayoutSwap: React.VFC<LayoutSwapProps> = (props) => {
           {USDCIcon && <USDCIcon className={classes.iconsItem} />}
         </div>
         <Typography variant="body1" component="div" className={classes.text}>
-          Time left to swap USDap to USDC:{' '}
-          <Typography variant="inherit" weight="semibold">
-            {countdown}
-          </Typography>
-          . At Phase 2, USDap collateral will be locked and converted into
-          real-world assets.
+          USDap buyback initiative. Anyone will be able to exchange their USDap
+          for USDC at a ratio of 1:1.
         </Typography>
       </div>
       <div className={classes.actions}>
