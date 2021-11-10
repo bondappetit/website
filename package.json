@@ -8,7 +8,7 @@
     "@babel/core": "7.14.3",
     "@binance-chain/bsc-connector": "^1.0.0",
     "@bondappetit/docs": "^2.0.0",
-    "@bondappetit/networks": "^2.0.17",
+    "@bondappetit/networks": "2.0.16",
     "@matejmazur/react-katex": "^3.1.3",
     "@sentry/react": "^6.5.1",
     "@sentry/tracing": "^6.5.1",
