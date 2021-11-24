@@ -1,40 +1,40 @@
 ## **1. Introduction**
 
-Since the invention of Bitcoin in 2008, the crypto market has been introduced to more than 4000 cryptocurrencies. The market capitalization of Bitcoin [equals \$1 trillion in 2021](https://www.statista.com/statistics/377382/bitcoin-market-capitalization/#:~:text=The%20market%20capitalization%20of%20Bitcoin,circulation%20by%20the%20Bitcoin%20price), while the total market capitalization of the crypto market crossed the [\$1.7 trillion mark](https://coinmarketcap.com/charts/) and is expected to grow even further. However, the market is isolated from traditional finance and there are few instruments tied to real profitability.
+Since Bitcoin was created in 2008, more than 4000 different cryptocurrencies have been introduced to the crypto market. The market capitalization of Bitcoin [equals \$1 trillion in 2021](https://www.statista.com/statistics/377382/bitcoin-market-capitalization/#:~:text=The%20market%20capitalization%20of%20Bitcoin,circulation%20by%20the%20Bitcoin%20price), while the total market capitalization of the crypto market crossed the [\$1.7 trillion mark](https://coinmarketcap.com/charts/) and is expected to grow even further. However, the market is isolated from traditional finance and there are few instruments tied to real profitability.
 
 ![](g1)
 
 ### **Market Problems**
 
-As nearly all assets in the crypto market suffer from high volatility, it seems to be a logical starting point. During 2020 alone, the price of Bitcoin [has suffered](https://coinmarketcap.com/currencies/bitcoin/historical-data/) a 53% loss and then gone up 57.4%. Sure, that year was rather unusual but the market situation was even more radical in 2019. Let's take a look at the real price in USD now: the BTC price [has gone]() up from \$5,167 on April 15 to \$10,907 on June 27 only to drop to \$7,980 on October 7. The situation was similar in 2018 with a significant drop in price after Bitcoin boom in December 2017.
+High volatility is probably the biggest problem facing the market, so this seems to be a natural starting point. During 2020 alone, the price of Bitcoin [suffered](https://coinmarketcap.com/currencies/bitcoin/historical-data/) a 53% loss and then went up 57.4%. Sure, It was an unusual year, but it was still the most stable year in BTC’s existence but the market situation was even more radical in 2019. Let's take a look at the real price in USD now: the BTC price [has gone]() up from \$5,167 on April 15 to \$10,907 on June 27, only to drop to \$7,980 on October 7. The situation was similar in 2018 with a significant drop in price after, Bitcoin boom in December 2017.
 
 ![](g2)
 
-A solution to both volatility and lack of ties to real-world assets came in the form of stablecoins. Originally pegged to fiat money or exchange-traded commodities such as precious metals, stablecoins were presented as crypto-assets designed to avoid fluctuations in value — a safer option for investors looking to minimize their financial risks. In 2020, the market capitalization of stablecoins [crossed the \$51 billion mark](https://www.coingecko.com/en/stablecoins).
+A solution to both volatility and, lack of ties to real-world assets came in the form of Stablecoins. Originally pegged to fiat money or exchange-traded commodities such as precious metals, Stablecoins were presented as crypto-assets designed to avoid fluctuations in value — a safer option for investors looking to minimize their financial risks. In 2020, the market capitalization of stablecoins [crossed the \$51 billion mark](https://www.coingecko.com/en/stablecoins).
 
 ![](g3)
 
-However, there were several cases when stablecoins turned out to be a bit volatile. The first case is Tether, the company behind the largest stablecoin backed by the US dollar on the market, which faced accusations of being unable to provide audits for their reserves while continually issuing new coins into circulation. Then, in October 2018, Tether price dropped below the value of its underlying asset, USD, when in theory it should be worth exactly \$1.
+However, there Have been several cases when Stablecoins turned out to be a bit volatile. The first case is Tether, the company behind the largest Stablecoin backed by the US dollar on the market, which faced accusations of being unable to provide audits for their reserves while continually issuing new coins into circulation. Then, in October 2018, Tether's price dropped below the value of its underlying asset, USD, when in theory it should be worth exactly \$1.
 
 Later, new types of stablecoins emerged — crypto-collateralized coins. Rather than being backed by fiat, crypto-collateralized stablecoins hold currencies such as Ether (ETH) in escrow for the issuance of new tokens. In doing so, users have the ability to mint and burn tokens without needing to utilize or trust a centralized third party.
 
-However, there is a major drawback — over-collateralization used to account for price volatility. Most commonly, this ratio is set at 150%, meaning that in order to issue \$100 worth of a certain stablecoin, you will need to post at least \$150 worth of ETH as collateral.
+However, there is a major drawback — This reads like ‘used to’, as in 'I used to do something'. I’m not 100% sure what you mean, but you need to change it. Most commonly, this ratio is set at 150%, meaning that in order to issue \$100 worth of a certain stablecoin, you will need to post at least \$150 worth of ETH as collateral.
 
 In March 2020, the most popular crypto-backed stablecoin DAI failed to maintain its soft peg to the US Dollar. A sharp drop in the price of Ether — the primary digital asset used as collateral in the MakerDAO protocol for collateralizing loans of the dollar-pegged DAI stablecoin — created underlying congestion on the Ethereum blockchain while also liquidating thousands of collateralized debt positions (CDPs) held by investors. As a result, [investors lost \$8.325 million](https://www.coindesk.com/makerdao-users-sue-stablecoin-issuer-following-black-thursday-losses).
 
-Another issue with the crypto market is a lack of means to generate revenue tied to real profitability. In the traditional economy, depositing funds to savings account or purchasing fixed-income securities will bring you guaranteed income simply for holding an asset. Sure, there are risks, but holding stablecoins without any income seems to be even riskier with no reward for holding an asset.
+Another issue with the crypto market is a lack of means to generate revenue tied to real collateral. In the traditional economy, depositing funds to savings accounts or purchasing fixed-income securities will bring you guaranteed income simply for holding an asset. Sure, there are risks, but holding stablecoins without any income seems to be even riskier with no reward for holding an asset.
 
 The most recent change in this regard came with the emergence of Decentralized Finance. Decentralized Finance (DeFi) is an open finance infrastructure that allows investors to earn fixed periodic income by lending or holding their assets via DeFi protocols. However, with the DAI case in mind, protocols will require over-collateralization as there are no guarantees with such a volatile market. This leads to a situation where many protocols won’t actually work with a borrower unless they can effectively front a significant amount of assets, which undermines the essential function of borrowing.
 
-But even with the current flaws, stablecoins have proven to be the backbone of the crypto market ensuring safekeeping of funds during periods of high volatility. Decentralized Finance has provided a wide range of ways to benefit from crypto for investors — we’ve seen an emergence of new exciting assets and projects.
+But even with the current flaws, stablecoins have proven to be the backbone of the crypto market ensuring safekeeping of funds during periods of high volatility. Decentralized Finance has provided Investors with a wide range of ways to benefit from crypto — we’ve seen an emergence of new exciting assets and projects.
 
-At the same time, DeFi has a gigantic potential to start a revolution in the business loan market. On the other side of the table, there are borrowers that are willing to take the best of DeFi infrastructure and benefit from a loan at terms that no traditional venue can offer. These same borrowers can also provide a missing piece in the DeFi infrastructure — a wide range of low-volatility assets can be provided as collateral.
+At the same time, DeFi has the potential to start An enormous revolution of the business loan market. I don’t really understand this. Could you rephrase it?These same borrowers can also provide a missing piece in the DeFi infrastructure — a wide range of low-volatility assets can be provided as collateral.
 
 **With that in mind, meet a decentralized protocol that connects real-world debt instruments (bonds) with the Ethereum ecosystem — BondAppétit. We provide an extra layer of stability and connection with fiat cash-flows mixed with fixed periodic income — something no other DeFi protocol can offer.**
 
-Debt securities (bonds) is a financial instrument that has been used to preserve savings for decades. Now, it can be used as collateral in the crypto world.
+Debt securities (bonds) are a financial instrument that has been used to preserve savings for decades. Now, it can be used as collateral in the crypto world.
 
-BondAppétit offers a unique opportunity for investors to benefit from both income generated by the collateral that lies inside the protocol and interest payments paid by borrowers. Simultaneously, we are aiming to offer DeFi borrowing to real gourmets of the financial world.
+BondAppétit offers a unique opportunity for investors to benefit from both income generated by the collateral that lies inside the protocol, and interest payments paid by borrowers. Simultaneously, we are aiming to offer DeFi borrowing to real Gourmets means types of food…? of the financial world.
 
 ## **2. Overview of the Protocol**
 
@@ -49,7 +49,7 @@ It also includes all standard DeFi features:
 - Ethereum-based smart contracts;
 - Stablecoin tied to assets of the protocol;
 - Community-owned Governance token — the value of which grows along with the profit of the protocol and its development;
-- Incentivization mechanisms for the community, including the distribution of protocol’s profits and support of liquidity providers.
+- Incentivization mechanisms for the community, including the distribution of the protocol’s profits and Supporting its liquidity providers of liquidity providers.
 
 Also, BondAppétit utilizes the best elements of on-chain and off-chain infrastructure to provide a new instrument for diversifying risks and receiving passive income:
 
@@ -71,7 +71,7 @@ As mentioned in the overview of the protocol, the main asset inside the protocol
 
 The price of USDap always equals \$1 and is balanced automatically based on a basket of real-world debt obligations that form part of the protocol’s assets. Information about the protocol’s assets is provided by oracles connected to custody accounts holding the collateral. Issuance of USDap is technically impossible without sufficient collateral, the price of which is tied to USD.
 
-Besides providing a whole new product for DeFi and traditional markets, we aim to make USDap one of the most popular stablecoins in the market.
+Besides providing a whole new product for DeFi and traditional markets, we aim to Turn USDap into of the most popular stablecoins on the market.
 
 The use of real-world debt obligations allows the protocol to earn fixed periodic income, which can be distributed to holders of protocol tokens under incentivization mechanisms established by the community.
 
@@ -91,7 +91,7 @@ The global corporate bond markets are dominated by the U.S. (\$10.9tn) and China
 
 ![](g8)
 
-To ensure transparency, the protocol updates the price of real world-assets on several proven and recognized sources such as Bloomberg and CBonds (for detailed process please check section 6.1 — Price Oracles). Simultaneously with the update, the protocol publishes the price to the oracle and activates the security protocol. In the event of a significant change in asset price, the protocol might initiate additional capitalization or emergency shutdown.
+To ensure transparency, the protocol updates the price of real world-assets on several proven and recognized sources such as Bloomberg and CBonds (To see the detailed process please check section 6.1 — Price Oracles). Simultaneously with the update, the protocol publishes the price to the oracle and activates the security protocol. In the event of a significant change in asset price, the protocol might initiate additional capitalization or emergency shutdown.
 
 ### **3.2 Stablecoin Generation**
 
@@ -119,9 +119,9 @@ As a result, the protocol will issue: 95 + 105 = 200 USDap
 
 **Liquidity Provision**
 
-Sufficient liquidity and the ability to exchange USDap for another liquid asset are vital for the correct operation of the protocol. Initially, the protocol will provide its own liquidity pools on the Uniswap exchange (later, we'll add more exchanges). The protocol has chosen Uniswap to provide an opportunity to exchange USDap for any other asset to all participants of the protocol (including automatic protocols).
+Sufficient liquidity and the ability to exchange USDap for another liquid asset are vital for the Protocol to operate effectively. Initially, the protocol will provide its own liquidity pools on the Uniswap exchange (later, we'll add more exchanges). The protocol has chosen Uniswap to provide an opportunity to exchange USDap for any other asset to all participants of the protocol (including automatic protocols).
 
-As soon as the participation of the protocol’s community in liquidity pools will be sufficient, the protocol will reduce its participation in liquidity pools. In order to stimulate participation in liquidity pools, the protocol provides the reward in governance tokens — BondAppétit Governance (BAG) (the list of liquidity pools to stimulate is determined by the community of the protocol).
+As soon as the participation of the protocol’s community in liquidity pools is sufficient, the protocol will reduce its participation in liquidity pools. In order to stimulate participation in liquidity pools, the protocol provides the reward in governance tokens — BondAppétit Governance (BAG) (the list of liquidity pools to stimulate is determined by the community of the protocol).
 
 **Additional Capitalization**
 
@@ -213,7 +213,7 @@ Investors come from a wide range of backgrounds; most are newcomers or have inte
 
 **Investment appetite**
 
-Average investor would invest from \$1,000 to \$5,000.
+The Average investor would invest Around \$1,000-\$5,000.
 
 **Motivation**
 
@@ -227,7 +227,7 @@ Investors that have advanced trading experience and rely on data and analytics p
 
 **Investment appetite**
 
-Average investor would invest from \$5,000 to \$10,000.
+The average investor would invest between \$5,000-\$10,000.
 
 **Motivation**
 
@@ -286,7 +286,7 @@ Ancillary functions include:
 - Informing the protocol and the community on the amount of debt securities held on the custody accounts;
 - Participation in settlements between the borrower and the intermediary.
 
-The custodian must fulfill the following requirements:
+The custodian must fulfil the following requirements:
 
 - Regulated under securities markets regulation with ability to provide custody services to the clients;
 - Approved by majority voting of Governance token holders and whitelisting by the protocol;
@@ -305,7 +305,7 @@ Both mechanisms, as well as corresponding risks and mitigation measures, are des
 1. The borrower enters into a loan agreement with the intermediary, providing debt securities as collateral.
 2. Securities are transferred to a custody account opened by the custodian, who ensures that the collateral cannot be transferred throughout the term of the loan.
 3. The agreement also provides that in the event of a borrower’s default, the intermediary is entitled to receive the collateral and sell it.
-4. Custodian transmits information about the amount of collateral to the protocol.
+4. The Custodian transmits information about the amount of collateral to the protocol.
 5. Stablecoins are issued by the protocol and sold to the market in return for cryptocurrency which is stored in the protocol.
 6. The intermediary borrows the cryptocurrency from the protocol and converts it into fiat.
 7. The intermediary lends the fiat to the borrower under the loan agreement.
@@ -322,7 +322,7 @@ Both mechanisms, as well as corresponding risks and mitigation measures, are des
 
 Under this mechanism, the protocol is less vulnerable against the actions of the intermediary, as debt securities are locked on the custody account and the intermediary is not able to freely dispose of them.
 
-However, once the borrower has repaid the debt to the intermediary, there is still a risk for the protocol that the intermediary will not repay his part to the protocol.
+However, once the borrower has repaid the debt to the intermediary, there is still a risk to the protocol that the intermediary might not repay their part to the protocol.
 
 In order to mitigate this risk, the following measures are undertaken:
 
@@ -334,16 +334,16 @@ In order to mitigate this risk, the following measures are undertaken:
 **A. Borrowing**
 
 1. The borrower enters into a sale and purchase agreement with the intermediary, under which the borrower sells debt securities to the intermediary with deferred payment.
-2. The securities are transferred to a custody account opened by the custodian in the name of the intermediary. As opposed to the Mechanism 1, securities are in no way limited and remain at complete disposal of the intermediary.
-3. Custodian transmits information about the amount of debt securities on the account of the intermediary to the protocol.
+2. The securities are transferred to a custody account opened by the custodian in the name of the intermediary. As opposed to Mechanism 1, securities are in no way limited and remain Completely at the disposal of the intermediary.
+3. The Custodian transmits information about the amount of debt securities on the account of the intermediary to the protocol.
 4. Stablecoins are issued by the protocol and sold on the market in return for cryptocurrency, which is stored in the protocol.
 5. The intermediary borrows the cryptocurrency from the protocol and converts it into fiat.
-6. The intermediary transfers the fiat to the borrower in fulfillment of the deferred payment under the agreement.
+6. The intermediary transfers the fiat to the borrower in Fulfilment of the deferred payment under the agreement.
 
 **B. Interest Income**
 
 1. The intermediary becomes the owner of the securities and receives interest income.
-2. The intermediary converts payments received on the securities to crypto and makes corresponding payments to the protocol.
+2. The intermediary converts payments received on the securities to crypto and makes the corresponding payments to the protocol.
 
 ![](g10)
 
@@ -364,7 +364,7 @@ In addition to the risks indicated above, the following non-payment risks can be
 
 ## **5. BondAppétit Governance (BAG)**
 
-Governance is one of the most important foundational things for each DeFi protocol. BondAppétit aims to reach a fully decentralized governance structure using the best practices that have proven to be effective in other protocols. In order to achieve this, BondAppétit will be working to build a strong community that will become a driving force of the protocol for years to come.
+Governance is one of the most important foundational things for each DeFi protocol. BondAppétit aims to reach a fully decentralized governance structure using the best practices that have proven to be effective in other protocols. In order to achieve this, BondAppétit is working to build a strong community that will become a driving force of the protocol for years to come.
 
 The main tool for decision-making in the protocol is the BondAppétit Governance (BAG), which also acts as the main reward and incentivization tool for participants of the protocol and the community.
 
@@ -375,7 +375,7 @@ The main tool for decision-making in the protocol is the BondAppétit Governance
 3. Purchased at a special price in case of investment round (detailed explanation is available in section 3.3);
 4. Earned additional BAG during the initial sale of new USDap tokens from the protocol.
 
-To ensure the inexhaustibility of BAG, the protocol reserves the ability to issue new tokens. The decision regarding the issuance of new tokens is taken by a voting of the token holders.
+To ensure the inexhaustibility of BAG, the protocol reserves the ability to issue new tokens. The decision regarding the issuance of new tokens is taken by a vote of the token holders.
 
 ### **5.2 Initial Offering and Distribution of BAG**
 
@@ -387,9 +387,9 @@ To ensure the inexhaustibility of BAG, the protocol reserves the ability to issu
 After issuance, the tokens are distributed to wallets or smart contracts. To ensure the moratorium on sale, the following restrictions will be set for the founders' wallets **strictly during the moratorium period**:
 
 1. The minimum balance of BAG tokens on the wallet (is equal to the initial investment amount);
-2. No possibility to transfer of BAG tokens from the founders’ wallets.
+2. No possibility to transfer BAG tokens from the founders’ wallets.
 
-Such a mechanism allows the founders to participate in voting, while ensuring the fulfillment of moratorium on sale.
+Such a mechanism allows the founders to participate in voting, while ensuring the fulfilment the moratorium on New sales.
 
 We understand that the availability of a higher number of governance tokens on the market might cause a significant drop in value, therefore all tokens distributed to the team at the project launch are locked in the protocol for 4 years according to the vesting schedule below:
 
@@ -416,17 +416,17 @@ All features of the protocol can be divided into 3 categories:
 
 ## **6. Technology**
 
-While cooking the delicious technical stuffing of BondAppétit, we were inspired by great work of developers from Compound, MakerDAO, Uniswap, and other DeFi protocols based on the Ethereum blockchain.
+While cooking the delicious technical stuffing of BondAppétit, we were inspired by the great work of the developers from Compound, MakerDAO, Uniswap, and other DeFi protocols based on the Ethereum blockchain.
 
 The current approach in the market consists of both pros and cons.
 
-The main disadvantage, of course, is the unpredictability of the protocol’s fees. That’s why we’ve carefully structured our smart contracts utilizing the most up to date technologies with simple goals in mind — reduction in complexity of smart contracts that will result in reduction of Gas fees. At the same time, we hope that the main problem will be solved with the release of Ethereum 2.0.
+The main disadvantage, of course, is the unpredictability of the protocol’s fees. That’s why we’ve carefully structured our smart contracts utilizing the most up to date technologies with simple goals in mind — Reducing the complexity of smart contracts that will result in reduction of Gas fees. At the same time, we hope that the main problem will be solved with the release of Ethereum 2.0.
 
-Outside of using home-baked solutions only, we’ve also tried to utilize existing solutions to the maximum. BAG token is based on the [Compound Governance](https://github.com/compound-developers/compound-governance-examples) system as it allows ensuring transparent and secure management of the protocol by the community. Additionally, Compound Governance adds new features, for example, it allows to delegate a vote to another participant.
+Outside of using home-baked solutions only, we’ve also tried to utilize existing solutions to the maximum. BAG token is based on the [Compound Governance](https://github.com/compound-developers/compound-governance-examples) system as it allows ensuring transparent and secure management of the protocol by the community. Additionally, Compound Governance adds new features, for example, it allows delegating a vote to another participant.
 
 For price updates, the protocol utilizes [Compound Open Price Feed](https://github.com/compound-finance/open-oracle) — an oracle that allows Reporters to sign price data using a known public key, which can be submitted on-chain. The protocol codebase is hosted on GitHub and maintained by the community.
 
-For staking process, the protocol utilizes [Synthetix StakingReward](https://github.com/Synthetixio/synthetix/blob/v2.38.0/contracts/StakingRewards.sol) — the special contract to distribute the specific amount of tokens in limited time for locking liquid assets of LP tokens.
+For the staking process, the protocol utilizes [Synthetix StakingReward](https://github.com/Synthetixio/synthetix/blob/v2.38.0/contracts/StakingRewards.sol) — the special contract to distribute the specific amount of tokens in limited time for locking liquid assets of LP tokens.
 
 Another significant task was to provide the maximum security of BondAppétit. The dev team conducts regular internal and external audits of smart contracts both during development and after their implementation in the main network.
 
@@ -434,19 +434,19 @@ For developers, we prepared a technical documentation section on our website - [
 
 ### **6.1 Price Oracles**
 
-Price oracle is a tool for supplying data on the current price of the collateral. As BondAppétit uses fixed-income instruments as collateral, the actual asset price must be received from external sources such as Bloomberg, CBonds, direct APIs to exchanges.
+A Price oracle is a tool for supplying data on the current price of the collateral. As BondAppétit uses fixed-income instruments as collateral, the current asset price must be received from external sources such as Bloomberg, CBonds, and direct APIs to exchanges.
 
 ### **6.2 Alert and Emergency Oracles**
 
-Emergency oracle is a tool responsible for the security of the protocol. Emergency oracles monitor the current value of the collateral, as well as the market price of USDap. If the price of the collateral is insufficient to guarantee the stability of USDap, the protocol will initiate additional capitalization or emergency shutdown procedure.
+An Emergency oracle is a tool responsible for the security of the protocol. Emergency oracles monitor the current value of the collateral, as well as the market price of USDap. If the price of the collateral is insufficient to guarantee the stability of USDap, the protocol will initiate additional, or the emergency shutdown procedure.
 
 ### **6.3 Governance**
 
-The system of contracts that are designed to ensure correct operations of governance mechanisms inside BondAppétit. These contracts primarily allow the community of the protocol to change configurations of the protocol and manage it in a decentralized and transparent manner.
+The system of contracts that are designed to ensure The correct operations of governance mechanisms inside BondAppétit. These contracts primarily allow the community of the protocol to change configurations of the protocol and manage it in a decentralized and transparent manner.
 
 ### **6.4 Depository Smart Contracts**
 
-Depository smart contracts are designed with one specific goal — provide the data on the collateral to the protocol and the community. In order to achieve this, a smart contract must ensure constant communication between the custodian and the protocol.
+Depository smart contracts are designed with one specific goal — to provide the data on collateral to the protocol and the community. In order to achieve this, a smart contract must ensure constant communication between the custodian and the protocol.
 
 The protocol provides a separate smart contract for each custodian and each depository smart contract must be whitelisted by the community of the protocol. As soon as the smart contract is launched, the custodian is required to send information on the amount of collateral currently stored on the account. After the information is received, the smart contract publishes information on assets on the blockchain.
 
@@ -472,7 +472,7 @@ The Market smart contract is used to sell USDap for a fixed price with an abilit
 
 ### **6.10 Depositary Balance View**
 
-The Depository Balance View is a smart contract that is used for calculation of the portfolio value in USD. All Oracle contracts are obliged to implement this interface for communicating with the protocol.
+The Depository Balance View is a smart contract that is used for calculating the portfolio's value in USD. All Oracle contracts are obliged to implement this interface for communicating with the protocol.
 
 ### 6.11 Budget
 
@@ -488,11 +488,11 @@ The Buyback smart contact is used to buy BAG tokens from liquidity pools that in
 
 ### 6.14 ProfitSplitter
 
-The ProfitSplitter smart contract is used to communicate with the Budget contract. Basically, this smart contract distributes protocol's profit to the Budget smart contract and initiates buyback of BAG tokens.
+The ProfitSplitter smart contract is used to communicate with the Budget contract. Basically, this smart contract distributes the protocol's profit to the Budget smart contract and initiates buyback of BAG tokens.
 
 ### 6.15 Woodpecker Service
 
-The open-source code tool that invokes smart contracts of the protocol. A fee for each transaction executed in the protocol will be automatically replenished by Budget contract.
+The open-source code tool that invokes smart contracts of the protocol. A fee for each transaction executed in the protocol will be automatically replenished by the Budget contract.
 
 ### 6.16 Cryptocurrency Exchanges
 
@@ -512,7 +512,7 @@ BondAppétit USD does not have a legal issuer (as it is created by the protocol 
 
 Price stability is connected to the protocol’s assets, the price of which should always be close to the value of the USDap in circulation.
 
-USDap owners do not possess any rights to assets of the protocol. Neither they have any legal mechanisms or rights to oblige the protocol or its participants to buy-back or redeem USDap or receive any other payments or assets from the protocol. The value or liquidity of USDap is not guaranteed, meaning that no individual or legal entity guarantees the acceptance of the token as payment for goods or services, its price, or the ability to exchange it for any other asset.
+USDap owners do not possess any rights to the assets of the protocol. Nor do they have any legal mechanisms or rights to oblige the protocol or its participants to buy-back or redeem USDap or receive any other payments or assets from the protocol. The value or liquidity of USDap is not guaranteed, meaning that no individual or legal entity guarantees the acceptance of the token as payment for goods or services, its price, or the ability to exchange it for any other asset.
 
 ### 7.2 BondAppétit Governance (BAG)
 
@@ -526,7 +526,7 @@ In order to ensure the fast deployment of the protocol, the protocol will be lau
 
 ### Phase 1. Investment Stage (April 2021 — July 2021)
 
-At the first phase, our goals will be:
+During the first phase, our goals will be:
 **Attracting enough liquidity for USDap on Uniswap**. Users will be able to invest USDC in the protocol by locking up their funds for a 3-month period. As a reward for this action, the protocol will distribute 5% of the initial BAG offering to all participants of the first phase.
 
 Later, at Phase 2, users will be able to convert these USDap back to USDC at the exchange rate of 1 USDap to 1 USDC.
@@ -549,17 +549,17 @@ Initially, developers of BondAppétit were driven by a simple and ambitious goal
 
 That discovery led to the creation of BondAppétit. During the first development stage of the protocol, BondAppétit aims to provide sufficient liquidity for the protocol’s assets, build a strong community of the protocol, spread the concept of DeFi borrowing to the traditional market, and take a significant role in the DeFi market.
 
-During the second development stage which is planned to start in 2022, BondAppétit aims to create a borrowing platform that will operate directly with issuers of fixed-income debt instruments. Therefore, providing access to traditional financial instruments in a fully decentralized manner. As a platform, BondAppétit will charge fees from the borrowers for each deal completed on the platform. Another feature that is vital for correct operations of the protocol on the second stage is the automated prediction system that will forecast asset price, calculate coupon payments and forecast possibility of default for each issuer.
+During the second development stage which is planned to start in 2022, BondAppétit aims to create a borrowing platform that will operate directly with issuers of fixed-income debt instruments. Therefore, providing access to traditional financial instruments in a fully decentralized manner. As a platform, BondAppétit will charge fees from the borrowers for each deal completed on the platform. Another feature that is vital for correct operations of the protocol during the second stage is the automated prediction system that will forecast asset price, calculate coupon payments and forecast possibility of default for each issuer.
 
-The long-term goal of the protocol lies in building a stable bridge between traditional and decentralized finance. Such a goal can’t be achieved in a short timeframe. Therefore, the launch of the protocol and first borrowers will only lay the foundation.
+The long-term goal of the protocol lies in building a stable bridge between traditional and decentralized finance. Such a goal can’t be achieved in a short timeframe. Therefore, the launch of the protocol and the first borrowers will only lay the foundation.
 
-In the long-term, BondAppétit will allow increasing capitalization of crypto to a whole new level by tying it to the real-world assets whose prices depend on the true performance of companies and traditional market situation. Simultaneously, the protocol aims to provide traditional financial market players with regulated and clear access to the whole crypto market. The first step to achieve this will be helping them utilize DeFi borrowing. In a 4 years perspective, BondAppétit aims to bring at least 0.1% (\$40.8 billion) of the overall corporate debt securities market to the crypto market.
+In the long-term, BondAppétit will allow increasing capitalization of crypto to a whole new level by tying it to real-world assets whose prices depend on the true performance of companies and traditional market situation. Simultaneously, the protocol aims to provide traditional financial market players with regulated and clear access to the whole crypto market. The first step to achieve this will be helping them utilize DeFi borrowing. In a 4 years perspective, BondAppétit aims to bring at least 0.1% (\$40.8 billion) of the overall corporate debt securities market to the crypto market.
 
-Right now the borrowing process includes intermediaries, such as custodians and brokers. As soon as regulation will allow to change the approach, BondAppétit will provide an opportunity for direct borrowing from the protocol, removing all intermediaries from the process in order to cut down costs of the protocol.
+Right now the borrowing process includes intermediaries, such as custodians and brokers. As soon as regulation Allows the approach to change, BondAppétit will provide an opportunity for direct borrowing from the protocol, removing all intermediaries from the process in order to cut down costs of the protocol.
 
 When it comes to the assets that form BondAppétit, the initial plan is to be listed on all major crypto exchanges by the Q3 2021 and reaching the capitalization of \$50M by the end of 2021.
 
-Original developers of the protocol are true believers in utilization of the blockchain technology and most importantly in the crypto market. Therefore, as new types of traditional assets will emerge in the form of tokens (security tokens, tokenized securities), BondAppétit will be looking forward to using them as collateral instead of the same assets in the traditional form.
+Original developers of the protocol are true believers in utilization of blockchain technology and most importantly in the crypto market. Therefore, as new types of traditional assets will emerge in the form of tokens (security tokens, tokenized securities), BondAppétit will be looking forward to using them as collateral instead of the same assets in the traditional form.
 
 With all these ideas in mind, we would like to present you the Roadmap of BondAppétit:
 

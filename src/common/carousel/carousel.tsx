@@ -24,7 +24,6 @@ export const Carousel: React.FC<CarouselProps> = (props) => {
     arrows: false,
     centerMode: true,
     outerEdgeLimit: true,
-    // variableWidth: true,
     appendDots: (dots: React.ReactNode) => (
       <div>
         <ul className={classes.dots}>{dots}</ul>
