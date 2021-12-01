@@ -2,7 +2,7 @@ import React from 'react';
 
 import { useMainHowItWorksStyles } from './main-how-it-works.styles';
 
-const VIDEO_UD = '5w32WATvDpc';
+const VIDEO_UD = 'eHe9xVU1pqs';
 
 export const MainHowItWorks: React.FC = () => {
   const classes = useMainHowItWorksStyles();
