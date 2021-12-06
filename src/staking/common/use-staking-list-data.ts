@@ -14,7 +14,8 @@ import {
   StakingListQuery,
   StakingQuery,
   useSwopfiPairQuery,
-  useTokenPriceQuery
+  useTokenPriceQuery,
+  useTvlQuery
 } from 'src/graphql/_generated-hooks';
 import {
   StakingConfig,
@@ -253,25 +254,7 @@ export const useStakingListData = (address?: string) => {
     [stakingAddresses.value]
   );
 
-  const totalValueLocked = useMemo(() => {
-    if (!stakingList) return new BN(0);
-
-    return stakingList
-      .reduce(
-        (acc, stakingItem) => acc.plus(stakingItem.totalValueLocked),
-        new BN(0)
-      )
-      .plus(
-        config.SWOP_FI_ENABLE
-          ? swopfiBAGQuery.data?.swopfiPair.data?.totalLiquidityUSD ?? '0'
-          : '0'
-      )
-      .plus(
-        config.SWOP_FI_ENABLE
-          ? swopfiUSDAPQuery.data?.swopfiPair.data?.totalLiquidityUSD ?? '0'
-          : '0'
-      );
-  }, [stakingList, swopfiBAGQuery.data, swopfiUSDAPQuery.data]);
+  const totalValueLocked = useTvlQuery();
 
   const rewardSum = useMemo(
     () =>
@@ -299,7 +282,7 @@ export const useStakingListData = (address?: string) => {
   useIntervalIfHasAccount(stakingAddresses.retry);
 
   return {
-    totalValueLocked,
+    totalValueLocked: totalValueLocked.data?.getTVL,
     volume24: govToken.data?.token.data?.statistic?.dailyVolumeUSD,
     swopfiBAG: swopfiBAGQuery.data?.swopfiPair.data,
     swopfiBAGLoading: swopfiBAGQuery.loading,

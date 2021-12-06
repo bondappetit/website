@@ -889,6 +889,10 @@ export type SwopfiPairQuery = { __typename?: 'Query' } & {
   };
 };
 
+export type TvlQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TvlQuery = { __typename?: 'Query' } & Pick<Query, 'getTVL'>;
+
 export type UniswapV3PairQueryVariables = Exact<{
   filter: UniswapV3PairQueryFilterInputType;
 }>;
@@ -1520,6 +1524,51 @@ export type SwopfiPairQueryResult = Apollo.QueryResult<
   SwopfiPairQuery,
   SwopfiPairQueryVariables
 >;
+export const TvlDocument = gql`
+  query TVL {
+    getTVL
+  }
+`;
+
+/**
+ * __useTvlQuery__
+ *
+ * To run a query within a React component, call `useTvlQuery` and pass it any options that fit your needs.
+ * When your component renders, `useTvlQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useTvlQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useTvlQuery(
+  baseOptions?: ApolloReactHooks.QueryHookOptions<TvlQuery, TvlQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<TvlQuery, TvlQueryVariables>(
+    TvlDocument,
+    options
+  );
+}
+export function useTvlLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    TvlQuery,
+    TvlQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<TvlQuery, TvlQueryVariables>(
+    TvlDocument,
+    options
+  );
+}
+export type TvlQueryHookResult = ReturnType<typeof useTvlQuery>;
+export type TvlLazyQueryHookResult = ReturnType<typeof useTvlLazyQuery>;
+export type TvlQueryResult = Apollo.QueryResult<TvlQuery, TvlQueryVariables>;
 export const UniswapV3PairDocument = gql`
   query UniswapV3Pair($filter: UniswapV3PairQueryFilterInputType!) {
     uniswapV3Pair(filter: $filter) {
