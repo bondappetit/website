@@ -211,6 +211,7 @@ export type ProfitDistributorUserType = {
 
 export type Query = {
   __typename?: 'Query';
+  /** test */
   getTVL: Scalars['String'];
   token: TokenPayload;
   tokenList: Array<TokenType>;
@@ -225,6 +226,8 @@ export type Query = {
   walletList: Array<WalletType>;
   swopfiPair: SwopfiPairPayload;
   swopfiPairList: Array<SwopfiPairType>;
+  uniswapV3Pair: UniswapV3PairPayload;
+  uniswapV3PairList: Array<UniswapV3PairType>;
 };
 
 export type QueryTokenArgs = {
@@ -273,6 +276,14 @@ export type QuerySwopfiPairArgs = {
 
 export type QuerySwopfiPairListArgs = {
   filter?: Maybe<SwopfiPairListQueryFilterInputType>;
+};
+
+export type QueryUniswapV3PairArgs = {
+  filter: UniswapV3PairQueryFilterInputType;
+};
+
+export type QueryUniswapV3PairListArgs = {
+  filter?: Maybe<UniswapV3PairListQueryFilterInputType>;
 };
 
 export type StakingAprType = {
@@ -549,6 +560,34 @@ export type UniswapPairType = {
   /** Pair total supply normalize */
   totalSupplyFloat: Scalars['String'];
   statistic?: Maybe<UniswapPairStatisticType>;
+};
+
+export type UniswapV3PairListQueryFilterInputType = {
+  /** List of target pair addresses */
+  address?: Maybe<Array<Scalars['String']>>;
+};
+
+export type UniswapV3PairPayload = {
+  __typename?: 'UniswapV3PairPayload';
+  data?: Maybe<UniswapV3PairType>;
+  error?: Maybe<Scalars['String']>;
+};
+
+export type UniswapV3PairQueryFilterInputType = {
+  /** Target pair address */
+  address: Scalars['String'];
+};
+
+export type UniswapV3PairType = {
+  __typename?: 'UniswapV3PairType';
+  /** Pair address */
+  address: Scalars['AddressType'];
+  /** Token 0 */
+  token0Address: Scalars['AddressType'];
+  /** Token 1 */
+  token1Address: Scalars['AddressType'];
+  /** Total liquidity */
+  totalLiquidityUSD: Scalars['String'];
 };
 
 export type WalletListQueryFilterInputType = {
@@ -846,6 +885,21 @@ export type SwopfiPairQuery = { __typename?: 'Query' } & {
             'year'
           >;
         }
+    >;
+  };
+};
+
+export type UniswapV3PairQueryVariables = Exact<{
+  filter: UniswapV3PairQueryFilterInputType;
+}>;
+
+export type UniswapV3PairQuery = { __typename?: 'Query' } & {
+  uniswapV3Pair: { __typename?: 'UniswapV3PairPayload' } & {
+    data?: Maybe<
+      { __typename?: 'UniswapV3PairType' } & Pick<
+        UniswapV3PairType,
+        'address' | 'token0Address' | 'token1Address' | 'totalLiquidityUSD'
+      >
     >;
   };
 };
@@ -1465,6 +1519,69 @@ export type SwopfiPairLazyQueryHookResult = ReturnType<
 export type SwopfiPairQueryResult = Apollo.QueryResult<
   SwopfiPairQuery,
   SwopfiPairQueryVariables
+>;
+export const UniswapV3PairDocument = gql`
+  query UniswapV3Pair($filter: UniswapV3PairQueryFilterInputType!) {
+    uniswapV3Pair(filter: $filter) {
+      data {
+        address
+        token0Address
+        token1Address
+        totalLiquidityUSD
+      }
+    }
+  }
+`;
+
+/**
+ * __useUniswapV3PairQuery__
+ *
+ * To run a query within a React component, call `useUniswapV3PairQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUniswapV3PairQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUniswapV3PairQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useUniswapV3PairQuery(
+  baseOptions: ApolloReactHooks.QueryHookOptions<
+    UniswapV3PairQuery,
+    UniswapV3PairQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useQuery<
+    UniswapV3PairQuery,
+    UniswapV3PairQueryVariables
+  >(UniswapV3PairDocument, options);
+}
+export function useUniswapV3PairLazyQuery(
+  baseOptions?: ApolloReactHooks.LazyQueryHookOptions<
+    UniswapV3PairQuery,
+    UniswapV3PairQueryVariables
+  >
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return ApolloReactHooks.useLazyQuery<
+    UniswapV3PairQuery,
+    UniswapV3PairQueryVariables
+  >(UniswapV3PairDocument, options);
+}
+export type UniswapV3PairQueryHookResult = ReturnType<
+  typeof useUniswapV3PairQuery
+>;
+export type UniswapV3PairLazyQueryHookResult = ReturnType<
+  typeof useUniswapV3PairLazyQuery
+>;
+export type UniswapV3PairQueryResult = Apollo.QueryResult<
+  UniswapV3PairQuery,
+  UniswapV3PairQueryVariables
 >;
 export const TokenListFilterDocument = gql`
   query TokenListFilter($filter: TokenListQueryFilterInputType) {
