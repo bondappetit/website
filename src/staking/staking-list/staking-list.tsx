@@ -28,7 +28,8 @@ import { config } from 'src/config';
 import { URLS } from 'src/router/urls';
 import { StakingStatuses, useStakingConfig } from 'src/staking-config';
 import { useStakingListStyles } from './staking-list.styles';
-import { StakingSwopFi } from '../staking-swop-fi/staking-swop-fi';
+import { StakingSwopFi } from '../staking-swop-fi';
+import { StakingUniV3 } from '../staking-uni-v3';
 
 export const StakingList: React.VFC = () => {
   const classes = useStakingListStyles();
@@ -186,6 +187,7 @@ export const StakingList: React.VFC = () => {
             </div>
           </div>
           <div className={classes.staking}>
+            <StakingUniV3 />
             {config.SWOP_FI_ENABLE && (
               <>
                 <StakingSwopFi
