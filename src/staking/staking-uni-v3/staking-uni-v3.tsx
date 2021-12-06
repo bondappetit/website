@@ -51,9 +51,6 @@ export const StakingUniV3: React.VFC<StakingUniV3Props> = () => {
               );
             })}
       </Typography>
-      <Typography variant="h3" align="center" className={classes.apy}>
-        APY -
-      </Typography>
       <StakingLabel
         title="Total value locked"
         value={`$${humanizeNumeral(
@@ -62,7 +59,6 @@ export const StakingUniV3: React.VFC<StakingUniV3Props> = () => {
         variant="body1"
         loading={loading}
       />
-      <StakingLabel title="Earn" value="-" variant="body1" loading={loading} />
       <StakingLabel
         title="Network"
         value="Ethereum"
