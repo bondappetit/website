@@ -885,6 +885,10 @@ export type SwopfiPairQuery = { __typename?: 'Query' } & {
   };
 };
 
+export type TvlQueryVariables = Exact<{ [key: string]: never }>;
+
+export type TvlQuery = { __typename?: 'Query' } & Pick<Query, 'getTVL'>;
+
 export type UniswapV3PairQueryVariables = Exact<{
   filter: UniswapV3PairQueryFilterInputType;
 }>;
