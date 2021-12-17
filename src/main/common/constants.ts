@@ -76,7 +76,7 @@ export const TEAM = [
     name: 'Artem Tolkachev',
     role: 'Founder, CEO',
     twitter: 'https://twitter.com/artemtolkachev',
-    linkedin: 'https://linkedin.com/in/artem-tolkachev',
+    linkedin: 'https://linkedin.com/in/artemtolkachev',
     text: `
     Former head of the Blockchain Lab at Deloitte. For over seven years, Artem has been
     one of the key opinion leaders in the CIS region in blockchain and tokenization.
