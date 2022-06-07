@@ -1,0 +1,59 @@
+# Default values for website.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 2
+
+images:
+  app:
+    name: app
+  prerenderer:
+    name: prerenderer
+
+service:
+  type: ClusterIP
+  port: 8080
+
+ingress:
+  enabled: true
+  className: ""
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
+  hosts:
+    - host: bondappetit.io
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+    - host: www.bondappetit.io
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - secretName: website-tls
+      hosts:
+        - bondappetit.io
+
+resources: {}
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+nodeSelector:
+  group_name: "apps-web"
+tolerations:
+  - key: node-role.kubernetes.io/apps-web
+    operator: "Equal"
+    value: "true"
+    effect: NoSchedule
+affinity: {}
+nameOverride: ""
+fullnameOverride: ""
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+podAnnotations: {}
+podSecurityContext: {}
+securityContext: {}
