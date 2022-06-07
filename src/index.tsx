@@ -43,6 +43,8 @@ const client = new ApolloClient({
 
 Sentry.init();
 
+console.log(JSON.stringify(config, null, 2));
+
 ReactDOM.render(
   <React.StrictMode>
     <HelmetProvider>
