@@ -32,10 +32,10 @@ build:
   rules:
     - if: $CI_COMMIT_REF_NAME == "master"
       variables:
-        BUILD_ARGS: "--build-arg NODE_ENV=development"
+        BUILD_ARGS: "--build-arg NODE_ENV=development --build-arg REACT_APP_API_URL=https://cache-dev.bondappetit.io/api --build-arg REACT_APP_DEFAULT_CHAIN_ID=3"
     - if: $CI_COMMIT_REF_NAME == "release"
       variables:
-        BUILD_ARGS: "--build-arg NODE_ENV=production"
+        BUILD_ARGS: "--build-arg NODE_ENV=production --build-arg REACT_APP_API_URL=https://cache.bondappetit.io/api --build-arg REACT_APP_DEFAULT_CHAIN_ID=1"
         ENVIRONMENT: prod
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_BRANCH'
 
