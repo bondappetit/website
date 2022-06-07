@@ -8,6 +8,7 @@ ENV NODE_ENV ${NODE_ENV:-production}
 ARG REACT_APP_DEFAULT_CHAIN_ID
 ENV REACT_APP_DEFAULT_CHAIN_ID ${REACT_APP_DEFAULT_CHAIN_ID:-1}
 
+RUN apk --update add git
 COPY package*.json ./
 RUN npm ci
 COPY . .
