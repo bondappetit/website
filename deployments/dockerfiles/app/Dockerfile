@@ -10,7 +10,7 @@ ENV REACT_APP_API_URL ${REACT_APP_API_URL:-https://cache.bondappetit.io/api }
 ARG REACT_APP_DEFAULT_CHAIN_ID
 ENV REACT_APP_DEFAULT_CHAIN_ID ${REACT_APP_DEFAULT_CHAIN_ID:-1}
 
-RUN apk --update add git
+RUN apk --update add python3 build-base git
 COPY package*.json ./
 RUN npm ci
 COPY . .
