@@ -1,4 +1,4 @@
-FROM node:16-alpine AS build
+FROM node:12-alpine AS build
 
 WORKDIR /app
 
@@ -23,7 +23,7 @@ ENV REACT_APP_DEFAULT_CHAIN_ID ${REACT_APP_DEFAULT_CHAIN_ID:-1}
 
 RUN apk --update add python3 build-base git
 COPY package*.json ./
-RUN npm i
+RUN npm ci --no-audit
 COPY . .
 RUN npm run typechain
 RUN npm run build
