@@ -11,7 +11,7 @@ default:
     - adcorn-dev
 
 variables:
-  APP_NAME: "website"
+  APP_NAME: "ba-website"
   APP_NAMESPACE: "${CI_PROJECT_ROOT_NAMESPACE}-${CI_PROJECT_NAME}"
   ENVIRONMENT: dev
   KUBECONFIG_B64: $DEV_KUBECONFIG_B64
@@ -28,7 +28,7 @@ build:
     KUBERNETES_CPU_LIMIT: 2
     KUBERNETES_MEMORY_REQUEST: 2048Mi
     KUBERNETES_MEMORY_LIMIT: 4096Mi
-    APP_NAME: "app"
+    APP_NAME: "ba-website"
   rules:
     - if: $CI_COMMIT_REF_NAME == "master"
       variables:
