@@ -148,7 +148,8 @@
     "typechain": "^5.0.0",
     "@typechain/web3-v1": "^3.0.0",
     "typescript": "^4.3.2",
-    "cross-env": "^7.0.3"
+    "cross-env": "^7.0.3",
+    "react-dev-utils": "^11.0.4"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -196,7 +197,6 @@
     "lint-staged": "^11.0.0",
     "prettier": "^2.1.2",
     "raw-loader": "^4.0.2",
-    "react-dev-utils": "^11.0.4",
     "rimraf": "^3.0.2",
     "wbpk-5-cra-utils": "^11.0.3"
   },
