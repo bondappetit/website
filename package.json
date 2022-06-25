@@ -144,7 +144,9 @@
     "workbox-routing": "^5.1.4",
     "workbox-strategies": "^5.1.4",
     "workbox-streams": "^5.1.4",
-    "workbox-webpack-plugin": "6.1.5"
+    "workbox-webpack-plugin": "6.1.5",
+    "typechain": "^5.0.0",
+    "@typechain/web3-v1": "^3.0.0"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -179,7 +181,6 @@
     "@graphql-codegen/typescript": "1.21.1",
     "@graphql-codegen/typescript-operations": "1.17.15",
     "@graphql-codegen/typescript-react-apollo": "2.2.3",
-    "@typechain/web3-v1": "^3.0.0",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "circular-dependency-plugin": "^5.2.0",
@@ -196,7 +197,6 @@
     "raw-loader": "^4.0.2",
     "react-dev-utils": "^11.0.4",
     "rimraf": "^3.0.2",
-    "typechain": "^5.0.0",
     "typescript": "^4.3.2",
     "wbpk-5-cra-utils": "^11.0.3"
   },
