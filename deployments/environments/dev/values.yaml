@@ -6,7 +6,7 @@ replicaCount: 1
 
 images:
   app:
-    name: app
+    name: ba-website
   prerenderer:
     name: prerenderer
 
