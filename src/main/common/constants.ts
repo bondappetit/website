@@ -1,7 +1,6 @@
 import { config } from 'src/config';
 import { ReactComponent as EastIcon } from 'src/assets/icons/east.svg';
 import { ReactComponent as PlaceholderIcon } from 'src/assets/icons/placeholder.svg';
-import alexanderInvanov from 'src/assets/images/team/alexander_ivanov.png';
 import artemTolkachev from 'src/assets/images/team/artem_tolkachev.png';
 import vladKomissarov from 'src/assets/images/team/vlad_komissarov.png';
 import { dateUtils } from 'src/common';
@@ -94,13 +93,5 @@ export const TEAM = [
     He launched and managed a number of major ICT products and services on the CIS market.
     `,
     photo: vladKomissarov
-  },
-  {
-    name: 'Alexander Ivanov',
-    role: 'Advisor',
-    twitter: 'https://twitter.com/sasha35625',
-    linkedin: 'https://linkedin.com/in/sasha-ivanov/',
-    text: `CEO of Waves`,
-    photo: alexanderInvanov
   }
 ];
