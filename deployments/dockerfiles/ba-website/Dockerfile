@@ -23,7 +23,7 @@ ENV REACT_APP_DEFAULT_CHAIN_ID ${REACT_APP_DEFAULT_CHAIN_ID:-1}
 
 RUN apk --update add python3 build-base git
 COPY package*.json ./
-RUN npm ci --no-audit
+RUN npm i
 COPY . .
 RUN npm run typechain
 RUN npm run build
