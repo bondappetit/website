@@ -12,11 +12,7 @@ export const useStakingContracts = (currentChainId?: number) => {
 
   const handleGetStakingContract = useCallback(
     (contractName: string, chainId?: number) => {
-      const bscContracts =
-        config.CHAIN_BINANCE_IDS[0] === chainId
-          ? networks.mainBSC.contracts
-          : networks.testnetBSC.contracts;
-
+      const bscContracts = networks.mainBSC.contracts;
       const contracts = config.CHAIN_BINANCE_IDS.includes(Number(chainId))
         ? bscContracts
         : networkConfig.contracts;

@@ -26,11 +26,7 @@ export const WalletButton: React.FC = () => {
 
   const currentChainId = Number(chainId ?? config.DEFAULT_CHAIN_ID);
 
-  const bscNetworks =
-    config.CHAIN_BINANCE_IDS[0] === currentChainId
-      ? undefined
-      : networks.testnetBSC.networkName;
-
+  const bscNetworks = config.CHAIN_BINANCE_IDS[0] === undefined;
   const networkName = !config.CHAIN_IDS.includes(currentChainId)
     ? bscNetworks
     : networkConfig.networkName;
