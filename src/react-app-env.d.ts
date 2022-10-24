@@ -76,6 +76,9 @@ declare module '*.module.sass' {
   export default classes;
 }
 
+declare module 'walletlink';
+declare module 'keyv';
+
 declare module 'react-jazzicon' {
   import * as React from 'react';
 
