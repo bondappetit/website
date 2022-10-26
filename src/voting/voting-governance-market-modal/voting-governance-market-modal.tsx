@@ -35,253 +35,256 @@ export type VotingGovernanceMarketModalProps = {
   tokenName: string;
 };
 
-export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalProps> =
-  (props) => {
-    const [balance, setBalance] = useState('0');
-    const [result, setResult] = useState<BN>(new BN(0));
-    const tokens = useGovernanceTokens();
-    const { account = null } = useWeb3React<Web3>();
-    const marketContract = useMarketContract();
-    const network = useNetworkConfig();
-    const getBalance = useBalance();
-    const getContract = useDynamicContract<IERC20>({
-      abi: IERC20Abi.abi as AbiItem[]
-    });
+export const VotingGovernanceMarketModal: React.FC<VotingGovernanceMarketModalProps> = (
+  props
+) => {
+  const [balance, setBalance] = useState('0');
+  const [result, setResult] = useState<BN>(new BN(0));
+  const tokens = useGovernanceTokens();
+  const { account = null } = useWeb3React<Web3>();
+  const marketContract = useMarketContract();
+  const network = useNetworkConfig();
+  const getBalance = useBalance();
+  const getContract = useDynamicContract<IERC20>({
+    abi: IERC20Abi.abi as AbiItem[]
+  });
 
-    const [successOpen, successToggle] = useToggle(false);
-    const [failureOpen, failureToggle] = useToggle(false);
-    const [transactionOpen, transactionToggle] = useToggle(false);
+  const [successOpen, successToggle] = useToggle(false);
+  const [failureOpen, failureToggle] = useToggle(false);
+  const [transactionOpen, transactionToggle] = useToggle(false);
 
-    const governanceInUSDC = useGovernanceCost();
+  const governanceInUSDC = useGovernanceCost();
 
-    const [approve, approvalNeeded] = useApprove();
+  const [approve, approvalNeeded] = useApprove();
 
-    const formik = useFormik({
-      initialValues: {
-        currency: 'USDC',
-        amount: '',
-        payment: ''
-      },
+  const formik = useFormik({
+    initialValues: {
+      currency: 'USDC',
+      amount: '',
+      payment: ''
+    },
 
-      validateOnBlur: false,
-      validateOnChange: false,
+    validateOnBlur: false,
+    validateOnChange: false,
 
-      validate: async (formValues) => {
-        const error: Partial<typeof formValues> = {};
+    validate: async (formValues) => {
+      const error: Partial<typeof formValues> = {};
 
-        if (!formValues.currency) {
-          error.currency = 'Required';
-          return error;
-        }
-
-        if (Number(formValues.amount) <= 0) {
-          error.amount = 'Required';
-          return error;
-        }
-
-        const balanceOfToken = new BN(balance);
-
-        if (balanceOfToken.isLessThan(formValues.amount)) {
-          error.amount = `Not enough ${formValues.currency}`;
-        }
-
+      if (!formValues.currency) {
+        error.currency = 'Required';
         return error;
-      },
-
-      onSubmit: async (formValues) => {
-        const currentToken = network.assets[formValues.currency];
-
-        if (!currentToken || !account || !marketContract) return;
-
-        const currentContract = getContract(currentToken.address);
-
-        const formInvest = new BN(formValues.amount)
-          .multipliedBy(new BN(10).pow(currentToken.decimals))
-          .toString(10);
-
-        try {
-          if (currentToken.name === 'ETH') {
-            const buyFromETH = marketContract.methods.buyFromETH();
-
-            await buyFromETH.send({
-              from: account,
-              value: formInvest,
-              gas: await estimateGas(buyFromETH, {
-                from: account,
-                value: formInvest
-              })
-            });
-          } else {
-            if (!currentContract) return;
-
-            const options = {
-              token: currentContract,
-              owner: account,
-              spender: marketContract.options.address,
-              amount: formInvest
-            };
-
-            const approved = await approvalNeeded(options);
-
-            if (approved.reset) {
-              await reset(options);
-            }
-            if (approved.approve) {
-              await approveAll(options);
-              await approvalNeeded(options);
-              return;
-            }
-            window.onbeforeunload = () => 'wait please transaction in progress';
-
-            const buy = marketContract.methods.buy(
-              currentContract.options.address,
-              formInvest
-            );
-
-            await buy.send({
-              from: account,
-              gas: await estimateGas(buy, { from: account })
-            });
-
-            failureToggle(false);
-            successToggle(true);
-          }
-        } catch {
-          failureToggle(true);
-        } finally {
-          window.onbeforeunload = () => null;
-          transactionToggle(false);
-        }
       }
-    });
 
-    useDebounce(
-      () => {
-        if (!formik.values.amount) {
-          setResult(new BN(0));
-          return;
-        }
+      if (Number(formValues.amount) <= 0) {
+        error.amount = 'Required';
+        return error;
+      }
 
-        setResult(new BN(formik.values.amount));
-      },
-      100,
-      [formik.values.amount, formik.values.currency, tokens]
-    );
+      const balanceOfToken = new BN(balance);
 
-    useIntervalIfHasAccount(async () => {
-      const balanceOfToken = await getBalance({
-        tokenAddress: network.assets.Governance.address,
-        tokenName: network.assets.Governance.name
-      });
+      if (balanceOfToken.isLessThan(formValues.amount)) {
+        error.amount = `Not enough ${formValues.currency}`;
+      }
 
-      setBalance(
-        balanceOfToken
-          .div(new BN(10).pow(network.assets.Governance.decimals))
-          .toString(10)
-      );
-    });
+      return error;
+    },
 
-    const handleSuccessClose = useCallback(() => {
-      successToggle(false);
-      formik.resetForm();
-      setResult(new BN(0));
-    }, [successToggle, formik]);
+    onSubmit: async (formValues) => {
+      const currentToken = network.assets[formValues.currency];
 
-    const handleClose = useCallback(() => {
-      props.onClose?.();
-      formik.resetForm();
-    }, [formik, props]);
+      if (!currentToken || !account || !marketContract) return;
 
-    useDebounce(
-      () => {
-        const currentToken = network.assets[formik.values.currency];
+      const currentContract = getContract(currentToken.address);
 
-        if (
-          !currentToken ||
-          !account ||
-          !marketContract ||
-          currentToken.symbol === 'ETH'
-        )
-          return;
+      const formInvest = new BN(formValues.amount)
+        .multipliedBy(new BN(10).pow(currentToken.decimals))
+        .toString(10);
 
-        const currentContract = getContract(currentToken.address);
+      try {
+        if (currentToken.name === 'ETH') {
+          // @ts-ignore
+          const buyFromETH = marketContract.methods.buyFromETH();
 
-        const formInvest = new BN(formik.values.amount)
-          .multipliedBy(new BN(10).pow(currentToken.decimals))
-          .toString(10);
+          await buyFromETH.send({
+            from: account,
+            value: formInvest,
+            gas: await estimateGas(buyFromETH, {
+              from: account,
+              value: formInvest
+            })
+          });
+        } else {
+          if (!currentContract) return;
 
-        if (!currentContract) return;
-
-        const handler = async () => {
-          await approvalNeeded({
+          const options = {
             token: currentContract,
             owner: account,
             spender: marketContract.options.address,
             amount: formInvest
+          };
+
+          const approved = await approvalNeeded(options);
+
+          if (approved.reset) {
+            await reset(options);
+          }
+          if (approved.approve) {
+            await approveAll(options);
+            await approvalNeeded(options);
+            return;
+          }
+          window.onbeforeunload = () => 'wait please transaction in progress';
+
+          // @ts-ignore
+          const buy = marketContract.methods.buy(
+            currentContract.options.address,
+            formInvest
+          );
+
+          await buy.send({
+            from: account,
+            gas: await estimateGas(buy, { from: account })
           });
-        };
 
-        handler();
-      },
-      200,
-      [
-        account,
-        formik.values.amount,
-        formik.values.currency,
-        getContract,
-        approvalNeeded,
-        network.assets,
-        marketContract
-      ]
+          failureToggle(false);
+          successToggle(true);
+        }
+      } catch {
+        failureToggle(true);
+      } finally {
+        window.onbeforeunload = () => null;
+        transactionToggle(false);
+      }
+    }
+  });
+
+  useDebounce(
+    () => {
+      if (!formik.values.amount) {
+        setResult(new BN(0));
+        return;
+      }
+
+      setResult(new BN(formik.values.amount));
+    },
+    100,
+    [formik.values.amount, formik.values.currency, tokens]
+  );
+
+  useIntervalIfHasAccount(async () => {
+    const balanceOfToken = await getBalance({
+      tokenAddress: network.assets.Governance.address,
+      tokenName: network.assets.Governance.name
+    });
+
+    setBalance(
+      balanceOfToken
+        .div(new BN(10).pow(network.assets.Governance.decimals))
+        .toString(10)
     );
+  });
 
-    return (
-      <>
-        <FormikContext.Provider value={formik}>
-          <FormModal
-            onClose={handleClose}
-            open={props.open}
+  const handleSuccessClose = useCallback(() => {
+    successToggle(false);
+    formik.resetForm();
+    setResult(new BN(0));
+  }, [successToggle, formik]);
+
+  const handleClose = useCallback(() => {
+    props.onClose?.();
+    formik.resetForm();
+  }, [formik, props]);
+
+  useDebounce(
+    () => {
+      const currentToken = network.assets[formik.values.currency];
+
+      if (
+        !currentToken ||
+        !account ||
+        !marketContract ||
+        currentToken.symbol === 'ETH'
+      )
+        return;
+
+      const currentContract = getContract(currentToken.address);
+
+      const formInvest = new BN(formik.values.amount)
+        .multipliedBy(new BN(10).pow(currentToken.decimals))
+        .toString(10);
+
+      if (!currentContract) return;
+
+      const handler = async () => {
+        await approvalNeeded({
+          token: currentContract,
+          owner: account,
+          spender: marketContract.options.address,
+          amount: formInvest
+        });
+      };
+
+      handler();
+    },
+    200,
+    [
+      account,
+      formik.values.amount,
+      formik.values.currency,
+      getContract,
+      approvalNeeded,
+      network.assets,
+      marketContract
+    ]
+  );
+
+  return (
+    <>
+      <FormikContext.Provider value={formik}>
+        <FormModal
+          onClose={handleClose}
+          open={props.open}
+          tokenName={props.tokenName}
+          tokens={tokens}
+          balance={account ? balance : undefined}
+          tokenCost={governanceInUSDC ?? '0'}
+          button={
+            <WalletButtonWithFallback
+              disabled={
+                Boolean(formik.errors.payment || formik.errors.currency) ||
+                formik.isSubmitting
+              }
+              loading={formik.isSubmitting}
+            >
+              {(!approve.value?.approve && !approve.value?.reset) ||
+              new BN(formik.values.payment || '0').isLessThanOrEqualTo(0) ||
+              formik.values.currency === 'ETH'
+                ? formik.errors.payment || formik.errors.currency || 'Buy'
+                : 'Approve'}
+            </WalletButtonWithFallback>
+          }
+        />
+      </FormikContext.Provider>
+      <Modal open={successOpen} onClose={handleSuccessClose}>
+        <SmallModal>
+          <InfoCardSuccess
+            token="Governance"
             tokenName={props.tokenName}
-            tokens={tokens}
-            balance={account ? balance : undefined}
-            tokenCost={governanceInUSDC ?? '0'}
-            button={
-              <WalletButtonWithFallback
-                disabled={
-                  Boolean(formik.errors.payment || formik.errors.currency) ||
-                  formik.isSubmitting
-                }
-                loading={formik.isSubmitting}
-              >
-                {(!approve.value?.approve && !approve.value?.reset) ||
-                new BN(formik.values.payment || '0').isLessThanOrEqualTo(0) ||
-                formik.values.currency === 'ETH'
-                  ? formik.errors.payment || formik.errors.currency || 'Buy'
-                  : 'Approve'}
-              </WalletButtonWithFallback>
-            }
+            onClick={handleSuccessClose}
+            purchased={result.toString(10)}
           />
-        </FormikContext.Provider>
-        <Modal open={successOpen} onClose={handleSuccessClose}>
-          <SmallModal>
-            <InfoCardSuccess
-              token="Governance"
-              tokenName={props.tokenName}
-              onClick={handleSuccessClose}
-              purchased={result.toString(10)}
-            />
-          </SmallModal>
-        </Modal>
-        <Modal open={failureOpen} onClose={failureToggle}>
-          <SmallModal>
-            <InfoCardFailure onClick={formik.submitForm} />
-          </SmallModal>
-        </Modal>
-        <Modal open={transactionOpen}>
-          <SmallModal>
-            <InfoCardLoader />
-          </SmallModal>
-        </Modal>
-      </>
-    );
-  };
+        </SmallModal>
+      </Modal>
+      <Modal open={failureOpen} onClose={failureToggle}>
+        <SmallModal>
+          <InfoCardFailure onClick={formik.submitForm} />
+        </SmallModal>
+      </Modal>
+      <Modal open={transactionOpen}>
+        <SmallModal>
+          <InfoCardLoader />
+        </SmallModal>
+      </Modal>
+    </>
+  );
+};
