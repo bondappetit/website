@@ -52,7 +52,7 @@ export const walletconnect = new WalletConnectConnector({
 
 export const fortmatic = new FortmaticConnector({
   apiKey: config.FORTMATIC_KEY ?? '',
-  chainId: config.DEFAULT_NETWORK_CONFIG.networkId
+  chainId: config.CHAIN_IDS[0]
 });
 
 export const portis = new PortisConnector({
