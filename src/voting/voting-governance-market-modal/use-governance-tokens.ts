@@ -25,6 +25,7 @@ export const useGovernanceTokens = () => {
       const acc = await previusPromise;
 
       const isAllowedToken = await marketContract.methods
+        // @ts-ignore
         .isAllowedToken(asset.address)
         .call();
 
@@ -50,6 +51,7 @@ export const useGovernanceTokens = () => {
     try {
       setTokens(await tokensWithPrice);
     } catch (e) {
+      // @ts-ignore
       console.error(e.message);
     }
   }, [network, marketContract, getBalance]);

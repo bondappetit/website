@@ -118,6 +118,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
 
       try {
         if (currentToken.symbol === 'ETH') {
+          // @ts-ignore
           const buyFromETH = marketContract.methods.buyFromETH();
 
           await buyFromETH.send({
@@ -151,6 +152,7 @@ export const StablecoinMarketModal: React.FC<StablecoinMarketModalProps> = (
 
           window.onbeforeunload = () => 'wait please transaction in progress';
 
+          // @ts-ignore
           const buy = marketContract.methods.buy(
             currentContract.options.address,
             formInvest
