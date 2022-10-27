@@ -8,7 +8,7 @@
     "@babel/core": "7.14.3",
     "@binance-chain/bsc-connector": "1.0.0",
     "@bondappetit/docs": "2.0.0",
-    "@bondappetit/networks": "2.0.22",
+    "@bondappetit/networks": "^2.0.23",
     "@graphql-codegen/add": "2.0.2",
     "@graphql-codegen/cli": "1.21.3",
     "@graphql-codegen/fragment-matcher": "2.0.1",
